@@ -4,9 +4,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./reducers/index";
 import { connect } from 'react-redux'
-
 import ElementForm from './ElementForm';
-
 import configureStore from './configureStore'
 
 let store = configureStore();
