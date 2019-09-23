@@ -1,0 +1,58 @@
+.sitelist {
+  .medias-dropfiles{
+    border: 2px dotted #dcdcdc;
+    padding: 30px 50px;
+  }
+
+  .content-add {
+
+    background-color: #fafafa;
+
+    h4{
+      font-size: 18px;
+      line-height: 20px;
+      padding: 0;
+      margin: 0;
+      margin-bottom:5px;
+    }
+
+    border:1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    padding:10px;
+
+    .tool-box {
+      position: absolute;
+      right: 0px;
+      top: 5px;
+
+      a {
+        padding-right: 15px;
+        color: #fc4b6c;
+        font-size: 12px;
+        line-height: 40px;
+      }
+    }
+
+    input {
+      width: 40%;
+      display: inline-block;
+      margin-right: 20px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+
+    .filefields-list {
+        width:30%;
+        display: inline-block;
+        padding-right: 5px;
+    }
+    .filefields-list-last {
+        width:30%;
+        display: inline-block;
+        padding-right: 5px;
+    }
+
+
+  }
+}

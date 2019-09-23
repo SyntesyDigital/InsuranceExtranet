@@ -1,0 +1,61 @@
+.grid-items{
+	.dashed{
+		a{
+			.grid-item {
+				border: 1px dashed #ccc;
+				background-color: transparent;
+			}
+		}
+	}
+}
+
+#modal-models{
+	@include font(16,22,300);
+	.table-header{
+		padding: 10px 20px;
+		background-color: #F4F4F4;
+	}
+	.table-row{
+		padding:10px;
+		border-bottom:1px solid #ccc;
+		.second-column{
+			float:right;
+			a{
+				color:#455660;
+				text-decoration: none;
+				padding-left: 20px;
+				padding-right: 20px;
+				&:hover{
+					text-decoration: none;
+				}
+			}
+		}
+		.first-column{
+			overflow: hidden;
+			i{
+		    width: 30px;
+			}
+		}
+	}
+}
+li{
+	&.react-autosuggest__suggestion{
+		padding:0;
+		span{
+			padding: 6px 20px;
+		}
+	}
+}
+
+.typology-field {
+	.type-info {
+		position: absolute;
+		top: 0;
+		right: 20px;
+
+		span {
+			padding-left:5px;
+		}
+
+	}
+}

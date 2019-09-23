@@ -1,0 +1,17 @@
+{
+    "name": "Extranet",
+    "alias": "extranet",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Extranet\\Providers\\ExtranetServiceProvider",
+        "Modules\\Extranet\\Providers\\MacroServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
