@@ -7,6 +7,23 @@
 //      Author : nicolas.delcastillo@syntesy.io
 //
 // --------------------------------------------------------------------- //
+function updateEnv($key,$value)
+{
+    $path = __DIR__ . '/../../.env';
+
+    //Try to read the current content of .env
+    $current = file_get_contents($path);   
+
+    //Store the key
+    $original = [];
+    if (preg_match('/^'.$key.'=(.+)$/m', $current, $original)) { 
+        $current = preg_replace('/^'.$key.'=.+$/m', "$key=$value", $current);
+    } else {
+        $current .= PHP_EOL."$key=$value";
+    }
+
+    return file_put_contents($path, $current);
+}
 
 
 // --------------------------------------------------------------------- //
