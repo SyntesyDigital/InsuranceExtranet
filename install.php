@@ -29,4 +29,44 @@ echo "-> Buidling $env assets for module " . basename(__DIR__) . PHP_EOL;
 exec("npm run $env");
 // --------------------------------------------------------------------- //
 
+// --------------------------------------------------------------------- //		
+ //      CONFIGURE PROD WS		
+ // --------------------------------------------------------------------- //		
+ echo PHP_EOL;		
+ echo "Enter the webservice URL for production ? ";		
+ $handle = fopen ("php://stdin","r");		
+ $url = trim(fgets($handle));		
+ if(updateEnv('WS_URL', $url) !== false) {		
+     echo "-> OK";		
+ }		
+ // --------------------------------------------------------------------- //		
+		
+		
+ // --------------------------------------------------------------------- //		
+ //      CONFIGURE TEST WS		
+ // --------------------------------------------------------------------- //		
+ echo PHP_EOL;		
+ echo "Enter the webservice URL for test ? ";		
+ $handle = fopen ("php://stdin","r");		
+ $url = trim(fgets($handle));		
+ if(updateEnv('WS_URL_TEST', $url) !== false) {		
+     echo "-> OK";		
+ }		
+ // --------------------------------------------------------------------- //		
+		
+		
+ // --------------------------------------------------------------------- //		
+ //      CONFIGURE TEST WS		
+ // --------------------------------------------------------------------- //		
+ echo PHP_EOL;		
+ echo "Enter the webservice URL for recette ? ";		
+ $handle = fopen ("php://stdin","r");		
+ $url = trim(fgets($handle));		
+ if(updateEnv('WS_URL_REC', $url) !== false) {		
+     echo " -> OK";		
+ }		
+ echo PHP_EOL;		
+ // --------------------------------------------------------------------- //
+
+ 
 echo PHP_EOL;
