@@ -7,7 +7,7 @@ if (document.getElementById('home')) {
 
   render(
     <div>
-      Hello :) !
+      Hello!
     </div>,
           document.getElementById('home'));
 }

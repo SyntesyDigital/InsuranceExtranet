@@ -163,7 +163,11 @@ class ElementRepository extends BaseRepository
     public function getModelValuesFromElement($element,$parameters)
     {
         //dd($element->model_exemple);
-        $params = "?SES=".Auth::user()->session_id;
+        $params = "?";
+
+        if(Auth::user()->session_id != Auth::user()->id){
+          $params .= "SES=".Auth::user()->session_id;
+        }
 
         if(isset($parameters) && sizeof($parameters) > 0){
           foreach($parameters as $key => $value) {
@@ -345,22 +349,38 @@ class ElementRepository extends BaseRepository
 
         foreach( $variables['modelValues'] as $index => $variable ) {
           $result[$variable->PARAM] = $variable;
+        }
 
-          //Boby Data not procesed here because needed parameters
-          /*
-          $data = $this->boby->getModelValuesQuery(
-            $variable->BOBY."?SES=".Auth::user()->session_id.'&perPage=100');
+        return $result;
 
-          $modelValuesProcessed = [];
-          foreach($data['modelValues'] as $modelValue){
-            $modelValuesProcessed[] = [
-              "text" => $modelValue->lib,
-              "value" => $modelValue->val
-            ];
+    }
+
+    public function getFilterVariables()
+    {
+        $variables = $this->boby->getModelValuesQuery('WS_EXT2_DEF_PARAMPAGES?perPage=100');
+
+        $result = [];
+
+        //sort by p1
+        usort($variables['modelValues'], function($a, $b)
+        {
+            return intval($a->P1) > intval($b->P1);
+        });
+
+        foreach( $variables['modelValues'] as $index => $variable ) {
+
+          if($variable->P2 == "filtre"){
+
+            $values = $this->boby->getModelValuesQuery($variable->BOBY.'?perPage=100')['modelValues'];
+
+            //dd($values);
+
+            $result[] = [
+                "name" => $variable->PARAM,
+                "label" => $variable->LIB,
+                "values" => $values
+              ];
           }
-
-          $result[$variable->PARAM]->{'BOBY_DATA'} = $modelValuesProcessed;
-          */
         }
 
         return $result;

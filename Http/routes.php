@@ -58,6 +58,8 @@ Route::group([
   Route::post('/session','UserController@setUserSession')->name('session.update');
   Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
 
+  //filters
+  Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
 
   //tables
   Route::get('/elements/{element}/export/{limit?}', 'ElementController@export')->name('table.export');
@@ -67,4 +69,6 @@ Route::group([
   Route::get('/elements/select/data/{name}', 'ElementController@getSelectData')->name('elements.select.data');
   Route::get('/elements/procedures/{modelId}', 'ElementController@getFormProcedures')->name('elements.procedures');
   Route::post('/elements/form/process-service', 'ElementController@postService')->name('elements.postservice');
+
+
 });

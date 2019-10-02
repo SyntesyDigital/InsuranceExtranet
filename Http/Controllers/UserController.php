@@ -22,9 +22,11 @@ class UserController extends Controller
     {
         $success = false;
         $message = '';
+        $redirect = null;
 
         try {
-            if($this->dispatchNow(SessionUpdate::fromRequest($request))) {
+            $redirect = $this->dispatchNow(SessionUpdate::fromRequest($request));
+            if(isset($redirect)) {
                 $success = true;
                 $message = '';
             }
@@ -34,7 +36,8 @@ class UserController extends Controller
 
         return response()->json([
             'success' => $success,
-            'message' => $message
+            'message' => $message,
+            'redirect' => $redirect
         ]);
     }
 

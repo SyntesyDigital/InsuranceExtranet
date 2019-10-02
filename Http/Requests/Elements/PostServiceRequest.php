@@ -26,7 +26,7 @@ class PostServiceRequest extends FormRequest
         return [
           'method' => 'required',
           'url' => 'required',
-          'data' => 'required'
+          //'data' => 'required'
         ];
     }
 }

@@ -230,6 +230,10 @@ class ElementController extends Controller
       $parameters = $request->all();
 
       $params = "?SES=".Auth::user()->session_id.'&perPage=100';
+      //if the the session is the same of the user, don't filter by SES
+      if(Auth::user()->session_id == Auth::user()->id){
+        $params = "?perPage=100";
+      }
 
       if(isset($parameters) && sizeof($parameters) > 0){
         foreach($parameters as $key => $value) {
@@ -297,7 +301,8 @@ class ElementController extends Controller
               )["modelValues"];
 
             //get system variables processed
-            $variables = $this->elements->getVariables();
+            $allVariables = $this->elements->getVariables();
+            $variables = [];
 
             $services = [];
 
@@ -347,11 +352,27 @@ class ElementController extends Controller
 
                   }
               }
+
+              //filter wich variables are necessary for this procedure
+              $variables = $this->checkNecessaryVariables(
+                $variables,
+                $allVariables,
+                $systemVars,
+                $procedureServices
+              );
+
               $procedures[$index]->{'OBJECTS'} = $objects;
               $procedures[$index]->{'SERVICE'} = $procedureServices;
               $procedures[$index]->{'JSONP'} = $root;
               $procedures[$index]->{'PARAMS'} = $systemVars;
             }
+
+            //dd($procedures);
+
+
+            //check necessary variables between themselves
+            $variables = $this->checkInnerDependces($variables,$allVariables);
+            $variables = $this->processAndSortVariables($variables);
 
             return response()->json([
                       'success' => true,
@@ -359,6 +380,93 @@ class ElementController extends Controller
                           'procedures' => $procedures,
                           'variables' => $variables
                         ]
+                  ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+    *   Function that check if variables are necessary for this procedure
+    */
+    private function checkNecessaryVariables($variables,$allVariables,$systemVars,$procedureServices )
+    {
+      foreach($allVariables as $variableId => $variable) {
+        if(isset($systemVars['_'.$variableId])){
+          //variable is nedeed as a system var
+          $variables[$variableId] = $variable;
+        }
+
+        $urlArray = explode("/",$procedureServices->URL);
+
+        $variableSlashes = '_'.$variableId;
+        foreach($urlArray as $urlVariable) {
+          if($urlVariable == $variableSlashes){
+            $variables[$variableId] = $variable;
+          }
+        }
+      }
+      
+      return $variables;
+    }
+
+    /**
+    *   If exist BOBYPAR in the selected varaibles, add also this variable, because
+    *   that means there is a inner dependance.
+    */
+    private function checkInnerDependces($variables,$allVariables)
+    {
+
+      foreach($variables as $variableId => $variable) {
+        if(isset($variable->BOBYPAR) && $variable->BOBYPAR != ''){
+          if(isset($allVariables[$variable->BOBYPAR])){
+              $variables[$variable->BOBYPAR] = $allVariables[$variable->BOBYPAR];
+          }
+        }
+      }
+
+      return $variables;
+    }
+
+    /**
+    * Convert variables to key value and sort by order.
+    */
+    private function processAndSortVariables($variables)
+    {
+
+      $result = [];
+
+      usort($variables, function($a, $b)
+      {
+          return intval($a->P1) > intval($b->P1);
+      });
+
+      foreach( $variables as $index => $variable ) {
+        $result[$variable->PARAM] = $variable;
+      }
+
+      return $result;
+    }
+
+    /**
+    *  Get all variables that has filters, necessary to fill the settings,
+    *  HiddenFilter
+    */
+    public function getFilterVariables()
+    {
+
+      try {
+
+            //get system variables processed
+            $variables = $this->elements->getFilterVariables();
+
+            return response()->json([
+                      'success' => true,
+                      'data' => $variables
                   ]);
 
         } catch (\Exception $e) {
