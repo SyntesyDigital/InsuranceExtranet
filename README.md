@@ -4,6 +4,8 @@
 
 ## Table of contents
 * [Elementos](#elementos)
+* [Modelos](#modelos)
+* [Campos](#campos)
 * [Procedures](#procedures)
 * [Objetos](#objetos)
 
@@ -43,6 +45,20 @@ Definición de campos :
 - ICONE : Icono vinculado
 - EXEMPLE : Ejemplo de uso. Se usan estos valores para llenar los previews de las paginas.
 - DEF1 : Indica un parametro por defecto. Ejemplo : pol_cd_pos_lib=EN COURS.
+
+
+## Campos 
+
+Campo vinculado al Modelo, define el conjunto de campos disponibles.
+Es usado para las fichas y tablas. Los formularios usan otro proceso con los Procedures.
+
+```json
+{
+    "WS": "WS_EXT2_ASS",
+    "REF": "ass.adresse1_adr",
+    "DEF": "lib:adresse 1, format:texte,tooltip:"
+}
+```
 
 
 ## Procedures
