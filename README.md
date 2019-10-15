@@ -2,7 +2,7 @@
 
 > Documentación sobre los puntos importantes de la configuración.
 
-## Table of contents
+## Tabla de contenidos
 * [Elementos](#elementos)
 * [Modelos](#modelos)
 * [Campos](#campos)
