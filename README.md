@@ -197,7 +197,7 @@ Estas variables se definen en el siguiente Boby :
 
 WS_EXT2_DEF_PARAMPAGES
 
-```
+```json
 {
     "PARAM": "id_per_ass",
     "LIB": "Assuré",
@@ -264,3 +264,20 @@ Su estructura es la siguiente :
     ]
   ]
 ```
+
+## Usuarios 
+
+Definir los permisos y como se configuran.
+También puede ser interesante como definirlo en las rutas y los helpers que existen.
+
+WS_EXT2_DEF_PAGES
+
+Configuración del menu
+
+WS_EXT2_SESSIONS
+
+Uso de las sesiones y como se añade de manera automatica en los WS
+
+También explicar la renovación de la sesión.
+
+
