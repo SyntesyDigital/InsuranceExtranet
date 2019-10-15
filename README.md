@@ -10,6 +10,39 @@
 ## Elementos
 Add more general information about project. What the purpose of the project is? Motivation?
 
+## Modelos 
+Bobys configurados a partir de VEOS que indican los medelos disponibles para ser configurados. 
+Es utilizado para definir las Tablas, las Fichas y los Formularios.
+
+WS_EXT2_DEF_MODELES
+
+```json
+{
+    "ID": "TBVEHPOL",
+    "FORMAT": "TB",
+    "TITRE": "Véhicules de la police",
+    "COMMENTAIRE": "Liste des véhicules de la police",
+    "WS": "WS_EXT2_VEH",
+    "WS_FORMAT": "STANDARD",
+    "FILTRES": "id_npol=!",
+    "ICONE": "fas fa-car",
+    "EXEMPLE": "WS_EXT2_VEH?id_npol=11000040",
+    "DEF1": null,
+    "DEF2": null
+}
+```
+
+Definición de campos : 
+- ID : identificador
+- FORMAT : TB indica Tabla, FC indica Ficha, CR indica Formulario
+- TITRE : Título
+- COMMENTARIO : Comentario
+- WS : Boby vinculado a este modelo.
+- WS_FORMAT : Por ahora no se usa
+- FILTRES : Indica parametros obligatorios. Son parseados y añadidos como parametros obligatorios del elemento.
+- ICONE : Icono vinculado
+- EXEMPLE : Ejemplo de uso. Se usan estos valores para llenar los previews de las paginas.
+- DEF1 : Indica un parametro por defecto. Ejemplo : pol_cd_pos_lib=EN COURS.
 
 
 ## Procedures
@@ -114,7 +147,7 @@ Campo de tipo texto.
 Formatos : ...
 Configuración : ...
 
-- number : 
+- num : 
 - date : 
 - select : 
 - doc : 
