@@ -189,6 +189,36 @@ O con parametros :
 En caso de que se usen parametros. Este sera añadido como parametro necesario el formulario.
 
 
+## Configuración parámetros de paginas obligatorios
+
+Para los formularios ha parecido la necesidad de pedir modales en la creación de los formularios. 
+Estos parametros aparecen como necesarios al recorrer los diferentes campos de un formulario. 
+Estas variables se definen en el siguiente Boby : 
+
+WS_EXT2_DEF_PARAMPAGES
+
+```
+{
+    "PARAM": "id_per_ass",
+    "LIB": "Assuré",
+    "MESSAGE": "Veuillez préciser l'assuré",
+    "BOBY": "WS_EXT2_SEL_IDPERASS",
+    "BOBYPAR": null,
+    "P1": "1",
+    "P2": null
+}
+```
+
+- PARAM : parametro utilizado en el GET
+- LIB : Etiqueta 
+- MESSAGE : Mensaje mostrado en la modal
+- BOBY : WS que se usa para llenar el selector de la modal
+- BOBYPAR : Indica un parametro necesario normalmente obtenido en una modal anterior.
+- P1 : Se usa para indicar el orden dado que hay interdependencias entre modales
+- P2 : Si tiene "filtre" Se usa para indicar que es un filtro. Los filtros son usados en los widgets en condicionales.
+En función del parametro del filtro el widget se muestra o no.
+
+
 
 ## Tablas
 
