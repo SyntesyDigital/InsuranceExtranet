@@ -358,7 +358,8 @@ class ElementController extends Controller
                 $variables,
                 $allVariables,
                 $systemVars,
-                $procedureServices
+                $procedureServices,
+                $objects
               );
 
               $procedures[$index]->{'OBJECTS'} = $objects;
@@ -393,7 +394,7 @@ class ElementController extends Controller
     /**
     *   Function that check if variables are necessary for this procedure
     */
-    private function checkNecessaryVariables($variables,$allVariables,$systemVars,$procedureServices )
+    private function checkNecessaryVariables($variables,$allVariables,$systemVars,$procedureServices,$objects)
     {
       foreach($allVariables as $variableId => $variable) {
         if(isset($systemVars['_'.$variableId])){
@@ -401,6 +402,7 @@ class ElementController extends Controller
           $variables[$variableId] = $variable;
         }
 
+        //if variable exist in the URL
         $urlArray = explode("/",$procedureServices->URL);
 
         $variableSlashes = '_'.$variableId;
@@ -409,9 +411,43 @@ class ElementController extends Controller
             $variables[$variableId] = $variable;
           }
         }
+
+        //if variable exist in an object WS
+        foreach($objects as $object){
+          if(isset($object->BOBY)){
+            $urlArray = explode("?",$object->BOBY);
+            if(sizeof($urlArray) > 1){
+              $urlArray = $this->parameters2Array($urlArray[1]);
+              foreach($urlArray as $key => $urlVariable) {
+                if($key == $variableId){
+                  $variables[$variableId] = $variable;
+                }
+              }
+            }
+          }
+        }
       }
-      
+
       return $variables;
+    }
+
+    /**
+    *   Convert parameters string to array of key value
+    */
+    private function parameters2Array($paramString)
+    {
+        $result = [];
+
+        if(!isset($paramString) || $paramString == '')
+          return $result;
+
+        $paramsArray = explode("&",$paramString);
+        for($i=0;$i<sizeof($paramsArray);$i++){
+          $paramsSubArray = explode("=",$paramsArray[$i]);
+          $result[$paramsSubArray[0]] = $paramsSubArray[1];
+        }
+
+        return $result;
     }
 
     /**
