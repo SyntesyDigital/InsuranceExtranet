@@ -180,7 +180,7 @@ class ElementController extends Controller
             $result = $this->elements->getModelValuesFromElement($element,$request->all());
             return response()->json([
                       'success' => true,
-                      'modelValues' => new ModelValuesFormatTransformer($result['modelValues'],$element->fields()->get(), $limit),
+                      'modelValues' => new ModelValuesFormatTransformer($result['modelValues'],$element->fields()->get(), $limit,$request->all()),
                       'totalPage' => $result['completeObject']->totalPage != null? $result['completeObject']->totalPage:null,
                       'total' => $result['completeObject']->totalPage != null? $result['completeObject']->total:null
 

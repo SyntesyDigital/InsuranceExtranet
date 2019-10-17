@@ -11,11 +11,11 @@ class ModelValuesFormatTransformer extends Resource
 {
     protected $element;
 
-    public function __construct($modelValues,$elementFields,$limit) {
+    public function __construct($modelValues,$elementFields,$limit,$parameters = null) {
         $this->modelValues = $modelValues;
         $this->elementFields = $elementFields;
         $this->limit = $limit;
-
+        $this->routeParameters = $parameters;
         /*
           [id] => url
           $contentURls[1] = "http://www...."
@@ -57,19 +57,57 @@ class ModelValuesFormatTransformer extends Resource
         if($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0){
 
           $url.="?";
-          $first = true;
-          foreach($hasRoute['params'] as $param ){
-            if($param['value'] != "" && $modelValue->{$param['value']} != null ){
-              if(!$first){
-                  $url.="&";
-              }
-              $url.= $param['identifier'].'='.$modelValue->{$param['value']};
-              $first = false;
-            }
-          }
+
+          //process parameters with model model values
+          $currentRouteParameters = $this->processParameters2Array(
+            $this->routeParameters,
+            $hasRoute['params'],
+            $modelValue
+          );
+          $url .= $this->arrayToUrl($currentRouteParameters);
+        }
+
+      }
+
+      //add the route paramteres
+
+      return '<a href="'.$url.'">'.$value.'</a>';
+    }
+
+    /**
+    *  InitArray is the array with already set parameters.
+    *  Process page parameters with model values.
+    */
+    private function processParameters2Array($initArray,$pageParams,$modelValue)
+    {
+
+      //remove perPage if exist, normally added to selects
+      unset($initArray['perPage']);
+
+      foreach($pageParams as $param ){
+        if($param['value'] != "" && $modelValue->{$param['value']} != null ){
+          $initArray[$param['identifier']] = $modelValue->{$param['value']};
         }
       }
-      return '<a href="'.$url.'">'.$value.'</a>';
+      return $initArray;
+    }
+
+    /**
+    *   Process array to URL. TODO do a library to all of this processments
+    */
+    private function arrayToUrl($parameters)
+    {
+      $first = true;
+      $url = "";
+      foreach($parameters as $key => $value ){
+        if(!$first){
+            $url.="&";
+        }
+        $url.= $key.'='.$value;
+        $first = false;
+      }
+
+      return $url;
     }
 
     public function getModelArray($modelValues, $elementFields, $limit)

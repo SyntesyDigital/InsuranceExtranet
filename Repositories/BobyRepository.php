@@ -131,6 +131,10 @@ class BobyRepository
          case "PUT":
             $response = $this->client->put(VeosWsUrl::get() . $url, $params);
             break;
+        case "PUT*":  //FIXME to delete when not used
+        case "PUT_2":
+           $response = $this->client->put(VeosWsUrl::get() . $url, $params);
+           break;
          case "GET":
            $response = $this->client->get(VeosWsUrl::get() . $url, $params);
            break;
