@@ -8,6 +8,8 @@
 * [Campos](#campos)
 * [Procedures](#procedures)
 * [Objetos](#objetos)
+* [Servicios](#servicios)
+
 
 ## Elementos
 Add more general information about project. What the purpose of the project is? Motivation?
@@ -187,6 +189,46 @@ O con parametros :
 "BOBY": "WS_EXT2_SEL_CIRCONST?id_pol=_id_pol"
 ```
 En caso de que se usen parametros. Este sera añadido como parametro necesario el formulario.
+
+
+## Servicios
+
+Se vinculan con los procedures y los objetos, e indican el metodo al que hacer submit los formularios.
+
+WS_EXT2_DEF_SERVICES
+
+```
+{
+    "ID": "SINISTREPUT",
+    "SERVICE": "sinistre",
+    "METHODE": "PUT",
+    "URL": "sinistre",
+    "REPONSE": "id",
+    "COMMENTAIRE": "modification sinistre",
+    "P1": null,
+    "P2": null
+}
+```
+
+- ID : Identificador
+- SERVICE : Nombre del servicio
+- METHODE : Tipo de metodo que se aplica ( explicado a continuación ) 
+- URL : Url para aplicar el metodo. Puede contener parametros. Ejemplo : "URL": "contrat/_id_pol/pmq",
+Estos parametros so añadidos como variables necesarias del formulario. Si no estan en la url se dispara la modal.
+- REPONSE : Indica si hay que procesar la respusta. Ejemplo : "REPONSE": "_id_sin=id", 
+Procesa como variable de formulario :id_sin con el resultado id de la respuesta
+- COMMENTAIRE : Descripción
+- P1, P2 : Parametros auxiliaries no usados por ahora.
+
+
+#### Tipos de METHODE
+
+- GET : Se hace un get para devolver una información  concreta.
+- POST : Post de json para la creación de una nueva entidad.
+- PUT : Put para la modificación, incluye un GET previamente con la misma url
+- PUT_2 : Put par la modificación SIN el GET, en este caso no es necesario.
+
+
 
 
 ## Configuración parámetros de paginas obligatorios
