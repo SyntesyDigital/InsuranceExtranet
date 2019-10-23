@@ -440,6 +440,84 @@ architect/elements/procedures/CRSIN
 - Variables : Conjunto de variables globales necesarias para iniciar este formulario.
 
 
+### Como saber las variables necesarias 
+
+Esta información se obtiene recorriendo todo el json anterior y siguiendo estas condiciones : 
+
+Para todas las variables disponibles ($allVariables) que provienen del boby WS_EXT2_DEF_PARAMPAGES y explicado anteriormente.
+
+- si la variable esta dentro de las system var ( objeto con NATURE = SYSTEM ). Ejemplo :
+
+```
+{
+            "ID": "1003",
+            "SERV_ID": "SINISTREPOST",
+            "OBJ_ID": "SIN01",
+            "OBJ_JSONP": "$.",
+            "CHAMP": "idPol",
+            "LIB": "Id mvt police",
+            "NATURE": "SYSTEM",
+            "FORMAT": "num",
+            "OBL": "Y",
+            "VALEUR": "_id_pol",
+            "BOBY": "WS_EXT2_SEL_IDPOL",
+            "VIS": "Y",
+            "CONF": "Y",
+            "CONT": null,
+            "COM": null,
+            "ACTIF": "Y",
+            "EXEMPLE": "11000082",
+            "P1": null,
+            "P2": null
+        }
+```
+
+- si la variable existe en la url del service. Ejemplo 
+
+```
+{
+    "ID": "LOTPUT",
+    "SERVICE": "lots",
+    "METHODE": "PUT",
+    "URL": "flotte/immo/lots/_id_lot",
+    "REPONSE": "num",
+    "COMMENTAIRE": "résiliation d'un lot",
+    "P1": null,
+    "P2": null
+}
+```
+
+- Si la variable existe en BOBY de un objeto : Ejemplo : 
+```
+{
+    "ID": "1008",
+    "SERV_ID": "SINISTREPOST",
+    "OBJ_ID": "SIN01",
+    "OBJ_JSONP": "$.",
+    "CHAMP": "circonstance",
+    "LIB": "Circonstance",
+    "NATURE": "INPUT",
+    "FORMAT": "texte",
+    "OBL": "Y",
+    "VALEUR": null,
+    "BOBY": "WS_EXT2_SEL_CIRCONST?id_pol=_id_pol",
+    "VIS": "Y",
+    "CONF": "Y",
+    "CONT": null,
+    "COM": null,
+    "ACTIF": "Y",
+    "EXEMPLE": "STD6",
+    "P1": null,
+    "P2": null
+}
+```
+
+
+En cualquier de estos casos se considera variable necesaria para que el form funcione.
+Si esta variable no esta en la url de la página que incluye el widget, se pedira una modal siguiendo la información 
+especificada en el Boby WS_EXT2_DEF_PARAMPAGES
+
+
 
 ## Tipos de campos
 
