@@ -268,6 +268,179 @@ En función del parametro del filtro el widget se muestra o no.
 
 ## Formularios
 
+Los formularios estan vinculados a parametros obligatorios o opcionales. 
+Para recorrer los parametros necesarios : 
+
+Para obtener la información de un formulario se usa la API : 
+/architect/elements/procedures/[id_elemento]
+
+Lolizado en el archivo :
+Modules/Extranet/Http/Controllers/ElementController.php
+Función : getFormProcedures()
+
+Este devuelve el conjunto de etapas y extrae la información necesaria.
+
+Ejemplo extraido de creación de Siniestro: 
+architect/elements/procedures/CRSIN
+
+```json
+{
+	"success": true,
+	"data": {
+		"procedures": [{
+			"ID": "1000",
+			"MODELE": "CRSIN",
+			"OBJID": "SIN01",
+			"ETAP": "100",
+			"LIB": "Description",
+			"REP": "N",
+			"CONF": "Y",
+			"OBL": "Y",
+			"P1": null,
+			"P2": null,
+			"P3": null,
+			"OBJECTS": [{
+				"ID": "1009",
+				"SERV_ID": "SINISTREPOST",
+				"OBJ_ID": "SIN01",
+				"OBJ_JSONP": "$.",
+				"CHAMP": "causeCirconstance",
+				"LIB": "Cause circonstance",
+				"NATURE": "INPUT",
+				"FORMAT": "texte",
+				"OBL": "N",
+				"VALEUR": null,
+				"BOBY": null,
+				"VIS": "Y",
+				"CONF": "Y",
+				"CONT": null,
+				"COM": null,
+				"ACTIF": "Y",
+				"EXEMPLE": "CAUSES",
+				"P1": null,
+				"P2": null
+			}, {
+				"ID": "1072",
+				"SERV_ID": "SINISTREPOST",
+				"OBJ_ID": "SIN01",
+				"OBJ_JSONP": "$.",
+				"CHAMP": "typeElem",
+				"LIB": "type element",
+				"NATURE": "CTE",
+				"FORMAT": "texte",
+				"OBL": "Y",
+				"VALEUR": "LOTLOYERIMP",
+				"BOBY": null,
+				"VIS": "N",
+				"CONF": "N",
+				"CONT": null,
+				"COM": null,
+				"ACTIF": "Y",
+				"EXEMPLE": "LOTLOYERIMP",
+				"P1": null,
+				"P2": null
+			}],
+			"SERVICE": {
+				"ID": "SINISTREPOST",
+				"SERVICE": "sinistre",
+				"METHODE": "POST",
+				"URL": "sinistre",
+				"REPONSE": "_id_sin=id",
+				"COMMENTAIRE": "cr\u00e9ation sinistre",
+				"P1": null,
+				"P2": null
+			},
+			"JSONP": "$.",
+			"PARAMS": {
+				"_time": true,
+				"_id_pol": true,
+				"_timestamp": true
+			}
+		}, {
+			"ID": "1001",
+			"MODELE": "CRSIN",
+			"OBJID": "SIN02",
+			"ETAP": "101",
+			"LIB": "Assur\u00e9",
+			"REP": "N",
+			"CONF": "Y",
+			"OBL": "Y",
+			"P1": null,
+			"P2": null,
+			"P3": null,
+			"OBJECTS": [{
+				"ID": "1017",
+				"SERV_ID": "SINISTREPOST",
+				"OBJ_ID": "SIN02",
+				"OBJ_JSONP": "$.listPer[]",
+				"CHAMP": "categ",
+				"LIB": "categ assur\u00e9",
+				"NATURE": "CTE",
+				"FORMAT": "texte",
+				"OBL": "Y",
+				"VALEUR": "ASSURE",
+				"BOBY": null,
+				"VIS": "N",
+				"CONF": "N",
+				"CONT": null,
+				"COM": null,
+				"ACTIF": "Y",
+				"EXEMPLE": "ASSURE",
+				"P1": null,
+				"P2": null
+			}],
+			"SERVICE": {
+				"ID": "DOCUMENTPOST",
+				"SERVICE": "document",
+				"METHODE": "POST",
+				"URL": "document\/v2",
+				"REPONSE": "id",
+				"COMMENTAIRE": "upload document",
+				"P1": null,
+				"P2": null
+			},
+			"JSONP": "$.[]",
+			"PARAMS": {
+				"_contentType": true,
+				"_time": true,
+				"_id_sin": true,
+				"_namedoc": true
+			}
+		}],
+		"variables": {
+			"id_per_ass": {
+				"PARAM": "id_per_ass",
+				"LIB": "Assur\u00e9",
+				"MESSAGE": "Veuillez pr\u00e9ciser l'assur\u00e9",
+				"BOBY": "WS_EXT2_SEL_IDPERASS",
+				"BOBYPAR": null,
+				"P1": "1",
+				"P2": null
+			},
+			"id_pol": {
+				"PARAM": "id_pol",
+				"LIB": "Police",
+				"MESSAGE": "Veuillez pr\u00e9ciser la police",
+				"BOBY": "WS_EXT2_SEL_IDPOL",
+				"BOBYPAR": "id_per_ass",
+				"P1": "2",
+				"P2": null
+			}
+		}
+	}
+}
+```
+
+
+- Lista de Procedures : Es el contendor principal. Cada procedure es iterado de manera ordenada.
+>- OBJECTS : Conjunto de objetos contenidos en cada procedure para construir el json. Configurables y no configurables.
+>- SERVICE : Información del Service a aplicar una vez procesado esta etapa.
+>- JSONP : JSON path al que aplica rel json resultante de este procedure.
+>- PARAMS : Parametros necesarios vinculados con esta etapa de typo System. Seran llenadas con las variables del form, o con funcionalidades de tipo system.
+- Variables : Conjunto de variables globales necesarias para iniciar este formulario.
+
+
+
 ## Tipos de campos
 
 ## Widgets 
