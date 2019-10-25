@@ -112,16 +112,20 @@ class SelectorSettingsField extends Component {
       <div style={{display : display ? 'block' : 'none'}}>
         <div className="setup-field">
 
-          <div className="togglebutton">
-            <label>
-                <input type="checkbox"
-                  name={this.props.name}
-                  checked={ this.state.checkbox != null ? checkbox : false }
-                  onChange={this.handleFieldChange}
-                />
-                {this.props.label}
-            </label>
-          </div>
+
+            <div className="togglebutton">
+              <label>
+                  {this.props.noBoolean === undefined &&
+                    <input type="checkbox"
+                      name={this.props.name}
+                      checked={ this.state.checkbox != null ? checkbox : false }
+                      onChange={this.handleFieldChange}
+                    />
+                  }
+                  {this.props.label}
+              </label>
+            </div>
+
 
           <div className="setup-field-config" style={{display : checkbox != null && checkbox ? "block" : "none" }}>
             <div className="form-group bmd-form-group">

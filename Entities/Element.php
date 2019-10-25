@@ -99,10 +99,26 @@ class Element extends Model
         });
     }
 
+    /**
+    * Get all route parameters contained in attributes with settings included.
+    */
     public function getParameters()
     {
-        $parametersArray = $this->attrs->where('name', 'parameter')->pluck('value');
-        return  RouteParameter::whereIn('id', $parametersArray)->get();
+        //get ids from attributes that are parameters
+        $parametersArray = $this->attrs->where('name', 'parameter')->keyBy('value')->toArray();
+        $idsArray = [];
+        foreach($parametersArray as $id => $paramter){
+          $idsArray[] = $id;
+        }
+
+        //get all route parameters with this ids
+        $routeParameters = RouteParameter::whereIn('id', $idsArray)->get()->toArray();
+        //add settings info to parameter
+        foreach($routeParameters as $index => $routeParameter){
+          $routeParameters[$index]['settings'] = json_decode($parametersArray[$routeParameter['id']]['settings']);
+        }
+
+        return $routeParameters;
     }
 
     public function getSlug($languageId)

@@ -3,8 +3,13 @@ import React, {Component} from 'react';
 import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
-import {openModalParameters
+import {
+  openModalParameters
 } from './../actions/';
+
+import {
+  checkValidParameters
+} from './../functions/';
 
 class ParametersButton extends Component {
 
@@ -12,38 +17,27 @@ class ParametersButton extends Component {
     super(props);
 
     this.state = {
-      valid : true
+      valid : true,
+      loading : true,
     };
 
-  }
-
-  checkValidParameters(content) {
-
-    var params = content.params;
-
-    if(params != null && params.length > 0){
-        for(var key in params){
-            if(params[key].value == ""){
-              return false;
-            }
-        }
-    }
-
-    return true;
   }
 
   componentWillReceiveProps(nextProps) {
 
     var valid = true;
+    var loading = true;
 
     if(nextProps.contents.content !== undefined &&
       nextProps.contents.content != null ){
 
-        valid = this.checkValidParameters(nextProps.contents.content);
+        valid = checkValidParameters(nextProps.contents.content.params);
+        loading = false;
     }
 
     this.setState({
-      valid : valid
+      valid : valid,
+      loading : loading
     });
 
   }
@@ -62,12 +56,12 @@ class ParametersButton extends Component {
       <div>
 
         <a href="" className="btn btn-default btn-parameters" onClick={this.onButtonPressed.bind(this)}> paramètres &nbsp;
-          {!this.state.valid &&
+          {!this.state.valid && !this.state.loading &&
           <span className="text-danger">
             <i className="fas fa-exclamation-triangle"></i>
           </span>
           }
-          {this.state.valid &&
+          {this.state.valid && !this.state.loading &&
             <span className="text-success">
               <i className="fas fa-check"></i>
             </span>

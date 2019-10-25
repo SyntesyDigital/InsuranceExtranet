@@ -50,5 +50,19 @@ class RouteParameter extends Model
         return $this->belongsToMany('\Modules\Architect\Entities\Content', 'contents_routes_parameters', 'route_parameter_id', 'content_id');
     }
 
+    /**
+    * Method that iretares into settings array, and get value.
+    */
+    public function isRequired()
+    {
+      $settings = json_decode($this->pivot->settings);
+
+      if(isset($settings) && isset($settings->required)){
+        return $settings->required;
+      }
+
+      //by default parameters are required
+      return true;
+    }
 
 }

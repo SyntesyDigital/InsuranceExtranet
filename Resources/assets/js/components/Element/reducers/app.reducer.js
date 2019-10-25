@@ -18,7 +18,13 @@ import {
   ADD_PARAMETER,
   REMOVE_PARAMETER,
 
+  ELEMENT_PARAMETERS_UPDATE
+
 } from '../constants';
+
+import {
+  setSettings
+} from '../functions';
 
 import update from 'immutability-helper';
 
@@ -88,19 +94,23 @@ function getParamerter(identifier, parametersList){
 
   for(var key in parametersList) {
     if(parametersList[key].identifier == identifier){
-      return parametersList[key];
+      return key;
     }
   }
 
   return null;
 }
 
+/*
+*   variables came from Forms procedures. Only works for forms.
+*/
 function getModelParameters(model) {
 
   var modelFilters = model.FILTRES;
 
   var filters = [];
 
+  //we find variables in FILTRES variables.
   if(modelFilters != "" && modelFilters != null ){
     var modelFiltersArray = modelFilters.split(",");
     for(var key in modelFiltersArray){
@@ -112,22 +122,73 @@ function getModelParameters(model) {
   return filters;
 }
 
-function updateParamertsFromModel(model,parameters, parametersList) {
+/**
+*   Update parameters from FILTRES, if it exist and the parameter is also added,
+*   the parameters is added as filter.
+*   Also process parameters already created to set settings if changed.
+*/
+function updateParamertsFromModel(filters,variables,parameters, parametersList) {
 
-    var filters = getModelParameters(model);
+    console.log("parametersMerged :: init parameters : ",parameters);
+    console.log("parametersMerged :: all parametersList : ",parametersList);
+    console.log("parametersMerged :: filters: ",filters);
+    console.log("parametersMerged :: variables: ",variables);
 
-    for(var key in filters) {
-      if(getParamerter(filters[key], parameters) == null) {
-        //dont exist yet add parameter
-        var newParameter = getParamerter(filters[key], parametersList);
-        if(newParameter != null){
-          parameters.push(newParameter);
+    //first add filters mandatory
+
+    if(filters != null){
+      for(var key in filters) {
+
+        if(getParamerter(filters[key], parameters) == null) {
+          //dont exist yet add parameter
+          var index = getParamerter(filters[key], parametersList);
+          var newParameter = parametersList[index];
+          newParameter = setSettings(newParameter,PARAMETERS.types[0]);
+          if(newParameter != null){
+            parameters.push(newParameter);
+          }
+          else {
+            console.error("Parameter need to be created with key => ",filters[key]);
+          }
         }
         else {
-          console.error("Parameter need to be created with key => ",filters[key]);
+          var index = getParamerter(filters[key], parameters);
+          parameters[index] = setSettings(parameters[index],PARAMETERS.types[0]);
         }
       }
     }
+
+    //second if not added as a filter, add variables as optional
+    if(variables != null){
+      for(var key in variables) {
+
+        //console.log("parametersMerged",variables[key],parameters);
+        if(getParamerter(key, parameters) == null) {
+          //dont exist yet add parameter
+          var index = getParamerter(key, parametersList);
+          var newParameter = parametersList[index];
+          newParameter = setSettings(newParameter,PARAMETERS.types[1]);
+          if(newParameter != null){
+            parameters.push(newParameter);
+          }
+          else {
+            console.error("Parameter need to be created with key => ",key);
+          }
+        }
+        else {
+          var index = getParamerter(key, parameters);
+          parameters[index] = setSettings(parameters[index],PARAMETERS.types[1]);
+        }
+      }
+    }
+
+    //check for all parameters if need to add new settings
+    for(var index in parameters){
+      //if type not set, set to null
+      parameters[index] = setSettings(parameters[index],null);
+    }
+
+    console.log("parametersMerged :: final result : ",parameters);
 
     return parameters;
 }
@@ -179,14 +240,19 @@ function appReducer(state = initialState, action) {
 
             }
 
-            var modelParameters = getModelParameters(action.payload.model);
+            var modelParameters = getModelParameters(
+              action.payload.model
+            );
 
             //check from model if paramerts correctly set
             var parametersMerged = updateParamertsFromModel(
-              action.payload.model,
+              modelParameters,
+              action.payload.variables,
               action.payload.parameters,
               action.payload.parametersList
             );
+
+            console.log("parametersMerged result :: ",parametersMerged);
 
             return {
                 ...state,
@@ -203,7 +269,9 @@ function appReducer(state = initialState, action) {
                 parametersList : action.payload.parametersList,
                 modelParameters : modelParameters,
                 fields : action.payload.element != null ?
-                  action.payload.element.fields : []
+                  action.payload.element.fields : [],
+                modelVariables : action.payload.variables != null ?
+                  action.payload.variables : [],
             }
         case INPUT_CHANGE :
 
@@ -324,7 +392,7 @@ function appReducer(state = initialState, action) {
               }
             }
 
-            console.log("Check merge !");
+            //console.log("Check merge !");
 
             //check if new settings are available
             if(newField != null){
@@ -394,6 +462,20 @@ function appReducer(state = initialState, action) {
             for(var i=0;i<parameters.length;i++){
               if(parameters[i].id == action.payload){
                 parameters.splice(i,1);
+                break;
+              }
+            }
+
+            return {
+              ...state,
+              parameters
+            }
+        case ELEMENT_PARAMETERS_UPDATE :
+            var found = false;
+            var currentParameter = action.payload;
+            for(var i=0;i<parameters.length;i++){
+              if(parameters[i].id == currentParameter.id){
+                parameters[i].settings = currentParameter.settings;
                 break;
               }
             }

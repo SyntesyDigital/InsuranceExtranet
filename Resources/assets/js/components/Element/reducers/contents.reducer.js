@@ -83,7 +83,8 @@ function getParameters(data) {
         id: data.routes_parameters[key].id,
         identifier: data.routes_parameters[key].identifier,
         name: data.routes_parameters[key].name,
-        value : ''
+        value : '',
+        settings : JSON.parse(data.routes_parameters[key].pivot.settings)
       })
     }
   }
@@ -149,7 +150,7 @@ function contentsReducer(state = initialState, action) {
         case PARAMETERS_INIT :
 
             //update content with values
-            var parameters = getParameters(action.payload);
+            var parameters = getParameters(action.payload);            
             console.log("ContentsReducer :: parameters => ",parameters);
             var newContent = mergeContentInfo(content, action.payload, parameters);
 

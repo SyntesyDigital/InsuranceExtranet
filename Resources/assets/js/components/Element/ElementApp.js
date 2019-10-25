@@ -27,6 +27,8 @@ if (document.getElementById('element-form')) {
           wsModelFormat={htmlElement.getAttribute('wsModelFormat')}
           wsModelExemple={htmlElement.getAttribute('wsModelExemple')}
           elementType={htmlElement.getAttribute('elementType')}
+          procedures={htmlElement.getAttribute('procedures')}
+          variables={htmlElement.getAttribute('variables')}
         />
       </Provider>
     , htmlElement);

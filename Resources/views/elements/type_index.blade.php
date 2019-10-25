@@ -11,8 +11,13 @@ $element_type_array = \Modules\Extranet\Entities\Element::TYPES[$element_type];
     <div class="col-md-offset-2 col-md-8">
 
       <div class="page-title">
+        <a href="{{route('extranet.elements.index')}}" class="btn btn-default">
+           <i class="fa fa-angle-left"></i> <div class="ripple-container"></div>
+        </a>
         <h1>
+          &nbsp;
           <i class="{{$element_type_array['icon']}}"></i> {{$element_type_array['name']}}
+          &nbsp;
           <a href="#" class="btn btn-primary add-element"><i class="fa fa-plus-circle"></i> &nbsp; Ajouter {{$element_type_array['name']}}</a>
         </h1>
       </div>

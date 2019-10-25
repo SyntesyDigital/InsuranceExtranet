@@ -68,7 +68,8 @@ class UpdateElement
         foreach ($this->attributes["parameters"] as $parameter) {
           $this->element->attrs()->save(new ElementAttribute([
               'name' => 'parameter',
-              'value' => $parameter['id']
+              'value' => $parameter['id'],
+              'settings' => json_encode($parameter['settings'])
           ]));
         }
       }

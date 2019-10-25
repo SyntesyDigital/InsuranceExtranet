@@ -65,7 +65,8 @@ class CreateElement
         foreach ($this->attributes["parameters"] as $parameter) {
           $element->attrs()->save(new ElementAttribute([
               'name' => 'parameter',
-              'value' => $parameter['id']
+              'value' => $parameter['id'],
+              'settings' => json_encode($parameter['settings'])
           ]));
         }
       }

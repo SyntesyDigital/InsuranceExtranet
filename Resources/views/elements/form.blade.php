@@ -10,12 +10,14 @@
       wsModelExemple="{{$model->EXEMPLE or ''}}"
       parametersList="{{base64_encode(json_encode($parametersList,true))}}"
       @if((isset($parameters)) && $parameters)
-        parameters="{{base64_encode($parameters->toJson())}}"
+        parameters="{{base64_encode(json_encode($parameters,true))}}"
       @endif
       elementType="{{$element_type}}"
       @if((isset($element)) && $element)
         element="{{base64_encode($element->toJson())}}"
       @endif
+      procedures="{{base64_encode(json_encode($procedures,true))}}"
+      variables="{{base64_encode(json_encode($variables,true))}}"
     ></div>
 @stop
 

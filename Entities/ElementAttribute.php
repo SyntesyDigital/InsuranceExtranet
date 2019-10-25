@@ -23,6 +23,7 @@ class ElementAttribute extends Model
         'value',
         'element_id',
         'language_id',
+        'settings'
     ];
 
     /**

@@ -6,4 +6,5 @@
   const SELECT = 'select';
   const FILE = 'file';
   const RICHTEXT = 'richtext';
+  const PARAMETERS = {!! json_encode(Config('models.parameters'), JSON_PRETTY_PRINT) !!};
 </script>

@@ -14,6 +14,7 @@ import ElementDropZoneContainer from './ElementDropZoneContainer';
 import ElementDragField from './ElementDragField';
 import ElementBar from './ElementBar';
 import ElementModal from './ElementModal';
+import ElementParametersModal from './ElementParameters/ElementParametersModal';
 import ModalContents from './Contents/ModalContents';
 import ModalParameters from './Parameters/ModalParameters';
 
@@ -38,7 +39,8 @@ class ElementForm extends Component {
         elementType :  props.elementType ? props.elementType : null,
         parametersList: props.parametersList ? JSON.parse(atob(props.parametersList)) : [],
         parameters: props.parameters ? JSON.parse(atob(props.parameters)) : [],
-
+        variables : props.variables ? JSON.parse(atob(props.variables)) : [],
+        procedures : props.procedures ? JSON.parse(atob(props.procedures)) : []
 			};
 
       console.log("Data => ",data);
@@ -79,6 +81,8 @@ class ElementForm extends Component {
             <div className="container rightbar-page">
 
               <ElementModal />
+
+              <ElementParametersModal />
 
               <ModalContents />
 

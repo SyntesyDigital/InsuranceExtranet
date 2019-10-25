@@ -136,5 +136,15 @@ return [
 
         ]
       ]
+    ],
+    'parameters' => [
+      'settings' => [
+        'required',
+        'type' //filter : filter, variable
+      ],
+      'types' => [
+        'filter', //it's totally necessary for WS, cames from Boby
+        'variable', //it's for form variable, it cames from formVaraibles
+      ]
     ]
 ];

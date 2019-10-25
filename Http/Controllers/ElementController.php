@@ -72,12 +72,14 @@ class ElementController extends Controller
         //get model and fields
         $models = $this->elements->getModelsByType($element_type);
         $model = $this->getModelById($models,$model_id);
+        $procedures = null;
 
         if(!$model)
           abort(500);
 
         if($element_type == 'form'){
           $fields = $this->elements->getFormFields($model->ID);
+          $procedures = $this->computeFormProcedures($model->ID);
         }
         else {
           $fields = $this->elements->getFieldsByElement($model->WS);
@@ -91,7 +93,9 @@ class ElementController extends Controller
           'element_type' => $element_type,
           'model' => $model,
           'fields' => $fields,
-          'parametersList' => $parametersList
+          'parametersList' => $parametersList,
+          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+          'variables' => isset($procedures) ? $procedures['variables'] : null
         ];
 
         if($request->has('debug')){
@@ -108,6 +112,7 @@ class ElementController extends Controller
 
       if($element->type == 'form'){
         $fields = $this->elements->getFormFields($model->ID);
+        $procedures = $this->computeFormProcedures($model->ID);
       }
       else {
         $fields = $this->elements->getFieldsByElement($model->WS);
@@ -121,8 +126,14 @@ class ElementController extends Controller
         'fields' => $fields,
         'element' => $element->load('fields','attrs'),
         'parametersList' => $parametersList,
-        'parameters' => $element->getParameters()
+        'parameters' => $element->getParameters(),
+        'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+        'variables' => isset($procedures) ? $procedures['variables'] : null
       ];
+
+      if($request->has('debug')){
+        dd($data);
+      }
 
         return view('extranet::elements.form',$data);
     }
@@ -285,101 +296,18 @@ class ElementController extends Controller
     }
 
 
-
     public function getFormProcedures($modelId)
     {
 
       try {
 
-            $procedures = $this->elements->getProcedures($modelId);
-
-            $allObjects = $this->boby->getModelValuesQuery(
-                'WS_EXT2_DEF_OBJETS?perPage=100'
-              )["modelValues"];
-            $allServices = $this->boby->getModelValuesQuery(
-                'WS_EXT2_DEF_SERVICES?perPage=100'
-              )["modelValues"];
-
-            //get system variables processed
-            $allVariables = $this->elements->getVariables();
-            $variables = [];
-
-            $services = [];
-
-            foreach($allServices as $service){
-              $services[$service->ID] = $service;
-            }
-
-            foreach($procedures as $index => $procedure) {
-
-              $objects = [];
-              $procedureServices = [];
-              $systemVars = [];
-              $root = "";
-
-              foreach($allObjects as $object) {
-                  if($procedure->OBJID == $object->OBJ_ID) {
-
-                    if(strpos($object->OBJ_JSONP,'listPer') !== false ) {
-                      //if is listPer add []
-                      //FIXME remove [] when added directly
-                      $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
-                    }
-
-                    $objects[] = $object;
-
-                    if($object->NATURE == "SYSTEM"){
-                      $systemVars[$object->VALEUR] = true;
-                    }
-
-                    if($object->OBJ_ID == "DOC01"){
-                      //FIXME remove [] when added to procedure
-                      $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
-                    }
-
-                    /*
-                    FIXME not necessary Service linked to procedure
-                    if(!isset($procedureServices[$object->SERV_ID])){
-                      $procedureServices[$object->SERV_ID] = $services[$object->SERV_ID];
-                    }
-                    */
-                    //conclusion only one service per procedure
-                    if(isset($services[$object->SERV_ID])){
-                      $procedureServices = $services[$object->SERV_ID];
-                    }
-
-                    $root = $object->OBJ_JSONP;
-
-                  }
-              }
-
-              //filter wich variables are necessary for this procedure
-              $variables = $this->checkNecessaryVariables(
-                $variables,
-                $allVariables,
-                $systemVars,
-                $procedureServices,
-                $objects
-              );
-
-              $procedures[$index]->{'OBJECTS'} = $objects;
-              $procedures[$index]->{'SERVICE'} = $procedureServices;
-              $procedures[$index]->{'JSONP'} = $root;
-              $procedures[$index]->{'PARAMS'} = $systemVars;
-            }
-
-            //dd($procedures);
-
-
-            //check necessary variables between themselves
-            $variables = $this->checkInnerDependces($variables,$allVariables);
-            $variables = $this->processAndSortVariables($variables);
+            $data = $this->computeFormProcedures($modelId);
 
             return response()->json([
                       'success' => true,
                       'data' => [
-                          'procedures' => $procedures,
-                          'variables' => $variables
+                          'procedures' => $data['procedures'],
+                          'variables' => $data['variables']
                         ]
                   ]);
 
@@ -389,6 +317,98 @@ class ElementController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    private function computeFormProcedures($modelId)
+    {
+        $procedures = $this->elements->getProcedures($modelId);
+
+        $allObjects = $this->boby->getModelValuesQuery(
+            'WS_EXT2_DEF_OBJETS?perPage=100'
+          )["modelValues"];
+        $allServices = $this->boby->getModelValuesQuery(
+            'WS_EXT2_DEF_SERVICES?perPage=100'
+          )["modelValues"];
+
+        //get system variables processed
+        $allVariables = $this->elements->getVariables();
+        $variables = [];
+
+        $services = [];
+
+        foreach($allServices as $service){
+          $services[$service->ID] = $service;
+        }
+
+        foreach($procedures as $index => $procedure) {
+
+          $objects = [];
+          $procedureServices = [];
+          $systemVars = [];
+          $root = "";
+
+          foreach($allObjects as $object) {
+              if($procedure->OBJID == $object->OBJ_ID) {
+
+                if(strpos($object->OBJ_JSONP,'listPer') !== false ) {
+                  //if is listPer add []
+                  //FIXME remove [] when added directly
+                  $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
+                }
+
+                $objects[] = $object;
+
+                if($object->NATURE == "SYSTEM"){
+                  $systemVars[$object->VALEUR] = true;
+                }
+
+                if($object->OBJ_ID == "DOC01"){
+                  //FIXME remove [] when added to procedure
+                  $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
+                }
+
+                /*
+                FIXME not necessary Service linked to procedure
+                if(!isset($procedureServices[$object->SERV_ID])){
+                  $procedureServices[$object->SERV_ID] = $services[$object->SERV_ID];
+                }
+                */
+                //conclusion only one service per procedure
+                if(isset($services[$object->SERV_ID])){
+                  $procedureServices = $services[$object->SERV_ID];
+                }
+
+                $root = $object->OBJ_JSONP;
+
+              }
+          }
+
+          //filter wich variables are necessary for this procedure
+          $variables = $this->checkNecessaryVariables(
+            $variables,
+            $allVariables,
+            $systemVars,
+            $procedureServices,
+            $objects
+          );
+
+          $procedures[$index]->{'OBJECTS'} = $objects;
+          $procedures[$index]->{'SERVICE'} = $procedureServices;
+          $procedures[$index]->{'JSONP'} = $root;
+          $procedures[$index]->{'PARAMS'} = $systemVars;
+        }
+
+        //dd($procedures);
+
+
+        //check necessary variables between themselves
+        $variables = $this->checkInnerDependces($variables,$allVariables);
+        $variables = $this->processAndSortVariables($variables);
+
+        return [
+          "variables" => $variables,
+          "procedures" => $procedures
+        ];
     }
 
     /**

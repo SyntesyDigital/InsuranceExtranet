@@ -3,7 +3,19 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 
-import {addParameter,removeParameter} from './actions/';
+import {
+  addParameter,
+  removeParameter,
+  openElementParametersSettings,
+
+} from './actions/';
+
+import {
+  isRequired,
+  getSettingsType,
+  getTypeIcon,
+  getRequiredIcon
+} from './functions/';
 
 const charMap = {
     'a': /[àáâ]/gi,
@@ -91,9 +103,38 @@ class ParameterManager extends Component {
       });
   }
 
+  /*
+  *   Set settings from PARAMETERS configuration.
+  */
+  setSettings(parameter,type) {
+
+    if(parameter.settings === undefined || parameter.settings == null){
+      parameter.settings = {};
+    }
+
+    //necessary for all parameters added before changes
+    for(var key in PARAMETERS.settings){
+      if(parameter.settings[PARAMETERS.settings[key]] === undefined || parameter.settings[PARAMETERS.settings[key]] == null){
+        if(PARAMETERS.settings[key] == "required"){
+            //by default required must be set to true
+            parameter.settings[PARAMETERS.settings[key]] =  true;
+        }
+        else {
+            parameter.settings[PARAMETERS.settings[key]] =  null;
+        }
+      }
+    }
+
+    return parameter;
+
+  }
+
   handleParameterAdded(parameter) {
 
-    console.log("handleParameterAdded => ", parameter);
+    parameter = this.setSettings(parameter);
+
+    //console.log("handleParameterAdded => ", parameter);
+
     this.props.addParameter(parameter);
   }
 
@@ -128,9 +169,37 @@ class ParameterManager extends Component {
     }
   }
 
-  onRemoveParameter(e) {
+  onRemoveParameter(id,e) {
     e.preventDefault();
-    this.handleRemoveParameter($(e.target).closest('.remove-btn').attr('id'))
+
+    var self = this;
+
+    bootbox.confirm({
+				message: 'Êtes-vous sûr de supprimer définitivement ce paramètre',
+				buttons: {
+						confirm: {
+								label: Lang.get('fields.si'),
+								className: 'btn-primary'
+						},
+						cancel: {
+								label: Lang.get('fields.no'),
+								className: 'btn-default'
+						}
+				},
+				callback: function (result) {
+					if(result){
+						self.handleRemoveParameter(id)
+					}
+				}
+		});
+
+
+  }
+
+  onEditParameter(parameter,e) {
+    e.preventDefault();
+
+    this.props.openModal(parameter);
   }
 
   existInModelParameters(identifier) {
@@ -142,33 +211,70 @@ class ParameterManager extends Component {
     return false;
   }
 
+  existInModelVariables(identifier) {
+    for( var key in this.props.app.modelVariables){
+      if(key == identifier){
+        return true;
+      }
+    }
+    return false;
+  }
+
   renderParameters() {
-    console.log('RENDER PARAMETER::',this.props.app.parameters);
+    //console.log('RENDER PARAMETER::',this.props.app.parameters);
     if(this.props.app.parameters ===undefined)
       return;
 
     return (
-      this.props.app.parameters.map((parameter,i) => (
-        <span key={i} className="parameter" style={{
-          display:'block',
-          borderBottom: '1px solid #ccc',
-          padding:'10px'
-        }}>
-          {parameter.name}
+      this.props.app.parameters.map((parameter,i) => {
 
-          {!this.existInModelParameters(parameter.identifier) &&
-            <a href="" style={{float:'right'}} className="remove-btn" id={parameter.id} onClick={this.onRemoveParameter}>
-              <i className="fa fa-times-circle"></i>
-            </a>
-          }
-          {this.existInModelParameters(parameter.identifier) &&
-            <span style={{float:'right',color:'#666'}}>
-              <i className="fa fa-lock"></i>
+        const isLocked = this.existInModelParameters(parameter.identifier) ||
+          this.existInModelVariables(parameter.identifier);
+        const required = isRequired(parameter);
+        const icon = getTypeIcon(parameter);
+
+        //style={{color:"#a3a3a3"}}
+
+        return (
+
+            <span key={i} className="parameter" style={{
+              display:'block',
+              borderBottom: '1px solid #ccc',
+              padding:'10px'
+            }}>
+
+              <span className="text-success" >
+                <i className={getRequiredIcon(parameter)}></i>
+
+                {icon != null &&
+                  <span>
+                    &nbsp; <i className={icon}></i>
+                  </span>
+                }
+              </span>
+
+              &nbsp; {parameter.name}
+
+
+              {!isLocked &&
+                <a href="" style={{float:'right'}} className="remove-btn text-danger" onClick={this.onRemoveParameter.bind(this,parameter.id)}>
+                  <i className="fas fa-trash"></i>
+                </a>
+              }
+              {isLocked &&
+                <span style={{float:'right',color:'#666'}}>
+                  <i className="fa fa-lock"></i>
+                </span>
+              }
+
+              <a href="" style={{float:'right'}} className="edit-btn" id={parameter.id} onClick={this.onEditParameter.bind(this,parameter)}>
+                <i className="fas fa-pencil-alt"></i> &nbsp;
+              </a>
+
             </span>
-          }
-
-        </span>
-      ))
+          );
+        }
+      )
     );
   }
 
@@ -220,7 +326,11 @@ const mapDispatchToProps = dispatch => {
       },
       removeParameter: (parameterId) => {
           return dispatch(removeParameter(parameterId));
+      },
+      openModal : (parameter) => {
+          return dispatch(openElementParametersSettings(parameter))
       }
+
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ParameterManager);

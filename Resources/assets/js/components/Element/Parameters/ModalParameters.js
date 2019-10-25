@@ -7,6 +7,12 @@ import {
   updateParameter
 } from './../actions/';
 
+import {
+  isRequired,
+  getRequiredIcon,
+  checkValidParameters
+} from './../functions/';
+
 class ModalParameters extends Component {
 
   constructor(props) {
@@ -27,19 +33,6 @@ class ModalParameters extends Component {
       this.props.changeFieldSettings(field);
   }
   */
-
-  checkValidParameters(params) {
-
-    if(params != null && params.length > 0){
-        for(var key in params){
-            if(params[key].value == ""){
-              return false;
-            }
-        }
-    }
-
-    return true;
-  }
 
   onModalClose(e) {
     e.preventDefault();
@@ -105,25 +98,31 @@ class ModalParameters extends Component {
 
     console.log("ModalParameters :: params => ",params);
 
-    return params.map((item,index) =>
-        <div className="parameter" key={index}>
+    return params.map((item,index) => {
 
-          <div className="row parameter">
-            <div className="col col-xs-6">
-              {item.name} ( {item.identifier} )
-            </div>
-            <div className="col col-xs-6 float-right">
-              <div className="form-group bmd-form-group">
-                <select className="form-control" value={item.value} onChange={this.onChangeParameter.bind(this,item)}>
-                  <option value="" key="-1">---</option>
-                  {this.renderOptions()}
-                </select>
+        return (
+
+          <div className="parameter" key={index}>
+
+            <div className="row parameter">
+              <div className="col col-xs-6">
+
+                <i className={getRequiredIcon(item)}></i> &nbsp;
+                {item.name} ( {item.identifier} )
+              </div>
+              <div className="col col-xs-6 float-right">
+                <div className="form-group bmd-form-group">
+                  <select className="form-control" value={item.value} onChange={this.onChangeParameter.bind(this,item)}>
+                    <option value="" key="-1">---</option>
+                    {this.renderOptions()}
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>
-    );
+          </div>
+      );
+    });
   }
 
   render() {
@@ -135,7 +134,7 @@ class ModalParameters extends Component {
 
     console.log("ModalParameteres :: params => ",params);
 
-    const valid = this.checkValidParameters(params);
+    const valid = checkValidParameters(params);
 
     return (
       <div style={{zIndex:this.state.zIndex}}>
