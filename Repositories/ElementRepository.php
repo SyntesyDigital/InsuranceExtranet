@@ -14,6 +14,7 @@ use Session;
 use App\Extensions\VeosWsUrl;
 use Config;
 
+use Modules\Extranet\Tasks\Elements\ValidateElementRouteParameters;
 
 class ElementRepository extends BaseRepository
 {
@@ -387,6 +388,33 @@ class ElementRepository extends BaseRepository
 
     }
 
+    public function getRouteParametersCheckData()
+    {
+      $data = [
+        'columns' => [
+          'icon' => 'Icone',
+          'name' => 'Elements'
+        ],
+        'rows' => []
+      ];
 
+      $elements = Element::whereHas('fields', function($query) {
+        return $query->whereNotNull('errors');
+      })->get();
+
+      foreach($elements as $element) {
+          foreach($element->fields as $field) {
+            $errors = json_decode($field->errors);
+            if((isset($errors->type)) && $errors->type == "pageRoute") {
+              $data['rows'][] = [
+                'icon' => '<i class="fas fa-exclamation-triangle"></i> La route pour le champs <strong>' . $field->name . '</strong> est mal configurée',
+                'name' => '<a href="'.route('extranet.elements.show', $element).'">' . $element->name . '</a>',
+              ];
+            }
+          }   
+      }
+      
+      return $data;
+    }
 
 }

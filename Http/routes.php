@@ -7,11 +7,15 @@
 */
 
 Route::group([
-  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM', 'DetectUserLocale'],
   'prefix' => 'architect',
-  'namespace' => 'Modules\Extranet\Http\Controllers'
+  'namespace' => 'Modules\Extranet\Http\Controllers',
+  'middleware' => [
+    'web', 
+    'auth:veos-ws', 
+    'roles:ROLE_SUPERADMIN,ROLE_SYSTEM', 
+    'DetectUserLocale'
+  ],
 ], function() {
-
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
     Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');
@@ -37,6 +41,7 @@ Route::group([
     Route::post('/elements/store', 'ElementController@store')->name('extranet.elements.store');
     Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');
     Route::delete('/elements/{element}/delete', 'ElementController@delete')->name('extranet.elements.delete');
+    Route::get('/api/elements/data', 'ElementController@data')->name('extranet.api.elements.data');
 
     // Routes Parameters
     Route::get('/routes_parameters', 'RouteParameterController@index')->name('extranet.routes_parameters.index');
@@ -47,6 +52,8 @@ Route::group([
     Route::put('/routes_parameters/{route_parameter}/update', 'RouteParameterController@update')->name('extranet.routes_parameters.update');
     Route::delete('/routes_parameters/{route_parameter}/delete', 'RouteParameterController@delete')->name('extranet.routes_parameters.delete');
 
+
+    
 });
 
 Route::group([
