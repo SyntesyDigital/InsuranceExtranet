@@ -204,7 +204,7 @@ class VisibilitySettingsField extends Component {
       action : '', //opposite by default
       join : 'and/or', //only appear second condition
       type : 'parameters',
-      name : ,
+      name : 'name',
       operator : '=,!=',
       options : [],  //list of options
       values : [] //selected options

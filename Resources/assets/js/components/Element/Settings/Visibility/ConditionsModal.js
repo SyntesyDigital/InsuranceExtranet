@@ -66,6 +66,9 @@ class ConditionsModal extends Component {
       });
   }
 
+  handleInputChange(e) {
+    //TODO 
+  }
 
   render() {
 
@@ -101,7 +104,7 @@ class ConditionsModal extends Component {
                          <label htmlFor="num" className="bmd-label-floating">
                             Type of field
                          </label>
-                         <select className="form-control" name="type" value={} onChange={this.handleInputChange} >
+                         <select className="form-control" name="type" value="" onChange={this.handleInputChange} >
 
                          </select>
                       </div>
