@@ -9,6 +9,7 @@ import SelectorSettingsField from './Settings/SelectorSettingsField';
 import RadioSettingsField from './Settings/RadioSettingsField';
 import LinkSettingsField from './Settings/LinkSettingsField';
 import FieldsSettings from './Settings/FieldsSettings';
+import VisibilitySettingsField from './Settings/VisibilitySettingsField';
 
 
 import {
@@ -246,7 +247,14 @@ class ElementModal extends Component {
                       label="Liste des champs"
                     />
 
-
+                    <VisibilitySettingsField
+                      field={field}
+                      name="conditionalVisibility"
+                      source="settings"
+                      inputLabel="Define el estado por defecto."
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Visibilité conditionnelle"
+                    />
 
 
                   </div>

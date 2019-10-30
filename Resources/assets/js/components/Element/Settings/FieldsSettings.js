@@ -66,7 +66,7 @@ class FieldsSettings extends Component {
               {item.name}
             </div>
             <div className="field-name col-xs-6">
-              {/* {item.identifier} */} 
+              {/* {item.identifier} */}
             </div>
           </div>
         </div>

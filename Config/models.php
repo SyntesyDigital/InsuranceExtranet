@@ -22,7 +22,8 @@ return [
         'settings' => [
           'format',
           'maxLength',
-          'hasRoute'
+          'hasRoute',
+          'conditionalVisibility'
         ]
       ],
       'number' => [
@@ -42,7 +43,8 @@ return [
         ],
         'settings' => [
           'format',
-          'hasRoute'
+          'hasRoute',
+          'conditionalVisibility'
         ]
       ],
       'date' => [
@@ -64,7 +66,8 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'format'
+          'format',
+          'conditionalVisibility'
         ]
       ],
       'select' => [
@@ -78,10 +81,11 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
-          'ws' => ''
+          'ws',
+          'conditionalVisibility'
         ]
       ],
       'file' => [
@@ -98,7 +102,7 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'ws' => ''
+          'conditionalVisibility'
         ]
       ],
       'richtext' => [
@@ -117,7 +121,7 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'ws' => ''
+          'conditionalVisibility'
         ]
       ],
       'list' => [
@@ -131,12 +135,14 @@ return [
           'required',
         ],
         'settings' => [
+          'conditionalVisibility'
         ],
         'fields' => [
 
         ]
       ]
-    ],
+    ],  // --- end fields ---
+
     'parameters' => [
       'settings' => [
         'required',
