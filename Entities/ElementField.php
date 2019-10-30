@@ -32,7 +32,8 @@ class ElementField extends Model
         'boby',
         'icon',
         'rules',
-        'settings'
+        'settings',
+        'errors'
     ];
 
     /**

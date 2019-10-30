@@ -9,6 +9,8 @@ use Modules\Extranet\Entities\ElementAttribute;
 use Config;
 use Carbon\Carbon;
 
+use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
+
 class UpdateElement
 {
   //  use FormFields;
@@ -48,18 +50,23 @@ class UpdateElement
       $this->element->fields()->delete();
 
       foreach($this->attributes["fields"] as $field) {
+          $elementField = new ElementField([
+            'icon' => $field['icon'],
+            'name' => $field['name'],
+            'identifier' => $field['identifier'],
+            'type' => $field['type'],
+            'rules' => isset($field['rules']) ? $field['rules'] : null,
+            'settings' => $field['settings'],
+            'boby' => $field['boby'],
+          ]);
 
-          //dd($field);
+          if(!(new ValidateElementFieldPageRouteParameters($elementField))->run()) {
+            $elementField->errors = json_encode([
+              'type' => 'pageRoute',
+            ]);
+          }
 
-          $this->element->fields()->save(new ElementField([
-              'icon' => $field['icon'],
-              'name' => $field['name'],
-              'identifier' => $field['identifier'],
-              'type' => $field['type'],
-              'rules' => isset($field['rules']) ? $field['rules'] : null,
-              'settings' => $field['settings'],
-              'boby' => $field['boby']
-          ]));
+          $this->element->fields()->save($elementField);
       }
 
       $this->element->attrs()->delete();

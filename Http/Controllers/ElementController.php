@@ -14,24 +14,20 @@ use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Http\Requests\Elements\DeleteElementRequest;
 use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
 
-
 use Modules\Extranet\Jobs\Elements\ProcessService;
 use Modules\Extranet\Jobs\Element\CreateElement;
 use Modules\Extranet\Jobs\Element\UpdateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
 //use Modules\Extranet\Jobs\Element\PostService;
 
-
-
+use Modules\Extranet\Tasks\Elements\ValidateElementRouteParameters;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
-
 
 use Config;
 use Illuminate\Http\Request;
 use Session;
 use Carbon\Carbon;
 use Auth;
-
 
 class ElementController extends Controller
 {
@@ -43,6 +39,15 @@ class ElementController extends Controller
     public function index()
     {
         return view('extranet::elements.index');
+    }
+
+    public function data(Request $request)
+    {
+      switch($request->get('q')) {
+        case 'check_routes_parameters':
+          return response()->json($this->elements->getRouteParametersCheckData());
+        break;
+      }
     }
 
     public function typeIndex($element_type,Request $request)
@@ -103,7 +108,7 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
-      $models = $this->elements->getModelsByType( $element->type);
+      $models = $this->elements->getModelsByType($element->type);
       $model = $this->getModelById($models,$element->model_identifier);
 
       if($element->type == 'form'){

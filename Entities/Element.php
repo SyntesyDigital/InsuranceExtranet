@@ -58,7 +58,8 @@ class Element extends Model
         'model_format',
         'model_exemple',
         'type',
-        'has_parameters'
+        'has_parameters',
+        'has_error'
     ];
 
     /**
@@ -102,7 +103,7 @@ class Element extends Model
     public function getParameters()
     {
         $parametersArray = $this->attrs->where('name', 'parameter')->pluck('value');
-        return  RouteParameter::whereIn('id', $parametersArray)->get();
+        return RouteParameter::whereIn('id', $parametersArray)->get();
     }
 
     public function getSlug($languageId)
