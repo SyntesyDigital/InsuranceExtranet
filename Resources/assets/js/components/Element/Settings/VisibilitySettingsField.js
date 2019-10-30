@@ -190,13 +190,12 @@ class VisibilitySettingsField extends Component {
   openModal(e) {
     e.preventDefault();
 
-    const conditions = this.getConditions();
-
-    conditions.push(this.getDefaultConditionValue());
+    const value = this.getVisibilityValue();
+    value.conditions.push(this.getDefaultConditionValue());
 
     this.setState({
       modalDisplay : true,
-      value :
+      value : value
     });
   }
 
