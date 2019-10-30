@@ -58,7 +58,8 @@ class Element extends Model
         'model_format',
         'model_exemple',
         'type',
-        'has_parameters'
+        'has_parameters',
+        'has_error'
     ];
 
     /**
