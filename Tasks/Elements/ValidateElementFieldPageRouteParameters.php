@@ -39,12 +39,12 @@ class ValidateElementFieldPageRouteParameters
                 $elementRoutesParameters[$param["identifier"]] = $param["value"];
             }
 
-            foreach($pageRoutesParameters as $identifier) {
-                if(!isset($elementRoutesParameters[$identifier])) {
+            foreach($pageRoutesParameters as $k => $arr) {
+                if(!isset($elementRoutesParameters[$k])) {
                     return false;                   
                 }
 
-                if(!$elementRoutesParameters[$identifier]) {
+                if(!$elementRoutesParameters[$k]) {
                     return false;
                 }
             }
