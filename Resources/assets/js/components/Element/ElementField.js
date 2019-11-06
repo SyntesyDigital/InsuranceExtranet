@@ -201,6 +201,7 @@ class ElementField extends Component {
 			var configured = false;
 			var required = false;
 			var hasRoute = false;
+			var visible = false;
 
 			if(this.props.rules != null){
 				for(var key in this.props.rules){
@@ -223,10 +224,22 @@ class ElementField extends Component {
 				}
 			}
 
+			if(this.props.settings != null){
+				for(var key in this.props.settings){
+					if(this.props.settings[key] != null && this.props.settings[key] != false){
+						configured = true;
+						if(key == "conditionalVisibility"){
+							visible = true;
+						}
+					}
+				}
+			}
+
 			return {
 				configured : configured,
 				required : required,
-				hasRoute : hasRoute
+				hasRoute : hasRoute,
+				visible : visible
 			}
 	}
 
@@ -267,6 +280,12 @@ class ElementField extends Component {
 
 					<div className="type-info">
 
+						{configuration.visible &&
+							<span className="text-success">
+								<i className="fas fa-eye"></i>
+							</span>
+						}
+
 						{configuration.hasRoute &&
 							<span className="text-success">
 								<i class="fas fa-link"></i>
@@ -278,6 +297,8 @@ class ElementField extends Component {
 								<i className="fas fa-cog"></i>
 							</span>
 						}
+
+
 
 
 						{/*

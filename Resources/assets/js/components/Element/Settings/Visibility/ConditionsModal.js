@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 
+
+import {
+  OPERATOR_EQUAL,
+  OPERATOR_DIFFERENT,
+  CONDITION_FIELD_TYPE_PARAMETER
+} from './../../constants/';
+
 class ConditionsModal extends Component {
 
   constructor(props) {
@@ -11,11 +18,34 @@ class ConditionsModal extends Component {
     this.state = {
       id : 'modal-conditions',
       isOpen : false,
-      zIndex : 13000
+      zIndex : 13000,
+      fields : []
     };
+
+    this.operators = [
+      {
+        name : "Égal",
+        value : OPERATOR_EQUAL
+      },
+      {
+        name : "Différent",
+        value : OPERATOR_DIFFERENT
+      }
+    ];
+
+    this.types = [
+      {
+        name : "Paramètre",
+        value : CONDITION_FIELD_TYPE_PARAMETER
+      }
+    ];
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
+  }
+
+  loadFields() {
+    //TODO load all fileds types
   }
 
   onModalClose(e) {
@@ -67,7 +97,32 @@ class ConditionsModal extends Component {
   }
 
   handleInputChange(e) {
-    //TODO 
+    //TODO
+    const conditions = this.props.conditions;
+
+    conditions[this.props.conditionIndex][e.target.name] = e.target.value;
+    this.props.onConditionChange(conditions);
+  }
+
+  renderOperators() {
+
+    console.log("this.operators => ",this.operators);
+
+    return this.operators.map((item,index) =>
+      <option key={index} value={item.value}> {item.name}</option>
+    );
+  }
+
+  renderTypes() {
+    return this.types.map((item,index) =>
+      <option key={index} value={item.value}> {item.name}</option>
+    );
+  }
+
+  renderParameters() {
+    return this.props.parameters.map((item,index) =>
+      <option key={index} value={item.identifier}> {item.name}</option>
+    );
   }
 
   render() {
@@ -76,6 +131,9 @@ class ConditionsModal extends Component {
       return null;
 
     const condition = this.props.conditions[this.props.conditionIndex];
+
+    if(condition === undefined)
+      return null;
 
     return (
       <div style={{zIndex:this.state.zIndex}}>
@@ -96,17 +154,47 @@ class ConditionsModal extends Component {
               <div className="modal-content">
                 <div className="container">
                   <div className="row">
-                    <div className="col-xs-12 col-md-8 col-md-offset-2">
+                    <div className="col-xs-12 col-md-6 col-md-offset-3">
 
-                      {this.props.initialValue.name} si :
+                      <h3>
+                        {this.props.initialValue.name} si :
+                      </h3>
+                      <br/>
 
                       <div className="form-group bmd-form-group">
-                         <label htmlFor="num" className="bmd-label-floating">
+                         <label htmlFor="type" className="bmd-label-floating">
                             Type of field
                          </label>
-                         <select className="form-control" name="type" value="" onChange={this.handleInputChange} >
-
+                         <select className="form-control" name="type" value={condition.type} onChange={this.handleInputChange} >
+                            {this.renderTypes()}
                          </select>
+                      </div>
+
+                      <div className="form-group bmd-form-group">
+                         <label htmlFor="name" className="bmd-label-floating">
+                            Field
+                         </label>
+                         <select type="text" className="form-control" name="name" value={condition.name} onChange={this.handleInputChange} >
+                            <option key={-1} value=""> Sélectionner </option>
+                            {this.renderParameters()}
+                         </select>
+
+                      </div>
+
+                      <div className="form-group bmd-form-group">
+                         <label htmlFor="operator" className="bmd-label-floating">
+                            Operator
+                         </label>
+                         <select className="form-control" name="operator" value={condition.operator} onChange={this.handleInputChange} >
+                            {this.renderOperators()}
+                         </select>
+                      </div>
+
+                      <div className="form-group bmd-form-group">
+                         <label htmlFor="values" className="bmd-label-floating">
+                            Values separated by comas
+                         </label>
+                         <input type="text" className="form-control" name="values" value={condition.values} onChange={this.handleInputChange} />
                       </div>
 
                     </div>
