@@ -393,8 +393,8 @@ class ElementRepository extends BaseRepository
     {
       $data = [
         'columns' => [
-          'icon' => 'Icone',
-          'name' => 'Elements'
+          'icon' => 'Message',
+          'name' => 'Element'
         ],
         'rows' => []
       ];
@@ -410,17 +410,17 @@ class ElementRepository extends BaseRepository
 
               $hasRoute = isset($field->settings["hasRoute"]) ? $field->settings["hasRoute"] : null;
               $page = isset($hasRoute["id"]) ? Content::find($hasRoute["id"]) : null;
-              
+
               $data['rows'][] = [
-                'icon' => $page 
-                  ? '<i class="fas fa-exclamation-triangle" style="color: #F00"></i> La route vers la page <strong>' . $page->title . '</strong>, sur le champ <strong>' . $field->name . '</strong> est mal configurée.'
-                  : '<i class="fas fa-exclamation-triangle" style="color: #F00></i> La route pour le champs <strong>' . $field->name . '</strong> est mal configurée',
+                'icon' => $page
+                  ? '<i class="fas fa-exclamation-triangle text-danger"></i> La route vers la page <strong>' . $page->title . '</strong>, sur le champ <strong>' . $field->name . '</strong> est mal configurée.'
+                  : '<i class="fas fa-exclamation-triangle text-danger"></i> La route pour le champs <strong>' . $field->name . '</strong> est mal configurée',
                 'name' => '<a href="'.route('extranet.elements.show', $element).'">' . $element->name . '</a>',
               ];
             }
-          }   
+          }
       }
-      
+
       return $data;
     }
 

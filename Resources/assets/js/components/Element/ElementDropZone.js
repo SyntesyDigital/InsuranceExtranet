@@ -147,6 +147,7 @@ class ElementDropZone extends Component {
 					onRemoveField={this.handleRemoveField}
 					onFieldChange={this.handleFieldChange}
 					onOpenSettings={this.handleOpenSettings}
+					errors={item.errors}
 				/>
 			))
 		);

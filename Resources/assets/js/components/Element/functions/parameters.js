@@ -77,7 +77,9 @@ export function checkValidParameters(params) {
 
             var required = isRequired(params[key]);
 
-            if(required && params[key].value == ""){
+            console.log("checkValidParameters : ",params[key],required);
+
+            if(required && ( params[key].value == "" || params[key].value == null)){
               return false;
             }
         }

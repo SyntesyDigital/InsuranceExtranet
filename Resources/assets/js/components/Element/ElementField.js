@@ -248,6 +248,8 @@ class ElementField extends Component {
 		//console.log("is editable => ",this.props.editable);
 
 		var configuration = this.getConfiguration();
+		var errors = this.props.errors !== undefined && this.props.errors != null ?
+			true : false;
 
 
 		var isEntryTitle = false;
@@ -280,6 +282,12 @@ class ElementField extends Component {
 
 					<div className="type-info">
 
+						{errors &&
+							<span class="text-danger">
+								<i class="fas fa-exclamation-triangle"></i>
+							</span>
+						}
+
 						{configuration.visible &&
 							<span className="text-success">
 								<i className="fas fa-eye"></i>
@@ -299,18 +307,6 @@ class ElementField extends Component {
 						}
 
 
-
-
-						{/*
-						{!valid &&
-
-						}
-						{valid &&
-							<span className="text-success">
-								<i className="fas fa-check"></i>
-							</span>
-						}
-						*/}
 					</div>
 
         </div>
