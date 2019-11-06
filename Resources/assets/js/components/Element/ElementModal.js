@@ -9,7 +9,7 @@ import SelectorSettingsField from './Settings/SelectorSettingsField';
 import RadioSettingsField from './Settings/RadioSettingsField';
 import LinkSettingsField from './Settings/LinkSettingsField';
 import FieldsSettings from './Settings/FieldsSettings';
-import VisibilitySettingsField from './Settings/VisibilitySettingsField';
+import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 
 
 import {
@@ -251,11 +251,11 @@ class ElementModal extends Component {
                       field={field}
                       name="conditionalVisibility"
                       source="settings"
-                      inputLabel="Define el estado por defecto."
+                      inputLabel="Définir l'état par défaut."
                       onFieldChange={this.handleFieldSettingsChange}
-                      label="Visibilité conditionnelle"
+                      label="Afficher selon conditions"
+                      parameters={this.props.app.parameters}
                     />
-
 
                   </div>
                 </div>

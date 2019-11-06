@@ -10,4 +10,12 @@
 	.modal-header{
 			padding: 15px 40px;
 	}
+
+	.condition-item {
+		border: 1px solid #ccc;
+		padding: 12px 0;
+		margin: 0;
+		margin-bottom: 10px;
+		@include round(6px);
+	}
 }
