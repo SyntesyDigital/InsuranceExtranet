@@ -36,6 +36,9 @@ class ExtranetServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->commands([
+            \Modules\Extranet\Console\Validation\PageElementRouteValidationCommand::class,
+        ]);
     }
 
     /**

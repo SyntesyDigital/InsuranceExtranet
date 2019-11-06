@@ -5,11 +5,13 @@ use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Entities\ElementField;
 use Modules\Extranet\Entities\ElementAttribute;
+use Modules\Architect\Entities\Page;
 
 use Config;
 use Carbon\Carbon;
 
 use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
+use Modules\Extranet\Jobs\Validation\ElementsPageRouteValidation;
 
 class UpdateElement
 {
@@ -60,12 +62,6 @@ class UpdateElement
             'boby' => $field['boby'],
           ]);
 
-          if(!(new ValidateElementFieldPageRouteParameters($elementField))->run()) {
-            $elementField->errors = json_encode([
-              'type' => 'pageRoute',
-            ]);
-          }
-
           $this->element->fields()->save($elementField);
       }
 
@@ -80,6 +76,9 @@ class UpdateElement
           ]));
         }
       }
+
+      // Check elements configuration
+      ElementsPageRouteValidation::dispatch();
 
       return $this->element;
     }
