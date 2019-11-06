@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Repositories;
 
 use Modules\Extranet\Entities\Element;
+use Modules\Architect\Entities\Content;
 use Datatables;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Lang;
@@ -406,8 +407,14 @@ class ElementRepository extends BaseRepository
           foreach($element->fields as $field) {
             $errors = json_decode($field->errors);
             if((isset($errors->type)) && $errors->type == "pageRoute") {
+
+              $hasRoute = isset($field->settings["hasRoute"]) ? $field->settings["hasRoute"] : null;
+              $page = isset($hasRoute["id"]) ? Content::find($hasRoute["id"]) : null;
+              
               $data['rows'][] = [
-                'icon' => '<i class="fas fa-exclamation-triangle"></i> La route pour le champs <strong>' . $field->name . '</strong> est mal configurée',
+                'icon' => $page 
+                  ? '<i class="fas fa-exclamation-triangle" style="color: #F00"></i> La route vers la page <strong>' . $page->title . '</strong>, sur le champ <strong>' . $field->name . '</strong> est mal configurée.'
+                  : '<i class="fas fa-exclamation-triangle" style="color: #F00></i> La route pour le champs <strong>' . $field->name . '</strong> est mal configurée',
                 'name' => '<a href="'.route('extranet.elements.show', $element).'">' . $element->name . '</a>',
               ];
             }

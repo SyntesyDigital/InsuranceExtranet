@@ -170,7 +170,6 @@ class ElementController extends Controller
                         'element' => $element
                     ]);
           } catch (\Exception $e) {
-
               return response()->json([
                   'success' => false,
                   'message' => $e->getMessage()

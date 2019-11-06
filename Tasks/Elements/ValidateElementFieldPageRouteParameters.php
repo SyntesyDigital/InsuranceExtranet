@@ -29,12 +29,24 @@ class ValidateElementFieldPageRouteParameters
             $page->load('routesParameters');
 
             // Build route parameters id array
-            $pageRoutesParameters = $page->routesParameters->pluck('id')->toArray();
-            $elementRoutesParameters = collect($hasRoute["params"])->pluck('id')->toArray();
+            $pageRoutesParameters = collect($page->getRouteParametersWithSettings())->filter(function($param){
+                return (isset($param['required'])) && $param['required'] === true ? $param['identifier'] : false;
+            })->toArray();
 
-            // If array are different, 
-            if(!empty(array_diff($pageRoutesParameters, $elementRoutesParameters))) {
-                return false;
+            // Build element parameters
+            $elementRoutesParameters = [];
+            foreach($hasRoute["params"] as $param) {
+                $elementRoutesParameters[$param["identifier"]] = $param["value"];
+            }
+
+            foreach($pageRoutesParameters as $k => $arr) {
+                if(!isset($elementRoutesParameters[$k])) {
+                    return false;                   
+                }
+
+                if(!$elementRoutesParameters[$k]) {
+                    return false;
+                }
             }
         }
 
