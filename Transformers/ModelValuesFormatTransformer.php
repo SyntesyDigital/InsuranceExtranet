@@ -11,11 +11,12 @@ class ModelValuesFormatTransformer extends Resource
 {
     protected $element;
 
-    public function __construct($modelValues,$elementFields,$limit,$parameters = null) {
+    public function __construct($modelValues,$elementFields,$limit,$parameters = null, $table = false) {
         $this->modelValues = $modelValues;
         $this->elementFields = $elementFields;
         $this->limit = $limit;
         $this->routeParameters = $parameters;
+        $this->isTable = $table;
         /*
           [id] => url
           $contentURls[1] = "http://www...."
@@ -83,6 +84,7 @@ class ModelValuesFormatTransformer extends Resource
 
       //remove perPage if exist, normally added to selects
       unset($initArray['perPage']);
+      unset($initArray['page']);
 
       foreach($pageParams as $param ){
         if($param['value'] != "" && $modelValue->{$param['value']} != null ){
@@ -115,11 +117,9 @@ class ModelValuesFormatTransformer extends Resource
 
       $result = [];
       $i = 0;
-      $isTable = false;
 
-      if(sizeof($modelValues) > 1){
-        $isTable = true;
-      }
+      //dd($modelValues,$elementFields);
+
 
       try {
 
@@ -132,7 +132,7 @@ class ModelValuesFormatTransformer extends Resource
               switch ($elementField->type) {
                 case 'number':
 
-                  if(!$isTable){
+                  if(!$this->isTable){
 
                     if($elementField->settings['format'] == 'price'){
                       $result[$i][$elementField->identifier] = number_format ( $originalValue , 0 , ',' , '.' ).' €';
@@ -162,7 +162,7 @@ class ModelValuesFormatTransformer extends Resource
                   $result[$i][$elementField->identifier] = $originalValue ? $originalValue: '';
 
                   //only process date when is not table. At tables date is processed in react to sort properly
-                  if(!$isTable){
+                  if(!$this->isTable){
 
                     if($elementField->settings['format'] == 'day_month_year'){
                       $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m-Y');
@@ -201,7 +201,7 @@ class ModelValuesFormatTransformer extends Resource
                 );
 
                 //to allow order when table, need to process separately link and value
-                if($isTable){
+                if($this->isTable){
                   $result[$i][$elementField->identifier] =
                     $result[$i][$elementField->identifier].";".$link;
                 }

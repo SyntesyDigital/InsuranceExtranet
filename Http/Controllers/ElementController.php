@@ -193,9 +193,15 @@ class ElementController extends Controller
 
       try {
             $result = $this->elements->getModelValuesFromElement($element,$request->all());
+
             return response()->json([
                       'success' => true,
-                      'modelValues' => new ModelValuesFormatTransformer($result['modelValues'],$element->fields()->get(), $limit,$request->all()),
+                      'modelValues' => new ModelValuesFormatTransformer(
+                        $result['modelValues'],
+                        $element->fields()->get(),
+                        $limit,$request->all(),
+                        $element->type == Element::TYPES['table']['identifier'] ? true : false
+                      ),
                       'totalPage' => $result['completeObject']->totalPage != null? $result['completeObject']->totalPage:null,
                       'total' => $result['completeObject']->totalPage != null? $result['completeObject']->total:null
 
@@ -210,7 +216,9 @@ class ElementController extends Controller
 
     public function export(Element $element, $limit = null, Request $request)
     {
-      $modelValues = (new ModelValuesFormatTransformer($this->elements->getModelValuesFromElement($element),$element->fields()->get(), $limit))->toArray();
+      $modelValues = (new ModelValuesFormatTransformer(
+        $this->elements->getModelValuesFromElement($element),$element->fields()->get(), $limit)
+        )->toArray();
       $filename =  Carbon::now()->format('YmdHs').'_'.str_slug($element->name, "_").".csv";
       $filepath = storage_path() . "/app/".$filename;
       $handle = fopen($filepath, 'w+');
