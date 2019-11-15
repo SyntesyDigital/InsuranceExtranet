@@ -6,7 +6,7 @@ $element_type_array = \Modules\Extranet\Entities\Element::TYPES[$element_type];
 @endphp
 
 @section('content')
-  <div class="container grid-page">
+  <div class="container grid-page elements-page">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
 
@@ -27,10 +27,12 @@ $element_type_array = \Modules\Extranet\Entities\Element::TYPES[$element_type];
           <div class="col-xs-3 dashed">
               <a href="#" class="add-element">
                 <div class="grid-item">
-                    <i class="fa fa-plus"></i>
-                    <p class="grid-item-name">
-                        Ajouter {{$element_type_array['name']}}
-                    </p>
+                    <div class="grid-item-content">
+                      <i class="fa fa-plus"></i>
+                      <p class="grid-item-name">
+                          Ajouter {{$element_type_array['name']}}
+                      </p>
+                    </div>
                 </div>
               </a>
           </div>
@@ -38,10 +40,12 @@ $element_type_array = \Modules\Extranet\Entities\Element::TYPES[$element_type];
             <div class="col-xs-3">
                 <a href="{{ route('extranet.elements.show', $element["id"]) }}">
                   <div class="grid-item">
+                    <div class="grid-item-content">
                       <i class="fa {{ $element["icon"] }}"></i>
                       <p class="grid-item-name">
                           {{ $element["name"] }}
                       </p>
+                    </div>
                   </div>
                 </a>
             </div>

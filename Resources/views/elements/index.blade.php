@@ -6,7 +6,7 @@ $element_types = \Modules\Extranet\Entities\Element::TYPES;
 @endphp
 
 @section('content')
-  <div class="container grid-page">
+  <div class="container grid-page elements-page">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
 
@@ -20,10 +20,12 @@ $element_types = \Modules\Extranet\Entities\Element::TYPES;
             <div class="col-xs-3">
                 <a href="{{ route('extranet.elements.typeIndex', $element_type["identifier"]) }}">
                   <div class="grid-item">
+                    <div class="grid-item-content">
                       <i class="fa {{ $element_type["icon"] }}"></i>
                       <p class="grid-item-name">
                           {{ $element_type["name"] }}
                       </p>
+                    </div>
                   </div>
                 </a>
             </div>

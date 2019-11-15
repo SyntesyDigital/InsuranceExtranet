@@ -67,6 +67,14 @@ function checkIfFieldAdded(field,fields) {
 
 function mergeFieldSettings(field,modelField) {
   //console.log("Merge => ,",field," => ",modelField);
+
+  //if is array means and old configuration, not possible to be array
+  if(Array.isArray(field.settings))
+    field.settings = {}
+
+  //console.log("mergeFieldSettings :: field settings vale => ",field.settings);
+
+
   if(modelField.rules !== undefined){
     for(var key in modelField.rules){
       if(field.rules[modelField.rules[key]] === undefined){
@@ -404,6 +412,8 @@ function appReducer(state = initialState, action) {
               }
             }
 
+            //console.log("mergeFieldSettings :: After merge => ",newField);
+
             return {
               ...state,
               settingsField : newField,
@@ -414,9 +424,9 @@ function appReducer(state = initialState, action) {
 
             var field = action.payload;
 
-            settingsField[field.source][field.name] = field.value;
-
             //console.log("SETTINGS_CHANGE :: ",settingsField);
+
+            settingsField[field.source][field.name] = field.value;
 
             return {
               ...state,

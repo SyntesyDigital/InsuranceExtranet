@@ -255,6 +255,7 @@ class ElementModal extends Component {
                       onFieldChange={this.handleFieldSettingsChange}
                       label="Afficher selon conditions"
                       parameters={this.props.app.parameters}
+                      fields={this.props.app.fields}
                     />
 
                   </div>

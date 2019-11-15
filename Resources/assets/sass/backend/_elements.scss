@@ -1,9 +1,29 @@
-.grid-items{
-	.dashed{
-		a{
-			.grid-item {
-				border: 1px dashed #ccc;
-				background-color: transparent;
+.elements-page {
+	.grid-items{
+
+		.grid-item {
+			height: 130px;
+			display: table;
+			width: 100%;
+
+			p.grid-item-name {
+				padding-top: 5px;
+				line-height: 18px;
+				max-height: 55px;
+				overflow: hidden;
+			}
+			.grid-item-content {
+				display: table-cell;
+				vertical-align: middle;
+			}
+		}
+
+		.dashed{
+			a{
+				.grid-item {
+					border: 1px dashed #ccc;
+					background-color: transparent;
+				}
 			}
 		}
 	}
