@@ -55,6 +55,7 @@ return [
         'formats' => [
           //'day_month_year_time',
           'day_month_year',
+          'day_month',
           'month_year',
           'year',
           'hour'
