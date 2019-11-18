@@ -158,19 +158,27 @@ class ModelValuesFormatTransformer extends Resource
                   break;
                 case 'date':
 
-                  $originalValue = intval($originalValue)/1000;
-                  $result[$i][$elementField->identifier] = $originalValue ? $originalValue: '';
+                  if(isset($originalValue)) {
+                    $originalValue = intval($originalValue)/1000;
+                    $result[$i][$elementField->identifier] = $originalValue ? $originalValue: '';
 
-                  //only process date when is not table. At tables date is processed in react to sort properly
-                  if(!$this->isTable){
+                    //only process date when is not table. At tables date is processed in react to sort properly
+                    if(!$this->isTable){
 
-                    if($elementField->settings['format'] == 'day_month_year'){
-                      $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m-Y');
-                    }elseif($elementField->settings['format'] == 'month_year'){
-                      $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('m-Y');
-                    }elseif($elementField->settings['format'] == 'year'){
-                      $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('Y');
+                      if($elementField->settings['format'] == 'day_month_year'){
+                        $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m-Y');
+                      }elseif($elementField->settings['format'] == 'day_month'){
+                        $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m');
+                      }elseif($elementField->settings['format'] == 'month_year'){
+                        $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('m-Y');
+                      }elseif($elementField->settings['format'] == 'year'){
+                        $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('Y');
+                      }
                     }
+                  }
+                  else {
+                    //if oringal value is null leave null
+                    $result[$i][$elementField->identifier] = $originalValue;
                   }
 
                   break;
