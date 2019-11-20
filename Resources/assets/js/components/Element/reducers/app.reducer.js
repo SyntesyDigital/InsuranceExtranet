@@ -150,18 +150,22 @@ function updateParamertsFromModel(filters,variables,parameters, parametersList) 
         if(getParamerter(filters[key], parameters) == null) {
           //dont exist yet add parameter
           var index = getParamerter(filters[key], parametersList);
-          var newParameter = parametersList[index];
-          newParameter = setSettings(newParameter,PARAMETERS.types[0]);
-          if(newParameter != null){
-            parameters.push(newParameter);
-          }
-          else {
-            console.error("Parameter need to be created with key => ",filters[key]);
+          if(index != null) {
+            var newParameter = parametersList[index];
+            newParameter = setSettings(newParameter,PARAMETERS.types[0]);
+            
+            if(newParameter != null){
+              parameters.push(newParameter);
+            }
+            else {
+              console.error("Parameter need to be created with key => ",filters[key]);
+            }
           }
         }
         else {
           var index = getParamerter(filters[key], parameters);
-          parameters[index] = setSettings(parameters[index],PARAMETERS.types[0]);
+          if(index != null)
+            parameters[index] = setSettings(parameters[index],PARAMETERS.types[0]);
         }
       }
     }
@@ -174,18 +178,21 @@ function updateParamertsFromModel(filters,variables,parameters, parametersList) 
         if(getParamerter(key, parameters) == null) {
           //dont exist yet add parameter
           var index = getParamerter(key, parametersList);
-          var newParameter = parametersList[index];
-          newParameter = setSettings(newParameter,PARAMETERS.types[1]);
-          if(newParameter != null){
-            parameters.push(newParameter);
-          }
-          else {
-            console.error("Parameter need to be created with key => ",key);
+          if(index != null) {
+            var newParameter = parametersList[index];
+            newParameter = setSettings(newParameter,PARAMETERS.types[1]);
+            if(newParameter != null){
+              parameters.push(newParameter);
+            }
+            else {
+              console.error("Parameter need to be created with key => ",key);
+            }
           }
         }
         else {
           var index = getParamerter(key, parameters);
-          parameters[index] = setSettings(parameters[index],PARAMETERS.types[1]);
+          if(index != null)
+            parameters[index] = setSettings(parameters[index],PARAMETERS.types[1]);
         }
       }
     }
