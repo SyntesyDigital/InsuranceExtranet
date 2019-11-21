@@ -1,0 +1,71 @@
+
+$assetPath : "/images";
+
+// Body
+$body-bg: #e7eaef;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Brands
+$brand-primary: #3097D1;
+$brand-info: #8eb4cb;
+$brand-success: #2ab27b;
+$brand-warning: #cbb956;
+$brand-danger: #bf5329;
+
+// Panels
+$panel-default-heading-bg: #fff;
+$brand-dark-color-1 : #2A3649; //dark
+$brand-dark-color-2 : #818181; //buttons dark
+$brand-dark-color-3 : #282423; //back graph
+$brand-light-color-1: #F5F5F5;  //box gray
+$brand-light-color-2: #E3E3E3;  //box gray, button hover gray
+$brand-color-1 : #FFBA00; //orange
+$brand-font-1 :  'Roboto', sans-serif;
+
+
+
+//HEADER
+$header-logo-background-color : #fff;
+$header-right-part-background-color : #1B3A6A;
+$header-right-part-text-color: #fff;
+
+//footer
+$footer-background-color : #e7eaef;
+$footer-text-color: $brand-dark-color-1;
+
+//SIDEBAR
+$sidebar-background-color : #fff;
+$sidebar-active-background-color : #fff;
+
+//separator
+$separator-line-color: rgba(42, 54, 73, 0.22);
+
+//login
+
+$login-background-color: #FFFFFF;
+$login-border-color: #DBDBDB;
+
+//Buttons
+
+//buttons for primary-btn:hover, secondary btn,
+$primary-color:#2A3649;
+//buttons for primary-btn, hover on other btn, hover on texts...
+$secondary-color:#E84B37;
+$button-radius: 20px;
+
+//Element file
+$element-file-border:#E0E0E0;
+
+//Element
+$elements-background-color: #fff;
+$elements-radius:12px;
+
+//Tables
+$row-background: #f7f8f9;
+$table-header-color: #868d97;

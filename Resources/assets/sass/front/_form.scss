@@ -1,0 +1,77 @@
+form.contact-form {
+  padding-top:40px;
+  padding-bottom:60px;
+  border:none;
+  text-align: left;
+
+  .form-group{
+    min-height: 38px;
+  }
+
+  .react-datepicker-wrapper{
+    width:100%;
+  }
+
+  h2{
+    text-align: center;
+  }
+
+  input[type="text"] {
+    padding:0 15px;
+  }
+
+  input.error,select.error,textarea.error{
+    border: 1px solid rgba(197,67,69,1);
+  }
+
+  label.error{
+    color : rgba(197,67,69,1);
+
+    a{
+      color : rgba(197,67,69,1);
+    }
+  }
+
+  .error-message{
+    border: 1px solid rgba(197,67,69,1);
+    padding:10px 20px;
+    color:rgba(197,67,69,1);
+    margin-bottom: 20px;
+  }
+
+  .checkbox{
+    text-align: left;
+  }
+}
+
+.summary-list{
+
+  ul{
+    li{
+      list-style-type: none;
+    }
+  }
+
+  .summary-item {
+    ul {
+      li{
+        display: inline-block;
+        padding-right: 10px;
+      }
+    }
+
+    img {
+      width:100px;
+      height:auto;
+    }
+  }
+}
+
+.banner.newsletter form{
+  position: relative !important;
+  margin-top:10px;
+}
+
+.date-delivery {
+  margin-top : 30px !important;
+}

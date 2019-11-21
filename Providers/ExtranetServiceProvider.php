@@ -35,6 +35,10 @@ class ExtranetServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        foreach (glob(__DIR__.'/../Helpers/*.php') as $filename){
+            require_once($filename);
+        }
+
         //
         $this->commands([
             \Modules\Extranet\Console\Validation\PageElementRouteValidationCommand::class,

@@ -1,0 +1,17 @@
+.static-banner{
+  overflow: hidden;
+  margin: 20px 0;
+
+  .image-static-banner{
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  .text-static-banner{
+    padding: 20px;
+    h1, h2{
+      margin-top:0px;
+    }
+  }
+}

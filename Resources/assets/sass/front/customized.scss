@@ -1,0 +1,266 @@
+//GENERAL
+$primaryColor:#2A3649;
+$secondaryColor:#E84B37;
+
+$headerTextColor:#fff;
+$headerRightPartBackgroundColor: #1B3A6A;
+
+$sidebarBackgroundColor : #fff;
+
+$globalBackground:#e7eaef;
+$separatorLineColor: rgba(42, 54, 73, 0.22);
+
+//radio tables/button
+$buttonRadius: 20px;
+
+
+//HEADER
+$headerLogoBackgroundColor : #fff; //$sidebarBackgroundColor
+$headerRightPartBackgroundColor : #1B3A6A; //header-right-part-background-color
+$headerRightPartTextColor: #fff; //$headerTextColor
+$headerButtonColor: #fff; //$headerTextColor
+$headerHoverColor: #E84B37;//$secondaryColor
+
+//sidebar
+$sidebarBackgroundColor : #fff;//$sidebarBackgroundColor
+$sidebarActiveBackgroundColor : #fff;//$sidebarBackgroundColor
+$sidebarColor:#2A3649;//$primaryColor
+$sidebarColor :#E84B37;//$secondaryColor
+
+//FOOTER
+$separatorLineColor: rgba(42, 54, 73, 0.22);//$separatorLineColor
+$footerBackgroundColor : #e7eaef; //$globalBackground:
+$footerHoverTextColor: #E84B37;//$secondaryColor
+$footerTextColor: #2A3649; //$primaryColor
+
+//BODY
+$bodyTextColor: #2A3649; //$primaryColor
+$bodyBackgroundColor: #e7eaef;; //$globalBackground:
+
+//ELEMENTS
+$elementBorder: #E0E0E0;//$globalBackground:
+$elementHeadBackground:#fff;//$sidebarBackgroundColor
+$elementHeadColor:#2A3649;//$primaryColor
+$elementBackground:#fff;//$sidebarBackgroundColor
+$elementColor:#2A3649;//$primaryColor
+$elementLinkColor:#2A3649;//$primaryColor
+$elementLinkHoverColor:#E84B37;//$secondaryColor
+
+
+header{
+  &:first-child{
+      .row{
+        &.row-header{
+          .logo-container{
+            background-color: $headerLogoBackgroundColor;
+          }
+
+          .right-part-header{
+            background-color: $headerRightPartBackgroundColor;
+            color: $headerRightPartTextColor;
+            .user-info{
+              .button-header-container{
+                .btn-header{
+                  border:1px solid $headerButtonColor;
+                  color:$headerButtonColor;
+
+                  @include round($buttonRadius);
+
+                  &:hover{
+                    border:1px solid $headerHoverColor;
+                    color:$headerHoverColor;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  .navbar-toggle {;
+    .icon-bar{
+      background: $headerRightPartTextColor;
+    }
+  }
+}
+
+.sidebar{
+  background-color: $sidebarBackgroundColor;
+  ul{
+    li{
+      &:hover, &.active{
+        background-color: $sidebarActiveBackgroundColor;
+        border-left: 4px solid $sidebarColor;
+        a{
+          color:$sidebarColor;
+        }
+      }
+      a{
+        color:$sidebarColor;
+        &:hover{
+          color:$sidebarColor;
+        }
+      }
+    }
+  }
+}
+
+footer{
+  background-color: $footerBackgroundColor;
+  border-top:1px solid $separatorLineColor;
+  p{
+    color:$footerTextColor;
+  }
+  ul{
+    li{
+      color:$footerTextColor;
+      a{
+        color:$footerTextColor;
+        &:hover{
+          color:$footerHoverTextColor;
+        }
+      }
+    }
+  }
+}
+
+body {
+  background-color: $bodyBackgroundColor;
+  color:$primaryColor;
+}
+
+//FILES
+
+.element-file-container{
+  @include round($buttonRadius);
+  .element-file-container-head{
+    background-color: $elementHeadBackground;//$sidebarBackgroundColor
+    color:$elementHeadColor; //$primaryColor
+  }
+  .element-file-container-body{
+    background-color: $elementBackground;//$sidebarBackgroundColor
+    border: 1px solid $elementBorder;
+    .element-file-input-container{
+      border-bottom: 1px solid $elementBackground;//$sidebarBackgroundColor
+    }
+  }
+}
+.element-collapsable{
+  cursor: pointer;
+  &.collapsed{
+    &:before{
+      color:$elementHeadColor; //$primaryColor
+    }
+  }
+  &:before{
+    color:$elementHeadColor; //$primaryColor
+  }
+}
+.more-btn{
+  background-color:$elementBackground;//$sidebarBackgroundColor
+  a {
+    @include round($buttonRadius);
+    color:$elementLinkColor;//$primaryColor
+    border: 1px solid $elementLinkColor;//$primaryColor
+    &:hover{
+      color:$elementLinkHoverColor;//$secondaryColor
+      border: 1px solid $elementLinkHoverColor;//$secondaryColor
+    }
+  }
+}
+
+//FORMS
+.element-form-container{
+  a {
+    &.btn-default {
+      @include round($buttonRadius);
+      color:$elementColor;//$primaryColor
+      border: 1px solid $elementColor;//$primaryColor
+      &:hover{
+        color:$elementLinkHoverColor;//$secondaryColor
+        border: 1px solid $elementLinkHoverColor;//$secondaryColor
+      }
+    }
+    &.btn-primary {
+      @include round($buttonRadius);
+    }
+    &.btn-link{
+      color:$elementColor;//$primaryColor
+    }
+  }
+
+  .element-form-container-head{
+    background-color: $elementHeadBackground;//$sidebarBackgroundColor
+    color:$elementHeadColor;//$primaryColor
+    border-bottom: 1px solid $elementBorder;
+    border-top-left-radius: $buttonRadius;
+    border-top-right-radius: $buttonRadius;
+
+    &.collapsed{
+      border-bottom-left-radius: $buttonRadius;
+      border-bottom-right-radius: $buttonRadius;
+    }
+  }
+
+  .element-form{
+    background-color:$elementBackground;//$sidebarBackgroundColor
+    color:$elementColor;//$primaryColor
+    border-bottom-left-radius: $buttonRadius;
+    border-bottom-right-radius: $buttonRadius;
+  }
+
+  .element-form-row{
+    label{
+      span{
+        color:$elementLinkHoverColor;//$secondaryColor
+      }
+    }
+    .buttons{
+      .btn-back{
+        border:1px solid $elementColor;//$primaryColor
+        &:hover{
+          background-color: $elementBackground;//$sidebarBackgroundColor
+          border-color: $elementBackground;//$sidebarBackgroundColor
+          color: $elementColor;//$primaryColor
+        }
+      }
+    }
+  }
+}
+
+
+//TABLES
+.element-table-container{
+  @include round($buttonRadius);
+  .element-table-container-body{
+    @include round($buttonRadius);
+  }
+  .element-table-container-head{
+    background-color: $elementHeadBackground; //$sidebarBackgroundColor
+    border-bottom: 1px solid $elementBorder; //$bodyBackgroundColor
+    color:$elementHeadColor; //$primaryColor
+  }
+  .elementTable{
+    background-color:$elementBackground;//$sidebarBackgroundColor
+    color:$elementColor; //$primaryColor
+    a{
+      color:$elementLinkColor; //$primaryColor
+      &:hover{
+        color:$elementLinkHoverColor; //$secondaryColor
+      }
+    }
+    .navigation{
+      li{
+        a{
+          color:$elementColor; //$primaryColor
+        }
+        &.active, &:hover{
+          background-color: $elementBackground; //$sidebarBackgroundColor
+          a{
+            color: $elementColor;//$primaryColor
+          }
+        }
+      }
+    }
+  }
+}

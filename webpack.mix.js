@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 require('laravel-mix-merge-manifest');
 mix.setPublicPath('../../public').mergeManifest();
@@ -34,15 +34,32 @@ mix.webpackConfig({
 
 
 // ---------------------------------------- //
+//      LANGUAGES
+// ---------------------------------------- //
+mix.webpackConfig({
+    plugins: [
+        new WebpackShellPlugin({
+            onBuildStart: [
+                'php ../../artisan lang:js ../../public/modules/extranet/js/lang.dist.js -s Resources/lang',
+            ],
+            onBuildEnd: []
+        })
+    ]
+});
+
+// ---------------------------------------- //
 //      COMPILE ASSETS
 // ---------------------------------------- //
 mix
-    .react('Resources/assets/js/app.js', 'modules/extranet/js')
-    .sass('Resources/assets/sass/app.scss', 'modules/extranet/css');
+    .react('Resources/assets/js/back/back-app.js', 'modules/extranet/js')
+    .sass('Resources/assets/sass/backend/back-style.scss', 'modules/extranet/css');
+
+mix
+    .react('Resources/assets/js/front/front-app.js', 'modules/extranet/js')
+    .sass('Resources/assets/sass/front/front-style.scss', 'modules/extranet/css');
 // ---------------------------------------- //
 
 
 if (mix.inProduction()) {
     mix.version();
 }
-

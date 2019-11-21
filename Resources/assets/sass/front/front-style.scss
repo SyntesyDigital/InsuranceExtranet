@@ -1,0 +1,51 @@
+
+// Fonts
+// Variables
+@import "variables";
+
+//@import '~leaflet/dist/leaflet.css';
+
+// Bootstrap
+$bootstrap-sass-asset-helper: true;
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "~font-awesome/scss/font-awesome";
+
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+@import 'helpers/init';
+@import '../helpers/common';
+@import '../helpers/mixins';
+@import '../helpers/breakpoints';
+
+@import "../../js/front/libs/jquery-ui-1.12.1/jquery-ui.min.css";
+@import "../../js/front/libs/slick/slick.css";
+@import "../../js/front/libs/slick/slick-theme.css";
+
+//layout
+@import 'buttons';
+@import 'layout';
+@import 'modal';
+@import 'form';
+@import 'datepicker';
+@import 'login';
+@import 'elementFiles';
+@import 'elementForms';
+@import 'elementTables';
+@import 'totalBox';
+@import 'boxButton';
+@import 'staticBanner';
+
+//@import 'customized';
+
+
+//Extras
+
+// Components
+@import 'fields/map';
+@import 'fields/date';
+
+@import 'widgets/paginator';
+@import 'widgets/lists';
+@import 'widgets/filter-bar';
+
+@import 'env-bar';

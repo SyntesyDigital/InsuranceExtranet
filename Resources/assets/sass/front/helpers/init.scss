@@ -1,0 +1,403 @@
+/************************************************************
+*       GENERAL RULES
+*
+*   Documento para reglar generales y que norlmament se repiten.
+*
+************************************************************/
+
+figure {
+  position: relative;
+}
+figure img, figure object, figure embed, figure video {
+  max-width: 100%;
+  display: block;
+}
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+.separator {
+  clear:both;
+  font-size:1px;
+  line-height:0px;
+  height:1px;
+  pointer-events:none;
+}
+
+.rounded{
+  -moz-border-radius: 200px;
+  -webkit-border-radius: 200px;
+  border-radius: 200px;
+}
+
+.rounded-border-3{
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.rounded-border-6{
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.rounded-3-top{
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.rounded-border-3-left{
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+
+.rounded-border-3-right{
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+
+
+/************************************************************
+*         Opacity
+*/
+
+.opacity_10
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";/* IE 8 */
+    filter: alpha(opacity=100);/* IE 5-7 */
+    -moz-opacity: 1;/* Netscape */
+    -khtml-opacity: 1;/* Safari 1.x */
+    opacity: 1;/* Other browsers */
+}
+
+.opacity_9
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";/* IE 8 */
+    filter: alpha(opacity=90);/* IE 5-7 */
+    -moz-opacity: 0.9;/* Netscape */
+    -khtml-opacity: 0.9;/* Safari 1.x */
+    opacity: 0.9;/* Other browsers */
+}
+.opacity_8
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";/* IE 8 */
+    filter: alpha(opacity=80);/* IE 5-7 */
+    -moz-opacity: 0.8;/* Netscape */
+    -khtml-opacity: 0.8;/* Safari 1.x */
+    opacity: 0.8;/* Other browsers */
+}
+
+.opacity_7
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";/* IE 8 */
+    filter: alpha(opacity=70);/* IE 5-7 */
+    -moz-opacity: 0.7;/* Netscape */
+    -khtml-opacity: 0.7;/* Safari 1.x */
+    opacity: 0.7;/* Other browsers */
+}
+
+.opacity_6
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";/* IE 8 */
+    filter: alpha(opacity=60);/* IE 5-7 */
+    -moz-opacity: 0.6;/* Netscape */
+    -khtml-opacity: 0.6;/* Safari 1.x */
+    opacity: 0.6;/* Other browsers */
+}
+.opacity_4
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";/* IE 8 */
+    filter: alpha(opacity=40);/* IE 5-7 */
+    -moz-opacity: 0.4;/* Netscape */
+    -khtml-opacity: 0.4;/* Safari 1.x */
+    opacity: 0.4;/* Other browsers */
+}
+.opacity_2
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";/* IE 8 */
+    filter: alpha(opacity=20);/* IE 5-7 */
+    -moz-opacity: 0.2;/* Netscape */
+    -khtml-opacity: 0.2;/* Safari 1.x */
+    opacity: 0.2;/* Other browsers */
+}
+
+.opacity_1
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";/* IE 8 */
+    filter: alpha(opacity=10);/* IE 5-7 */
+    -moz-opacity: 0.1;/* Netscape */
+    -khtml-opacity: 0.1;/* Safari 1.x */
+    opacity: 0.1;/* Other browsers */
+}
+
+.opacity_0
+{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";/* IE 8 */
+    filter: alpha(opacity=0);/* IE 5-7 */
+    -moz-opacity: 0;/* Netscape */
+    -khtml-opacity: 0;/* Safari 1.x */
+    opacity: 0;/* Other browsers */
+}
+
+
+/************************************************************
+*         Shadow
+*/
+
+.shadow-side-right-3
+{
+
+  -moz-box-shadow: 3px 3px 6px rgba(12, 12, 12, 0.3);
+  -webkit-box-shadow: 3px 3px 6px rgba(12, 12, 12, 0.3);
+  box-shadow: 3px 3px 6px rgba(12, 12, 12, 0.3);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=120, Color='#504E4E')";/* For IE 8 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=120, Color='#504E4E');/* For IE 5.5 - 7 */
+}
+
+.shadow-side-right-1
+{
+
+  -moz-box-shadow: 1px 1px 3px rgba(12, 12, 12, 0.3);
+  -webkit-box-shadow: 1px 1px 3px rgba(12, 12, 12, 0.3);
+  box-shadow: 1px 1px 3px rgba(12, 12, 12, 0.3);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=120, Color='#504E4E')";/* For IE 8 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=120, Color='#504E4E');/* For IE 5.5 - 7 */
+}
+
+
+
+.text-shadow{
+
+  text-shadow: black 0.1em 0.1em 0.2em
+
+}
+
+
+
+
+/************************************************************
+*         Components
+*/
+
+.mask{
+  position:relative;
+  overflow: hidden;
+}
+
+hr {
+  border:0px;
+  color:#eae7e7;
+  background-color: #eae7e7;
+  height: 1px;
+  padding:0px;
+  margin:0px;
+}
+
+.modal{
+  position: fixed;
+  width:100%;
+  height:100%;
+  z-index:100;
+  top:0px;
+  left:0px;
+
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  overflow-x: auto;
+  overflow-y: scroll;
+}
+
+.modal-content-container{
+  position: static;
+  z-index:200;
+
+  width:800px;
+  top: 110px !important;
+  margin:20px auto;
+  background-color:#000;
+  min-height: 540px;
+
+}
+
+.background{
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:0;
+  background-color:#000;
+  top: 0px;
+  left: 0px;
+}
+
+/***********************************************************
+ *          Structure
+ */
+
+.left-part{
+  float:left;
+  width:100px;
+
+}
+
+.right-part{
+  float:right;
+  width:100px;
+}
+
+.two-columns{
+  width:50%;
+  float:left;
+}
+
+.align-left{
+  text-align:left;
+}
+
+.align-right{
+  text-align:right;
+}
+
+.box-sizing{
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.asset{
+  display: inline-block;
+  width: 60px;
+  height: 50px;
+  //background-image:url("../images/assets.png");
+  background-position: -899px -48px;
+
+  /*border:1px solid #f00;*/
+}
+
+.col{
+  position:relative;
+  width:100%;
+  float:left;
+}
+
+.col-20{
+  position:relative;
+  width:20%;
+  float:left;
+}
+
+.col-25{
+  position:relative;
+  width:25%;
+  float:left;
+}
+
+.col-50{
+  position:relative;
+  width:50%;
+  float:left;
+}
+
+.col-75{
+  position:relative;
+  width:75%;
+  float:left;
+}
+
+.col-33{
+  position:relative;
+  width:33.33%;
+  float:left;
+}
+
+.col-66{
+  position:relative;
+  width:66.66%;
+  float:left;
+}
+
+.col-80{
+  position:relative;
+  width:80%;
+  float:left;
+}
+
+
+.push-right{
+  float:right;
+}
+
+.push-left{
+  float:left;
+}
+
+.bg-transparent{
+  background-color:rgba(255,255,255,0);
+}
+
+.bg-white{
+  background-color:#fff;
+}
+
+.bg-gray{
+  background-color:#f7f7f7;
+}
+
+.bg-blue{
+  background-color:#edf9ff;
+}
+
+.bg-black{
+  background-color:#000 !important;
+}
+
+
+.centered{
+  text-align:center;
+}
+
+.overflow-hidden{
+  overflow:hidden;
+}
+
+.text-left{
+  text-align:left;
+}
+.text-right{
+  text-align:right;
+}
+
+.uppercase{
+  text-transform:uppercase;
+}
+
+.animate{
+  -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+/* To prevent angular at the begining */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

@@ -1,0 +1,47 @@
+.btn{
+
+  background-color:$brand-light-color-1;
+  @extend .rounded;
+  text-transform:uppercase;
+  padding:9px 25px;
+  @include font(14,16,400);
+  color:#000;
+  border-radius:0;
+  i{
+    margin-right: 10px;
+  }
+  @extend .animate;
+
+  &:hover {
+    background-color:$brand-dark-color-2;
+    color:#fff;
+    outline: none;
+  }
+
+  &:focus, &:active, &:active:focus {
+    background-color:$brand-light-color-1;
+    color:#000;
+    outline: none;
+  }
+
+  &.selected {
+    background-color:$brand-dark-color-2;
+    color:#fff;
+  }
+
+  &:visited{
+    background-color:auto;
+  }
+
+  &.btn-primary{
+    background-color:$secondary-color;
+    color:#fff;
+    border-color:$secondary-color;
+    &:focus, &:active, &:active:focus, &:hover {
+      background-color:$primary-color;
+      color:#fff;
+      border-color:$primary-color;
+    }
+  }
+
+}

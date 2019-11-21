@@ -1,0 +1,13 @@
+.map-container{
+
+
+  .leaflet-container {
+      height: 300px;
+      width: 100%;
+  }
+
+  .leaflet-control-container{
+      z-index: 400;
+  }
+
+}
