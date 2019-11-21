@@ -1,0 +1,68 @@
+.login-container{
+  padding:45px 20px 80px;
+  .icons{
+    padding: 30px 15px;
+    text-align:center;
+
+    .icon-box{
+      padding:20px 20px;
+      margin-bottom:20px;
+      .icon{
+        i{
+          font-size: 50px;
+          line-height: 60px;
+        }
+      }
+      .title{
+        margin-top:5px;
+        min-height: 56px;
+        @include font(24,28,600);
+      }
+      p{
+        padding: 0px;
+        @include font(16,21,400);
+      }
+    }
+    p{
+      padding: 5px 15px;
+      @include font(16,21,400);
+    }
+  }
+
+  .login-box-container{
+    padding:0 40px;
+    .login-box{
+      padding: 20px 40px;
+      border: 1px solid $login-border-color;
+      background-color:$login-background-color;
+      form{
+        border:none;
+        padding: 0;
+        h2{
+          text-align: center;
+          @include font(24,32,600);
+        }
+        .form-group{
+          margin-top: 10px;
+          label{
+            @include font(14,19,400);
+          }
+          .form-control{
+            border-color:#A8A8A8;
+          }
+          .buttons-group{
+            text-align: center;
+          }
+          .forgot{
+            margin: 20px;
+            a{
+              color:$primary-color;
+              @include font(14,19,400);
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

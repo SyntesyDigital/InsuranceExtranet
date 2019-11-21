@@ -1,0 +1,294 @@
+.element-table-container{
+  margin:20px 0;
+  @include round($elements-radius);
+  overflow: hidden;
+
+  .element-table-container-body{
+    @include round($elements-radius);
+    overflow: hidden;
+
+    &.collapse{
+      @include round(0);
+    }
+  }
+
+  a.file-link {
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+  }
+
+
+  .element-table-container-head{
+    background-color: $sidebar-background-color;
+    @include font(16,21,400);
+    text-transform: uppercase;
+    padding:10px 15px;
+    min-height: 41px;
+    border-bottom: 1px solid $element-file-border;
+  }
+  .elementTable{
+    padding:0px;
+    background-color:white;
+    .navigation{
+      padding:15px;
+      list-style-type:none;
+      text-align: right;
+      li{
+        display:  inline-block;
+        margin:5px;
+        border-radius: 50%;
+        min-height: 25px;
+        min-width:25px;
+        text-align: center;
+        a{
+          color:$primary-color;
+          line-height: 23px;
+        }
+        &.active, &:hover{
+          background-color: $primary-color;
+          text-decoration: none;
+          a{
+            color:white;
+          }
+        }
+      }
+    }
+
+  }
+
+  .more-btn{
+    padding:20px;
+  }
+
+}
+
+.title{
+  margin-bottom: 10px;
+  overflow: hidden;
+  h4{
+    text-transform: uppercase;
+     @include font(24,32,300);
+     float:left;
+  }
+  .title-btns{
+    overflow: hidden;
+    padding-left: 20px;
+    &.title-btns-no-header{
+      padding-left:0px;
+    }
+    .excel-btn{
+      float:right;
+      overflow: hidden;
+      a{
+        margin:10px 0;
+        padding:7px 20px;
+        text-decoration: none;
+        color:$primary-color;
+        border: 1px solid $primary-color;
+        background-color: white;
+        @include round($button-radius);
+
+        i{
+          margin-right: 10px;
+        }
+        &:hover{
+          color:$secondary-color;
+          border: 1px solid $secondary-color;
+
+        }
+      }
+    }
+    .add-btn{
+    float:left;
+    overflow: hidden;
+    a{
+      margin:10px 0;
+      padding:7px 20px;
+      text-decoration: none;
+      color:white;
+      border: 1px solid $secondary-color;
+      background-color: $secondary-color;
+      @include round($button-radius);
+
+      i{
+        margin-right: 10px;
+      }
+      &:hover{
+        color:$secondary-color;
+        background-color:white;
+      }
+    }
+  }
+  }
+}
+
+
+//CSS TABLE MODIFICATIONS
+.react-grid-Container{
+  .react-grid-Main{
+      outline:none;
+    .react-grid-Grid>div{
+      position: initial;
+    }
+    .react-grid-Grid{
+      border:none;
+      .react-grid-Header{
+        .react-grid-HeaderRow{
+          background-color: white;
+          .react-grid-HeaderCell{
+            background-color: white;
+            border-right: none;
+            border-left: none;
+          }
+        }
+      }
+      .react-grid-Viewport{
+        .react-grid-Canvas{
+          .react-grid-Row{
+            .react-grid-Cell{
+              border-right: none;
+              border-left: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.elementTableNoHeader{
+  .ReactTable .rt-thead .rt-th.-cursor-pointer,
+  .ReactTable .rt-thead .rt-td.-cursor-pointer {
+  	//background-color: $sidebar-background-color;
+  }
+}
+
+.ReactTable .rt-thead .rt-th.-cursor-pointer, .ReactTable .rt-thead .rt-td.-cursor-pointer{
+  padding-left:22px;
+  &:before {
+    position:absolute;
+    content:'\e150';
+    font-family: Glyphicons Halflings;
+    top:7px;
+    left:5px;
+    color: #d7d7d7;
+  }
+}
+
+.ReactTable .rt-thead .rt-th.-sort-asc, .ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: none !important;
+  &:before {
+    position:absolute;
+    content:'\f160';
+    font-family: FontAwesome;
+    top:7px;
+    left:5px;
+    color: #aeaeae;
+  }
+}
+
+.ReactTable .rt-thead .rt-th.-sort-desc, .ReactTable .rt-thead .rt-td.-sort-desc{
+  box-shadow: none !important;
+  &:before {
+    position:absolute;
+    content:'\f161';
+    font-family: FontAwesome;
+    top:7px;
+    left:5px;
+    color: #aeaeae;
+  }
+}
+
+.ReactTable.-striped .rt-tr.-odd {
+  background-color:$row-background !important;
+}
+
+
+
+.ReactTable {
+  border: none;
+
+  &.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+    background-color: $body-bg !important;
+  }
+
+  .rt-tbody {
+    .rt-tr {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      font-weight: 100;
+    }
+
+    .rt-td {
+      border-right:none !important;
+      padding-right: 10px;
+      padding-left:10px;
+    }
+  }
+
+
+
+  .rt-thead {
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    .rt-resizable-header-content{
+      color:$table-header-color;
+      text-transform: uppercase;
+    }
+  }
+
+  .-pagination {
+    padding: 10px 0 !important;
+
+    .-btn {
+      display: inline-block !important;
+      width: 80%  !important;
+      border: 1px solid $brand-dark-color-1 !important;
+      color:$brand-dark-color-1 !important;
+      padding: 10px !important;
+      border-radius: 20px !important;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+      background-color: transparent !important;
+      max-height: 40px;
+
+      @include mq(tablet){
+        width: 50% !important;
+      }
+
+      &:not([disabled]):hover {
+        border: 1px solid $primary-color !important;
+        background-color: transparent !important;
+        color: $primary-color !important;
+      }
+      &[disabled] {
+          opacity: 0.3 !important;
+      }
+    }
+
+    .-pageInfo {
+      color: $brand-dark-color-1 !important;
+      font-weight: 100 !important;
+    }
+
+
+    select {
+      color: $brand-dark-color-1 !important;
+      font-weight: 100 !important;
+    }
+
+    .-pageJump {
+      margin-top: -5px !important;
+    }
+
+    .-previous {
+      text-align: right !important;
+    }
+    .-next {
+      text-align: left !important;
+    }
+  }
+
+}

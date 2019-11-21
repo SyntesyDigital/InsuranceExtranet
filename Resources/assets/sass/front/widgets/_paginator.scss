@@ -1,0 +1,18 @@
+.paginator {
+  ul{
+    li {
+      display: inline-block;
+      padding: 0 8px;
+
+      &.active{
+        a {
+          color:#c54345;
+        }
+      }
+
+      a {
+        margin-left:0px !important;
+      }
+    }
+  }
+}

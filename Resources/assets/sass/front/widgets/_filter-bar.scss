@@ -1,0 +1,40 @@
+.filter-bar{
+  form.nova-cerca {
+    input {
+      display: inline-block;
+      width:20%;
+      float:left;
+      margin-right:2%;
+    }
+
+    select{
+      display: inline-block;
+      width:15%;
+      float:left;
+      margin-right:2%;
+    }
+
+    .input-date{
+      display: inline-block;
+      width:auto;
+      float:left;
+      margin-right:2%;
+
+      & + div{
+        display: inline-block;
+        width:auto;
+      }
+
+      input.input-date {
+        width:auto;
+      }
+    }
+  }
+}
+
+.blog-home {
+  .grey {
+    overflow: inherit !important;
+    padding-bottom: 1px;
+  }
+}

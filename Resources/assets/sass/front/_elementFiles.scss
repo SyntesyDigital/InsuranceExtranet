@@ -1,0 +1,82 @@
+.element-file-container{
+  margin:20px 0;
+  @include round($elements-radius);
+  overflow: hidden;
+
+  .element-file-container-head{
+    background-color: $sidebar-background-color;
+    @include font(16,21,400);
+    text-transform: uppercase;
+    padding:10px 15px;
+    min-height: 41px;
+  }
+
+  .element-file-container-body{
+    background-color: $elements-background-color;
+    border: 1px solid $element-file-border;
+    padding:10px 20px;
+    @include round($elements-radius);
+
+    &.collapse{
+      @include round(0);
+    }
+
+    .element-file-input-container{
+      padding:7px 0px;
+      margin:5px 0;
+      overflow: hidden;
+      border-bottom: 1px solid $sidebar-background-color;
+      .element-file-title{
+        @include font(14,19,600);
+        padding:0;
+      }
+      .element-file-content{
+        @include font(14,19,400);
+        padding:0;
+      }
+    }
+  }
+}
+.element-collapsable{
+  cursor: pointer;
+  &.collapsed{
+    &:before{
+      content: "\25B8";
+      margin-right: 0px;
+      position: absolute;
+      top: 9px;
+      right: 19px;
+      font-size: 18px;
+      color: $primary-color;
+    }
+  }
+  &:before{
+    content: "\25BE";
+    margin-right: 0px;
+    position: absolute;
+    top: 9px;
+    right: 19px;
+    font-size: 18px;
+    color: $primary-color;
+  }
+}
+.more-btn{
+  text-align: right;
+  padding:15px;
+  padding-right:0;
+  background-color: #fff;
+
+  a {
+    @include round($button-radius);
+    padding:7px 20px;
+    text-decoration: none;
+    color:$primary-color;
+    border: 1px solid $primary-color;
+    &:hover{
+      color:$secondary-color;
+      border: 1px solid $secondary-color;
+
+    }
+  }
+
+}

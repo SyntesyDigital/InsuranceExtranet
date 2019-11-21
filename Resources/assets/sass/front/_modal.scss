@@ -1,0 +1,225 @@
+.custom-modal{
+
+  display:none;
+  opacity:0;
+  z-index:1000;
+
+  a {
+    &.btn-default {
+      @include round($button-radius);
+      padding:7px 20px;
+      text-decoration: none;
+      color:$primary-color;
+      border: 1px solid $primary-color;
+      background-color: transparent;
+      &:hover{
+        color:$secondary-color;
+        border: 1px solid $secondary-color;
+
+      }
+    }
+    &.btn-link{
+      text-decoration: none;
+      color:$primary-color;
+      border: none;
+      background-color: transparent;
+      padding: 5px;
+    }
+    &.btn-danger{
+      color:$brand-danger;
+    }
+    &.btn-primary {
+      @include round($button-radius);
+      background-color: $brand-dark-color-1;
+      border:none;
+    }
+
+  }
+
+
+  .form-group .form-control, .form-group .cke_textarea_inline{
+    border-top:1px solid #ccc;
+    border-left:1px solid #ccc;
+    border-right:1px solid #ccc;
+    padding : 0 10px;
+  }
+
+  .modal-background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 560;
+      top: 0;
+      left: 0;
+      background-color: #000;
+      opacity: 0.5;
+  }
+
+  .modal-container {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 600;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      padding: 40px 5%;
+
+      @include mq(tablet) {
+        padding: 40px 20%;
+      }
+
+  }
+
+  .modal-content {
+      position: relative;
+      z-index: 600;
+      width: auto;
+      border: none;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color:#fff;
+
+      border-radius: 0px;
+
+      height: calc(100% - 55px);
+      padding-bottom:65px;
+
+      .container {
+        overflow: scroll;
+        height: 100%;
+        padding: 20px 20px;
+      }
+  }
+
+  .modal-footer{
+    position: absolute;
+    bottom:0px;
+    width:100%;
+    left:0px;
+    border-top:1px solid #ccc;
+    background-color:#fff;
+    z-index:1000;
+
+    a{
+      display:inline-block;
+      vertical-align: top;
+    }
+  }
+
+  .modal-header {
+    border-bottom:1px solid #ccc;
+    background-color:#fff;
+    min-height: 56px;
+    z-index: 1000;
+    border-bottom: 1px solid #ccc;
+
+    i.fa{
+      font-size: 22px;
+      padding-right: 10px;
+      color:#b4b4b4;
+      display: inline-block;
+    }
+
+    h2 {
+      @include font(20,24,400);
+      display: inline-block;
+      margin:0;
+      padding:0;
+    }
+
+    h3 {
+      @include font(20,24,400);
+      font-style: italic;
+      display: inline-block;
+      margin:0;
+      padding:0;
+    }
+
+  }
+
+  .modal-buttons {
+      display: inline-block;
+      position: absolute;
+      z-index: 650;
+      top: 8px;
+      right: 8px;
+
+
+      .close-button-modal{
+        height: 35px;
+        width: 35px;
+        padding: 0;
+        border:none;
+        color:$brand-dark-color-1;
+
+        &:hover{
+          text-decoration: none;
+          border:none;
+        }
+
+        i.fa{
+          text-align: center;
+          margin:0px;
+          font-size: 20px;
+          line-height: 34px;
+          padding: 0;
+        }
+
+      }
+  }
+
+  .modal-hover-content {
+    background-color:#fff;
+    opacity:0.8;
+    text-align: center;
+    padding:0px 15px 25px;
+
+    @include mq(tablet){
+      padding:25px 15px 25px;
+    }
+
+
+  }
+
+  .setup-field {
+    padding: 8px 0;
+
+    .togglebutton label{
+      color:#2d2f31;
+    }
+
+    .form-group{
+      padding-left: 53px;
+    }
+
+    &.input-translated .form-group{
+      padding-left: 0px;
+    }
+  }
+
+  &.no-buttons {
+    .modal-header{
+      border-bottom: none;
+      background-color:#fff;
+      height: 0px;
+    }
+    .modal-content {
+      /*padding-bottom:0px;*/
+    }
+  }
+
+}
+
+.bootbox.modal {
+  z-index: 1100;
+
+  button {
+    @include round($button-radius);
+  }
+}

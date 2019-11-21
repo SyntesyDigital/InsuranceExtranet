@@ -1,0 +1,11 @@
+.press{
+  a:after {
+    content:'|';
+    padding-left: 6px;
+  }
+
+  a:last-child:after{
+    content:none;
+  }
+
+}
