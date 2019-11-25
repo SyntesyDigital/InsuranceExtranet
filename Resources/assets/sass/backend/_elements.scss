@@ -76,6 +76,14 @@ li{
 		span {
 			padding-left:5px;
 		}
+	}
+
+	.field-type {
+
+		&.large{
+			width:260px;
+			border-right: none;
+		}
 
 	}
 }

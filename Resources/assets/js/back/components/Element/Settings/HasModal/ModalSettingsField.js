@@ -2,15 +2,18 @@ import React, {Component} from 'react';
 import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
-import {openModalContents, clearContent, initContent,
-  contentUpdated, unselectContent,
-  initParameters,
-} from './../actions/';
+import {
+  openModalElements,
+  clearElement,
+  initElement,
+  elementUpdated,
+  unselectElement,
+  initElementParameters,
+} from './../../actions/';
 
-import ParametersButton from '../Parameters/ParametersButton';
+import ElementParametersButton from './ElementParametersButton';
 
-
-class LinkSettingsField extends Component {
+class ModalSettingsField extends Component {
 
   constructor(props) {
     super(props);
@@ -24,7 +27,7 @@ class LinkSettingsField extends Component {
     this.state = {
       checkbox : checkbox,
       display : display,
-      //content : null
+      //element : null
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -40,10 +43,10 @@ class LinkSettingsField extends Component {
     this.processProps(nextProps);
   }
 
-  loadContentParameters(contentId) {
+  loadElementParameters(elementId) {
 
-    var route = routes['extranet.content.parameters'].replace(':content',contentId);
-    //console.log("LinkSettingsField :: loadContentParameters :: ",route);
+    var route = routes['extranet.element.parameters'].replace(':element',elementId);
+    console.log("ModalSettingsField :: loadElementParameters :: ",route);
 
     var self = this;
 
@@ -52,10 +55,10 @@ class LinkSettingsField extends Component {
           if(response.status == 200
               && response.data !== undefined)
           {
-            //console.log("LinkSettingsField  :: data => ",response.data);
+            console.log("ModalSettingsField  :: data => ",response.data);
 
             //self.processData(response.data.modelValues);
-            self.props.initParameters(response.data);
+            self.props.initElementParameters(response.data);
           }
 
       }).catch(function (error) {
@@ -66,10 +69,10 @@ class LinkSettingsField extends Component {
   processProps(nextProps){
     var checkbox = null;
     var display = false;
-    var content = null;
+    var element = null;
     var initialised = false;
 
-    console.log("LinkSettingsField :: componentWillRecieveProps :: ",nextProps);
+    console.log("ModalSettingsField :: componentWillRecieveProps :: ",nextProps);
     //console.log(nextProps);
 
     if(nextProps.field != null && nextProps.field[nextProps.source] != null &&
@@ -79,52 +82,48 @@ class LinkSettingsField extends Component {
       display = true;
 
       /*
-      content = nextProps.field[nextProps.source][nextProps.name] == null ?
+      element = nextProps.field[nextProps.source][nextProps.name] == null ?
         null : nextProps.field[nextProps.source][nextProps.name];
       */
 
-      console.log("LinkSettingsField :: processProps : nextProps.contents.content => ", nextProps.contents.content);
-      //content came always from redux
-      content = nextProps.contents.content != null ?
-        nextProps.contents.content : null;
+      console.log("ModalSettingsField :: processProps : nextProps.elements.element => ", nextProps.elements.element);
+      //element came always from redux
+      element = nextProps.elements.element != null ?
+        nextProps.elements.element : null;
     }
 
-    //if field is different of null and needs update becaus content changed
-    console.log("LinkSettingsField :: need updated :: => checkbox => ", checkbox," , needupdate => ",nextProps.contents.needUpdate);
-    if(checkbox && nextProps.contents.needUpdate){
-      this.handleContentUpdate(content);
+    //if element changed
+    console.log("ModalSettingsField :: need updated :: => checkbox => ", checkbox," , needupdate => ",nextProps.elements.needUpdate);
+    if(checkbox && nextProps.elements.needUpdate){
+      this.handleElementUpdate(element);
     }
 
     this.setState({
       checkbox : checkbox,
       display : display,
-      //content : content
+      //element : element
     });
 
-
-    console.log("LinkSettingsField :: checkbox, display, ",checkbox, display);
 
     //check if state is changing
     if(nextProps.field == null && this.initialised){
       //destroying the component
-      console.log("LinkSettingsFieldStatus :: Destroying!");
+      console.log("ModalSettingsField :: Destroying!");
       this.initialised = false;
-      this.props.clearContent();
+      this.props.clearElement();
 
     }
     else if(nextProps.field != null && !this.initialised &&
       nextProps.field[nextProps.source][nextProps.name] !== undefined){
       //constructing the component
-      var newContent = nextProps.field[nextProps.source][nextProps.name];
-      console.log("LinkSettingsFieldStatus :: Constructing => ", newContent);
+      var newElement = nextProps.field[nextProps.source][nextProps.name];
+      console.log("ModalSettingsField :: Constructing => ", newElement);
       this.initialised = true;
-
-      if(newContent != null && newContent.id !== undefined && newContent.id != null){
-        this.props.initContent(newContent);
-        this.loadContentParameters(newContent.id);
+      if(newElement != null){
+        this.props.initElement(newElement);
+        this.loadElementParameters(newElement.id);
       }
     }
-
   }
 
   getDefaultValue() {
@@ -147,37 +146,37 @@ class LinkSettingsField extends Component {
     this.props.onFieldChange(field);
   }
 
-  handleContentUpdate(content) {
+  handleElementUpdate(element) {
 
-    console.log("LinkSettingsField :: handleContentUpdate => , initialised => ",this.initialised,"content =>", content);
+    console.log("ModalSettingsField :: handleElementUpdate => , initialised => ",this.initialised,"element =>", element);
 
     if(this.initialised) {
 
-        var contentValue = this.getDefaultValue();
+        var elementValue = this.getDefaultValue();
 
-        if(content != null){
-          contentValue = content;
-          this.loadContentParameters(content.id);
+        if(element != null){
+          elementValue = element;
+          this.loadElementParameters(element.id);
         }
 
         var field = {
           name : this.props.name,
           source : this.props.source,
-          value : contentValue
+          value : elementValue
         };
 
         //update the state for comparision
         /*
         this.setState({
-          content : content
+          element : element
         });
         */
 
-        //console.log("handleContentUpdate => ",field);
+        //console.log("handleElementUpdate => ",field);
 
         //propagate to main field
         this.props.onFieldChange(field);
-        this.props.contentUpdated();
+        this.props.elementUpdated();
     }
   }
 
@@ -193,42 +192,42 @@ class LinkSettingsField extends Component {
 
   }
 
-  onContentSelect(event) {
+  onElementSelect(event) {
     event.preventDefault();
 
-    this.props.openModalContents();
+    this.props.openModalElements();
   }
 
   onRemoveField(event) {
     event.preventDefault();
 
-    console.log("onRemoveField => ",this.props.contents.content);
-    this.props.unselectContent();
+    console.log("onRemoveField => ",this.props.elements.element);
+    this.props.unselectElement();
 
   }
 
   renderSelectedPage() {
 
-    const {content} = this.props.contents;
+    const {element} = this.props.elements;
 
-    if(content != null){
+    if(element != null){
       return (
         <div className="field-form fields-list-container">
 
           <div className="typology-field">
-            <div className="field-type">
-              <i className="far fa-file"></i>
-              &nbsp; {Lang.get('fields.page')}
+            <div className="field-type large">
+              <i className={element.icon}></i>
+              &nbsp; {element.title}
             </div>
 
             <div className="field-inputs">
               <div className="row">
                 <div className="field-name col-xs-6">
-                  {content.title ? content.title : ""}
+
                 </div>
 
                 <div className="field-name col-xs-6">
-                  <ParametersButton
+                  <ElementParametersButton
                   />
                 </div>
               </div>
@@ -246,7 +245,7 @@ class LinkSettingsField extends Component {
     else {
       return (
         <div className="add-content-button">
-          <a href="" className="btn btn-default" onClick={this.onContentSelect.bind(this)}><i className="fa fa-plus-circle"></i> {Lang.get('fields.select')} </a>
+          <a href="" className="btn btn-default" onClick={this.onElementSelect.bind(this)}><i className="fa fa-plus-circle"></i> {Lang.get('fields.select')} </a>
         </div>
       );
     }
@@ -290,33 +289,33 @@ class LinkSettingsField extends Component {
 
 const mapStateToProps = state => {
     return {
-        contents: state.contents,
+        elements: state.elements,
         app: state.app
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        initContent : (content) => {
-            return dispatch(initContent(content));
+        initElement : (element) => {
+            return dispatch(initElement(element));
         },
-        openModalContents : () => {
-            return dispatch(openModalContents());
+        openModalElements : () => {
+            return dispatch(openModalElements());
         },
-        clearContent : () => {
-            return dispatch(clearContent());
+        clearElement : () => {
+            return dispatch(clearElement());
         },
-        contentUpdated : () => {
-            return dispatch(contentUpdated());
+        elementUpdated : () => {
+            return dispatch(elementUpdated());
         },
-        unselectContent : () => {
-            return dispatch(unselectContent());
+        unselectElement : () => {
+            return dispatch(unselectElement());
         },
-        initParameters : (content) => {
-            return dispatch(initParameters(content))
+        initElementParameters : (element) => {
+            return dispatch(initElementParameters(element))
         }
 
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LinkSettingsField);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalSettingsField);
