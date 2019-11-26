@@ -185,7 +185,7 @@ export default class ElementTable extends Component {
 
       if(field.type == "date") {
           //console.log("renderCell => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != ""){
+          if(row.original[identifier] !== undefined && row.original[identifier] != "" && null !== row.original[identifier]){
 
             if(field.settings !== undefined && field.settings.format !== undefined){
               switch(field.settings.format) {
@@ -200,6 +200,8 @@ export default class ElementTable extends Component {
             }
 
             value = moment.unix(row.original[identifier]).format('DD/MM/YYYY')
+          }else{
+            value = '';
           }
       }
       if(field.type == "number") {
