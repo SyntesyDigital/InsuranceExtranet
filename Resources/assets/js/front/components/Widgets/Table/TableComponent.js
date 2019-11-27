@@ -42,7 +42,6 @@ export default class TableComponent extends Component {
             maxItems :  maxItems,
             filters : [],
             currPage:1,
-            modelValuesPaginated:[],
             loading : true,
             loadingData : true,
             filterable : false,
@@ -51,17 +50,36 @@ export default class TableComponent extends Component {
             defaultDataLoadStep:defaultDataLoadStep,
             model : model,
 
+            //iterator
             pageLimit : pageLimit,
             currentPage : 2,
             totalPages : 0,
-            dataProcessing : []
         };
+    }
+
+    refreshTable() {
+      console.log("refreshTable");
+
+      var self = this;
+
+      this.setState({
+        data:[],
+        currPage:1,
+        loading : true,
+        loadingData : true,
+        currentPage : 2,
+        totalPages : 0
+      },function(){
+          self.query();
+      })
+
     }
 
     componentDidMount() {
 
         this.processColumns();
         var self = this;
+
         $(document).on('click','.modal-link',function(e){
 
           e.preventDefault();

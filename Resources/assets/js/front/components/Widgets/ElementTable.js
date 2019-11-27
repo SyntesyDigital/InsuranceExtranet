@@ -25,13 +25,14 @@ export default class ElementTable extends Component {
           displayModal : false,
           modalUrl : null
         };
+        this.tableRef = React.createRef();
     }
 
     /**
     * Open modal with url [element_id]?[params]
     */
     handleOpenModal(elementUrl){
-      console.log("ElementTable :: handleOpenModal : ",elementUrl);
+      //console.log("ElementTable :: handleOpenModal : ",elementUrl);
 
       this.setState({
         displayModal : true,
@@ -45,6 +46,15 @@ export default class ElementTable extends Component {
       });
     }
 
+    handleFormFinished() {
+
+      this.setState({
+        displayModal : false
+      });
+
+      this.tableRef.current.refreshTable();
+    }
+
     render() {
         return (
             <div>
@@ -56,9 +66,11 @@ export default class ElementTable extends Component {
                 onModalClose={this.handleModalClose.bind(this)}
                 modalUrl={this.state.modalUrl}
                 onOpenModal={this.handleOpenModal.bind(this)}
+                onFormFinished={this.handleFormFinished.bind(this)}
               />
 
               <TableComponent
+                ref={this.tableRef}
                 //field={this.props.field}
                 elementObject={this.props.elementObject}
                 model={this.props.model}

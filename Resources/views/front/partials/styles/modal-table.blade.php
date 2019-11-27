@@ -2,13 +2,14 @@
 
   /* Modal Table Component  */
   #modal-table-component.custom-modal .modal-content {
+    border-top-left-radius :{{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
     border-bottom-left-radius : {{$buttonRadius}};
     border-bottom-right-radius: {{$buttonRadius}};
   }
 
   #modal-table-component.custom-modal .modal-header {
-    border-top-left-radius :{{$buttonRadius}};
-    border-top-right-radius: {{$buttonRadius}};
+
   }
 
   /* Override .form-component methods */

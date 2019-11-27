@@ -221,10 +221,9 @@
   .react-datepicker__time-container {
     width: 100px;
   }
-}
 
-@media (min-width: 768px){
-  .element-form-container{
+
+  @media (min-width: 768px){
     .element-form-row{
       label{
         float: right;
@@ -240,4 +239,27 @@
       }
     }
   }
+}
+
+.modal-list-field {
+
+  .modal-container {
+      overflow-x: auto;
+      //padding: 40px 40px;
+  }
+
+  .modal-body {
+    padding: 15px;
+    padding-bottom: 80px;
+  }
+
+  .modal-content {
+      height:auto;
+      padding-bottom: 0px;
+      border-top-left-radius : 12px;
+      border-top-right-radius: 12px;
+      border-bottom-left-radius : 12px;
+      border-bottom-right-radius: 12px;
+  }
+
 }

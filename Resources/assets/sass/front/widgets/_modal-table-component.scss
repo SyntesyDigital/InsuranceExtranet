@@ -8,6 +8,8 @@
   .modal-content {
       height:auto;
       padding-bottom: 0px;
+      border-top-left-radius : 12px;
+      border-top-right-radius: 12px;
       border-bottom-left-radius : 12px;
       border-bottom-right-radius: 12px;
 
@@ -23,11 +25,9 @@
       border: none;
   }
 
-  .modal-header {
-    border-top-left-radius : 12px;
-    border-top-right-radius: 12px;
+  .modal-body {
+    padding:0;
   }
-
 
   .file-component {
     padding: 15px;
@@ -62,7 +62,38 @@
 
     }
 
+    .modal-list-field {
+      .modal-container {
+        padding: 40px 40px;
 
+        @include mq(tablet) {
+          padding: 40px 20%;
+        }
+      }
+      .modal-body {
+        padding: 15px;
+      }
+      .modal-footer {
+        position: relative;
+        background-color: transparent;
+        height: auto;
+        padding: 15px;
+        border-top: 1px solid #ccc;
+
+        a.btn-primary {
+          color:#fff;
+          &:hover {
+            color:#fff;
+          }
+        }
+
+      }
+      a.close-button-modal {
+        &:hover{
+          border:none;
+        }
+      }
+    }
   }
 
 }

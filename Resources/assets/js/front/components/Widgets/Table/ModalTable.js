@@ -100,7 +100,6 @@ class ModalTable extends Component {
   onModalClose(e){
       e.preventDefault();
       this.props.onModalClose();
-
   }
 
   modalOpen()
@@ -134,7 +133,8 @@ class ModalTable extends Component {
   }
 
   handleFormFinished() {
-    this.props.onModalClose();
+    //this.props.onModalClose();
+    this.props.onFormFinished();
   }
 
   renderElement() {
@@ -168,12 +168,16 @@ class ModalTable extends Component {
     }
     else if(element.type == "form") {
       return (
-        <FormComponent
-          elementObject={this.state.element}
-          parameters={this.state.parameters}
-          finalRedirectUrl={""}
-          onFormFinished={this.handleFormFinished.bind(this)}
-        />
+        <div className="row">
+          <div className="col-xs-12 col-md-10 col-md-offset-1">
+            <FormComponent
+              elementObject={this.state.element}
+              parameters={this.state.parameters}
+              finalRedirectUrl={""}
+              onFormFinished={this.handleFormFinished.bind(this)}
+            />
+          </div>
+        </div>
       );
     }
 
@@ -194,27 +198,32 @@ class ModalTable extends Component {
 
 
           <div className="modal-container">
-            <div className="modal-header">
-              {this.renderHeader()}
-
-              <div className="modal-buttons">
-                <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
-                  <i className="fa fa-times"></i>
-                </a>
-              </div>
-            </div>
 
             <div className="modal-content">
 
-              {this.renderElement()}
+              <div className="modal-header">
+                {this.renderHeader()}
 
-              {/*
-              <div className="row">
-                <div className="col-xs-12 col-md-10 col-md-offset-1">
-
+                <div className="modal-buttons">
+                  <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
+                    <i className="fa fa-times"></i>
+                  </a>
                 </div>
               </div>
-              */}
+
+              <div className="modal-body">
+
+                {this.renderElement()}
+
+                {/*
+                <div className="row">
+                  <div className="col-xs-12 col-md-10 col-md-offset-1">
+
+                  </div>
+                </div>
+                */}
+
+              </div>
 
               <div className="modal-footer">
 

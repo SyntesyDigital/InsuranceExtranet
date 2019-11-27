@@ -11,8 +11,7 @@
   @endphp
 @endif
 
-
-@php
+<?php
 
   /*GENERAL*/
     $primaryColor=isset($storedStylesFront['frontPrimary']) ? $storedStylesFront['frontPrimary']->value :'#2A3649';
@@ -79,188 +78,17 @@
 
 
     $fonts = config('fonts');
-@endphp
+?>
 
 <style type="text/css">
 
-  /* HEADER */
-  header:first-child .row.row-header .logo-container{
-    background-color: {{$headerLogoBackgroundColor}};
-  }
 
-  header:first-child .row.row-header .right-part-header{
-    background-color: {{$headerRightPartBackgroundColor}};
-    color: {{$headerRightPartTextColor}};
-  }
-
-  header:first-child .row.row-header .right-part-header.login-header {
-    background-color: {{$headerLogoBackgroundColor}};
-  }
-
-  header:first-child .row.row-header .right-part-header .user-info .button-header-container .btn-header{
-    border:1px solid {{$headerButtonColor}};
-    color:{{$headerButtonColor}};
-
-    border-radius: {{$buttonRadius}};
-  }
-
-  header:first-child .row.row-header .right-part-header .user-info .button-header-container .btn-header:hover{
-    border:1px solid {{$headerHoverColor}};
-    color:{{$headerHoverColor}};
-  }
-
-  header:first-child .navbar-toggle .icon-bar{
-    background: {{$headerRightPartTextColor}};
-  }
-
-  /*SIDEBAR */
-  .sidebar{
-    background-color: {{$sidebarBackgroundColor}};
-    color:{{$sidebarColor}};
-  }
-  .sidebar ul li:hover, .sidebar ul li.active{
-    background-color: {{$sidebarActiveBackgroundColor}};
-    border-left: 4px solid {{$sidebarActiveColor}};
-  }
-  .sidebar ul li:hover a, .sidebar ul li.active a{
-    color:{{$sidebarActiveColor}};
-  }
-  .sidebar ul li a{
-    color:{{$sidebarColor}};
-  }
-  .sidebar ul li a:hover{
-    color:{{$sidebarActiveColor}};
-  }
-
-
-  /*FOOTER */
-  footer{
-    background-color: {{$footerBackgroundColor}};
-    border-top:1px solid {{$separatorLineColor}};
-  }
-  footer p{
-    color:{{$footerTextColor}};
-  }
-  footer ul li{
-    color:{{$footerTextColor}};
-  }
-  footer ul li a{
-    color:{{$footerTextColor}};
-  }
-  footer ul li a:hover{
-    color:{{$footerHoverTextColor}};
-  }
-
-  /*FOOTER */
-  body {
-    background-color: {{$bodyBackgroundColor}};
-    color:{{$bodyTextColor}};
-  }
-
-  /*PAGE*/
-  .page-builder h1{
-    color:{{$frontBodyH1Color}};
-  }
-  .page-builder h2{
-    color:{{$frontBodyH2Color}};
-  }
-  .page-builder h3{
-    color:{{$frontBodyH3Color}};
-  }
-
-
-  /*FILES*/
-
-  .element-file-container{
-    border-radius: {{$buttonRadius}};
-  }
-  .element-file-container .element-file-container-head{
-    background-color: {{$elementHeadBackground}};
-    color:{{$elementHeadColor}};
-    font-size:{{$titlesFontSize}};
-    padding-bottom:20px;
-  }
-
-  .element-file-container .element-collapsable.element-file-container-head{
-    background-color: {{$frontElementHeadCollapsableBackground}};
-    color: {{$elementHeadCollapsableColor}};
-    font-size: {{$titleCollapsableFontSize}};
-    padding-bottom:10px;
-  }
-
-  .element-file-container .element-file-container-body{
-    background-color: {{$elementBackground}};
-    border: 1px solid {{$elementBorder}};
-  }
-  .element-file-container .element-file-container-body .element-file-input-container{
-    border-bottom: 1px solid {{$elementBackground}};
-  }
-
-  .element-collapsable{
-    cursor: pointer;
-  }
-  .element-collapsable.collapsed:before{
-    color:{{$elementHeadColor}};
-  }
-  .element-collapsable:before{
-    color:{{$elementHeadColor}};
-  }
-
-  .more-btn{
-    background-color:{{$elementBackground}};
-  }
-  .more-btn  a {
-    border-radius: {{$buttonRadius}};
-    color:{{$elementLinkColor}};
-    border: 1px solid {{$elementLinkColor}};
-  }
-  .more-btn  a:hover{
-    color:{{$elementLinkHoverColor}};
-    border: 1px solid {{$elementLinkHoverColor}};
-  }
-
-
-  .total-box-container-a{
-    color:{{$elementLinkColor}};
-  }
-
-  .total-box-container{
-    color:{{$elementColor}};
-    border-radius: {{$buttonRadius}};
-  }
-
-  .box-button-container-a .box-button-container:hover{
-    color:{{$elementButtonHoverColor}};
-    /*
-    border: 1px solid {{$elementButtonHoverColor}};
-    */
-  }
-
-  .box-button-container{
-    color:{{$elementButtonColor}};
-    /*border: 1px solid {{$elementButtonColor}};*/
-    border-radius: {{$buttonRadius}};
-  }
-
-  .static-banner{
-    border-radius: {{$buttonRadius}};
-    background-color:{{$sidebarBackgroundColor}}
-  }
-  .static-banner .text-static-banner h1, .static-banner .text-static-banner a{
-    color: {{$buttonPrimaryColor}};
-  }
-
-  /* button primary */
-  .box-button-container,.box-button-container-a {
-    color: {{$buttonPrimaryColor}};
-  }
-
-  .box-button-container-a .box-button-container:hover {
-    color: {{$buttonHoverColor}};
-  }
 
 </style>
 
+@include('extranet::front.partials.styles.layout')
+@include('extranet::front.partials.styles.page-builder')
+@include('extranet::front.partials.styles.element-file')
 @include('extranet::front.partials.styles.element-form')
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
