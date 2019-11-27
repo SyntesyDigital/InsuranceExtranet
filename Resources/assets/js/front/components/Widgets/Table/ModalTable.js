@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { render } from 'react-dom';
 
 import TableComponent from './TableComponent';
+import FileComponent from './../File/FileComponent';
+import FormComponent from './../Form/FormComponent';
 
 class ModalTable extends Component {
 
@@ -33,6 +35,7 @@ class ModalTable extends Component {
 
   static getDerivedStateFromProps(props, state) {
     //update state with new props
+    /*
     if(!props.display){
       return {
         ...state,
@@ -41,6 +44,7 @@ class ModalTable extends Component {
         parameters : ''
       }
     }
+    */
 
     return null;
   }
@@ -59,11 +63,19 @@ class ModalTable extends Component {
 
   loadElement(modalUrl) {
 
-      var urlArray = modalUrl.split('?');
+      //console.log("loadElement :: ",modalUrl.split('?'));
+      var modelId = modalUrl;
+      var parameters = "";
+
+      if(typeof modalUrl === 'string' && modalUrl.indexOf("?") != -1){
+        var urlArray = modalUrl.split('?');
+        modelId = urlArray[0];
+        parameters = urlArray[1];
+      }
 
       var self = this;
 
-      axios.get('/architect/extranet/element-modal/'+urlArray[0])
+      axios.get('/architect/extranet/element-modal/'+modelId)
         .then(function(response) {
             if(response.status == 200
                 && response.data !== undefined)
@@ -73,7 +85,7 @@ class ModalTable extends Component {
               self.setState({
                 model : response.data.model,
                 element : response.data.element,
-                parameters : urlArray[1],
+                parameters : parameters,
                 loading : false
               });
 
@@ -104,6 +116,11 @@ class ModalTable extends Component {
     var self = this;
       TweenMax.to($("#"+this.props.id),0.5,{display:"none",opacity:0,ease:Power2.easeInOut,onComplete:function(){
         $('body').css({overflow:'auto'});
+        self.setState({
+          model : null,
+          element : null,
+          parameters : ''
+        });
       }});
   }
 
@@ -114,6 +131,10 @@ class ModalTable extends Component {
     return (
       <h2><i className={this.state.element.icon}></i> {this.state.element.name}</h2>
     )
+  }
+
+  handleFormFinished() {
+    this.props.onModalClose();
   }
 
   renderElement() {
@@ -128,10 +149,30 @@ class ModalTable extends Component {
         <TableComponent
           elementObject={this.state.element}
           model={this.state.model}
-          pagination={25}
-          itemsPerPage={25}
+          pagination={10}
+          itemsPerPage={10}
           onOpenModal={this.props.onOpenModal}
           parameters={this.state.parameters}
+        />
+      );
+    }
+    else if(element.type == "file") {
+      return (
+        <FileComponent
+          elementObject={this.state.element}
+          model={this.state.model}
+          doubleColumn={true}
+          parameters={this.state.parameters}
+        />
+      );
+    }
+    else if(element.type == "form") {
+      return (
+        <FormComponent
+          elementObject={this.state.element}
+          parameters={this.state.parameters}
+          finalRedirectUrl={""}
+          onFormFinished={this.handleFormFinished.bind(this)}
         />
       );
     }
@@ -165,11 +206,15 @@ class ModalTable extends Component {
 
             <div className="modal-content">
 
+              {this.renderElement()}
+
+              {/*
               <div className="row">
                 <div className="col-xs-12 col-md-10 col-md-offset-1">
-                  {this.renderElement()}
+
                 </div>
               </div>
+              */}
 
               <div className="modal-footer">
 

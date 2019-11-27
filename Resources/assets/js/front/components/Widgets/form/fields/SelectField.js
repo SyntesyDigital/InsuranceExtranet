@@ -8,7 +8,7 @@ import {
 
 import {
   parameteres2Array
-} from './../actions/';
+} from './../functions/';
 
 class SelectField extends Component
 {

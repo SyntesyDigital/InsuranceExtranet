@@ -206,7 +206,6 @@
     color:{{$elementHeadColor}};
   }
 
-
   .more-btn{
     background-color:{{$elementBackground}};
   }
@@ -219,131 +218,6 @@
     color:{{$elementLinkHoverColor}};
     border: 1px solid {{$elementLinkHoverColor}};
   }
-
-
-  /*FORMS*/
-  .element-form-container a.btn-default {
-    border-radius: {{$buttonRadius}};
-    color:{{$elementColor}};
-    border: 1px solid {{$elementColor}};
-  }
-  .element-form-container a.btn-default:hover{
-    color:{{$elementLinkHoverColor}};
-    border: 1px solid {{$elementLinkHoverColor}};
-  }
-
-  .element-form-container a.btn-primary {
-    border-radius: {{$buttonRadius}};
-  }
-  .element-form-container a.btn-link{
-    color:{{$elementColor}};
-  }
-
-  .element-form-container .element-form-container-head{
-    background-color: {{$elementHeadBackground}};
-    color:{{$elementHeadColor}};
-    border-bottom: 1px solid {{$elementBorder}};
-    border-top-left-radius: {{$buttonRadius}};
-    border-top-right-radius: {{$buttonRadius}};
-    font-size:{{$titlesFontSize}};
-    padding-bottom:20px;
-  }
-
-  .element-form-container .element-collapsable.element-form-container-head{
-    background-color: {{$frontElementHeadCollapsableBackground}};
-    color: {{$elementHeadCollapsableColor}};
-    font-size: {{$titleCollapsableFontSize}};
-    padding-bottom:10px;
-  }
-
-
-  .element-form-container .element-form-container-head.collapsed{
-    border-bottom-left-radius: {{$buttonRadius}};
-    border-bottom-right-radius: {{$buttonRadius}};
-  }
-
-  .element-form-container .element-collapsable.element-form-container-head.collapsed {
-    background-color: {{$frontElementHeadCollapsableBackground}};
-    color:{{$elementHeadColor}};
-
-  }
-
-
-  .element-form-container .element-form{
-    background-color:{{$elementBackground}};
-    color:{{$elementColor}};
-    border-bottom-left-radius: {{$buttonRadius}};
-    border-bottom-right-radius: {{$buttonRadius}};
-    border-top-left-radius: {{$buttonRadius}};
-    border-top-right-radius: {{$buttonRadius}};
-
-  }
-
-  .element-form-container .element-form-container-body.collapse .element-form{
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-
-  .element-form-container .element-form-row label span{
-    color:{{$elementLinkHoverColor}};
-  }
-  .element-form-container .element-form-row .buttons .btn-back{
-    border:1px solid {{$elementColor}};
-  }
-  .element-form-container .element-form-row .buttons .btn-back:hover{
-    background-color: {{$elementBackground}};
-    border-color: {{$elementBackground}};
-    color: {{$elementColor}};
-  }
-
-  /*TABLES*/
-  .element-table-container{
-    border-radius: {{$buttonRadius}};
-  }
-  .element-table-container .element-table-container-body{
-    border-radius: {{$buttonRadius}};
-  }
-  .element-table-container .element-table-container-head{
-    background-color: {{$elementHeadBackground}};
-    border-bottom: 1px solid {{$elementBorder}};
-    color:{{$elementHeadColor}};
-    font-size:{{$titlesFontSize}};
-    padding-bottom:20px;
-  }
-
-  .element-table-container .element-collapsable.element-table-container-head{
-    background-color: {{$frontElementHeadCollapsableBackground}};
-    color: {{$elementHeadCollapsableColor}};
-    font-size: {{$titleCollapsableFontSize}};
-    padding-bottom:10px;
-  }
-
-  .element-table-container .element-collapsable.element-table-container-head{
-    background-color: {{$frontElementHeadCollapsableBackground}};
-  }
-
-  .element-table-container .elementTable{
-    background-color:{{$elementBackground}};
-    color:{{$elementColor}};
-  }
-  .element-table-container .elementTable a{
-    color:{{$elementLinkColor}};
-  }
-  .element-table-container .elementTable a:hover{
-    color:{{$elementLinkHoverColor}};
-  }
-
-  .element-table-container .elementTable .navigation li a{
-    color:{{$elementColor}};
-  }
-
-  .element-table-container .elementTable .navigation li.active, .element-table-container .elementTable .navigation li:hover{
-    background-color: {{$elementBackground}};
-  }
-  .element-table-container .elementTable .navigation li.active a, .element-table-container .elementTable .navigation li:hover a{
-    color: {{$elementColor}};
-  }
-
 
 
   .total-box-container-a{
@@ -376,7 +250,6 @@
     color: {{$buttonPrimaryColor}};
   }
 
-
   /* button primary */
   .box-button-container,.box-button-container-a {
     color: {{$buttonPrimaryColor}};
@@ -387,6 +260,10 @@
   }
 
 </style>
+
+@include('extranet::front.partials.styles.element-form')
+@include('extranet::front.partials.styles.element-table')
+@include('extranet::front.partials.styles.modal-table')
 
 @if($frontFont)
   <style>
