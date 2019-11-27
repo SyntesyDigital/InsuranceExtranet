@@ -1,4 +1,4 @@
-<style type="text/css">
+ <style type="text/css">
 
 /*TABLES*/
 .element-table-container{
