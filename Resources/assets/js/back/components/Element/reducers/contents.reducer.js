@@ -150,7 +150,7 @@ function contentsReducer(state = initialState, action) {
         case PARAMETERS_INIT :
 
             //update content with values
-            var parameters = getParameters(action.payload);            
+            var parameters = getParameters(action.payload);
             console.log("ContentsReducer :: parameters => ",parameters);
             var newContent = mergeContentInfo(content, action.payload, parameters);
 

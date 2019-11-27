@@ -41,6 +41,11 @@ class ElementController extends Controller
         return view('extranet::elements.index');
     }
 
+    public function getDataTable(Request $request)
+    {
+        return $this->elements->getDatatable();
+    }
+
     public function data(Request $request)
     {
       switch($request->get('q')) {
@@ -543,6 +548,27 @@ class ElementController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function getElementParameters(Element $element,Request $request)
+    {
+        $element->parameters = $element->getParameters();
+
+        return response()->json($element);
+    }
+
+    public function getElementForModal(Element $element,Request $request)
+    {
+        $element->load('fields','attrs');
+        $models = $this->elements->getModelsByType($element->type);
+        $model = $this->getModelById($models,$element->model_identifier);
+
+        $data = [
+          'element' => $element,
+          'model' => $model
+        ];
+
+        return response()->json($data);
     }
 
 }

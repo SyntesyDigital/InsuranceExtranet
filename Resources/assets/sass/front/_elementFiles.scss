@@ -21,19 +21,23 @@
       @include round(0);
     }
 
-    .element-file-input-container{
-      padding:7px 0px;
-      margin:5px 0;
-      overflow: hidden;
-      border-bottom: 1px solid $sidebar-background-color;
-      .element-file-title{
-        @include font(14,19,600);
-        padding:0;
-      }
-      .element-file-content{
-        @include font(14,19,400);
-        padding:0;
-      }
+
+  }
+}
+
+.file-component {
+  .element-file-input-container{
+    padding:7px 0px;
+    margin:5px 0;
+    overflow: hidden;
+    border-bottom: 1px solid $sidebar-background-color;
+    .element-file-title{
+      @include font(14,19,600);
+      padding:0;
+    }
+    .element-file-content{
+      @include font(14,19,400);
+      padding:0;
     }
   }
 }

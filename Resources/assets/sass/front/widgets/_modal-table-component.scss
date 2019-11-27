@@ -1,0 +1,99 @@
+#modal-table-component.custom-modal {
+
+  .modal-container {
+      overflow-x: auto;
+      padding: 40px 40px;
+  }
+
+  .modal-content {
+      height:auto;
+      padding-bottom: 0px;
+      border-top-left-radius : 12px;
+      border-top-right-radius: 12px;
+      border-bottom-left-radius : 12px;
+      border-bottom-right-radius: 12px;
+
+      .pagination-bottom {
+          background: transparent;
+          border: none;
+      }
+  }
+
+  .modal-footer {
+      height: 0px;
+      padding: 0;
+      border: none;
+  }
+
+  .modal-body {
+    padding:0;
+  }
+
+  .file-component {
+    padding: 15px;
+
+    @include mq(tablet){
+      padding: 30px;
+    }
+  }
+
+  .form-component {
+    padding: 15px;
+
+    @include mq(tablet){
+      padding: 30px;
+    }
+
+    a {
+      &.btn-default {
+        color:$primary-color;
+        &:hover{
+          color:$secondary-color;
+          border: 1px solid $secondary-color;
+        }
+      }
+      &.btn-link{
+        text-decoration: none;
+        color:$primary-color;
+      }
+      &.btn-danger{
+        color:$brand-danger;
+      }
+
+    }
+
+    .modal-list-field {
+      .modal-container {
+        padding: 40px 40px;
+
+        @include mq(tablet) {
+          padding: 40px 20%;
+        }
+      }
+      .modal-body {
+        padding: 15px;
+      }
+      .modal-footer {
+        position: relative;
+        background-color: transparent;
+        height: auto;
+        padding: 15px;
+        border-top: 1px solid #ccc;
+
+        a.btn-primary {
+          color:#fff;
+          &:hover {
+            color:#fff;
+          }
+        }
+
+      }
+      a.close-button-modal {
+        &:hover{
+          border:none;
+        }
+      }
+    }
+  }
+
+}

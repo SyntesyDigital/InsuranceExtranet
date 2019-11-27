@@ -3,17 +3,17 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
 import {
-  closeModalParameters,
-  updateParameter
-} from './../actions/';
+  closeModalElementParameters,
+  updateElementParameter
+} from './../../actions/';
 
 import {
   isRequired,
   getRequiredIcon,
   checkValidParameters
-} from './../functions/';
+} from './../../functions/';
 
-class ModalParameters extends Component {
+class ModalElementParameters extends Component {
 
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ class ModalParameters extends Component {
     this.onModalClose = this.onModalClose.bind(this);
 
     this.state = {
-      id : 'modal-parameters',
+      id : 'modal-element-parameters',
       isOpen : false,
       zIndex : 13000
     };
@@ -37,7 +37,7 @@ class ModalParameters extends Component {
   onModalClose(e) {
     e.preventDefault();
 
-    this.props.closeModalParameters();
+    this.props.closeModalElementParameters();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,14 +84,14 @@ class ModalParameters extends Component {
 
   renderOptions() {
     return this.props.app.fieldsList.map((item,index) =>
-      <option value={item.identifier} key={index}>{item.name} ({item.identifier})</option>
+      <option value={item.identifier} key={index}>{item.name} ( {item.identifier} )</option>
     )
   }
 
   onChangeParameter(item,event) {
     //console.log("ModalParameters :: onChangeParameter => ",item,event.target.value);
     item.value = event.target.value;
-    this.props.updateParameter(item);
+    this.props.updateElementParameter(item);
   }
 
   renderParameters(params) {
@@ -127,10 +127,10 @@ class ModalParameters extends Component {
 
   render() {
 
-    const params = this.props.contents.content != null &&
-      this.props.contents.content.params != null &&
-      this.props.contents.content.params instanceof Array ?
-      this.props.contents.content.params : [];
+    const params = this.props.elements.element != null &&
+      this.props.elements.element.params != null &&
+      this.props.elements.element.params instanceof Array ?
+      this.props.elements.element.params : [];
 
     console.log("ModalParameteres :: params => ",params);
 
@@ -143,7 +143,7 @@ class ModalParameters extends Component {
             <div className="modal-container">
               <div className="modal-header">
 
-                  <h2>Sélectionner des paramètres</h2> &nbsp;&nbsp;
+                  <h2>Sélectionner des paramètres </h2> &nbsp;&nbsp;
                   {!valid &&
                   <span className="text-danger">
                     <i className="fas fa-exclamation-triangle"></i>
@@ -187,20 +187,20 @@ class ModalParameters extends Component {
 const mapStateToProps = state => {
     return {
         app: state.app,
-        contents: state.contents,
-        display: state.contents.displayParameters,
+        elements: state.elements,
+        display: state.elements.displayParameters,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        closeModalParameters: () => {
-            return dispatch(closeModalParameters());
+        closeModalElementParameters: () => {
+            return dispatch(closeModalElementParameters());
         },
-        updateParameter: (parameter) => {
-            return dispatch(updateParameter(parameter));
+        updateElementParameter: (parameter) => {
+            return dispatch(updateElementParameter(parameter));
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalParameters);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalElementParameters);
