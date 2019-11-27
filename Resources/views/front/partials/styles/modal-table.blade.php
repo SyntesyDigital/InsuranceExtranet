@@ -9,7 +9,8 @@
   }
 
   #modal-table-component.custom-modal .modal-header {
-
+    border-top-left-radius :{{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
   }
 
   /* Override .form-component methods */
