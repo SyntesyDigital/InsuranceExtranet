@@ -88,7 +88,8 @@ class ModelValuesFormatTransformer extends Resource
 
           //process parameters with model model values
           $currentRouteParameters = $this->processParameters2Array(
-            $this->routeParameters,
+            //$this->routeParameters,
+            [],
             $hasModal['params'],
             $modelValue
           );
