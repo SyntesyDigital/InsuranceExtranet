@@ -19,6 +19,9 @@ import ModalContents from './Contents/ModalContents';
 import ModalParameters from './Parameters/ModalParameters';
 
 
+import ModalElements from './Settings/HasModal/ModalElements';
+import ModalElementParameters from './Settings/HasModal/ModalElementParameters';
+
 class ElementForm extends Component {
 
     constructor(props) {
@@ -82,11 +85,17 @@ class ElementForm extends Component {
 
               <ElementModal />
 
+              {/* HasModal Settings Modals */}
+              <ModalElementParameters />
+              <ModalElements />
+
+              {/* HasLink Settings Modals */}
+              <ModalContents />
+              <ModalParameters />
+
+              {/* Modal to edit Element parameters settings */}
               <ElementParametersModal />
 
-              <ModalContents />
-
-              <ModalParameters />
 
               <div className="col-md-9 page-content">
                 {

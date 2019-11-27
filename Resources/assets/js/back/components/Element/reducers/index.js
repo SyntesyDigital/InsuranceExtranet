@@ -3,10 +3,12 @@ import appReducer from './app.reducer';
 import contentsReducer from './contents.reducer';
 import fontawesomeReducer from './fontawesome.reducer';
 import elementParametersReducer from './elementParameters.reducer';
+import elementsReducer from './elements.reducer';
 
 export default combineReducers({
     app: appReducer,
     contents: contentsReducer,
     fontawesome : fontawesomeReducer,
-    elementParameters : elementParametersReducer
+    elementParameters : elementParametersReducer,
+    elements : elementsReducer,
 });

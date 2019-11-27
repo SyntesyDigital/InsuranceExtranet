@@ -75,6 +75,34 @@ class ModelValuesFormatTransformer extends Resource
       return '<a href="'.$url.'">'.$value.'</a>';
     }
 
+    private function processElement($hasModal,$modelValue,$value)
+    {
+
+      if(isset($hasModal['id'])){
+
+        $url = $hasModal['id'];
+        //process parameters
+        if($hasModal['params'] != null && sizeof($hasModal['params']) > 0){
+
+          $url.="?";
+
+          //process parameters with model model values
+          $currentRouteParameters = $this->processParameters2Array(
+            $this->routeParameters,
+            $hasModal['params'],
+            $modelValue
+          );
+          $url .= $this->arrayToUrl($currentRouteParameters);
+        }
+
+      }
+
+      //add the route paramteres
+
+      return $url;
+    }
+
+
     /**
     *  InitArray is the array with already set parameters.
     *  Process page parameters with model values.
@@ -117,9 +145,6 @@ class ModelValuesFormatTransformer extends Resource
 
       $result = [];
       $i = 0;
-
-      //dd($modelValues,$elementFields);
-
 
       try {
 
@@ -217,6 +242,21 @@ class ModelValuesFormatTransformer extends Resource
                   $result[$i][$elementField->identifier] = $link;
                 }
 
+              }
+              else if(isset($elementField->settings) &&
+                isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
+                && isset($elementField->settings['hasModal']['id'])
+              ){
+
+                $link = $this->processElement(
+                  $elementField->settings['hasModal'],
+                  $modelValue,
+                  $result[$i][$elementField->identifier]
+                );
+
+                //get link with format [value];[id]?[params]
+                $result[$i][$elementField->identifier] =
+                    $result[$i][$elementField->identifier].";".$link;
               }
 
             }

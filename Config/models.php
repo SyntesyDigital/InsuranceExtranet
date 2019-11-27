@@ -23,7 +23,8 @@ return [
           'format',
           'maxLength',
           'hasRoute',
-          'conditionalVisibility'
+          'hasModal',
+          'conditionalVisibility',
         ]
       ],
       'number' => [
@@ -44,6 +45,7 @@ return [
         'settings' => [
           'format',
           'hasRoute',
+          'hasModal',
           'conditionalVisibility'
         ]
       ],

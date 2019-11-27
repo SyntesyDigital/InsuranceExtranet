@@ -5,7 +5,7 @@ import TextField from './TextField';
 
 import {
   getFieldComponent
-} from './../actions/';
+} from './../functions/';
 
 class ModalListField extends Component {
 

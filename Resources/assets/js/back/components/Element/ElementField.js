@@ -217,7 +217,7 @@ class ElementField extends Component {
 				for(var key in this.props.settings){
 					if(this.props.settings[key] != null && this.props.settings[key] != false){
 						configured = true;
-						if(key == "hasRoute"){
+						if(key == "hasRoute" || key == "hasModal"){
 							hasRoute = true;
 						}
 					}
