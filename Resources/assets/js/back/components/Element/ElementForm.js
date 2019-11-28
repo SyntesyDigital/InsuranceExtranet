@@ -27,7 +27,7 @@ class ElementForm extends Component {
     constructor(props) {
       super(props);
 
-      console.log("parameters list =>",props.parametersList);
+      //console.log("parameters list =>",props.parametersList);
 
 			//init redux state with component parameters
 			var data = {
@@ -38,7 +38,7 @@ class ElementForm extends Component {
         wsModelIdentifier :  props.wsModelIdentifier ? props.wsModelIdentifier : null,
         wsModel :  props.wsModel ? props.wsModel : null,
         wsModelFormat :  props.wsModelFormat ? props.wsModelFormat : null,
-        wsModelExemple :  props.wsModelExemple ? props.wsModelExemple : null,
+        wsModelExemple :  props.wsModelExemple ? props.wsModelExemple : '',
         elementType :  props.elementType ? props.elementType : null,
         parametersList: props.parametersList ? JSON.parse(atob(props.parametersList)) : [],
         parameters: props.parameters ? JSON.parse(atob(props.parameters)) : [],

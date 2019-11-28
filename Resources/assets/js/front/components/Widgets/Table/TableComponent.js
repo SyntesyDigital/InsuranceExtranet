@@ -213,18 +213,28 @@ export default class TableComponent extends Component {
           if(row.original[identifier] !== undefined && row.original[identifier] != ""){
 
             if(field.settings !== undefined && field.settings.format !== undefined){
+              console.log(field.settings.format)
               switch(field.settings.format) {
+                case 'day_month':
+                  value = moment.unix(row.original[identifier]).format('DD/MM');
+                  break;
                 case 'day_month_year':
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY')
+                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
+                  break;
                 case 'month_year':
-                  value = moment.unix(row.original[identifier]).format('MM/YYYY')
+                  value = moment.unix(row.original[identifier]).format('MM/YYYY');
+                  break;
                 case 'year':
-                  value = moment.unix(row.original[identifier]).format('YYYY')
+                  value = moment.unix(row.original[identifier]).format('YYYY');
+                  break;
+                default  :
+                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
+                  break;
               }
-
             }
-
-            value = moment.unix(row.original[identifier]).format('DD/MM/YYYY')
+            else {
+              value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
+            }
           }
       }
       if(field.type == "number") {

@@ -206,9 +206,14 @@ class ElementField extends Component {
 			if(this.props.rules != null){
 				for(var key in this.props.rules){
 					if(this.props.rules[key] != null && this.props.rules[key] != false){
-						configured = true;
-						if(key == "required" && this.props.rules[key])
-							required = true;
+						if(key == "required" && this.props.rules[key]){
+							//only set as required when the field is required by default
+							if(this.props.modelDefinition.required)
+								required = true;
+							else
+								//if not reqired by default, then mark is done manually
+								configured = true;
+						}
 					}
 				}
 			}
@@ -279,6 +284,8 @@ class ElementField extends Component {
         <div className={"field-type "}>
           <i className={"fa "+this.props.icon}></i> &nbsp;
 					{MODELS_FIELDS[this.props.type] !== undefined ? MODELS_FIELDS[this.props.type].label : ''}
+					&nbsp;
+					{configuration.required ? ' *' : ''}
 
 					<div className="type-info">
 
@@ -307,6 +314,7 @@ class ElementField extends Component {
 						}
 
 
+
 					</div>
 
         </div>
@@ -323,11 +331,14 @@ class ElementField extends Component {
           </div>
         </div>
 
-        <div className="field-actions">
+        <div className="field-actions text-right" style={{
+					paddingRight : '15px'
+				}}>
 
-					<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a> &nbsp;&nbsp;
-					<a href="" className="remove-field-btn" onClick={this.onRemoveField}> <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
-					&nbsp;&nbsp;
+					<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
+					{!configuration.required &&
+						<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
+					}
 
         </div>
       </div>),
