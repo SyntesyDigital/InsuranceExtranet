@@ -239,6 +239,15 @@ class ElementModal extends Component {
                       label="Lien"
                     />
 
+                    <BooleanSettingsField
+                      field={field}
+                      name="preview"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Preview"
+                    />
+
+
                     <FieldsSettings
                       field={field}
                       name="fields"

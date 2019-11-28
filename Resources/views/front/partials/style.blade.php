@@ -333,6 +333,15 @@
     color:{{$elementLinkHoverColor}};
   }
 
+  .element-table-container a.file-link.image-link {
+    background-color: {{$elementLinkColor}};
+  }
+  .element-table-container a.file-link.image-link:hover{
+    background-color: {{$elementLinkHoverColor}};
+  }
+
+
+
   .element-table-container .elementTable .navigation li a{
     color:{{$elementColor}};
   }

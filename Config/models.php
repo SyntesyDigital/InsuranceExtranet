@@ -103,7 +103,8 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'preview'
         ]
       ],
       'richtext' => [

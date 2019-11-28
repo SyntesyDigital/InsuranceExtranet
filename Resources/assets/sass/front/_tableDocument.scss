@@ -1,0 +1,43 @@
+.table-document-container{
+  margin:20px 0;
+  @include round($elements-radius);
+  overflow: hidden;
+
+  .table-document-container-body{
+    @include round($elements-radius);
+    overflow: hidden;
+
+    &.collapse{
+      @include round(0);
+    }
+  }
+
+  .documentsContainer{
+    padding: 20px 0;
+    .item-container{
+      @include round($elements-radius);
+      overflow: hidden;
+      padding: 20px;
+      .field-container{
+        overflow: hidden;
+        margin-bottom: 5px;
+        .field-name{
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+
+
+}
+
+.title{
+  margin-bottom: 10px;
+  overflow: hidden;
+  h4{
+    text-transform: uppercase;
+     @include font(24,32,300);
+     float:left;
+  }
+}

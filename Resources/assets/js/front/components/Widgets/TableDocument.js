@@ -13,13 +13,12 @@ import moment from 'moment';
 
 //const selectors = Data.Selectors;
 
-export default class ElementTable extends Component {
+export default class TableDocument extends Component {
 
     constructor(props)
     {
         super(props);
 
-        const defaultDataLoadStep = 1000;
         const field = props.field ? JSON.parse(atob(props.field)) : '';
         const elementObject = props.elementObject ? JSON.parse(atob(props.elementObject)) : null;
         const model = props.model ? JSON.parse(atob(props.model)) : null;
@@ -28,19 +27,16 @@ export default class ElementTable extends Component {
           && props.itemsPerPage != null
           && props.itemsPerPage != '' ? props.itemsPerPage : 10;
 
-        //console.log("props.itemsPerPage => ",props.itemsPerPage);
-        //console.log("itemsPerPage => ",itemsPerPage);
-
-
         const maxItems = props.maxItems !== undefined ? props.maxItems : false;
+        const columns = props.columns  !== undefined ? props.columns : 'col-1';
 
-        var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
+        var pageLimit = pagination ? itemsPerPage : maxItems;
 
         this.state = {
             field : field,
             elementObject : elementObject,
             data:[],
-            columns:[],
+            columns:columns,
             pagination : pagination,
             itemsPerPage : itemsPerPage,
             maxItems :  maxItems,
@@ -48,11 +44,9 @@ export default class ElementTable extends Component {
             currPage:1,
             modelValuesPaginated:[],
             loading : true,
-            loadingData : true,
             filterable : false,
             sortColumnName: null,
             sortColumnType:null,
-            defaultDataLoadStep:defaultDataLoadStep,
             model : model,
 
             pageLimit : pageLimit,
@@ -64,7 +58,7 @@ export default class ElementTable extends Component {
 
     componentDidMount() {
 
-        this.processColumns();
+        this.processInfo();
       //  this.query();
     }
 
@@ -87,8 +81,7 @@ export default class ElementTable extends Component {
     query() {
         var self = this;
         const {
-          elementObject,itemsPerPage,maxItems,
-          defaultDataLoadStep, pageLimit
+          elementObject,maxItems, pageLimit
         } = this.state;
 
         var params = this.getQueryParams(pageLimit,1);
@@ -108,17 +101,12 @@ export default class ElementTable extends Component {
 
                 var dataProcessed = self.processData(response.data.modelValues);
 
-
-
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
                     totalPages : response.data.totalPage,
                     loading : false
-                }, function(){
-                    if(!maxItems) {
-                      self.iterateAllPages();
-                    }
                 });
+
 
               }
 
@@ -130,22 +118,20 @@ export default class ElementTable extends Component {
            });
     }
 
-    iterateAllPages(){
-
+    loadMore(e){
+      e.preventDefault();
       const {
         elementObject,totalPages,currentPage,
         pageLimit
       } = this.state;
 
       if(currentPage > totalPages){
-
         //process data and add to main data
         this.setState({
-          loadingData : true
+          loading : false
         })
       }
       else {
-
         //process page
         var params = this.getQueryParams(pageLimit,currentPage);
         var self = this;
@@ -162,85 +148,28 @@ export default class ElementTable extends Component {
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
                     currentPage : currentPage + 1,
-                    loadingData : true
-                }, function(){
-                    self.iterateAllPages();
+                    loading : false
                 });
-
               }
 
           }).catch(function (error) {
              console.log(error);
              self.setState({
-               loadingData: false
+               loading: false
              });
            });
       }
 
     }
 
-    renderCell(field,identifier,row) {
 
-      var value = row.original[identifier];
 
-      if(field.type == "date") {
-          if(row.original[identifier] !== undefined && row.original[identifier] != "" && null !== row.original[identifier]){
 
-            if(field.settings !== undefined && field.settings.format !== undefined){
-              console.log("renderCell => ",field.settings.format);
-
-              switch(field.settings.format) {
-                case 'day_month_year':
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY')
-                case 'month_year':
-                  value = moment.unix(row.original[identifier]).format('MM/YYYY')
-                case 'year':
-                  value = moment.unix(row.original[identifier]).format('YYYY')
-              }
-
-            }else{
-              value = moment.unix(row.original[identifier]).format('DD/MM/YYYY')
-            }
-          }else{
-            value = '';
-          }
-      }
-      if(field.type == "number") {
-          //console.log("renderCell => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-              switch(field.settings.format) {
-                case 'price':
-                  value = parseFloat(row.original[identifier]).toFixed(0) + '€';
-                case 'price_with_decimals':
-                  value = parseFloat(row.original[identifier]).toFixed(2) + '€';
-              }
-            }
-          }
-      }
-
-      if(field.type == "file"){
-        //console.log("Field with has Route => ",field,row.original);
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
-      }
-      else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
-
-        //console.log("Field with has Route => ",field,row.original);
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier+"_url"]}} />
-      }
-      else {
-        return value;
-      }
-
-    }
-
-    processColumns() {
+    processInfo() {
 
         const {elementObject} = this.state;
 
         var anySearchable = false;
-        var columns = [];
         var sortColumnName = null;
         var sortColumnType = null;
 
@@ -248,26 +177,13 @@ export default class ElementTable extends Component {
           if(elementObject.fields[index].rules.searchable && ! anySearchable){
             anySearchable = true;
           }
-
           var identifier = elementObject.fields[index].identifier.replace('.','');
           if(elementObject.fields[index].rules.sortableByDefault){
                 sortColumnName  = identifier;
                 sortColumnType = elementObject.fields[index].rules.sortableByDefault;
           }
-
-          columns.push({
-            accessor : identifier,
-            Header: elementObject.fields[index].name,
-            sortable: elementObject.fields[index].rules.sortable,
-            filterable:  elementObject.fields[index].rules.searchable,
-            filterMethod: this.filterMethod.bind(this,identifier),
-            filterAll: true,
-            Cell: this.renderCell.bind(this,elementObject.fields[index],identifier)
-          });
         }
-
         this.setState({
-            columns : columns,
             filterable : anySearchable,
             sortColumnName :sortColumnName,
             sortColumnType : sortColumnType
@@ -300,38 +216,146 @@ export default class ElementTable extends Component {
         return data;
     }
 
-    filterMethod(identifier, filter, rows ) {
-        //console.log("identifier => ",identifier);
-        return matchSorter(rows, filter.value, { keys: [identifier] });
+
+    renderField(value,field) {
+
+      if(field.type == "date") {
+          if(value !== undefined && value != "" && null !== value){
+
+            if(field.settings !== undefined && field.settings.format !== undefined){
+              switch(field.settings.format) {
+                case 'day_month_year':
+                  value = moment.unix(value).format('DD/MM/YYYY');
+                  break;
+                case 'month_year':
+                  value = moment.unix(value).format('MM/YYYY');
+                  break;
+                case 'year':
+                  value = moment.unix(value).format('YYYY');
+                  break;
+              }
+            }else{
+              value = moment.unix(value).format('DD/MM/YYYY')
+            }
+          }else{
+            value = '';
+          }
+      }
+      if(field.type == "number") {
+          //console.log("renderCell => ",field,row);
+          if(value !== undefined && value != ""){
+
+            if(field.settings !== undefined && field.settings.format !== undefined){
+              switch(field.settings.format) {
+                case 'price':
+                  value = parseFloat(value).toFixed(0) + '€';
+                case 'price_with_decimals':
+                  value = parseFloat(value).toFixed(2) + '€';
+              }
+            }
+          }
+      }
+
+
+      if(field.type == "file"){
+        return <div dangerouslySetInnerHTML={{__html: value}} />
+      }
+
+      return value;
+
+
     }
 
-    renderTable() {
-      const {data, elementObject, itemsPerPage,maxItems} = this.state;
+    renderItem(item) {
+
+      var result = [];
+      const {elementObject} = this.state;
+      for(var key in elementObject.fields){
+       // console.log("TypologyPaginated => ",items[key]);
+        var identifier =  elementObject.fields[key].identifier
+        if(elementObject.fields[key].type == 'file'){
+          result.push(
+            <div className="field-container" key={key}>
+                <div className="col-md-12 field-name">{item[identifier],elementObject.fields[key].name} :</div>
+                <div className="col-md-12">
+                  {this.renderField(item[identifier],elementObject.fields[key])}
+                </div>
+            </div>
+          );
+        }else{
+          result.push(
+
+              <div className="field-container" key={key}>
+                  <div className="col-lg-2 col-md-3 col-sm-6 field-name">{item[identifier],elementObject.fields[key].name} :</div>
+                  <div className="col-lg-10 col-md-9 col-sm-6">
+                    {this.renderField(item[identifier],elementObject.fields[key])}
+                  </div>
+              </div>
+          );
+        }
+
+      }
 
       return (
-        <ReactTable
-          data={this.state.data}
-          columns={this.state.columns}
-          showPagination={this.state.pagination}
-          defaultSorted={[
-            {
-              id: this.state.sortColumnName,
-              desc: this.state.sortColumnType == 'DESC'?true:false
-            }
-          ]}
-          defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
-          loading={this.state.loading}
-          filterable={true}
-          //className="-striped -highlight"
-          className=""
-          previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
-          nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
-          loadingText={'Chargement...'}
-          noDataText={'Aucune donnée trouvée'}
-          pageText={'Page'}
-          ofText={'de'}
-          rowsText={'lignes'}
-        />
+          <div>
+                  {result}
+          </div>
+        );
+      }
+
+    renderItems() {
+
+      var result = [];
+      const {data} = this.state;
+      for(var key in data){
+       // console.log("TypologyPaginated => ",items[key]);
+
+        result.push(
+          <div className={this.state.columns}>
+
+            <div className="item-container"  key={key}>
+                {this.renderItem(data[key])}
+            </div>
+          </div>
+        );
+      }
+
+      return (
+          <div>
+                  {result}
+          </div>
+        );
+      }
+
+
+    renderTable() {
+      const {data, elementObject, maxItems, currentPage, totalPages} = this.state;
+
+      return (
+        <div>
+          { data == null &&
+              <p>{/*Carregant dades...*/}</p>
+          }
+
+          {data != null && data.length == 0 &&
+              <p>Il n'y a element aucun</p>
+          }
+
+          {data != null && data.length > 0 &&
+
+                <div className="documentsContainer">
+                  {this.renderItems()}
+
+                </div>
+          }
+          {currentPage <= totalPages &&  !this.state.loading &&
+
+            <div className="more">
+              <a href="#" onClick={(e) => this.loadMore(e)}> LOAD MORE</a>
+            </div>
+          }
+        </div>
+
       );
     }
 
@@ -346,9 +370,9 @@ export default class ElementTable extends Component {
     }
 }
 
-if (document.getElementById('elementTable')) {
+if (document.getElementById('tableDocument')) {
 
-   document.querySelectorAll('[id=elementTable]').forEach(function(element){
+   document.querySelectorAll('[id=tableDocument]').forEach(function(element){
        var field = element.getAttribute('field');
        var elementObject = element.getAttribute('elementObject');
        var model = element.getAttribute('model');
@@ -356,14 +380,16 @@ if (document.getElementById('elementTable')) {
        var pagination = element.getAttribute('pagination');
        var itemsPerPage = element.getAttribute('itemsPerPage');
        var parameters = element.getAttribute('parameters');
+       var columns = element.getAttribute('columns');
 
-       ReactDOM.render(<ElementTable
+       ReactDOM.render(<TableDocument
            field={field}
            elementObject={elementObject}
            model={model}
            pagination={pagination}
            itemsPerPage={itemsPerPage}
            maxItems={maxItems}
+           columns={columns}
            parameters={parameters}
          />, element);
    });
