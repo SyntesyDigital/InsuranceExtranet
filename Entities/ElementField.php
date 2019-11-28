@@ -3,10 +3,12 @@
 namespace Modules\Extranet\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use use Modules\Architect\Core\EntityError;
 
 class ElementField extends Model
 {
-
+    use EntityError;
+    
     protected $casts = [
       'rules' => 'array',
       'settings' => 'array'
