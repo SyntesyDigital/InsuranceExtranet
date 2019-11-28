@@ -21,7 +21,7 @@ class ElementParametersModal extends Component {
 
 
     this.state = {
-      id : 'modal-element-parameters',
+      id : 'element-parameters-modal',
       isOpen : false
     };
 

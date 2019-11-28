@@ -7,6 +7,11 @@ import update from 'immutability-helper'
 import FieldTypes from './FieldTypes'
 import ElementField from './ElementField'
 
+import {
+	exploteToObject,
+	getFieldToAdd
+} from './functions';
+
 const fieldTarget = {
 	drop(props, monitor, component) {
 
@@ -51,22 +56,6 @@ class ElementDropZone extends Component {
 		return maxId;
 	}
 
-	exploteToObject(fields) {
-
-		if(fields == null){
-			return null;
-		}
-
-		var result = {};
-
-		for(var i=0;i<fields.length;i++){
-			if((fields[i] != 'searchable' &&  fields[i] != 'sortable') || this.props.elementType == 'table'){
-				result[fields[i]] = null;
-			}
-		}
-		return result;
-	}
-
 	addField(field) {
 
 		//console.log("add field =>",field);
@@ -76,31 +65,11 @@ class ElementDropZone extends Component {
 			return;
 		}
 
-		var settings = this.exploteToObject(field.settings);
-		var rules = this.exploteToObject(field.rules);
-
-		if(field.fields != null){
-			settings.fields = field.fields;
-		}
-
-		if(rules['required'] !== undefined){
-			rules['required'] = field.required;
-		}
-
-		var field = {
-			id : this.getMaxId() + 1,
-			type : field.type,
-			name : field.name,
-			identifier : field.identifier,
-			icon : field.icon,
-			saved : false,
-			editable : true,
-			rules : rules,
-			boby : field.boby,
-			settings : settings,
-		};
-
-		this.props.onFieldAdded(field);
+		this.props.onFieldAdded(getFieldToAdd(
+			field,
+			this.getMaxId() + 1,
+			this.props.elementType
+		));
 	}
 
 	moveField(dragIndex, hoverIndex) {
@@ -148,6 +117,7 @@ class ElementDropZone extends Component {
 					onFieldChange={this.handleFieldChange}
 					onOpenSettings={this.handleOpenSettings}
 					errors={item.errors}
+					modelDefinition={item.modelDefinition}
 				/>
 			))
 		);
