@@ -321,8 +321,8 @@ export default class TableDocument extends Component {
       }
 
       return (
-          <div>
-                  {result}
+          <div className="row">
+            {result}
           </div>
         );
       }

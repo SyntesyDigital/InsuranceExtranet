@@ -210,7 +210,7 @@ export default class TableComponent extends Component {
 
       if(field.type == "date") {
           //console.log("renderCell => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != ""){
+          if(row.original[identifier] !== undefined && row.original[identifier] != null && row.original[identifier] != ""){
 
             if(field.settings !== undefined && field.settings.format !== undefined){
               console.log(field.settings.format)

@@ -212,10 +212,10 @@ class ModelValuesFormatTransformer extends Resource
                   $fileLink = '';
                   if($originalValue != null && $originalValue != ''){
                     if(isset($elementField->settings['preview']) && $elementField->settings['preview']){
-                      $fileLink = '<a href="'.route("document.show",$originalValue).'" class="file-link image-link" style="background-image:url('.route("document.show.preview",$originalValue).')"></a>';
+                      $fileLink = '<a href="'.route("document.show",$originalValue).'" target="_blank" class="file-link image-link" style="background-image:url('.route("document.show.preview",$originalValue).')"></a>';
 
                     }else{
-                      $fileLink = '<a href="'.route("document.show",$originalValue).'" class="file-link"><i class="fas fa-file-download"></i></a>';
+                      $fileLink = '<a href="'.route("document.show",$originalValue).'" target="_blank" class="file-link"><i class="fas fa-file-download"></i></a>';
                     }
                   }
                   $result[$i][$elementField->identifier] = $fileLink;
