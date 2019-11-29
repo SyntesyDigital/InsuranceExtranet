@@ -25,6 +25,7 @@ return [
           'hasRoute',
           'hasModal',
           'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'number' => [
@@ -46,7 +47,8 @@ return [
           'format',
           'hasRoute',
           'hasModal',
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'date' => [
@@ -70,7 +72,8 @@ return [
         ],
         'settings' => [
           'format',
-          'conditionalVisibility'
+          'conditionalVisibility',
+          //'defaultValue'
         ]
       ],
       'select' => [
@@ -88,7 +91,8 @@ return [
         ],
         'settings' => [
           'ws',
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'file' => [
@@ -124,7 +128,8 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'list' => [

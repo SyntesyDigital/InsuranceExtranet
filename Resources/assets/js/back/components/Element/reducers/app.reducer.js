@@ -25,7 +25,9 @@ import {
 import {
   setSettings,
   exploteToObject,
-  getFieldToAdd
+  getFieldToAdd,
+  mergeFieldSettings,
+  getRequiredFields
 } from '../functions';
 
 import update from 'immutability-helper';
@@ -67,34 +69,7 @@ function checkIfFieldAdded(field,fields) {
   return false;
 }
 
-function mergeFieldSettings(field,modelField) {
-  //console.log("Merge => ,",field," => ",modelField);
 
-  //if is array means and old configuration, not possible to be array
-  if(Array.isArray(field.settings))
-    field.settings = {}
-
-  //console.log("mergeFieldSettings :: field settings vale => ",field.settings);
-
-
-  if(modelField.rules !== undefined){
-    for(var key in modelField.rules){
-      if(field.rules[modelField.rules[key]] === undefined){
-        field.rules[modelField.rules[key]] = null;
-      }
-    }
-  }
-
-  if(modelField.settings !== undefined){
-    for(var key in modelField.settings){
-      if(field.settings[modelField.settings[key]] === undefined){
-        field.settings[modelField.settings[key]] = null;
-      }
-    }
-  }
-
-  return field;
-}
 
 function checkIfFilterExist(filterIdentifier, parameters) {
 
@@ -225,38 +200,7 @@ function addDefinitionToFields(fields,fieldsList) {
   return fields;
 }
 
-/*
-*   Iterate through all fields to get all required fields and add
-*   them automatically to dropzone.
-*/
-function getRequiredFields(fieldsList,elementType) {
 
-  var fields = [];
-
-  for(var i=0;i<fieldsList.length;i++) {
-
-    var field = fieldsList[i];
-
-    if(field.required) {
-      var settings = exploteToObject(field.settings);
-  		var rules = exploteToObject(field.rules);
-
-  		if(field.fields != null){
-  			settings.fields = field.fields;
-  		}
-
-  		if(rules['required'] !== undefined){
-  			rules['required'] = field.required;
-  		}
-      fieldsList[i].added = true;
-
-      fields.push(getFieldToAdd(field,i + 1,elementType));
-    }
-  }
-
-  return fields;
-
-}
 
 function appReducer(state = initialState, action) {
 
@@ -339,7 +283,7 @@ function appReducer(state = initialState, action) {
                     action.payload.fieldsList
                   ) : getRequiredFields(
                     action.payload.fieldsList,
-                    action.payload.model.type
+                    action.payload.elementType
                   ),
                 modelVariables : action.payload.variables != null ?
                   action.payload.variables : [],
@@ -469,7 +413,11 @@ function appReducer(state = initialState, action) {
             if(newField != null){
               for(var key in fieldsList){
                 if(fieldsList[key].identifier == newField.identifier){
-                  newField = mergeFieldSettings(newField,fieldsList[key]);
+                  newField = mergeFieldSettings(
+                    newField,
+                    fieldsList[key],
+                    state.elementType
+                  );
                   break;
                 }
               }
