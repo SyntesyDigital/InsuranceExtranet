@@ -65,7 +65,7 @@ export default class FormComponent extends Component {
     }
 
     initValues(elementObject) {
-      //console.log("initValues => ",elementObject);
+      console.log("initValues => ",elementObject);
 
       var values = {};
 
@@ -73,7 +73,13 @@ export default class FormComponent extends Component {
         var field = elementObject.fields[key];
 
         //TODO process different values depending of type ?
-        values[field.identifier] = '';
+        if(field.settings !== undefined && field.settings.defaultValue !== undefined &&
+          field.settings.defaultValue !== null && field.settings.defaultValue !== ''){
+            values[field.identifier] = field.settings.defaultValue;
+        }
+        else {
+            values[field.identifier] = '';
+        }
 
       }
 

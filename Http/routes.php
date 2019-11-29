@@ -112,6 +112,8 @@ Route::group([
 
     Route::get('/', 'ContentController@index')->name('home');
     Route::get('/document/show/{id}', 'ContentController@showDocument')->name('document.show');
+    Route::get('/document/show/preview/{id}', 'ContentController@showDocumentPreview')->name('document.show.preview');
+
     Route::get('/not-found', 'ContentController@languageNotFound')->name('language-not-found');
 
     // Localization to JS

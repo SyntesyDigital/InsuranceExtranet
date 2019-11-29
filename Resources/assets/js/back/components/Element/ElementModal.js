@@ -12,6 +12,7 @@ import ModalSettingsField from './Settings/HasModal/ModalSettingsField';
 import FieldsSettings from './Settings/FieldsSettings';
 
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
+import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 
 
 import {
@@ -245,12 +246,22 @@ class ElementModal extends Component {
                       label="Lien"
                     />
 
+
                     <ModalSettingsField
                       field={field}
                       name="hasModal"
                       source="settings"
                       onFieldChange={this.handleFieldSettingsChange}
                       label="Lien avec modal"
+                    />
+
+
+                    <BooleanSettingsField
+                      field={field}
+                      name="preview"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Preview"
                     />
 
                     <FieldsSettings
@@ -270,6 +281,15 @@ class ElementModal extends Component {
                       label="Afficher selon conditions"
                       parameters={this.props.app.parameters}
                       fields={this.props.app.fields}
+                    />
+
+                    <DefaultSettingsField
+                      field={field}
+                      name="defaultValue"
+                      source="settings"
+                      label="Valeur par défaut"
+                      inputLabel="Définir le valeur"
+                      onFieldChange={this.handleFieldSettingsChange}
                     />
 
                   </div>
