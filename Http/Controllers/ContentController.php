@@ -17,6 +17,7 @@ use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\DocumentRepository;
 
+use File;
 use Config;
 use Session;
 use Carbon\Carbon;
@@ -240,10 +241,31 @@ class ContentController extends Controller
         }
 
         $result = $this->document->find($id);
+      //  return $result->datas;
         $content = base64_decode($result->datas);
 
         return response($content, 200)->header('Content-Type', $result->contentType);
 
+    }
+
+    public function showDocumentPreview($id)
+    {
+        $authorized = $this->boby->checkDocumentAvailable($id);
+
+        if(!$authorized) {
+            abort(500);
+        }
+        $result = $this->document->find($id);
+        if($result->contentType == 'image/png' || $result->contentType ==  'image/jpeg' || $result->contentType ==  'image/gif'){
+          $content = base64_decode($result->datas);
+          return response($content, 200)->header('Content-Type', $result->contentType);
+
+        }else{
+          $content = File::get(public_path('modules/extranet/plugins/images/fa-download.png'));
+          $mime = File::mimeType(public_path('modules/extranet/plugins/images/fa-download.png'));
+          return response($content, 200)->header('Content-Type', $mime);
+
+        }
     }
 
     public function languageNotFound(Request $request)

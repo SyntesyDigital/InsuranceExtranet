@@ -17,6 +17,13 @@
     margin: 0 auto;
     text-align: center;
     display: block;
+    &.image-link{
+      height: 40px;
+      width: 40px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
 
 

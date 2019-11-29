@@ -82,8 +82,6 @@
 
 <style type="text/css">
 
-
-
 </style>
 
 @include('extranet::front.partials.styles.layout')
