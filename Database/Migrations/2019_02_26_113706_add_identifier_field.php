@@ -14,7 +14,7 @@ class AddIdentifierField extends Migration
     public function up()
     {
         Schema::table('models', function (Blueprint $table) {
-              $table->string('identifier')->after('title');
+              $table->string('identifier')->nullable()->after('title');
         });
     }
 

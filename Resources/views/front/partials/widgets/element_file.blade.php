@@ -14,14 +14,14 @@
   if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
     $model = $models[$elementObject->model_identifier];
   }
-  
+
 @endphp
 
 
 @if($visible)
   <div id="{{$field['settings']['htmlId'] or ''}}" class="element-file-container {{$field['settings']['htmlClass'] or ''}}">
     <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-file-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsefile-{{$identifier}}" aria-expanded="true" aria-controls="collapsefile-{{$identifier}}"@endif>
-      {{$field['fields'][0]['value'][App::getLocale()]}}
+      {{$field['fields'][0]['value'][App::getLocale()] or ''}}
     </div>
     <div id="collapsefile-{{$identifier}}" class="{{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-file-container-body">
         <div id="elementFile" class="elementFile "
