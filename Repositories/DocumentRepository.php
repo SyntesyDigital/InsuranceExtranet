@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
 
-use App\Extensions\VeosWsUrl;
+use Modules\Extranet\Extensions\VeosWsUrl;
 
 class DocumentRepository
 {
