@@ -14,9 +14,9 @@ class AddFieldsToElementsTable extends Migration
     public function up()
     {
         Schema::table('elements', function (Blueprint $table) {
-          $table->string('model_identifier')->after('model_ws');
-          $table->string('model_format')->after('model_identifier');
-          $table->string('model_exemple')->after('model_format');
+          $table->string('model_identifier')->nullable()->after('model_ws');
+          $table->string('model_format')->nullable()->after('model_identifier');
+          $table->string('model_exemple')->nullable()->after('model_format');
         });
 
     }
