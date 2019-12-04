@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use Auth;
 use Session;
 
-use App\Extensions\VeosWsUrl;
+use Modules\Extranet\Extensions\VeosWsUrl;
 use Illuminate\Support\Facades\Cache;
 
 class BobyRepository
@@ -49,7 +49,7 @@ class BobyRepository
     {
         $cacheKey = md5("getQuery_" . $name);
 
-        if (Cache::has($cacheKey)) {
+        if (Cache::has($cacheKey) && false) {
             $beans = Cache::get($cacheKey);
         } else {
             $response = $this->client->get(VeosWsUrl::get() . 'boBy/v2/'.$name, [
@@ -72,7 +72,7 @@ class BobyRepository
     {
         $cacheKey = md5("postQuery_" . $name . json_encode($params));
 
-        if (Cache::has($cacheKey)) {
+        if (Cache::has($cacheKey) && false) {
             $beans = Cache::get($cacheKey);
         } else {
             $response = $this->client->post(VeosWsUrl::get() . 'boBy/list', [

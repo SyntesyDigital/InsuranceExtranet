@@ -23,7 +23,11 @@ import {
 } from '../constants';
 
 import {
-  setSettings
+  setSettings,
+  exploteToObject,
+  getFieldToAdd,
+  mergeFieldSettings,
+  getRequiredFields
 } from '../functions';
 
 import update from 'immutability-helper';
@@ -65,34 +69,7 @@ function checkIfFieldAdded(field,fields) {
   return false;
 }
 
-function mergeFieldSettings(field,modelField) {
-  //console.log("Merge => ,",field," => ",modelField);
 
-  //if is array means and old configuration, not possible to be array
-  if(Array.isArray(field.settings))
-    field.settings = {}
-
-  //console.log("mergeFieldSettings :: field settings vale => ",field.settings);
-
-
-  if(modelField.rules !== undefined){
-    for(var key in modelField.rules){
-      if(field.rules[modelField.rules[key]] === undefined){
-        field.rules[modelField.rules[key]] = null;
-      }
-    }
-  }
-
-  if(modelField.settings !== undefined){
-    for(var key in modelField.settings){
-      if(field.settings[modelField.settings[key]] === undefined){
-        field.settings[modelField.settings[key]] = null;
-      }
-    }
-  }
-
-  return field;
-}
 
 function checkIfFilterExist(filterIdentifier, parameters) {
 
@@ -153,7 +130,7 @@ function updateParamertsFromModel(filters,variables,parameters, parametersList) 
           if(index != null) {
             var newParameter = parametersList[index];
             newParameter = setSettings(newParameter,PARAMETERS.types[0]);
-            
+
             if(newParameter != null){
               parameters.push(newParameter);
             }
@@ -207,6 +184,22 @@ function updateParamertsFromModel(filters,variables,parameters, parametersList) 
 
     return parameters;
 }
+
+function addDefinitionToFields(fields,fieldsList) {
+
+  //process fields list with id
+  var fieldsListByKey = {};
+  for(var i=0;i<fieldsList.length;i++) {
+    fieldsListByKey[fieldsList[i].identifier] = fieldsList[i];
+  }
+
+  for(var j=0;j<fields.length;j++){
+    fields[j].modelDefinition = fieldsListByKey[fields[j].identifier];
+  }
+
+  return fields;
+}
+
 
 
 function appReducer(state = initialState, action) {
@@ -278,13 +271,20 @@ function appReducer(state = initialState, action) {
                 wsModelIdentifier : action.payload.wsModelIdentifier,
                 wsModel : action.payload.wsModel,
                 wsModelFormat : action.payload.wsModelFormat,
-                wsModelExemple : action.payload.wsModelExemple,
+                wsModelExemple : action.payload.wsModelExemple ?
+                  action.payload.wsModelExemple : action.payload.wsModelIdentifier,
                 elementType :  action.payload.elementType,
                 parameters: parametersMerged,
                 parametersList : action.payload.parametersList,
                 modelParameters : modelParameters,
                 fields : action.payload.element != null ?
-                  action.payload.element.fields : [],
+                  addDefinitionToFields(
+                    action.payload.element.fields,
+                    action.payload.fieldsList
+                  ) : getRequiredFields(
+                    action.payload.fieldsList,
+                    action.payload.elementType
+                  ),
                 modelVariables : action.payload.variables != null ?
                   action.payload.variables : [],
             }
@@ -413,7 +413,11 @@ function appReducer(state = initialState, action) {
             if(newField != null){
               for(var key in fieldsList){
                 if(fieldsList[key].identifier == newField.identifier){
-                  newField = mergeFieldSettings(newField,fieldsList[key]);
+                  newField = mergeFieldSettings(
+                    newField,
+                    fieldsList[key],
+                    state.elementType
+                  );
                   break;
                 }
               }

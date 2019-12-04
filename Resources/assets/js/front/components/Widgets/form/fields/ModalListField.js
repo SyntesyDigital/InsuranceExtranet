@@ -5,7 +5,7 @@ import TextField from './TextField';
 
 import {
   getFieldComponent
-} from './../actions/';
+} from './../functions/';
 
 class ModalListField extends Component {
 
@@ -15,11 +15,26 @@ class ModalListField extends Component {
     //console.log(" ModalListField :: construct ",props);
 
     this.state = {
-      values : {}
+      values : {},
+      inModal : false
     };
+
+    this.isOn = false;
 
     this.onModalClose = this.onModalClose.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+
+    if($("#modal-list-field-"+props.id,'#modal-table-component').length == 1) {
+      return {
+        ...state,
+        inModal : true
+      }
+    }
+
+    return  null;
   }
 
   componentDidMount() {
@@ -30,11 +45,14 @@ class ModalListField extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps)
-  {
-    if(nextProps.display){
-        this.modalOpen(nextProps.initValue);
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.display){
+      if(!this.isOn){
+        this.isOn = true;
+        this.modalOpen(this.props.initValue);
+      }
     } else {
+      if(this.isOn)
         this.modalClose();
     }
   }
@@ -49,16 +67,23 @@ class ModalListField extends Component {
     this.setState({
       values : initValues != null ? initValues : this.initValues()
     });
+    console.log("is in modal ? ",this.state.inModal);
 
-    $('body').css({overflow:'hidden'});
+    if(!this.state.inModal)
+      $('body').css({overflow:'hidden'});
+
     TweenMax.to($("#modal-list-field-"+this.props.id),0.5,{opacity:1,display:"block",ease:Power2.easeInOut});
   }
 
   modalClose() {
 
+    this.isOn = false;
+
     var self = this;
       TweenMax.to($("#modal-list-field-"+this.props.id),0.5,{display:"none",opacity:0,ease:Power2.easeInOut,onComplete:function(){
-        $('body').css({overflow:'auto'});
+
+        if(!self.state.inModal)
+          $('body').css({overflow:'auto'});
       }});
   }
 
@@ -145,7 +170,7 @@ class ModalListField extends Component {
 
     return (
       <div
-        className="custom-modal"
+        className="custom-modal modal-list-field"
         id={"modal-list-field-"+this.props.id}
         style={{
           zIndex: this.props.zIndex !== undefined ? this.props.zIndex : 500
@@ -155,22 +180,25 @@ class ModalListField extends Component {
 
 
           <div className="modal-container">
-            <div className="modal-header">
-              <h2>Ajouter {this.props.name}</h2>
-
-              <div className="modal-buttons">
-                <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
-                  <i className="fa fa-times"></i>
-                </a>
-              </div>
-            </div>
-
             <div className="modal-content">
+              <div className="modal-header">
+                <h2>Ajouter {this.props.name}</h2>
 
-              <div className="row">
-                <div className="col-xs-12 col-md-10 col-md-offset-1">
-                  {this.renderItems()}
+                <div className="modal-buttons">
+                  <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
+                    <i className="fa fa-times"></i>
+                  </a>
                 </div>
+              </div>
+
+              <div className="modal-body">
+
+                <div className="row">
+                  <div className="col-xs-12 col-md-10 col-md-offset-1">
+                    {this.renderItems()}
+                  </div>
+                </div>
+
               </div>
 
               <div className="modal-footer">

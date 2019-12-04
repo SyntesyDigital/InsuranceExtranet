@@ -19,12 +19,15 @@ import ModalContents from './Contents/ModalContents';
 import ModalParameters from './Parameters/ModalParameters';
 
 
+import ModalElements from './Settings/HasModal/ModalElements';
+import ModalElementParameters from './Settings/HasModal/ModalElementParameters';
+
 class ElementForm extends Component {
 
     constructor(props) {
       super(props);
 
-      console.log("parameters list =>",props.parametersList);
+      //console.log("parameters list =>",props.parametersList);
 
 			//init redux state with component parameters
 			var data = {
@@ -35,7 +38,7 @@ class ElementForm extends Component {
         wsModelIdentifier :  props.wsModelIdentifier ? props.wsModelIdentifier : null,
         wsModel :  props.wsModel ? props.wsModel : null,
         wsModelFormat :  props.wsModelFormat ? props.wsModelFormat : null,
-        wsModelExemple :  props.wsModelExemple ? props.wsModelExemple : null,
+        wsModelExemple :  props.wsModelExemple ? props.wsModelExemple : '',
         elementType :  props.elementType ? props.elementType : null,
         parametersList: props.parametersList ? JSON.parse(atob(props.parametersList)) : [],
         parameters: props.parameters ? JSON.parse(atob(props.parameters)) : [],
@@ -82,11 +85,17 @@ class ElementForm extends Component {
 
               <ElementModal />
 
+              {/* HasModal Settings Modals */}
+              <ModalElementParameters />
+              <ModalElements />
+
+              {/* HasLink Settings Modals */}
+              <ModalContents />
+              <ModalParameters />
+
+              {/* Modal to edit Element parameters settings */}
               <ElementParametersModal />
 
-              <ModalContents />
-
-              <ModalParameters />
 
               <div className="col-md-9 page-content">
                 {

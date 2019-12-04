@@ -89,8 +89,9 @@ class LinkSettingsField extends Component {
         nextProps.contents.content : null;
     }
 
-    //if content changed
-    if(nextProps.contents.needUpdate){
+    //if field is different of null and needs update becaus content changed
+    console.log("LinkSettingsField :: need updated :: => checkbox => ", checkbox," , needupdate => ",nextProps.contents.needUpdate);
+    if(checkbox && nextProps.contents.needUpdate){
       this.handleContentUpdate(content);
     }
 
@@ -100,10 +101,13 @@ class LinkSettingsField extends Component {
       //content : content
     });
 
+
+    console.log("LinkSettingsField :: checkbox, display, ",checkbox, display);
+
     //check if state is changing
     if(nextProps.field == null && this.initialised){
       //destroying the component
-      console.log("LinkSettingsField :: Destroying!");
+      console.log("LinkSettingsFieldStatus :: Destroying!");
       this.initialised = false;
       this.props.clearContent();
 
@@ -112,15 +116,14 @@ class LinkSettingsField extends Component {
       nextProps.field[nextProps.source][nextProps.name] !== undefined){
       //constructing the component
       var newContent = nextProps.field[nextProps.source][nextProps.name];
-      console.log("LinkSettingsField :: Constructing => ", newContent);
+      console.log("LinkSettingsFieldStatus :: Constructing => ", newContent);
       this.initialised = true;
-      if(newContent != null){
+
+      if(newContent != null && newContent.id !== undefined && newContent.id != null){
         this.props.initContent(newContent);
         this.loadContentParameters(newContent.id);
       }
     }
-
-
 
   }
 

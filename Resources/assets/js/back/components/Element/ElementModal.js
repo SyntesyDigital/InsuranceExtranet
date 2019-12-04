@@ -8,8 +8,11 @@ import CheckboxesSettingsField from './Settings/CheckboxesSettingsField';
 import SelectorSettingsField from './Settings/SelectorSettingsField';
 import RadioSettingsField from './Settings/RadioSettingsField';
 import LinkSettingsField from './Settings/LinkSettingsField';
+import ModalSettingsField from './Settings/HasModal/ModalSettingsField';
 import FieldsSettings from './Settings/FieldsSettings';
+
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
+import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 
 
 import {
@@ -31,6 +34,8 @@ class ElementModal extends Component {
       id : 'modal-element-settings',
       isOpen : false
     };
+
+    console.log("Hello world!");
 
   }
 
@@ -103,6 +108,8 @@ class ElementModal extends Component {
   render() {
 
     const field = this.props.app.settingsField;
+
+    console.log("field :: ElementModal",field);
 
     return (
       <div className="custom-modal" id={this.state.id}>
@@ -239,6 +246,24 @@ class ElementModal extends Component {
                       label="Lien"
                     />
 
+
+                    <ModalSettingsField
+                      field={field}
+                      name="hasModal"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Lien avec modal"
+                    />
+
+
+                    <BooleanSettingsField
+                      field={field}
+                      name="preview"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Preview"
+                    />
+
                     <FieldsSettings
                       field={field}
                       name="fields"
@@ -256,6 +281,15 @@ class ElementModal extends Component {
                       label="Afficher selon conditions"
                       parameters={this.props.app.parameters}
                       fields={this.props.app.fields}
+                    />
+
+                    <DefaultSettingsField
+                      field={field}
+                      name="defaultValue"
+                      source="settings"
+                      label="Valeur par défaut"
+                      inputLabel="Définir le valeur"
+                      onFieldChange={this.handleFieldSettingsChange}
                     />
 
                   </div>

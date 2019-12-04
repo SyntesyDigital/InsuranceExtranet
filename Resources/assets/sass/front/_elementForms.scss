@@ -1,7 +1,46 @@
-.element-form-container{
+.element-form-container {
   margin:20px 0;
   @include round($elements-radius);
 
+  .element-form {
+    padding:0px;
+    background-color:white;
+    border-bottom-left-radius: $elements-radius;
+    border-bottom-right-radius: $elements-radius;
+  }
+
+  .element-form-container-head{
+    background-color: $sidebar-background-color;
+    @include font(16,21,400);
+    text-transform: uppercase;
+    padding:10px 15px;
+    min-height: 41px;
+    border-bottom: 1px solid $element-file-border;
+
+    border-top-left-radius: $elements-radius;
+    border-top-right-radius: $elements-radius;
+
+    &.collapsed{
+      border-bottom-left-radius: $elements-radius;
+      border-bottom-right-radius: $elements-radius;
+    }
+  }
+
+  .element-form-container-body{
+
+    //overflow: hidden;
+    @include round($elements-radius);
+
+    &.collapse{
+      //overflow: auto;
+      @include round(0);
+    }
+
+  }
+
+}
+
+.form-component {
   a {
     &.btn-default {
       @include round($button-radius);
@@ -55,19 +94,9 @@
     }
   }
 
-  .element-form-container-body{
 
-    //overflow: hidden;
-    @include round($elements-radius);
 
-    &.collapse{
-      //overflow: auto;
-      @include round(0);
-    }
-
-  }
-
-  .element-form-wrapper {
+  &.element-form-wrapper {
 
     padding-top:20px;
 
@@ -83,29 +112,7 @@
 
 
 
-  .element-form-container-head{
-    background-color: $sidebar-background-color;
-    @include font(16,21,400);
-    text-transform: uppercase;
-    padding:10px 15px;
-    min-height: 41px;
-    border-bottom: 1px solid $element-file-border;
 
-    border-top-left-radius: $elements-radius;
-    border-top-right-radius: $elements-radius;
-
-    &.collapsed{
-      border-bottom-left-radius: $elements-radius;
-      border-bottom-right-radius: $elements-radius;
-    }
-  }
-
-  .element-form{
-    padding:0px;
-    background-color:white;
-    border-bottom-left-radius: $elements-radius;
-    border-bottom-right-radius: $elements-radius;
-  }
 
   .element-form-row{
     margin:15px 0;
@@ -214,10 +221,9 @@
   .react-datepicker__time-container {
     width: 100px;
   }
-}
 
-@media (min-width: 768px){
-  .element-form-container{
+
+  @media (min-width: 768px){
     .element-form-row{
       label{
         float: right;
@@ -233,4 +239,27 @@
       }
     }
   }
+}
+
+.modal-list-field {
+
+  .modal-container {
+      overflow-x: auto;
+      //padding: 40px 40px;
+  }
+
+  .modal-body {
+    padding: 15px;
+    padding-bottom: 80px;
+  }
+
+  .modal-content {
+      height:auto;
+      padding-bottom: 0px;
+      border-top-left-radius : 12px;
+      border-top-right-radius: 12px;
+      border-bottom-left-radius : 12px;
+      border-bottom-right-radius: 12px;
+  }
+
 }

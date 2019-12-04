@@ -35,7 +35,9 @@ var routes = {
   'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
   'showElement' : "{{route('extranet.elements.show',['element' => ':element'])}}",
   'contents.data' : "{{ route('contents.modal.data') }}",
-  'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}"
+  'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
+  'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+  'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}"
 };
 </script>
 

@@ -12,7 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
 use Session;
-use App\Extensions\VeosWsUrl;
+use Modules\Extranet\Extensions\VeosWsUrl;
 use Config;
 
 use Modules\Extranet\Tasks\Elements\ValidateElementRouteParameters;
@@ -423,5 +423,24 @@ class ElementRepository extends BaseRepository
 
       return $data;
     }
+
+    public function getDatatable()
+    {
+        $results = Element::all();
+
+        return Datatables::of($results)
+            ->addColumn('title', function ($item) {
+                return '<i class="'.$item->icon.'"></i>&nbsp;'.$item->name;
+            })
+            ->addColumn('type', function ($item) {
+                return Element::TYPES[$item->type]['name'];
+            })
+            ->addColumn('action', function ($item) {
+                return '<a href="" id="item-'.$item->id.'" data-content="'.base64_encode($item->toJson()).'" class="btn btn-link add-item" data-type="'.$item->type.'" data-name="'.$item->name.'" data-id="'.$item->id.'"><i class="fa fa-plus"></i> '.Lang::get("architect::fields.add").'</a> &nbsp;';
+            })
+            ->rawColumns(['title','action'])
+            ->make(true);
+    }
+
 
 }
