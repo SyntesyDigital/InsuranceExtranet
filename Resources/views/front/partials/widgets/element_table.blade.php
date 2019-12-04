@@ -20,7 +20,7 @@
 <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
   <div class="title">
-    <h4>{{$field['fields'][0]['value'][App::getLocale()]}}</h4>
+    <h4>{{$field['fields'][0]['value'][App::getLocale()] or ''}}</h4>
     <div class="title-btns">
       @if(isset($field['settings']['excel']) && $field['settings']['excel'])
       <div class="excel-btn">

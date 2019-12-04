@@ -19,7 +19,7 @@
 <div id="{{$field['settings']['htmlId'] or ''}}" class="table-document-container {{$field['settings']['htmlClass'] or ''}}">
 
   <div class="title">
-    <h4>{{$field['fields'][0]['value'][App::getLocale()]}}</h4>
+    <h4>{{$field['fields'][0]['value'][App::getLocale()] or ''}}</h4>
   </div>
 
   <div class="table-document-container-body">
