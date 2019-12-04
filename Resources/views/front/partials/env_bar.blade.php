@@ -8,6 +8,6 @@
     <span class="envirnment-button {{Auth::user()->env}}">
        <i class="fas fa-circle"></i> {{Auth::user()->env}}
     </span> |
-    {{\App\Extensions\VeosWsUrl::getEnvironmentUrl(Auth::user()->env)}}
+    {{\Modules\Extranet\Extensions\VeosWsUrl::getEnvironmentUrl(Auth::user()->env)}}
   </div>
 @endif

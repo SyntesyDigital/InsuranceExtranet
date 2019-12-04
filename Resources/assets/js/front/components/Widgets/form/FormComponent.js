@@ -241,7 +241,8 @@ export default class FormComponent extends Component {
               						//show error
                           toastr.error('Le paramètre est nécessaire.');
                           //iterate again
-                          return self.iterateParameters();
+                          //return self.iterateParameters();
+                          window.history.back();
               					}
               		    }
               		});
