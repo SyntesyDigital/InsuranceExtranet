@@ -3,11 +3,13 @@
 namespace Modules\Extranet\Repositories;
 
 use Modules\Extranet\Entities\Element;
+use Modules\Architect\Entities\Error;
+use Modules\Extranet\Entities\ElementField;
 use Modules\Architect\Entities\Content;
+
 use Datatables;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Lang;
-
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
@@ -424,4 +426,21 @@ class ElementRepository extends BaseRepository
       return $data;
     }
 
+    public function getErrors()
+    {    
+      return [
+        'columns' => [
+          'icon' => 'Message',
+          'name' => 'Element'
+        ],
+        'rows' => Error::where('errorable_type', ElementField::class)
+          ->get()
+          ->map(function($error) {
+            return [
+              'icon' => '<i class="fas fa-exclamation-triangle text-danger"></i> ' . $error->getErrorObject()->getMessage(),
+              'name' => '<a href="' . route('extranet.elements.show', $error->errorable->element) . '">' . $error->errorable->element->name . '</a>',
+            ];
+          })
+      ];
+    }
 }

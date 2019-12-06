@@ -7,7 +7,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 use Modules\Extranet\Entities\Element;
+use Modules\Extranet\Entities\ElementField;
+
 use Modules\Extranet\Tasks\Elements\ValidateElementFieldModalParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldModalParametersError;
 
 class ElementModalValidationCommand extends Command
 {
@@ -42,15 +45,13 @@ class ElementModalValidationCommand extends Command
      */
     public function handle()
     {
-        foreach(Element::all() as $element) {          
-            foreach($element->fields as $field) {
-                $isValid = (new ValidateElementFieldModalParameters($field))->run();
+        foreach(ElementField::all() as $field) {
+            $isValid = (new ValidateElementFieldModalParameters($field))->run();
 
-                $field->update([
-                    'errors' => !$isValid ? json_encode([
-                        'type' => 'modalRoute',
-                    ]) : null
-                ]);
+            if(!$isValid) {
+                $field->addError(ElementFieldModalParametersError::class);
+            } else {
+                $field->removeError(ElementFieldModalParametersError::class);
             }
         }
     }

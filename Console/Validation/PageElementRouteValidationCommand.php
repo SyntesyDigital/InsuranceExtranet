@@ -6,8 +6,9 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use Modules\Architect\Entities\Page;
-use Modules\Extranet\Jobs\Validation\PageElementRouteValidation;
+use Modules\Extranet\Entities\ElementField;
+use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldPageRouteParametersError;
 
 class PageElementRouteValidationCommand extends Command
 {
@@ -42,9 +43,14 @@ class PageElementRouteValidationCommand extends Command
      */
     public function handle()
     {
-        foreach(Page::all() as $page) {
-            (new PageElementRouteValidation($page))->handle();
+        foreach(ElementField::all() as $field) {
+            $isValid = (new ValidateElementFieldPageRouteParameters($field))->run();
+
+            if(!$isValid) {
+                $field->addError(ElementFieldPageRouteParametersError::class);
+            } else {
+                $field->removeError(ElementFieldPageRouteParametersError::class);
+            }
         }
     }
-
 }

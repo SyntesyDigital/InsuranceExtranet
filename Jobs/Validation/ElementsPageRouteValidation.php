@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Modules\Architect\Entities\Page;
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldPageRouteParametersError;
 
 class ElementsPageRouteValidation implements ShouldQueue
 {
@@ -35,11 +36,11 @@ class ElementsPageRouteValidation implements ShouldQueue
             foreach($element->fields as $field) {
                 $isValid = (new ValidateElementFieldPageRouteParameters($field))->run();
 
-                $field->update([
-                    'errors' => !$isValid ? json_encode([
-                        'type' => 'pageRoute',
-                    ]) : null
-                ]);
+                if(!$isValid) {
+                    $field->addError(ElementFieldPageRouteParametersError::class);
+                } else {
+                    $field->removeError(ElementFieldPageRouteParametersError::class);
+                }
             }
         }
     }

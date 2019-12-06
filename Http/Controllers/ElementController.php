@@ -44,8 +44,8 @@ class ElementController extends Controller
     public function data(Request $request)
     {
       switch($request->get('q')) {
-        case 'check_routes_parameters':
-          return response()->json($this->elements->getRouteParametersCheckData());
+        case 'errors':
+          return response()->json($this->elements->getErrors());
         break;
       }
     }

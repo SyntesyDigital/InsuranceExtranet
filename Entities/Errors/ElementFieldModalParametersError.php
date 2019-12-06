@@ -7,12 +7,12 @@ use Modules\Architect\Core\EntityError\EntityErrorInterface;
 
 class ElementFieldModalParametersError extends EntityError implements EntityErrorInterface 
 {
-    const ERROR_MESSAGE = 'error message...';
-    const ERROR_TYPE = 'CONTENT_ERROR';
+    const ERROR_MESSAGE = 'La modal n\'est pas bien configurée';
+    const ERROR_TYPE = 'ELEMENT_FIELD_MODAL_PARAMETERS';
 
     public function getMessage()
     {
-        return ERROR_MESSAGE;
+        return self::ERROR_MESSAGE;
     }
 }
 

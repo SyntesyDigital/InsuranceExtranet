@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Tasks\Elements\ValidateElementFieldModalParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldModalParametersError;
 
 class ElementsModalValidation implements ShouldQueue
 {
@@ -35,11 +36,11 @@ class ElementsModalValidation implements ShouldQueue
             foreach($element->fields as $field) {
                 $isValid = (new ValidateElementFieldModalParameters($field))->run();
 
-                $field->update([
-                    'errors' => !$isValid ? json_encode([
-                        'type' => 'modalRoute',
-                    ]) : null
-                ]);
+                if(!$isValid) {
+                    $field->addError(ElementFieldModalParametersError::class);
+                } else {
+                    $field->removeError(ElementFieldModalParametersError::class);
+                }
             }
         }
     }
