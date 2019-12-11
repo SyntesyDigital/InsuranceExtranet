@@ -84,7 +84,7 @@ class ModalParameters extends Component {
 
   renderOptions() {
     return this.props.app.fieldsList.map((item,index) =>
-      <option value={item.identifier} key={index}>{item.name}</option>
+      <option value={item.identifier} key={index}>{item.name} ({item.identifier})</option>
     )
   }
 

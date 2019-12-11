@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
 use Session;
-use App\Extensions\VeosWsUrl;
+use Modules\Extranet\Extensions\VeosWsUrl;
 use Config;
 
 class SinistreRepository

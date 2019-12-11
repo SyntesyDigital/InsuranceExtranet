@@ -23,7 +23,9 @@ return [
           'format',
           'maxLength',
           'hasRoute',
-          'conditionalVisibility'
+          'hasModal',
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'number' => [
@@ -44,7 +46,9 @@ return [
         'settings' => [
           'format',
           'hasRoute',
-          'conditionalVisibility'
+          'hasModal',
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'date' => [
@@ -68,7 +72,8 @@ return [
         ],
         'settings' => [
           'format',
-          'conditionalVisibility'
+          'conditionalVisibility',
+          //'defaultValue'
         ]
       ],
       'select' => [
@@ -86,7 +91,8 @@ return [
         ],
         'settings' => [
           'ws',
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'file' => [
@@ -103,7 +109,8 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'preview'
         ]
       ],
       'richtext' => [
@@ -122,7 +129,8 @@ return [
           'sortableByDefault'
         ],
         'settings' => [
-          'conditionalVisibility'
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
       'list' => [

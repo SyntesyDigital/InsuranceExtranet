@@ -35,6 +35,7 @@ Route::group([
 
     // Elements
     Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
+    Route::get('/elements/datatable', 'ElementController@getDataTable')->name('extranet.elements.datatable');
     Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
     Route::get('/elements/create/{element_type}/{model_id}', 'ElementController@create')->name('extranet.element.create');
     Route::get('/elements/{element}/show', 'ElementController@show')->name('extranet.elements.show');
@@ -61,7 +62,12 @@ Route::group([
 ], function() {
   //update user session
   Route::post('/session','UserController@setUserSession')->name('session.update');
+
+
   Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
+  Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
+  Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
+
 
   //filters
   Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
@@ -106,6 +112,8 @@ Route::group([
 
     Route::get('/', 'ContentController@index')->name('home');
     Route::get('/document/show/{id}', 'ContentController@showDocument')->name('document.show');
+    Route::get('/document/show/preview/{id}', 'ContentController@showDocumentPreview')->name('document.show.preview');
+
     Route::get('/not-found', 'ContentController@languageNotFound')->name('language-not-found');
 
     // Localization to JS
