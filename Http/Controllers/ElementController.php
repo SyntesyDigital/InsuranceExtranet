@@ -134,7 +134,7 @@ class ElementController extends Controller
         'element_type' => $element->type,
         'model' => $model,
         'fields' => $fields,
-        'element' => $element->load('fields','attrs'),
+        'element' => $element->load('fields','fields.errors','attrs'),
         'parametersList' => $parametersList,
         'parameters' => $element->getParameters(),
         'procedures' => isset($procedures) ? $procedures['procedures'] : null,

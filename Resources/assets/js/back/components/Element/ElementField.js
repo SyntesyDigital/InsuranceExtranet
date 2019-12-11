@@ -253,7 +253,8 @@ class ElementField extends Component {
 		//console.log("is editable => ",this.props.editable);
 
 		var configuration = this.getConfiguration();
-		var errors = this.props.errors !== undefined && this.props.errors != null ?
+		var errors = this.props.errors !== undefined && this.props.errors != null
+			&& this.props.errors.length > 0 ?
 			true : false;
 
 
