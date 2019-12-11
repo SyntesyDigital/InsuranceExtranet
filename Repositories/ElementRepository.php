@@ -433,7 +433,7 @@ class ElementRepository extends BaseRepository
           'icon' => 'Message',
           'name' => 'Element'
         ],
-        'rows' => Error::where('errorable_type', ElementField::class)
+        'rows' => Error::whereIn('errorable_type', ElementField::class)
           ->get()
           ->map(function($error) {
             return [

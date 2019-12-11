@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 
 use Modules\Extranet\Entities\Element;
+
 use Modules\Extranet\Tasks\Elements\ValidateElementFieldModalParameters;
 use Modules\Extranet\Entities\Errors\ElementFieldModalParametersError;
 
