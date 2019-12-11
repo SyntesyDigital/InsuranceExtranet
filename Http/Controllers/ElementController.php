@@ -433,19 +433,22 @@ class ElementController extends Controller
     */
     private function checkNecessaryVariables($variables,$allVariables,$systemVars,$procedureServices,$objects)
     {
+
       foreach($allVariables as $variableId => $variable) {
         if(isset($systemVars['_'.$variableId])){
           //variable is nedeed as a system var
           $variables[$variableId] = $variable;
         }
 
-        //if variable exist in the URL
-        $urlArray = explode("/",$procedureServices->URL);
+        if(isset($procedureServices->URL)){
+          //if variable exist in the URL
+          $urlArray = explode("/",$procedureServices->URL);
 
-        $variableSlashes = '_'.$variableId;
-        foreach($urlArray as $urlVariable) {
-          if($urlVariable == $variableSlashes){
-            $variables[$variableId] = $variable;
+          $variableSlashes = '_'.$variableId;
+          foreach($urlArray as $urlVariable) {
+            if($urlVariable == $variableSlashes){
+              $variables[$variableId] = $variable;
+            }
           }
         }
 
