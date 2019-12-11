@@ -97,8 +97,9 @@ class ModalListField extends Component {
     });
   }
 
-
   renderItems() {
+
+    console.log("ModalListFields :: renderItems => ",this.props.fields);
 
     if(this.props.fields === undefined || this.props.fields == null){
       return null;
@@ -147,6 +148,20 @@ class ModalListField extends Component {
     }
 
     return true;
+  }
+
+
+  checkAnyFilled() {
+    const {values} = this.state;
+
+    for(var key in values){
+      if(values[key] !== undefined && values[key] != null
+        && values[key] != ''){
+          return true;
+      }
+    }
+
+    return false;
 
   }
 
@@ -157,13 +172,14 @@ class ModalListField extends Component {
 
     var self = this;
 
-    if(!this.checkAllFilled()){
-      toastr.error('Vous devez remplir tous les champs.');
+    if(!this.checkAnyFilled()){
+      toastr.error('Vous devez remplir les champs.');
     }
     else {
       self.props.onAjouter(values);
       self.props.onModalClose();
     }
+
   }
 
   render() {
