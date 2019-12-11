@@ -41,6 +41,7 @@ class ExtranetServiceProvider extends ServiceProvider
 
         //
         $this->commands([
+            \Modules\Extranet\Console\Validation\ElementModalValidationCommand::class,
             \Modules\Extranet\Console\Validation\PageElementRouteValidationCommand::class,
         ]);
     }

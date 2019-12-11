@@ -8,6 +8,7 @@ use Modules\Architect\Traits\HasUrl;
 
 use Modules\Extranet\Entities\RouteParameter;
 
+
 class Element extends Model
 {
     use HasUrl;
@@ -135,6 +136,5 @@ class Element extends Model
 
         return $attr ? $attr->value : null;
     }
-
 
 }

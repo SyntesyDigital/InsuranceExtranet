@@ -3,10 +3,12 @@
 namespace Modules\Extranet\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Architect\Core\EntityError\HasEntityError;
 
 class ElementField extends Model
 {
-
+    use HasEntityError;
+    
     protected $casts = [
       'rules' => 'array',
       'settings' => 'array'
@@ -33,7 +35,7 @@ class ElementField extends Model
         'icon',
         'rules',
         'settings',
-        'errors'
+        // 'errors'
     ];
 
     /**

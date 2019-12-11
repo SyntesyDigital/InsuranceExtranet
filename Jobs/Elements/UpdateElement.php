@@ -2,16 +2,18 @@
 namespace Modules\Extranet\Jobs\Element;
 
 use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
+
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Entities\ElementField;
 use Modules\Extranet\Entities\ElementAttribute;
 use Modules\Architect\Entities\Page;
 
+use Modules\Extranet\Jobs\Validation\ElementsPageRouteValidation;
+use Modules\Extranet\Jobs\Validation\ElementsModalValidation;
+use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
+
 use Config;
 use Carbon\Carbon;
-
-use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
-use Modules\Extranet\Jobs\Validation\ElementsPageRouteValidation;
 
 class UpdateElement
 {
@@ -49,6 +51,12 @@ class UpdateElement
       $this->element->has_parameters = count($this->attributes["parameters"]) > 0 ? 1:0;
       $this->element->save();
 
+      // Delete all errors on ElementField
+      $this->element->fields->map(function($field) {
+        $field->errors()->delete();
+      });
+
+      // Rebuild all fields
       $this->element->fields()->delete();
 
       foreach($this->attributes["fields"] as $field) {
@@ -65,6 +73,7 @@ class UpdateElement
           $this->element->fields()->save($elementField);
       }
 
+      // Rebuild all attrs
       $this->element->attrs()->delete();
 
       if(count($this->attributes["parameters"]) > 0){
@@ -79,6 +88,7 @@ class UpdateElement
 
       // Check elements configuration
       ElementsPageRouteValidation::dispatch();
+      ElementsModalValidation::dispatch();
 
       return $this->element;
     }

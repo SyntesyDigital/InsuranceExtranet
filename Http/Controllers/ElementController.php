@@ -49,8 +49,8 @@ class ElementController extends Controller
     public function data(Request $request)
     {
       switch($request->get('q')) {
-        case 'check_routes_parameters':
-          return response()->json($this->elements->getRouteParametersCheckData());
+        case 'errors':
+          return response()->json($this->elements->getErrors());
         break;
       }
     }
@@ -134,7 +134,7 @@ class ElementController extends Controller
         'element_type' => $element->type,
         'model' => $model,
         'fields' => $fields,
-        'element' => $element->load('fields','attrs'),
+        'element' => $element->load('fields','fields.errors','attrs'),
         'parametersList' => $parametersList,
         'parameters' => $element->getParameters(),
         'procedures' => isset($procedures) ? $procedures['procedures'] : null,

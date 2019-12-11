@@ -6,25 +6,27 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Entities\ElementField;
-use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
-use Modules\Extranet\Entities\Errors\ElementFieldPageRouteParametersError;
 
-class PageElementRouteValidationCommand extends Command
+use Modules\Extranet\Tasks\Elements\ValidateElementFieldModalParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldModalParametersError;
+
+class ElementModalValidationCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'extranet:check-config-page-elements';
+    protected $name = 'extranet:check-config-modal-element';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check if pages elements has route configuration errors';
+    protected $description = 'Check if elements modal has errors';
 
     /**
      * Create a new command instance.
@@ -44,13 +46,14 @@ class PageElementRouteValidationCommand extends Command
     public function handle()
     {
         foreach(ElementField::all() as $field) {
-            $isValid = (new ValidateElementFieldPageRouteParameters($field))->run();
+            $isValid = (new ValidateElementFieldModalParameters($field))->run();
 
             if(!$isValid) {
-                $field->addError(ElementFieldPageRouteParametersError::class);
+                $field->addError(ElementFieldModalParametersError::class);
             } else {
-                $field->removeError(ElementFieldPageRouteParametersError::class);
+                $field->removeError(ElementFieldModalParametersError::class);
             }
         }
     }
+
 }

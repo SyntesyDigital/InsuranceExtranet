@@ -8,12 +8,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-use Modules\Architect\Entities\Page;
-use Modules\Extranet\Entities\Element;
-use Modules\Extranet\Tasks\Elements\ValidateElementFieldPageRouteParameters;
-use Modules\Extranet\Entities\Errors\ElementFieldPageRouteParametersError;
 
-class ElementsPageRouteValidation implements ShouldQueue
+use Modules\Extranet\Entities\Element;
+
+use Modules\Extranet\Tasks\Elements\ValidateElementFieldModalParameters;
+use Modules\Extranet\Entities\Errors\ElementFieldModalParametersError;
+
+class ElementsModalValidation implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -32,14 +33,14 @@ class ElementsPageRouteValidation implements ShouldQueue
      */
     public function handle()
     {
-        foreach(Element::all() as $element) {
+        foreach(Element::all() as $element) {          
             foreach($element->fields as $field) {
-                $isValid = (new ValidateElementFieldPageRouteParameters($field))->run();
+                $isValid = (new ValidateElementFieldModalParameters($field))->run();
 
                 if(!$isValid) {
-                    $field->addError(ElementFieldPageRouteParametersError::class);
+                    $field->addError(ElementFieldModalParametersError::class);
                 } else {
-                    $field->removeError(ElementFieldPageRouteParametersError::class);
+                    $field->removeError(ElementFieldModalParametersError::class);
                 }
             }
         }
