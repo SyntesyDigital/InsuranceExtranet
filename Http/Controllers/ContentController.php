@@ -24,6 +24,7 @@ use Carbon\Carbon;
 
 use App;
 use Auth;
+use Imagick;
 
 class ContentController extends Controller
 {
@@ -251,20 +252,41 @@ class ContentController extends Controller
     public function showDocumentPreview($id)
     {
         $authorized = $this->boby->checkDocumentAvailable($id);
-
         if(!$authorized) {
             abort(500);
         }
         $result = $this->document->find($id);
-        if($result->contentType == 'image/png' || $result->contentType ==  'image/jpeg' || $result->contentType ==  'image/gif'){
-          $content = base64_decode($result->datas);
-          return response($content, 200)->header('Content-Type', $result->contentType);
 
-        }else{
-          $content = File::get(public_path('modules/extranet/plugins/images/fa-download.png'));
-          $mime = File::mimeType(public_path('modules/extranet/plugins/images/fa-download.png'));
-          return response($content, 200)->header('Content-Type', $mime);
+        $contentType = explode(';', $result->contentType);
+        $contentType = $contentType[0];
 
+        switch($contentType) {
+          case 'image/png':
+          case 'image/jpeg':
+          case 'image/gif':
+              $content = base64_decode($result->datas);
+              return response($content, 200)->header('Content-Type', $result->contentType);
+            break;
+            
+          case 'application/pdf':
+            $im = new Imagick();
+            $im->setResolution(120, 120); 
+            
+            $im->readimageblob(base64_decode($result->datas));
+            $im->setiteratorindex(0);
+            $im->setImageFormat('jpg');
+            $im->setImageCompression(Imagick::COMPRESSION_JPEG);
+            $im->setImageCompressionQuality(30);
+
+            return response($im, 200)->header('Content-Type', 'image/jpeg');
+          
+            break;
+
+            default:
+              $content = File::get(public_path('modules/extranet/plugins/images/fa-download.png'));
+              $mime = File::mimeType(public_path('modules/extranet/plugins/images/fa-download.png'));
+              return response($content, 200)->header('Content-Type', $mime);
+            break;
         }
     }
 
