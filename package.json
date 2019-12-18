@@ -44,6 +44,7 @@
     "font-awesome": "^4.7.0",
     "immutability-helper": "^2.9.1",
     "install": "^0.12.2",
+    "jsonpath": "^1.0.2",
     "jsx-to-string": "^1.4.0",
     "lang.js": "^1.1.14",
     "leaflet": "^1.5.1",

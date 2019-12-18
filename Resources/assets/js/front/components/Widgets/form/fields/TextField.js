@@ -25,8 +25,14 @@ class TextField extends Component
 
     const {field} = this.props;
     const errors = this.props.error ? 'is-invalid' : '';
-    const isRequired = field.rules.required !== undefined ?
+    let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
+
+    //required can be set also directly with modals
+    if(this.props.isModal !== undefined && this.props.isModal &&
+      field.required !== undefined){
+      isRequired = field.required;
+    }
 
     return (
 
