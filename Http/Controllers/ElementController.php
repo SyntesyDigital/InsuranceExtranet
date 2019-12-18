@@ -313,12 +313,16 @@ class ElementController extends Controller
     }
 
 
-    public function getFormProcedures($modelId)
+    public function getFormProcedures($modelId,Request $request)
     {
 
       try {
 
             $data = $this->computeFormProcedures($modelId);
+
+            if($request->has('debug')){
+              dd($data);
+            }
 
             return response()->json([
                       'success' => true,
@@ -341,7 +345,7 @@ class ElementController extends Controller
         $procedures = $this->elements->getProcedures($modelId);
 
         $allObjects = $this->boby->getModelValuesQuery(
-            'WS_EXT2_DEF_OBJETS?perPage=100'
+            'WS_EXT2_DEF_OBJETS?perPage=500'
           )["modelValues"];
         $allServices = $this->boby->getModelValuesQuery(
             'WS_EXT2_DEF_SERVICES?perPage=100'
@@ -364,10 +368,20 @@ class ElementController extends Controller
           $systemVars = [];
           $root = "";
 
+
+
           foreach($allObjects as $object) {
+
               if($procedure->OBJID == $object->OBJ_ID) {
 
+
                 if(strpos($object->OBJ_JSONP,'listPer') !== false ) {
+                  //if is listPer add []
+                  //FIXME remove [] when added directly
+                  $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
+                }
+
+                if(strpos($object->OBJ_JSONP,'listInfos') !== false ) {
                   //if is listPer add []
                   //FIXME remove [] when added directly
                   $object->OBJ_JSONP = $object->OBJ_JSONP."[]";
@@ -408,6 +422,11 @@ class ElementController extends Controller
             $procedureServices,
             $objects
           );
+
+          if($procedure->OBJID == "SIN05"){
+            $procedures[$index]->{'CONF'} = "N";
+            $procedures[$index]->{'REP'} = "N";
+          }
 
           $procedures[$index]->{'OBJECTS'} = $objects;
           $procedures[$index]->{'SERVICE'} = $procedureServices;

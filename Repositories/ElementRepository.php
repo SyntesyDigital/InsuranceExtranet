@@ -186,7 +186,7 @@ class ElementRepository extends BaseRepository
     {
         $procedures = $this->getProcedures($modelId);
 
-        $allObjects = $this->boby->getModelValuesQuery('WS_EXT2_DEF_OBJETS?perPage=200');
+        $allObjects = $this->boby->getModelValuesQuery('WS_EXT2_DEF_OBJETS?perPage=500');
         $allObjects = $allObjects['modelValues'];
 
         //obtain the fields from procedures
@@ -443,7 +443,7 @@ class ElementRepository extends BaseRepository
           })
       ];
     }
-    
+
     public function getDatatable()
     {
         $results = Element::all();
