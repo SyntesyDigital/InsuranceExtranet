@@ -39,7 +39,7 @@ export function getArrayPosition(jsonResult,name) {
 
   name = name.slice(0,-2);
 
-  console.log("getArrayPosition :: ",jsonResult,name);
+  //console.log("getArrayPosition :: ",jsonResult,name);
 
   if(name == ""){
     //is root
@@ -72,12 +72,20 @@ export function getArrayPosition(jsonResult,name) {
 */
 export function setupJsonResult(paramArray,index,jsonResult,name,value,arrayPosition) {
 
-  console.log("setupJsonResult :: setup => ",paramArray,jsonResult,index,name,arrayPosition);
+  //console.log("setupJsonResult :: setup => ",paramArray,jsonResult,index,name,arrayPosition);
+
+  console.log("setupJsonResult :: iteration : (paramArray,index,jsonResult,name,arrayPosition)",
+    paramArray,
+    index,
+    JSON.stringify(jsonResult),
+    name,
+    arrayPosition
+  );
 
   if(jsonResult === undefined || $.isEmptyObject(jsonResult)){
 
     if(arrayPosition != null){
-      console.log("setupJsonResult :: is array ");
+      //console.log("setupJsonResult :: is array ");
       jsonResult = [{}];
     }
     else {
@@ -108,7 +116,7 @@ export function setupJsonResult(paramArray,index,jsonResult,name,value,arrayPosi
       if(jsonResult[arrayPosition] === undefined){
           jsonResult[arrayPosition] = {};
       }
-      console.log("setupJsonResult :: put this var in this position ",arrayPosition,name);
+      //console.log("setupJsonResult :: put this var in this position ",arrayPosition,name);
       jsonResult[arrayPosition][name] = value;
     }
     else {
@@ -156,7 +164,7 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
-  console.log("processObjectValue :: ",object,values, formParameters);
+  //console.log("processObjectValue :: ",object,values, formParameters);
 
   if(type == "INPUT"){
 
@@ -226,12 +234,20 @@ export function processObjectValue(object,values,formParameters) {
 * Process the object and return the json modified
 */
 export function processObject(object,jsonResult,jsonRoot,arrayPosition,values, formParameters) {
-  console.log("processObject :: ", jsonRoot,arrayPosition);
+  //console.log("processObject :: ", jsonRoot,arrayPosition);
 
   var paramArray = jsonRoot.split('.');
 
-  //conditionals to check what to do with this object
+  //conditionals to check what to do with this object, this is a part from the recursivity
   const value = processObjectValue(object,values, formParameters);
+
+  console.log("setupJsonResult :: start : (paramArray,index,jsonResult,name,arrayPosition)",
+    paramArray,
+    1,
+    JSON.stringify(jsonResult),
+    object.CHAMP,
+    arrayPosition
+  );
 
   jsonResult = setupJsonResult(
     paramArray,
@@ -242,16 +258,21 @@ export function processObject(object,jsonResult,jsonRoot,arrayPosition,values, f
     arrayPosition
   );
 
-  //console.log("paramArray => ",paramArray);
-  //console.log("setupJsonResult :: RESULT => ",jsonResult);
+  ////console.log("paramArray => ",paramArray);
+  ////console.log("setupJsonResult :: RESULT => ",jsonResult);
 
   return jsonResult;
 }
 
-export function validateField(field,values) {
+export function validateField(field,values,isModal) {
 
-  const isRequired = field.rules.required !== undefined ?
+  let isRequired = field.rules.required !== undefined ?
     field.rules.required : false;
+
+  //when is modal take it from main field
+  if(isModal !== undefined && isModal == true && field.required !== undefined){
+    isRequired = field.required;
+  }
 
   if(isRequired){
 
@@ -293,7 +314,7 @@ export function processResponseParameters(response,service,formParameters) {
     }
   }
 
-  console.log("processResponseParameters :: form parameters => ",formParameters);
+  //console.log("processResponseParameters :: form parameters => ",formParameters);
 
   return formParameters;
 }
@@ -326,7 +347,7 @@ type_pol = [true,false,]
 */
 export function isVisible(file,formParameters,values) {
 
-  //console.log("isVisible :: ",file,formParameters,values);
+  ////console.log("isVisible :: ",file,formParameters,values);
 
   //if no has settings return visible
   if(file.settings.conditionalVisibility === undefined || file.settings.conditionalVisibility == null){
@@ -354,7 +375,7 @@ export function isVisible(file,formParameters,values) {
   }
   //if any condition is accepted, visible
 
-  //console.log("isVisible :: ",visible);
+  ////console.log("isVisible :: ",visible);
 
   return visible;
 }
@@ -397,7 +418,7 @@ function checkConditionAccepted(condition,formParameters,values) {
 
   var operator = condition.operator;
 
-  console.log("checkConditionAccepted :: ",condition,formValue,values);
+  //console.log("checkConditionAccepted :: ",condition,formValue,values);
 
   // second check if need to check for defined or undefined
   if(condition.values == null || condition.values == ""){
@@ -431,5 +452,74 @@ function checkConditionAccepted(condition,formParameters,values) {
   }
 
   return false;
+
+}
+
+/**
+*   Process procedure to obtain json result.
+*/
+export function processStandardProcedure(currentIndex,procedure,jsonResult,values,formParameters) {
+
+  //console.log("processStandardProcedure :: ",currentIndex,jsonResult);
+
+  //if conf == Y && repetable == N
+    //if OBL == N , check for values, if not values, don't process de procedure
+    //check for values
+    //normal procedure
+      //after procedure processed
+        //check what to do
+          //or next or finish
+
+    const {arrayPosition, jsonRoot} = processJsonRoot(procedure.JSONP, jsonResult);
+    console.log("processStandardProcedure :: processJsonRoot :: (arrayPosition, jsonRoot): ",arrayPosition, jsonRoot);
+
+    for(var j in procedure.OBJECTS) {
+      var object = procedure.OBJECTS[j];
+
+      //process the object modifing the jsonResult
+      jsonResult = processObject(object,jsonResult,jsonRoot,
+        arrayPosition,values, formParameters);
+    }
+
+    return jsonResult;
+
+}
+
+/**
+* When procedure is repeatable, and configurable, then the data is an array.
+* So needs to be processed one POST per array item.
+* Only used for procedures like documents. The root is an array.
+*/
+export function procedureIsArray(procedure) {
+  if(procedure.CONF == 'Y' && procedure.REP == "Y" &&
+    procedure.JSONP == "$.[]"){
+      return true;
+  }
+  return false;
+}
+
+/**
+*   Procedure that is a list.
+*   values = current list position with values of this item
+*/
+export function processListProcedure (currentIndex,procedure,values,jsonResult, formParameters) {
+
+    //console.log("processListProcedure :: ",currentIndex, values, jsonResult);
+
+    const {arrayPosition, jsonRoot} = processJsonRoot(procedure.JSONP, jsonResult);
+
+    //console.log("processListProcedure :: array position ",arrayPosition);
+
+    for(var j in procedure.OBJECTS) {
+      var object = procedure.OBJECTS[j];
+
+      //process the object modifing the jsonResult
+      jsonResult = processObject(object,jsonResult,jsonRoot,
+        arrayPosition,values,formParameters);
+    }
+
+    //console.log("processListProcedure :: after => ",currentIndex, values, jsonResult);
+
+    return jsonResult;
 
 }

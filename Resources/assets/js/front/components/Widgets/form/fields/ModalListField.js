@@ -4,7 +4,8 @@ import { render } from 'react-dom';
 import TextField from './TextField';
 
 import {
-  getFieldComponent
+  getFieldComponent,
+  validateField
 } from './../functions/';
 
 class ModalListField extends Component {
@@ -12,11 +13,12 @@ class ModalListField extends Component {
   constructor(props){
     super(props);
 
-    //console.log(" ModalListField :: construct ",props);
+    ////console.log(" ModalListField :: construct ",props);
 
     this.state = {
       values : {},
-      inModal : false
+      inModal : false,
+      errors : {}
     };
 
     this.isOn = false;
@@ -62,12 +64,22 @@ class ModalListField extends Component {
       this.props.onModalClose();
   }
 
+  isFieldRequired(identifier) {
+    for(var i=0;i<this.props.fields.length;i++){
+      if(this.props.fields[i].identifier == identifier){
+        return this.props.fields[i].required;
+      }
+    }
+    return false;
+  }
+
   modalOpen(initValues)
   {
     this.setState({
-      values : initValues != null ? initValues : this.initValues()
+      values : initValues != null ? initValues : this.initValues(),
+      errors : {}
     });
-    console.log("is in modal ? ",this.state.inModal);
+    //console.log("is in modal ? ",this.state.inModal);
 
     if(!this.state.inModal)
       $('body').css({overflow:'hidden'});
@@ -87,19 +99,70 @@ class ModalListField extends Component {
       }});
   }
 
+  getElementObjectField(identifier){
+    console.log("getElementObjectField :: identifier",identifier);
+
+    const fields = this.props.fields;
+
+    for(var key in fields) {
+      if(fields[key].identifier == identifier){
+        return fields[key];
+      }
+    }
+    return null;
+  }
+
   handleOnChange(field) {
     const {values} = this.state;
 
     values[field.name] = field.value;
 
+    /*
     this.setState({
       values : values
+    });
+    */
+    var self = this;
+
+    this.setState({
+      values : values
+    },function(){
+
+      self.validateFieldChange(
+        self.getElementObjectField(field.name)
+      )
+    });
+  }
+
+  validateFieldChange(field) {
+
+    //validation of this field not necessary
+    if(field == null)
+      return;
+
+    const {errors,values} = this.state;
+
+    //console.log("validateFieldChange :: field ",field);
+
+    var valid = validateField(field,values,true);
+
+    console.log("validateFieldChange :: (field,values,valid) ",field,values,valid);
+
+    if(!valid){
+      errors[field.identifier] = true;
+    }
+    else {
+      delete errors[field.identifier];
+    }
+
+    this.setState({
+      errors : errors
     });
   }
 
   renderItems() {
 
-    console.log("ModalListFields :: renderItems => ",this.props.fields);
+    //console.log("ModalListFields :: renderItems => ",this.props.fields);
 
     if(this.props.fields === undefined || this.props.fields == null){
       return null;
@@ -114,8 +177,10 @@ class ModalListField extends Component {
           key={key}
           field={field}
           value={this.state.values[field.identifier]}
+          error={this.state.errors[field.identifier] !== undefined ? true : false}
           onFieldChange={this.handleOnChange}
           values={this.state.values}
+          isModal={true}
         />);
     }
 
@@ -165,6 +230,30 @@ class ModalListField extends Component {
 
   }
 
+  validateFields() {
+
+    var errors = {};
+    var hasErrors = false;
+
+    for(var key in this.props.fields) {
+      var field = this.props.fields[key];
+
+        var valid = validateField(field,this.state.values,true);
+        if(!valid)
+          errors[field.identifier] = !valid;
+
+        if(!hasErrors && !valid){
+          hasErrors = true;
+        }
+    }
+
+    this.setState({
+      errors : errors
+    });
+
+    return hasErrors;
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -172,7 +261,12 @@ class ModalListField extends Component {
 
     var self = this;
 
-    if(!this.checkAnyFilled()){
+    const hasErrors = this.validateFields();
+
+    if(hasErrors){
+      toastr.error('Vous devez remplir tous les champs obligatoires.');
+    }
+    else if(!this.checkAnyFilled()){
       toastr.error('Vous devez remplir les champs.');
     }
     else {

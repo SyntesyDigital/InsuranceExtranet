@@ -137,10 +137,17 @@ class SelectField extends Component
     const {field} = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
-    const isRequired = field.rules.required !== undefined ?
-      field.rules.required : false;
     const errors = this.props.error ? 'is-invalid' : '';
     const display = this.state.display;
+
+    let isRequired = field.rules.required !== undefined ?
+      field.rules.required : false;
+
+    //required can be set also directly with modals
+    if(this.props.isModal !== undefined && this.props.isModal &&
+      field.required !== undefined){
+      isRequired = field.required;
+    }
 
     return (
 
