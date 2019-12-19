@@ -1,0 +1,26 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+
+export default class ButtonSecondary extends Component {
+
+    constructor(props)
+    {
+        super(props);
+    }
+
+    render() {
+        return (
+          <a href="" className="btn btn-default">
+            <i className={this.props.icon}></i>
+            &nbsp;&nbsp;
+            {this.props.label}
+          </a>
+        );
+    }
+}
+
+ButtonSecondary.propTypes = {
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string
+};

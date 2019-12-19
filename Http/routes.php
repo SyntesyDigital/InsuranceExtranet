@@ -16,6 +16,11 @@ Route::group([
     'DetectUserLocale'
   ],
 ], function() {
+
+    // Templates
+    Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
+    Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
+
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
     Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');
