@@ -11,7 +11,7 @@ export default class ButtonSecondary extends Component {
 
     render() {
         return (
-          <a href="" className="btn btn-default">
+          <a href="" className="btn btn-default" onClick={this.props.onClick}>
             <i className={this.props.icon}></i>
             &nbsp;&nbsp;
             {this.props.label}
