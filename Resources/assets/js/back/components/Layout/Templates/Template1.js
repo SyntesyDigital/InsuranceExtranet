@@ -5,6 +5,7 @@ import PageTitle from '../PageTitle';
 import ButtonPrimary from '../ButtonPrimary';
 import ButtonSecondary from '../ButtonSecondary';
 import DataTable from '../DataTable';
+import Separator from '../Separator';
 
 export default class Template1 extends Component {
     render() {
@@ -26,7 +27,9 @@ export default class Template1 extends Component {
                   />
                 </PageTitle>
 
-
+                <Separator
+                  height={50}
+                />
 
                 <DataTable
                     columns={[

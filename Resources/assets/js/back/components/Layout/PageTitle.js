@@ -12,7 +12,13 @@ export default  class PageTitle extends Component {
     render() {
         return (
           <div>
-            <h3 className="card-title">
+            <h3 className="card-title" style={{
+              display: 'inline-block',
+              verticalAlign: 'top',
+              paddingRight: 20,
+              marginTop: 14,
+              marginBottom: 14,
+            }}>
               <i className={this.props.icon}></i> &nbsp;
               {this.props.title}
             </h3>

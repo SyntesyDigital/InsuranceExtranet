@@ -1,21 +1,57 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import PageTitle from '../PageTitle';
+import ButtonPrimary from '../ButtonPrimary';
+import ButtonSecondary from '../ButtonSecondary';
+import BoxList from '../BoxList';
+import BoxAdd from '../BoxAdd';
+import BoxWithIcon from '../BoxWithIcon';
+import Separator from '../Separator';
+
 export default class Template2 extends Component {
     render() {
         return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Example Component</div>
+            <div className="container grid-page elements-page template-2">
+              <div className="col-xs-offset-2 col-xs-8 page-content">
 
-                            <div className="card-body">
-                                Im an example 2!
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <PageTitle
+                  title={'Name'}
+                  icon={'fa fa-file'}
+                >
+                  <ButtonPrimary
+                    label={'Ajouter'}
+                    icon={'fa fa-plus'}
+                  />
+
+                </PageTitle>
+
+                <BoxList>
+                  <BoxWithIcon
+                    icon={'fa fa-eye'}
+                    name={'Opcion 1'}
+                  />
+                  <BoxWithIcon
+                    icon={'fa fa-eye'}
+                    name={'Opcion 2'}
+                  />
+                  <BoxWithIcon
+                    icon={'fa fa-eye'}
+                    name={'Opcion 1'}
+                  />
+                  <BoxWithIcon
+                    icon={'fa fa-eye'}
+                    name={'Opcion 2'}
+                  />
+                  <BoxAdd
+                    label={'Ajouter'}
+                  />
+                </BoxList>
+
+
+
+
+              </div>
             </div>
         );
     }
