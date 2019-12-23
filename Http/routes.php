@@ -20,6 +20,8 @@ Route::group([
     // Templates
     Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
     Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
+    Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
+    Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
 
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
