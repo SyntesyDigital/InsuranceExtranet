@@ -13,14 +13,10 @@ export default class RolesIndex extends Component {
               <div className="col-xs-offset-2 col-xs-8 page-content">
 
                 <PageTitle
-                  title={'Name'}
+                  title={'Roles'}
                   icon={'fa fa-file'}
                 >
                   <ButtonPrimary
-                    label={'Ajouter'}
-                    icon={'fa fa-plus'}
-                  />
-                  <ButtonSecondary
                     label={'Ajouter'}
                     icon={'fa fa-plus'}
                   />
@@ -32,9 +28,10 @@ export default class RolesIndex extends Component {
 
                 <DataTable
                     columns={[
-                        {data: 'name', name: 'Nom'},
-                        {data: 'age', name: 'Age'},
-                        {data: 'default', name: 'Défaut'},
+                        {data: 'icon', name: 'Icon'},
+                        {data: 'name', name: 'Name'},
+                        {data: 'role', name: 'Identifier'},
+                        {data: 'default', name: 'Default'},
                         {data: 'action', name: '', orderable: false, searchable: false}
                     ]}
                     init={true}
