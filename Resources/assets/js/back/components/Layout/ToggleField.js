@@ -1,37 +1,43 @@
-// import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-// import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-// export default  class ToggleField extends Component {
+export default  class ToggleField extends Component {
 
-//     constructor(props)
-//     {
-//         super(props);
-//     }
+    constructor(props)
+    {
+        super(props);
+    }
 
-//     render() {
-//         return (
-//             <div className="togglebutton">
-//                 <label>
-//                 Label
-//                 <input type="checkbox" name="name" checked={false} disabled={true} />
-//                 </label>
-//             </div>
-//             <div className="togglebutton">
-//                 <label>
-//                 Label 2
-//                 <input type="checkbox" name="name" checked={true} disabled={true} />
-//                 </label>
-//             </div>
-//             <div className="togglebutton">
-//                 <label>
-//                 Label 3
-//                 <input type="checkbox" name="name" checked={true} disabled={false} />
-//                 </label>
-//             </div>
-//         );
-//     }
-// }
+    render() {
+        const {title, disabled, checked} = this.props;
+        return (
+            <div>
+                <div className="togglebutton">
+                    <label>
+                        {title}
+                        <input type="checkbox" name="name" checked={checked} disabled={disabled} />
+                    </label>
+                </div>
+                <div className="togglebutton">
+                    <label>
+                        {title}
+                        <input type="checkbox" name="name" checked={checked} disabled={disabled} />
+                    </label>
+                </div>
+                <div className="togglebutton">
+                    <label>
+                        {title}
+                        <input type="checkbox" name="name" checked={checked} disabled={disabled} />
+                    </label>
+                </div>
+            </div>
+            
+        );
+    }
+}
 
-// SidebarTitle.propTypes = {
-// };
+ToggleField.propTypes = {
+    title: PropTypes.string,
+    disabled: PropTypes.bool,
+    checked: PropTypes.bool
+};

@@ -1,0 +1,17 @@
+.container-toggle-switch{
+
+    label{
+
+        width: 100%;
+        margin: 20px 0px;
+
+        span{
+            width: 60%;
+            display: inline-block;
+        }
+
+        .react-switch{
+            float: right;
+        }
+    }
+}

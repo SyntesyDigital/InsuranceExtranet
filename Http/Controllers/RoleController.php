@@ -34,7 +34,7 @@ class RoleController extends Controller
             })
             ->addColumn('icon', function($item){
                 return '
-                    <a href="#"><i class="fas fa-user"></i> </a>
+                    <i class="fas fa-user"></i>
                 ';
             })
             ->addColumn('action', function ($item) {
@@ -43,7 +43,7 @@ class RoleController extends Controller
                 <a href="#" class="btn btn-link text-danger" data-toogle="delete" data-confirm-message="'.Lang::get("architect::language.del_lang_msg").'"><i class="fa fa-trash-alt"></i> '.Lang::get("architect::datatables.delete").'</a> &nbsp;
                 ';
             })
-            ->rawColumns(['default','action'])
+            ->rawColumns(['default','action', 'icon'])
             ->make(true);
     }
 

@@ -23,6 +23,7 @@ Route::group([
     Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
     Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
     Route::get('/roles/update', 'RoleController@update')->name('extranet.roles.update');
+    Route::get('/users/roles-update', 'UserController@update')->name('extranet.users.roles.update');
 
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');

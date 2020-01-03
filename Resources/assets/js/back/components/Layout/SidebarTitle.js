@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 export default  class SidebarTitle extends Component {
@@ -10,13 +9,13 @@ export default  class SidebarTitle extends Component {
     }
 
     render() {
+        const {title} = this.props;
         return (
-          <label className="bmd-label-floating">
-            CHECKBOX GROUP
-          </label>
+          <label className="bmd-label-floating">{title}</label>
         );
     }
 }
 
 SidebarTitle.propTypes = {
+    title: PropTypes.string,
 };
