@@ -178,7 +178,7 @@ export default class Template3 extends Component {
 
                 </div>
               </div>
-
+              
               {/* Modal */}
               <Modal
                 id={'modal-id'}
