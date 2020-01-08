@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import ModalEditGroup from '../Roles/ModalEditGroup';
 
 export default class BoxAddGroup extends Component {
 
@@ -13,21 +11,7 @@ export default class BoxAddGroup extends Component {
     };
   }
 
-  openModal(e) {
-    if (e !== undefined) {
-      e.preventDefault();
-    }
 
-    this.setState({
-      display: true
-    });
-  }
-
-  handleModalClose() {
-    this.setState({
-      display: false
-    });
-  }
 
   render() {
 

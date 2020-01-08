@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PageTitle from '../Layout/PageTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
-import ButtonSecondary from '../Layout/ButtonSecondary';
 import DataTable from '../Layout/DataTable';
 import Separator from '../Layout/Separator';
 

@@ -5,7 +5,6 @@ import BarTitle from '../Layout/BarTitle';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import Checkbox from '../Layout/CheckBox';
 import Switch from '../Layout/ToggleSwitch';
-import Separator from '../Layout/Separator';
 
 
 export default class UserRolesUpdate extends Component {
@@ -30,24 +29,17 @@ export default class UserRolesUpdate extends Component {
                         <CollapsableGroup
                             identifier='1'
                             title='CMS '
-                            icon='far fa-edit'
                         >
-
                             <div className="col-md-4">
-                                <div className="container-checkbox"
-
-                                >
+                                <div className="container-checkbox">
                                     <Checkbox
                                         title={'Permiso 1'}
-
                                     />
-
                                 </div>
                             </div>
                             <div className="col-md-4">
                                 <Checkbox
                                     title={'Permiso 2'}
-
                                 />
                             </div>
                             <div className="col-md-4">
@@ -55,16 +47,13 @@ export default class UserRolesUpdate extends Component {
                                     title={'Permiso 3'}
                                 />
                             </div>
-
                         </CollapsableGroup>
 
                         <CollapsableGroup
                             identifier='2'
                             title='Front '
-                            icon='far fa-edit'
                         >
                             <div className="col-md-4">
-
                                 <Checkbox
                                     title={'Permiso 2'}
                                 />
@@ -79,13 +68,11 @@ export default class UserRolesUpdate extends Component {
                                     title={'Permiso 2'}
                                 />
                             </div>
-
                         </CollapsableGroup>
 
                         <CollapsableGroup
                             identifier='3'
-                            title='Sinisters '
-                            icon='far fa-edit'
+                            title='VEOS Sync '
                         >
                             <div className="col-md-4">
                                 <Checkbox
@@ -102,37 +89,22 @@ export default class UserRolesUpdate extends Component {
                                     title={'Permiso 2'}
                                 />
                             </div>
-
                         </CollapsableGroup>
-
                     </div>
 
                     <div className="sidebar">
                         <Switch
                             title={'Permiso 1'}
-
                         />
-
-                        <Separator />
-
                         <Switch
                             title={'Permiso 1'}
                         />
-
-                        <Separator />
-
                         <Switch
                             title={'Permiso 1'}
                         />
-
-                        <Separator />
-
                         <Switch
                             title={'Permiso 1'}
                         />
-
-                        <Separator />
-
                         <Switch
                             title={'Permiso 1'}
                         />

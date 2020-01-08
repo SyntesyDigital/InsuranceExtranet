@@ -66,7 +66,7 @@ export default class Modal extends Component {
           <div className="modal-background"></div>
 
 
-            <div className="modal-container">
+            <div className={'modal-container ' + this.props.size}>
 
               <div className="modal-header">
 
@@ -103,8 +103,10 @@ export default class Modal extends Component {
 
 Modal.propTypes = {
   id: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
   display: PropTypes.bool.isRequired,
   zIndex: PropTypes.number.isRequired
 };
+

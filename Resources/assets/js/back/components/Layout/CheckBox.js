@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import './../../../../sass/backend/layout/_checkbox.scss';
 
 export default class CheckBox extends Component {
 
@@ -19,25 +17,9 @@ export default class CheckBox extends Component {
         this.setState(prevState => ({ isHovered: !prevState.isHovered }));
     }
 
-    openModal(e) {
-        if (e !== undefined) {
-            e.preventDefault();
-        }
-
-        this.setState({
-            display: true
-        });
-    }
-
-    handleModalClose() {
-        this.setState({
-            display: false
-        });
-    }
-
     render() {
 
-        const { title, disabled } = this.props;
+        const { title, disabled, iconEdit, isEdit } = this.props;
 
         return (
             <div>
@@ -46,12 +28,12 @@ export default class CheckBox extends Component {
                         <input type="checkbox" name="optionsCheckboxes" disabled={disabled} onChange={this.props.onChange}/>
                         <span>{title}</span>
                     </label>
-                    <span className='icon' style={{ margin: '5px' }}>
+                    {isEdit ? <span className='icon' style={{ margin: '5px' }}>
                         {this.state.isHovered ?
-                            <a href="#" onClick={this.props.onClick}><i className="far fa-edit" style={{ fontSize: '1em' }} /></a> : null
+                            <a href="#" onClick={this.props.onClick}><i className={iconEdit} style={{ fontSize: '1em' }} /></a> : null
                         }
-                    </span>
-                </div>
+                    </span> : null}
+                 </div>
             </div>
         );
     }
@@ -59,5 +41,7 @@ export default class CheckBox extends Component {
 
 CheckBox.propTypes = {
     title: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    iconEdit: PropTypes.string,
+    isEdit: PropTypes.bool
 };

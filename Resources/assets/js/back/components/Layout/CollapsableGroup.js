@@ -11,26 +11,12 @@ export default class CollapsableGroup extends Component {
     };
   }
 
-  openModal(e) {
-    if (e !== undefined) {
-      e.preventDefault();
-    }
 
-    this.setState({
-      display: true
-    });
-  }
-
-  handleModalClose() {
-    this.setState({
-      display: false
-    });
-  }
 
   render() {
 
     const hideTab = this.props.hideTab !== undefined && this.props.hideTab == true ? true : false;
-    const { identifier, title, icon } = this.props;
+    const { identifier, title, iconHovered, iconDefault, isEdit } = this.props;
 
     return (
 
@@ -38,8 +24,9 @@ export default class CollapsableGroup extends Component {
         <div className="field-item">
           <button style={{ display: (hideTab ? 'none' : 'block') }} id={"heading" + identifier} className="btn btn-link" data-toggle="collapse" data-target={"#collapse" + identifier} aria-expanded="true" aria-controls={"collapse" + identifier}>
             <span className="field-name">
-              {title}
-              {icon ? <a href="#" onClick={this.props.onClick}><i className={icon}></i></a> : false}
+              <i className={iconDefault}></i>
+              {' '}{title}
+              {isEdit ? <a href="#" className="no-collapsable" style={{ color: "#455660" }} onClick={this.props.onClick}><i className={iconHovered}></i></a> : false}
             </span>
           </button>
           <div id={"collapse" + identifier} className="collapse in" aria-labelledby={"heading" + identifier} aria-expanded="true" aria-controls={"collapse" + identifier}>
@@ -57,5 +44,8 @@ CollapsableGroup.propTypes = {
   identifier: PropTypes.string.isRequired,
   title: PropTypes.string,
   hideTab: PropTypes.bool,
-  icon: PropTypes.string,
+  iconHovered: PropTypes.string,
+  iconDefault: PropTypes.string,
+  isEdit: PropTypes.bool
 };
+

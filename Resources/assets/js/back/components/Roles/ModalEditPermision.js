@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import Switch from '../Layout/ToggleSwitch';
 import Separator from '../Layout/Separator';
-import './../../../../sass/backend/layout/_modal-edit-permision.scss';
+import SidebarTitle from '../Layout/SidebarTitle';
+import InputField from '../Layout/Fields/InputField';
+import SelectField from '../Layout/Fields/SelectField';
+
+const arrayOfGroup = [
+  {
+    id: '1 - Nico',
+    name: 'nico'
+  },
+  {
+    id: '2 - Sergi',
+    name: 'sergi'
+  },
+  {
+    id: '3 - Francicso',
+    name: 'francisco'
+  },
+  {
+    id: '4 - dani',
+    name: 'dani'
+  },
+];
 
 export default class ModalEditPermision extends Component {
 
@@ -13,13 +33,19 @@ export default class ModalEditPermision extends Component {
     super(props);
 
     this.state = {
-
+      selectedValueGroup: 'Nothing selected'
     };
 
   }
 
+  handleSelectChange(selectedValue) {
+    this.setState({
+      selectedValue: selectedValue
+    });
+  }
+
   render() {
-    
+
     return (
 
       <Modal
@@ -28,85 +54,53 @@ export default class ModalEditPermision extends Component {
         title={'Permision | Edit'}
         display={this.props.display}
         zIndex={10000}
-        onModalClose={this.props.onModalClose}  
+        onModalClose={this.props.onModalClose}
+        size={this.props.size}
       >
         <div className="row">
-          <div className="col-md-6 content-right">
-            <h4>ROLES</h4>
-
+          <div className="col-md-6 field-col">
+            <SidebarTitle
+              title={'ROLES'}
+            />
             <Switch
               title={'Permiso 1'}
 
             />
-
-            <Separator />
-
             <Switch
               title={'Permiso 1'}
             />
-
-            <Separator />
-
             <Switch
               title={'Permiso 1'}
             />
-
-            <Separator />
-
             <Switch
               title={'Permiso 1'}
             />
-
-            <Separator />
-
             <Switch
               title={'Permiso 1'}
             />
-
-
-          </div>
-          <div className="col-md-6">
-            <div className={"form-group bmd-form-group "}>
-              <label className="bmd-label-floating">
-                Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name={'name'}
-                placeholder={'placeholder'}
-                value={''}
-              />
-            </div>
-            <div className={"form-group bmd-form-group "}>
-              <label className="bmd-label-floating">
-                Identifier
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name={'identifier'}
-                placeholder={'placeholder'}
-                value={''}
-              />
-            </div>
-            <div className={"form-group bmd-form-group "}>
-              <label className="bmd-label-floating">
-                Group
-              </label>
-              <select className="form-control">
-                <option value="grapefruit">Grapefruit</option>
-                <option value="lime">Lime</option>
-                <option selected value="coconut">Coconut</option>
-                <option value="mango">Mango</option>
-              </select>
-            </div>
           </div>
 
+          <div className="col-md-6 field-col">
+            <InputField
+              title={'Name'}
+              value={''}
+              name={'name'}
+              placeholder={''}
+            />
+            <InputField
+              title={'Identifier'}
+              value={''}
+              name={'identifier'}
+              placeholder={''}
+            />
+            <SelectField
+              arrayOfGroup={arrayOfGroup}
+              title={'Group'}
+              onSelectChange={this.handleSelectChange.bind(this)}
+            />
+          </div>
         </div>
       </Modal>
-
-
     );
   }
 }
@@ -116,5 +110,7 @@ ModalEditPermision.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
   display: PropTypes.bool.isRequired,
-  zIndex: PropTypes.number.isRequired
+  zIndex: PropTypes.number.isRequired,
+  size: PropTypes.string.isRequired
 };
+
