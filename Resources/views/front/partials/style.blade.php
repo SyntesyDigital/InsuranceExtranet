@@ -76,6 +76,8 @@
     $buttonPrimaryColor = isset($storedStylesFront['buttonPrimaryColor']) ? $storedStylesFront['buttonPrimaryColor']->value : $primaryColor;
     $buttonHoverColor = isset($storedStylesFront['buttonHoverColor']) ? $storedStylesFront['buttonHoverColor']->value : $secondaryColor;
 
+    $elementFileInputBorder = isset($storedStylesFront['elementFileInputBorder']) ? $storedStylesFront['elementFileInputBorder']->value : $sidebarBackgroundColor;
+
 
     $fonts = config('fonts');
 ?>

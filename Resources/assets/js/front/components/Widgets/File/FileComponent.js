@@ -152,11 +152,11 @@ export default class FileComponent extends Component {
 
     renderField(name, value, hasRoute){
       return (<div className="element-file-input-container">
-                <div className="col-xs-6 element-file-title">
+                <div className="col-xs-6 col-md-4 element-file-title">
                   {name}
                 </div>
 
-                <div className="col-xs-6 element-file-content"
+                <div className="col-xs-6 col-md-8 element-file-content"
                   dangerouslySetInnerHTML={{__html: value}}
                 >
                 </div>
