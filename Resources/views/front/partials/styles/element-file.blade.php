@@ -23,7 +23,7 @@
   border: 1px solid {{$elementBorder}};
 }
 .element-file-container .element-file-container-body .element-file-input-container{
-  border-bottom: 1px solid {{$elementBackground}};
+  border-bottom: 1px solid {{$elementFileInputBorder}};
 }
 
 .element-collapsable{
