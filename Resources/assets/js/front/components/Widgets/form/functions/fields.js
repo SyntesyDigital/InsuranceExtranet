@@ -74,16 +74,16 @@ export function setupJsonResult(paramArray,index,jsonResult,name,value,arrayPosi
 
   //console.log("setupJsonResult :: setup => ",paramArray,jsonResult,index,name,arrayPosition);
 
-  console.log("setupJsonResult :: iteration : (paramArray,index,jsonResult,name,arrayPosition)",
+  console.log("setupJsonResult :: iteration : (paramArray,index,jsonResult,name,value,arrayPosition)",
     paramArray,
     index,
     JSON.stringify(jsonResult),
     name,
+    value,
     arrayPosition
   );
 
   if(jsonResult === undefined || $.isEmptyObject(jsonResult)){
-
     if(arrayPosition != null){
       //console.log("setupJsonResult :: is array ");
       jsonResult = [{}];
@@ -120,7 +120,7 @@ export function setupJsonResult(paramArray,index,jsonResult,name,value,arrayPosi
       jsonResult[arrayPosition][name] = value;
     }
     else {
-        jsonResult[name] = value;
+      jsonResult[name] = value;
     }
   }
   return jsonResult;
@@ -164,7 +164,7 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
-  //console.log("processObjectValue :: ",object,values, formParameters);
+  console.log("processObjectValue :: ",object,values, formParameters);
 
   if(type == "INPUT"){
 
