@@ -4,7 +4,7 @@ import ButtonPrimary from '../Layout/ButtonPrimary';
 import BarTitle from '../Layout/BarTitle';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import Checkbox from '../Layout/CheckBox';
-import Switch from '../Layout/ToggleSwitch';
+import Switch from '../Layout/Fields/ToggleField';
 
 
 export default class UserRolesUpdate extends Component {

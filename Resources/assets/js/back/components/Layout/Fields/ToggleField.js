@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Switch from "react-switch";
 import PropTypes from 'prop-types';
 
-export default class ToggleSwitch extends Component {
+export default class ToggleField extends Component {
   constructor(props) {
     super(props);
     this.state = { checked: false };
@@ -43,7 +43,7 @@ export default class ToggleSwitch extends Component {
   
 }
 
-ToggleSwitch.propTypes = {
+ToggleField.propTypes = {
   title: PropTypes.string,
   disabled: PropTypes.bool
 };

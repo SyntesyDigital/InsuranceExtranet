@@ -1,0 +1,27 @@
+.field-list-item {
+  .field-type {
+      text-align: left;
+
+      i.fa,i.fas,i.far{
+        position: absolute;
+        top: 12px;
+        left: 18px;
+        font-size: 22px;
+        padding-right: 10px;
+        color: #b4b4b4;
+      }
+
+      .type-info i{
+        position: relative;
+        color: $brand-success;
+        font-size: 16px;
+        top: 0px;
+      }
+  }
+  
+  .col {
+    line-height: 40px;
+    padding-left: 15px;
+  }
+
+}

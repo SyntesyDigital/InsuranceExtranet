@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
-import Switch from '../Layout/ToggleSwitch';
-import Separator from '../Layout/Separator';
+import Switch from '../Layout/Fields/ToggleField';
 import SidebarTitle from '../Layout/SidebarTitle';
 import InputField from '../Layout/Fields/InputField';
 import SelectField from '../Layout/Fields/SelectField';
