@@ -1,0 +1,32 @@
+.modal-edit-permision{
+
+    .container-roles-switch{
+
+        text-align: center;
+
+        label{
+            margin: 10px;
+        }
+    }
+
+    .modal-container {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .icon-edit i {
+        display: block;
+        width: 32px;
+        height: 32px;
+    }
+    
+}
+
+.modal-edit-group{
+
+    .modal-container {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+}

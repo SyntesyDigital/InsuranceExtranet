@@ -9,7 +9,6 @@ export default  class FieldListItem extends Component {
         super(props);
 
         this.onRemoveField = this.onRemoveField.bind(this);
-  	    this.handleChange = this.handleChange.bind(this);
   	    this.onOpenSettings = this.onOpenSettings.bind(this);
     }
 
@@ -21,34 +20,35 @@ export default  class FieldListItem extends Component {
   	onOpenSettings(event) {
   	    event.preventDefault();
 
-  	}
+    }
+    
+    renderIcons() {
 
-  	handleChange(event){
-      event.preventDefault();
-  	}
+      if(this.props.icons === undefined)
+        return null;
 
-  	handleIdentifierChange(value) {
-
-  	}
+      return this.props.icons.map((item,index) => 
+        <i class={item} key={index}></i>
+      );
+    }
 
     render() {
         return (
-          <div className="typology-field">
+          <div className="typology-field field-list-item">
             <div className="field-type">
               <i className={this.props.icon}></i> &nbsp;
     					{this.props.label}
+
+              <div class="type-info">
+                <span class="text-success">
+                  {this.renderIcons()}
+                </span>
+              </div>
+
             </div>
 
             <div className="field-inputs">
-              <div className="row">
-                <div className="field-name col-xs-6">
-                  <input type="text" className="form-control" name="name" placeholder="Nom" value={this.props.name} onChange={this.handleChange}/>
-                </div>
-    						<div className="field-name col-xs-6">
-    							<input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.props.identifier} onChange={this.handleChange} />
-    						</div>
-
-              </div>
+              {this.props.children}
             </div>
 
             <div className="field-actions text-right" style={{
@@ -72,6 +72,5 @@ export default  class FieldListItem extends Component {
 FieldListItem.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  identifier: PropTypes.string.isRequired,
+  icons: PropTypes.array
 };

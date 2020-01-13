@@ -41,4 +41,8 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(Request $request){
+        return view('extranet::users.roles-update');
+    }
+
 }

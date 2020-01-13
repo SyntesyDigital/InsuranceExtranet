@@ -4,11 +4,12 @@ import ReactDOM from 'react-dom';
 import BarTitle from '../BarTitle';
 import ButtonPrimary from '../ButtonPrimary';
 import ButtonSecondary from '../ButtonSecondary';
-import Separator from '../Separator';
 import CollapsableGroup from '../CollapsableGroup';
 import FieldList from '../FieldList';
 import FieldListItem from '../FieldListItem';
 import Modal from '../Modal';
+import ToggleField from '../Fields/ToggleField';
+import ButtonDropdown from '../ButtonDropdown';
 
 export default class Template3 extends Component {
 
@@ -48,6 +49,24 @@ export default class Template3 extends Component {
                 backRoute={'#'}
               >
 
+                <ButtonDropdown
+                  label={'Actions'}
+                  list={[
+                    {
+                      label : 'Nouveau',
+                      icon : 'fa fa-plus-circle',
+                      route : '/architect/contents/page/create',
+                      className : ''
+                    },
+                    {
+                      label : 'Nouveau',
+                      icon : 'fa fa-plus-circle',
+                      route : '/architect/contents/page/create',
+                      className : 'text-danger'
+                    }
+                  ]}
+                />
+
                 <ButtonSecondary
                   label={'Secondary'}
                   icon={'fa fa-plus'}
@@ -75,106 +94,50 @@ export default class Template3 extends Component {
 
 
                   <FieldList>
+
                     <FieldListItem
                       icon={'fa fa-file'}
                       label={'Name'}
                       identifier={'id'}
-                    />
-
+                    >
+                        <div className="row">
+                          <div className="field-name col-xs-6">
+                            <input type="text" className="form-control" name="name" placeholder="Nom" value={this.props.name} onChange={this.handleChange}/>
+                          </div>
+                          <div className="field-name col-xs-6">
+                            <input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.props.identifier} onChange={this.handleChange} />
+                          </div>
+                        </div>
+                    </FieldListItem>
+                    
+                    <FieldListItem
+                      icon={'fas fa-bars'}
+                      label={''}
+                      identifier={'id'}
+                      icons={[
+                        'fas fa-cog'
+                      ]}
+                    >
+                        <div className="row">
+                          <div className="col col-xs-6 text-left">
+                            Name
+                          </div>
+                          <div className="col col-xs-6 text-left">
+                            Service
+                          </div>
+                        </div>
+                    </FieldListItem>
                   </FieldList>
 
 
                 </div>
                 <div className="sidebar">
 
-
-                  {/* TODO add this label to
-                    Component
-                    <SidebarTitle
-                      label={'CHECKBOX GROUP'}
-                    />
-                    */}
-                  <label className="bmd-label-floating">
-                    CHECKBOX GROUP
-                  </label>
-
-                  {/* TODO Componente
-                    Implemente this toggle button to component
-                    <ToggleField
-                      label={'Label'}
-                      name={'name'}
-                      checked={true}
-                      disabled={false}
-                    />
-                    */}
-                  <div className="togglebutton">
-                      <label>
-                        Label
-                        <input type="checkbox" name="name" checked={false} disabled={true} />
-                      </label>
-                  </div>
-
-                  <div className="togglebutton">
-                      <label>
-                        Label 2
-                        <input type="checkbox" name="name" checked={true} disabled={true} />
-                      </label>
-                  </div>
-
-                  <div className="togglebutton">
-                      <label>
-                        Label 3
-                        <input type="checkbox" name="name" checked={true} disabled={false} />
-                      </label>
-                  </div>
+                   <ToggleField
+                    title="Label"
+                  />
 
                   <hr/>
-
-                  {/*
-                      TODO implemente this in component
-                      <SelectField
-                        label={"Select label"}
-                        id={'parent_id'}
-                        options={[
-                          {name="---","value=""},
-                          {name="Option 1","value="1"}
-                        ]}
-                      />
-                  */}
-                  <div className="form-group bmd-form-group sidebar-item">
-                      <label htmlFor="parent_id" className="bmd-label-floating">
-                        Select label
-                      </label>
-
-                     <select className="form-control" id="parent_id" name="parent_id" value={'1'} >
-                          <option value="">---</option>
-                          <option value="1">Option 1</option>
-                     </select>
-                  </div>
-
-                  {/*
-                    TODO implement to component
-                    <TextField
-                      label={'Field label'}
-                      id={''}
-                      name={'Name'}
-                      placeholder={'placeholder'}
-                    />
-                  */}
-                  <div className={"form-group bmd-form-group "}>
-                      <label className="bmd-label-floating">
-                        Field label
-                      </label>
-                      <input
-                          id={''}
-                          type="text"
-                          className="form-control"
-                          name={'Name'}
-                          placeholder={'placeholder'}
-                          value={''}
-                      />
-                  </div>
-
 
                 </div>
               </div>

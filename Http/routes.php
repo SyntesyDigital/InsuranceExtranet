@@ -21,6 +21,11 @@ Route::group([
     Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
     Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
 
+    Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
+    Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
+    Route::get('/roles/update', 'RoleController@update')->name('extranet.roles.update');
+    Route::get('/users/roles-update', 'UserController@update')->name('extranet.users.roles.update');
+
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
     Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');

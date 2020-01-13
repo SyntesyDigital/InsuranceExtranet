@@ -1,0 +1,50 @@
+.custom-modal{
+    
+    .form-group{
+        margin: 0;
+    }
+
+    .modal-container{
+        margin: 0 auto;
+    }
+    .field-col{
+        height: calc(100vh - 250px);
+        overflow-y: scroll;
+    }
+    
+    .modal-content{
+
+        .container{
+            overflow: unset;
+        }
+    }
+
+    .medium{
+        width: 50%;
+    }
+
+    .large{
+        width: 100%;
+    }
+
+    .small{
+        width: 25%;
+    }
+
+    #modal-edit-permision{
+        
+        .modal-container{
+            width: 50%;
+            margin: 0 auto;
+        }
+        
+        .form-group{
+            margin: 0 !important;
+        }
+
+    }
+}
+
+
+
+
