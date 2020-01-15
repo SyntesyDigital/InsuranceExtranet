@@ -10,3 +10,9 @@ require('./components/Layout/Templates/Template3');
 require('./components/Roles/RolesIndex');
 require('./components/Roles/RolesUpdate');
 require('./components/Users/UserRolesUpdate');
+require('./components/Services/ServicesIndex');
+require('./components/Services/ServicesUpdate');
+require('./components/ElementsModels/ElementsModelsIndex');
+require('./components/ElementsModels/FormsIndex');
+require('./components/ElementsModels/FormsUpdate');
+

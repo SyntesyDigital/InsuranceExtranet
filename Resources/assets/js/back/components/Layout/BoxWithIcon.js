@@ -11,12 +11,12 @@ export default class BoxWithIcon extends Component {
 
     render() {
         return (
-          <div class="col-xs-3">
+          <div className="col-xs-3">
             <a href="">
-              <div class="grid-item">
-                <div class="grid-item-content">
-                  <i class={this.props.icon}></i>
-                  <p class="grid-item-name">
+              <div className="grid-item">
+                <div className="grid-item-content">
+                  <i className={this.props.icon}></i>
+                  <p className="grid-item-name">
                       {this.props.name}
                   </p>
                 </div>

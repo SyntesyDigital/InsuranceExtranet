@@ -32,7 +32,7 @@ export default class ModalEditPermision extends Component {
     super(props);
 
     this.state = {
-      selectedValueGroup: 'Nothing selected'
+      selectedValue: 'Nothing selected'
     };
 
   }
