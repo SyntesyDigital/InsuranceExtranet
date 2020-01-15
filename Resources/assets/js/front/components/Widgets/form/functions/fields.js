@@ -309,6 +309,7 @@ export function processResponseParameters(response,service,formParameters) {
         var parameterIdentifier = parameterArray[0];
         var responseValue = parameterArray[1];
 
+        //TODO recorrer por todo el objeto o array hasta encontrar el valor
         formParameters[parameterIdentifier] = response[responseValue];
       }
     }
