@@ -12,6 +12,9 @@ export default  class PageTitle extends Component {
     render() {
         return (
           <div>
+            {this.props.backRoute !== undefined &&
+              <a href={this.props.backRoute} className="btn btn-default btn-backroute"> <i className="fa fa-angle-left"></i> </a>
+            }
             <h3 className="card-title" style={{
               display: 'inline-block',
               verticalAlign: 'top',
@@ -30,5 +33,6 @@ export default  class PageTitle extends Component {
 
 PageTitle.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  backRoute: PropTypes.string,
 };

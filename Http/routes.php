@@ -13,14 +13,14 @@ Route::group([
     'web',
     'auth:veos-ws',
     'roles:ROLE_SUPERADMIN,ROLE_SYSTEM',
-    'DetectUserLocale'
+    'DetectUserLocale',
   ],
-], function() {
-
+], function () {
     // Templates
     Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
     Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
 
+    // Roles
     Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
     Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
     Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create'); 
@@ -33,6 +33,16 @@ Route::group([
     Route::get('/users/datatable', 'UserController@datatable')->name('extranet.users.datatable');
     Route::get('/users/{id}/update/', 'UserController@update')->name('extranet.users.update');
     Route::get('/users/{id}/delete/', 'UserController@delete')->name('extranet.users.delete');
+
+    // Services
+    Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
+    Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
+    Route::get('/services/update', 'ServiceController@update')->name('extranet.services.update');
+
+    //Elements Models
+    Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
+    Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
+    Route::get('/elements-models/forms/update', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
 
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
@@ -49,7 +59,6 @@ Route::group([
     Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
     Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
     Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
-
 
     // Elements
     Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
@@ -70,36 +79,31 @@ Route::group([
     Route::post('/routes_parameters/store', 'RouteParameterController@store')->name('extranet.routes_parameters.store');
     Route::put('/routes_parameters/{route_parameter}/update', 'RouteParameterController@update')->name('extranet.routes_parameters.update');
     Route::delete('/routes_parameters/{route_parameter}/delete', 'RouteParameterController@delete')->name('extranet.routes_parameters.delete');
-
 });
 
 Route::group([
   'middleware' => ['web', 'auth:veos-ws'],
   'prefix' => 'architect',
-  'namespace' => 'Modules\Extranet\Http\Controllers'
-], function() {
-  //update user session
-  Route::post('/session','UserController@setUserSession')->name('session.update');
+  'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+    //update user session
+    Route::post('/session', 'UserController@setUserSession')->name('session.update');
 
+    Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
+    Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
+    Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
 
-  Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
-  Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
-  Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
+    //filters
+    Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
 
+    //tables
+    Route::get('/elements/{element}/export/{limit?}', 'ElementController@export')->name('table.export');
+    Route::get('/extranet/{element}/model_values/data/{limit?}', 'ElementController@getModelValues')->name('extranet.element.mode_values.data');
 
-  //filters
-  Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
-
-  //tables
-  Route::get('/elements/{element}/export/{limit?}', 'ElementController@export')->name('table.export');
-  Route::get('/extranet/{element}/model_values/data/{limit?}', 'ElementController@getModelValues')->name('extranet.element.mode_values.data');
-
-  //form
-  Route::get('/elements/select/data/{name}', 'ElementController@getSelectData')->name('elements.select.data');
-  Route::get('/elements/procedures/{modelId}', 'ElementController@getFormProcedures')->name('elements.procedures');
-  Route::post('/elements/form/process-service', 'ElementController@postService')->name('elements.postservice');
-
-
+    //form
+    Route::get('/elements/select/data/{name}', 'ElementController@getSelectData')->name('elements.select.data');
+    Route::get('/elements/procedures/{modelId}', 'ElementController@getFormProcedures')->name('elements.procedures');
+    Route::post('/elements/form/process-service', 'ElementController@postService')->name('elements.postservice');
 });
 
 /*
@@ -111,19 +115,17 @@ Route::group([
 Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
   //'middleware' => ['web','auth:veos-ws','localeSessionRedirect', 'localeViewPath','localize'],
-  'middleware' => ['web','auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM'],
-  'namespace' => 'Modules\Extranet\Http\Controllers'
-], function() {
+  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM'],
+  'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
     Route::get('/preview/{id}', 'ContentController@preview')->name('preview');
 });
 
-
 Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
-  'middleware' => ['web','auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
-  'namespace' => 'Modules\Extranet\Http\Controllers'
-], function() {
-
+  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
+  'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');
     Route::get(LaravelLocalization::transRoute('routes.tag.index'), 'TagController@index')->name('blog.tag.index');
     Route::get(LaravelLocalization::transRoute('search'), 'ContentController@search')->name('front.search');
@@ -138,7 +140,7 @@ Route::group([
     Route::get('js/lang-{locale}.js', 'LocalizationController@index')->name('messages');
     Route::get('js/localization-{locale}.js', 'LocalizationController@localization')->name('localization.js');
 
-    Route::get('/{slug}','ContentController@show')
+    Route::get('/{slug}', 'ContentController@show')
       ->where('slug', '([A-Za-z0-9\-\/]+)')
       ->name('content.show');
 });

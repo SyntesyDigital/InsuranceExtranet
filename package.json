@@ -65,6 +65,7 @@
     "react-dnd-html5-backend": "^2.6.0",
     "react-file-picker": "0.0.6",
     "react-hover": "^1.4.0",
+    "react-json-editor-ajrm": "^2.5.9",
     "react-leaflet": "^1.9.1",
     "react-masonry-component": "^6.2.1",
     "react-modal-bootstrap": "^1.1.1",
