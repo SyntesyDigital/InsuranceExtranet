@@ -29,10 +29,10 @@ class TemplateController extends Controller
     {
 
         $collection = collect([
-          ['name' => 'Regena', 'age' => 12],
-          ['name' => 'Linda', 'age' => 14],
-          ['name' => 'Diego', 'age' => 23],
-          ['name' => 'Linda', 'age' => 84],
+          ['id' => 1,'name' => 'Regena', 'age' => 12],
+          ['id' => 2,'name' => 'Linda', 'age' => 14],
+          ['id' => 3,'name' => 'Diego', 'age' => 23],
+          ['id' => 4,'name' => 'Linda', 'age' => 84],
         ]);
 
         return Datatables::of($collection)
@@ -46,7 +46,7 @@ class TemplateController extends Controller
             ->addColumn('action', function ($item) {
                 return '
                 <a href="" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get("architect::datatables.edit").'</a>&nbsp;
-                <a href="#" class="btn btn-link text-danger" data-toogle="delete" data-confirm-message="'.Lang::get("architect::language.del_lang_msg").'"><i class="fa fa-trash-alt"></i> '.Lang::get("architect::datatables.delete").'</a> &nbsp;
+                <a href="#" class="btn btn-link text-danger has-event" data-type="delete" data-payload="'.$item['id'].'" ><i class="fa fa-trash-alt"></i> '.Lang::get("architect::datatables.delete").'</a> &nbsp;
                 ';
             })
             ->rawColumns(['default','action'])   //columns with html

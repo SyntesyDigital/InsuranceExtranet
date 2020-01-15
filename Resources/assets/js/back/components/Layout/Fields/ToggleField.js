@@ -5,23 +5,22 @@ import PropTypes from 'prop-types';
 export default class ToggleField extends Component {
   constructor(props) {
     super(props);
-    this.state = { checked: false };
-    this.handleChange = this.handleChange.bind(this);
+
   }
 
-  handleChange(checked) {
-    this.setState({ checked });
+  handleOnChange(value) {
+    this.props.onChange(this.props.name,value);
   }
 
   render() {
-    const {title, disabled} = this.props;
+    const {label, disabled} = this.props;
     return (
       <div className="container-toggle-switch">
         <label>
-        <span>{title}</span>
+        <span>{label}</span>
         <Switch
-          checked={this.state.checked}
-          onChange={this.handleChange}
+          checked={this.props.checked}
+          onChange={this.handleOnChange.bind(this)}
           onColor="#86d3ff"
           onHandleColor="#2693e6"
           handleDiameter={20}
@@ -44,6 +43,9 @@ export default class ToggleField extends Component {
 }
 
 ToggleField.propTypes = {
-  title: PropTypes.string,
-  disabled: PropTypes.bool
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  checked : PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+  onChange : PropTypes.func
 };

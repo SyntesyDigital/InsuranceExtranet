@@ -21,9 +21,9 @@ class RoleController extends Controller
     {
 
         $collection = collect([
-          ['name' => 'Admin', 'role' => 'administrator'],
-          ['name' => 'Editor', 'role' => 'editor'],
-          ['name' => 'Subscriber', 'role' => 'subscriber'],
+          ['id' => 1, 'name' => 'Admin', 'role' => 'administrator'],
+          ['id' => 2, 'name' => 'Editor', 'role' => 'editor'],
+          ['id' => 3, 'name' => 'Subscriber', 'role' => 'subscriber'],
         ]);
 
         return Datatables::of($collection)
@@ -39,15 +39,27 @@ class RoleController extends Controller
             })
             ->addColumn('action', function ($item) {
                 return '
-                <a href="roles/update" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get("architect::datatables.edit").'</a>&nbsp;
-                <a href="#" class="btn btn-link text-danger" data-toogle="delete" data-confirm-message="'.Lang::get("architect::language.del_lang_msg").'"><i class="fa fa-trash-alt"></i> '.Lang::get("architect::datatables.delete").'</a> &nbsp;
+                <a href="'.route('extranet.roles.update',['id' => $item['id']]).'" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get("architect::datatables.edit").'</a>&nbsp;
+                <a href="#" class="btn btn-link text-danger has-event" data-type="delete" data-payload="'.$item['id'].'" ><i class="fa fa-trash-alt"></i> '.Lang::get("architect::datatables.delete").'</a> &nbsp;
                 ';
             })
             ->rawColumns(['default','action', 'icon'])
             ->make(true);
     }
 
-    public function update(Request $request){
+    public function create(Request $request){
+        return view('extranet::roles.update');
+    }
+
+    public function duplicate(Request $request,$id){
+        return view('extranet::roles.update');
+    }
+
+    public function delete(Request $request,$id){
+        return true;
+    }
+    
+    public function update(Request $request,$id){
         return view('extranet::roles.update');
     }
 }

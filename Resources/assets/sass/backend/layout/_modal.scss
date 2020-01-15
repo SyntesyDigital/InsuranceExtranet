@@ -10,6 +10,10 @@
     .field-col{
         height: calc(100vh - 250px);
         overflow-y: scroll;
+
+        &.border-right {
+            border-right:1px solid #ccc;
+        }
     }
     
     .modal-content{
@@ -19,12 +23,14 @@
         }
     }
 
-    .small{
-        width: 25%;
-    }
-
-    .medium{
-        width: 50%;
+    .medium {
+        width: 100%;
+        @include mq(tablet) {
+            width: 70%;
+        }
+        @include mq(wide) {
+            width: 50%;
+        }
     }
 
     .medium-large{
@@ -33,6 +39,16 @@
 
     .large{
         width: 100%;
+    }
+
+    .small{
+        width: 100%;
+        @include mq(tablet) {
+            width: 50%;
+        }
+        @include mq(wide) {
+            width: 30%;
+        }
     }
 
     .outer-box{
@@ -50,6 +66,14 @@
             margin: 0 !important;
         }
 
+    }
+
+    .modal-header {
+        i {
+            padding-right: 10px;
+            font-size: 14px;
+            color: #858585;
+        }
     }
 }
 

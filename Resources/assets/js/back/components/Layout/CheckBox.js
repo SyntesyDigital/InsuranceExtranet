@@ -25,7 +25,13 @@ export default class CheckBox extends Component {
             <div>
                 <div className="checkbox" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} >
                     <label>
-                        <input type="checkbox" name="optionsCheckboxes" disabled={disabled} onChange={this.props.onChange}/>
+                        <input 
+                            type="checkbox" 
+                            name="optionsCheckboxes" 
+                            disabled={disabled} 
+                            onChange={this.props.onChange} 
+                            checked={this.props.value} 
+                        />
                         <span>{title}</span>
                     </label>
                     {isEdit ? <span className='icon' style={{ margin: '5px' }}>
@@ -40,7 +46,8 @@ export default class CheckBox extends Component {
 }
 
 CheckBox.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    value: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     iconEdit: PropTypes.string,
     isEdit: PropTypes.bool

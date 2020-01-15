@@ -6,6 +6,7 @@
 
 @import '../helpers/common';
 @import '../helpers/mixins';
+@import '../helpers/breakpoints';
 
 @import 'variables';
 @import 'filelists';
@@ -22,3 +23,7 @@
 @import './layout/field-list-item';
 @import './layout/dropdown-button';
 @import './layout/elements-models';
+@import './layout/box_add_group';
+@import './layout/icon-field';
+@import './layout/collapsable-group';
+@import './layout/box-input-add.scss';
