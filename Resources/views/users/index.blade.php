@@ -1,7 +1,7 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="roles-index">
+<div id="users-index">
 </div>
 @endsection
 
@@ -16,8 +16,7 @@
 @push('javascripts')
 <script>
   var routes = {
-    'extranet.roles.datatable' : "{{route('extranet.roles.datatable')}}",
-    'extranet.roles.create' : "{{route('extranet.roles.create')}}",
+    'extranet.users.datatable' : "{{route('extranet.users.datatable')}}"
   };
 </script>
 @endpush

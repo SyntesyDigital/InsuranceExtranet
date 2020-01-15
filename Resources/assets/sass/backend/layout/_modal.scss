@@ -10,6 +10,10 @@
     .field-col{
         height: calc(100vh - 250px);
         overflow-y: scroll;
+
+        &.border-right {
+            border-right:1px solid #ccc;
+        }
     }
     
     .modal-content{
@@ -19,8 +23,14 @@
         }
     }
 
-    .medium{
-        width: 50%;
+    .medium {
+        width: 100%;
+        @include mq(tablet) {
+            width: 70%;
+        }
+        @include mq(wide) {
+            width: 50%;
+        }
     }
 
     .large{
@@ -28,7 +38,13 @@
     }
 
     .small{
-        width: 25%;
+        width: 100%;
+        @include mq(tablet) {
+            width: 50%;
+        }
+        @include mq(wide) {
+            width: 30%;
+        }
     }
 
     #modal-edit-permision{
@@ -42,6 +58,14 @@
             margin: 0 !important;
         }
 
+    }
+
+    .modal-header {
+        i {
+            padding-right: 10px;
+            font-size: 14px;
+            color: #858585;
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ButtonSecondary from './ButtonSecondary';
 
 export default class BoxAddGroup extends Component {
 
@@ -27,12 +28,12 @@ export default class BoxAddGroup extends Component {
 
     return (
 
-      <div>
-        <div id={"heading" + identifier} style={divStyle} onClick={this.props.onClick}>
-          <span className="field-name">
-            <i className="fa fa-plus"></i> {title}
-          </span>
-        </div>
+      <div id={identifier} className="box-add-group add-row-block">
+        <ButtonSecondary
+          label={title}
+          icon='fa fa-plus-circle'
+          onClick={this.props.onClick}
+        />
       </div>
     );
   }
@@ -40,6 +41,6 @@ export default class BoxAddGroup extends Component {
 
 BoxAddGroup.propTypes = {
   identifier: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  hideTab: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  onClick : PropTypes.func.isRequired,
 };

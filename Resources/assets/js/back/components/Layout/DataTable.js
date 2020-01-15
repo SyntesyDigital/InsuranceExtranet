@@ -16,7 +16,7 @@ export default class DataTable extends Component {
 
     componentDidMount()
     {
-      this.initEvents();
+      //this.initEvents();
 
       if(this.props.init !== undefined && this.props.init == true){
         this.setDatatable(this.props.route);
@@ -60,7 +60,7 @@ export default class DataTable extends Component {
             ajax: route,
             columns: this.props.columns,
             initComplete: function(settings, json) {
-                //_this.initEvents();
+                _this.initEvents();
             }
         });
     }
@@ -79,16 +79,16 @@ export default class DataTable extends Component {
 
     initEvents()
     {
-        /*
         var _this = this;
-        $(document).on('click','#table-contents .add-item',function(e){
+        $(document).on('click','#'+this.props.id+' .has-event',function(e){
+          
           e.preventDefault();
-          var content = $(this).data('content');
-          content = JSON.parse(atob(content));
+          var type = $(this).data('type');
+          var payload = $(this).data('payload');
 
-          _this.props.onSelectItem(content);
+          _this.props.onClick(type,payload);
         });
-        */
+        
     }
 
     renderHeader() {
@@ -106,7 +106,7 @@ export default class DataTable extends Component {
     render() {
         return (
           <div>
-            <table ref="main" className="table" id="table-contents" style={{width:"100%"}}>
+            <table ref="main" className="table" id={this.props.id} style={{width:"100%"}}>
                 <thead>
                    <tr>
                        {this.renderHeader()}
@@ -124,6 +124,7 @@ export default class DataTable extends Component {
 }
 
 DataTable.propTypes = {
+  id : PropTypes.string.isRequired,
   init: PropTypes.bool.isRequired,
   route: PropTypes.string.isRequired,
   columns: PropTypes.array.isRequired,

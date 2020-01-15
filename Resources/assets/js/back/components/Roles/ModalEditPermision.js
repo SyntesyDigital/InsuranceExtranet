@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
-import Switch from '../Layout/Fields/ToggleField';
+import ToggleField from '../Layout/Fields/ToggleField';
 import SidebarTitle from '../Layout/SidebarTitle';
 import InputField from '../Layout/Fields/InputField';
 import SelectField from '../Layout/Fields/SelectField';
@@ -57,44 +57,44 @@ export default class ModalEditPermision extends Component {
         size={this.props.size}
       >
         <div className="row">
-          <div className="col-md-6 field-col">
+          <div className="col-xs-6 field-col border-right">
             <SidebarTitle
               title={'ROLES'}
             />
-            <Switch
-              title={'Permiso 1'}
+            <ToggleField
+              label={'Permiso 1'}
 
             />
-            <Switch
-              title={'Permiso 1'}
+            <ToggleField
+              label={'Permiso 1'}
             />
-            <Switch
-              title={'Permiso 1'}
+            <ToggleField
+              label={'Permiso 1'}
             />
-            <Switch
-              title={'Permiso 1'}
+            <ToggleField
+              label={'Permiso 1'}
             />
-            <Switch
-              title={'Permiso 1'}
+            <ToggleField
+              label={'Permiso 1'}
             />
           </div>
 
-          <div className="col-md-6 field-col">
+          <div className="col-xs-6 field-col">
             <InputField
-              title={'Name'}
+              label={'Name'}
               value={''}
               name={'name'}
               placeholder={''}
             />
             <InputField
-              title={'Identifier'}
+              label={'Identifier'}
               value={''}
               name={'identifier'}
               placeholder={''}
             />
             <SelectField
               arrayOfGroup={arrayOfGroup}
-              title={'Group'}
+              label={'Group'}
               onSelectChange={this.handleSelectChange.bind(this)}
             />
           </div>

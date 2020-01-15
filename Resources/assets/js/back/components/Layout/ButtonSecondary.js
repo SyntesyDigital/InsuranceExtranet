@@ -11,7 +11,7 @@ export default class ButtonSecondary extends Component {
 
     render() {
         return (
-          <a href="" className="btn btn-default" onClick={this.props.onClick}>
+          <a href={this.props.route} className="btn btn-default" onClick={this.props.onClick}>
             <i className={this.props.icon}></i>
             &nbsp;&nbsp;
             {this.props.label}
@@ -22,5 +22,7 @@ export default class ButtonSecondary extends Component {
 
 ButtonSecondary.propTypes = {
   label: PropTypes.string.isRequired,
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  onClick : PropTypes.func,
+  route : PropTypes.string
 };

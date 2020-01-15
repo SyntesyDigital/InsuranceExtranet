@@ -23,8 +23,16 @@ Route::group([
 
     Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
     Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
-    Route::get('/roles/update', 'RoleController@update')->name('extranet.roles.update');
-    Route::get('/users/roles-update', 'UserController@update')->name('extranet.users.roles.update');
+    Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create'); 
+    Route::post('/roles/{id}/duplicate', 'RoleController@duplicate')->name('extranet.roles.duplicate'); 
+    Route::get('/roles/{id}/update', 'RoleController@update')->name('extranet.roles.update');
+    Route::delete('/roles/{id}/delete', 'RoleController@delete')->name('extranet.roles.delete');
+
+    //users
+    Route::get('/users', 'UserController@index')->name('extranet.users.index');
+    Route::get('/users/datatable', 'UserController@datatable')->name('extranet.users.datatable');
+    Route::get('/users/{id}/update/', 'UserController@update')->name('extranet.users.update');
+    Route::get('/users/{id}/delete/', 'UserController@delete')->name('extranet.users.delete');
 
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
@@ -38,9 +46,9 @@ Route::group([
     Route::get('/sitelists', 'Admin\SiteListController@index')->name('extranet.admin.sitelists.index');
     Route::get('/sitelists/create', 'Admin\SiteListController@create')->name('extranet.admin.sitelists.create');
     Route::post('/sitelists/store', 'Admin\SiteListController@store')->name('extranet.admin.sitelists.store');
-    Route::get('/sitelists/{sitelist?}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
-    Route::put('/sitelists/{sitelist?}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
-    Route::delete('/sitelists/{sitelist?}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
+    Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
+    Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
+    Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
 
 
     // Elements

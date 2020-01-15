@@ -8,6 +8,21 @@ import DataTable from '../DataTable';
 import Separator from '../Separator';
 
 export default class Template1 extends Component {
+
+    removeItem(id) {
+      console.log("RolesIndex :: removeItem :: (id) ",id);
+    }
+
+    handleDatatableClick(type,payload) {
+      switch(type) {
+        case 'delete' : 
+          this.removeItem(payload);
+          return;
+        default : 
+          return;
+      }
+    }
+
     render() {
         return (
             <div className="container leftbar-page">
@@ -32,6 +47,7 @@ export default class Template1 extends Component {
                 />
 
                 <DataTable
+                    id={'template-datatable'}
                     columns={[
                         {data: 'name', name: 'Nom'},
                         {data: 'age', name: 'Age'},
@@ -40,6 +56,7 @@ export default class Template1 extends Component {
                     ]}
                     init={true}
                     route={routes['extranet.template.datatable']}
+                    onClick={this.handleDatatableClick.bind(this)}
                 />
 
               </div>

@@ -14,7 +14,7 @@ return [
         "roles" => [ROLE_SYSTEM]
     ],
     [
-        "route" => 'extranet.elements.index',
+        "route" => 'extranet.users.index',
         "icon" => "fas fa-users",
         "label" => Lang::get('extranet::settings.users'),
         "roles" => [ROLE_SYSTEM]

@@ -28,13 +28,13 @@ export default class ModalEditGroup extends Component {
                 size={this.props.size}       
             >
                 <div className="row">
-                    <div className="col-xs-8 col-xs-offset-2">
+                    <div className="col-xs-12">
                         <InputField 
-                            title={'Name'}
+                            label={'Name'}
                             name={'name'}
                         />
                         <InputField 
-                            title="Identifier"
+                            label="Identifier"
                             name={'identifier'}
                         />
                     </div>

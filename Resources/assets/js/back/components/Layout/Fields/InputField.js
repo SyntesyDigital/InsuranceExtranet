@@ -7,17 +7,23 @@ export default class InputField extends Component {
         super(props);
     }
 
+    handleOnChange(e) {
+        this.props.onChange(this.props.name,e.target.value);
+    }
+
     render() {
-        const { title } = this.props;
+        const { label } = this.props;
         return (
-            <div>
+            <div className="form-group bmd-form-group">
                 <label className="bmd-label-floating">
-                    {title}
+                    {label}
                 </label>
                 <input
                     type="text"
                     className="form-control"
                     name={this.props.name}
+                    value={this.props.value}
+                    onChange={this.handleOnChange.bind(this)}
                 />
             </div>
         );
@@ -25,6 +31,8 @@ export default class InputField extends Component {
 }
 
 InputField.propTypes = {
-    title: PropTypes.string,
-    name: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange : PropTypes.func
 };

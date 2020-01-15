@@ -15,7 +15,7 @@ export default class ButtonDropdown extends Component {
       
       return this.props.list.map((item,index) => 
         <li key={index}>
-          <a href={item.route} className={'dropdown-item '+ item.className}>
+          <a href={item.route} className={'dropdown-item '+ item.className} onClick={item.onClick}>
             <i className={item.icon}></i>&nbsp;{item.label}
           </a>
         </li>
@@ -26,7 +26,7 @@ export default class ButtonDropdown extends Component {
         return (
           <div className="actions-dropdown button-dropdown">
             <a href="#" className="dropdown-toggle btn btn-default" data-toggle="dropdown" aria-expanded="false">
-              Actions
+              {this.props.label}
               <b className="caret"></b>
               <div className="ripple-container"></div>
             </a>

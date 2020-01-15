@@ -5,13 +5,23 @@ import ButtonPrimary from '../Layout/ButtonPrimary';
 import ButtonSecondary from '../Layout/ButtonSecondary';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import BoxAddGroup from '../Layout/BoxAddGroup';
-import Switch from '../Layout/Fields/ToggleField';
+import ToggleField from '../Layout/Fields/ToggleField';
 import SidebarTitle from '../Layout/SidebarTitle';
 import ModalEditPermision from '../Roles/ModalEditPermision';
 import ModalEditGroup from '../Roles/ModalEditGroup';
 import Checkbox from '../Layout/CheckBox';
 import InputField from '../Layout/Fields/InputField';
+import ButtonDropdown from '../Layout/ButtonDropdown';
+import IconField from '../Layout/Fields/IconField';
+import BoxInputAdd from '../Layout/BoxInputAdd';
 
+/**
+ * Acciones : 
+ *  - duplicar
+ *  - borrar
+ *  - guardar
+ *  - parte creación nuevo permiso ( modal inidividual )
+ */
 export default class RolesUpdate extends Component {
 
     constructor(props) {
@@ -19,9 +29,81 @@ export default class RolesUpdate extends Component {
         super(props);
 
         this.state = {
-
+            //modals
             displayGroup: false,
-            displayPermision: false
+            displayPermision: false,
+
+            //to know if create or edit
+            saved : true,
+
+            //role
+            role : {
+                id : 1,
+                name : 'Admin',
+                identifier : 'admin',
+                icon : 'fa fa-pencil',
+                default : true,
+                groups : [
+                    {
+                        id : 1,
+                        identifier : 'group_1',
+                        name : 'Group 1',
+                        default : true,
+                        permissions : [
+                            {
+                                id : 1,
+                                identifier : 'permission_1',
+                                name : 'Permission 1',
+                                value : true
+                            },
+                            {
+                                id : 2,
+                                identifier : 'permission_2',
+                                name : 'Permission 2',
+                                value : true
+                            }
+                        ]
+                    },
+                    {
+                        id : 2,
+                        identifier : 'group_2',
+                        name : 'Group 2',
+                        permissions : [
+                            {
+                                id : 3,
+                                identifier : 'permission_3',
+                                name : 'Permission 3',
+                                value : true
+                            },
+                            {
+                                id : 4,
+                                identifier : 'permission_4',
+                                name : 'Permission 4',
+                                value : false
+                            }
+                        ]
+                    },
+                    {
+                        id : 3,
+                        identifier : 'group_3',
+                        name : 'Group 3',
+                        permissions : []
+                    }
+                ],
+                roles : [{
+                        id : 1,
+                        identifier : 'admin',
+                        name : 'Admin',
+                        value : true
+                    },
+                    {
+                        id : 2,
+                        identifier : 'client',
+                        name : 'Client',
+                        value : false
+                    }
+                ]
+            }
 
         };
     }
@@ -35,7 +117,7 @@ export default class RolesUpdate extends Component {
         });
     }
 
-    openModalEditPermision(e) {
+    openModalEditPermision(permission, e) {
         if (e !== undefined) {
             e.preventDefault();
         }
@@ -51,6 +133,101 @@ export default class RolesUpdate extends Component {
             displayGroup: false,
             displayPermision: false
         });
+    }
+
+    handleDuplicate() {
+        console.log("handleDuplicate");
+    }
+
+    handleRemove() {
+        console.log("handleRemoveRole");
+    }
+
+    handleSubmit() {
+        console.log("handleSubmit");
+    }
+
+    handlePermissionChange(permission,e) {
+        console.log("handlePermissionChange :: (value,permission)",e.target.checked,permission);
+    }
+
+    handleFieldChange(name,value) {
+        console.log("handleFieldChange :: (name,value) ",name,value);
+        const {role} = this.state;
+
+        role[name] = value;
+        this.setState({
+            role : role
+        });
+    }
+
+    handleAddGroup(e) {
+        e.preventDefault();
+        const role = this.state.role;
+
+        var maxId = 0;
+        for(var i=0;i<role.groups.length;i++){
+            maxId = Math.max(role.groups[i].id,maxId);
+        }
+
+        maxId++;
+        
+        role.groups.push({
+            id : maxId,
+            identifier : 'group_'+maxId,
+            name : 'Group '+maxId,
+            permissions : []
+        });
+
+        this.setState({
+            role : role
+        });
+    }
+
+    renderGroups() {
+        return this.state.role.groups.map((item,index) => 
+        <CollapsableGroup
+            key={item.id}
+            identifier={item.identifier}
+            title={item.name}
+            icon=''
+            editable={true}
+            sortable={true}
+            index={index}
+            length={this.state.role.groups.length}
+            onClick={this.openModalEditGroup.bind(this,item)}
+        >
+            {this.renderPermissions(item.permissions)}
+
+            <div className="col-md-4">
+                <BoxInputAdd
+                    onClick={this.openModalEditPermision.bind(this,item)}
+                />
+            </div>
+
+        </CollapsableGroup>
+        );
+    }
+
+    renderPermissions(permissions) {
+        if(permissions === undefined)
+            return null;
+
+        return permissions.map((item,index) => 
+            <div className="col-md-4">
+                <div className="container-checkbox">
+                    <Checkbox
+                        key={item.id}
+                        title={item.name}
+                        iconEdit={'far fa-edit'}
+                        isEdit={true}
+                        value={item.value}
+                        onClick={this.openModalEditPermision.bind(this,item)}
+                        onChange={this.handlePermissionChange.bind(this,item)}
+                    />
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -73,7 +250,7 @@ export default class RolesUpdate extends Component {
                 <ModalEditGroup
                     id={'modal-edit-group'}
                     icon={'fas fa-bars'}
-                    size={'medium'}
+                    size={'small'}
                     title={'Group | Edit'}
                     display={this.state.displayGroup}
                     zIndex={10000}
@@ -82,24 +259,46 @@ export default class RolesUpdate extends Component {
                 </ModalEditGroup>
 
                 <BarTitle
-                    icon={'fa fa-file'}
-                    title={'Admin'}
-                    backRoute={'#'}
+                    icon={this.state.role.icon}
+                    title={this.state.role.name}
+                    backRoute={routes['extranet.roles.index']}
                 >
-                    <ButtonSecondary
-                        label={'Add permission'}
-                        icon={'fa fa-plus'}
-                        onClick={this.openModalEditPermision.bind(this)}
-                    />
+                    {this.state.saved && 
+                        <ButtonSecondary
+                            label={'Add permission'}
+                            icon={'fa fa-plus-circle'}
+                            onClick={this.openModalEditPermision.bind(this)}
+                        />
+                    }
 
-                    <ButtonSecondary
+                    <ButtonDropdown
                         label={'Actions'}
-                        icon={'fa fa-plus'}
+                        list={[
+                            {
+                                label : 'Nouveau',
+                                icon : 'fa fa-plus-circle',
+                                route : routes['extranet.roles.create'],
+                                className : ''
+                            },
+                            {
+                                label : 'Dupliquer',
+                                icon : 'far fa-copy',
+                                onClick : this.handleDuplicate.bind(this),
+                                className : ''
+                            },
+                            {
+                                label : 'Supprimer',
+                                icon : 'fa fa-trash-alt',
+                                onClick : this.handleRemove.bind(this),
+                                className : 'text-danger'
+                            }           
+                        ]}
                     />
 
                     <ButtonPrimary
                         label={'Sauvegarder'}
                         icon={'fa fa-save'}
+                        onClick={this.handleSubmit.bind(this)}
                     />
 
                 </BarTitle>
@@ -108,101 +307,45 @@ export default class RolesUpdate extends Component {
 
                     <div className="col-md-9 page-content form-fields">
 
-                        <CollapsableGroup
-                            identifier='1'
-                            title='CMS '
-                            iconHovered='far fa-edit'
-                            iconDefault='fas fa-arrow-down'
-                            isEdit={true}
-                            onClick={this.openModalEditGroup.bind(this)}
-
-                        >
-
-                            <div className="col-md-4">
-                                <div className="container-checkbox">
-                                    <Checkbox
-                                        title={'Permiso 1'}
-                                        iconEdit={'far fa-edit'}
-                                        isEdit={true}
-                                        onClick={this.openModalEditPermision.bind(this)}
-                                    />
-                                </div>
-                            </div>
-
-                        </CollapsableGroup>
-
-                        <CollapsableGroup
-                            identifier='2'
-                            title='Front '
-                            iconHovered='far fa-edit'
-                            iconDefault='fas fa-arrow-down'
-                            isEdit={true}
-                            onClick={this.openModalEditGroup.bind(this)}
-                        >
-                            <div className="col-md-4">
-                                <Checkbox
-                                    title={'Permiso 2'}
-                                    iconEdit={'far fa-edit'}
-                                    isEdit={true}
-                                    onClick={this.openModalEditGroup.bind(this)}
-                                />
-                            </div>
-                        </CollapsableGroup>
-
-                        <CollapsableGroup
-                            identifier='3'
-                            title='Sinisters '
-                            iconHovered='far fa-edit'
-                            iconDefault='fas fa-arrow-up'
-                            isEdit={true}
-                            onClick={this.openModalEditGroup.bind(this)}
-                        >
-                            <div className="col-md-4">
-                                <Checkbox
-                                    title={'Permiso 2'}
-                                    iconEdit={'far fa-edit'}
-                                    isEdit={true}
-                                    onClick={this.openModalEditGroup.bind(this)}
-                                />
-                            </div>
-                        </CollapsableGroup>
-
+                        {this.renderGroups()}
+                        
                         <BoxAddGroup
                             identifier='1'
                             title='Add group'
-                            onClick={this.openModalEditGroup.bind(this)}
+                            onClick={this.handleAddGroup.bind(this)}
                         />
 
 
                     </div>
                     <div className="sidebar">
-                        <SidebarTitle
-                            title="Settings"
-                        />
 
                         <InputField
-                            title={'Name'}
-                            value={''}
+                            label={'Name'}
+                            value={this.state.role.name}
                             name={'name'}
-
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <InputField
-                            title={'Identifier'}
-                            value={''}
+                            label={'Identifier'}
+                            value={this.state.role.identifier}
                             name={'identifier'}
+                            onChange={this.handleFieldChange.bind(this)}
 
                         />
 
-                        <InputField
-                            title={'Icon'}
-                            value={''}
+                        <IconField
+                            label={'Icone'}
                             name={'icon'}
-
+                            value={this.state.role.icon}
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
-                        <Switch
-                            title={'Default'}
+                        <ToggleField
+                            label={'Default'}
+                            name={'default'}
+                            checked={this.state.role.default}
+                            onChange={this.handleFieldChange.bind(this)}
                         />
                     </div>
                 </div>
