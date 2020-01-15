@@ -18,7 +18,27 @@ export default class CollapsableGroup extends Component {
 
   handleRemove(e) {
     console.log("handleRemove");
-    this.props.onRemove();
+    var _this = this;
+
+    bootbox.confirm({
+        message: this.props.rempoveMessage !== undefined ? 
+          this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+        buttons: {
+            confirm: {
+                label: Lang.get('fields.si') ,
+                className: 'btn-primary'
+            },
+            cancel: {
+                label:  Lang.get('fields.no'),
+                className: 'btn-default'
+            }
+        },
+        callback: function (result) {
+            if(result){
+              _this.props.onRemove();
+            }
+        }
+    });
   }
 
   handleUp(e) {
@@ -92,6 +112,7 @@ CollapsableGroup.propTypes = {
   sortable: PropTypes.bool, //enable arrows
   index: PropTypes.number,  //if sortable, then need to know array position
   length: PropTypes.number, //to check if last
+  rempoveMessage: PropTypes.string,
 
   onEdit: PropTypes.func,
   onRemove : PropTypes.func,

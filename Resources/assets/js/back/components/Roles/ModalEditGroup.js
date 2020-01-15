@@ -27,18 +27,22 @@ export default class ModalEditGroup extends Component {
                 onModalClose={this.props.onModalClose}     
                 size={this.props.size}       
             >
-                <div className="row">
-                    <div className="col-xs-12">
-                        <InputField 
-                            label={'Name'}
-                            name={'name'}
-                        />
-                        <InputField 
-                            label="Identifier"
-                            name={'identifier'}
-                        />
+                {this.props.group != null && 
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <InputField 
+                                label={'Name'}
+                                name={'name'}
+                                value={this.props.group.name}
+                            />
+                            <InputField 
+                                label="Identifier"
+                                name={'identifier'}
+                                value={this.props.group.identifier}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
             </Modal>
             
       );

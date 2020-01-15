@@ -108,12 +108,13 @@ export default class RolesUpdate extends Component {
         };
     }
 
-    openModalEditGroup(e) {
+    openModalEditGroup(group,e) {
         if (e !== undefined) {
             e.preventDefault();
         }
         this.setState({
             displayGroup: true,
+            selectedGroup : group
         });
     }
 
@@ -131,7 +132,8 @@ export default class RolesUpdate extends Component {
     handleModalClose() {
         this.setState({
             displayGroup: false,
-            displayPermision: false
+            displayPermision: false,
+            selectedGroup : null
         });
     }
 
@@ -184,6 +186,18 @@ export default class RolesUpdate extends Component {
         });
     }
 
+    handleRemoveGroup(group,e) {
+        console.log("handleRemoveGroup :: (group)",group);
+    }
+
+    handleUpGroup(group,e) {
+        console.log("handleUpGroup :: (group)",group);
+    }
+
+    handleDownGroup(group,e) {
+        console.log("handleDownGroup :: (group)",group);
+    }
+
     renderGroups() {
         return this.state.role.groups.map((item,index) => 
         <CollapsableGroup
@@ -195,7 +209,10 @@ export default class RolesUpdate extends Component {
             sortable={true}
             index={index}
             length={this.state.role.groups.length}
-            onClick={this.openModalEditGroup.bind(this,item)}
+            onEdit={this.openModalEditGroup.bind(this,item)}
+            onRemove={this.handleRemoveGroup.bind(this,item)}
+            onUp={this.handleUpGroup.bind(this,item)}
+            onDown={this.handleDownGroup.bind(this,item)}
         >
             {this.renderPermissions(item.permissions)}
 
@@ -252,6 +269,7 @@ export default class RolesUpdate extends Component {
                     icon={'fas fa-bars'}
                     size={'small'}
                     title={'Group | Edit'}
+                    group={this.state.selectedGroup}
                     display={this.state.displayGroup}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
