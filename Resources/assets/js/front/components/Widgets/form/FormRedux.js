@@ -5,18 +5,12 @@ import axios from 'axios';
 import moment from 'moment';
 
 import {
-  getArrayPosition,
-  setupJsonResult,
-  processJsonRoot,
   getFieldComponent,
-  processObjectValue,
-  processObject,
   validateField,
-  processResponseParameters,
   parameteres2Array,
   isVisible,
   getUrlParameters,
-  processUrlParameters
+  getValueFromObject
 } from './functions/';
 
 import {
