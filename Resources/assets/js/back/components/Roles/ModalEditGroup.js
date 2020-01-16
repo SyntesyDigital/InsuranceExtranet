@@ -15,6 +15,7 @@ export default class ModalEditGroup extends Component {
 
     }
     
+    
     render() {
 
         return (
@@ -26,6 +27,7 @@ export default class ModalEditGroup extends Component {
                 zIndex={10000}
                 onModalClose={this.props.onModalClose}     
                 size={this.props.size}       
+                submitButton={false}
             >
                 {this.props.group != null && 
                     <div className="row">
@@ -34,11 +36,13 @@ export default class ModalEditGroup extends Component {
                                 label={'Name'}
                                 name={'name'}
                                 value={this.props.group.name}
+                                onChange={this.props.onFieldChange}
                             />
                             <InputField 
                                 label="Identifier"
                                 name={'identifier'}
                                 value={this.props.group.identifier}
+                                onChange={this.props.onFieldChange}
                             />
                         </div>
                     </div>
@@ -54,5 +58,6 @@ ModalEditGroup.propTypes = {
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
     display: PropTypes.bool.isRequired,
-    zIndex: PropTypes.number.isRequired
+    zIndex: PropTypes.number.isRequired,
+    group : PropTypes.object
 };

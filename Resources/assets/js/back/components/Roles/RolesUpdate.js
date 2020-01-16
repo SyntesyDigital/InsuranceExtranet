@@ -89,42 +89,35 @@ export default class RolesUpdate extends Component {
                         name : 'Group 3',
                         permissions : []
                     }
-                ],
-                roles : [{
-                        id : 1,
-                        identifier : 'admin',
-                        name : 'Admin',
-                        value : true
-                    },
-                    {
-                        id : 2,
-                        identifier : 'client',
-                        name : 'Client',
-                        value : false
-                    }
                 ]
             }
 
         };
     }
 
-    openModalEditGroup(group,e) {
-        if (e !== undefined) {
-            e.preventDefault();
-        }
+    openModalEditGroup(group) {
+        
         this.setState({
             displayGroup: true,
             selectedGroup : group
         });
     }
 
-    openModalEditPermision(permission, e) {
+    /*
+    *   Modal to edit Permission :
+    *   IF create  general button : permission and group = null  
+    *   If create but into a group : premission : null, group : selected group   
+    *   If edit, premission and group selected.
+    */
+    openModalEditPermision(permission, group, e) {
         if (e !== undefined) {
             e.preventDefault();
         }
 
         this.setState({
             displayPermision: true,
+            selectedGroup : group,
+            selectedPermission : permission
         });
     }
 
@@ -133,7 +126,8 @@ export default class RolesUpdate extends Component {
         this.setState({
             displayGroup: false,
             displayPermision: false,
-            selectedGroup : null
+            selectedGroup : null,
+            selectedPermission : null
         });
     }
 
@@ -149,7 +143,7 @@ export default class RolesUpdate extends Component {
         console.log("handleSubmit");
     }
 
-    handlePermissionChange(permission,e) {
+    handlePermissionChange(permission,group,e) {
         console.log("handlePermissionChange :: (value,permission)",e.target.checked,permission);
     }
 
@@ -198,6 +192,27 @@ export default class RolesUpdate extends Component {
         console.log("handleDownGroup :: (group)",group);
     }
 
+    handleGroupFieldChange(name,value) {
+        
+        const {selectedGroup,role} = this.state;
+
+        var index = null;
+        for(var i=0;i<role.groups.length;i++){
+            if(role.groups[i].id == selectedGroup.id){
+                index = i;
+                break;
+            }
+        }
+
+        if(index == null)
+            return;
+
+        role.groups[index][name] = value;
+        this.setState({
+            role : role
+        });
+    }
+
     renderGroups() {
         return this.state.role.groups.map((item,index) => 
         <CollapsableGroup
@@ -218,7 +233,7 @@ export default class RolesUpdate extends Component {
 
             <div className="col-md-4">
                 <BoxInputAdd
-                    onClick={this.openModalEditPermision.bind(this,item)}
+                    onClick={this.openModalEditPermision.bind(this,null,item)}
                 />
             </div>
 
@@ -226,7 +241,7 @@ export default class RolesUpdate extends Component {
         );
     }
 
-    renderPermissions(permissions) {
+    renderPermissions(permissions,group) {
         if(permissions === undefined)
             return null;
 
@@ -239,8 +254,8 @@ export default class RolesUpdate extends Component {
                         iconEdit={'far fa-edit'}
                         isEdit={true}
                         value={item.value}
-                        onClick={this.openModalEditPermision.bind(this,item)}
-                        onChange={this.handlePermissionChange.bind(this,item)}
+                        onClick={this.openModalEditPermision.bind(this,item,group)}
+                        onChange={this.handlePermissionChange.bind(this,item,group)}
                     />
                 </div>
             </div>
@@ -258,6 +273,9 @@ export default class RolesUpdate extends Component {
                     icon={'fas fa-bars'}
                     size={'medium'}
                     title={'Permision | Edit'}
+                    permission={this.state.selectedPermission}
+                    group={this.state.selectedGroup}
+                    roles={this.state.roles}
                     display={this.state.displayPermision}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
@@ -271,6 +289,7 @@ export default class RolesUpdate extends Component {
                     title={'Group | Edit'}
                     group={this.state.selectedGroup}
                     display={this.state.displayGroup}
+                    onFieldChange={this.handleGroupFieldChange.bind(this)}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
                 >

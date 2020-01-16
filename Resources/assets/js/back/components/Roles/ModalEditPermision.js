@@ -25,16 +25,71 @@ const arrayOfGroup = [
   },
 ];
 
+/**
+ *  Esta modal debe autogestionarse, esto quiere decir que cuando haga submit va a
+ *  guardar la información del permiso vinculada a todos los roles. 
+ *  A parte debe generar un resultado con el valor del permiso para que pueda
+ *  actualizar la vista general ( solo si es necesario )
+ *  
+ *  Acciones : 
+ *    - leer cual son los roles y grupos de un permiso en question
+ *    - guardar la información del permiso y de los roles, crear o editar.
+ *    
+ */
 export default class ModalEditPermision extends Component {
 
   constructor(props) {
 
     super(props);
 
+    //init values to process this modal
     this.state = {
-      selectedValue: 'Nothing selected'
-    };
+      values : {
+        name : '',
+        identifier : '',
+        group : ''
+      },
+      groups : props.groups,
+      roles : [{
+              id : 1,
+              identifier : 'admin',
+              name : 'Admin',
+              value : true
+          },
+          {
+              id : 2,
+              identifier : 'client',
+              name : 'Client',
+              value : false
+          }
+      ]
+    }
 
+  }
+
+  componentDidUpdate(prevProps,prevState) {
+    var name = '';
+    var identifier = '';
+    var group = '';
+
+    if(!prevProps.display && this.props.display){
+      //if we are showing the modal, see if new parameters to setup
+      if(this.props.group != null){
+        group = this.props.group.id;
+      }
+      if(this.props.permission != null){
+        name = this.props.permission.name;
+        identifier = this.props.permission.identifier;
+      }
+
+      this.setState({
+        values : {
+          name : name,
+          identifier : identifier,
+          group : group
+        }
+      });
+    }
   }
 
   handleSelectChange(selectedValue) {
@@ -43,7 +98,28 @@ export default class ModalEditPermision extends Component {
     });
   }
 
+  handleRoleChange(role,e) {
+    console.log("handleRoleChange :: (e,role)",e,role);
+  }
+
+  renderRoles() {
+
+    if(this.state.roles === undefined || this.state.roles == null)
+      return null;
+
+    return this.state.roles.map((item,index) => 
+        <ToggleField
+            key={item.id}
+            label={item.name}
+            checked={item.value}
+            onChange={this.handleRoleChange.bind(this,item)}
+        />
+    )
+  }
+
   render() {
+
+    const {group,permission,roles} = this.props;
 
     return (
 
@@ -58,25 +134,7 @@ export default class ModalEditPermision extends Component {
       >
         <div className="row">
           <div className="col-xs-6 field-col border-right">
-            <SidebarTitle
-              title={'ROLES'}
-            />
-            <ToggleField
-              label={'Permiso 1'}
-
-            />
-            <ToggleField
-              label={'Permiso 1'}
-            />
-            <ToggleField
-              label={'Permiso 1'}
-            />
-            <ToggleField
-              label={'Permiso 1'}
-            />
-            <ToggleField
-              label={'Permiso 1'}
-            />
+            {this.renderRoles()}
           </div>
 
           <div className="col-xs-6 field-col">
@@ -110,6 +168,9 @@ ModalEditPermision.propTypes = {
   title: PropTypes.string.isRequired,
   display: PropTypes.bool.isRequired,
   zIndex: PropTypes.number.isRequired,
-  size: PropTypes.string.isRequired
+  size: PropTypes.string.isRequired,
+  roles: PropTypes.object.isRequired,
+  permission : PropTypes.object,
+  group : PropTypes.object
 };
 

@@ -61,6 +61,10 @@ export default class Modal extends Component {
 
     render() {
 
+      //define buttons 
+      const submitButton = this.props.submitButton !== undefined ? this.props.submitButton : true;
+      const cancelButton = this.props.cancelButton !== undefined ? this.props.cancelButton : true;
+
       return (
         <div className="custom-modal" id={this.props.id} style={{zIndex:this.props.zIndex}}>
           <div className="modal-background"></div>
@@ -86,12 +90,18 @@ export default class Modal extends Component {
                 </div>
 
                 <div className="modal-footer">
+                  {cancelButton && 
                   <a href="" className="btn btn-default" onClick={this.onModalClose}>
                     {Lang.get('fields.cancel')}
-                  </a> &nbsp;
+                  </a>
+                  }
+                  &nbsp;
+                  {submitButton && 
                   <a href="" className="btn btn-primary" onClick={this.onSubmit.bind(this)}>
                     {Lang.get('fields.accept')}
-                  </a> &nbsp;
+                  </a>
+                  }
+                  &nbsp;
                 </div>
 
               </div>
@@ -107,6 +117,8 @@ Modal.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
   display: PropTypes.bool.isRequired,
-  zIndex: PropTypes.number.isRequired
+  zIndex: PropTypes.number.isRequired,
+  submitButton : PropTypes.bool,
+  cancelButton : PropTypes.bool,
 };
 
