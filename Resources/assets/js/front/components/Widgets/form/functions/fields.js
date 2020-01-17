@@ -309,8 +309,7 @@ export function processResponseParameters(response,service,formParameters) {
         var parameterIdentifier = parameterArray[0];
         var responseValue = parameterArray[1];
 
-        //TODO recorrer por todo el objeto o array hasta encontrar el valor
-        formParameters[parameterIdentifier] = response[responseValue];
+        formParameters[parameterIdentifier] = getValueFromObject(response,responseValue,null);
       }
     }
   }
@@ -318,6 +317,57 @@ export function processResponseParameters(response,service,formParameters) {
   //console.log("processResponseParameters :: form parameters => ",formParameters);
 
   return formParameters;
+}
+
+/**
+ * 
+ * Function that iterates all object keys and arrays, looking for the key.
+ * When found returns the value, if not found return null.
+ * Needs to find name in this situations : 
+ * {
+    name : '',
+    array : [
+      {
+        name : ''
+      }
+    ],
+    name_parent : {
+      name : ''
+    }
+  }
+ */
+
+export function getValueFromObject(item,keyToFind,key) {
+
+  //if the current key of the value we are checking is what we look for, return the object
+  if(key == keyToFind){
+    return item;
+  }
+  
+  if(Array.isArray(item)) {
+    //is array iterate
+    for( var arrayIndex in item) {
+      var value = getValueFromObject(item[arrayIndex],keyToFind,arrayIndex);
+      if(value != null){
+        //if found return this value
+        return value;
+      }
+    }
+  }
+  else if(typeof item === 'object' && item !== null) {
+    //is object check keys
+    for( var objectKey in item) {
+      value = getValueFromObject(item[objectKey],keyToFind,objectKey);
+      if(value != null){
+        //if found return this value
+        return value;
+      }
+    }
+  }
+  else {
+    //the value is not there
+    return null;
+  }
 }
 
 /**

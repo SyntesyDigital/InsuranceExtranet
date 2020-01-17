@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace Modules\Extranet\Repositories;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -35,11 +35,11 @@ class PersonneRepository
     *
     *   @return Personne Object
     */
-    public function getConnected()
+    public function getConnected($token = null)
     {
-        $response = $this->client->get(VeosWsUrl::get() . 'personne', [
+        $response = $this->client->get(env('WS_URL') . 'personne', [
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token
+                'Authorization' => "Bearer " . ($token ?: Auth::user()->token)
             ]
         ]);
 

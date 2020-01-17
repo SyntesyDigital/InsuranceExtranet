@@ -113,6 +113,8 @@ class ModelValuesFormatTransformer extends Resource
 
       //remove perPage if exist, normally added to selects
       unset($initArray['perPage']);
+      unset($initArray['orderBy']);
+      unset($initArray['orderType']);
       unset($initArray['page']);
 
       foreach($pageParams as $param ){

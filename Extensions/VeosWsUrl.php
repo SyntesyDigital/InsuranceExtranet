@@ -13,7 +13,6 @@ class VeosWsUrl {
     public static function get()
     {
         if(isset(Auth::user()->env)) {
-
             return self::getEnvironmentUrl(Auth::user()->env);
         }
     }
