@@ -1,0 +1,42 @@
+
+################################
+#   INPUT
+################################
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+type UserAuthPayload {
+    id: ID!
+    id_per: String!
+    firstname: String!
+    lastname: String!
+    email: String!
+    phone: String!
+    token: String!
+    role: String!
+    language: String!
+    session_id: String!
+    env: String!
+}
+
+type AuthPayload {
+    token: String!
+    user: UserAuthPayload!
+}
+
+################################
+#   QUERY
+################################
+extend type Query @middleware(checks: ["auth:veos-ws-token"]){
+    me: User @auth
+}
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    login(input: LoginInput @spread): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\Login")
+}
+
