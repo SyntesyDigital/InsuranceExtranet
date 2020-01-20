@@ -5,6 +5,7 @@ namespace Modules\Extranet\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Jobs\User\SessionUpdate;
+use Modules\Extranet\Repositories\UserRepository;
 
 use Config;
 use Illuminate\Http\Request;
@@ -18,8 +19,8 @@ use Lang;
 
 class UserController extends Controller
 {
-    public function __construct() {
-
+    public function __construct(UserRepository $users) {
+        $this->users = $users;
     }
 
     public function setUserSession(UpdateSessionRequest $request)
@@ -52,10 +53,23 @@ class UserController extends Controller
     public function datatable(Request $request)
     {
 
-        $collection = collect([
-          ['id' => 1,'name' => 'User 1', 'username' => 'user1', 'roles' => 'Admin, Client'],
-          ['id' => 2,'name' => 'User 2', 'username' => 'user2', 'roles' => 'Admin'],
-        ]);
+        $veosUsers = $this->users->getUsers();
+
+        $users = [];
+        //process users
+        foreach($veosUsers as $user) {
+            $users[] = [
+                'id' => $user->{'USEREXT.id_per'},
+                'name' => $user->{'USEREXT.nom2_per'},
+                'username' => $user->{'USEREXT.login_per'},
+                'roles' => '',
+                'active' => $user->{'USEREXT.actif'},
+                'admin' => $user->{'USEREXT.admin'},
+                'supervue' => $user->{'USEREXT.supervue'}
+            ];
+        }
+        
+        $collection = collect($users);
 
         return Datatables::of($collection)
             //column with actions

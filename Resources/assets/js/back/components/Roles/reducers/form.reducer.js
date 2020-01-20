@@ -5,6 +5,7 @@ import {
 
 const initialState =  {
     
+    saved : false,
     //role
     role : {
         id : 1,
@@ -68,6 +69,8 @@ function formReducer(state = initialState, action) {
 
     switch(action.type) {
         case INIT_STATE:
+
+            console.log("INIT_STATE => ",action.data);
 
             return {
                 ...state

@@ -17,7 +17,8 @@ import BoxInputAdd from '../Layout/BoxInputAdd';
 import {connect} from 'react-redux';
 
 import {
-    initState
+    initState,
+    submitRole
   } from './actions'
 
 /**
@@ -88,6 +89,7 @@ class RolesUpdateRedux extends Component {
 
     handleSubmit() {
         console.log("handleSubmit");
+        this.props.submitRole(this.props.form);
     }
 
     handlePermissionChange(permission,group,e) {
@@ -348,8 +350,11 @@ const mapDispatchToProps = dispatch => {
     return {
        
       initState : () => {
-          return dispatch(initState());
+        return dispatch(initState());
       },
+      submitRole : (payload) => {
+        return dispatch(submitRole(payload));
+      }
       
     }
 }
