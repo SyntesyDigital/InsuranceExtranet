@@ -37,6 +37,6 @@ extend type Query @middleware(checks: ["auth:veos-ws-token"]){
 #   MUTATOR
 ################################
 extend type Mutation {
-    login(input: LoginInput @spread): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\Login")
+    login(input: LoginInput @spread): AuthPayload! @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Login")
 }
 
