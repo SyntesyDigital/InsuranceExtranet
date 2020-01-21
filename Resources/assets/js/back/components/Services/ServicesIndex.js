@@ -6,43 +6,70 @@ import DataTable from '../Layout/DataTable';
 import Separator from '../Layout/Separator';
 
 export default class ServicesIndex extends Component {
-    render() {
-        return (
-            <div className="container leftbar-page">
-              <div className="col-xs-offset-2 col-xs-8 page-content">
 
-                <PageTitle
-                  title={'Services'}
-                  icon={'fa fa-file'}
-                >
-                  <ButtonPrimary
-                    label={'Ajouter'}
-                    icon={'fa fa-plus'}
-                  />
-                </PageTitle>
+  // ==============================
+  // Handlers
+  // ==============================
 
-                <Separator
-                  height={50}
-                />
+  handleRemoveItem(id) {
+    console.log("ServicesIndex :: removeItem :: (id) ", id);
+  }
 
-                <DataTable
-                    columns={[
-                        {data: 'identifiant', name: 'Identifiant'},
-                        {data: 'nom', name: 'Nom'},
-                        {data: 'methode', name: 'Methode'},
-                        {data: 'url', name: 'Url'},
-                        {data: 'action', name: '', orderable: false, searchable: false}
-                    ]}
-                    init={true}
-                    route={routes['extranet.services.datatable']}
-                />
-
-              </div>
-            </div>
-        );
+  handleDatatableClick(type, payload) {
+    switch (type) {
+      case 'delete':
+        this.handleRemoveItem(payload);
+        return;
+      default:
+        return;
     }
+  }
+
+  // ==============================
+  // Renderers
+  // ==============================
+
+  render() {
+    return (
+      <div className="container leftbar-page">
+        <div className="col-xs-offset-2 col-xs-8 page-content">
+
+          <PageTitle
+            title={'Services'}
+            icon={'fa fas fa-external-link-alt'}
+          >
+            <ButtonPrimary
+              label={'Ajouter'}
+              icon={'fa fa-plus'}
+              route={routes['extranet.services.create']}
+            />
+
+          </PageTitle>
+
+          <Separator
+            height={50}
+          />
+
+          <DataTable
+            id={'services-datatable'}
+            columns={[
+              { data: 'identifiant', name: 'Identifiant' },
+              { data: 'nom', name: 'Nom' },
+              { data: 'methode', name: 'Methode' },
+              { data: 'url', name: 'Url' },
+              { data: 'action', name: '', orderable: false, searchable: false }
+            ]}
+            init={true}
+            route={routes['extranet.services.datatable']}
+            onClick={this.handleDatatableClick.bind(this)}
+          />
+
+        </div>
+      </div>
+    );
+  }
 }
 
 if (document.getElementById('services-index')) {
-    ReactDOM.render(<ServicesIndex />, document.getElementById('services-index'));
+  ReactDOM.render(<ServicesIndex />, document.getElementById('services-index'));
 }

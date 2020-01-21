@@ -6,7 +6,6 @@ import ButtonSecondary from '../Layout/ButtonSecondary';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import BoxAddGroup from '../Layout/BoxAddGroup';
 import ToggleField from '../Layout/Fields/ToggleField';
-import SidebarTitle from '../Layout/SidebarTitle';
 import ModalEditPermision from '../Roles/ModalEditPermision';
 import ModalEditGroup from '../Roles/ModalEditGroup';
 import Checkbox from '../Layout/CheckBox';

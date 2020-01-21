@@ -7,5 +7,10 @@
 @endsection
 
 @push('javascripts')
-
+<script>
+  var routes = {
+    'extranet.elements-models.forms.index' : "{{route('extranet.elements-models.forms.index')}}",
+    'settings' : "{{route('settings')}}"
+  };
+</script>
 @endpush

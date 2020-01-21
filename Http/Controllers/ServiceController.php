@@ -16,18 +16,18 @@ class ServiceController extends Controller
     public function datatable(Request $request)
     {
         $collection = collect([
-          ['identifiant' => 'CSRIN', 'nom' => 'administrator', 'methode' => 'POST', 'url' => 'sinistre'],
-          ['identifiant' => 'CSRIN', 'nom' => 'administrator', 'methode' => 'POST', 'url' => 'sinistre'],
-          ['identifiant' => 'CSRIN', 'nom' => 'administrator', 'methode' => 'POST', 'url' => 'sinistre'],
+          ['id' => '1', 'identifiant' => 'CSRIN', 'nom' => 'Sinistre', 'methode' => 'POST', 'url' => 'sinistre'],
+          ['id' => '2', 'identifiant' => 'CSRIN2', 'nom' => 'Sinistre2', 'methode' => 'GET', 'url' => 'sinistre/2'],
+          ['id' => '3', 'identifiant' => 'CSRIN3', 'nom' => 'Sinistre3', 'methode' => 'PUT', 'url' => 'sinistre/3'],
         ]);
 
         return Datatables::of($collection)
-            ->addColumn('action', function ($item) {
-                return '
-                <a href="roles/update" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a>&nbsp;
-                <a href="#" class="btn btn-link text-danger" data-toogle="delete" data-confirm-message="'.Lang::get('architect::language.del_lang_msg').'"><i class="fa fa-trash-alt"></i> '.Lang::get('architect::datatables.delete').'</a> &nbsp;
-                ';
-            })
+        ->addColumn('action', function ($item) {
+            return '
+            <a href="'.route('extranet.services.update', ['id' => $item['id']]).'" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a> &nbsp;
+            <a href="#" class="btn btn-link text-danger has-event" data-type="delete" data-payload="'.$item['id'].'" ><i class="fa fa-trash-alt"></i> '.Lang::get('architect::datatables.delete').'</a> &nbsp;
+            ';
+        })
             ->rawColumns(['default', 'action', 'icon'])
             ->make(true);
     }
@@ -35,5 +35,20 @@ class ServiceController extends Controller
     public function update(Request $request)
     {
         return view('extranet::services.update');
+    }
+
+    public function create(Request $request)
+    {
+        return view('extranet::services.update');
+    }
+
+    public function duplicate(Request $request, $id)
+    {
+        return view('extranet::services.update');
+    }
+
+    public function delete(Request $request, $id)
+    {
+        return true;
     }
 }

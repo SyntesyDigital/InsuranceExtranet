@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import InputField from '../Layout/Fields/InputField';
 import SelectField from '../Layout/Fields/SelectField';
-import Switch from '../Layout/Fields/ToggleField';
+import ToggleField from '../Layout/Fields/ToggleField';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import FieldList from '../Layout/FieldList';
-import FieldListItem from '../Layout/FieldList';
+import FieldListItem from '../Layout/FieldListItem';
+import BoxAddLarge from '../Layout/BoxAddLarge';
+import ModalEditObject from './ModalEditObject';
 
-const arrayOfGroup = [
+const arrayOfOptions = [
     {
         id: '1 - Nico',
         name: 'nico'
@@ -27,6 +29,9 @@ const arrayOfGroup = [
     },
 ];
 
+
+
+
 export default class ModalEditProcedures extends Component {
 
     constructor(props) {
@@ -34,18 +39,94 @@ export default class ModalEditProcedures extends Component {
         super(props);
 
         this.state = {
-            selectedValue: 'Nothing selected'
+
+            displayEditObject: false,
+            displayEditProcedures: false,
+            checkedRepeatable: false,
+            currentProcedure: null
         };
+
+        this.handleChangeRepeatable = this.handleChangeRepeatable.bind(this);
 
     }
 
-    handleSelectChange(selectedValue) {
+    // ==============================
+    // Open Modals
+    // ==============================
+
+    openModalEditObject(e) {
+        if (e !== undefined) {
+            e.preventDefault();
+        }
+
         this.setState({
-            selectedValue: selectedValue
+            displayEditObject: true,
         });
     }
 
+    // ==============================
+    // Handlers
+    // ==============================
+
+    handleModalCloseEditObject() {
+        this.setState({
+            displayEditObject: false,
+            displayEditProcedures: true,
+        });
+    }
+
+    handleChangeRepeatable() {
+        this.setState({
+            checkedRepeatable: !this.state.checkedRepeatable
+        })
+    }
+
+    handleFieldChange(name, value) {
+        console.log("handleFieldChange :: (name,value) ", name, value);
+        const { form } = this.state;
+
+        form[name] = value;
+        this.setState({
+            form: form
+        });
+    }
+
+    // ==============================
+    // Renderers
+    // ==============================
+
+    renderObjects(currentProcedure) {
+        if (currentProcedure === undefined)
+            return null;
+
+        const displayObjects = currentProcedure.objects.map((object, index) =>
+            <div key={object.identifier + index} className={object.identifier + index}>
+                <FieldListItem
+                    key={index}
+                    identifier={object.identifier}
+                    index={index}
+                    onClick={this.openModalEditObject.bind(this)}
+                    icon={'fas fa-bars'}
+                    icons={[
+                        'fas fa-redo-alt'
+                    ]}
+                    labelInputLeft={object.name}
+                // labelInputRight={object.title}
+                />
+            </div>
+        )
+        return (
+            <div>
+                {displayObjects}
+            </div>
+
+        )
+
+    }
+
     render() {
+
+        const inputFieldJsonEdit = this.state.checkedRepeatable ? <InputFieldJsonEdit label={'JSON'} /> : null;
 
         return (
 
@@ -57,57 +138,86 @@ export default class ModalEditProcedures extends Component {
                 zIndex={10000}
                 onModalClose={this.props.onModalClose}
                 size={this.props.size}
+
             >
-                <div className="row">
-                    <div className="col-md-8 field-col">
-                        <FieldList>
-                            <FieldListItem
-                                icon={'fa fa-file'}
+                {this.props.procedure != null &&
+
+                    <div className="row rightbar-page">
+
+                        <div className="col-md-8 col-xs-12 field-col page-content form-fields">
+
+                            <ModalEditObject
+                                id={'modal-edit-object'}
+                                icon={'fas fa-bars'}
+                                size={'medium'}
+                                title={'Object | Configuration'}
+                                display={this.state.displayEditObject}
+                                zIndex={10000}
+                                onModalClose={this.handleModalCloseEditObject.bind(this)}
+                            />
+
+                            <FieldList>
+
+                                {this.renderObjects(this.props.procedure)}
+
+                                <BoxAddLarge
+                                    identifier='1'
+                                    title='Ajouter'
+                                    onClick={this.openModalEditObject.bind(this)}
+                                />
+
+                            </FieldList>
+
+                        </div>
+
+                        <div className="col-md-4 col-xs-12 field-col">
+
+                            <InputField
                                 label={'Name'}
-                                identifier={'id'}
-                            >
-                                <div className="row">
-                                    <div className="field-name col-xs-6">
-                                        <input type="text" className="form-control" name="name" placeholder="Nom" value={this.props.name} onChange={this.handleChange} />
-                                    </div>
-                                    <div className="field-name col-xs-6">
-                                        <input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.props.identifier} onChange={this.handleChange} />
-                                    </div>
-                                </div>
-                            </FieldListItem>
-                        </FieldList>
+                                name={'name'}
+                                // value={this.state.form.procedure.name}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <SelectField
+                                arrayOfOptions={arrayOfOptions}
+                                title={'Service'}
+                            />
+
+                            <ToggleField
+                                label={'Configurable'}
+                                name={'configurable'}
+                                // checked={this.state.form.procedure.configurable}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Required'}
+                                name={'requires'}
+                                // checked={this.state.form.procedure.required}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Repeatable'}
+                                name={'repeatable'}
+                                checked={this.state.checkedRepeatable}
+                                onChange={this.handleChangeRepeatable}
+                            />
+
+                            {/* show input json edit when procedures is Repeatable */}
+                            {inputFieldJsonEdit}
+
+                        </div>
                     </div>
 
-                    <div className="col-md-4 field-col">
-                        <InputField
-                            title={'Name'}
-                            value={''}
-                            name={'name'}
-                            placeholder={''}
-                        />
+                }
 
-                        <SelectField
-                            arrayOfGroup={arrayOfGroup}
-                            title={'Service'}
-                            onSelectChange={this.handleSelectChange.bind(this)}
-                        />
 
-                        <Switch
-                            title={'Configurable'}
-                        />
 
-                        <Switch
-                            title={'Required'}
-                        />
 
-                        <Switch
-                            title={'Repeatable'}
-                        />
 
-                        <InputFieldJsonEdit
-                        />
-                    </div>
-                </div>
+
             </Modal>
         );
     }

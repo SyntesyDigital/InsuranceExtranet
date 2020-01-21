@@ -18,6 +18,8 @@
     
     .modal-content{
 
+        overflow: hidden;
+
         .container{
             overflow: unset;
         }
@@ -51,9 +53,7 @@
         }
     }
 
-    .outer-box{
-        border: 1px solid #ccc;
-    }
+   
     
     #modal-edit-permision{
         
@@ -75,7 +75,47 @@
             color: #858585;
         }
     }
+    
 }
+
+#modal-edit-procedures, #modal-test-form{
+
+    [name="outer-box"]{
+
+        width: 100% !important;
+
+        [name="container"]{
+            width: 100% !important;
+        }
+    }
+
+    .rightbar-page{
+
+        .page-content{
+            padding-top: 0;
+        }
+
+    }
+
+    .modal-content{
+
+        .container{
+            padding: 30px 40px;
+        }
+
+    }
+
+    #modal-edit-object{
+
+        .modal-header{
+            padding: 15px;
+        }
+
+    }
+}
+
+
+
 
 
 

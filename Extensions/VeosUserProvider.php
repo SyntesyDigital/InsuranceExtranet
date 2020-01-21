@@ -2,24 +2,17 @@
 
 namespace Modules\Extranet\Extensions;
 
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-
-use Modules\Extranet\Extensions\VeosWsUrl;
 use Session;
-use Auth;
 
-class VeosUserProvider implements UserProvider {
-
+class VeosUserProvider implements UserProvider
+{
     public function __construct()
     {
-
-       if($this->user()) {
-
-           switch($this->user()->role) {
+        if ($this->user()) {
+            switch ($this->user()->role) {
                case ROLE_SYSTEM:
                case ROLE_SUPERADMIN:
                case ROLE_ADMIN:
@@ -29,13 +22,12 @@ class VeosUserProvider implements UserProvider {
                     break;
 
                 default:
-                    header("Location: /unavailable");
+                    header('Location: /unavailable');
                     exit();
                     break;
            }
-       }
+        }
     }
-
 
     public function retrieveById($identifier)
     {
@@ -53,21 +45,21 @@ class VeosUserProvider implements UserProvider {
 
     public function updateRememberToken(Authenticatable $user, $token)
     {
-              //Needs Implementation
+        //Needs Implementation
     }
 
     public function retrieveByCredentials(array $credentials)
     {
         echo 'retrieveByCredentials';
         exit();
-                //Needs Implementation
+        //Needs Implementation
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
         echo 'validateCredentials';
         exit();
-              //Needs Implementation
+        //Needs Implementation
     }
 
     public function check()
@@ -77,47 +69,47 @@ class VeosUserProvider implements UserProvider {
 
     public function guest()
     {
-
     }
 
     private function isTokenExpired($token)
     {
-        if(!isset($token))
-          return true;
+        if (!isset($token)) {
+            return true;
+        }
 
-        $tokenArray = explode('.',$token);
+        $tokenArray = explode('.', $token);
         $payload = json_decode(base64_decode($tokenArray[1]));
 
-        if($payload->exp < time())
-          return true;
-        else
-          return false;
+        if ($payload->exp < time()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function renewToken()
     {
-      if(Session::has('user')){
+        if (Session::has('user')) {
+            //if not has expired renew
+            $user = json_decode(Session::get('user'));
 
-        //if not has expired renew
-        $user = json_decode(Session::get('user'));
+            //if token expired redirect to login
+            if ($this->isTokenExpired($user->token)) {
+                header('Location: /login');
+                exit();
+            }
 
-        //if token expired redirect to login
-        if($this->isTokenExpired($user->token)){
-          header("Location: /login");
-          exit();
-        }
-
-        //if not expired renew login
-        $client = new Client();
-        $response = $client->get(VeosWsUrl::getEnvironmentUrl($user->env) . 'login/renew', [
+            //if not expired renew login
+            $client = new Client();
+            $response = $client->get(VeosWsUrl::getEnvironmentUrl($user->env).'login/renew', [
             'headers' => [
-                'Authorization' => "Bearer " . $user->token
-            ]
+                'Authorization' => 'Bearer '.$user->token,
+            ],
         ]);
-        $result = json_decode($response->getBody());
-        $user->token = $result->token;
-        Session::put('user', json_encode($user));
-      }
+            $result = json_decode($response->getBody());
+            $user->token = $result->token;
+            Session::put('user', json_encode($user));
+        }
     }
 
     public function user()
@@ -127,7 +119,5 @@ class VeosUserProvider implements UserProvider {
 
     public function attempt()
     {
-
     }
-
 }
