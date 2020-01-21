@@ -23,8 +23,8 @@ Route::group([
     // Roles
     Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
     Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
-    Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create'); 
-    Route::post('/roles/{id}/duplicate', 'RoleController@duplicate')->name('extranet.roles.duplicate'); 
+    Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create');
+    Route::post('/roles/{id}/duplicate', 'RoleController@duplicate')->name('extranet.roles.duplicate');
     Route::get('/roles/{id}/update', 'RoleController@update')->name('extranet.roles.update');
     Route::delete('/roles/{id}/delete', 'RoleController@delete')->name('extranet.roles.delete');
 
@@ -37,12 +37,17 @@ Route::group([
     // Services
     Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
     Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
-    Route::get('/services/update', 'ServiceController@update')->name('extranet.services.update');
+    Route::get('/services/{id}/update', 'ServiceController@update')->name('extranet.services.update');
+    Route::get('/services/create', 'ServiceController@create')->name('extranet.services.create');
+    Route::delete('/services/{id}/delete', 'ServiceController@delete')->name('extranet.services.delete');
 
     //Elements Models
     Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
     Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
     Route::get('/elements-models/forms/update', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
+    Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
+    Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
+    Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
 
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');

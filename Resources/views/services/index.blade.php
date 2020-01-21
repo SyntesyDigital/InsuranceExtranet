@@ -16,7 +16,8 @@
 @push('javascripts')
 <script>
   var routes = {
-    'extranet.services.datatable' : "{{route('extranet.services.datatable')}}"
+    'extranet.services.datatable' : "{{route('extranet.services.datatable')}}",
+    'extranet.services.create' : "{{route('extranet.services.create')}}"
   };
 </script>
 @endpush

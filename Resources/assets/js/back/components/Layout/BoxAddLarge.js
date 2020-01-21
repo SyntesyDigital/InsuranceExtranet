@@ -13,19 +13,19 @@ export default class BoxAddLarge extends Component {
 
         const divStyle = {
             cursor: 'pointer',
-            padding: '12px 20px',
             textAlign: 'center',
             border: '1px dashed #ccc'
         };
 
 
         return (
-
             <div>
-                <div id={"heading" + identifier} style={divStyle} onClick={this.props.onClick}>
-                    <span className="field-name">
-                        <i className="fa fa-plus"></i> {title}
-                    </span>
+                <div id={"heading" + identifier} style={divStyle} >
+                    <a href="#" className="btn btn-default" onClick={this.props.onClick}>
+                        <span className="field-name">
+                            <i className="fas fa-plus-circle"></i> {title}
+                        </span>
+                    </a>
                 </div>
             </div>
         );
