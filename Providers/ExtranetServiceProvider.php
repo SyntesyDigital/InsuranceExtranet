@@ -2,8 +2,8 @@
 
 namespace Modules\Extranet\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\ServiceProvider;
 
 class ExtranetServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
     }
 
     /**
@@ -35,11 +35,10 @@ class ExtranetServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (glob(__DIR__.'/../Helpers/*.php') as $filename){
-            require_once($filename);
+        foreach (glob(__DIR__.'/../Helpers/*.php') as $filename) {
+            require_once $filename;
         }
 
-        //
         $this->commands([
             \Modules\Extranet\Console\Validation\ElementModalValidationCommand::class,
             \Modules\Extranet\Console\Validation\PageElementRouteValidationCommand::class,
@@ -76,6 +75,11 @@ class ExtranetServiceProvider extends ServiceProvider
             __DIR__.'/../Config/topbar_menu.php',
             'architect::plugins.topbar.menu'
         );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/lighthouse.php',
+            'lighthouse'
+        );
     }
 
     /**
@@ -90,11 +94,11 @@ class ExtranetServiceProvider extends ServiceProvider
         $sourcePath = __DIR__.'/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/extranet';
+            return $path.'/modules/extranet';
         }, \Config::get('view.paths')), [$sourcePath]), 'extranet');
     }
 
@@ -110,7 +114,7 @@ class ExtranetServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'extranet');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'extranet');
+            $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'extranet');
         }
     }
 
@@ -121,8 +125,8 @@ class ExtranetServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+        if (!app()->environment('production')) {
+            app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
 

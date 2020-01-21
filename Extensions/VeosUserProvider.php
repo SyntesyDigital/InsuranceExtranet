@@ -108,6 +108,7 @@ class VeosUserProvider implements UserProvider
         ]);
             $result = json_decode($response->getBody());
             $user->token = $result->token;
+
             Session::put('user', json_encode($user));
         }
     }

@@ -1,0 +1,30 @@
+
+################################
+#   TYPE
+################################
+type User {
+  id: ID!
+  id_per: String!
+  roles: [Role!]! @belongsToMany
+  permissions: [Permission!]! @belongsToMany
+}
+
+################################
+#   INPUT
+################################
+
+################################
+#   QUERY
+################################
+extend type Query {
+    user(id: ID! @eq): User @find(model: "App\\User")
+    #users: [User!]! @all(model: "App\\User")    
+}
+
+extend type Query @middleware(checks: ["auth:veos-ws-token"]){
+    users: [User!]! 
+}
+
+################################
+#   MUTATOR
+################################

@@ -1,0 +1,80 @@
+################################
+#   TYPE
+################################
+type Permission {
+    id: ID!
+    name: String!
+    description: String!
+    identifier: String!
+    roles: [Role!]! @hasMany
+    group: PermissionGroup! @hasOne
+}
+
+type PermissionGroup {
+    id: ID!
+    name: String!
+    permissions: [Permission!]! @hasMany
+}
+
+################################
+#   INPUT
+################################
+input CreatePermissionInput {
+    name: String!
+    identifier: String!
+    description: String
+    group_id: ID!
+}
+
+input UpdatePermissionInput {
+    id: ID!
+    name: String
+    identifier: String
+    description: String
+    group_id: ID!
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    permissions: [Permission!]!
+        @all(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+        )
+
+    permission(id: ID! @eq): Permission
+        @find(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+        )
+
+    permissionGroups: [PermissionGroup!]!
+        @all(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\PermissionGroup"
+        )
+
+    permissionGroup(id: ID! @eq): PermissionGroup
+        @find(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\PermissionGroup"
+        )
+}
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    createPermission(input: CreatePermissionInput @spread): Permission
+        @create(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+        )
+
+    updatePermission(input: UpdatePermissionInput @spread): Permission
+        @update(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+        )
+
+    deletePermisson(id: ID!): Permission
+        @delete(
+            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+        )
+}

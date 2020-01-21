@@ -39,14 +39,11 @@ export function processUrlParameters(url,formParameters) {
 
   var resultUrl = url;
 
-  var urlArray = url.split('/');
-  for(var i=0;i<urlArray.length;i++){
-    if(urlArray[i].charAt(0) == "_"){
-      //is a paramter
-      //check for form parameters
-      resultUrl = resultUrl.replace(urlArray[i],formParameters[urlArray[i]]);
-    }
+  for(var key in formParameters) {
+    resultUrl = resultUrl.replace(key,formParameters[key]);
   }
 
+  console.log("processUrlParameters (url,formParameters => resultUrl)",url,formParameters,resultUrl);
+  
   return resultUrl;
 }
