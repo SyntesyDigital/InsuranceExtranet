@@ -43,10 +43,10 @@ input PermissionsInput {
 ################################
 extend type Query {
     roles: [Role!]!
-        @all(model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Role")
+        @all(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 
     role(id: ID! @eq): Role
-        @find(model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Role")
+        @find(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 }
 
 ################################
@@ -54,13 +54,13 @@ extend type Query {
 ################################
 type Mutation {
     createRole(input: CreateRoleInput! @spread): Role
-        @create(model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Role")
+        @create(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 
     updateRole(input: UpdateRoleInput! @spread): Role
-        @update(model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Role")
+        @update(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 
     deleteRole(
         id: ID!
     ): Role
-        @delete(model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Role")
+        @delete(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 }

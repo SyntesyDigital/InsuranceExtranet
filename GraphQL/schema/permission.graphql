@@ -40,22 +40,22 @@ input UpdatePermissionInput {
 extend type Query {
     permissions: [Permission!]!
         @all(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
         )
 
     permission(id: ID! @eq): Permission
         @find(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
         )
 
     permissionGroups: [PermissionGroup!]!
         @all(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\PermissionGroup"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\PermissionGroup"
         )
 
     permissionGroup(id: ID! @eq): PermissionGroup
         @find(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\PermissionGroup"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\PermissionGroup"
         )
 }
 
@@ -65,16 +65,16 @@ extend type Query {
 extend type Mutation {
     createPermission(input: CreatePermissionInput @spread): Permission
         @create(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
         )
 
     updatePermission(input: UpdatePermissionInput @spread): Permission
         @update(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
         )
 
     deletePermisson(id: ID!): Permission
         @delete(
-            model: "Modules\\Architect\\Core\\RolesPermissions\\Entities\\Permission"
+            model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
         )
 }
