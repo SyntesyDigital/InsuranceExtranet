@@ -14,6 +14,10 @@ class RolesPermissionsUsers extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('id_per');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
 

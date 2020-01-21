@@ -2,12 +2,10 @@
 
 namespace Modules\Extranet\Extensions;
 
+use App\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-use Session;
-use App\User;
-
-use Modules\Extranet\Repositories\PersonneRepository;
+use Modules\Extranet\Entities\Session as UserSession;
 
 class VeosUserTokenProvider implements UserProvider
 {
@@ -38,14 +36,7 @@ class VeosUserTokenProvider implements UserProvider
 
     public function check()
     {
-        $token = trim(str_replace('Bearer', '', request()->header('Authorization')));;
-
-        $user = User::find(1);
-        $user->id_per = 11410303;
-        $user->token = $token;
-        $user->env = 'PROD';
-
-        return $user;
+        return $this->user();
     }
 
     public function guest()
@@ -54,14 +45,14 @@ class VeosUserTokenProvider implements UserProvider
 
     public function user()
     {
-        $token = trim(str_replace('Bearer', '', request()->header('Authorization')));;
+        $token = trim(str_replace('Bearer', '', request()->header('Authorization')));
+        $session = UserSession::where('token', $token)->first();
 
-        $user = new User;
-        $user->id_per = 11410303;
-        $user->token = $token;
-        $user->env = 'prod';
+        if (!$session) {
+            abort(403);
+        }
 
-        return $user;
+        return $session->user;
     }
 
     public function attempt()

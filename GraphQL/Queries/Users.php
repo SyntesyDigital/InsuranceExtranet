@@ -3,7 +3,6 @@
 namespace Modules\Extranet\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Extranet\Repositories\BobyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Users
@@ -20,13 +19,6 @@ class Users
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $boby = new BobyRepository();
-        $users = $boby->getQuery('WS_EXT2_USE');
-
-        return [
-            ['id_per' => json_encode($users)],
-        ];
-
-        return [$users];
+        return \App\User::all();
     }
 }

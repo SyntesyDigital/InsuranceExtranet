@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Services\RolesPermissions\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PermissionGroup extends Model
 {
@@ -24,7 +25,7 @@ class PermissionGroup extends Model
         'order',
     ];
 
-    public function permissions()
+    public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class, 'group_id', 'id');
     }

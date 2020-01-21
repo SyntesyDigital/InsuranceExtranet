@@ -1,12 +1,11 @@
 <?php
 
-namespace Modules\Extranet\GraphQL\Mutations;
+namespace Modules\Extranet\GraphQL\Mutations\Users;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Extranet\Jobs\User\Login as UserLogin;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class Login
+class CreateUser
 {
     /**
      * Return a value for the field.
@@ -20,17 +19,6 @@ class Login
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $session = dispatch_now(new UserLogin($args['username'], $args['password']));
-
-        if (!$session) {
-            return [];
-        }
-
-        return [
-            'token' => $session->token,
-            'language' => $session->language,
-            'env' => $session->env,
-            'user' => $session->user,
-        ];
+        $idPer = $args['id_per'];
     }
 }
