@@ -19,12 +19,13 @@ export default class FormsIndex extends Component {
                     <PageTitle
                         title={'Formulaires'}
                         icon={'fas fa-cog'}
-                        backRoute={'#'}
+                        backRoute={routes['extranet.elements-models.index']}
                     >
                         
                         <ButtonPrimary
                             label={'Ajouter'}
                             icon={'fa fa-plus'}
+                            route={routes["extranet.elements-models.forms.create"]}
                         />
 
                     </PageTitle>
@@ -35,10 +36,12 @@ export default class FormsIndex extends Component {
                         <BoxWithIcon
                             icon={'fas fa-list-ul'}
                             name={'Form 1'}
+                            
                         />
 
                         <BoxAdd
                             label={'Ajouter'}
+                            route={routes["extranet.elements-models.forms.create"]}
                         />
 
                     </BoxList>

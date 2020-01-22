@@ -12,11 +12,13 @@ export default class FieldListItem extends Component {
 
   onRemoveField(event) {
     event.preventDefault();
+    console.log('llega onRemoveField')
 
   }
 
   onOpenSettings(event) {
     event.preventDefault();
+    console.log('llega onOpenSettings')
 
   }
 
@@ -31,8 +33,11 @@ export default class FieldListItem extends Component {
   }
 
   render() {
+
+    const { identifier } = this.props;
+
     return (
-      <div className="typology-field field-list-item">
+      <div id={"field-list-item-" + identifier} className="typology-field field-list-item">
         <div className="field-type">
           <i className={this.props.icon}></i> &nbsp;
     					{this.props.label}
@@ -46,7 +51,14 @@ export default class FieldListItem extends Component {
         </div>
 
         <div className="field-inputs">
-          {this.props.children}
+          <div className="row">
+            <div className="col col-xs-6 text-left">
+              {this.props.labelInputLeft}
+            </div>
+            <div className="col col-xs-6 text-left">
+              {this.props.labelInputRight}
+            </div>
+          </div>
         </div>
 
         <div className="field-actions text-right" style={{
@@ -70,5 +82,9 @@ export default class FieldListItem extends Component {
 FieldListItem.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  icons: PropTypes.array
+  icons: PropTypes.array,
+  index: PropTypes.number,
+  labelInputLeft: PropTypes.string,
+  labelInputRight: PropTypes.string
+
 };

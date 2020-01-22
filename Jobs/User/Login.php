@@ -3,10 +3,11 @@
 namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
+use App\User;
 use Config;
 use GuzzleHttp\Client;
+use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Extensions\VeosWsUrl;
-use Session;
 
 class Login
 {
@@ -110,9 +111,9 @@ class Login
 
                     //check if possible to get allowed pages
                     $allowedPages = $this->getAllowedPages(
-                        $currentSession, 
-                        $pages, 
-                        $loginResult->token, 
+                        $currentSession,
+                        $pages,
+                        $loginResult->token,
                         $sessionInfo
                     );
 
@@ -135,9 +136,9 @@ class Login
                         'session_info' => $sessionInfo,
                     ];
 
-                    Session::put('user', json_encode($userData));
+                    \Session::put('user', json_encode($userData));
 
-                    return $userData;
+                    return $this->createUserSession($userData);
                 }
             }
         } catch (\Exception $ex) {
@@ -145,6 +146,36 @@ class Login
         }
 
         return false;
+    }
+
+    public function createUserSession($userData)
+    {
+        // Create user if not exist
+        $user = User::where('id_per', $userData['id'])->first();
+
+        if (!$user) {
+            User::create([
+                'id_per' => $userData['id'],
+                'firstname' => $userData['firstname'],
+                'lastname' => $userData['lastname'],
+                'email' => $userData['email'],
+                'phone' => $userData['phone'],
+            ]);
+        }
+
+        // Remove of user session
+        UserSession::where('user_id', $user->id)->delete();
+
+        // Return session or create
+        return UserSession::create([
+            'user_id' => $user->id,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->header('User-Agent'),
+            'token' => $userData['token'],
+            'env' => $this->env,
+            'language' => 'fr',
+            'payload' => json_encode($userData),
+        ]);
     }
 
     public function getUser($token)

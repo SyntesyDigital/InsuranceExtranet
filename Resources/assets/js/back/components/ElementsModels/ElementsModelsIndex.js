@@ -9,7 +9,7 @@ export default class ElementsModelsIndex extends Component {
     render() {
 
         return (
-            
+
             <div className="container grid-page elements-models-page">
 
                 <div className="col-xs-offset-2 col-xs-8 page-content">
@@ -17,6 +17,7 @@ export default class ElementsModelsIndex extends Component {
                     <PageTitle
                         title={'Modèles D\'élément'}
                         icon={'fas fa-cog'}
+                        backRoute={routes['settings']}
                     />
 
                     <BoxList
@@ -25,8 +26,8 @@ export default class ElementsModelsIndex extends Component {
                         <BoxWithIcon
                             icon={'fas fa-list-ul'}
                             name={'Formulaire'}
+                            route={routes['extranet.elements-models.forms.index']}
                         />
-
                     </BoxList>
 
                 </div>

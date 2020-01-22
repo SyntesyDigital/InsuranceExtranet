@@ -54,7 +54,7 @@ export default class CollapsableGroup extends Component {
   render() {
 
     const hideTab = this.props.hideTab !== undefined && this.props.hideTab == true ? true : false;
-    const { identifier, title, icon, editable,sortable,length,index } = this.props;
+    const { identifier, title, icon, editable, sortable, length, index } = this.props;
 
     let first = false;
     let last = false;

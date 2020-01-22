@@ -23,19 +23,19 @@ class BobyRepository
         } else {
             $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . Auth::user()->token,
+                    'Authorization' => 'Bearer '.Auth::user()->token,
                 ],
             ]);
 
-            $result = json_decode($response->getBody());
+            return json_decode($response->getBody());
 
-            if (isset($result->responses[0])) {
-                if ((isset($result->responses[0]->statusCode)) && $result->responses[0]->statusCode == 1) {
-                    throw new \Exception($result->responses[0]->statusMessage);
-                }
-            }
+            // if (isset($result->responses[0])) {
+            //     if ((isset($result->responses[0]->statusCode)) && $result->responses[0]->statusCode == 1) {
+            //         throw new \Exception($result->responses[0]->statusMessage);
+            //     }
+            // }
 
-            $beans = isset($result->responses[0]->beans) ? $result->responses[0]->beans : null;
+            // $beans = isset($result->responses[0]->beans) ? $result->responses[0]->beans : null;
 
             Cache::put($cacheKey, $beans, config('cache.time'));
         }

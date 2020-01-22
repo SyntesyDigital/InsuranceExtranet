@@ -6,7 +6,7 @@ import SidebarTitle from '../Layout/SidebarTitle';
 import InputField from '../Layout/Fields/InputField';
 import SelectField from '../Layout/Fields/SelectField';
 
-const arrayOfGroup = [
+const arrayOfOptions = [
   {
     id: '1 - Nico',
     name: 'nico'
@@ -151,7 +151,7 @@ export default class ModalEditPermision extends Component {
               placeholder={''}
             />
             <SelectField
-              arrayOfGroup={arrayOfGroup}
+              arrayOfOptions={arrayOfOptions}
               label={'Group'}
               onSelectChange={this.handleSelectChange.bind(this)}
             />

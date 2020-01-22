@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import CollapsableGroup from '../Layout/CollapsableGroup';
+import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 
 
 export default class ModalTestForm extends Component {
@@ -9,10 +10,6 @@ export default class ModalTestForm extends Component {
     constructor(props) {
 
         super(props);
-
-        this.state = {
-
-        };
 
     }
 
@@ -29,11 +26,15 @@ export default class ModalTestForm extends Component {
                 onModalClose={this.props.onModalClose}
                 size={this.props.size}
             >
-                <div className="row">
+                <div className="row page-content form-fields">
                     <CollapsableGroup
                         identifier='1'
                         title='POST / Sinister /...'
                     >
+                        <InputFieldJsonEdit
+                            label={'JSON'}
+                        />
+
                     </CollapsableGroup>
                 </div>
             </Modal>

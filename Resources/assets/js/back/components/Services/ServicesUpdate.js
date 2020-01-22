@@ -7,25 +7,6 @@ import ButtonDropdown from '../Layout/ButtonDropdown';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
 
-const arrayOfGroup = [
-    {
-      id: '1 - Nico',
-      name: 'nico'
-    },
-    {
-      id: '2 - Sergi',
-      name: 'sergi'
-    },
-    {
-      id: '3 - Francicso',
-      name: 'francisco'
-    },
-    {
-      id: '4 - dani',
-      name: 'dani'
-    },
-];
-
 export default class ServicesUpdate extends Component {
 
     constructor(props) {
@@ -33,15 +14,65 @@ export default class ServicesUpdate extends Component {
         super(props);
 
         this.state = {
-            selectedValue: 'Nothing selected'
+
+            service:
+            {
+                id: 1,
+                identifiant: 'CSRIN',
+                name: 'Sinistre',
+                url: 'sinistre',
+                response: 'id',
+                methode: 'GET',
+                commentaire: 'modification sinistre',
+                P1: null,
+                P2: null
+            },
+
+            methodes: [
+                {
+                    name: 'POST',
+                    value: 'POST'
+                },
+                {
+                    name: 'GET',
+                    value: 'GET'
+                },
+                {
+                    name: 'PUT',
+                    value: 'PUT'
+                },
+            ],
+
+            
         };
+
+
     }
 
-    handleSelectChange(selectedValue) {
+    // ==============================
+    // Handlers
+    // ==============================
+
+    handleFieldChange(name, value) {
+        console.log("handleFieldChange :: (name,value) ", name, value);
+        const { service } = this.state;
+        service[name] = value;
         this.setState({
-            selectedValue: selectedValue
+            service: service
         });
     }
+
+    handleRemove() {
+        console.log("handleRemoveRole");
+    }
+
+    handleSubmit() {
+        console.log("handleSubmit");
+    }
+
+    // ==============================
+    // Renderers
+    // ==============================
 
     render() {
 
@@ -50,9 +81,9 @@ export default class ServicesUpdate extends Component {
             <div className="services-update">
 
                 <BarTitle
-                    icon={'fa fa-file'}
-                    title={'Services'}
-                    backRoute={'#'}
+                    icon={'far fa-question-circle'}
+                    title={this.state.service.name}
+                    backRoute={routes['extranet.services.index']}
                 >
 
                     <ButtonDropdown
@@ -61,13 +92,12 @@ export default class ServicesUpdate extends Component {
                             {
                                 label: 'Nouveau',
                                 icon: 'fa fa-plus-circle',
-                                route: '/architect/contents/page/create',
-                                className: ''
+                                route: routes["extranet.services.create"],
                             },
                             {
-                                label: 'Supprimier',
-                                icon: 'fas fa-trash-alt',
-                                route: '/architect/contents/page/create',
+                                label: 'Supprimer',
+                                icon: 'fa fa-trash-alt',
+                                onClick: this.handleRemove.bind(this),
                                 className: 'text-danger'
                             }
                         ]}
@@ -76,6 +106,7 @@ export default class ServicesUpdate extends Component {
                     <ButtonPrimary
                         label={'Sauvegarder'}
                         icon={'fa fa-save'}
+                        onClick={this.handleSubmit.bind(this)}
                     />
 
                 </BarTitle>
@@ -85,6 +116,7 @@ export default class ServicesUpdate extends Component {
                     <div className="col-md-9 page-content form-fields">
 
                         <InputFieldJsonEdit
+                            label={'JSON'}
                             width={'100%'}
                         />
 
@@ -93,46 +125,48 @@ export default class ServicesUpdate extends Component {
                     <div className="sidebar">
 
                         <InputField
-                            title={'Identifier'}
-                            value={''}
+                            label={'Identifier'}
+                            value={this.state.service.identifiant}
                             name={'identifiant'}
-
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <InputField
-                            title={'Name'}
-                            value={''}
-                            name={'nom'}
-
+                            label={'Name'}
+                            value={this.state.service.name}
+                            name={'name'}
+                            onChange={this.handleFieldChange.bind(this)}
                         />
+
                         <div className="form-group">
                             <SelectField
-                                arrayOfGroup={arrayOfGroup}
-                                title={'Methode'}
-                                onSelectChange={this.handleSelectChange.bind(this)}
+                                label={'Methode'}
+                                value={this.state.service.methode}
+                                name={'methode'}
+                                arrayOfOptions={this.state.methodes}
+                                onChange={this.handleFieldChange.bind(this)}
                             />
                         </div>
-                        
-                
+
                         <InputField
-                            title={'Url'}
-                            value={''}
+                            label={'Url'}
+                            value={this.state.service.url}
                             name={'url'}
-
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <InputField
-                            title={'Response'}
-                            value={''}
+                            label={'Response'}
+                            value={this.state.service.response}
                             name={'response'}
-
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <InputField
-                            title={'Commentaire'}
-                            value={''}
+                            label={'Commentaire'}
+                            value={this.state.service.commentaire}
                             name={'commentaire'}
-
+                            onChange={this.handleFieldChange.bind(this)}
                         />
 
                     </div>

@@ -1,0 +1,43 @@
+
+################################
+#   TYPE
+################################
+type User {
+  id: ID!
+  id_per: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  phone: String!
+  roles: [Role!]! @belongsToMany
+  permissions: [Permission!]! @belongsToMany
+}
+
+################################
+#   INPUT
+################################
+input CreateUserInput {
+    id_per: Int!
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    user(id: ID! @eq): User @find(model: "App\\User")
+    #users: [User!]! @all(model: "App\\User")    
+}
+
+extend type Query @middleware(checks: ["auth:veos-ws-token"]){
+    users: [User!]! 
+}
+
+type Mutation {
+    createUser(input: CreateUserInput! @spread): User
+        @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\CreateUser")
+
+}
+
+################################
+#   MUTATOR
+################################

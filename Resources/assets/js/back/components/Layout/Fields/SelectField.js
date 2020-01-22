@@ -4,19 +4,25 @@ import PropTypes from 'prop-types';
 
 export default class SelectField extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
     }
 
-    handleChange(event)
-    {
-        let selectedValue = event.target.value;
-        this.props.onSelectChange(selectedValue);
+    // ==============================
+    // Handlers
+    // ==============================
+
+    handleChange(event) {
+        this.props.onChange(this.props.name, event.target.value);
     }
 
-    render(){
+    // ==============================
+    // Renderers
+    // ==============================
 
-        const { title } = this.props;
+    render() {
+
+        const { label } = this.props;
 
         const selectStyle = {
             backgroundImage: 'linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc)',
@@ -26,24 +32,29 @@ export default class SelectField extends Component {
             borderBottom: '1px solid #ccc',
         };
 
-        let arrayOfGroup = this.props.arrayOfGroup;
+        let arrayOfOptions = this.props.arrayOfOptions;
 
-        let options = arrayOfGroup.map((data) =>
-                        <option 
-                            key={data.id}
-                            value={data.id} 
-                        >
-                            {data.name}
-                        </option>
-                    );
-            
-            return (
+        let options = arrayOfOptions.map((data, index) =>
+            <option
+                key={index}
+                value={data.value}
+            >
+                {data.name}
+            </option>
+        );
+
+        return (
             <div className="form-group bmd-form-group sidebar-item">
                 <label htmlFor="parent_id" className="bmd-label-floating">
-                    {title}
+                    {label}
                 </label>
-                <select className="form-control" name="customSearch" onChange={this.handleChange.bind(this)} style={selectStyle}>
-                    <option>Select Item</option>
+                <select
+                    className="form-control"
+                    name={this.props.name}
+                    onChange={this.handleChange.bind(this)}
+                    style={selectStyle}
+                    value={this.props.value}
+                >
                     {options}
                 </select>
             </div>
@@ -52,5 +63,8 @@ export default class SelectField extends Component {
 }
 
 SelectField.propTypes = {
-    title: PropTypes.string
+    label: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func
 };
