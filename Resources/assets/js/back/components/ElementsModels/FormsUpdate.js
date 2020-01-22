@@ -27,7 +27,9 @@ export default class FormsUpdate extends Component {
             displayEditObject: false,
             displayEditProcedures: false,
             displayTestForm: false,
+            displayAddProcedures: false,
             currentProcedure: null,
+            currentObject: null,
 
             form:
             {
@@ -230,7 +232,6 @@ export default class FormsUpdate extends Component {
     // ==============================
 
     openModalEditProcedures(currentProcedure, e) {
-        console.log('openModalEditProcedures -> ',currentProcedure);
         if (e !== undefined) {
             e.preventDefault();
         }
@@ -240,13 +241,22 @@ export default class FormsUpdate extends Component {
         });
     }
 
-    openModalEditObject(e, object) {
+    openModalAddProcedures(e) {
         if (e !== undefined) {
             e.preventDefault();
         }
+        this.setState({
+            displayAddProcedures: true,
+        });
+    }
 
+    openModalEditObject(currentObject, e) {
+        if (e !== undefined) {
+            e.preventDefault();
+        }
         this.setState({
             displayEditObject: true,
+            currentObject: currentObject
         });
     }
 
@@ -411,7 +421,7 @@ export default class FormsUpdate extends Component {
                         <BoxAddLarge
                             identifier='1'
                             title='Ajouter'
-                            onClick={this.openModalEditProcedures.bind(this)}
+                            onClick={this.openModalAddProcedures.bind(this)}
                         />
 
                     </div>

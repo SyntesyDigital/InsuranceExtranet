@@ -16,7 +16,7 @@ class ElementModelController extends Controller
         return view('extranet::elements-models.forms.index');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         return view('extranet::elements-models.forms.update');
     }
