@@ -5,6 +5,8 @@ namespace Modules\Extranet\Services\RolesPermissions\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
 
+use Auth;
+
 class RolesPermissionsProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,19 @@ class RolesPermissionsProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->registerMiddlewares();
+
+        Blade::directive('abilities', function ($expression) {
+            // Strip Open and Close Parenthesis
+            $expression = substr(substr($expression, 0, -1), 1);
+
+            // Split variable and its value
+            list($variable, $value) = explode('\',', $expression, 2);
+
+            // Ensure variable has no spaces or apostrophes
+            $variable = trim(str_replace('\'', '', $variable));
+
+            
+        });
     }
 
     /**
