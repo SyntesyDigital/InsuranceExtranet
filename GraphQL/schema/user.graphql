@@ -1,4 +1,3 @@
-
 ################################
 #   TYPE
 ################################
@@ -16,26 +15,22 @@ type User {
 ################################
 #   INPUT
 ################################
-input CreateUserInput {
-    id_per: Int!
-}
 
 ################################
 #   QUERY
 ################################
 extend type Query {
-    user(id: ID! @eq): User @find(model: "App\\User")
-    #users: [User!]! @all(model: "App\\User")    
+  user(id: ID! @eq): User @find(model: "App\\User")
+  #users: [User!]! @all(model: "App\\User")
 }
 
-extend type Query @middleware(checks: ["auth:veos-ws-token"]){
-    users: [User!]! 
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
+  users: [User!]!
 }
 
-type Mutation {
-    createUser(input: CreateUserInput! @spread): User
-        @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\CreateUser")
-
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+  importUser(id_per: Int!): User
+    @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
 }
 
 ################################

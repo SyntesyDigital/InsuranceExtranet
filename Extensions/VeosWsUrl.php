@@ -4,15 +4,19 @@ namespace Modules\Extranet\Extensions;
 
 use Auth;
 
-class VeosWsUrl {
-
+class VeosWsUrl
+{
     const PROD = 'prod';
     const DEV = 'dev';
     const REC = 'rec';
 
     public static function get()
     {
-        if(isset(Auth::user()->env)) {
+        if (isset(Auth::user()->env)) {
+            return self::getEnvironmentUrl(Auth::user()->env);
+        }
+
+        if (get_class(Auth::user()) == 'App\\User') {
             return self::getEnvironmentUrl(Auth::user()->env);
         }
     }
@@ -34,17 +38,17 @@ class VeosWsUrl {
 
     public static function getEnvironmentUrl($env)
     {
-      switch($env) {
-        case self::DEV :
-          return self::test();
-          break;
-        case self::REC :
-          return self::rec();
-          break;
-        default :
-          return self::prod();
-          break;
-      }
+        switch (strtolower($env)) {
+            case self::DEV:
+                return self::test();
+            break;
+            case self::REC:
+                return self::rec();
+            break;
+            default:
+                return self::prod();
+            break;
+        }
     }
 
     public static function getEnvironmentOptions()
@@ -52,8 +56,7 @@ class VeosWsUrl {
         return [
           self::DEV,
           self::REC,
-          self::PROD
+          self::PROD,
         ];
     }
-
 }

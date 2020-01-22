@@ -2,10 +2,12 @@
 
 namespace Modules\Extranet\GraphQL\Mutations\Users;
 
+use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Extranet\Repositories\PersonneRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class CreateUser
+class ImportUser
 {
     /**
      * Return a value for the field.
@@ -19,6 +21,24 @@ class CreateUser
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $idPer = $args['id_per'];
+        $user = User::where('id_per', $args['id_per'])->first();
+
+        if ($user) {
+            return $user;
+        }
+
+        $payload = (new PersonneRepository())->find($args['id_per']);
+
+        if (isset($payload->id)) {
+            return User::create([
+                'id_per' => $payload->id,
+                'firstname' => $payload->prenom,
+                'lastname' => $payload->nom,
+                'email' => $payload->mail,
+                'phone' => $payload->tel,
+            ]);
+        }
+
+        return null;
     }
 }
