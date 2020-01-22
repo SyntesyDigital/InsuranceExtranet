@@ -19,10 +19,8 @@ export default class RolesUpdate extends Component {
 
         return (
             <Provider store={store}>
-                <RolesUpdateRedux
-                    
-                />
-          </Provider>
+                <RolesUpdateRedux />
+            </Provider>
         );
     }
 

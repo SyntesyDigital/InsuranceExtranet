@@ -18,7 +18,9 @@ import {connect} from 'react-redux';
 
 import {
     initState,
-    submitRole
+    submitRole,
+    updateField,
+    openModalEditGroup
   } from './actions'
 
 /**
@@ -43,12 +45,8 @@ class RolesUpdateRedux extends Component {
         this.props.initState();
     }
 
-    openModalEditGroup(group) {
-        
-        this.setState({
-            displayGroup: true,
-            selectedGroup : group
-        });
+    handleEditGroup(group) {
+        this.props.openModalEditGroup(group);
     }
 
     /*
@@ -96,6 +94,7 @@ class RolesUpdateRedux extends Component {
         console.log("handlePermissionChange :: (value,permission)",e.target.checked,permission);
     }
 
+    /*
     handleFieldChange(name,value) {
         console.log("handleFieldChange :: (name,value) ",name,value);
         const {role} = this.state;
@@ -105,6 +104,7 @@ class RolesUpdateRedux extends Component {
             role : role
         });
     }
+    */
 
     handleAddGroup(e) {
         e.preventDefault();
@@ -173,7 +173,7 @@ class RolesUpdateRedux extends Component {
             sortable={true}
             index={index}
             length={this.props.form.role.groups.length}
-            onEdit={this.openModalEditGroup.bind(this,item)}
+            onEdit={this.handleEditGroup.bind(this,item)}
             onRemove={this.handleRemoveGroup.bind(this,item)}
             onUp={this.handleUpGroup.bind(this,item)}
             onDown={this.handleDownGroup.bind(this,item)}
@@ -222,10 +222,10 @@ class RolesUpdateRedux extends Component {
                     icon={'fas fa-bars'}
                     size={'medium'}
                     title={'Permision | Edit'}
-                    permission={this.state.selectedPermission}
-                    group={this.state.selectedGroup}
+                    permission={this.props.form.selectedPermission}
+                    group={this.props.form.selectedGroup}
                     roles={this.props.form.roles}
-                    display={this.state.displayPermision}
+                    display={this.props.form.displayPermision}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
                 >
@@ -236,11 +236,9 @@ class RolesUpdateRedux extends Component {
                     icon={'fas fa-bars'}
                     size={'small'}
                     title={'Group | Edit'}
-                    group={this.state.selectedGroup}
-                    display={this.state.displayGroup}
+                    group={this.props.form.currentGroup}
                     onFieldChange={this.handleGroupFieldChange.bind(this)}
                     zIndex={10000}
-                    onModalClose={this.handleModalClose.bind(this)}
                 >
                 </ModalEditGroup>
 
@@ -249,7 +247,7 @@ class RolesUpdateRedux extends Component {
                     title={this.props.form.role.name}
                     backRoute={routes['extranet.roles.index']}
                 >
-                    {this.state.saved && 
+                    {this.props.form.saved && 
                         <ButtonSecondary
                             label={'Add permission'}
                             icon={'fa fa-plus-circle'}
@@ -309,14 +307,14 @@ class RolesUpdateRedux extends Component {
                             label={'Name'}
                             value={this.props.form.role.name}
                             name={'name'}
-                            onChange={this.handleFieldChange.bind(this)}
+                            onChange={this.props.updateField}
                         />
 
                         <InputField
                             label={'Identifier'}
                             value={this.props.form.role.identifier}
                             name={'identifier'}
-                            onChange={this.handleFieldChange.bind(this)}
+                            onChange={this.props.updateField}
 
                         />
 
@@ -324,14 +322,14 @@ class RolesUpdateRedux extends Component {
                             label={'Icone'}
                             name={'icon'}
                             value={this.props.form.role.icon}
-                            onChange={this.handleFieldChange.bind(this)}
+                            onChange={this.props.updateField}
                         />
 
                         <ToggleField
                             label={'Default'}
                             name={'default'}
                             checked={this.props.form.role.default}
-                            onChange={this.handleFieldChange.bind(this)}
+                            onChange={this.props.updateField}
                         />
                     </div>
                 </div>
@@ -354,6 +352,12 @@ const mapDispatchToProps = dispatch => {
       },
       submitRole : (payload) => {
         return dispatch(submitRole(payload));
+      },
+      updateField : (name, value) => {
+        return dispatch(updateField(name, value));
+      },
+      openModalEditGroup : (group) => {
+        return dispatch(openModalEditGroup(group));
       }
       
     }

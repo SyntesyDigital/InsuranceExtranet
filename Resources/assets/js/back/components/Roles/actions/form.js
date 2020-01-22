@@ -2,7 +2,10 @@ import {
   INIT_STATE,
   CREATE_ROLE,
   UPDATE_ROLE,
-  LOAD_PERMISSION
+  LOAD_PERMISSION,
+  UPDATE_FIELD,
+  OPEN_MODAL_EDIT_GROUP,
+  CLOSE_MODAL_EDIT_GROUP
 } from "../constants/";
 
 import {
@@ -27,7 +30,22 @@ export function initState() {
   }
 };
 
+export function updateField(name, value) {
 
+  return {type : UPDATE_FIELD, payload : {
+    name : name,
+    value : value
+  }};
+
+}
+
+export function openModalEditGroup(group) {
+  return {type: OPEN_MODAL_EDIT_GROUP, payload :group };
+}
+
+export function closeModalEditGroup() {
+  return {type: CLOSE_MODAL_EDIT_GROUP};
+}
 
 /**
  * Everytime submit is pressed the state info is send to process.

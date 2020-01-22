@@ -1,11 +1,21 @@
 import {
-  INIT_STATE,
+  INIT_STATE, UPDATE_FIELD, 
+  OPEN_MODAL_EDIT_GROUP,
+  CLOSE_MODAL_EDIT_GROUP
 
 } from '../constants';
 
 const initialState =  {
     
-    saved : false,
+    saved : true,
+
+    displayPermision: false,
+
+    displayGroup: false,
+    currentGroup : null,
+
+    roles : [],
+
     //role
     role : {
         id : 1,
@@ -65,7 +75,7 @@ const initialState =  {
 
 function formReducer(state = initialState, action) {
 
-    //console.log("formReducer :: ",action.type, action.payload);
+    console.log("formReducer :: ",action.type, action.payload);
 
     switch(action.type) {
         case INIT_STATE:
@@ -75,8 +85,28 @@ function formReducer(state = initialState, action) {
             return {
                 ...state
             }
+        case UPDATE_FIELD: 
+            let role = state.role;
+            role[action.payload.name] = action.payload.value;
 
-        
+            return {
+                ...state,
+                role : role
+            }
+        case OPEN_MODAL_EDIT_GROUP:
+            
+            return {
+                ...state,
+                displayGroup: true,
+                currentGroup : action.payload
+            }
+
+        case CLOSE_MODAL_EDIT_GROUP : 
+            return {
+                ...state,
+                displayGroup: false,
+                currentGroup : null
+            }
         default:
             return state;
     }

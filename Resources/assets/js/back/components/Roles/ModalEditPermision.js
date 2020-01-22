@@ -169,7 +169,7 @@ ModalEditPermision.propTypes = {
   display: PropTypes.bool.isRequired,
   zIndex: PropTypes.number.isRequired,
   size: PropTypes.string.isRequired,
-  roles: PropTypes.object.isRequired,
+  roles: PropTypes.array.isRequired,
   permission : PropTypes.object,
   group : PropTypes.object
 };
