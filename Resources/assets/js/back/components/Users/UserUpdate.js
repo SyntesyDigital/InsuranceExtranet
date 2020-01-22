@@ -138,7 +138,7 @@ export default class UserUpdate extends Component {
         return this.state.roles.map((item,index) => 
             <ToggleField
                 key={item.id}
-                title={item.name}
+                label={item.name}
                 checked={item.value}
                 onChange={this.handleRoleChange.bind(this,item)}
             />
