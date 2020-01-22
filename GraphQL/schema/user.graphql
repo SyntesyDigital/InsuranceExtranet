@@ -19,13 +19,14 @@ type UserHasPermission {
 ################################
 #   INPUT
 ################################
-input UserInput {
-    id_per: String!
-    firstname: String!
-    lastname: String!
-    email: String!
-    phone: String!
-    roles: CreateRoleInput
+input UpdateUserInput {
+    id: Int!
+    id_per: String
+    firstname: String
+    lastname: String
+    email: String
+    phone: String
+    roles: RolesInput
 }
 
 ################################
@@ -43,6 +44,10 @@ extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
 #   MUTATOR
 ################################
 extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+
+    updateUser(input: UpdateUserInput @spread): User
+        @update(model: "Modules\\Extranet\\Entities\\User")
+
     importUser(id_per: Int!): User
         @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
 

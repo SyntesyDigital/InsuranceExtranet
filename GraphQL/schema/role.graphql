@@ -28,6 +28,14 @@ input UpdateRoleInput {
     permissions: PermissionsInput
 }
 
+input RolesInput {
+    connect: [ID!]
+    sync: [ID!]
+    create: [CreateRoleInput!]
+    update: [UpdateRoleInput!]
+    upsert: [UpdateRoleInput!]
+}
+
 input PermissionsInput {
     connect: [ID!]
     sync: [ID!]
