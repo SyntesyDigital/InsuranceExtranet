@@ -2,14 +2,24 @@
 #   TYPE
 ################################
 type User {
-    id: ID!
-    id_per: String!
-    firstname: String!
-    lastname: String!
-    email: String!
-    phone: String!
-    roles: [Role!]! @belongsToMany
-    permissions: [Permission!]! @belongsToMany
+    id: ID
+    id_per: String
+    firstname: String
+    lastname: String
+    email: String
+    phone: String
+    roles: [Role!] @belongsToMany
+    permissions: [Permission!] @belongsToMany
+}
+
+type UsersList {
+    total: Int,
+    perPage: Int,
+    page: Int,
+    totalPage: Int,
+    from: Int,
+    to: Int,
+    users: [User!]!
 }
 
 type UserHasPermission {
@@ -32,12 +42,9 @@ input UpdateUserInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
-  user(id: ID! @eq): User @find(model: "Modules\\Extranet\\Entities\\User")
-}
-
 extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
-  users: [User!]!
+  users: UsersList
+  user(id: ID! @eq): User @find(model: "Modules\\Extranet\\Entities\\User")
 }
 
 ################################

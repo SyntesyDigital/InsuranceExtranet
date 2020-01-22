@@ -3,6 +3,8 @@
 namespace Modules\Extranet\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Extranet\Entities\User;
+use Modules\Extranet\Repositories\BobyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Users
@@ -19,6 +21,32 @@ class Users
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return \Modules\Extranet\Entities\User::all();
+        $payload = (new BobyRepository())->getQuery('WS_EXT2_USE');
+        $users = User::all();
+
+        return [
+            'total' => $payload->total,
+            'perPage' => $payload->perPage,
+            'page' => $payload->page,
+            'totalPage' => $payload->totalPage,
+            'from' => $payload->from,
+            'to' => $payload->to,
+            'users' => collect($payload->data)->map(function ($u) use ($users) {
+                $user = $users->where('id_per', $u->{'USEREXT.id_per'})->first();
+
+                if ($user) {
+                    return $user;
+                }
+
+                $user = new User();
+                $user->id_per = $u->{'USEREXT.id_per'};
+                $user->firstname = $u->{'USEREXT.prenom_per'};
+                $user->lastname = $u->{'USEREXT.nom_per'};
+                $user->phone = $u->{'USEREXT.telprinc_per'};
+                $user->email = $u->{'USEREXT.mail_per'};
+
+                return $user;
+            }),
+        ];
     }
 }
