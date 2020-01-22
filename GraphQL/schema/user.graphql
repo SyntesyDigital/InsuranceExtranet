@@ -2,37 +2,66 @@
 #   TYPE
 ################################
 type User {
-  id: ID!
-  id_per: String!
-  firstname: String!
-  lastname: String!
-  email: String!
-  phone: String!
-  roles: [Role!]! @belongsToMany
-  permissions: [Permission!]! @belongsToMany
+    id: ID!
+    id_per: String!
+    firstname: String!
+    lastname: String!
+    email: String!
+    phone: String!
+    roles: [Role!]! @belongsToMany
+    permissions: [Permission!]! @belongsToMany
+}
+
+type UserHasPermission {
+    has: Int
 }
 
 ################################
 #   INPUT
 ################################
+input UserInput {
+    id_per: String!
+    firstname: String!
+    lastname: String!
+    email: String!
+    phone: String!
+    roles: CreateRoleInput
+}
 
 ################################
 #   QUERY
 ################################
 extend type Query {
-  user(id: ID! @eq): User @find(model: "App\\User")
-  #users: [User!]! @all(model: "App\\User")
+  user(id: ID! @eq): User @find(model: "Modules\\Extranet\\Entities\\User")
 }
 
 extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
   users: [User!]!
 }
 
-extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
-  importUser(id_per: Int!): User
-    @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
-}
-
 ################################
 #   MUTATOR
 ################################
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+    importUser(id_per: Int!): User
+        @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
+
+    updateUserPermission(
+        user_id: Int!
+        permission_id: Int
+        identifier: String
+        enabled: Int!
+    ): User
+        @field(
+            resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UpdateUserPermission"
+        )
+
+    userHasPermission(
+        user_id: Int!
+        permission_id: Int
+        identifier: String
+    ): UserHasPermission
+        @field(
+            resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UserHasPermission"
+        )
+}

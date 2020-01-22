@@ -19,6 +19,6 @@ class Session extends Model
 
     public function user(): HasOne
     {
-        return $this->hasOne('App\User', 'id', 'user_id');
+        return $this->hasOne('Modules\Extranet\Entities\User', 'id', 'user_id');
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Modules\Extranet\GraphQL\Mutations\Users;
 
-use Modules\Extranet\Entities\User;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Extranet\Repositories\PersonneRepository;
+use Modules\Extranet\Entities\User;
+use Modules\Extranet\Services\RolesPermissions\Entities\Permission;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class ImportUser
+class UpdateUserPermission
 {
     /**
      * Return a value for the field.
@@ -21,24 +21,22 @@ class ImportUser
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user = User::where('id_per', $args['id_per'])->first();
+        $user = User::find($args['user_id']);
+        $permission = $args['permission_id'] ? Permission::find($args['permission_id']) : null;
 
-        if ($user) {
-            return $user;
+        if (isset($args['identifier'])) {
+            $permission = Permission::where('identifier', $args['identifier'])->first();
         }
 
-        $payload = (new PersonneRepository())->find($args['id_per']);
-
-        if (isset($payload->id)) {
-            return User::create([
-                'id_per' => $payload->id,
-                'firstname' => $payload->prenom,
-                'lastname' => $payload->nom,
-                'email' => $payload->mail,
-                'phone' => $payload->tel,
-            ]);
+        if (!$user || !$permission) {
+            return false;
         }
 
-        return null;
+        $user->savePermission(
+            $permission->identifier,
+            isset($args['enabled']) ? $args['enabled'] : true
+        );
+
+        return $user;
     }
 }

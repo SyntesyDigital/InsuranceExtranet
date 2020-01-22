@@ -3,7 +3,7 @@
 namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
-use App\User;
+use Modules\Extranet\Entities\User;
 use Config;
 use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;

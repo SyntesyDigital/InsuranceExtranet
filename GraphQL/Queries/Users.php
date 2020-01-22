@@ -19,6 +19,6 @@ class Users
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return \App\User::all();
+        return \Modules\Extranet\Entities\User::all();
     }
 }

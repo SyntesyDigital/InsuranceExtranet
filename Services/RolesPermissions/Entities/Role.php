@@ -2,7 +2,7 @@
 
 namespace Modules\Extranet\Services\RolesPermissions\Entities;
 
-use App\User;
+use Modules\Extranet\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Extranet\Services\RolesPermissions\Traits\RolePermissions;

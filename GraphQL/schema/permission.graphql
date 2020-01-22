@@ -108,5 +108,4 @@ extend type Mutation {
         @delete(
             model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\PermissionGroup"
         )
-        
 }

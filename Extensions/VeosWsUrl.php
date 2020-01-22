@@ -16,7 +16,7 @@ class VeosWsUrl
             return self::getEnvironmentUrl(Auth::user()->env);
         }
 
-        if (get_class(Auth::user()) == 'App\\User') {
+        if (get_class(Auth::user()) == 'Modules\\Extranet\\Entities\\User') {
             return self::getEnvironmentUrl(Auth::user()->env);
         }
     }

@@ -52,9 +52,10 @@ trait HasPermissions
      */
     public function isDisabledPermission($identifier)
     {
-        return $this->permissions
+        return $this->permissions()
             ->where('identifier', $identifier)
-            ->where('pivot.enabled', 0)
+            ->where('enabled', 0)
+            ->get()
             ->isNotEmpty();
     }
 
@@ -67,9 +68,10 @@ trait HasPermissions
      */
     public function isEnabledPermission($identifier)
     {
-        return $this->permissions
+        return $this->permissions()
             ->where('identifier', $identifier)
-            ->where('pivot.enabled', 1)
+            ->where('enabled', 1)
+            ->get()
             ->isNotEmpty();
     }
 
@@ -84,6 +86,8 @@ trait HasPermissions
     public function savePermission($permission, $enabled = 1)
     {
         $permission = $this->getPermissionByIdentifier($permission);
+
+        $this->permissions()->detach($permission->id);
 
         $this->permissions()->attach([
             $permission->id => [

@@ -2,8 +2,8 @@
 
 namespace Modules\Extranet\Tests\Feature;
 
-use App\User;
 use Modules\Architect\Tests\TestCase;
+use Modules\Extranet\Entities\User;
 use Modules\Extranet\Services\RolesPermissions\Entities\Permission;
 use Modules\Extranet\Services\RolesPermissions\Entities\PermissionGroup;
 use Modules\Extranet\Services\RolesPermissions\Entities\Role;
