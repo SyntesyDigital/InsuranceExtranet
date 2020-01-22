@@ -175,7 +175,7 @@ export default class ModalEditProcedures extends Component {
                             <InputField
                                 label={'Name'}
                                 name={'name'}
-                                // value={this.state.form.procedure.name}
+                                // value={currentProcedure.name}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
