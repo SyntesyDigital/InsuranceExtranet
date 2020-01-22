@@ -38,9 +38,28 @@ trait HasPermissions
             return true;
         }
 
-        return $this->roles->filter(function ($role) use ($permission) {
+        return $this->roles()->get()->filter(function ($role) use ($permission) {
             return $role->hasPermission($permission->identifier);
         })->isNotEmpty();
+    }
+
+    /**
+     * Check if user has permissions.
+     *
+     * @param mixed $identifiers
+     *
+     * @return bool
+     */
+    public function hasPermissions($identifiers)
+    {
+        $satisfy = false;
+        foreach ($identifiers as $identifier) {
+            if ($this->hasPermission($identifier)) {
+                $satisfy = true;
+            }
+        }
+
+        return $satisfy;
     }
 
     /**

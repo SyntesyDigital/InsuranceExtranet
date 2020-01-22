@@ -5,6 +5,7 @@ namespace Modules\Extranet\Extensions;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use Modules\Extranet\Entities\Session as UserSession;
 use Session;
 
 class VeosUserProvider implements UserProvider
@@ -93,6 +94,9 @@ class VeosUserProvider implements UserProvider
             //if not has expired renew
             $user = json_decode(Session::get('user'));
 
+            // Refresh user session token
+            $session = UserSession::where('token', $user->token)->first();
+
             //if token expired redirect to login
             if ($this->isTokenExpired($user->token)) {
                 header('Location: /login');
@@ -102,12 +106,18 @@ class VeosUserProvider implements UserProvider
             //if not expired renew login
             $client = new Client();
             $response = $client->get(VeosWsUrl::getEnvironmentUrl($user->env).'login/renew', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$user->token,
-            ],
-        ]);
+                'headers' => [
+                    'Authorization' => 'Bearer '.$user->token,
+                ],
+            ]);
             $result = json_decode($response->getBody());
             $user->token = $result->token;
+
+            if ($session) {
+                $session->update([
+                    'token' => $result->token,
+                ]);
+            }
 
             Session::put('user', json_encode($user));
         }

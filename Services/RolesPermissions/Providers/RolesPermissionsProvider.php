@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
 
 class RolesPermissionsProvider extends ServiceProvider
 {
@@ -21,6 +22,17 @@ class RolesPermissionsProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
+        $this->registerMiddlewares();
+    }
+
+    /**
+     * Register service middlewares.
+     *
+     * @return void
+     */
+    public function registerMiddlewares()
+    {
+        $this->app['router']->aliasMiddleware('abilities', HasAbilitiesRoute::class);
     }
 
     /**

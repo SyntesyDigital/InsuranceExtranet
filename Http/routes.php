@@ -12,7 +12,6 @@ Route::group([
   'middleware' => [
     'web',
     'auth:veos-ws',
-    'roles:ROLE_SUPERADMIN,ROLE_SYSTEM',
     'DetectUserLocale',
   ],
 ], function () {
