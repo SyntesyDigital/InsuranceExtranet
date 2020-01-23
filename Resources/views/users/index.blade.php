@@ -1,7 +1,7 @@
 @extends('architect::layouts.master')
 
 @section('content')
-@abilities('users.edit, users.create')
+@abilities(['users.edit', 'users.create'])
 ok ?
 @endabilities
 

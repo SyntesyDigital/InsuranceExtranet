@@ -10,10 +10,11 @@ class AbilitiesHelper
 {
     public function __construct()
     {
-        \Blade::if('abilities', function ($expression) {
+        \Blade::if('abilities', function ($permissions) {
 
-            $expression = str_replace(' ', '', $expression);
-            $permissions = explode(',', $expression);
+            if(!is_array($permissions)) {
+                $permissions = explode(',', str_replace(' ', '', $permissions));
+            } 
 
             $user = Auth::user();
             
