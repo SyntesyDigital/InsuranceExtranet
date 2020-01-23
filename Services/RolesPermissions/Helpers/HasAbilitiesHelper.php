@@ -6,11 +6,11 @@ use Auth;
 use Blade;
 use Modules\Extranet\Entities\User;
 
-class AbilitiesHelper
+class HasAbilitiesHelper
 {
     public function __construct()
     {
-        \Blade::if('abilities', function ($permissions) {
+        \Blade::if('HasAbilities', function ($permissions) {
 
             if(!is_array($permissions)) {
                 $permissions = explode(',', str_replace(' ', '', $permissions));
@@ -22,7 +22,7 @@ class AbilitiesHelper
                 $user = User::where('id_per', $user->id)->first();
             } 
 
-            return $user ? $user->hasPermissions($permissions) : false;
+            return $user->hasPermissions($permissions);
         });
     }
 }

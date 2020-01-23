@@ -9,7 +9,8 @@ use Auth;
 class RolesPermissionsProvider extends ServiceProvider
 {
     protected $helpers = [
-        'AbilitiesHelper',
+        'HasAbilitiesHelper',
+        'HasNotAbilitiesHelper',
     ];
     /**
      * Indicates if loading of the provider is deferred.
@@ -28,9 +29,6 @@ class RolesPermissionsProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->registerMiddlewares();
         $this->loadBladeHelpers();
-
-        
-
     }
 
     public function loadBladeHelpers()
