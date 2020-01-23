@@ -1,9 +1,6 @@
 @extends('architect::layouts.master')
 
 @section('content')
-@abilities(['users.edit', 'users.create'])
-ok ?
-@endabilities
 
 <div id="users-index">
 </div>
