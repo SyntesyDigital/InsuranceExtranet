@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\RolesPermissions\Traits;
 
 use Modules\Extranet\Services\RolesPermissions\Entities\Permission;
 use Modules\Extranet\Services\RolesPermissions\Exceptions\PermissionIsBadObjectException;
+use Modules\Extranet\Services\RolesPermissions\Exceptions\PermissionDoesNotExistException;
 
 trait RolePermissions
 {
@@ -86,7 +87,7 @@ trait RolePermissions
             $permission = Permission::where('identifier', $permission)->first();
 
             if (!$permission) {
-                throw new PermissionDoesNotExistExceptionException();
+                throw new PermissionDoesNotExistException();
             }
         }
 
