@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import InputField from '../Layout/Fields/InputField';
-
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
-    closeModalEditGroup
+    cancelEditGroup,
+    updateGroup,
+    saveGroup,
+    removeGroup,
+
+
 } from './actions';
 
 class ModalEditGroup extends Component {
 
     constructor(props) {
-        
+
         super(props);
 
         this.state = {
@@ -20,11 +24,34 @@ class ModalEditGroup extends Component {
         };
 
     }
+
+    // ==============================
+    // Handlers
+    // ==============================
+
+    // handleSubmit() {
+    //     console.log("handleSubmit");
+    //     this.props.saveGroup(this.props.form.currentGroup);
+    // }
+
+    handleCancel() {
+        console.log("handleCancel Group");
+        this.props.cancelEditGroup();
+    }
+
+    handleRemove() {
+        console.log("handleRemove Group");
+        this.props.removeGroup(this.props.form.currentGroup);
+    }
+
     
-    
+    // ==============================
+    // Renderers
+    // ==============================
+
     render() {
 
-        const {currentGroup,displayGroup} = this.props.form;
+        const { currentGroup, displayGroup } = this.props.form;
 
         return (
             <Modal
@@ -33,20 +60,22 @@ class ModalEditGroup extends Component {
                 title={this.props.title}
                 display={displayGroup}
                 zIndex={10000}
-                onModalClose={this.props.closeModalEditGroup}     
-                size={this.props.size}       
-                submitButton={false}
+                onModalClose={this.props.cancelEditGroup}
+                onCancel={this.props.cancelEditGroup}
+                onRemove={this.handleRemove.bind(this)}
+                // onSubmit={this.handleSubmit.bind(this)}
+                size={this.props.size}
             >
-                {currentGroup != null && 
+                {currentGroup != null &&
                     <div className="row">
                         <div className="col-xs-12">
-                            <InputField 
+                            <InputField
                                 label={'Name'}
                                 name={'name'}
                                 value={currentGroup.name}
-                                onChange={this.props.onFieldChange}
+                                onChange={this.props.updateGroup}
                             />
-                            <InputField 
+                            <InputField
                                 label="Identifier"
                                 name={'identifier'}
                                 value={currentGroup.identifier}
@@ -56,8 +85,8 @@ class ModalEditGroup extends Component {
                     </div>
                 }
             </Modal>
-            
-      );
+
+        );
     }
 }
 
@@ -69,16 +98,21 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        closeModalEditGroup : () => {
-            return dispatch(closeModalEditGroup());
-        }
-      /* 
-      openModalEditGroup : (group) => {
-        return dispatch(openModalEditGroup(group));
-      }
-      */
+        cancelEditGroup: () => {
+            return dispatch(cancelEditGroup());
+        },
+        updateGroup: (name, value) => {
+            return dispatch(updateGroup(name, value));
+        },
+        removeGroup: (currentGroup) => {
+            return dispatch(removeGroup(currentGroup));
+        },
+        // saveGroup: (currentGroup) => {
+        //     return dispatch(saveGroup(currentGroup));
+        // },
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(ModalEditGroup);
 
 ModalEditGroup.propTypes = {
@@ -87,5 +121,9 @@ ModalEditGroup.propTypes = {
     title: PropTypes.string.isRequired,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
-    group : PropTypes.object
+    group: PropTypes.object,
+
+    onSubmit: PropTypes.func,
+    onRemove: PropTypes.func,
+    onCancel: PropTypes.func
 };

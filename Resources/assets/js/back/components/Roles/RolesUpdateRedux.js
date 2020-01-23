@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
 import ButtonSecondary from '../Layout/ButtonSecondary';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import BoxAddGroup from '../Layout/BoxAddGroup';
 import ToggleField from '../Layout/Fields/ToggleField';
-import SidebarTitle from '../Layout/SidebarTitle';
 import ModalEditPermision from '../Roles/ModalEditPermision';
 import ModalEditGroup from '../Roles/ModalEditGroup';
 import Checkbox from '../Layout/CheckBox';
@@ -14,22 +12,18 @@ import InputField from '../Layout/Fields/InputField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
 import IconField from '../Layout/Fields/IconField';
 import BoxInputAdd from '../Layout/BoxInputAdd';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
     initState,
     submitRole,
     updateField,
-    openModalEditGroup
-  } from './actions'
+    openModalEditGroup,
+    openModalEditPermission,
+    openModalCreateGroup
+} from './actions'
 
-/**
- * Acciones : 
- *  - duplicar
- *  - borrar
- *  - guardar
- *  - parte creación nuevo permiso ( modal inidividual )
- */
+
 class RolesUpdateRedux extends Component {
 
     constructor(props) {
@@ -37,17 +31,16 @@ class RolesUpdateRedux extends Component {
         super(props);
 
         this.state = {
-            //modals
+
             displayGroup: false,
             displayPermision: false
+
         };
 
         this.props.initState();
     }
 
-    handleEditGroup(group) {
-        this.props.openModalEditGroup(group);
-    }
+
 
     /*
     *   Modal to edit Permission :
@@ -55,6 +48,7 @@ class RolesUpdateRedux extends Component {
     *   If create but into a group : premission : null, group : selected group   
     *   If edit, premission and group selected.
     */
+
     openModalEditPermision(permission, group, e) {
         if (e !== undefined) {
             e.preventDefault();
@@ -62,18 +56,30 @@ class RolesUpdateRedux extends Component {
 
         this.setState({
             displayPermision: true,
-            selectedGroup : group,
-            selectedPermission : permission
+            selectedGroup: group,
+            selectedPermission: permission
         });
     }
 
+
+    // ==============================
+    // Handlers
+    // ==============================
+
+    handleEditGroup(group) {
+        this.props.openModalEditGroup(group);
+    }
+
+    handleEditPermission(permission) {
+        this.props.openModalEditPermission(permission);
+    }
 
     handleModalClose() {
         this.setState({
             displayGroup: false,
             displayPermision: false,
-            selectedGroup : null,
-            selectedPermission : null
+            selectedGroup: null,
+            selectedPermission: null
         });
     }
 
@@ -90,111 +96,103 @@ class RolesUpdateRedux extends Component {
         this.props.submitRole(this.props.form);
     }
 
-    handlePermissionChange(permission,group,e) {
-        console.log("handlePermissionChange :: (value,permission)",e.target.checked,permission);
+    handlePermissionChange(permission, group, e) {
+        console.log("handlePermissionChange :: (value,permission)", e.target.checked, permission);
     }
-
-    /*
-    handleFieldChange(name,value) {
-        console.log("handleFieldChange :: (name,value) ",name,value);
-        const {role} = this.state;
-
-        role[name] = value;
-        this.setState({
-            role : role
-        });
-    }
-    */
 
     handleAddGroup(e) {
         e.preventDefault();
         const role = this.props.form.role;
 
         var maxId = 0;
-        for(var i=0;i<role.groups.length;i++){
-            maxId = Math.max(role.groups[i].id,maxId);
+        for (var i = 0; i < role.groups.length; i++) {
+            maxId = Math.max(role.groups[i].id, maxId);
         }
 
         maxId++;
-        
+
         role.groups.push({
-            id : maxId,
-            identifier : 'group_'+maxId,
-            name : 'Group '+maxId,
-            permissions : []
+            id: maxId,
+            identifier: 'group_' + maxId,
+            name: 'Group ' + maxId,
+            permissions: []
         });
 
         this.setState({
-            role : role
+            role: role
         });
     }
 
-    handleRemoveGroup(group,e) {
-        console.log("handleRemoveGroup :: (group)",group);
+    handleRemoveGroup(group, e) {
+        console.log("handleRemoveGroup :: (group)", group);
     }
 
-    handleUpGroup(group,e) {
-        console.log("handleUpGroup :: (group)",group);
+    handleUpGroup(group, e) {
+        console.log("handleUpGroup :: (group)", group);
     }
 
-    handleDownGroup(group,e) {
-        console.log("handleDownGroup :: (group)",group);
+    handleDownGroup(group, e) {
+        console.log("handleDownGroup :: (group)", group);
     }
 
-    handleGroupFieldChange(name,value) {
-        
-        const {selectedGroup,role} = this.state;
+    handleGroupFieldChange(name, value) {
+
+        const { selectedGroup, role } = this.state;
 
         var index = null;
-        for(var i=0;i<role.groups.length;i++){
-            if(role.groups[i].id == selectedGroup.id){
+        for (var i = 0; i < role.groups.length; i++) {
+            if (role.groups[i].id == selectedGroup.id) {
                 index = i;
                 break;
             }
         }
 
-        if(index == null)
+        if (index == null)
             return;
 
         role.groups[index][name] = value;
         this.setState({
-            role : role
+            role: role
         });
     }
 
+    // ==============================
+    // Renderers
+    // ==============================
+
     renderGroups() {
-        return this.props.form.role.groups.map((item,index) => 
-        <CollapsableGroup
-            key={item.id}
-            identifier={item.identifier}
-            title={item.name}
-            icon=''
-            editable={true}
-            sortable={true}
-            index={index}
-            length={this.props.form.role.groups.length}
-            onEdit={this.handleEditGroup.bind(this,item)}
-            onRemove={this.handleRemoveGroup.bind(this,item)}
-            onUp={this.handleUpGroup.bind(this,item)}
-            onDown={this.handleDownGroup.bind(this,item)}
-        >
-            {this.renderPermissions(item.permissions)}
+        return this.props.form.role.groups.map((item, index) =>
+            <CollapsableGroup
+                key={item.id}
+                identifier={item.identifier}
+                title={item.name}
+                icon=''
+                editable={true}
+                sortable={true}
+                index={index}
+                length={this.props.form.role.groups.length}
+                onEdit={this.handleEditGroup.bind(this, item)}
+                onRemove={this.handleRemoveGroup.bind(this, item)}
+                onUp={this.handleUpGroup.bind(this, item)}
+                onDown={this.handleDownGroup.bind(this, item)}
+            >
+                {this.renderPermissions(item.permissions)}
 
-            <div className="col-md-4">
-                <BoxInputAdd
-                    onClick={this.openModalEditPermision.bind(this,null,item)}
-                />
-            </div>
+                <div className="col-md-4">
+                    <BoxInputAdd
+                        onClick={this.openModalEditPermision.bind(this, null, item)}
+                    />
+                </div>
 
-        </CollapsableGroup>
+            </CollapsableGroup>
         );
     }
-
-    renderPermissions(permissions,group) {
-        if(permissions === undefined)
+    
+    renderPermissions(permissions, group) {
+        if (permissions === undefined)
             return null;
 
-        return permissions.map((item,index) => 
+        return permissions.map((item, index) =>
             <div className="col-md-4">
                 <div className="container-checkbox">
                     <Checkbox
@@ -203,8 +201,9 @@ class RolesUpdateRedux extends Component {
                         iconEdit={'far fa-edit'}
                         isEdit={true}
                         value={item.value}
-                        onClick={this.openModalEditPermision.bind(this,item,group)}
-                        onChange={this.handlePermissionChange.bind(this,item,group)}
+                        // onClick={this.openModalEditPermision.bind(this, item, group)}
+                        onChange={this.handlePermissionChange.bind(this, item, group)}
+                        onEdit={this.handleEditPermission.bind(this, item)}
                     />
                 </div>
             </div>
@@ -223,7 +222,7 @@ class RolesUpdateRedux extends Component {
                     size={'medium'}
                     title={'Permision | Edit'}
                     permission={this.props.form.selectedPermission}
-                    group={this.props.form.selectedGroup}
+                    group={this.props.form.currentGroup}
                     roles={this.props.form.roles}
                     display={this.props.form.displayPermision}
                     zIndex={10000}
@@ -247,11 +246,11 @@ class RolesUpdateRedux extends Component {
                     title={this.props.form.role.name}
                     backRoute={routes['extranet.roles.index']}
                 >
-                    {this.props.form.saved && 
+                    {this.props.form.saved &&
                         <ButtonSecondary
                             label={'Add permission'}
                             icon={'fa fa-plus-circle'}
-                            onClick={this.openModalEditPermision.bind(this)}
+                            onClick={this.handleEditPermission.bind(this)}
                         />
                     }
 
@@ -259,23 +258,23 @@ class RolesUpdateRedux extends Component {
                         label={'Actions'}
                         list={[
                             {
-                                label : 'Nouveau',
-                                icon : 'fa fa-plus-circle',
-                                route : routes['extranet.roles.create'],
-                                className : ''
+                                label: 'Nouveau',
+                                icon: 'fa fa-plus-circle',
+                                route: routes['extranet.roles.create'],
+                                className: ''
                             },
                             {
-                                label : 'Dupliquer',
-                                icon : 'far fa-copy',
-                                onClick : this.handleDuplicate.bind(this),
-                                className : ''
+                                label: 'Dupliquer',
+                                icon: 'far fa-copy',
+                                onClick: this.handleDuplicate.bind(this),
+                                className: ''
                             },
                             {
-                                label : 'Supprimer',
-                                icon : 'fa fa-trash-alt',
-                                onClick : this.handleRemove.bind(this),
-                                className : 'text-danger'
-                            }           
+                                label: 'Supprimer',
+                                icon: 'fa fa-trash-alt',
+                                onClick: this.handleRemove.bind(this),
+                                className: 'text-danger'
+                            }
                         ]}
                     />
 
@@ -292,7 +291,7 @@ class RolesUpdateRedux extends Component {
                     <div className="col-md-9 page-content form-fields">
 
                         {this.renderGroups()}
-                        
+
                         <BoxAddGroup
                             identifier='1'
                             title='Add group'
@@ -346,20 +345,25 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-       
-      initState : () => {
-        return dispatch(initState());
-      },
-      submitRole : (payload) => {
-        return dispatch(submitRole(payload));
-      },
-      updateField : (name, value) => {
-        return dispatch(updateField(name, value));
-      },
-      openModalEditGroup : (group) => {
-        return dispatch(openModalEditGroup(group));
-      }
-      
+
+        initState: () => {
+            return dispatch(initState());
+        },
+        submitRole: (payload) => {
+            return dispatch(submitRole(payload));
+        },
+        updateField: (name, value) => {
+            return dispatch(updateField(name, value));
+        },
+        openModalEditGroup: (group) => {
+            return dispatch(openModalEditGroup(group));
+        },
+        openModalEditPermission: (permission) => {
+            return dispatch(openModalEditPermission(permission));
+        },
+        openModalCreateGroup: () => {
+            return dispatch(openModalCreateGroup());
+        }
     }
 }
 

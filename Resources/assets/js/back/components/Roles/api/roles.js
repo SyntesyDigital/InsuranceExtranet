@@ -74,3 +74,116 @@ export function getPermission(payload) {
     });
 }
 
+export function apiCreateRole(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+export function apiUpdateRole(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+export function apiRemoveRole(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+/**
+ * Function to update group basic parameters
+ * 
+ * @param {} payload 
+ */
+export function apiRemoveGroup(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+export function apiCreateGroup(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+export function apiUpdateGroup(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+
+/**
+ * Function to update permissions basic parameters
+ * 
+ * @param {} payload 
+ */
+
+export function apiCreatePermission(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+export function apiUpdatePermission(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+
+export function apiRemovePermission(payload) {
+  return client
+    .query({
+      query: GET_ORGANIZATION,
+      variables: {
+        organization: 'the-road-to-learn-react',
+      },
+    });
+}
+
+/**
+ * Function to update roles basic parameters
+ * 
+ * @param {} payload 
+ */
+
+
+
+
+

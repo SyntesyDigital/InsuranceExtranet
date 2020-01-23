@@ -1,22 +1,21 @@
 import {
-  //INIT_STATE,
-
+  INIT_STATE,
 } from '../constants';
 
 const initialState =  {
-  //procedures : [],
-  
+  loaded : false
 }
 
 function formReducer(state = initialState, action) {
 
-    //console.log("formReducer :: ",action.type, action.payload);
+    console.log("formReducer :: ",action.type, action.payload);
 
     switch(action.type) {
         case INIT_STATE:
 
             return {
-                ...state
+                ...state,
+                loaded : true
             }
 
         
