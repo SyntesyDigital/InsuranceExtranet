@@ -5,6 +5,7 @@ namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Model;
 
 class ModelField extends Model
 {

@@ -1,9 +1,11 @@
 <?php
 
-namespace Modules\Extranet\Tests\Feature;
+namespace Modules\Extranet\Services\RolesPermissions\Tests\Feature;
 
-use Modules\Architect\Tests\TestCase;
+use Modules\Extranet\Services\RolesPermissions\Tests\TestCase;
 use Modules\Extranet\Entities\User;
+use Modules\Architect\Entities\Content;
+
 use Modules\Extranet\Services\RolesPermissions\Entities\Permission;
 use Modules\Extranet\Services\RolesPermissions\Entities\PermissionGroup;
 use Modules\Extranet\Services\RolesPermissions\Entities\Role;
@@ -57,6 +59,8 @@ class RolesPermissionsTest extends TestCase
 
         $group = PermissionGroup::create([
             'name' => 'Group 1',
+            'identifier' => 'group-1',
+            'order' => 1
         ]);
 
         $permission1 = Permission::create([
@@ -94,6 +98,8 @@ class RolesPermissionsTest extends TestCase
 
         $group = PermissionGroup::create([
             'name' => 'Group 1',
+            'identifier' => 'group-1',
+            'order' => 1
         ]);
 
         $permission1 = Permission::create([

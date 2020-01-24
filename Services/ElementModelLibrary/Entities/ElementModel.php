@@ -2,12 +2,16 @@
 
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
-use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ElementModelDuplicator;
 
 class ElementModel extends Model
 {
+    use Duplicator;
+
+    protected $duplicator = ElementModelDuplicator::class;
+
     /**
      * The database table used by the model.
      *
@@ -25,12 +29,11 @@ class ElementModel extends Model
         'identifier',
         'name',
         'description',
-        'icon'
+        'icon',
     ];
 
     public function procedures(): BelongsToMany
     {
         return $this->hasMany(ModelProcedure::class, 'model_id', 'id');
     }
-
 }

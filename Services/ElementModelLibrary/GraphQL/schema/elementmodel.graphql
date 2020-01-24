@@ -1,0 +1,21 @@
+################################
+#   TYPE
+################################
+type ElementModel {
+    id: ID!
+    identifier: String!
+    name: String!
+    description: String
+    icon: String
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    elementModels: [ElementModel!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+
+    elementModel(id: ID! @eq): ElementModel
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+}

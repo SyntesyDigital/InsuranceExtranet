@@ -2,15 +2,16 @@
 
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
-use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
-use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
-use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
-
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ServiceDuplicator;
+use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
 class Service extends Model
 {
+    use Duplicator;
+
+    protected $duplicator = ServiceDuplicator::class;
+
     /**
      * The database table used by the model.
      *
@@ -27,11 +28,11 @@ class Service extends Model
         'id',
         'identifier',
         'name',
-        'httpMethod',
+        'http_method',
         'url',
         'boby',
         'response',
-        'comment'
+        'comment',
     ];
 
     public function procedures(): HasMany
