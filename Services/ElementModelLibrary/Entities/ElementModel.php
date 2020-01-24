@@ -3,8 +3,9 @@
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ElementModelDuplicator;
+use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
 class ElementModel extends Model
 {
@@ -32,7 +33,7 @@ class ElementModel extends Model
         'icon',
     ];
 
-    public function procedures(): BelongsToMany
+    public function procedures(): HasMany
     {
         return $this->hasMany(ModelProcedure::class, 'model_id', 'id');
     }

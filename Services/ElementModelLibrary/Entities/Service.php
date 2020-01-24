@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ServiceDuplicator;
 use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
@@ -37,6 +38,6 @@ class Service extends Model
 
     public function procedures(): HasMany
     {
-        return $this->hasMany(ModelProcedure::class, 'service_id', 'id');
+        return $this->hasMany(ModelProcedure::class, 'id', 'service_id');
     }
 }

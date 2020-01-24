@@ -8,13 +8,16 @@ type ModelProcedure {
     required: String
     repeatable: String
     repeatable_json: String
+    service: Service! @hasOne
+    fields: [ModelField!]! @hasMany
+    model: ElementModel! @hasOne
 }
 
 type ModelField {
     id: ID!
     name: String!
     identifier: String!
-    type: String!
+    type: String
     format: String 
     default_value: String 
     boby: String
@@ -28,13 +31,23 @@ type ModelField {
 ################################
 #   INPUT
 ################################
+
+input CreateServiceBelongsTo {
+  connect: ID
+  create: CreateServiceInput
+  update: UpdateServiceInput
+  upsert: UpdateServiceInput
+}
+
 input CreateModelProcedureInput {
     name: String!
     configurable: String
     required: String
     repeatable: String
     repeatable_json: String
-    fields: ModelFieldsInput
+    service: CreateServiceBelongsTo
+    #fields: ModelFieldsInput
+    #model: ElementModelInput
 }
 
 input UpdateModelProcedureInput {
@@ -44,7 +57,9 @@ input UpdateModelProcedureInput {
     required: String
     repeatable: String
     repeatable_json: String
-    fields: ModelFieldsInput
+    #fields: ModelFieldsInput
+    #model: ElementModelInput
+    service: CreateServiceBelongsTo
 }
 
 input CreateModelFieldInput {
@@ -73,6 +88,15 @@ input UpdateModelFieldInput {
     configurable: String 
     visible: String
 }
+
+input ElementModelInput {
+    connect: [ID!]
+    sync: [ID!]
+    create: [CreateElementModelInput!]
+    update: [CreateElementModelInput!]
+    upsert: [UpdateElementModelInput!]
+}
+
 
 input ModelFieldsInput {
     connect: [ID!]
@@ -105,7 +129,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-type Mutation {
+extend type Mutation {
     createModelProcedure(input: CreateModelProcedureInput! @spread): ModelProcedure
         @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
 

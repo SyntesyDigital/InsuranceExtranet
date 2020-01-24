@@ -1,10 +1,9 @@
 <?php
 
-use Modules\Extranet\Services\ElementModelLibrary\Database\Migrations;
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Extranet\Services\ElementModelLibrary\Database\Migrations;
 
 class CreateElementModelLibraryTables extends Migration
 {
@@ -44,8 +43,8 @@ class CreateElementModelLibraryTables extends Migration
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
 
-            $table->integer('element_id')->unsigned();
-            $table->foreign('element_id')->references('id')->on('elements_models')->onDelete('cascade');
+            $table->integer('model_id')->unsigned();
+            $table->foreign('model_id')->references('id')->on('elements_models')->onDelete('cascade');
 
             $table->string('name');
             $table->boolean('configurable')->default(0);
@@ -55,7 +54,6 @@ class CreateElementModelLibraryTables extends Migration
 
             $table->timestamps();
         });
-
 
         Schema::create('models_fields', function (Blueprint $table) {
             $table->increments('id');
@@ -73,7 +71,7 @@ class CreateElementModelLibraryTables extends Migration
             $table->text('example');
             $table->boolean('configurable')->default(0);
             $table->boolean('visible')->default(0);
-   
+
             $table->timestamps();
         });
     }

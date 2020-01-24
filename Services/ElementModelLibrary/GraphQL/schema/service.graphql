@@ -10,12 +10,24 @@ type Service {
     boby: String!
     response: String 
     comment: String
+    procedures: [ModelProcedure!] @hasMany
 }
 
 
 ################################
 #   INPUT
 ################################
+input ServiceInput {
+    id: ID!
+    identifier: String!
+    name: String!
+    http_method: String!
+    url: String!
+    boby: String!
+    response: String 
+    comment: String
+}
+
 input CreateServiceInput {
     identifier: String!
     name: String!

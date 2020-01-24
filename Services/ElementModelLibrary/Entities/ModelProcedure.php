@@ -3,8 +3,10 @@
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ModelProcedureDuplicator;
+use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
 class ModelProcedure extends Model
 {
@@ -27,7 +29,7 @@ class ModelProcedure extends Model
     protected $fillable = [
         'id',
         'service_id',
-        'element_id',
+        'model_id',
         'name',
         'configurable',
         'required',
@@ -37,11 +39,16 @@ class ModelProcedure extends Model
 
     public function service(): HasOne
     {
-        return $this->hasOne(Service::class, 'id', 'procedure_id');
+        return $this->hasOne(Service::class, 'id', 'service_id');
     }
 
     public function elementModel(): HasOne
     {
-        return $this->hasOne(Service::class, 'id', 'element_id');
+        return $this->hasOne(ElementModel::class, 'id', 'model_id');
+    }
+
+    public function fields(): HasMany
+    {
+        return $this->hasMany(ModelField::class, 'procedure_id', 'id');
     }
 }
