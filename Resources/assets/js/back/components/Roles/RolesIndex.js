@@ -50,7 +50,7 @@ export default class RolesIndex extends Component {
                     columns={[
                         {data: 'icon', name: 'Icon'},
                         {data: 'name', name: 'Name'},
-                        {data: 'role', name: 'Identifier'},
+                        {data: 'identifier', name: 'Identifier'},
                         {data: 'default', name: 'Default'},
                         {data: 'action', name: '', orderable: false, searchable: false}
                     ]}

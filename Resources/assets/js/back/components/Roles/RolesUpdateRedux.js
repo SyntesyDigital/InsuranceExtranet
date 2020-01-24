@@ -7,7 +7,7 @@ import BoxAddGroup from '../Layout/BoxAddGroup';
 import ToggleField from '../Layout/Fields/ToggleField';
 import ModalEditPermision from '../Roles/ModalEditPermision';
 import ModalEditGroup from '../Roles/ModalEditGroup';
-import Checkbox from '../Layout/CheckBox';
+import Checkbox from '../Layout/Fields/CheckField';
 import InputField from '../Layout/Fields/InputField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
 import IconField from '../Layout/Fields/IconField';
@@ -20,9 +20,12 @@ import {
     updateField,
     openModalEditGroup,
     openModalEditPermission,
-    openModalCreateGroup
+    openModalCreateGroup,
+    removeGroup,
+    updatePermission,
+    openModalCreatePermission,
+    openModalPermissionFromGroup
 } from './actions'
-
 
 class RolesUpdateRedux extends Component {
 
@@ -37,7 +40,7 @@ class RolesUpdateRedux extends Component {
 
         };
 
-        this.props.initState();
+        this.props.initState(this.props.roleId);
     }
 
 
@@ -54,11 +57,7 @@ class RolesUpdateRedux extends Component {
             e.preventDefault();
         }
 
-        this.setState({
-            displayPermision: true,
-            selectedGroup: group,
-            selectedPermission: permission
-        });
+        this.props.openModalPermissionFromGroup(group);
     }
 
 
@@ -93,38 +92,26 @@ class RolesUpdateRedux extends Component {
 
     handleSubmit() {
         console.log("handleSubmit");
-        this.props.submitRole(this.props.form);
+        this.props.submitRole(this.props.form.role);
     }
 
     handlePermissionChange(permission, group, e) {
         console.log("handlePermissionChange :: (value,permission)", e.target.checked, permission);
+        this.props.updatePermission(
+            this.props.form.role,
+            permission,
+            e.target.checked
+        );
     }
 
     handleAddGroup(e) {
         e.preventDefault();
-        const role = this.props.form.role;
-
-        var maxId = 0;
-        for (var i = 0; i < role.groups.length; i++) {
-            maxId = Math.max(role.groups[i].id, maxId);
-        }
-
-        maxId++;
-
-        role.groups.push({
-            id: maxId,
-            identifier: 'group_' + maxId,
-            name: 'Group ' + maxId,
-            permissions: []
-        });
-
-        this.setState({
-            role: role
-        });
+        this.props.openModalCreateGroup();
     }
 
     handleRemoveGroup(group, e) {
         console.log("handleRemoveGroup :: (group)", group);
+        this.props.removeGroup(group);
     }
 
     handleUpGroup(group, e) {
@@ -133,27 +120,6 @@ class RolesUpdateRedux extends Component {
 
     handleDownGroup(group, e) {
         console.log("handleDownGroup :: (group)", group);
-    }
-
-    handleGroupFieldChange(name, value) {
-
-        const { selectedGroup, role } = this.state;
-
-        var index = null;
-        for (var i = 0; i < role.groups.length; i++) {
-            if (role.groups[i].id == selectedGroup.id) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index == null)
-            return;
-
-        role.groups[index][name] = value;
-        this.setState({
-            role: role
-        });
     }
 
     // ==============================
@@ -201,7 +167,6 @@ class RolesUpdateRedux extends Component {
                         iconEdit={'far fa-edit'}
                         isEdit={true}
                         value={item.value}
-                        // onClick={this.openModalEditPermision.bind(this, item, group)}
                         onChange={this.handlePermissionChange.bind(this, item, group)}
                         onEdit={this.handleEditPermission.bind(this, item)}
                     />
@@ -221,10 +186,6 @@ class RolesUpdateRedux extends Component {
                     icon={'fas fa-bars'}
                     size={'medium'}
                     title={'Permision | Edit'}
-                    permission={this.props.form.selectedPermission}
-                    group={this.props.form.currentGroup}
-                    roles={this.props.form.roles}
-                    display={this.props.form.displayPermision}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
                 >
@@ -236,7 +197,6 @@ class RolesUpdateRedux extends Component {
                     size={'small'}
                     title={'Group | Edit'}
                     group={this.props.form.currentGroup}
-                    onFieldChange={this.handleGroupFieldChange.bind(this)}
                     zIndex={10000}
                 >
                 </ModalEditGroup>
@@ -246,13 +206,11 @@ class RolesUpdateRedux extends Component {
                     title={this.props.form.role.name}
                     backRoute={routes['extranet.roles.index']}
                 >
-                    {this.props.form.saved &&
-                        <ButtonSecondary
-                            label={'Add permission'}
-                            icon={'fa fa-plus-circle'}
-                            onClick={this.handleEditPermission.bind(this)}
-                        />
-                    }
+                    <ButtonSecondary
+                        label={'Add permission'}
+                        icon={'fa fa-plus-circle'}
+                        onClick={this.props.openModalCreatePermission}
+                    />
 
                     <ButtonDropdown
                         label={'Actions'}
@@ -345,9 +303,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-
-        initState: () => {
-            return dispatch(initState());
+        initState: (roleId) => {
+            return dispatch(initState(roleId));
         },
         submitRole: (payload) => {
             return dispatch(submitRole(payload));
@@ -363,6 +320,18 @@ const mapDispatchToProps = dispatch => {
         },
         openModalCreateGroup: () => {
             return dispatch(openModalCreateGroup());
+        },
+        removeGroup : (group) => {
+            return dispatch(removeGroup(group));
+        },
+        updatePermission : (role,permission,value) => {
+            return dispatch(updatePermission(role,permission,value))
+        },
+        openModalCreatePermission : () => {
+            return dispatch(openModalCreatePermission())
+        },
+        openModalPermissionFromGroup : (group) => {
+            return dispatch(openModalPermissionFromGroup(group))
         }
     }
 }
