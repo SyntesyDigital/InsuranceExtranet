@@ -153,6 +153,7 @@ class ModalEditPermision extends Component {
         title={'Permision | Edit'}
         display={this.props.display}
         zIndex={10000}
+        
         onModalClose={this.props.cancelEditPermission}
         onCancel={this.props.cancelEditPermission}
         onRemove={this.handleRemove.bind(this)}

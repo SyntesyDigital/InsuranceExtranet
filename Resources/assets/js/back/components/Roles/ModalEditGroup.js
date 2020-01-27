@@ -10,7 +10,6 @@ import {
     saveGroup,
     removeGroup,
 
-
 } from './actions';
 
 class ModalEditGroup extends Component {
@@ -28,11 +27,6 @@ class ModalEditGroup extends Component {
     // ==============================
     // Handlers
     // ==============================
-
-    // handleSubmit() {
-    //     console.log("handleSubmit");
-    //     this.props.saveGroup(this.props.form.currentGroup);
-    // }
 
     handleCancel() {
         console.log("handleCancel Group");

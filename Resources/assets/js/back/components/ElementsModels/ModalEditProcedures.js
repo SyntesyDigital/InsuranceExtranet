@@ -9,41 +9,25 @@ import FieldList from '../Layout/FieldList';
 import FieldListItem from '../Layout/FieldListItem';
 import BoxAddLarge from '../Layout/BoxAddLarge';
 import ModalEditObject from './ModalEditObject';
+import { connect } from 'react-redux';
 
-const arrayOfOptions = [
-    {
-        id: '1 - Nico',
-        name: 'nico'
-    },
-    {
-        id: '2 - Sergi',
-        name: 'sergi'
-    },
-    {
-        id: '3 - Francicso',
-        name: 'francisco'
-    },
-    {
-        id: '4 - dani',
-        name: 'dani'
-    },
-];
+import {
+    closeModalProcedure,
+    removeProcedure,
+    updateProcedureField,
+    openModalEditObject,
+
+} from './actions';
 
 
-
-
-export default class ModalEditProcedures extends Component {
+class ModalEditProcedures extends Component {
 
     constructor(props) {
 
         super(props);
 
         this.state = {
-
-            displayEditObject: false,
-            displayEditProcedures: false,
-            checkedRepeatable: false,
-            currentProcedure: null
+            
         };
 
         this.handleChangeRepeatable = this.handleChangeRepeatable.bind(this);
@@ -51,28 +35,33 @@ export default class ModalEditProcedures extends Component {
     }
 
     // ==============================
-    // Open Modals
-    // ==============================
-
-    openModalEditObject(e) {
-        if (e !== undefined) {
-            e.preventDefault();
-        }
-
-        this.setState({
-            displayEditObject: true,
-        });
-    }
-
-    // ==============================
     // Handlers
     // ==============================
 
+    handleCancel() {
+        console.log("handleCancel Procedure");
+        this.props.closeModalProcedure();
+    }
+
+    handleRemove() {
+        console.log("handleRemove Procedure");
+        this.props.removeProcedure(this.props.form.currentProcedure);
+    }
+
+    handleEditObject(procedure, object){
+        console.log("handleEditObject", procedure, object);
+        this.props.openModalEditObject(procedure, object);
+    }
+    
     handleModalCloseEditObject() {
         this.setState({
             displayEditObject: false,
             displayEditProcedures: true,
         });
+    }
+    handleCreateProcedureObject(){
+        console.log("handleCreateProcedureObject");
+        this.props.openModalEditObject();
     }
 
     handleChangeRepeatable() {
@@ -91,6 +80,13 @@ export default class ModalEditProcedures extends Component {
         });
     }
 
+    handleSettingsChange(procedure, index,  name, value) {
+        this.props.updateProcedureField(procedure, value, index);
+        console.log("handleSettingsChange :: (procedure, name, value)", procedure, name, value);
+    }
+
+
+
     // ==============================
     // Renderers
     // ==============================
@@ -105,13 +101,12 @@ export default class ModalEditProcedures extends Component {
                     key={index}
                     identifier={object.identifier}
                     index={index}
-                    onClick={this.openModalEditObject.bind(this)}
                     icon={'fas fa-bars'}
                     icons={[
                         'fas fa-redo-alt'
                     ]}
                     labelInputLeft={object.name}
-                // labelInputRight={object.title}
+                    onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
                 />
             </div>
         )
@@ -127,6 +122,7 @@ export default class ModalEditProcedures extends Component {
     render() {
 
         const inputFieldJsonEdit = this.state.checkedRepeatable ? <InputFieldJsonEdit label={'JSON'} /> : null;
+        const { currentProcedure } = this.props.form;
 
         return (
 
@@ -136,11 +132,13 @@ export default class ModalEditProcedures extends Component {
                 title={'Edit Procedures'}
                 display={this.props.display}
                 zIndex={10000}
-                onModalClose={this.props.onModalClose}
                 size={this.props.size}
 
+                onModalClose={this.props.closeModalProcedure}
+                onCancel={this.props.closeModalProcedure}
+                onRemove={this.handleRemove.bind(this)}
             >
-                {this.props.procedure != null &&
+                {currentProcedure != null &&
 
                     <div className="row rightbar-page">
 
@@ -151,19 +149,19 @@ export default class ModalEditProcedures extends Component {
                                 icon={'fas fa-bars'}
                                 size={'medium'}
                                 title={'Object | Configuration'}
-                                display={this.state.displayEditObject}
+                                display={this.props.form.displayEditObject}
                                 zIndex={10000}
                                 onModalClose={this.handleModalCloseEditObject.bind(this)}
                             />
 
                             <FieldList>
 
-                                {this.renderObjects(this.props.procedure)}
+                                {this.renderObjects(currentProcedure)}
 
                                 <BoxAddLarge
                                     identifier='1'
                                     title='Ajouter'
-                                    onClick={this.openModalEditObject.bind(this)}
+                                    onClick={this.handleCreateProcedureObject.bind(this)}
                                 />
 
                             </FieldList>
@@ -175,27 +173,31 @@ export default class ModalEditProcedures extends Component {
                             <InputField
                                 label={'Name'}
                                 name={'name'}
-                                // value={currentProcedure.name}
-                                onChange={this.handleFieldChange.bind(this)}
+                                value={currentProcedure.title}
+                                onChange={this.props.updateProcedureField}
                             />
 
                             <SelectField
-                                arrayOfOptions={arrayOfOptions}
-                                title={'Service'}
+                                label={'Service'}
+                                value={currentProcedure.services.value}
+                                name={currentProcedure.services.name}
+                                arrayOfOptions={currentProcedure.services}
+                                onChange={this.handleFieldChange.bind(this)}
                             />
+                            
 
                             <ToggleField
                                 label={'Configurable'}
                                 name={'configurable'}
-                                // checked={this.state.form.procedure.configurable}
-                                onChange={this.handleFieldChange.bind(this)}
+                                checked={currentProcedure.configurable}
+                                onChange={this.handleSettingsChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Required'}
                                 name={'requires'}
-                                // checked={this.state.form.procedure.required}
-                                onChange={this.handleFieldChange.bind(this)}
+                                checked={currentProcedure.required}
+                                onChange={this.handleSettingsChange.bind(this)}
                             />
 
                             <ToggleField
@@ -213,15 +215,43 @@ export default class ModalEditProcedures extends Component {
 
                 }
 
-
-
-
-
-
             </Modal>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        form: state.form
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+        removeProcedure: (procedure) => {
+            return dispatch(removeProcedure(procedure));
+        },
+
+        moveProcedure: () => {
+            return dispatch(moveProcedure());
+        },
+
+        updateProcedureField: (procedure, value, index) => {
+            return dispatch(updateProcedureField(procedure, value, index));
+        },
+    
+        closeModalProcedure: () => {
+            return dispatch(closeModalProcedure());
+        },
+
+        openModalEditObject: (procedure, object) => {
+            return dispatch(openModalEditObject(procedure, object));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditProcedures);
 
 ModalEditProcedures.propTypes = {
     id: PropTypes.string.isRequired,
@@ -229,6 +259,17 @@ ModalEditProcedures.propTypes = {
     title: PropTypes.string.isRequired,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
-    size: PropTypes.string.isRequired
+    size: PropTypes.string.isRequired,
+
+    onAddProcedureObject: PropTypes.func,
+    onEditProcedureObject: PropTypes.func,
+    // onRemoveProcedureObject: PropTypes.func,
+    onMoveProcedureObject: PropTypes.func,
+    onUpdateProcedureField: PropTypes.func,
+    onCloseModal: PropTypes.func,
+
+    
+    onCancel: PropTypes.func,
+    onRemove: PropTypes.func
 };
 

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
+import { connect } from 'react-redux';
 
 
-export default class ModalTestForm extends Component {
+class ModalTestForm extends Component {
 
     constructor(props) {
 
@@ -42,12 +43,39 @@ export default class ModalTestForm extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        form: state.form
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+        initState: () => {
+            return dispatch(initState());
+        },
+        
+        testForm: (form) => {
+            return dispatch(testForm(form));
+        },
+
+        closeTest: () => {
+            return dispatch(closeTest());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalTestForm);
+
 ModalTestForm.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
-    size: PropTypes.string.isRequired
+    size: PropTypes.string.isRequired,
+
+    onModalClose: PropTypes.func
 };
 

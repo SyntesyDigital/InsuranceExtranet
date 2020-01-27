@@ -1,0 +1,5 @@
+export const INIT_STATE = "INIT_STATE";
+export const LOAD_USER = "LOAD_USER";
+export const UPDATE_USER_ROLE = "UPDATE_USER_ROLE";
+export const UPDATE_USER_PERMISSION = "UPDATE_USER_PERMISSION";
+

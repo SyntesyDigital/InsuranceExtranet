@@ -41,26 +41,12 @@ class RolesUpdateRedux extends Component {
     }
 
 
-
     /*
     *   Modal to edit Permission :
     *   IF create  general button : permission and group = null  
     *   If create but into a group : premission : null, group : selected group   
     *   If edit, premission and group selected.
     */
-
-    openModalEditPermision(permission, group, e) {
-        if (e !== undefined) {
-            e.preventDefault();
-        }
-
-        this.setState({
-            displayPermision: true,
-            selectedGroup: group,
-            selectedPermission: permission
-        });
-    }
-
 
     // ==============================
     // Handlers
@@ -171,6 +157,8 @@ class RolesUpdateRedux extends Component {
                 sortable={true}
                 index={index}
                 length={this.props.form.role.groups.length}
+
+                //onEvents
                 onEdit={this.handleEditGroup.bind(this, item)}
                 onRemove={this.handleRemoveGroup.bind(this, item)}
                 onUp={this.handleUpGroup.bind(this, item)}
@@ -180,7 +168,7 @@ class RolesUpdateRedux extends Component {
 
                 <div className="col-md-4">
                     <BoxInputAdd
-                        onClick={this.openModalEditPermision.bind(this, null, item)}
+                        onClick={this.handleEditPermission.bind(this, null, item)}
                     />
                 </div>
 

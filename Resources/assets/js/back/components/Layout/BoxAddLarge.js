@@ -36,4 +36,6 @@ BoxAddLarge.propTypes = {
     identifier: PropTypes.string.isRequired,
     title: PropTypes.string,
     hideTab: PropTypes.bool,
+
+    onAdd: PropTypes.func
 };

@@ -12,14 +12,18 @@ export default class FieldListItem extends Component {
 
   onRemoveField(event) {
     event.preventDefault();
-    console.log('llega onRemoveField')
-
   }
 
   onOpenSettings(event) {
     event.preventDefault();
-    console.log('llega onOpenSettings')
+  }
 
+  handleEdit(e) {
+    this.props.onEdit();
+  }
+
+  handleRemove(e) {
+    this.props.onRemove();
   }
 
   renderIcons() {
@@ -65,10 +69,10 @@ export default class FieldListItem extends Component {
           paddingRight: '15px'
         }}>
 
-          <a href="" onClick={this.props.onClick}>
+          <a href="#" onClick={this.handleEdit.bind(this)}>
             <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}
           </a>
-          <a href="" className="remove-field-btn" onClick={this.onRemoveField}>
+          <a href="#" className="remove-field-btn" onClick={this.handleRemove.bind(this)}>
             &nbsp;&nbsp;
                 <i className="fa fa-trash"></i> {Lang.get('fields.delete')}
           </a>
@@ -81,10 +85,14 @@ export default class FieldListItem extends Component {
 
 FieldListItem.propTypes = {
   icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   icons: PropTypes.array,
   index: PropTypes.number,
   labelInputLeft: PropTypes.string,
-  labelInputRight: PropTypes.string
+  labelInputRight: PropTypes.string,
+
+  //onEvents props
+  onEdit: PropTypes.func,
+  onRemove : PropTypes.func
 
 };
