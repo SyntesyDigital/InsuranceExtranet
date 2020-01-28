@@ -1,6 +1,7 @@
 @extends('architect::layouts.master')
 
 @section('content')
+
 <div id="users-index">
 </div>
 @endsection
