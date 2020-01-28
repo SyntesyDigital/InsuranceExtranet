@@ -7,6 +7,7 @@
 
         <title>{{env('APP_NAME')}}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
         <link rel="stylesheet" media="all" href="/css/app.css" />
         <link rel="stylesheet" media="all" href="/css/font-awesome/css/font-awesome.min.css" />
