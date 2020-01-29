@@ -34,18 +34,24 @@ class ModalEditObject extends Component {
         this.props.closeModalProcedureObject();
     }
 
-    handleRemove() {
-        console.log("handleRemove Object");
-        this.props.removeProcedureObject(this.props.form.currentObject);
-    }
+    // handleRemoveObject() {
+    //     console.log("handleRemoveObject");
+    //     this.props.removeProcedureObject(this.props.form.currentObject);
+    // }
 
-    handleFieldChange(name, value) {
-        console.log("handleFieldChange :: (name,value) ", name, value);
-        const { object } = this.state;
-        object[name] = value;
-        this.setState({
-            object: object
-        });
+    // handleFieldChange(name, value) {
+    //     console.log("handleFieldChange :: (name,value) ", name, value);
+    //     const { object } = this.state;
+    //     object[name] = value;
+    //     this.setState({
+    //         object: object
+    //     });
+    // }
+
+    handleFieldChange(currentProcedure, currentObject, value, name){
+        var currentProcedure = this.props.form
+        console.log("handleFieldChange", currentProcedure, currentObject, value, name);
+        this.props.updateProcedureObjectField(currentProcedure, currentObject, value, name);
     }
 
     // ==============================
@@ -54,7 +60,7 @@ class ModalEditObject extends Component {
 
     render() {
 
-        const { currentObject } = this.props.form.form;
+        const { currentObject } = this.props.form;
 
         return (
 
@@ -65,86 +71,86 @@ class ModalEditObject extends Component {
                 display={this.props.display}
                 zIndex={10000}
                 size={this.props.size}
-
+                deleteButton={false}
                 onModalClose={this.props.closeModalProcedureObject}
                 onCancel={this.props.closeModalProcedureObject}
-                onRemove={this.handleRemove.bind(this)}
+               
             >
                 {currentObject != null &&
-                
+
                     <div className="row">
 
                         <div className="col-xs-12 field-col">
 
                             <InputField
                                 label={'Identifier (champ)'}
-                                value={currentObject.identifier}
+                                value={currentObject.object.identifier}
                                 name={'CHAMP'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Name (lib)'}
-                                value={currentObject.LIB}
+                                value={currentObject.object.name}
                                 name={'LIB'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <SelectField
                                 label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.NATURE}
+                                value={currentObject.object.typeNature.value}
                                 name={'type-nature'}
-                                arrayOfOptions={this.state.NATURE}
+                                arrayOfOptions={currentObject.object.typeNature}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <SelectField
                                 label={'Format (Text, num, etc)'}
-                                value={currentObject.FORMAT}
+                                value={currentObject.object.format.value}
                                 name={'type-format'}
-                                arrayOfOptions={currentObject.FORMAT}
+                                arrayOfOptions={currentObject.object.formats}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Default value (valeur)'}
                                 name={'VALEUR'}
-                                value={currentObject.VALEUR}
+                                value={currentObject.object.defaultValue}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Boby (solo si es select)'}
                                 name={'BOBY'}
-                                value={currentObject.BOBY}
+                                value={currentObject.object.boby}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'JSON path (concreto para este campo)'}
                                 name={'OBJ_JSONP'}
-                                value={currentObject.OBJ_JSONP}
+                                value={currentObject.object.jsonPath}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Example'}
                                 name={'EXEMPLE'}
-                                value={currentObject.EXEMPLE}
+                                value={currentObject.object.example}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Configurable'}
                                 name={'CONF'}
-                                checked={currentObject.CONF}
+                                checked={currentObject.object.configurable}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Visible'}
                                 name={'VIS'}
-                                checked={currentObject.VIS}
+                                checked={currentObject.object.visible}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -172,6 +178,10 @@ const mapDispatchToProps = dispatch => {
         openModalEditObject: (procedure, object) => {
             return dispatch(openModalEditObject(procedure, object));
         },
+        
+        updateProcedureObjectField: (procedure, object, name, value) => {
+            return dispatch(updateProcedureObjectField(procedure, object, name, value));
+        },
 
         removeProcedureObject: (procedure, object) => {
             return dispatch(removeProcedureObject(procedure, object));
@@ -198,6 +208,6 @@ ModalEditObject.propTypes = {
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
 
-    onUpdateProcedureObjectField: PropTypes.func,
+    // onUpdateProcedureObjectField: PropTypes.func,
     onCloseModal: PropTypes.func
 };

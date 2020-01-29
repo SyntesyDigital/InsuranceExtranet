@@ -128,6 +128,7 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   display: PropTypes.bool.isRequired,
   zIndex: PropTypes.number.isRequired,
+  
   submitButton: PropTypes.bool,
   cancelButton: PropTypes.bool,
   deleteButton: PropTypes.bool,

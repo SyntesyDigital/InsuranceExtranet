@@ -17,10 +17,10 @@ export function initState(payload) {
 };
 
 
-export function openModalCreateObject(procedure) {
+export function openModalCreateObject() {
     return {
         type: OPEN_MODAL_CREATE_OBJECT, payload: {
-            procedure: procedure,
+        
         }
     };
 };
@@ -38,6 +38,17 @@ export function closeModalProcedureObject() {
     return {
         type: CLOSE_MODAL_PROCEDURE_OBJECT, payload: {
        
+        }
+    };
+};
+
+export function updateProcedureObjectField(procedure, object, name, value) {
+    return {
+        type: UPDATE_PROCEDURES, payload: {
+            procedure: procedure,
+            object: object,
+            name: name,
+            value: value
         }
     };
 };

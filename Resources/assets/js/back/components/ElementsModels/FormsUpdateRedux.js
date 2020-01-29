@@ -20,6 +20,7 @@ import {
     updateForm,
     removeForm,
     updateField,
+    removeProcedure,
     openModalCreateProcedure,
     openModalEditProcedure,
     
@@ -51,25 +52,15 @@ class FormsUpdateRedux extends Component {
 
     handleCreateProcedure(){
         console.log("handleCreateProcedure");
-        this.props.openModalEditProcedure();
+        this.props.openModalCreateProcedure();
     }
 
     handleRemoveProcedure(procedure){
-        console.log("handleRemoveProcedure", procedure);
+        this.props.removeProcedure(procedure);
     }
 
-    handleModalClose() {
-        this.setState({
-            displayEditObject: false,
-            displayTestForm: false,
-        });
-    }
-
-    handleModalCloseEditProcedure() {
-        this.setState({
-            displayEditProcedures: false,
-            currentProcedure: null
-        });
+    handleTestForm(form){
+        this.props.testForm(form);
     }
 
     handleRemoveForm(form) {
@@ -78,7 +69,8 @@ class FormsUpdateRedux extends Component {
     }
 
     handleSubmit() {
-        console.log("handleSubmitForm");
+        console.log("handleSubmit");
+        this.props.saveForm(this.props.form.form);
     }
 
     // ==============================
@@ -86,6 +78,7 @@ class FormsUpdateRedux extends Component {
     // ==============================
 
     renderProcedures() {
+        
         const displayProcedures = this.props.form.form.procedure.map((procedure, index) =>
             <div key={procedure.title + index} className={procedure.title + index}>
                 <FieldListItem
@@ -113,7 +106,6 @@ class FormsUpdateRedux extends Component {
     }
 
     render() {
-
         return (
 
             <div className="forms-update">
@@ -125,7 +117,7 @@ class FormsUpdateRedux extends Component {
                     title={'Test Json'}
                     display={this.props.form.displayTestForm}
                     zIndex={10000}
-                    onModalClose={this.handleModalClose.bind(this)}
+                    // onModalClose={this.handleModalClose.bind(this)}
                 />
 
                 <ModalEditProcedures
@@ -135,7 +127,6 @@ class FormsUpdateRedux extends Component {
                     title={'Test Json'}
                     display={this.props.form.displayEditProcedures}
                     zIndex={10000}
-                    onModalClose={this.handleModalCloseEditProcedure.bind(this)}
                 />
 
                 <BarTitle
@@ -146,7 +137,6 @@ class FormsUpdateRedux extends Component {
                     <ButtonSecondary
                         label={'Test form'}
                         icon={'fas fa-sync-alt'}
-                        // onClick={this.openModalTestForm.bind(this)}
                     />
 
                     <ButtonDropdown
@@ -240,9 +230,17 @@ const mapDispatchToProps = dispatch => {
 
     return {
 
+        // ==============================
+        // Initial State
+        // ==============================
+
         initState: () => {
             return dispatch(initState());
         },
+
+        // ==============================
+        // Form
+        // ==============================
 
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
@@ -276,6 +274,10 @@ const mapDispatchToProps = dispatch => {
         // Procedures
         // ==============================
 
+        removeProcedure:(procedure) => {
+            return dispatch(removeProcedure(procedure));
+        },
+        
         openModalCreateProcedure: () => {
             return dispatch(openModalCreateProcedure());
         },

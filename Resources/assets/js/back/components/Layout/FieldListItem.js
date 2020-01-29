@@ -38,7 +38,7 @@ export default class FieldListItem extends Component {
 
   render() {
 
-    const { identifier } = this.props;
+    const { identifier, isField } = this.props;
 
     return (
       <div id={"field-list-item-" + identifier} className="typology-field field-list-item">
@@ -55,15 +55,24 @@ export default class FieldListItem extends Component {
         </div>
 
         <div className="field-inputs">
-          <div className="row">
-            <div className="col col-xs-6 text-left">
-              {this.props.labelInputLeft}
+          {isField ? (
+            <div className="row">
+              <div className="col col-xs-6 text-left">
+                  {this.props.labelField}
+                </div>
             </div>
-            <div className="col col-xs-6 text-left">
-              {this.props.labelInputRight}
-            </div>
-          </div>
+          ) : (
+              <div className="row">
+                <div className="field-name col-xs-6">
+                <input type="text" className="form-control" name="name" value={this.props.labelInputLeft} onChange={this.handleChange} />
+              </div>
+              <div className="field-name col-xs-6">
+                <input disabled type="text" className="form-control" name="identifier" value={this.props.labelInputRight} onChange={this.handleChange} />
+              </div>
+              </div>
+            )}
         </div>
+
 
         <div className="field-actions text-right" style={{
           paddingRight: '15px'
@@ -90,9 +99,9 @@ FieldListItem.propTypes = {
   index: PropTypes.number,
   labelInputLeft: PropTypes.string,
   labelInputRight: PropTypes.string,
-
+  isField: PropTypes.bool,
   //onEvents props
   onEdit: PropTypes.func,
-  onRemove : PropTypes.func
+  onRemove: PropTypes.func
 
 };

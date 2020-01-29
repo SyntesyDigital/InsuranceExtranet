@@ -16,6 +16,9 @@ import {
     removeProcedure,
     updateProcedureField,
     openModalEditObject,
+    openModalCreateObject,
+    removeProcedureObject,
+    updateSettings
 
 } from './actions';
 
@@ -48,6 +51,12 @@ class ModalEditProcedures extends Component {
         this.props.removeProcedure(this.props.form.currentProcedure);
     }
 
+
+    handleRemoveObject(procedure, object){
+        console.log("handleRemoveObject", procedure, object);
+        this.props.removeProcedureObject(procedure, object);
+    }
+
     handleEditObject(procedure, object){
         console.log("handleEditObject", procedure, object);
         this.props.openModalEditObject(procedure, object);
@@ -61,7 +70,7 @@ class ModalEditProcedures extends Component {
     }
     handleCreateProcedureObject(){
         console.log("handleCreateProcedureObject");
-        this.props.openModalEditObject();
+        this.props.openModalCreateObject();
     }
 
     handleChangeRepeatable() {
@@ -70,21 +79,25 @@ class ModalEditProcedures extends Component {
         })
     }
 
-    handleFieldChange(name, value) {
-        console.log("handleFieldChange :: (name,value) ", name, value);
-        const { form } = this.state;
-
-        form[name] = value;
-        this.setState({
-            form: form
-        });
+    handleFieldChange(currentProcedure, value, name){
+        var currentProcedure = this.props.form
+        console.log("handleFieldChange");
+        this.props.updateProcedureField(currentProcedure, value, name);
     }
 
-    handleSettingsChange(procedure, index,  name, value) {
-        this.props.updateProcedureField(procedure, value, index);
-        console.log("handleSettingsChange :: (procedure, name, value)", procedure, name, value);
-    }
 
+    // handleSettingsChange(currentProcedure, index,  name, value) {
+    //     this.props.updateProcedureField(currentProcedure, value, index);
+    //     console.log("handleSettingsChange :: (procedure, name, value)", currentProcedure, name, value);
+    // }
+
+    handleSettingsChange(currentProcedure, name, value) {
+        
+        var currentProcedure = this.props.form
+        this.props.updateSettings(currentProcedure, value);
+        console.log('erntra')
+        console.log("handleSettingsChange :: (procedure, name, value)", currentProcedure, name, value);
+    }
 
 
     // ==============================
@@ -101,12 +114,12 @@ class ModalEditProcedures extends Component {
                     key={index}
                     identifier={object.identifier}
                     index={index}
-                    icon={'fas fa-bars'}
-                    icons={[
-                        'fas fa-redo-alt'
-                    ]}
-                    labelInputLeft={object.name}
+                    icon={object.icon}
+                    label={object.format}
+                    labelField={object.name}
+                    isField={true}
                     onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
+                    onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
                 />
             </div>
         )
@@ -121,8 +134,13 @@ class ModalEditProcedures extends Component {
 
     render() {
 
-        const inputFieldJsonEdit = this.state.checkedRepeatable ? <InputFieldJsonEdit label={'JSON'} /> : null;
         const { currentProcedure } = this.props.form;
+        const inputFieldJsonEdit = this.state.checkedRepeatable ? 
+            <InputFieldJsonEdit 
+                label={'JSON'} 
+                data={currentProcedure.jsonPath}
+            /> 
+        : null;
 
         return (
 
@@ -174,15 +192,16 @@ class ModalEditProcedures extends Component {
                                 label={'Name'}
                                 name={'name'}
                                 value={currentProcedure.title}
-                                onChange={this.props.updateProcedureField}
+                                onChange={this.handleFieldChange.bind(this)}
                             />
 
+                     
                             <SelectField
                                 label={'Service'}
                                 value={currentProcedure.services.value}
                                 name={currentProcedure.services.name}
                                 arrayOfOptions={currentProcedure.services}
-                                onChange={this.handleFieldChange.bind(this)}
+                                // onChange={this.handleFieldChange.bind(this)}
                             />
                             
 
@@ -190,14 +209,14 @@ class ModalEditProcedures extends Component {
                                 label={'Configurable'}
                                 name={'configurable'}
                                 checked={currentProcedure.configurable}
-                                onChange={this.handleSettingsChange.bind(this)}
+                                onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Required'}
                                 name={'requires'}
                                 checked={currentProcedure.required}
-                                onChange={this.handleSettingsChange.bind(this)}
+                                onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
@@ -229,16 +248,25 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
 
+        //remove
         removeProcedure: (procedure) => {
             return dispatch(removeProcedure(procedure));
         },
-
+        //move
         moveProcedure: () => {
             return dispatch(moveProcedure());
         },
 
-        updateProcedureField: (procedure, value, index) => {
-            return dispatch(updateProcedureField(procedure, value, index));
+        updateProcedureField: (procedure, name, value) => {
+            return dispatch(updateProcedureField(procedure, name, value));
+        },
+
+        updateSettings: (procedure, value, index) => {
+            return dispatch(updateSettings(procedure, value, index));
+        },
+
+        removeProcedureObject: (procedure, object) => {
+            return dispatch(removeProcedureObject(procedure, object));
         },
     
         closeModalProcedure: () => {
@@ -248,6 +276,11 @@ const mapDispatchToProps = dispatch => {
         openModalEditObject: (procedure, object) => {
             return dispatch(openModalEditObject(procedure, object));
         },
+
+        openModalCreateObject: (procedure) => {
+            return dispatch(openModalCreateObject(procedure));
+        },
+        
     }
 }
 
@@ -265,10 +298,9 @@ ModalEditProcedures.propTypes = {
     onEditProcedureObject: PropTypes.func,
     // onRemoveProcedureObject: PropTypes.func,
     onMoveProcedureObject: PropTypes.func,
-    onUpdateProcedureField: PropTypes.func,
+    // onUpdateProcedureField: PropTypes.func,
     onCloseModal: PropTypes.func,
 
-    
     onCancel: PropTypes.func,
     onRemove: PropTypes.func
 };

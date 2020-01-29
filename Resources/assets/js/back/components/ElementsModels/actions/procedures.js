@@ -16,8 +16,7 @@ export function initState(payload) {
 export function openModalCreateProcedure() {
     return {
         type: OPEN_MODAL_CREATE_PROCEDURE, payload: {
-            permission: permission,
-            value: value
+            
         }
     };
 };
@@ -27,11 +26,7 @@ export function openModalEditProcedure(procedure) {
 };
 
 export function removeProcedure(procedure) {
-    return {
-        type: REMOVE_PROCEDURE, payload: {
-            procedure: procedure,
-        }
-    };
+    return { type: REMOVE_PROCEDURE, payload: procedure };
 };
 
 export function moveProcedure() {
@@ -42,12 +37,22 @@ export function moveProcedure() {
     };
 };
 
-export function updateProcedureField(procedure, value, index) {
+export function updateProcedureField(procedure, name, value) {
     return {
         type: UPDATE_PROCEDURES, payload: {
             procedure: procedure,
-            value: value,
-            index: index
+            name: name,
+            value: value
+        }
+    };
+};
+
+export function updateSettings(procedure, name, value) {
+    return {
+        type: UPDATE_PROCEDURES, payload: {
+            procedure: procedure,
+            name: name,
+            value: value
         }
     };
 };

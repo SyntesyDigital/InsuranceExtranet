@@ -51,7 +51,7 @@ const initialState = {
         name: 'Formulario 01',
         identifier: 'Identifier',
         description: 'Description',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-align-center',
         objectId: 'SIN02',
         etap: '101',
         lib: 'Assuré',
@@ -94,8 +94,8 @@ const initialState = {
                 },
                 objects: [
                     {
-                        identifier: 1,
-                        name: 'Name',
+                        identifier: 'identifier',
+                        name: 'Field Name 01',
                         typeNature: [
                             {
                                 name: 'cte',
@@ -110,7 +110,9 @@ const initialState = {
                                 value: 'INPUT'
                             },
                         ],
-                        format: [
+                        icon: 'fas fa-calculator',
+                        format: 'Num',
+                        formats: [
                             {
                                 name: 'text',
                                 value: 'TEXT'
@@ -146,8 +148,8 @@ const initialState = {
                         }
                     },
                     {
-                        identifier: 2,
-                        name: 'Name2',
+                        identifier: 'identifier 2',
+                        name: 'Field Name 02',
                         typeNature: [
                             {
                                 name: 'cte',
@@ -162,7 +164,8 @@ const initialState = {
                                 value: 'INPUT'
                             },
                         ],
-                        format: [
+                        format: 'Text',
+                        formats: [
                             {
                                 name: 'text',
                                 value: 'TEXT'
@@ -172,6 +175,7 @@ const initialState = {
                                 value: 'Num'
                             },
                         ],
+                        icon: 'fas fa-font',
                         defaultValue: {
                             name: 'default-value',
                             value: 'Valeur'
@@ -204,7 +208,7 @@ const initialState = {
             {
                 id: 2,
                 title: 'Procedure 02',
-                service: 'service-01',
+                service: 'service-02',
                 services: [
                     {
                         name: 'service-01',
@@ -249,14 +253,17 @@ const initialState = {
                                 value: 'INPUT'
                             },
                         ],
+                        icon: 'fas fa-font',
                         format: [
                             {
                                 name: 'text',
-                                value: 'TEXT'
+                                value: 'TEXT',
+                                icon: 'fas fa-redo-alt'
                             },
                             {
                                 name: 'num',
-                                value: 'Num'
+                                value: 'Num',
+                                icon: 'fas fa-redo-alt'
                             },
                         ],
                         defaultValue: {
@@ -347,14 +354,17 @@ function formReducer(state = initialState, action) {
         case REMOVE_PROCEDURE:
             return {
                 ...state,
+                currentProcedure: action.payload
             }
 
         case UPDATE_PROCEDURES:
-            let procedures = state.form.procedure;
-            procedures[action.payload.index].value = action.payload.value;
+            
+            let procedure = state.form.currentProcedure;
+            procedure[action.payload.name] = action.payload.value;
+
             return {
                 ...state,
-                procedures : procedures
+                procedure: procedure
             }
 
         case CLOSE_MODAL_PROCEDURES:
@@ -382,13 +392,13 @@ function formReducer(state = initialState, action) {
             return {
                 ...state,
                 displayEditObject: false,
-                currentObject: action.payload
+                currentObject: null
             }
 
         case CLOSE_MODAL_TEST:
             return {
                 ...state,
-                displayTestForm: true,
+                displayTestForm: false,
             }
 
         default:
