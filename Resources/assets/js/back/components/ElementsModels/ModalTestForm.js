@@ -5,6 +5,10 @@ import CollapsableGroup from '../Layout/CollapsableGroup';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import { connect } from 'react-redux';
 
+import {
+    closeTest
+} from './actions';
+
 
 class ModalTestForm extends Component {
 
@@ -24,8 +28,10 @@ class ModalTestForm extends Component {
                 title={this.props.title}
                 display={this.props.display}
                 zIndex={10000}
-                onModalClose={this.props.onModalClose}
+                onModalClose={this.props.closeTest}
                 size={this.props.size}
+                deleteButton={false}
+                submitButton={false}
             >
                 <div className="row page-content form-fields">
                     <CollapsableGroup
@@ -51,15 +57,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-
-        initState: () => {
-            return dispatch(initState());
-        },
-        
-        testForm: (form) => {
-            return dispatch(testForm(form));
-        },
-
         closeTest: () => {
             return dispatch(closeTest());
         },

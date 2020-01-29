@@ -19,10 +19,12 @@ import {
     createForm,
     updateForm,
     removeForm,
+    testForm,
     updateField,
     removeProcedure,
     openModalCreateProcedure,
     openModalEditProcedure,
+    updateProcedureField
     
 } from './actions'
 
@@ -50,16 +52,24 @@ class FormsUpdateRedux extends Component {
         this.props.openModalEditProcedure(procedure);
     }
 
+    handleFieldChange(name, value){
+        const { currentProcedure } = this.props.form;
+        this.props.updateProcedureField(currentProcedure, name, value);
+        console.log("handleFieldChange", currentProcedure, name, value);
+    }
+
     handleCreateProcedure(){
         console.log("handleCreateProcedure");
         this.props.openModalCreateProcedure();
     }
 
     handleRemoveProcedure(procedure){
+        console.log("handleRemoveProcedure");
         this.props.removeProcedure(procedure);
     }
 
     handleTestForm(form){
+        console.log("handleTestForm");
         this.props.testForm(form);
     }
 
@@ -80,7 +90,7 @@ class FormsUpdateRedux extends Component {
     renderProcedures() {
         
         const displayProcedures = this.props.form.form.procedure.map((procedure, index) =>
-            <div key={procedure.title + index} className={procedure.title + index}>
+            <div key={procedure.name+index} className={procedure.name+index}>
                 <FieldListItem
                     key={index}
                     identifier={procedure.id}
@@ -89,12 +99,13 @@ class FormsUpdateRedux extends Component {
                     icons={[
                         'fas fa-redo-alt'
                     ]}
-                    labelInputLeft={procedure.title}
+                    labelInputLeft={procedure.name}
                     labelInputRight={procedure.service}
-
+                    
                     //onEvents
                     onEdit={this.handleEditProcedure.bind(this, procedure)}
                     onRemove={this.handleRemoveProcedure.bind(this, procedure)}
+                    onChange={this.handleFieldChange.bind(this)}
                 />
             </div>
         )
@@ -137,6 +148,7 @@ class FormsUpdateRedux extends Component {
                     <ButtonSecondary
                         label={'Test form'}
                         icon={'fas fa-sync-alt'}
+                        onClick={this.handleTestForm.bind(this)}
                     />
 
                     <ButtonDropdown
@@ -266,6 +278,10 @@ const mapDispatchToProps = dispatch => {
             return dispatch(removeForm(form));
         },
 
+        testForm: (form) => {
+            return dispatch(testForm(form));
+        },
+
         duplicateForm: (form) => {
             return dispatch(duplicateForm(form));
         },
@@ -273,6 +289,10 @@ const mapDispatchToProps = dispatch => {
         // ==============================
         // Procedures
         // ==============================
+
+        updateProcedureField: (procedure, name, value) => {
+            return dispatch(updateProcedureField(procedure, name, value));
+        },
 
         removeProcedure:(procedure) => {
             return dispatch(removeProcedure(procedure));

@@ -42,13 +42,10 @@ export function closeModalProcedureObject() {
     };
 };
 
-export function updateProcedureObjectField(procedure, object, name, value) {
+export function updateProcedureObjectField(procedures, object, name, value) {
     return {
         type: UPDATE_PROCEDURES, payload: {
-            procedure: procedure,
-            object: object,
-            name: name,
-            value: value
+            procedures: procedures
         }
     };
 };

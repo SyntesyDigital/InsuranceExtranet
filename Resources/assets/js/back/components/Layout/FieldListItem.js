@@ -5,18 +5,11 @@ export default class FieldListItem extends Component {
 
   constructor(props) {
     super(props);
-
-    this.onRemoveField = this.onRemoveField.bind(this);
-    this.onOpenSettings = this.onOpenSettings.bind(this);
   }
 
-  onRemoveField(event) {
-    event.preventDefault();
-  }
-
-  onOpenSettings(event) {
-    event.preventDefault();
-  }
+  // ==============================
+  // Handlers
+  // ==============================
 
   handleEdit(e) {
     this.props.onEdit();
@@ -25,6 +18,14 @@ export default class FieldListItem extends Component {
   handleRemove(e) {
     this.props.onRemove();
   }
+
+  handleOnChange(e) {
+    this.props.onChange(this.props.name, e.target.value);
+  }
+
+  // ==============================
+  // Renderers
+  // ==============================
 
   renderIcons() {
 
@@ -58,17 +59,17 @@ export default class FieldListItem extends Component {
           {isField ? (
             <div className="row">
               <div className="col col-xs-6 text-left">
-                  {this.props.labelField}
-                </div>
+                {this.props.labelField}
+              </div>
             </div>
           ) : (
               <div className="row">
                 <div className="field-name col-xs-6">
-                <input type="text" className="form-control" name="name" value={this.props.labelInputLeft} onChange={this.handleChange} />
-              </div>
-              <div className="field-name col-xs-6">
-                <input disabled type="text" className="form-control" name="identifier" value={this.props.labelInputRight} onChange={this.handleChange} />
-              </div>
+                  <input type="text" className="form-control" name="name" value={this.props.labelInputLeft} onChange={this.handleOnChange.bind(this)} />
+                </div>
+                <div className="field-name col-xs-6">
+                  <input disabled type="text" className="form-control" name="identifier" value={this.props.labelInputRight} onChange={this.handleOnChange.bind(this)} />
+                </div>
               </div>
             )}
         </div>
@@ -100,6 +101,7 @@ FieldListItem.propTypes = {
   labelInputLeft: PropTypes.string,
   labelInputRight: PropTypes.string,
   isField: PropTypes.bool,
+
   //onEvents props
   onEdit: PropTypes.func,
   onRemove: PropTypes.func

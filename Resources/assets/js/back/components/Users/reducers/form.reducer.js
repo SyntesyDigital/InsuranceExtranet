@@ -80,7 +80,7 @@ const initialState = {
 
 function formReducer(state = initialState, action) {
 
-    console.log("formReducer :: ", action.type, action.payload);
+    console.log("formReducer :: Users", action.type, action.payload);
 
     switch (action.type) {
 

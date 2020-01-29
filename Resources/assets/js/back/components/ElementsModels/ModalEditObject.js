@@ -9,7 +9,8 @@ import { connect } from 'react-redux';
 import {
 
     removeProcedureObject,
-    closeModalProcedureObject
+    closeModalProcedureObject,
+    updateProcedureObjectField
 
 } from './actions';
 
@@ -34,24 +35,17 @@ class ModalEditObject extends Component {
         this.props.closeModalProcedureObject();
     }
 
-    // handleRemoveObject() {
-    //     console.log("handleRemoveObject");
-    //     this.props.removeProcedureObject(this.props.form.currentObject);
-    // }
+    handleFieldChange(name, value){
+        
+        const { currentObject } = this.props.form;
+        console.log("Este es el objeto", currentObject);
 
-    // handleFieldChange(name, value) {
-    //     console.log("handleFieldChange :: (name,value) ", name, value);
-    //     const { object } = this.state;
-    //     object[name] = value;
-    //     this.setState({
-    //         object: object
-    //     });
-    // }
+        const { currentProcedure } = this.props.form;
+        console.log("Este es el procedure", currentProcedure);
 
-    handleFieldChange(currentProcedure, currentObject, value, name){
-        var currentProcedure = this.props.form
-        console.log("handleFieldChange", currentProcedure, currentObject, value, name);
-        this.props.updateProcedureObjectField(currentProcedure, currentObject, value, name);
+        this.props.updateProcedureObjectField(currentProcedure, currentObject, name, value);
+
+        console.log("handleFieldChange", currentProcedure, currentObject, name, value);
     }
 
     // ==============================
@@ -59,8 +53,10 @@ class ModalEditObject extends Component {
     // ==============================
 
     render() {
-
+        
         const { currentObject } = this.props.form;
+
+        console.log(currentObject);
 
         return (
 
@@ -84,73 +80,73 @@ class ModalEditObject extends Component {
 
                             <InputField
                                 label={'Identifier (champ)'}
-                                value={currentObject.object.identifier}
-                                name={'CHAMP'}
+                                value={currentObject.identifier}
+                                name={'identifier'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Name (lib)'}
-                                value={currentObject.object.name}
-                                name={'LIB'}
+                                value={currentObject.name}
+                                name={'name'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <SelectField
                                 label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.object.typeNature.value}
-                                name={'type-nature'}
-                                arrayOfOptions={currentObject.object.typeNature}
+                                value={currentObject.typeNature}
+                                name={'typeNature'}
+                                arrayOfOptions={currentObject.typeNatures}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <SelectField
                                 label={'Format (Text, num, etc)'}
-                                value={currentObject.object.format.value}
-                                name={'type-format'}
-                                arrayOfOptions={currentObject.object.formats}
+                                value={currentObject.format}
+                                name={'format'}
+                                arrayOfOptions={currentObject.formats}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Default value (valeur)'}
-                                name={'VALEUR'}
-                                value={currentObject.object.defaultValue}
+                                name={'defaultValue'}
+                                value={currentObject.defaultValue}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Boby (solo si es select)'}
-                                name={'BOBY'}
-                                value={currentObject.object.boby}
+                                name={'boby'}
+                                value={currentObject.boby}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'JSON path (concreto para este campo)'}
-                                name={'OBJ_JSONP'}
-                                value={currentObject.object.jsonPath}
+                                name={'jsonPath'}
+                                value={currentObject.jsonPath}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
                                 label={'Example'}
-                                name={'EXEMPLE'}
-                                value={currentObject.object.example}
+                                name={'example'}
+                                value={currentObject.example}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Configurable'}
-                                name={'CONF'}
-                                checked={currentObject.object.configurable}
+                                name={'configurable'}
+                                checked={currentObject.configurable}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Visible'}
-                                name={'VIS'}
-                                checked={currentObject.object.visible}
+                                name={'visible'}
+                                checked={currentObject.visible}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 

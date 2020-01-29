@@ -64,7 +64,7 @@ const initialState = {
         procedure: [
             {
                 id: 1,
-                title: 'Procedure 01',
+                name: 'Procedure 01',
                 service: 'service-01',
                 services: [
                     {
@@ -80,23 +80,15 @@ const initialState = {
                         value: 'Service-03'
                     },
                 ],
-                configurable: {
-                    name: 'configurable',
-                    value: true
-                },
-                required: {
-                    name: 'required',
-                    value: true
-                },
-                repeatable: {
-                    name: 'required',
-                    value: true
-                },
+                configurable: true,
+                required: false,
+                repeatable: true,
                 objects: [
                     {
-                        identifier: 'identifier',
+                        identifier: 'identifier 1',
                         name: 'Field Name 01',
-                        typeNature: [
+                        typeNature: 'CTE',
+                        typeNatures: [
                             {
                                 name: 'cte',
                                 value: 'CTE'
@@ -122,30 +114,12 @@ const initialState = {
                                 value: 'Num'
                             },
                         ],
-                        defaultValue: {
-                            name: 'default-value',
-                            value: 'Valeur'
-                        },
-                        boby: {
-                            name: 'boby',
-                            value: 'Boby'
-                        },
-                        jsonPath: {
-                            name: 'json-path',
-                            value: 'JSON path'
-                        },
-                        example: {
-                            name: 'example',
-                            value: 'Example'
-                        },
-                        configurable: {
-                            name: 'configurable',
-                            value: true
-                        },
-                        visible: {
-                            name: 'visible',
-                            value: true
-                        }
+                        defaultValue: 'defaultValue',
+                        boby: 'boby',
+                        jsonPath: 'jsonPath',
+                        example: 'example',
+                        configurable: true,
+                        visible: false,
                     },
                     {
                         identifier: 'identifier 2',
@@ -176,30 +150,12 @@ const initialState = {
                             },
                         ],
                         icon: 'fas fa-font',
-                        defaultValue: {
-                            name: 'default-value',
-                            value: 'Valeur'
-                        },
-                        boby: {
-                            name: 'boby',
-                            value: 'Boby'
-                        },
-                        jsonPath: {
-                            name: 'json-path',
-                            value: 'JSON path'
-                        },
-                        example: {
-                            name: 'example',
-                            value: 'Example'
-                        },
-                        configurable: {
-                            name: 'configurable',
-                            value: true
-                        },
-                        visible: {
-                            name: 'visible',
-                            value: true
-                        }
+                        defaultValue: 'defaultValue',
+                        boby: 'boby',
+                        jsonPath: 'jsonPath',
+                        example: 'example',
+                        configurable: true,
+                        visible: false,
                     }
                 ]
 
@@ -207,7 +163,7 @@ const initialState = {
             },
             {
                 id: 2,
-                title: 'Procedure 02',
+                name: 'Procedure 02',
                 service: 'service-02',
                 services: [
                     {
@@ -223,22 +179,13 @@ const initialState = {
                         value: 'Service-03'
                     },
                 ],
-                configurable: {
-                    name: 'configurable',
-                    value: true
-                },
-                required: {
-                    name: 'required',
-                    value: true
-                },
-                repeatable: {
-                    name: 'required',
-                    value: true
-                },
+                configurable: true,
+                required: false,
+                repeatable: true,
                 objects: [
                     {
-                        identifier: 2,
-                        name: 'Name',
+                        identifier: 'identifier 1',
+                        name: 'Field Name 01',
                         typeNature: [
                             {
                                 name: 'cte',
@@ -253,47 +200,65 @@ const initialState = {
                                 value: 'INPUT'
                             },
                         ],
-                        icon: 'fas fa-font',
-                        format: [
+                        icon: 'fas fa-calculator',
+                        format: 'Num',
+                        formats: [
                             {
                                 name: 'text',
-                                value: 'TEXT',
-                                icon: 'fas fa-redo-alt'
+                                value: 'TEXT'
                             },
                             {
                                 name: 'num',
-                                value: 'Num',
-                                icon: 'fas fa-redo-alt'
+                                value: 'Num'
                             },
                         ],
-                        defaultValue: {
-                            name: 'default-value',
-                            value: 'Valeur'
-                        },
-                        boby: {
-                            name: 'boby',
-                            value: 'Boby'
-                        },
-                        jsonPath: {
-                            name: 'json-path',
-                            value: 'JSON path'
-                        },
-                        example: {
-                            name: 'example',
-                            value: 'Example'
-                        },
-                        configurable: {
-                            name: 'configurable',
-                            value: true
-                        },
-                        visible: {
-                            name: 'visible',
-                            value: true
-                        }
+                        defaultValue: 'defaultValue',
+                        boby: 'boby',
+                        jsonPath: 'jsonPath',
+                        example: 'example',
+                        configurable: true,
+                        visible: false,
+                    },
+                    {
+                        identifier: 'identifier 2',
+                        name: 'Field Name 02',
+                        typeNature: [
+                            {
+                                name: 'cte',
+                                value: 'CTE'
+                            },
+                            {
+                                name: 'system',
+                                value: 'SYSTEM'
+                            },
+                            {
+                                name: 'input',
+                                value: 'INPUT'
+                            },
+                        ],
+                        format: 'Text',
+                        formats: [
+                            {
+                                name: 'text',
+                                value: 'TEXT'
+                            },
+                            {
+                                name: 'num',
+                                value: 'Num'
+                            },
+                        ],
+                        icon: 'fas fa-font',
+                        defaultValue: 'defaultValue',
+                        boby: 'boby',
+                        jsonPath: 'jsonPath',
+                        example: 'example',
+                        configurable: true,
+                        visible: false,
                     }
-
                 ]
-            }
+
+
+            },
         ]
     }
 }
@@ -302,13 +267,13 @@ const initialState = {
 
 function formReducer(state = initialState, action) {
 
-    console.log("formReducer :: from elements-models", action.type, action.payload);
+    console.log("formReducer :: Elements Models", action.type, action.payload);
 
     switch (action.type) {
 
         case INIT_STATE:
 
-            console.log("INIT_STATE from elements-models=> ", action.data);
+            console.log("INIT_STATE from Elements Models=> ", action.data);
 
             return {
                 ...state,
@@ -336,6 +301,7 @@ function formReducer(state = initialState, action) {
         case TEST_FORM:
             return {
                 ...state,
+                displayTestForm: true,
             }
 
         case OPEN_MODAL_CREATE_PROCEDURE:
@@ -358,8 +324,11 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_PROCEDURES:
+
+            let procedure = state.currentProcedure;
             
-            let procedure = state.form.currentProcedure;
+            console.log("Action :: ", procedure);
+
             procedure[action.payload.name] = action.payload.value;
 
             return {
@@ -385,7 +354,7 @@ function formReducer(state = initialState, action) {
             return {
                 ...state,
                 displayEditObject: true,
-                currentObject: action.payload
+                currentObject: action.payload.object,
             }
 
         case CLOSE_MODAL_PROCEDURE_OBJECT:

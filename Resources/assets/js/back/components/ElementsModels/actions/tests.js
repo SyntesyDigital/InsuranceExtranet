@@ -14,13 +14,6 @@ export function initState(payload) {
     return { type: INIT_STATE, payload }
 };
 
-export function testForm(form) {
-    return {
-        type: TEST_FORM, payload: {
-            form: form,
-        }
-    };
-};
 
 export function closeTest() {
     return {

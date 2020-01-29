@@ -3,6 +3,7 @@ import {
     UPDATE_FIELD,
     UPDATE_FORM,
     REMOVE_FORM,
+    TEST_FORM
 
 } from "../constants/";
 
@@ -55,6 +56,14 @@ export function updateForm(form) {
 export function removeForm(form) {
     return {
         type: REMOVE_FORM, payload: {
+            form: form,
+        }
+    }
+};
+
+export function testForm(form) {
+    return {
+        type: TEST_FORM, payload: {
             form: form,
         }
     }
