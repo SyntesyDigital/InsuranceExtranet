@@ -5,6 +5,7 @@ export const GQL_GET_GROUPS_PERMISSIONS = gql`
     permissions {
         id
         name
+        identifier
         group {
             id
             name

@@ -95,8 +95,8 @@ class ModalEditPermision extends Component {
   }
 
   handleRemove() {
-    console.log("handleRemove Permission");
-    this.props.removePermission(this.props.form.selectedPermission);
+    console.log("handleRemove Permission", this.props.modal.selectedPermission);
+    this.props.removePermission(this.props.modal.selectedPermission);
   }
 
   handleSelectChange(selectedValue) {

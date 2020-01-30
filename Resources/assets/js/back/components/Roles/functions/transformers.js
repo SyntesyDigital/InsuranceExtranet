@@ -69,6 +69,8 @@ export function processRole(role,groups,permissions) {
 
   var processedGroups = processGroups(groups,permissions,rolePermissions);
 
+  //console.log("processRole (groups,permissions,processedGroups)",groups,permissions,processedGroups);
+
   return {
     id: role.id,
     name: role.name,

@@ -25,6 +25,7 @@ export const GQL_LOAD_PERMISSION = gql`
     permissionGroups {
         id
         name
+        identifier
     }
   }
 `;
@@ -91,3 +92,20 @@ export const GQL_UPDATE_PERMISSION = gql`
     }
   } 
 `;
+
+export const GQL_REMOVE_PERMISSION = gql`
+  mutation DeletePermission(
+    $id: ID!
+  ){
+    deletePermission(
+        id: $id
+    ) {
+        id
+        name
+        identifier
+        group {
+          id
+        }
+    }
+  }
+  `;

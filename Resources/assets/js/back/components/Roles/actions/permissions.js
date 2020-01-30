@@ -17,7 +17,8 @@ import {
   GQL_LOAD_PERMISSION,
   GQL_LOAD_ROLES_GROUPS,
   GQL_CREATE_PERMISSION,
-  GQL_UPDATE_PERMISSION
+  GQL_UPDATE_PERMISSION,
+  GQL_REMOVE_PERMISSION
 } from "../api/";
 
 export function loadPermission(permission) {
@@ -65,10 +66,6 @@ export function openModalPermissionFromGroup(group) {
 
 export function cancelEditPermission() {
   return { type: CANCEL_EDIT_PERMISSION };
-}
-
-export function removePermission(permission) {
-  return { type: REMOVE_PERMISSION, payload: permission };
 }
 
 export function savePermission(permission,role) {
@@ -137,44 +134,29 @@ export function updatePermission(permission,role) {
       }
     )
       .then(function (data) {
-        console.log("updatePermission : ",data.data.updatePermission);
-
-        //process the new permission if group changed
-        var newPermission = data.data.updatePermission;
-        if(newPermission.group.id != _permission.group){
-          //group has changed, need to update the array
-          //remove from previous group
-          var groupIndex = getGroupIndex(_role,_permission.group);
-          var permissionIndex = getPermissionIndex(_role.groups[groupIndex],_permission.id);
-
-          console.log("upgatePermission change group (groupIndex, permissionIndex)",groupIndex,permissionIndex);
-
-          //clone the object to have a copy
-          var tempPermission = JSON.parse(JSON.stringify(_role.groups[groupIndex].permissions[permissionIndex]));
-          console.log("upgatePermission (tempPermission)",tempPermission);
-          
-          //remove permission
-          _role.groups[groupIndex].permissions.slice(permissionIndex,1);
-
-          tempPermission.name = newPermission.name;
-          tempPermission.identifier = newPermission.identifier;
-
-          var newGroupIndex = getGroupIndex(_role,newPermission.group.id);
-          _role.groups[newGroupIndex].permissions.push(tempPermission);
-
-        }
-        else {
-          //only update the values of the permission
-          var groupIndex = getGroupIndex(_role,newPermission.group.id);
-          var permissionIndex = getPermissionIndex(_role.groups[groupIndex],newPermission.id);
-
-          _role.groups[groupIndex].permissions[permissionIndex].name = newPermission.name;
-          _role.groups[groupIndex].permissions[permissionIndex].identifier = newPermission.identifier;
-        }
-
-        dispatch({ type: UPDATE_PERMISSION, payload : _role});
+        dispatch({ type: UPDATE_PERMISSION});
       });
   }
 
 }
+
+export function removePermission(permission) {
+
+  return (dispatch) => {
+
+    mutation(GQL_REMOVE_PERMISSION,{
+        id : permission.id
+      }
+    )
+      .then(function (data) {
+
+        console.log("deletePermission (data)",data.data); 
+
+        dispatch({ type: REMOVE_PERMISSION,payload : data.data.deletePermission});
+      });
+  }
+
+}
+
+
 

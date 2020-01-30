@@ -2,6 +2,7 @@ import {
     INIT_STATE, UPDATE_FIELD,
     OPEN_MODAL_CREATE_GROUP,
     OPEN_MODAL_EDIT_GROUP,
+    UPDATE_GROUPS,
 
     REMOVE_GROUP,
     UPDATE_GROUP,
@@ -12,6 +13,7 @@ import {
     CREATE_PERMISSION,
     UPDATE_PERMISSION,
     REMOVE_PERMISSION
+
 
 } from '../constants';
 
@@ -25,6 +27,9 @@ const initialState = {
 
     currentGroup: null,
     selectedPermission: null,
+
+    //flag to reload the groups
+    groupsReload : false,
 
     roles: [],
 
@@ -48,6 +53,15 @@ function getGroupIndex(role,group) {
     return null;
 }
 
+function getPermissionIndex(group,permisisonId) {
+    for(var key in group.permissions) {
+      if(group.permissions[key].id == permisisonId) {
+          return key;
+      }
+    }
+    return null;
+  }
+
 function formReducer(state = initialState, action) {
 
     console.log("formReducer :: ", action.type, action.payload);
@@ -70,7 +84,7 @@ function formReducer(state = initialState, action) {
                 role: role
             }
 
-        case UPDATE_PERMISSION :
+        
         case UPDATE_ROLE : 
 
             role = action.payload
@@ -78,6 +92,13 @@ function formReducer(state = initialState, action) {
             return {
                 ...state,
                 role : role
+            }
+
+        case UPDATE_PERMISSION :
+
+            return {
+                ...state,
+                groupsReload : true
             }
             
         case OPEN_MODAL_CREATE_GROUP:
@@ -107,7 +128,9 @@ function formReducer(state = initialState, action) {
         case CREATE_GROUP:
 
             role = state.role;
-            role.groups.push(action.payload);
+            var newGroup = action.payload;
+            newGroup.permissions = [];
+            role.groups.push(newGroup);
 
             return {
                 ...state,
@@ -151,16 +174,36 @@ function formReducer(state = initialState, action) {
                 id : action.payload.id,
                 identifier : action.payload.identifier,
                 name : action.payload.name,
-                value : false
+                value : false,
+                group : action.payload.group.id
             });
 
             return {
                 ...state,
-                role
+                role : role
             };
         case REMOVE_PERMISSION:
+
+            role = state.role;
+            index = getGroupIndex(role,action.payload.group);
+            var permissionIndex = getPermissionIndex(role.groups[index],action.payload.id);
+            //console.log("REMOVE_PERMISSION : ",index,permissionIndex);
+            role.groups[index].permissions.splice(permissionIndex,1);
+
             return {
-                ...state
+                ...state,
+                role : role
+            };
+
+        case UPDATE_GROUPS:
+
+            role = state.role;
+            role.groups = action.payload;
+
+            return {
+                ...state,
+                role : role,
+                groupsReload : false
             };
         
         default:

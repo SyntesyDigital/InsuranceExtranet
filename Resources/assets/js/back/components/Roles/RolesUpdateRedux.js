@@ -24,7 +24,8 @@ import {
     removeGroup,
     updatePermission,
     openModalCreatePermission,
-    openModalPermissionFromGroup
+    openModalPermissionFromGroup,
+    reload
 } from './actions'
 
 class RolesUpdateRedux extends Component {
@@ -43,7 +44,11 @@ class RolesUpdateRedux extends Component {
         this.props.initState(this.props.roleId);
     }
 
-
+    componentDidUpdate(prevProps, prevState) { 
+        if(!prevProps.form.groupsReload && this.props.form.groupsReload) {
+            this.props.reload(this.props.form.role.id);
+        }
+    }
 
     /*
     *   Modal to edit Permission :
@@ -134,13 +139,13 @@ class RolesUpdateRedux extends Component {
                 title={item.name}
                 icon=''
                 editable={true}
-                sortable={true}
+                sortable={false}
                 index={index}
                 length={this.props.form.role.groups.length}
                 onEdit={this.handleEditGroup.bind(this, item)}
                 onRemove={this.handleRemoveGroup.bind(this, item)}
-                onUp={this.handleUpGroup.bind(this, item)}
-                onDown={this.handleDownGroup.bind(this, item)}
+                //onUp={this.handleUpGroup.bind(this, item)}
+                //onDown={this.handleDownGroup.bind(this, item)}
             >
                 {this.renderPermissions(item.permissions)}
 
@@ -166,6 +171,7 @@ class RolesUpdateRedux extends Component {
                         title={item.name}
                         iconEdit={'far fa-edit'}
                         isEdit={true}
+                        disabled={this.props.form.role.id == null}
                         value={item.value}
                         onChange={this.handlePermissionChange.bind(this, item, group)}
                         onEdit={this.handleEditPermission.bind(this, item)}
@@ -224,12 +230,14 @@ class RolesUpdateRedux extends Component {
                                 route: routes['extranet.roles.create'],
                                 className: ''
                             },
+                            /*
                             {
                                 label: 'Dupliquer',
                                 icon: 'far fa-copy',
                                 onClick: this.handleDuplicate.bind(this),
                                 className: ''
                             },
+                            */
                             {
                                 label: 'Supprimer',
                                 icon: 'fa fa-trash-alt',
@@ -308,6 +316,9 @@ const mapDispatchToProps = dispatch => {
     return {
         initState: (roleId) => {
             return dispatch(initState(roleId));
+        },
+        reload: (roleId) => {
+            return dispatch(reload(roleId));
         },
         submitRole: (payload) => {
             return dispatch(submitRole(payload));

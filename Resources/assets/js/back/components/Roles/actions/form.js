@@ -1,13 +1,8 @@
 import {
   INIT_STATE,
-  CREATE_ROLE,
-  UPDATE_ROLE,
-  LOAD_PERMISSION,
   UPDATE_FIELD,
-  OPEN_MODAL_EDIT_PERMISSION,
-  CANCEL_EDIT_PERMISSION,
-  REMOVE_PERMISSION,
-  CREATE_GROUP
+  UPDATE_GROUPS,
+  UPDATE_GROUP
 } from "../constants/";
 
 import {
@@ -57,6 +52,22 @@ export function initState(roleId) {
   }
 };
 
+/**
+ * Reload role information after permission group change.
+ */
+export function reload(roleId) {
+
+  if(roleId === undefined || roleId == null || roleId == ''){
+    //create, load init state
+    return reloadPermissionAndGroups();
+    
+  }
+  else {
+    //edit load role
+    return reloadRole(roleId);
+  }
+}
+
 export function loadRole(roleId) {
   return (dispatch) => {
 
@@ -101,6 +112,45 @@ export function loadPermissionAndGroups() {
 
         //console.log("loadPermissionAndGroups : ",role);
         dispatch({ type: INIT_STATE, payload : role });
+      });
+  }
+}
+
+export function reloadPermissionAndGroups() {
+  return (dispatch) => {
+
+    //console.log("loadPermissionAndGroups () ");
+
+    query(GQL_GET_GROUPS_PERMISSIONS)
+      .then(function (data) {
+
+        console.log("reloadPermissionAndGroups ",data.data);
+
+        var groups = processGroups(data.data.permissionGroups,data.data.permissions);
+        
+        dispatch({ type: UPDATE_GROUPS, payload : groups });
+      });
+  }
+}
+
+export function reloadRole(roleId) {
+  return (dispatch) => {
+
+    //console.log("loadRole (roleId) ",roleId);
+
+    query(GQL_GET_ROLE,{
+      id : roleId
+    })
+      .then(function (data) {
+        //console.log("loadRole : ",data);
+
+        var role = processRole(
+          data.data.role,
+          data.data.permissionGroups,
+          data.data.permissions
+        );
+
+        dispatch({ type: UPDATE_GROUP, payload : role.groups });
       });
   }
 }

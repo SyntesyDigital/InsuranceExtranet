@@ -22,3 +22,5 @@ export const UPDATE_GROUP = "UPDATE_GROUP";
 export const CANCEL_EDIT_GROUP = "CANCEL_EDIT_GROUP";
 export const SAVE_GROUP = "SAVE_GROUP";
 export const REMOVE_GROUP = "REMOVE_GROUP";
+export const UPDATE_GROUPS = "UPDATE_GROUPS";
+
