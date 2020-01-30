@@ -4,7 +4,11 @@ import {
     OPEN_MODAL_CRATE_PERMISSION,
     UPDATE_MODAL_ROLES_GROUPS,
     OPEN_MODAL_PERMISSION_FROM_GROUP,
-    UPDATE_MODAL_PERMISSION
+    UPDATE_MODAL_PERMISSION,
+    CREATE_PERMISSION,
+    REMOVE_PERMISSION,
+    UPDATE_PERMISSION
+
 } from '../constants';
 
 const initialState = {
@@ -42,20 +46,21 @@ function permissionReducer(state = initialState, action) {
                 selectedPermission: action.payload
             }
         case UPDATE_MODAL_PERMISSION : 
+
+            //add the permission roles from the graphql 
+            let selectedPermission = state.selectedPermission;
+            selectedPermission.roles = action.payload.permission.roles;
+
             return {
                 ...state,
-                /*
-                selectedPermission: {
-                    id : action.payload.permission.id,
-                    name: action.payload.permission.name,
-                    identifier: action.payload.permission.identifier,
-                    group: action.payload.permission.group.id
-                },
-                */
+                selectedPermission: selectedPermission,
                 roles: action.payload.roles,
                 groups: action.payload.permissionGroups
             }
 
+        case CREATE_PERMISSION:
+        case UPDATE_PERMISSION:
+        case REMOVE_PERMISSION:
         case CANCEL_EDIT_PERMISSION:
             return {
                 ...state,

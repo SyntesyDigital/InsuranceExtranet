@@ -9,6 +9,9 @@ import {
     CREATE_GROUP,
 
     UPDATE_ROLE,
+    CREATE_PERMISSION,
+    UPDATE_PERMISSION,
+    REMOVE_PERMISSION
 
 } from '../constants';
 
@@ -67,6 +70,7 @@ function formReducer(state = initialState, action) {
                 role: role
             }
 
+        case UPDATE_PERMISSION :
         case UPDATE_ROLE : 
 
             role = action.payload
@@ -138,6 +142,25 @@ function formReducer(state = initialState, action) {
                 role : role,
                 displayGroup: false,
                 currentGroup : null
+            };
+        case CREATE_PERMISSION: 
+
+            role = state.role;
+            index = getGroupIndex(role,action.payload.group);
+            role.groups[index].permissions.push({
+                id : action.payload.id,
+                identifier : action.payload.identifier,
+                name : action.payload.name,
+                value : false
+            });
+
+            return {
+                ...state,
+                role
+            };
+        case REMOVE_PERMISSION:
+            return {
+                ...state
             };
         
         default:

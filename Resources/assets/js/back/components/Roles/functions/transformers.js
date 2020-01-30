@@ -28,7 +28,8 @@ export function processGroups(groups,permissions,rolePermissions) {
       id: permission.id,
       identifier: permission.identifier,
       name: permission.name,
-      value: getPermissionValueFromRole(permission.id,rolePermissions)
+      value: getPermissionValueFromRole(permission.id,rolePermissions),
+      group : permission.group.id
     });
 
   }

@@ -184,7 +184,6 @@ class RolesUpdateRedux extends Component {
                 <ModalEditPermision
                     id={'modal-edit-permision'}
                     icon={'fas fa-bars'}
-                    size={'medium'}
                     title={'Permision | Edit'}
                     zIndex={10000}
                     onModalClose={this.handleModalClose.bind(this)}
@@ -206,11 +205,15 @@ class RolesUpdateRedux extends Component {
                     title={this.props.form.role.name}
                     backRoute={routes['extranet.roles.index']}
                 >
+                    {/*
+                    //Removed to simplify the interaction. Avoiding to add permission if no group created, or 
+                    //to create with no selected group
                     <ButtonSecondary
                         label={'Add permission'}
                         icon={'fa fa-plus-circle'}
                         onClick={this.props.openModalCreatePermission}
                     />
+                    */}
 
                     <ButtonDropdown
                         label={'Actions'}

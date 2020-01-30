@@ -54,34 +54,40 @@ export const GQL_CREATE_PERMISSION = gql`
         input: {
             name: $name
             identifier: $identifier
-            description: ''
-            group_id: $group
+            group_id: $group_id
         }
     ) {
       id
       name
       identifier
+      group {
+        id
+      }
     }
   } 
 `;
 
 export const GQL_UPDATE_PERMISSION = gql`
   mutation UpdatePermission(
+      $id: ID!,
       $name: String!,
       $identifier: String!
       $group_id:ID!
     ) {
-    createPermission(
+    updatePermission(
         input: {
+            id : $id
             name: $name
             identifier: $identifier
-            description: ''
-            group_id: $group
+            group_id: $group_id
         }
     ) {
       id
       name
       identifier
+      group {
+        id
+      }
     }
   } 
 `;
