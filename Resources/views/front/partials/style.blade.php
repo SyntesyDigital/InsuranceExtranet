@@ -72,8 +72,18 @@
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
 
+  //elements buttons
     $buttonPrimaryColor = isset($storedStylesFront['buttonPrimaryColor']) ? $storedStylesFront['buttonPrimaryColor']->value : $primaryColor;
-    $buttonHoverColor = isset($storedStylesFront['buttonHoverColor']) ? $storedStylesFront['buttonHoverColor']->value : $secondaryColor;
+    $buttonPrimaryBackgroundColor = isset($storedStylesFront['buttonPrimaryBackgroundColor']) ? $storedStylesFront['buttonPrimaryBackgroundColor']->value : '#fff';
+    $buttonPrimaryHoverColor = isset($storedStylesFront['buttonPrimaryHoverColor']) ? $storedStylesFront['buttonPrimaryHoverColor']->value : $secondaryColor;
+    $buttonPrimaryHoverBackgroundColor = isset($storedStylesFront['buttonPrimaryHoverBackgroundColor']) ? $storedStylesFront['buttonPrimaryHoverBackgroundColor']->value : '#fff';
+    $buttonPrimaryBorderRadius = isset($storedStylesFront['buttonPrimaryBorderRadius']) ? $storedStylesFront['buttonPrimaryBorderRadius']->value : $buttonRadius;
+
+    $buttonSecondaryColor = isset($storedStylesFront['buttonSecondaryColor']) ? $storedStylesFront['buttonSecondaryColor']->value : $secondaryColor;
+    $buttonSecondaryBackgroundColor = isset($storedStylesFront['buttonSecondaryBackgroundColor']) ? $storedStylesFront['buttonSecondaryBackgroundColor']->value : '#fff';
+    $buttonSecondaryHoverColor = isset($storedStylesFront['buttonSecondaryHoverColor']) ? $storedStylesFront['buttonSecondaryHoverColor']->value : $primaryColor;
+    $buttonSecondaryHoverBackgroundColor = isset($storedStylesFront['buttonSecondaryHoverBackgroundColor']) ? $storedStylesFront['buttonSecondaryHoverBackgroundColor']->value : '#fff';
+    $buttonSecondaryBorderRadius = isset($storedStylesFront['buttonSecondaryBorderRadius']) ? $storedStylesFront['buttonSecondaryBorderRadius']->value : $buttonRadius;
 
     $elementFileInputBorder = isset($storedStylesFront['elementFileInputBorder']) ? $storedStylesFront['elementFileInputBorder']->value : $sidebarBackgroundColor;
 
