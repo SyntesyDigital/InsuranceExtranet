@@ -30,28 +30,44 @@
   }
 
   .login-box-container{
-    padding:0 40px;
+    max-width: 430px;
+    padding: 0 10px;
+    margin:0 auto;
     .login-box{
-      padding: 20px 40px;
-      border: 1px solid $login-border-color;
-      background-color:$login-background-color;
+      padding: 30px 20px;
+      border: 1px solid #DBDBDB;
+     // border: 1px solid $login-border-color;
+    //  background-color:$login-background-color;
       form{
         border:none;
         padding: 0;
+        .logo-container{
+          text-align: center;
+        }
         h2{
           text-align: center;
-          @include font(24,32,600);
+          @include font(18,24,400);
         }
         .form-group{
           margin-top: 10px;
           label{
             @include font(14,19,400);
+            i{
+              margin-right: 5px;
+            }
           }
           .form-control{
             border-color:#A8A8A8;
           }
           .buttons-group{
             text-align: center;
+            margin-top:15px;
+            .btn{
+              width: 100%;
+             /* border-radius:10px;*/
+              font-size: 14px;
+              text-transform: capitalize;
+            }
           }
           .forgot{
             margin: 20px;
