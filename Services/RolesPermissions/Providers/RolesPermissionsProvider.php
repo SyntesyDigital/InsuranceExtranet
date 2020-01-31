@@ -2,11 +2,16 @@
 
 namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
+use Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
-
+use Auth;
 class RolesPermissionsProvider extends ServiceProvider
 {
+    protected $helpers = [
+        'HasAbilitiesHelper',
+        'HasNotAbilitiesHelper',
+    ];
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -23,18 +28,21 @@ class RolesPermissionsProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->registerMiddlewares();
+        $this->loadBladeHelpers();
+    }
 
-        // Blade::directive('abilities', function ($expression) {
-        //     // Strip Open and Close Parenthesis
-        //     $expression = substr(substr($expression, 0, -1), 1);
+    public function loadBladeHelpers()
+    {
+        foreach ($this->helpers as $helper) {
+            $helperPath = __DIR__.'/../Helpers/'.$helper.'.php';
 
-        //     // Split variable and its value
-        //     list($variable, $value) = explode('\',', $expression, 2);
-
-        //     // Ensure variable has no spaces or apostrophes
-        //     $variable = trim(str_replace('\'', '', $variable));
-
-        // });
+            if (\File::isFile($helperPath)) {
+                $className = str_replace('.php', '', basename($helperPath));
+                require_once $helperPath;
+                $class = 'Modules\\Extranet\\Services\\RolesPermissions\\Helpers\\' . $className;
+                new $class();
+            }
+        }
     }
 
     /**

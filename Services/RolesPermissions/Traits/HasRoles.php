@@ -27,7 +27,7 @@ trait HasRoles
      */
     public function hasRole($role)
     {
-        return $this->roles->where('identifier', is_object($role) ? $role->identifier : $role)->isNotEmpty();
+        return $this->roles()->where('identifier', is_object($role) ? $role->identifier : $role)->get()->isNotEmpty();
     }
 
     /**
@@ -39,7 +39,7 @@ trait HasRoles
      */
     public function hasRoles(array $identifiers)
     {
-        return $this->roles->whereIn('identifier', $identifiers)->count() == sizeof($identifiers) ? true : false;
+        return $this->roles()->whereIn('identifier', $identifiers)->count() == sizeof($identifiers) ? true : false;
     }
 
     /**

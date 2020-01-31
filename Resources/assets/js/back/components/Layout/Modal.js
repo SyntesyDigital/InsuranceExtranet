@@ -70,7 +70,7 @@ export default class Modal extends Component {
     const deleteButton = this.props.deleteButton !== undefined ? this.props.deleteButton : true;
 
     return (
-      <div className="custom-modal" id={this.props.id} style={{ zIndex: this.props.zIndex }}>
+      <div className="custom-modal modal-component" id={this.props.id} style={{ zIndex: this.props.zIndex }}>
         <div className="modal-background"></div>
 
 

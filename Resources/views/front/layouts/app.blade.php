@@ -28,6 +28,7 @@
     		<meta property="og:title" content=""/>
     		<meta property="og:description" content=""/>
     		<meta property="og:type" content="website"/>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
         <link href="{{asset('modules/extranet/css/front-style.css')}}" rel="stylesheet" type="text/css" />
         @include ('extranet::front.partials.style')
@@ -37,7 +38,7 @@
 
         <!-- Fonts -->
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">-->
-        <!--<link rel="stylesheet" media="all" href="{{ asset('/front/css/font-awesome.min.css')}}" />-->
+        <link rel="stylesheet" media="all" href="{{ asset('/front/css/font-awesome.min.css')}}" />
 
 
         @stack('styles')
@@ -54,8 +55,9 @@
           @include('extranet::front.partials.session_modal')
         @endif
 
-        @include ('extranet::front.partials.header')
-
+        @if(null !== Auth::user())
+         @include ('extranet::front.partials.header')
+        @endif
         @include ('extranet::front.partials.env_bar')
 
         <div>

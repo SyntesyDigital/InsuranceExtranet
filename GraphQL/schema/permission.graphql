@@ -49,7 +49,6 @@ input UpdatePermissionGroupInput {
     order: Int
 }
 
-
 ################################
 #   QUERY
 ################################

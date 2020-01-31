@@ -5,3 +5,7 @@ type Query
 #import permission.graphql 
 #import role.graphql 
 #import auth.graphql 
+
+#import ../../Services/ElementModelLibrary/GraphQL/schema/service.graphql 
+#import ../../Services/ElementModelLibrary/GraphQL/schema/modelprocedure.graphql 
+#import ../../Services/ElementModelLibrary/GraphQL/schema/elementmodel.graphql 
