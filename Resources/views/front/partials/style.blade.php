@@ -77,13 +77,13 @@
     $buttonPrimaryBackgroundColor = isset($storedStylesFront['buttonPrimaryBackgroundColor']) ? $storedStylesFront['buttonPrimaryBackgroundColor']->value : '#fff';
     $buttonPrimaryHoverColor = isset($storedStylesFront['buttonPrimaryHoverColor']) ? $storedStylesFront['buttonPrimaryHoverColor']->value : $secondaryColor;
     $buttonPrimaryHoverBackgroundColor = isset($storedStylesFront['buttonPrimaryHoverBackgroundColor']) ? $storedStylesFront['buttonPrimaryHoverBackgroundColor']->value : '#fff';
-    $buttonPrimaryBorderRadius = isset($storedStylesFront['buttonPrimaryBorderRadius']) ? $storedStylesFront['buttonPrimaryBorderRadius']->value : $buttonRadius;
+    $buttonPrimaryBorderRadius = isset($storedStylesFront['buttonPrimaryBorderRadius']) ? $storedStylesFront['buttonPrimaryBorderRadius']->value.'px' : $buttonRadius;
 
     $buttonSecondaryColor = isset($storedStylesFront['buttonSecondaryColor']) ? $storedStylesFront['buttonSecondaryColor']->value : $secondaryColor;
     $buttonSecondaryBackgroundColor = isset($storedStylesFront['buttonSecondaryBackgroundColor']) ? $storedStylesFront['buttonSecondaryBackgroundColor']->value : '#fff';
     $buttonSecondaryHoverColor = isset($storedStylesFront['buttonSecondaryHoverColor']) ? $storedStylesFront['buttonSecondaryHoverColor']->value : $primaryColor;
     $buttonSecondaryHoverBackgroundColor = isset($storedStylesFront['buttonSecondaryHoverBackgroundColor']) ? $storedStylesFront['buttonSecondaryHoverBackgroundColor']->value : '#fff';
-    $buttonSecondaryBorderRadius = isset($storedStylesFront['buttonSecondaryBorderRadius']) ? $storedStylesFront['buttonSecondaryBorderRadius']->value : $buttonRadius;
+    $buttonSecondaryBorderRadius = isset($storedStylesFront['buttonSecondaryBorderRadius']) ? $storedStylesFront['buttonSecondaryBorderRadius']->value.'px' : $buttonRadius;
 
     $elementFileInputBorder = isset($storedStylesFront['elementFileInputBorder']) ? $storedStylesFront['elementFileInputBorder']->value : $sidebarBackgroundColor;
 
