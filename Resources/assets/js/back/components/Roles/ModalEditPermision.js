@@ -147,7 +147,8 @@ class ModalEditPermision extends Component {
 
     const { group, permission, roles, selectedPermission } = this.props.form;
 
-    var groupOptions = [{name : '', value : ''}];
+    //var groupOptions = [{name : '', value : ''}];
+    var groupOptions = [];
     for(var key in this.props.modal.groups) {
       var item = this.props.modal.groups[key];
       groupOptions.push({name : item.name, value : item.id});
