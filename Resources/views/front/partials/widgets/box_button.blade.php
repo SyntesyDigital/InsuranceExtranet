@@ -24,7 +24,7 @@ $visible = check_visible($field['settings'],$parameters);
     <a target="{{$target}}" href="{{$link}}?{{$parameters}}" class="box-button-container-a" >
   @endif
 
-      <div id="{{$field['settings']['htmlId'] or ''}}" class="box-button-container {{$field['settings']['htmlClass'] or ''}}">
+      <div id="{{$field['settings']['htmlId'] or ''}}" class="box-button-container {{$field['settings']['htmlClass'] or ''}} {{$field['settings']['buttonClass'] or ''}}">
         <i class="{{$icon}}"></i>
         <p>{{$title}}</p>
       </div>

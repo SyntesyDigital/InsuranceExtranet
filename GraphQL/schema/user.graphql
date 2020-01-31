@@ -1,0 +1,79 @@
+################################
+#   TYPE
+################################
+type User {
+    id: ID
+    id_per: String
+    firstname: String
+    lastname: String
+    email: String
+    phone: String
+    roles: [Role!] @belongsToMany
+    permissions: [Permission!] @belongsToMany
+}
+
+type UsersList {
+    total: Int,
+    perPage: Int,
+    page: Int,
+    totalPage: Int,
+    from: Int,
+    to: Int,
+    users: [User!]!
+}
+
+type UserHasPermission {
+    has: Int
+}
+
+################################
+#   INPUT
+################################
+input UpdateUserInput {
+    id: Int!
+    id_per: String
+    firstname: String
+    lastname: String
+    email: String
+    phone: String
+    roles: RolesInput
+}
+
+################################
+#   QUERY
+################################
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
+  users: UsersList
+  user(id: ID! @eq): User @find(model: "Modules\\Extranet\\Entities\\User")
+}
+
+################################
+#   MUTATOR
+################################
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+
+    updateUser(input: UpdateUserInput @spread): User
+        @update(model: "Modules\\Extranet\\Entities\\User")
+
+    importUser(id_per: Int!): User
+        @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
+
+    updateUserPermission(
+        user_id: Int!
+        permission_id: Int
+        identifier: String
+        enabled: Int!
+    ): User
+        @field(
+            resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UpdateUserPermission"
+        )
+
+    userHasPermission(
+        user_id: Int!
+        permission_id: Int
+        identifier: String
+    ): UserHasPermission
+        @field(
+            resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UserHasPermission"
+        )
+}

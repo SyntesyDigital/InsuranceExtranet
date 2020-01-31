@@ -1,28 +1,21 @@
 <?php
 
-namespace App\Repositories;
+namespace Modules\Extranet\Repositories;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 use Auth;
-
-use Lang;
-
+use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
-use Illuminate\Support\Facades\Cache;
 
 class PersonneRepository
 {
-
     const CD_CON_EXTRANET = 'UEXT';
     const CD_CON_FILIAL = 'FILIA';
     const CD_CON_SOCIETE = 'SOC';
 
-    const ACCESS_TYPE_PERSONNE = "PERSONNE";
-    const ACCESS_TYPE_POLICE = "POLICE";
-    const ACCESS_TYPE_QUITTANCE = "QUITTANCE";
-    const ACCESS_TYPE_SINISTRE = "SINISTRE";
-
+    const ACCESS_TYPE_PERSONNE = 'PERSONNE';
+    const ACCESS_TYPE_POLICE = 'POLICE';
+    const ACCESS_TYPE_QUITTANCE = 'QUITTANCE';
+    const ACCESS_TYPE_SINISTRE = 'SINISTRE';
 
     public function __construct()
     {
@@ -35,12 +28,12 @@ class PersonneRepository
     *
     *   @return Personne Object
     */
-    public function getConnected()
+    public function getConnected($token = null)
     {
-        $response = $this->client->get(VeosWsUrl::get() . 'personne', [
+        $response = $this->client->get(env('WS_URL').'personne', [
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token
-            ]
+                'Authorization' => 'Bearer '.($token ?: Auth::user()->token),
+            ],
         ]);
 
         return json_decode($response->getBody());
@@ -54,15 +47,14 @@ class PersonneRepository
     */
     public function find($id)
     {
-        $response = $this->client->get(VeosWsUrl::get() . 'personne/' . $id, [
+        $response = $this->client->get(VeosWsUrl::get().'personne/'.$id, [
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token
-            ]
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ]);
 
         return json_decode($response->getBody());
     }
-
 
     /*
     *     Tableau contact principal
@@ -70,10 +62,10 @@ class PersonneRepository
     */
     public function findMainContact($id)
     {
-        $response = $this->client->get(VeosWsUrl::get() . 'personne/' . $id .'/connexeTo', [
+        $response = $this->client->get(VeosWsUrl::get().'personne/'.$id.'/connexeTo', [
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token
-            ]
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ]);
 
         return json_decode($response->getBody());
@@ -85,27 +77,26 @@ class PersonneRepository
     */
     public function findAffiliates($id)
     {
-      $response = $this->client->get(VeosWsUrl::get() . 'personne/' . $id .'/connexe', [
+        $response = $this->client->get(VeosWsUrl::get().'personne/'.$id.'/connexe', [
           'headers' => [
-              'Authorization' => "Bearer " . Auth::user()->token
-          ]
+              'Authorization' => 'Bearer '.Auth::user()->token,
+          ],
       ]);
 
-      $result = json_decode($response->getBody());
+        $result = json_decode($response->getBody());
 
-      $filiales = [];
+        $filiales = [];
 
-      if(isset($result)) {
-          foreach($result as $b) {
-              if($b->categorie == "FILIALE"){
-                $filiales[] = $b;
-              }
-          }
-      }
+        if (isset($result)) {
+            foreach ($result as $b) {
+                if ($b->categorie == 'FILIALE') {
+                    $filiales[] = $b;
+                }
+            }
+        }
 
-      return $filiales;
+        return $filiales;
     }
-
 
     /*
     *     User Societe
@@ -113,14 +104,13 @@ class PersonneRepository
     */
     public function getConnexe($id)
     {
-      $response = $this->client->get(VeosWsUrl::get() . 'personne/' . $id .'/connexe', [
+        $response = $this->client->get(VeosWsUrl::get().'personne/'.$id.'/connexe', [
           'headers' => [
-              'Authorization' => "Bearer " . Auth::user()->token
-          ]
+              'Authorization' => 'Bearer '.Auth::user()->token,
+          ],
       ]);
 
-      return json_decode($response->getBody());
-
+        return json_decode($response->getBody());
     }
 
     /*
@@ -129,23 +119,23 @@ class PersonneRepository
     */
     public function findSociete($id)
     {
-      $response = $this->client->get(VeosWsUrl::get() . 'personne/' . $id .'/connexe', [
+        $response = $this->client->get(VeosWsUrl::get().'personne/'.$id.'/connexe', [
           'headers' => [
-              'Authorization' => "Bearer " . Auth::user()->token
-          ]
+              'Authorization' => 'Bearer '.Auth::user()->token,
+          ],
       ]);
 
-      $result = json_decode($response->getBody());
+        $result = json_decode($response->getBody());
 
-      if(isset($result)) {
-          foreach($result as $b) {
-              if($b->categorie == "SOC"){
-                return $b;
-              }
-          }
-      }
+        if (isset($result)) {
+            foreach ($result as $b) {
+                if ($b->categorie == 'SOC') {
+                    return $b;
+                }
+            }
+        }
 
-      return null;
+        return null;
     }
 
     /*
@@ -156,16 +146,15 @@ class PersonneRepository
     */
     public function update($id, $data)
     {
-        $response = $this->client->put(VeosWsUrl::get() . 'personne/' . $id, [
+        $response = $this->client->put(VeosWsUrl::get().'personne/'.$id, [
             'json' => $data,
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token,
-            ]
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ]);
 
         return json_decode($response->getBody());
     }
-
 
     /*
     *   Création d'une personne
@@ -175,11 +164,11 @@ class PersonneRepository
     */
     public function create($data)
     {
-        $response = $this->client->post(VeosWsUrl::get() . 'personne/', [
+        $response = $this->client->post(VeosWsUrl::get().'personne/', [
             'json' => $data,
             'headers' => [
-                'Authorization' => "Bearer " . Auth::user()->token,
-            ]
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ]);
 
         //dd($response);
@@ -187,49 +176,44 @@ class PersonneRepository
         return json_decode($response->getBody());
     }
 
-
     /*
     *   Création d'une personne
     *   API : [POST] /personne/{id}/connexe
     *
     *   @return Personne Object
     */
-    public function connectToPersonne($personeeId,$connectedId,$codeRelation)
+    public function connectToPersonne($personeeId, $connectedId, $codeRelation)
     {
-
-      $data = [
-        "idPer" => $connectedId,
-        "cdCon" => $codeRelation
+        $data = [
+        'idPer' => $connectedId,
+        'cdCon' => $codeRelation,
       ];
 
-      $response = $this->client->post(VeosWsUrl::get() . 'personne/'.$personeeId.'/connexe', [
+        $response = $this->client->post(VeosWsUrl::get().'personne/'.$personeeId.'/connexe', [
           'json' => $data,
           'headers' => [
-              'Authorization' => "Bearer " . Auth::user()->token,
-          ]
+              'Authorization' => 'Bearer '.Auth::user()->token,
+          ],
       ]);
 
-      return json_decode($response->getBody());
-
+        return json_decode($response->getBody());
     }
 
-    public function resetPasswordByUID($uid,$password,$language)
+    public function resetPasswordByUID($uid, $password, $language)
     {
-      $data = [
-        "uid" => $uid,
-        "passwd" => $password,
-        "language" => $language
+        $data = [
+        'uid' => $uid,
+        'passwd' => $password,
+        'language' => $language,
       ];
 
-      $response = $this->client->post(VeosWsUrl::get() . 'login/reset', [
+        $response = $this->client->post(VeosWsUrl::get().'login/reset', [
           'json' => $data,
           'headers' => [
-              'Authorization' => "Bearer " . Auth::user()->token,
-          ]
+              'Authorization' => 'Bearer '.Auth::user()->token,
+          ],
       ]);
 
-      return $response->getStatusCode() == 200 ? true : false;
-
+        return $response->getStatusCode() == 200 ? true : false;
     }
-
 }

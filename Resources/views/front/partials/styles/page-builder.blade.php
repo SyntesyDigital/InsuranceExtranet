@@ -44,10 +44,27 @@
 /* button primary */
 .box-button-container,.box-button-container-a {
   color: {{$buttonPrimaryColor}};
+  background-color: {{$buttonPrimaryBackgroundColor}};
+  border-radius: {{$buttonPrimaryBorderRadius}};
 }
 
 .box-button-container-a .box-button-container:hover {
-  color: {{$buttonHoverColor}};
+  color: {{$buttonPrimaryHoverColor}};
+  background-color: {{$buttonPrimaryHoverBackgroundColor}};
+
+}
+
+/* button Secondary */
+.box-button-container.box-button-secondary, .box-button-container-a .box-button-secondary {
+  color: {{$buttonSecondaryColor}};
+  background-color: {{$buttonSecondaryBackgroundColor}};
+  border-radius: {{$buttonSecondaryBorderRadius}};
+}
+
+.box-button-container-a .box-button-container.box-button-secondary:hover {
+  color: {{$buttonSecondaryHoverColor}};
+  background-color: {{$buttonSecondaryHoverBackgroundColor}};
+
 }
 
 </style>

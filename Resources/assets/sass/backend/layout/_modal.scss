@@ -1,0 +1,122 @@
+.custom-modal.modal-component {
+    
+    .form-group{
+        margin: 0;
+    }
+
+    .modal-container{
+        margin: 0 auto;
+    }
+    .field-col{
+        height: calc(100vh - 250px);
+        overflow-y: scroll;
+
+        &.border-right {
+            border-right:1px solid #ccc;
+        }
+    }
+    
+    .modal-content{
+
+        overflow: hidden;
+
+        .container{
+            overflow: unset;
+        }
+    }
+
+    .medium {
+        width: 100%;
+        @include mq(tablet) {
+            width: 70%;
+        }
+        @include mq(wide) {
+            width: 50%;
+        }
+    }
+
+    .medium-large{
+        width: 80%;
+    }
+
+    .large{
+        width: 100%;
+    }
+
+    .small{
+        width: 100%;
+        @include mq(tablet) {
+            width: 50%;
+        }
+        @include mq(wide) {
+            width: 30%;
+        }
+    }
+
+   
+    
+    #modal-edit-permision{
+        
+        .modal-container{
+            width: 50%;
+            margin: 0 auto;
+        }
+        
+        .form-group{
+            margin: 0 !important;
+        }
+
+    }
+
+    .modal-header {
+        i {
+            padding-right: 10px;
+            font-size: 14px;
+            color: #858585;
+        }
+    }
+    
+}
+
+#modal-edit-procedures, #modal-test-form{
+
+    [name="outer-box"]{
+
+        width: 100% !important;
+
+        [name="container"]{
+            width: 100% !important;
+        }
+    }
+
+    .rightbar-page{
+
+        .page-content{
+            padding-top: 0;
+        }
+
+    }
+
+    .modal-content{
+
+        .container{
+            padding: 30px 40px;
+        }
+
+    }
+
+    #modal-edit-object{
+
+        .modal-header{
+            padding: 15px;
+        }
+
+    }
+}
+
+
+
+
+
+
+

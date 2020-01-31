@@ -1,0 +1,143 @@
+################################
+#   TYPE
+################################
+type ModelProcedure {
+    id: ID!
+    name: String!
+    configurable: String
+    required: String
+    repeatable: String
+    repeatable_json: String
+    service: Service! @hasOne
+    fields: [ModelField!]! @hasMany
+    model: ElementModel! @hasOne
+}
+
+type ModelField {
+    id: ID!
+    name: String!
+    identifier: String!
+    type: String
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}
+
+
+################################
+#   INPUT
+################################
+
+input CreateServiceBelongsTo {
+  connect: ID
+  create: CreateServiceInput
+  update: UpdateServiceInput
+  upsert: UpdateServiceInput
+}
+
+input CreateModelProcedureInput {
+    name: String!
+    configurable: String
+    required: String
+    repeatable: String
+    repeatable_json: String
+    service: CreateServiceBelongsTo
+    #fields: ModelFieldsInput
+    #model: ElementModelInput
+}
+
+input UpdateModelProcedureInput {
+    id: ID!
+    name: String!
+    configurable: String
+    required: String
+    repeatable: String
+    repeatable_json: String
+    #fields: ModelFieldsInput
+    #model: ElementModelInput
+    service: CreateServiceBelongsTo
+}
+
+input CreateModelFieldInput {
+    name: String!
+    identifier: String!
+    type: String!
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}
+
+input UpdateModelFieldInput {
+    id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}
+
+input ElementModelInput {
+    connect: [ID!]
+    sync: [ID!]
+    create: [CreateElementModelInput!]
+    update: [CreateElementModelInput!]
+    upsert: [UpdateElementModelInput!]
+}
+
+
+input ModelFieldsInput {
+    connect: [ID!]
+    sync: [ID!]
+    create: [CreateModelFieldInput!]
+    update: [UpdateModelFieldInput!]
+    upsert: [UpdateModelFieldInput!]
+}
+
+
+################################
+#   QUERY
+################################
+extend type Query {
+    modelProcedures: [ModelProcedure!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
+
+    modelProcedure(id: ID! @eq): ModelProcedure
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
+
+    modelFields: [ModelField!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    modelField(id: ID! @eq): ModelField
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+}
+
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    createModelProcedure(input: CreateModelProcedureInput! @spread): ModelProcedure
+        @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
+
+    updateModelProcedure(input: UpdateModelProcedureInput! @spread): ModelProcedure
+        @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
+
+    deleteModelProcedure(
+        id: ID!
+    ): ModelProcedure
+        @delete(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
+}

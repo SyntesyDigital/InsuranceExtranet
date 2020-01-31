@@ -1,0 +1,16 @@
+.box-input-add {
+  border: 1px dashed #ccc;
+  text-align: center;
+  width: 100%;
+  padding: 10px 5px;
+  margin-bottom: 0px;
+  min-height: 45px;
+  cursor: pointer;
+
+  a {
+    color: #455660;
+    &:hover {
+      text-decoration: none;;
+    }
+  }
+}

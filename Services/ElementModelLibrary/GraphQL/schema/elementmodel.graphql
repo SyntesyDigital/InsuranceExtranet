@@ -1,0 +1,56 @@
+################################
+#   TYPE
+################################
+type ElementModel {
+    id: ID!
+    identifier: String!
+    name: String!
+    description: String
+    icon: String
+}
+
+################################
+#   INPUT
+################################
+input CreateElementModelInput {
+    identifier: String!
+    name: String!
+    description: String
+    icon: String
+}
+
+input UpdateElementModelInput {
+    id: ID!
+    identifier: String!
+    name: String!
+    description: String
+    icon: String
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    elementModels: [ElementModel!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+
+    elementModel(id: ID! @eq): ElementModel
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+}
+
+
+################################
+#   MUTATOR
+################################
+type Mutation {
+    createElementModel(input: CreateElementModelInput! @spread): ElementModel
+        @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+
+    updateElementModel(input: UpdateElementModelInput! @spread): ElementModel
+        @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+
+    deleteElementModel(
+        id: ID!
+    ): ElementModel
+        @delete(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
+}

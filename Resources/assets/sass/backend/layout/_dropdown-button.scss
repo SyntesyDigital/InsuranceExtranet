@@ -1,0 +1,12 @@
+.button-dropdown {
+  a.dropdown-item.text-danger {
+    i {
+      color:$brand-danger;
+    }
+    color:$brand-danger;
+
+    &:hover, &:focus, &:active {
+      color:$brand-danger;
+    }
+  }
+}
