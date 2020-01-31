@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ButtonPrimary from '../Layout/ButtonPrimary';
 import BarTitle from '../Layout/BarTitle';
 import CollapsableGroup from '../Layout/CollapsableGroup';
-import Checkbox from '../Layout/CheckBox';
+import Checkbox from '../Layout/Fields/CheckField';
 import ToggleField from '../Layout/Fields/ToggleField';
 
 

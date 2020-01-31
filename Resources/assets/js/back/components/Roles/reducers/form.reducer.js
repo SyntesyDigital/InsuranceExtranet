@@ -2,18 +2,25 @@ import {
     INIT_STATE, UPDATE_FIELD,
     OPEN_MODAL_CREATE_GROUP,
     OPEN_MODAL_EDIT_GROUP,
-    SAVE_GROUP,
+    UPDATE_GROUPS,
+
     REMOVE_GROUP,
     UPDATE_GROUP,
     CANCEL_EDIT_GROUP,
-    OPEN_MODAL_EDIT_PERMISSION,
-    CANCEL_EDIT_PERMISSION
+    CREATE_GROUP,
+
+    UPDATE_ROLE,
+    CREATE_PERMISSION,
+    UPDATE_PERMISSION,
+    REMOVE_PERMISSION
+
 
 } from '../constants';
 
 const initialState = {
 
-    saved: true,
+    loaded : false,
+    saved: false,
 
     displayPermision: false,
     displayGroup: false,
@@ -21,79 +28,55 @@ const initialState = {
     currentGroup: null,
     selectedPermission: null,
 
+    //flag to reload the groups
+    groupsReload : false,
+
     roles: [],
 
     //role
     role: {
-        id: 1,
-        name: 'Admin',
-        identifier: 'admin',
-        icon: 'fa fa-pencil',
-        default: true,
-        groups: [
-            {
-                id: 1,
-                identifier: 'group_1',
-                name: 'Group 1',
-                default: true,
-                permissions: [
-                    {
-                        id: 1,
-                        identifier: 'permission_1',
-                        name: 'Permission 1',
-                        value: true
-                    },
-                    {
-                        id: 2,
-                        identifier: 'permission_2',
-                        name: 'Permission 2',
-                        value: true
-                    }
-                ]
-            },
-            {
-                id: 2,
-                identifier: 'group_2',
-                name: 'Group 2',
-                permissions: [
-                    {
-                        id: 3,
-                        identifier: 'permission_3',
-                        name: 'Permission 3',
-                        value: true
-                    },
-                    {
-                        id: 4,
-                        identifier: 'permission_4',
-                        name: 'Permission 4',
-                        value: false
-                    }
-                ]
-            },
-            {
-                id: 3,
-                identifier: 'group_3',
-                name: 'Group 3',
-                permissions: []
-            }
-        ]
+        id: null,
+        name: '',
+        identifier: '',
+        icon: '',
+        default: false,
+        groups: []
     }
 }
+
+function getGroupIndex(role,group) {
+    for(var key in role.groups) {
+        if(role.groups[key].id == group.id) {
+            return key;
+        }
+    }
+    return null;
+}
+
+function getPermissionIndex(group,permisisonId) {
+    for(var key in group.permissions) {
+      if(group.permissions[key].id == permisisonId) {
+          return key;
+      }
+    }
+    return null;
+  }
 
 function formReducer(state = initialState, action) {
 
     console.log("formReducer :: ", action.type, action.payload);
 
+    let role = state.role;
+    let index = -1;
+
     switch (action.type) {
         case INIT_STATE:
-
-            console.log("INIT_STATE => ", action.data);
-
             return {
-                ...state
+                ...state,
+                role : action.payload,
+                loaded : true
             }
         case UPDATE_FIELD:
-            let role = state.role;
             role[action.payload.name] = action.payload.value;
 
             return {
@@ -101,11 +84,29 @@ function formReducer(state = initialState, action) {
                 role: role
             }
 
+        
+        case UPDATE_ROLE : 
+
+            role = action.payload
+
+            return {
+                ...state,
+                role : role
+            }
+
+        case UPDATE_PERMISSION :
+
+            return {
+                ...state,
+                groupsReload : true
+            }
+            
         case OPEN_MODAL_CREATE_GROUP:
 
             return {
                 ...state,
                 displayGroup: true,
+                currentGroup : null
             }
 
         case OPEN_MODAL_EDIT_GROUP:
@@ -124,37 +125,87 @@ function formReducer(state = initialState, action) {
                 currentGroup: null
             }
 
-        case SAVE_GROUP:
+        case CREATE_GROUP:
+
+            role = state.role;
+            var newGroup = action.payload;
+            newGroup.permissions = [];
+            role.groups.push(newGroup);
 
             return {
                 ...state,
-            }
+                role : role,
+                displayGroup: false,
+                currentGroup : null
+            };
 
         case REMOVE_GROUP:
 
+            role = state.role;
+            index = getGroupIndex(role,action.payload);
+            role.groups.splice(index,1);
+
             return {
                 ...state,
+                role : role,
+                displayGroup: false,
+                currentGroup : null
             }
 
         case UPDATE_GROUP:
 
-            return {
-                ...state,
-            }
+            role = state.role;
+            index = getGroupIndex(role,action.payload);
+            role.groups[index].name = action.payload.name;
+            role.groups[index].identifier = action.payload.identifier;
+            role.groups[index].order = action.payload.order;
 
-        case OPEN_MODAL_EDIT_PERMISSION:
             return {
                 ...state,
-                displayPermision: true,
-                selectedPermission: action.payload
-            }
+                role : role,
+                displayGroup: false,
+                currentGroup : null
+            };
+        case CREATE_PERMISSION: 
 
-        case CANCEL_EDIT_PERMISSION:
+            role = state.role;
+            index = getGroupIndex(role,action.payload.group);
+            role.groups[index].permissions.push({
+                id : action.payload.id,
+                identifier : action.payload.identifier,
+                name : action.payload.name,
+                value : false,
+                group : action.payload.group.id
+            });
+
             return {
                 ...state,
-                displayPermision: false,
-                selectedPermission: null
-            }
+                role : role
+            };
+        case REMOVE_PERMISSION:
+
+            role = state.role;
+            index = getGroupIndex(role,action.payload.group);
+            var permissionIndex = getPermissionIndex(role.groups[index],action.payload.id);
+            //console.log("REMOVE_PERMISSION : ",index,permissionIndex);
+            role.groups[index].permissions.splice(permissionIndex,1);
+
+            return {
+                ...state,
+                role : role
+            };
+
+        case UPDATE_GROUPS:
+
+            role = state.role;
+            role.groups = action.payload;
+
+            return {
+                ...state,
+                role : role,
+                groupsReload : false
+            };
+        
         default:
             return state;
     }

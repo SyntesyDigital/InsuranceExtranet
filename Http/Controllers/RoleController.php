@@ -8,6 +8,7 @@ use Datatables;
 use Illuminate\Support\Collection;
 use Lang;
 
+use Modules\Extranet\Services\RolesPermissions\Entities\Role;
 
 class RoleController extends Controller
 {
@@ -20,21 +21,15 @@ class RoleController extends Controller
     public function datatable(Request $request)
     {
 
-        $collection = collect([
-          ['id' => 1, 'name' => 'Admin', 'role' => 'administrator'],
-          ['id' => 2, 'name' => 'Editor', 'role' => 'editor'],
-          ['id' => 3, 'name' => 'Subscriber', 'role' => 'subscriber'],
-        ]);
-
-        return Datatables::of($collection)
+        return Datatables::of(Role::all())
             ->addColumn('default', function ($item) {
-              return $item['role'] == 'administrator' ?
+              return $item['default'] ?
                 "<i class='fa fa-check-circle'></i>" :
                 "<i class='far fa-circle'></i>";
             })
             ->addColumn('icon', function($item){
                 return '
-                    <i class="fas fa-user"></i>
+                    <i class="'.$item['icon'].'"></i>
                 ';
             })
             ->addColumn('action', function ($item) {
@@ -52,14 +47,11 @@ class RoleController extends Controller
     }
 
     public function duplicate(Request $request,$id){
-        return view('extranet::roles.update');
+        return view('extranet::roles.update',["id"=>$id]);
     }
 
-    public function delete(Request $request,$id){
-        return true;
-    }
     
     public function update(Request $request,$id){
-        return view('extranet::roles.update');
+        return view('extranet::roles.update',["id"=>$id]);
     }
 }

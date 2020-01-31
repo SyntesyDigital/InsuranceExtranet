@@ -8,27 +8,9 @@ import { connect } from 'react-redux';
 import {
   cancelEditPermission,
   removePermission,
-  savePermission
+  savePermission,
+  loadPermission,
 } from './actions';
-
-const arrayOfOptions = [
-  {
-    id: '1 - Nico',
-    name: 'nico'
-  },
-  {
-    id: '2 - Sergi',
-    name: 'sergi'
-  },
-  {
-    id: '3 - Francicso',
-    name: 'francisco'
-  },
-  {
-    id: '4 - dani',
-    name: 'dani'
-  },
-];
 
 /**
  *  Esta modal debe autogestionarse, esto quiere decir que cuando haga submit va a
@@ -50,53 +32,58 @@ class ModalEditPermision extends Component {
 
     //init values to process this modal
     this.state = {
-      values: {
+      permission: {
+        id : null,
         name: '',
         identifier: '',
         group: ''
-      },
-      groups: props.groups,
-      roles: [{
-        id: 1,
-        identifier: 'admin',
-        name: 'Admin',
-        value: true
-      },
-      {
-        id: 2,
-        identifier: 'client',
-        name: 'Client',
-        value: false
       }
-      ]
     }
 
+  }
+
+  getFirstGroup() {
+    if(this.props.modal.groups !== undefined && 
+      this.props.modal.groups.length > 0){
+        return this.props.modal.groups[0].id;
+    }
+    else {
+      return '';
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    var name = '';
-    var identifier = '';
-    var group = '';
+    
+    const {display,selectedPermission,selectedGroup} = this.props.modal;
 
-    if (!prevProps.display && this.props.display) {
+    if (!prevProps.modal.display && display) {
       //if we are showing the modal, see if new parameters to setup
-      if (this.props.group != null) {
-        group = this.props.group.id;
-      }
-      if (this.props.permission != null) {
-        name = this.props.permission.name;
-        identifier = this.props.permission.identifier;
-      }
+      this.props.loadPermission(selectedPermission);
+      
+      console.log("selectedPermission => ",selectedPermission);
 
-      this.setState({
-        values: {
-          name: name,
-          identifier: identifier,
-          group: group
-        }
-      });
+      if(selectedPermission != null) {
+        this.setState({
+          permission : selectedPermission
+        });
+      }
+      else {
+        //if the group is defined then open from group, if not get the first option
+        var group = selectedGroup != null ? selectedGroup.id : '';
+        
+        this.setState({
+          permission : {
+            id : null,
+            name: '',
+            identifier: '',
+            group: group
+          }
+        });
+      }
     }
   }
+
+  
 
   // ==============================
   // Handlers
@@ -108,8 +95,8 @@ class ModalEditPermision extends Component {
   }
 
   handleRemove() {
-    console.log("handleRemove Permission");
-    this.props.removePermission(this.props.form.selectedPermission);
+    console.log("handleRemove Permission", this.props.modal.selectedPermission);
+    this.props.removePermission(this.props.modal.selectedPermission);
   }
 
   handleSelectChange(selectedValue) {
@@ -122,16 +109,31 @@ class ModalEditPermision extends Component {
     console.log("handleRoleChange :: (e,role)", e, role);
   }
 
+  handleFieldChange(name,value) {
+    const permission = this.state.permission;
+    permission[name] = value;
+    this.setState({
+      permission : permission
+    });
+  }
+
+  handleSubmit() {
+    this.props.savePermission(
+      this.state.permission,
+      this.props.form.role
+    );
+  }
+
   // ==============================
   // Renderers
   // ==============================
 
   renderRoles() {
 
-    if (this.state.roles === undefined || this.state.roles == null)
+    if (this.props.modal.roles === undefined || this.props.modal.roles == null)
       return null;
 
-    return this.state.roles.map((item, index) =>
+    return this.props.modal.roles.map((item, index) =>
       <ToggleField
         key={item.id}
         label={item.name}
@@ -145,46 +147,55 @@ class ModalEditPermision extends Component {
 
     const { group, permission, roles, selectedPermission } = this.props.form;
 
+    var groupOptions = [{name : '', value : ''}];
+    for(var key in this.props.modal.groups) {
+      var item = this.props.modal.groups[key];
+      groupOptions.push({name : item.name, value : item.id});
+    }
+    
     return (
 
       <Modal
         id={this.props.id}
         icon={this.props.icon}
         title={'Permision | Edit'}
-        display={this.props.display}
+        display={this.props.modal.display}
         zIndex={10000}
         onModalClose={this.props.cancelEditPermission}
         onCancel={this.props.cancelEditPermission}
         onRemove={this.handleRemove.bind(this)}
-
-        size={this.props.size}
+        onSubmit={this.handleSubmit.bind(this)}
+        size={'small'}
       >
-
-        {selectedPermission != null &&
-          <div className="row">
-            <div className="col-xs-6 field-col border-right">
-              {this.renderRoles()}
-            </div>
-
-            <div className="col-xs-6 field-col">
-              <InputField
-                label={'Name'}
-                value={selectedPermission.name}
-                name={'name'}
-              />
-              <InputField
-                label={'Identifier'}
-                value={selectedPermission.identifier}
-                name={'identifier'}
-              />
-              <SelectField
-                arrayOfOptions={arrayOfOptions}
-                label={'Group'}
-                onSelectChange={this.handleSelectChange.bind(this)}
-              />
-            </div>
+        <div className="row">
+          {/*
+          <div className="col-xs-6 field-col border-right">
+            {this.renderRoles()}
           </div>
-        }
+          */}
+
+          <div className="col-xs-12 field-col">
+            <InputField
+              label={'Name'}
+              value={this.state.permission.name}
+              name={'name'}
+              onChange={this.handleFieldChange.bind(this)}
+            />
+            <InputField
+              label={'Identifier'}
+              value={this.state.permission.identifier}
+              name={'identifier'}
+              onChange={this.handleFieldChange.bind(this)}
+            />
+            <SelectField
+              arrayOfOptions={groupOptions}
+              label={'Group'}
+              name={'group'}
+              value={this.state.permission.group}
+              onChange={this.handleFieldChange.bind(this)}
+            />
+          </div>
+        </div>
       </Modal>
     );
   }
@@ -192,7 +203,8 @@ class ModalEditPermision extends Component {
 
 const mapStateToProps = state => {
   return {
-    form: state.form
+    form: state.form,
+    modal: state.modalPermission
   }
 }
 
@@ -203,7 +215,13 @@ const mapDispatchToProps = dispatch => {
     },
     removePermission: (permission) => {
       return dispatch(removePermission(permission));
-  },
+    },
+    loadPermission: (permission) => {
+      return dispatch(loadPermission(permission));
+    },
+    savePermission: (permission,role) => {
+      return dispatch(savePermission(permission,role));
+    }
   }
 }
 

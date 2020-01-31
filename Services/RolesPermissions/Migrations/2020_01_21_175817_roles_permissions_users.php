@@ -25,6 +25,8 @@ class RolesPermissionsUsers extends Migration
             $table->increments('id');
             $table->string('identifier');
             $table->string('name');
+            $table->string('icon');
+            $table->boolean('default');
             $table->string('description')->nullable();
             $table->timestamps();
         });

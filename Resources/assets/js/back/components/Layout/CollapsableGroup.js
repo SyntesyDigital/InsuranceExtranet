@@ -12,11 +12,15 @@ export default class CollapsableGroup extends Component {
   }
 
   handleEdit(e) {
+    e.preventDefault();
+
     console.log("handleEdit");
     this.props.onEdit();
   }
 
   handleRemove(e) {
+    e.preventDefault();
+
     console.log("handleRemove");
     var _this = this;
 
@@ -42,11 +46,15 @@ export default class CollapsableGroup extends Component {
   }
 
   handleUp(e) {
+    e.preventDefault();
+
     console.log("handleUp");
     this.props.onUp();
   }
 
   handleDown(e) {
+    e.preventDefault();
+    
     console.log("handleDown");
     this.props.onDown();
   }
@@ -74,17 +82,17 @@ export default class CollapsableGroup extends Component {
           {this.props.sortable && 
             <div className="actions left">
               {!last && 
-                <a href="#" onClick={this.handleDown.bind(this)}><i className='fas fa-angle-down'></i></a>  
+                <a href="" onClick={this.handleDown.bind(this)}><i className='fas fa-angle-down'></i></a>  
               }
               {!first && 
-                <a href="#" onClick={this.handleUp.bind(this)}><i className='fas fa-angle-up'></i></a>
+                <a href="" onClick={this.handleUp.bind(this)}><i className='fas fa-angle-up'></i></a>
               }
             </div>
           }
           
           <div className="actions">
-            {editable ? <a href="#" onClick={this.handleEdit.bind(this)}><i className='far fa-edit'></i></a> : false}
-            {editable ? <a href="#" onClick={this.handleRemove.bind(this)}><i className='fa fa-trash-alt'></i></a> : false}
+            {editable ? <a href="" onClick={this.handleEdit.bind(this)}><i className='far fa-edit'></i></a> : false}
+            {editable ? <a href="" onClick={this.handleRemove.bind(this)}><i className='fa fa-trash-alt'></i></a> : false}
           </div>
           <button style={{ display: (hideTab ? 'none' : 'block') }} id={"heading" + identifier} className="btn btn-link" data-toggle="collapse" data-target={"#collapse" + identifier} aria-expanded="true" aria-controls={"collapse" + identifier}>
             <span className="field-name">

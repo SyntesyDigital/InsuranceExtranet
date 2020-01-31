@@ -49,13 +49,13 @@ class UserController extends Controller
     public function datatable(Request $request)
     {
         $veosUsers = $this->users->getUsers();
-        $idPers = User::all()->pluck('id_per')->toArray();
+        $idPers = User::all()->pluck('id','id_per')->toArray();
 
         $users = [];
         //process users
         foreach ($veosUsers as $user) {
             $users[] = [
-                'id' => $user->{'USEREXT.id_per'},
+                'id_per' => $user->{'USEREXT.id_per'},
                 'name' => $user->{'USEREXT.nom2_per'},
                 'username' => $user->{'USEREXT.login_per'},
                 'roles' => '',
@@ -70,14 +70,14 @@ class UserController extends Controller
         return Datatables::of($collection)
             //column with actions
             ->addColumn('action', function ($item) use ($idPers) {
-                if (in_array($item['id'], $idPers)) {
+                $id = isset($idPers[$item['id_per']]) ? $idPers[$item['id_per']] : null;
+                if (isset($id)) {
                     return '
-                        <a href="'.route('extranet.users.update', ['id' => $item['id']]).'" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a>&nbsp;
+                        <a href="'.route('extranet.users.update', ['id' => $id]).'" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a>&nbsp;
                     ';
                 }
-
                 return '
-                    <a href="'.route('extranet.users.update', ['id' => $item['id']]).'" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> Ajouter</a>&nbsp;
+                    <a href="" class="btn btn-link has-event" data-type="add" data-payload="'.$item['id_per'].'" ><i class="fas fa-plus"></i> Ajouter</a>&nbsp;
                 ';
             })
             ->rawColumns(['action'])   //columns with html
