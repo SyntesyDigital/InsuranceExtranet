@@ -26,9 +26,6 @@ const initialState = {
     //Permissions
     selectedPermission: null,
 
-    procedures: [],
-    objects: [],
-
     //Objects
     displayEditObject: false,
     displayAddObject: false,
@@ -60,59 +57,21 @@ const initialState = {
         p1: null,
         P2: null,
         p3: null,
-        procedure: [
+        procedures: [
             {
                 id: 1,
                 name: 'Procedure 01',
                 service: 'service-01',
-                services: [
-                    {
-                        name: 'service-01',
-                        value: 'Service-01'
-                    },
-                    {
-                        name: 'service-02',
-                        value: 'Service-02'
-                    },
-                    {
-                        name: 'service-03',
-                        value: 'Service-03'
-                    },
-                ],
                 configurable: true,
                 required: false,
                 repeatable: true,
                 objects: [
                     {
+                        id : 1,
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
-                        typeNature: 'CTE',
-                        typeNatures: [
-                            {
-                                name: 'cte',
-                                value: 'CTE'
-                            },
-                            {
-                                name: 'system',
-                                value: 'SYSTEM'
-                            },
-                            {
-                                name: 'input',
-                                value: 'INPUT'
-                            },
-                        ],
                         icon: 'fas fa-calculator',
                         format: 'Num',
-                        formats: [
-                            {
-                                name: 'text',
-                                value: 'TEXT'
-                            },
-                            {
-                                name: 'num',
-                                value: 'Num'
-                            },
-                        ],
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -121,33 +80,10 @@ const initialState = {
                         visible: false,
                     },
                     {
+                        id : 2,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        typeNature: [
-                            {
-                                name: 'cte',
-                                value: 'CTE'
-                            },
-                            {
-                                name: 'system',
-                                value: 'SYSTEM'
-                            },
-                            {
-                                name: 'input',
-                                value: 'INPUT'
-                            },
-                        ],
                         format: 'Text',
-                        formats: [
-                            {
-                                name: 'text',
-                                value: 'TEXT'
-                            },
-                            {
-                                name: 'num',
-                                value: 'Num'
-                            },
-                        ],
                         icon: 'fas fa-font',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
@@ -164,53 +100,16 @@ const initialState = {
                 id: 2,
                 name: 'Procedure 02',
                 service: 'service-02',
-                services: [
-                    {
-                        name: 'service-01',
-                        value: 'Service-01'
-                    },
-                    {
-                        name: 'service-02',
-                        value: 'Service-02'
-                    },
-                    {
-                        name: 'service-03',
-                        value: 'Service-03'
-                    },
-                ],
                 configurable: true,
                 required: false,
                 repeatable: true,
                 objects: [
                     {
+                        id : 3,
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
-                        typeNature: [
-                            {
-                                name: 'cte',
-                                value: 'CTE'
-                            },
-                            {
-                                name: 'system',
-                                value: 'SYSTEM'
-                            },
-                            {
-                                name: 'input',
-                                value: 'INPUT'
-                            },
-                        ],
                         icon: 'fas fa-calculator',
                         format: 'Num',
-                        formats: [
-                            {
-                                name: 'text',
-                                value: 'TEXT'
-                            },
-                            {
-                                name: 'num',
-                                value: 'Num'
-                            },
-                        ],
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -219,33 +118,10 @@ const initialState = {
                         visible: false,
                     },
                     {
+                        id : 4,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        typeNature: [
-                            {
-                                name: 'cte',
-                                value: 'CTE'
-                            },
-                            {
-                                name: 'system',
-                                value: 'SYSTEM'
-                            },
-                            {
-                                name: 'input',
-                                value: 'INPUT'
-                            },
-                        ],
                         format: 'Text',
-                        formats: [
-                            {
-                                name: 'text',
-                                value: 'TEXT'
-                            },
-                            {
-                                name: 'num',
-                                value: 'Num'
-                            },
-                        ],
                         icon: 'fas fa-font',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
@@ -255,18 +131,17 @@ const initialState = {
                         visible: false,
                     }
                 ]
-
-
-            },
+            }
         ]
     }
 }
 
 
-
 function formReducer(state = initialState, action) {
 
     console.log("formReducer :: Elements Models", action.type, action.payload);
+
+    let form = state.form;
 
     switch (action.type) {
 
@@ -279,7 +154,6 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_FIELD:
-            let form = state.form;
             form[action.payload.name] = action.payload.value;
 
             return {
@@ -324,15 +198,11 @@ function formReducer(state = initialState, action) {
 
         case UPDATE_PROCEDURES:
 
-            let procedure = state.currentProcedure;
-            
-            console.log("Action :: ", procedure);
-
-            procedure[action.payload.name] = action.payload.value;
+            form.procedures = action.payload;
 
             return {
                 ...state,
-                procedure: procedure
+                form : form
             }
 
         case CLOSE_MODAL_PROCEDURES:

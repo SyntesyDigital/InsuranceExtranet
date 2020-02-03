@@ -44,14 +44,11 @@ class RolesUpdateRedux extends Component {
         this.props.initState(this.props.roleId);
     }
 
-<<<<<<< HEAD
-=======
     componentDidUpdate(prevProps, prevState) { 
         if(!prevProps.form.groupsReload && this.props.form.groupsReload) {
             this.props.reload(this.props.form.role.id);
         }
     }
->>>>>>> dev
 
     /*
     *   Modal to edit Permission :
@@ -60,8 +57,6 @@ class RolesUpdateRedux extends Component {
     *   If edit, premission and group selected.
     */
 
-<<<<<<< HEAD
-=======
     openModalEditPermision(permission, group, e) {
         if (e !== undefined) {
             e.preventDefault();
@@ -71,7 +66,6 @@ class RolesUpdateRedux extends Component {
     }
 
 
->>>>>>> dev
     // ==============================
     // Handlers
     // ==============================

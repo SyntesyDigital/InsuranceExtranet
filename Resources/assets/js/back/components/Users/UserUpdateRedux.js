@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary'
 import CollapsableGroup from '../Layout/CollapsableGroup';
-import Checkbox from '../Layout/CheckBox';
+import Checkbox from '../Layout/Fields/CheckField';
 import ToggleField from '../Layout/Fields/ToggleField';
 import { connect } from 'react-redux';
 

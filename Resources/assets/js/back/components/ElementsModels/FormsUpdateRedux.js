@@ -60,12 +60,15 @@ class FormsUpdateRedux extends Component {
 
     handleCreateProcedure(){
         console.log("handleCreateProcedure");
-        this.props.openModalCreateProcedure();
+        this.props.openModalCreateProcedure(this.props.form.form.procedures);
     }
 
     handleRemoveProcedure(procedure){
         console.log("handleRemoveProcedure");
-        this.props.removeProcedure(procedure);
+        this.props.removeProcedure(
+            this.props.form.form.procedures, 
+            procedure
+        );
     }
 
     handleTestForm(form){
@@ -89,7 +92,7 @@ class FormsUpdateRedux extends Component {
 
     renderProcedures() {
         
-        const displayProcedures = this.props.form.form.procedure.map((procedure, index) =>
+        const displayProcedures = this.props.form.form.procedures.map((procedure, index) =>
             <div key={procedure.name+index} className={procedure.name+index}>
                 <FieldListItem
                     key={index}
@@ -185,13 +188,12 @@ class FormsUpdateRedux extends Component {
 
                             {this.renderProcedures()}
 
-                        </FieldList>
+                            <BoxAddLarge
+                                title='Ajouter'
+                                onClick={this.handleCreateProcedure.bind(this)}
+                            />
 
-                        <BoxAddLarge
-                            identifier='1'
-                            title='Ajouter'
-                            onClick={this.handleCreateProcedure.bind(this)}
-                        />
+                        </FieldList>
 
                     </div>
 
@@ -294,12 +296,12 @@ const mapDispatchToProps = dispatch => {
             return dispatch(updateProcedureField(procedure, name, value));
         },
 
-        removeProcedure:(procedure) => {
-            return dispatch(removeProcedure(procedure));
+        removeProcedure:(procedures,procedure) => {
+            return dispatch(removeProcedure(procedures,procedure));
         },
         
-        openModalCreateProcedure: () => {
-            return dispatch(openModalCreateProcedure());
+        openModalCreateProcedure: (procedures) => {
+            return dispatch(openModalCreateProcedure(procedures));
         },
 
         openModalEditProcedure: (procedure) => {

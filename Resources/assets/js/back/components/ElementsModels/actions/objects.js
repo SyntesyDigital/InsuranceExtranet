@@ -16,12 +16,35 @@ export function initState(payload) {
     return { type: INIT_STATE, payload }
 };
 
+function getMaxId (list) {
+    var maxId = 0;
+    for(var index in list) {
+        maxId = Math.max(list[index].id,maxId);
+    }
+    return parseInt(maxId) + 1;
+}
 
-export function openModalCreateObject() {
+export function openModalCreateObject(procedures,procedure) {
+
+    var index = getProcedureIndex(procedures,procedure);
+    var maxId = getMaxId(procedures[index].objects);
+
+    procedures[index].objects.push({
+        id : maxId,
+        identifier: 'identifier '+maxId,
+        name: 'Field Name '+maxId,
+        icon: 'fas fa-calculator',
+        format: 'Num',
+        defaultValue: 'defaultValue',
+        boby: 'boby',
+        jsonPath: 'jsonPath',
+        example: 'example',
+        configurable: false,
+        visible: false,
+    });
+
     return {
-        type: OPEN_MODAL_CREATE_OBJECT, payload: {
-        
-        }
+        type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 
@@ -42,11 +65,33 @@ export function closeModalProcedureObject() {
     };
 };
 
-export function updateProcedureObjectField(procedures, object, name, value) {
-    return {
-        type: UPDATE_PROCEDURES, payload: {
-            procedures: procedures
+function getProcedureIndex(procedures,procedure) {
+    for(var index in procedures) {
+        if(procedures[index].id == procedure.id){
+            return index;
         }
+    }
+    return null;
+}
+
+function getObjectIndex(objects,object) {
+    for(var index in objects) {
+        if(objects[index].id == object.id){
+            return index;
+        }
+    }
+    return null;
+}
+
+export function updateProcedureObjectField(procedures, procedure, object, name, value) {
+
+    object[name] = value;
+    var index = getProcedureIndex(procedures,procedure);
+    var objectIndex = getObjectIndex(procedure.objects,object);
+    procedures[index].objects[objectIndex] = object;
+
+    return {
+        type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 

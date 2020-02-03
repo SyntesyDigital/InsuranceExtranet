@@ -22,7 +22,30 @@ class ModalEditObject extends Component {
         super(props);
 
         this.state = {
-
+            formats: [
+                {
+                    name: 'text',
+                    value: 'TEXT'
+                },
+                {
+                    name: 'num',
+                    value: 'Num'
+                },
+            ],
+            typeNature: [
+                {
+                    name: 'cte',
+                    value: 'CTE'
+                },
+                {
+                    name: 'system',
+                    value: 'SYSTEM'
+                },
+                {
+                    name: 'input',
+                    value: 'INPUT'
+                },
+            ]
         };
     }
 
@@ -37,13 +60,15 @@ class ModalEditObject extends Component {
 
     handleFieldChange(name, value){
         
-        const { currentObject } = this.props.form;
-        console.log("Este es el objeto", currentObject);
+        const { currentObject, currentProcedure, form } = this.props.form;
+        //console.log("Este es el objeto", currentObject);
 
-        const { currentProcedure } = this.props.form;
-        console.log("Este es el procedure", currentProcedure);
+        //console.log("Este es el procedure", currentProcedure);
 
-        this.props.updateProcedureObjectField(currentProcedure, currentObject, name, value);
+        this.props.updateProcedureObjectField(
+            form.procedures,
+            currentProcedure, 
+            currentObject, name, value);
 
         console.log("handleFieldChange", currentProcedure, currentObject, name, value);
     }
@@ -68,8 +93,10 @@ class ModalEditObject extends Component {
                 zIndex={10000}
                 size={this.props.size}
                 deleteButton={false}
+                submitButton={false}
                 onModalClose={this.props.closeModalProcedureObject}
                 onCancel={this.props.closeModalProcedureObject}
+
                
             >
                 {currentObject != null &&
@@ -96,7 +123,7 @@ class ModalEditObject extends Component {
                                 label={'Type (Nature) (CTE, System, INPUT)'}
                                 value={currentObject.typeNature}
                                 name={'typeNature'}
-                                arrayOfOptions={currentObject.typeNatures}
+                                arrayOfOptions={this.state.typeNature}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -104,7 +131,7 @@ class ModalEditObject extends Component {
                                 label={'Format (Text, num, etc)'}
                                 value={currentObject.format}
                                 name={'format'}
-                                arrayOfOptions={currentObject.formats}
+                                arrayOfOptions={this.state.formats}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -175,8 +202,8 @@ const mapDispatchToProps = dispatch => {
             return dispatch(openModalEditObject(procedure, object));
         },
         
-        updateProcedureObjectField: (procedure, object, name, value) => {
-            return dispatch(updateProcedureObjectField(procedure, object, name, value));
+        updateProcedureObjectField: (procedures, procedure, object, name, value) => {
+            return dispatch(updateProcedureObjectField(procedures, procedure, object, name, value));
         },
 
         removeProcedureObject: (procedure, object) => {

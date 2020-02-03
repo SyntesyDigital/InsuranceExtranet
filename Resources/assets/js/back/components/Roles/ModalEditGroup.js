@@ -8,10 +8,6 @@ import {
     cancelEditGroup,
     saveGroup,
     removeGroup,
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 } from './actions';
 
 class ModalEditGroup extends Component {
@@ -62,8 +58,6 @@ class ModalEditGroup extends Component {
     // Handlers
     // ==============================
 
-<<<<<<< HEAD
-=======
     handleFieldChange(name,value) {
         const state = this.state;
         state[name] = value;
@@ -74,7 +68,6 @@ class ModalEditGroup extends Component {
         this.props.saveGroup(this.state);
     }
 
->>>>>>> dev
     handleCancel() {
         console.log("handleCancel Group");
         this.props.cancelEditGroup();

@@ -13,11 +13,32 @@ export function initState(payload) {
     return { type: INIT_STATE, payload }
 };
 
-export function openModalCreateProcedure() {
+function getMaxId (list) {
+    var maxId = 0;
+    for(var index in list) {
+        maxId = Math.max(list[index].id,maxId);
+    }
+    return parseInt(maxId) + 1;
+}
+
+export function openModalCreateProcedure(procedures) {
+
+    var id = getMaxId(procedures);
+
+    var procedure = {
+        id: id,
+        name: 'Procedure '+id,
+        service: '',
+        configurable: false,
+        required: false,
+        repeatable: false,
+        objects: []
+    };
+
+    procedures.push(procedure);
+
     return {
-        type: OPEN_MODAL_CREATE_PROCEDURE, payload: {
-            
-        }
+        type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 
@@ -25,8 +46,13 @@ export function openModalEditProcedure(procedure) {
     return { type: OPEN_MODAL_EDIT_PROCEDURE, payload: procedure };
 };
 
-export function removeProcedure(procedure) {
-    return { type: REMOVE_PROCEDURE, payload: procedure };
+export function removeProcedure(procedures,procedure) {
+
+    var index = getProcedureIndex(procedures,procedure);
+
+    procedures.splice(index,1);
+
+    return { type: UPDATE_PROCEDURES, payload: procedures };
 };
 
 export function moveProcedure() {
@@ -37,13 +63,23 @@ export function moveProcedure() {
     };
 };
 
-export function updateProcedureField(procedure, name, value) {
-    return {
-        type: UPDATE_PROCEDURES, payload: {
-            procedure: procedure,
-            name: name,
-            value: value
+function getProcedureIndex(procedures,procedure) {
+    for(var index in procedures) {
+        if(procedures[index].id == procedure.id){
+            return index;
         }
+    }
+    return null;
+}
+
+export function updateProcedureField(procedures, procedure, name, value) {
+
+    procedure[name] = value;
+    var index = getProcedureIndex(procedures,procedure);
+    procedures[index] = procedure;
+
+    return {
+        type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 
