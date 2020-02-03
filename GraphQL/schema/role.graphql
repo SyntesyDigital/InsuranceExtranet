@@ -4,8 +4,10 @@
 type Role {
     id: ID!
     name: String!
-    description: String!
     identifier: String!
+    icon: String!
+    default : Boolean!
+    description: String
     permissions: [Permission!]! @belongsToMany
     users: [User!]! @belongsToMany
 }
@@ -16,6 +18,8 @@ type Role {
 input CreateRoleInput {
     name: String!
     identifier: String!
+    icon: String!
+    default : Boolean!
     description: String
     permissions: PermissionsInput
 }
@@ -24,6 +28,8 @@ input UpdateRoleInput {
     id: ID!
     name: String
     identifier: String
+    icon: String
+    default : Boolean
     description: String
     permissions: PermissionsInput
 }
@@ -60,7 +66,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-type Mutation {
+extend type Mutation {
     createRole(input: CreateRoleInput! @spread): Role
         @create(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 

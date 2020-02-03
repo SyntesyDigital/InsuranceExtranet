@@ -40,8 +40,11 @@
     "webpack-shell-plugin": "^0.5.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "^4.5.1",
     "apollo-boost": "^0.4.7",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
     "graphql": "^14.5.8",
     "immutability-helper": "^2.9.1",

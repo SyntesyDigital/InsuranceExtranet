@@ -70,7 +70,7 @@ export default class Modal extends Component {
     const deleteButton = this.props.deleteButton !== undefined ? this.props.deleteButton : true;
 
     return (
-      <div className="custom-modal" id={this.props.id} style={{ zIndex: this.props.zIndex }}>
+      <div className="custom-modal modal-component" id={this.props.id} style={{ zIndex: this.props.zIndex }}>
         <div className="modal-background"></div>
 
 
@@ -94,21 +94,21 @@ export default class Modal extends Component {
             </div>
 
             <div className="modal-footer">
+              {deleteButton &&
+                <a href="" className="btn btn-link text-danger" onClick={this.onRemove.bind(this)}>
+                  <i className="fas fa-trash-alt"></i> &nbsp; {Lang.get('fields.delete')}
+                </a>
+              }
+              &nbsp;
               {cancelButton &&
                 <a href="" className="btn btn-default" onClick={this.onModalClose}>
                   {Lang.get('fields.cancel')}
                 </a>
               }
               &nbsp;
-                  {deleteButton &&
-                <a href="" className="btn btn-danger" onClick={this.onRemove.bind(this)}>
-                  {Lang.get('fields.delete')}
-                </a>
-              }
-              &nbsp;
                   {submitButton &&
                 <a href="" className="btn btn-primary" onClick={this.onSubmit.bind(this)}>
-                  {Lang.get('fields.accept')}
+                  {Lang.get('fields.save')}
                 </a>
               }
               &nbsp;

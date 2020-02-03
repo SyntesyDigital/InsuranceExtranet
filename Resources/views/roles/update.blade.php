@@ -1,7 +1,9 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="roles-update">
+<div id="roles-update" 
+  roleId="{{$id or null}}"
+>
 </div>
 
 @endsection
@@ -11,8 +13,7 @@
   var routes = {
     'extranet.roles.index' : "{{route('extranet.roles.index')}}",
     'extranet.roles.create' : "{{route('extranet.roles.create')}}",
-    'extranet.roles.duplicate' : "{{route('extranet.roles.duplicate',['id' => 1])}}",
-    'extranet.roles.delete' : "{{route('extranet.roles.delete',['id' => 1])}}",
+    'extranet.roles.duplicate' : "{{route('extranet.roles.duplicate',['id' => ':id'])}}",
   };
 </script>
 @endpush

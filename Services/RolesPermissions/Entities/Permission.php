@@ -29,7 +29,7 @@ class Permission extends Model
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'roles_permissions', 'role_id', 'permission_id');
+        return $this->belongsToMany(Role::class, 'roles_permissions', 'permission_id', 'role_id');
     }
 
     public function group(): HasOne

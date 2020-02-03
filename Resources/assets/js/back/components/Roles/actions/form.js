@@ -1,21 +1,17 @@
 import {
   INIT_STATE,
-  CREATE_ROLE,
-  UPDATE_ROLE,
-  LOAD_PERMISSION,
   UPDATE_FIELD,
-  OPEN_MODAL_CREATE_GROUP,
-  OPEN_MODAL_EDIT_GROUP,
-  CANCEL_EDIT_GROUP,
-  UPDATE_GROUP,
-  SAVE_GROUP,
-  REMOVE_GROUP,
-  OPEN_MODAL_EDIT_PERMISSION,
-  CANCEL_EDIT_PERMISSION,
-  REMOVE_PERMISSION
+  UPDATE_GROUPS,
+  UPDATE_GROUP
 } from "../constants/";
 
 import {
+  mutation,
+  query,
+  GQL_GET_ROLE,
+  GQL_GET_GROUPS_PERMISSIONS
+  
+  /*
   getData,
   postCreateRole,
   postUpdateRole,
@@ -29,130 +25,136 @@ import {
   apiCreateRole,
   apiUpdateRole,
   apiRemoveRole,
+  */
 
 } from "../api/";
+
+import {
+  processGroups,
+  processRole
+} from "../functions";
 
 /**
  * Get form init data to fill state.
  */
-export function initState() {
+export function initState(roleId) {
 
-  return (dispatch) => {
+  //console.log("initState (roleId) ",roleId);
 
-    getData()
-      .then(function (data) {
-
-        dispatch({ type: INIT_STATE, data });
-      });
+  if(roleId === undefined || roleId == null || roleId == ''){
+    //create, load init state
+    return loadPermissionAndGroups();
+    
+  }
+  else {
+    //edit load role
+    return loadRole(roleId);
   }
 };
 
-export function updateField(name, value) {
-
-  return {
-    type: UPDATE_FIELD, payload: {
-      name: name,
-      value: value
-    }
-  };
-
-}
-
-// ==============================
-// Groups
-// ==============================
-
-export function openModalCreateGroup() {
-  return { type: OPEN_MODAL_CREATE_GROUP };
-}
-
-export function openModalEditGroup(group) {
-  return { type: OPEN_MODAL_EDIT_GROUP, payload: group };
-}
-
-export function updateGroup() {
-  return { type: UPDATE_GROUP };
-}
-
-export function cancelEditGroup() {
-  return { type: CANCEL_EDIT_GROUP };
-}
-
-export function saveGroup() {
-  return { type: SAVE_GROUP };
-}
-
-export function removeGroup(group) {
-  return { type: REMOVE_GROUP, payload: group };
-}
-
-// ==============================
-// Permissions
-// ==============================
-
-export function openModalEditPermission(permission) {
-  return { type: OPEN_MODAL_EDIT_PERMISSION, payload: permission };
-}
-
-export function cancelEditPermission() {
-  return { type: CANCEL_EDIT_PERMISSION };
-}
-
-export function removePermission(permission) {
-  return { type: REMOVE_PERMISSION, payload: permission };
-}
-
 /**
- * 
- * Everytime submit is pressed the state info is send to process.
- * 
- * @param {*} payload 
+ * Reload role information after permission group change.
  */
-export function submitRole(payload) {
+export function reload(roleId) {
 
-  //if not saved create
-  if (!payload.saved) {
-    return createRole(payload);
+  if(roleId === undefined || roleId == null || roleId == ''){
+    //create, load init state
+    return reloadPermissionAndGroups();
+    
   }
   else {
-    //else update
-    return updateRole(payload);
+    //edit load role
+    return reloadRole(roleId);
   }
 }
 
-export function createRole(payload) {
-
+export function loadRole(roleId) {
   return (dispatch) => {
 
-    postCreateRole(payload)
-      .then(function (data) {
+    //console.log("loadRole (roleId) ",roleId);
 
-        dispatch({ type: CREATE_ROLE, data });
-      })
+    query(GQL_GET_ROLE,{
+      id : roleId
+    })
+      .then(function (data) {
+        //console.log("loadRole : ",data);
+
+        var role = processRole(
+          data.data.role,
+          data.data.permissionGroups,
+          data.data.permissions
+        );
+
+        dispatch({ type: INIT_STATE, payload : role });
+      });
   }
 }
 
-export function updateRole(payload) {
-
+export function loadPermissionAndGroups() {
   return (dispatch) => {
 
-    postUpdateRole(payload)
+    //console.log("loadPermissionAndGroups () ");
+
+    query(GQL_GET_GROUPS_PERMISSIONS)
       .then(function (data) {
 
-        dispatch({ type: UPDATE_ROLE, data });
-      })
+        var groups = processGroups(data.data.permissionGroups,data.data.permissions);
+        
+        //process state
+        var role = {
+          id: null,
+          name: '',
+          identifier: '',
+          icon: '',
+          default: false,
+          groups : groups
+        }
+
+        //console.log("loadPermissionAndGroups : ",role);
+        dispatch({ type: INIT_STATE, payload : role });
+      });
   }
 }
 
-export function loadPermission(payload) {
-
+export function reloadPermissionAndGroups() {
   return (dispatch) => {
 
-    getPermission(payload)
+    //console.log("loadPermissionAndGroups () ");
+
+    query(GQL_GET_GROUPS_PERMISSIONS)
       .then(function (data) {
 
-        dispatch({ type: LOAD_PERMISSION, data });
-      })
-  }
+        console.log("reloadPermissionAndGroups ",data.data);
 
+        var groups = processGroups(data.data.permissionGroups,data.data.permissions);
+        
+        dispatch({ type: UPDATE_GROUPS, payload : groups });
+      });
+  }
+}
+
+export function reloadRole(roleId) {
+  return (dispatch) => {
+
+    //console.log("loadRole (roleId) ",roleId);
+
+    query(GQL_GET_ROLE,{
+      id : roleId
+    })
+      .then(function (data) {
+        //console.log("loadRole : ",data);
+
+        var role = processRole(
+          data.data.role,
+          data.data.permissionGroups,
+          data.data.permissions
+        );
+
+        dispatch({ type: UPDATE_GROUP, payload : role.groups });
+      });
+  }
+}
+
+export function updateField(name,value) {
+  return {type : UPDATE_FIELD, payload : {name : name, value : value}};
 }

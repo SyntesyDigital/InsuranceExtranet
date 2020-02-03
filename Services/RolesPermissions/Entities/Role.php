@@ -27,6 +27,8 @@ class Role extends Model
         'name',
         'description',
         'identifier',
+        'icon',
+        'default'
     ];
 
     public function permissions(): BelongsToMany

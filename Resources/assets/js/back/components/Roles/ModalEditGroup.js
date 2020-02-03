@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 
 import {
     cancelEditGroup,
-    updateGroup,
     saveGroup,
     removeGroup,
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 } from './actions';
 
 class ModalEditGroup extends Component {
@@ -19,15 +21,60 @@ class ModalEditGroup extends Component {
         super(props);
 
         this.state = {
-
+            id : null,
+            name : '',
+            identifier : '',
+            order : 0
         };
 
+    }
+
+    /*
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(nextProps.group != null && prevState.id != nextProps.group.id) {
+            return nextProps.group;
+        }
+        
+        return null;
+      }
+    */
+
+    componentDidUpdate(prevProps,prevState) {
+        if(!prevProps.form.displayGroup && this.props.form.displayGroup) {
+            //modal is showing 
+            if(this.props.group != null) {
+                //edit
+                this.setState(this.props.group);
+            }
+            else {
+                //create
+                this.setState({
+                    id : null,
+                    name : '',
+                    identifier : '',
+                    order : 0
+                })
+            }
+        }
     }
 
     // ==============================
     // Handlers
     // ==============================
 
+<<<<<<< HEAD
+=======
+    handleFieldChange(name,value) {
+        const state = this.state;
+        state[name] = value;
+        this.setState(state);
+    }
+
+    handleSubmit() {
+        this.props.saveGroup(this.state);
+    }
+
+>>>>>>> dev
     handleCancel() {
         console.log("handleCancel Group");
         this.props.cancelEditGroup();
@@ -35,7 +82,7 @@ class ModalEditGroup extends Component {
 
     handleRemove() {
         console.log("handleRemove Group");
-        this.props.removeGroup(this.props.form.currentGroup);
+        this.props.removeGroup(this.state);
     }
 
     
@@ -45,7 +92,7 @@ class ModalEditGroup extends Component {
 
     render() {
 
-        const { currentGroup, displayGroup } = this.props.form;
+        const { displayGroup } = this.props.form;
 
         return (
             <Modal
@@ -57,27 +104,26 @@ class ModalEditGroup extends Component {
                 onModalClose={this.props.cancelEditGroup}
                 onCancel={this.props.cancelEditGroup}
                 onRemove={this.handleRemove.bind(this)}
-                // onSubmit={this.handleSubmit.bind(this)}
+                onSubmit={this.handleSubmit.bind(this)}
                 size={this.props.size}
             >
-                {currentGroup != null &&
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <InputField
-                                label={'Name'}
-                                name={'name'}
-                                value={currentGroup.name}
-                                onChange={this.props.updateGroup}
-                            />
-                            <InputField
-                                label="Identifier"
-                                name={'identifier'}
-                                value={currentGroup.identifier}
-                                onChange={this.props.onFieldChange}
-                            />
-                        </div>
+                
+                <div className="row">
+                    <div className="col-xs-12">
+                        <InputField
+                            label={'Name'}
+                            name={'name'}
+                            value={this.state.name}
+                            onChange={this.handleFieldChange.bind(this)}
+                        />
+                        <InputField
+                            label="Identifier"
+                            name={'identifier'}
+                            value={this.state.identifier}
+                            onChange={this.handleFieldChange.bind(this)}
+                        />
                     </div>
-                }
+                </div>
             </Modal>
 
         );
@@ -92,18 +138,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        saveGroup: (group) => {
+            return dispatch(saveGroup(group));
+        },
+        removeGroup: (group) => {
+            return dispatch(removeGroup(group));
+        },
         cancelEditGroup: () => {
             return dispatch(cancelEditGroup());
-        },
-        updateGroup: (name, value) => {
-            return dispatch(updateGroup(name, value));
-        },
-        removeGroup: (currentGroup) => {
-            return dispatch(removeGroup(currentGroup));
-        },
-        // saveGroup: (currentGroup) => {
-        //     return dispatch(saveGroup(currentGroup));
-        // },
+        }
     }
 }
 
