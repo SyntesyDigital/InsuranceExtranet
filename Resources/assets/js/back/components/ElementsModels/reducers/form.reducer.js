@@ -44,8 +44,7 @@ const initialState = {
 
 
 
-    form:
-    {
+    form: {
         id: 1,
         modele: 'CSRIN',
         name: 'Formulario 01',
