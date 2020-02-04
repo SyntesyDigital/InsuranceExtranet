@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 import { Provider } from "react-redux";
 import TemplateRedux from "./TemplateRedux";
-
 import configureStore from './configureStore'
 
 let store = configureStore();

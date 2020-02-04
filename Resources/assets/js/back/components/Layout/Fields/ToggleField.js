@@ -45,7 +45,7 @@ export default class ToggleField extends Component {
 ToggleField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func
 };
