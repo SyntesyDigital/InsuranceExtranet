@@ -45,7 +45,7 @@ class Login
     {
         $client = new Client();
 
-        $sessions = $client->get($WsUrl.'boBy/v2/WS_EXT2_SESSIONS', [
+        $sessions = $client->get($WsUrl.'boBy/v2/WS_EXT2_SESSIONS?perPage=100', [
           'headers' => [
               'Authorization' => 'Bearer '.$token,
           ],
