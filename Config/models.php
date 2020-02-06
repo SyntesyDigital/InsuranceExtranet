@@ -149,7 +149,36 @@ return [
         'fields' => [
 
         ]
-      ]
+      ],
+      'boolean' => [
+        'mapping' => 'boolean',
+        'identifier' => 'boolean',
+        'label' => 'Boolean',
+        'icon' => 'far fa-check-square',
+        'formats' => [],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault'
+        ],
+        'settings' => [
+          'booleanValues',
+          'conditionalVisibility',
+          'defaultValue'
+        ]
+      ],
+      'label' => [
+        'mapping' => 'LABEL',
+        'identifier' => 'label',
+        'label' => 'Label',
+        'icon' => 'fas fa-tags',
+        'formats' => [],
+        'rules' => [],
+        'settings' => [
+          'conditionalVisibility'
+        ]
+      ]  
     ],  // --- end fields ---
 
     'parameters' => [

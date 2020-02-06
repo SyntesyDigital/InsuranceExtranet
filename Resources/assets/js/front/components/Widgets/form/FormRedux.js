@@ -75,13 +75,17 @@ class FormComponent extends Component {
       for(var key in elementObject.fields){
         var field = elementObject.fields[key];
 
-        //TODO process different values depending of type ?
-        if(field.settings !== undefined && field.settings.defaultValue !== undefined &&
-          field.settings.defaultValue !== null && field.settings.defaultValue !== ''){
-            values[field.identifier] = field.settings.defaultValue;
-        }
-        else {
-            values[field.identifier] = '';
+        //labels are not processed
+        if(field.type != 'label'){
+          //TODO process different values depending of type ?
+          
+          if(field.settings !== undefined && field.settings.defaultValue !== undefined &&
+            field.settings.defaultValue !== null && field.settings.defaultValue !== ''){
+              values[field.identifier] = field.settings.defaultValue;
+          }
+          else {
+              values[field.identifier] = '';
+          }
         }
 
       }
@@ -130,6 +134,7 @@ class FormComponent extends Component {
 
       for(var key in this.state.elementObject.fields) {
         var field = this.state.elementObject.fields[key];
+        
         const FieldComponent = getFieldComponent(field.type);
 
         //check visibilitiy
@@ -245,6 +250,15 @@ class FormComponent extends Component {
           var field = this.state.elementObject.fields[key];
 
             var valid = validateField(field,this.state.values);
+            var visible = isVisible(field,this.props.parameters.formParameters,this.state.values);
+            
+            //if the field is not visible, is always valid
+            if(!visible){
+              valid = true;
+            }
+
+            //console.log("validateField :: (field,this.state.values, valid, visible )",field,this.state.values,valid, visible);
+
             if(!valid)
               errors[field.identifier] = !valid;
 

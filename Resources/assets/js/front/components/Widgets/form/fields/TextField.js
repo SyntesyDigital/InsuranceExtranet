@@ -45,6 +45,7 @@ class TextField extends Component
           </label>
         </div>
         <div className="col-sm-6">
+          
           <input
             type="text"
             name={field.identifier}

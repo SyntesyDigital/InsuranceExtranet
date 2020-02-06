@@ -6,7 +6,10 @@ use GuzzleHttp\Client;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Modules\Extranet\Entities\Session as UserSession;
+use Modules\Extranet\Entities\User;
+
 use Session;
+
 
 class VeosUserProvider implements UserProvider
 {
@@ -94,8 +97,10 @@ class VeosUserProvider implements UserProvider
             //if not has expired renew
             $user = json_decode(Session::get('user'));
 
+            $sessionUser = User::where('id_per',$user->id)->first();
+
             // Refresh user session token
-            $session = UserSession::where('token', $user->token)->first();
+            $session = UserSession::where('user_id', $sessionUser->id)->first();
 
             //if token expired redirect to login
             if ($this->isTokenExpired($user->token)) {
@@ -114,8 +119,13 @@ class VeosUserProvider implements UserProvider
             $user->token = $result->token;
 
             if ($session) {
+
+                $payload = json_decode($session->payload);
+                $payload->token = $result->token;
+
                 $session->update([
                     'token' => $result->token,
+                    'payload' => json_encode($payload)
                 ]);
             }
 
@@ -126,6 +136,12 @@ class VeosUserProvider implements UserProvider
     public function user()
     {
         return Session::has('user') ? json_decode(Session::get('user')) : false;
+    }
+
+    public function session()
+    {
+        return isset($this->user()->token) ? 
+            UserSession::where('token', $this->user()->token)->first() : false ;
     }
 
     public function attempt()

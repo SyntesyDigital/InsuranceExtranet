@@ -84,9 +84,9 @@ class UserController extends Controller
             ->make(true);
     }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
-        return view('extranet::users.update');
+        return view('extranet::users.update',["id"=>$id]);
     }
 
     public function delete(Request $request)

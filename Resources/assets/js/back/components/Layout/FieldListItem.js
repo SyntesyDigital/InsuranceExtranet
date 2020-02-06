@@ -5,22 +5,49 @@ export default class FieldListItem extends Component {
 
   constructor(props) {
     super(props);
-
-    this.onRemoveField = this.onRemoveField.bind(this);
-    this.onOpenSettings = this.onOpenSettings.bind(this);
   }
 
-  onRemoveField(event) {
-    event.preventDefault();
-    console.log('llega onRemoveField')
+  // ==============================
+  // Handlers
+  // ==============================
+
+  handleEdit(e) {
+    this.props.onEdit();
+  }
+
+  handleRemove(e) {
+    e.preventDefault();
+    var _this = this;
+
+    bootbox.confirm({
+        message: this.props.rempoveMessage !== undefined ? 
+          this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+        buttons: {
+            confirm: {
+                label: Lang.get('fields.si') ,
+                className: 'btn-primary'
+            },
+            cancel: {
+                label:  Lang.get('fields.no'),
+                className: 'btn-default'
+            }
+        },
+        callback: function (result) {
+            if(result){
+              _this.props.onRemove();
+            }
+        }
+    });
 
   }
 
-  onOpenSettings(event) {
-    event.preventDefault();
-    console.log('llega onOpenSettings')
-
+  handleOnChange(e) {
+    this.props.onChange(this.props.name, e.target.value);
   }
+
+  // ==============================
+  // Renderers
+  // ==============================
 
   renderIcons() {
 
@@ -34,7 +61,7 @@ export default class FieldListItem extends Component {
 
   render() {
 
-    const { identifier } = this.props;
+    const { identifier, isField } = this.props;
 
     return (
       <div id={"field-list-item-" + identifier} className="typology-field field-list-item">
@@ -51,24 +78,33 @@ export default class FieldListItem extends Component {
         </div>
 
         <div className="field-inputs">
-          <div className="row">
-            <div className="col col-xs-6 text-left">
-              {this.props.labelInputLeft}
+          {isField ? (
+            <div className="row">
+              <div className="col col-xs-6 text-left">
+                {this.props.labelField}
+              </div>
             </div>
-            <div className="col col-xs-6 text-left">
-              {this.props.labelInputRight}
-            </div>
-          </div>
+          ) : (
+              <div className="row">
+                <div className="field-name col-xs-6">
+                  <input type="text" className="form-control" name="name" value={this.props.labelInputLeft} onChange={this.handleOnChange.bind(this)} />
+                </div>
+                <div className="field-name col-xs-6">
+                  <input disabled type="text" className="form-control" name="identifier" value={this.props.labelInputRight} onChange={this.handleOnChange.bind(this)} />
+                </div>
+              </div>
+            )}
         </div>
+
 
         <div className="field-actions text-right" style={{
           paddingRight: '15px'
         }}>
 
-          <a href="" onClick={this.props.onClick}>
+          <a href="#" onClick={this.handleEdit.bind(this)}>
             <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}
           </a>
-          <a href="" className="remove-field-btn" onClick={this.onRemoveField}>
+          <a href="#" className="remove-field-btn" onClick={this.handleRemove.bind(this)}>
             &nbsp;&nbsp;
                 <i className="fa fa-trash"></i> {Lang.get('fields.delete')}
           </a>
@@ -81,10 +117,15 @@ export default class FieldListItem extends Component {
 
 FieldListItem.propTypes = {
   icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   icons: PropTypes.array,
   index: PropTypes.number,
   labelInputLeft: PropTypes.string,
-  labelInputRight: PropTypes.string
+  labelInputRight: PropTypes.string,
+  isField: PropTypes.bool,
+
+  //onEvents props
+  onEdit: PropTypes.func,
+  onRemove: PropTypes.func
 
 };

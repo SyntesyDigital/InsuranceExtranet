@@ -142,6 +142,8 @@ class RolesUpdateRedux extends Component {
                 sortable={false}
                 index={index}
                 length={this.props.form.role.groups.length}
+
+                //onEvents
                 onEdit={this.handleEditGroup.bind(this, item)}
                 onRemove={this.handleRemoveGroup.bind(this, item)}
                 //onUp={this.handleUpGroup.bind(this, item)}
@@ -151,7 +153,7 @@ class RolesUpdateRedux extends Component {
 
                 <div className="col-md-4">
                     <BoxInputAdd
-                        onClick={this.openModalEditPermision.bind(this, null, item)}
+                        onClick={this.handleEditPermission.bind(this, null, item)}
                     />
                 </div>
 

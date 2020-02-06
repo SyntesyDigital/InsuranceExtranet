@@ -64,7 +64,7 @@ function getPermissionIndex(group,permisisonId) {
 
 function formReducer(state = initialState, action) {
 
-    console.log("formReducer :: ", action.type, action.payload);
+    console.log("formReducer :: Roles", action.type, action.payload);
 
     let role = state.role;
     let index = -1;

@@ -1,7 +1,9 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="user-update"></div>
+<div id="user-update"
+  userId="{{$id or null}}"
+></div>
 @endsection
 
 @push('javascripts')

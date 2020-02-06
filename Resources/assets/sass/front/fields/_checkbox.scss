@@ -1,0 +1,15 @@
+.check-field {
+    label {
+        span.MuiTypography-root {
+            color:$brand-dark-color-1 !important;
+        }
+        &.is-invalid {
+            span.MuiIconButton-label {
+                color:$brand-danger !important;
+            }
+            span.MuiTypography-root {
+                color:$brand-danger !important;
+            }
+        }
+    }
+}

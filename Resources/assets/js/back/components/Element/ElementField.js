@@ -337,9 +337,14 @@ class ElementField extends Component {
 				}}>
 
 					<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
+
+					<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
+
+					{/*
 					{!configuration.required &&
 						<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
 					}
+					*/}
 
         </div>
       </div>),

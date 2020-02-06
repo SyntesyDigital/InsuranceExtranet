@@ -7,4 +7,5 @@
   const FILE = 'file';
   const RICHTEXT = 'richtext';
   const PARAMETERS = {!! json_encode(Config('models.parameters'), JSON_PRETTY_PRINT) !!};
+  const SESSION = {!! json_encode(Auth::session()->toArray(), JSON_PRETTY_PRINT) !!};
 </script>

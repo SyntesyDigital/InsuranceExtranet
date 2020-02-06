@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
 import BarTitle from '../../BarTitle';
 import ButtonPrimary from '../../ButtonPrimary';
 import ButtonSecondary from '../../ButtonSecondary';
 import CollapsableGroup from '../../CollapsableGroup';
-import ToggleField from '../../Fields/ToggleField';
 import ButtonDropdown from '../../ButtonDropdown';
 import {connect} from 'react-redux';
 

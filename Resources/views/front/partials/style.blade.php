@@ -101,6 +101,11 @@
     $loginButtonTextColor = isset($storedStylesFront['loginButtonTextColor']) ? $storedStylesFront['loginButtonTextColor']->value : $secondaryColor;
     $loginButtonHoverTextColor = isset($storedStylesFront['loginButtonHoverTextColor']) ? $storedStylesFront['loginButtonHoverTextColor']->value : $primaryColor;
 
+    //FORM
+    $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
+    $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
+    $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+
 ?>
 
 <style type="text/css">
@@ -114,6 +119,7 @@
 @include('extranet::front.partials.styles.element-form')
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
+@include('extranet::front.partials.styles.form')
 
 @if($frontFont)
   <style>

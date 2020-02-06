@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import Modal from '../Layout/Modal';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
+import { connect } from 'react-redux';
+
+import {
+    closeTest
+} from './actions';
 
 
-export default class ModalTestForm extends Component {
+class ModalTestForm extends Component {
 
     constructor(props) {
 
@@ -23,16 +28,19 @@ export default class ModalTestForm extends Component {
                 title={this.props.title}
                 display={this.props.display}
                 zIndex={10000}
-                onModalClose={this.props.onModalClose}
+                onModalClose={this.props.closeTest}
                 size={this.props.size}
+                deleteButton={false}
+                submitButton={false}
             >
                 <div className="row page-content form-fields">
                     <CollapsableGroup
                         identifier='1'
-                        title='POST / Sinister /...'
+                        title='POST / Sinister / 234'
                     >
                         <InputFieldJsonEdit
                             label={'JSON'}
+                            data={this.props.form.test}
                         />
 
                     </CollapsableGroup>
@@ -42,12 +50,30 @@ export default class ModalTestForm extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        form: state.form
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        closeTest: () => {
+            return dispatch(closeTest());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalTestForm);
+
 ModalTestForm.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
-    size: PropTypes.string.isRequired
+    size: PropTypes.string.isRequired,
+
+    onModalClose: PropTypes.func
 };
 

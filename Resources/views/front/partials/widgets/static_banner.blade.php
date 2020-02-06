@@ -22,9 +22,9 @@
   @endphp
 
     <div id="{{$field['settings']['htmlId'] or ''}}" class="static-banner {{$field['settings']['htmlClass'] or ''}}">
-      <div class="col-md-4 image-static-banner" style="background-image:url('/{{$bannerImage}}')">
+      <div class="col-md-4 col-xs-12 image-static-banner" style="background-image:url('/{{$bannerImage}}')">
       </div>
-      <div class="col-md-8 text-static-banner">
+      <div class="col-md-8 col-xs-12 text-static-banner">
         {!! $bannerText !!}
       </div>
     </div>
