@@ -95,12 +95,14 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
     };
 };
 
-export function removeProcedureObject(procedure, object) {
+export function removeProcedureObject(procedures, procedure, object) {
+
+    var index = getProcedureIndex(procedures,procedure);
+    var objectIndex = getObjectIndex(procedure.objects,object);
+    procedures[index].objects.splice(objectIndex,1);
+
     return {
-        type: UPDATE_PROCEDURES, payload: {
-            procedure: procedure,
-            object: object
-        }
+        type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 

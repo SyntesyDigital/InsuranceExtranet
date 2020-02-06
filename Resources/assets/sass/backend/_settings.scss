@@ -15,3 +15,17 @@
 	}
 
 }
+
+.setup-field.version-2 {
+	.container-toggle-switch {
+		padding-top: 0px;
+		margin-bottom: 5px;
+		padding-right: 6px;
+		
+		label span {
+			color : $cms-dark-color-1;
+		}
+
+
+	}
+}

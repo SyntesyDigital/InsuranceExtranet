@@ -39,8 +39,6 @@ const initialState = {
     displayAddProcedures: false,
     currentProcedure: null,
 
-
-
     form: {
         id: 1,
         modele: 'CSRIN',
@@ -133,7 +131,33 @@ const initialState = {
                 ]
             }
         ]
-    }
+    },
+
+    test : {
+        "causeCirconstance": "cause",
+        "circonstance": "AUTOBDG",
+        "dateDeclaration": "04/09/2019",
+        "dateOuverture": "04/09/2019",
+        "dateSurvenance": "02/09/2019",
+        "dommages": "dommange",
+        "heureSurvenance": "09:45",
+        "idPol": "11000031",
+        "motif": "OUVSIN",
+        "mouvement": "OUVSIN",
+        "numCbt": "04/09/2019",
+        "numCie": "Non Communiqué",
+        "numSoc": "LYON",
+        "risque5": "France",
+        "type": "4",
+        "listPer": [{
+            "categ": "ASSURE",
+            "idPer": "11336083"
+        }, {
+            "categ": "USEREXT",
+            "idPer": "11336223"
+        }]
+        
+    },
 }
 
 

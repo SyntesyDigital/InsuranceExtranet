@@ -13,67 +13,12 @@ const initialState = {
     currentGroup: null,
     selectedPermission: null,
 
-    roles: [],
-    groups: [],
-    
     //user
     user: {
-        name: 'Name',
-        email: 'user.email@gmail.com'
+        lastname : ''
     },
-    groups: [
-        {
-            id: 1,
-            identifier: 'group_1',
-            name: 'Group 1',
-            permissions: [
-                {
-                    id: 1,
-                    identifier: 'permission_1',
-                    name: 'Permission 1',
-                    value: true
-                },
-                {
-                    id: 2,
-                    identifier: 'permission_2',
-                    name: 'Permission 2',
-                    value: true
-                }
-            ]
-        },
-        {
-            id: 2,
-            identifier: 'group_2',
-            name: 'Group 1',
-            permissions: [
-                {
-                    id: 3,
-                    identifier: 'permission_3',
-                    name: 'Permission 3',
-                    value: true
-                },
-                {
-                    id: 4,
-                    identifier: 'permission_4',
-                    name: 'Permission 4',
-                    value: false
-                }
-            ]
-        }
-    ],
-    roles: [{
-        id: 1,
-        identifier: 'admin',
-        name: 'Admin',
-        value: true
-    },
-    {
-        id: 2,
-        identifier: 'client',
-        name: 'Client',
-        value: false
-    }
-    ]
+    groups: [],
+    roles: []
 }
 
 
@@ -93,11 +38,11 @@ function formReducer(state = initialState, action) {
             }
 
         case LOAD_USER:
-            let user = state.user;
-            user[action.payload.name] = action.payload.value;
-
             return {
                 ...state,
+                user : action.payload.user,
+                roles : action.payload.roles,
+                groups : action.payload.groups
             }
 
         case UPDATE_USER_ROLE:

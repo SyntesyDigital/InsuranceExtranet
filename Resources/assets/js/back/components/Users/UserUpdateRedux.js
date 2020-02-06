@@ -40,9 +40,10 @@ class UserUpdateRedux extends Component {
             
         };
 
-        this.props.initState();
+        this.props.loadUser(this.props.userId);
     }
 
+    
     // ==============================
     // OnEvents
     // ==============================
@@ -124,7 +125,7 @@ class UserUpdateRedux extends Component {
             <div className="roles-update">
                 <BarTitle
                     icon={'fa fa-user'}
-                    title={this.props.form.user.name}
+                    title={this.props.form.user.lastname}
                     backRoute={routes['extranet.users.index']}
                 >
             

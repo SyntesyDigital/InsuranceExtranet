@@ -36,10 +36,11 @@ class ModalTestForm extends Component {
                 <div className="row page-content form-fields">
                     <CollapsableGroup
                         identifier='1'
-                        title='POST / Sinister /...'
+                        title='POST / Sinister / 234'
                     >
                         <InputFieldJsonEdit
                             label={'JSON'}
+                            data={this.props.form.test}
                         />
 
                     </CollapsableGroup>

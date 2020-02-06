@@ -7,6 +7,8 @@ import NumberField from './../fields/NumberField';
 import SelectField from './../fields/SelectField';
 import ListField from './../fields/ListField';
 import FileField from './../fields/FileField';
+import CheckField from './../fields/CheckField';
+import LabelField from './../fields/LabelField';
 
 import {
   HIDDEN_FIELD,
@@ -24,7 +26,9 @@ const fieldComponents = {
     select:SelectField,
     file:FileField,
     richtext:RichtextField,
-    list:ListField
+    list:ListField,
+    boolean : CheckField,
+    label : LabelField
 };
 
 export function getFieldComponent(type) {

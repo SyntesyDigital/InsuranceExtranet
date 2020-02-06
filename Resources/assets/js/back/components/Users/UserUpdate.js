@@ -16,12 +16,19 @@ export default class UserUpdate extends Component {
   render() {
     return (
       <Provider store={store}>
-          <UserUpdateRedux />
+          <UserUpdateRedux 
+            userId={this.props.userId}
+          />
       </Provider>
     );
   }
 }
 
 if (document.getElementById('user-update')) {
-  ReactDOM.render(<UserUpdate />, document.getElementById('user-update'));
+
+  var element = document.getElementById('user-update');
+
+  ReactDOM.render(<UserUpdate
+    userId={element.getAttribute('userId')}
+  />, document.getElementById('user-update'));
 }

@@ -44,6 +44,8 @@ $bootstrap-sass-asset-helper: true;
 // Components
 @import 'fields/map';
 @import 'fields/date';
+@import 'fields/checkbox';
+@import 'fields/label';
 
 @import 'widgets/paginator';
 @import 'widgets/lists';

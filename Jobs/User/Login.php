@@ -135,7 +135,7 @@ class Login
                         'session_id' => $currentSession,
                         'session_info' => $sessionInfo,
                     ];
-
+                    
                     \Session::put('user', json_encode($userData));
 
                     return $this->createUserSession($userData);

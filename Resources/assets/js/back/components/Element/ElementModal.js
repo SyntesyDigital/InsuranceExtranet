@@ -13,6 +13,7 @@ import FieldsSettings from './Settings/FieldsSettings';
 
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
+import BooleanValuesSettingsField from './Settings/BooleanValues/BooleanValuesSettingsField';
 
 
 import {
@@ -292,6 +293,17 @@ class ElementModal extends Component {
                       onFieldChange={this.handleFieldSettingsChange}
                     />
 
+                    {field != null && field.settings != null && field.settings.booleanValues !== undefined && 
+                      <BooleanValuesSettingsField
+                        field={field}
+                        name="booleanValues"
+                        source="settings"
+                        label="Valeurs booléennes"
+                        value={field.settings.booleanValues}
+                        onFieldChange={this.handleFieldSettingsChange}
+                      />
+                    }
+                    
                   </div>
                 </div>
               </div>

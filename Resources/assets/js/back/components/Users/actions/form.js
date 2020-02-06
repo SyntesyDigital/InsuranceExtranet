@@ -7,11 +7,15 @@ import {
 } from "../constants/";
 
 import {
-    apiGetUser,
-    apiUpdateUserRole,
-    apiUpdateUserPermission,
-  
+    query,
+    GQL_GET_USER
   } from "../api/";
+
+import {
+    processGroups
+  } from "../functions/";
+
+
 
 
 export function initState(payload) {
@@ -23,7 +27,33 @@ export function initState(payload) {
 // ==============================
 
 export function loadUser(userId) {
-    return { type: LOAD_USER, userId }
+
+    return (dispatch) => {
+
+        console.log("loadUser ",userId);
+
+        query(GQL_GET_USER,{
+            id : userId
+        })
+            .then(function (data) {
+                
+                console.log("loadUser : ",data);
+    
+                var groups = processGroups(
+                    data.data.permissionGroups,
+                    data.data.permissions,
+                    []
+                );
+
+                var payload = {
+                    user : data.data.user,
+                    groups : groups,
+                    roles : data.data.roles
+                };
+
+            dispatch({ type: LOAD_USER, payload : payload });
+        });
+    }
 };
 
 // ==============================

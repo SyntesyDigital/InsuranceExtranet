@@ -14,13 +14,13 @@ const client = new ApolloClient({
   request: operation => {
     operation.setContext({
       headers: {
-        authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUb2tlbiBBdXRoIiwiY29kZSI6IkNPTlQxNSIsImlkUGVyIjoiMTE0MTAzMDMiLCJjYXRlZyI6IlVTRVJFWFQiLCJpc3MiOiJ2ZW9zMiAtIFJFQ0VUVEUgLSBBUklMSU0iLCJsYW5ndWFnZSI6IkYiLCJleHAiOjE1Nzk4MDUwNzYsImlhdCI6MTU3OTc5NDI3Nn0.CDTLdt98Uh9q6s61WqpkGDLDhH_MO9xK-E69ALO4PzE`,
+        authorization: 'Bearer '+SESSION.token
       },
     });
   },
 });
 
-console.log("client => ",CURRENT_USER.token);
+console.log("client => ",SESSION.token);
 
 const IMPORT_USER = gql`
   mutation ImportUser($id_per: Int!){
