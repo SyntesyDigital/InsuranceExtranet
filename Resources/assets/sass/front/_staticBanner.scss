@@ -3,15 +3,23 @@
   margin: 20px 0;
 
   .image-static-banner{
-    height: 200px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    position: absolute;
+    height: 100%;
+    @include mq($until: 992) {
+      height: 290px;
+      position: unset;
+    }
   }
   .text-static-banner{
+    float: right;
     padding: 20px;
     h1, h2{
       margin-top:0px;
     }
   }
 }
+
+
