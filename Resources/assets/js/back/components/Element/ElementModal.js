@@ -133,7 +133,7 @@ class ElementModal extends Component {
             <div className="modal-content">
               <div className="container">
                 <div className="row">
-                  <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                  <div className="col-xs-12 col-md-8 col-md-offset-2">
 
                     <BooleanSettingsField
                       field={field}
