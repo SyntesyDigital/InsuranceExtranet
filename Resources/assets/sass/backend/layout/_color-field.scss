@@ -1,0 +1,15 @@
+.color-field {
+  padding-left:0px; 
+
+  &.inline {
+    label {
+      display:inline-block;
+      line-height: 37px;
+    }
+
+    .color-field-swatch {
+      display:inline-block;
+      margin-left: 15px;
+    }
+  }
+}

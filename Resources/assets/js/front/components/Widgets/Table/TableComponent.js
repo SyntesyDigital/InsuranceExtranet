@@ -204,6 +204,35 @@ export default class TableComponent extends Component {
 
     }
 
+    getConditionalFormating(field,value) {
+
+      value = value.toLowerCase();
+      
+      if(field.settings.conditionalFormatting !== undefined && 
+        field.settings.conditionalFormatting != null) {
+        
+        for(var key in field.settings.conditionalFormatting.conditions){
+          var condition = field.settings.conditionalFormatting.conditions[key];
+          if(value.indexOf(condition.value.toLowerCase()) != -1) {
+            //if the string is contained in the string
+            return {
+              color : condition.color,
+              backgroundColor : condition.backgroundColor,
+            };
+          }
+        }
+      }
+
+      return {};
+    }
+
+    hasConditionalFormatting(conditionalFormatting) {
+      if(conditionalFormatting.color !== undefined){
+        return true;
+      }
+      return false;
+    }
+
     renderCell(field,identifier,row) {
 
       var value = row.original[identifier];
@@ -252,6 +281,14 @@ export default class TableComponent extends Component {
           }
       }
 
+      var style = {};
+      var hasColor = false;
+      
+      if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
+        style=this.getConditionalFormating(field,value);
+        hasColor = this.hasConditionalFormatting(style);
+      }
+
       if(field.type == "file"){
         //console.log("Field with has Route => ",field,row.original);
         return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
@@ -268,7 +305,7 @@ export default class TableComponent extends Component {
         '</a>'}} />
       }
       else {
-        return value;
+        return <div className={hasColor ? 'has-color' : ''} style={style}>{value}</div>;
       }
 
     }
