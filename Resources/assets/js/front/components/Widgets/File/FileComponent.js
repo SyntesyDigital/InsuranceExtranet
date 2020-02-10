@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import CheckField from './fields/CheckField';
+import DefaultField from './fields/DefaultField';
+
 export default class FileComponent extends Component {
 
     constructor(props)
@@ -118,8 +121,9 @@ export default class FileComponent extends Component {
           if(column == 1 && index < numFieldsFirstColumn){
             columnRows.push(
               this.renderField(
-                elementObject.fields[i].name,
-                modelValues[key][elementObject.fields[i].identifier],
+                field,
+                field.name,
+                modelValues[key][field.identifier],
                 hasRoute
               )
             );
@@ -128,8 +132,9 @@ export default class FileComponent extends Component {
           if(column == 2 && index >= numFieldsFirstColumn){
             columnRows.push(
               this.renderField(
-                elementObject.fields[i].name,
-                modelValues[key][elementObject.fields[i].identifier],
+                field,
+                field.name,
+                modelValues[key][field.identifier],
                 hasRoute
               )
             );
@@ -138,8 +143,9 @@ export default class FileComponent extends Component {
           if(column == 0){
             columnRows.push(
               this.renderField(
-                elementObject.fields[i].name,
-                modelValues[key][elementObject.fields[i].identifier],
+                field,
+                field.name,
+                modelValues[key][field.identifier],
                 hasRoute
               )
             );
@@ -150,20 +156,25 @@ export default class FileComponent extends Component {
       return columnRows;
     }
 
-    renderField(name, value, hasRoute){
-      return (<div className="element-file-input-container">
-                <div className="col-xs-6 col-md-4 element-file-title">
-                  {name}
-                </div>
+    renderField(field, name, value, hasRoute){
 
-                <div className="col-xs-6 col-md-8 element-file-content"
-                  dangerouslySetInnerHTML={{__html: value}}
-                >
-                </div>
+      console.log("renderField :: field ",field,name,value);
 
+      switch(field.type) {
+        case 'boolean' : 
+          return <CheckField
+            field={field}
+            name={name}
+            value={value}  
+          />
+        default : 
+          return <DefaultField 
+            field={field}
+            name={name}
+            value={value}
+          />
+      }
 
-                <div  />
-              </div>);
     }
 
     render() {

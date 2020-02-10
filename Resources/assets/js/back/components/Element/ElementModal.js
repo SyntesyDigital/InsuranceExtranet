@@ -14,6 +14,7 @@ import FieldsSettings from './Settings/FieldsSettings';
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 import BooleanValuesSettingsField from './Settings/BooleanValues/BooleanValuesSettingsField';
+import ConditionalFormattingSettingsField from './Settings/ConditionalFormatting/ConditionalFormattingSettingsField';
 
 
 import {
@@ -132,7 +133,7 @@ class ElementModal extends Component {
             <div className="modal-content">
               <div className="container">
                 <div className="row">
-                  <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                  <div className="col-xs-12 col-md-8 col-md-offset-2">
 
                     <BooleanSettingsField
                       field={field}
@@ -300,6 +301,17 @@ class ElementModal extends Component {
                         source="settings"
                         label="Valeurs booléennes"
                         value={field.settings.booleanValues}
+                        onFieldChange={this.handleFieldSettingsChange}
+                      />
+                    }
+
+                    {field != null && field.settings != null && field.settings.conditionalFormatting !== undefined && 
+                      <ConditionalFormattingSettingsField
+                        field={field}
+                        name="conditionalFormatting"
+                        source="settings"
+                        label="Mise en forme conditionnelle"
+                        value={field.settings.conditionalFormatting}
                         onFieldChange={this.handleFieldSettingsChange}
                       />
                     }

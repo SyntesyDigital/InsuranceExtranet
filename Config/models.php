@@ -25,7 +25,8 @@ return [
           'hasRoute',
           'hasModal',
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
+          'conditionalFormatting'
         ]
       ],
       'number' => [
@@ -48,7 +49,8 @@ return [
           'hasRoute',
           'hasModal',
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
+          'conditionalFormatting'
         ]
       ],
       'date' => [
@@ -92,7 +94,8 @@ return [
         'settings' => [
           'ws',
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
+          'conditionalFormatting'
         ]
       ],
       'file' => [
@@ -165,7 +168,7 @@ return [
         'settings' => [
           'booleanValues',
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
         ]
       ],
       'label' => [
