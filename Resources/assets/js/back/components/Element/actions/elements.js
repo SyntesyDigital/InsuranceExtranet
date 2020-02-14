@@ -12,7 +12,12 @@ import {
   HAS_MODAL_ELEMENTS_PARAMETERS_OPEN_MODAL,
   HAS_MODAL_ELEMENTS_PARAMETERS_CLOSE_MODAL,
   HAS_MODAL_ELEMENTS_PARAMETERS_UPDATE,
-  HAS_MODAL_ELEMENTS_PARAMETERS_CLEAR
+  HAS_MODAL_ELEMENTS_PARAMETERS_CLEAR,
+
+  HAS_MODAL_CONTENTS_OPEN_MODAL,
+  HAS_MODAL_CONTENTS_CLOSE_MODAL,
+  HAS_MODAL_CONTENTS_SELECT
+
 } from "../constants/";
 
 
@@ -88,3 +93,22 @@ export function clearElementParameters(parameter) {
   return {type : HAS_MODAL_ELEMENTS_PARAMETERS_CLEAR};
 
 }
+
+
+export function openModalElementRedirect() {
+
+  return {type : HAS_MODAL_CONTENTS_OPEN_MODAL};
+}
+
+export function closeModalElementRedirect() {
+
+  return {type : HAS_MODAL_CONTENTS_CLOSE_MODAL};
+
+}
+
+export function selectContentElementRedirect(content) {
+
+  return {type : HAS_MODAL_CONTENTS_SELECT,payload : content};
+
+}
+

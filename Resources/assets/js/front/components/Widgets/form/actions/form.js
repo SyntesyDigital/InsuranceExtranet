@@ -235,7 +235,10 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         }
 
       }
+      else if(!isConfigurable && isRepetable){
+        //by now this is not possible
 
+      }
     }
 
     //after procedure is done we obtain a jsonResult, with this jsonResult decide what to Do.
@@ -307,6 +310,17 @@ export function submitProcedure(procedure, jsonResult, formParameters) {
       procedure.SERVICE.URL,
       formParameters
     );
+
+    //if is request_parms need to be wrappen into json
+    if(procedure.SERVICE.P1 == 'requests_params'){
+      jsonResult = {
+        requests : [
+          {
+            params : jsonResult
+          }
+        ]
+      };
+    }
 
     var params = {
       method : procedure.SERVICE.METHODE,

@@ -52,6 +52,14 @@
     $frontBodyH1Color = isset($storedStylesFront['frontBodyH1Color']) ? $storedStylesFront['frontBodyH1Color']->value : $secondaryColor;
     $frontBodyH2Color = isset($storedStylesFront['frontBodyH2Color']) ? $storedStylesFront['frontBodyH2Color']->value : $secondaryColor;
     $frontBodyH3Color = isset($storedStylesFront['frontBodyH3Color']) ? $storedStylesFront['frontBodyH3Color']->value : $secondaryColor;
+    $frontBodyH4Color = isset($storedStylesFront['frontBodyH4Color']) ? $storedStylesFront['frontBodyH4Color']->value : $secondaryColor;
+    $frontBodyH5Color = isset($storedStylesFront['frontBodyH5Color']) ? $storedStylesFront['frontBodyH5Color']->value : $secondaryColor;
+
+    $frontBodyH1FontSize = isset($storedStylesFront['frontBodyH1FontSize']) ? $storedStylesFront['frontBodyH1FontSize']->value.'px' : '36px';
+    $frontBodyH2FontSize = isset($storedStylesFront['frontBodyH2FontSize']) ? $storedStylesFront['frontBodyH2FontSize']->value.'px' : '30px';
+    $frontBodyH3FontSize = isset($storedStylesFront['frontBodyH3FontSize']) ? $storedStylesFront['frontBodyH3FontSize']->value.'px' : '24px';
+    $frontBodyH4FontSize = isset($storedStylesFront['frontBodyH4FontSize']) ? $storedStylesFront['frontBodyH4FontSize']->value.'px' : '18px';
+    $frontBodyH5FontSize = isset($storedStylesFront['frontBodyH5FontSize']) ? $storedStylesFront['frontBodyH5FontSize']->value.'px' : '14px';
 
   //ELEMENTS
     $elementBorder = isset($storedStylesFront['frontElementBorder']) ? $storedStylesFront['frontElementBorder']->value : $bodyBackgroundColor;

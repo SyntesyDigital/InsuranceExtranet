@@ -67,6 +67,9 @@ class ModalTable extends Component {
       var modelId = modalUrl;
       var parameters = "";
 
+      //modal Url format is [element_id]?[param_key]=[param_value]&[param_key_2]=[param_value_2]
+      //Example : 75?id_pol=11061240;
+
       if(typeof modalUrl === 'string' && modalUrl.indexOf("?") != -1){
         var urlArray = modalUrl.split('?');
         modelId = urlArray[0];

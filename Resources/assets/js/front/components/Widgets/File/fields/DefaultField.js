@@ -13,7 +13,7 @@ class DefaultField extends Component
   getConditionalFormating() {
 
     let {field,value} = this.props;
-    value = value.toLowerCase();
+    value = typeof value === 'string' ? value.toLowerCase() : value;
     
 
     if(field.settings.conditionalFormatting !== undefined && 
@@ -21,7 +21,10 @@ class DefaultField extends Component
       
       for(var key in field.settings.conditionalFormatting.conditions){
         var condition = field.settings.conditionalFormatting.conditions[key];
-        if(value.indexOf(condition.value.toLowerCase()) != -1) {
+        var conditionValue = condition.value === 'string' ? 
+          condition.value.toLowerCase() : condition.value;
+
+        if(value.indexOf(conditionValue) != -1) {
           //if the string is contained in the string
           return {
             color : condition.color,

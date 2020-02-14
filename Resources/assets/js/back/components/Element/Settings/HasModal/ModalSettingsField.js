@@ -130,7 +130,9 @@ class ModalSettingsField extends Component {
     return {
       id : null,
       title : '',
-      params : {}
+      params : {},
+      type : '',
+      redirect : null
     };
   }
 
@@ -222,11 +224,11 @@ class ModalSettingsField extends Component {
 
             <div className="field-inputs">
               <div className="row">
-                <div className="field-name col-xs-6">
+                <div className="field-name col-xs-2" style={{padding:0}}>
 
                 </div>
 
-                <div className="field-name col-xs-6">
+                <div className="field-name col-xs-10" style={{padding:0}}>
                   <ElementParametersButton
                   />
                 </div>
