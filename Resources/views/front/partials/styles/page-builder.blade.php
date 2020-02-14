@@ -3,12 +3,23 @@
 /*PAGE*/
 .page-builder h1{
   color:{{$frontBodyH1Color}};
+  font-size:{{$frontBodyH1FontSize}};
 }
 .page-builder h2{
   color:{{$frontBodyH2Color}};
+  font-size:{{$frontBodyH2FontSize}};
 }
 .page-builder h3{
   color:{{$frontBodyH3Color}};
+  font-size:{{$frontBodyH3FontSize}};
+}
+.page-builder h4{
+  color:{{$frontBodyH4Color}};
+  font-size:{{$frontBodyH4FontSize}};
+}
+.page-builder h5{
+  color:{{$frontBodyH5Color}};
+  font-size:{{$frontBodyH5FontSize}};
 }
 
 .total-box-container-a{
@@ -38,7 +49,7 @@
   background-color:{{$sidebarBackgroundColor}}
 }
 .static-banner .text-static-banner h1, .static-banner .text-static-banner a{
-  color: {{$buttonPrimaryColor}};
+  color: {{$primaryColor}};
 }
 
 /* button primary */

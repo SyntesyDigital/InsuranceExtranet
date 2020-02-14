@@ -16,6 +16,7 @@
   color: {{$elementHeadCollapsableColor}};
   font-size: {{$titleCollapsableFontSize}};
   padding-bottom:10px;
+  padding-left: 35px;
 }
 
 .element-file-container .element-file-container-body{

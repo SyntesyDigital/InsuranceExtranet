@@ -12,7 +12,12 @@ import {
   HAS_MODAL_ELEMENTS_PARAMETERS_OPEN_MODAL,
   HAS_MODAL_ELEMENTS_PARAMETERS_CLOSE_MODAL,
   HAS_MODAL_ELEMENTS_PARAMETERS_UPDATE,
-  HAS_MODAL_ELEMENTS_PARAMETERS_CLEAR
+  HAS_MODAL_ELEMENTS_PARAMETERS_CLEAR,
+
+  HAS_MODAL_CONTENTS_OPEN_MODAL,
+  HAS_MODAL_CONTENTS_CLOSE_MODAL,
+  HAS_MODAL_CONTENTS_SELECT
+
 } from '../constants';
 
 /*
@@ -38,7 +43,10 @@ const initialState =  {
 
   //parameters
   //parameters : [],  //page parameters to define
-  displayParameters : false
+  displayParameters : false,
+
+  displayContents : false,
+  content : null
 }
 
 /*
@@ -55,6 +63,8 @@ function getElementParamsValue(elementParams,id) {
 
 function mergeElementInfo(element,data) {
 
+  //console.log("elements.reduces : mergeElementInfo : (element,data)",element,data);
+
   //get the new element with new information and parameters
 
   //set value to default
@@ -68,7 +78,8 @@ function mergeElementInfo(element,data) {
     id : data.id,
     title : data.name,
     icon : data.icon,
-    params : data.parameters
+    params : data.parameters,
+    type : data.type
   };
 
   //if not yet element set, get this new element
@@ -94,6 +105,26 @@ function elementsReducer(state = initialState, action) {
     const {element} = state;
 
     switch(action.type) {
+
+        case HAS_MODAL_CONTENTS_OPEN_MODAL:
+            return {
+              ...state,
+              displayContents : true
+            }
+        
+        case HAS_MODAL_CONTENTS_CLOSE_MODAL:
+            return {
+              ...state,
+              displayContents : false
+            }
+
+        case HAS_MODAL_CONTENTS_SELECT : 
+            return {
+              ...state,
+              content : action.payload,
+              displayContents : false
+            }
+
         case HAS_MODAL_ELEMENTS_OPEN_MODAL:
 
             return {
@@ -121,6 +152,7 @@ function elementsReducer(state = initialState, action) {
             return {
               ...state,
               element: null,
+              content : null,
               needUpdate : true
             }
         case HAS_MODAL_ELEMENTS_CLEAR :
@@ -128,6 +160,7 @@ function elementsReducer(state = initialState, action) {
             return {
               ...state,
               element: null,
+              contents : null,
               needUpdate : false
             }
 

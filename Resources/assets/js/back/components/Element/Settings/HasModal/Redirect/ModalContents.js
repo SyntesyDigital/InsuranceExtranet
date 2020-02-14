@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
 import {
-  closeModalElements,
-  selectElement
-} from './../../actions/';
+  closeModalContents,
+  selectContent
+} from './../actions/';
 
-import ElementDataTable from './ElementDataTable';
+import ContentDataTable from './ContentDataTable';
 
-class ModalElements extends Component {
+class ModalContents extends Component {
 
   constructor(props) {
     super(props);
@@ -17,8 +17,9 @@ class ModalElements extends Component {
     this.handleFieldSettingsChange = this.handleFieldSettingsChange.bind(this);
     this.onModalClose = this.onModalClose.bind(this);
 
+
     this.state = {
-      id : 'modal-elements',
+      id : 'modal-contents',
       isOpen : false,
       zIndex : 12000
     };
@@ -32,11 +33,11 @@ class ModalElements extends Component {
   onModalClose(e) {
     e.preventDefault();
 
-    this.props.closeModalElements();
+    this.props.closeModalContents();
   }
 
   componentWillReceiveProps(nextProps) {
-      console.log("ModalElements :: ",nextProps);
+      console.log("ModalContents :: ",nextProps);
 
       if(nextProps.display != this.state.isOpen){
           if(nextProps.display){
@@ -77,16 +78,17 @@ class ModalElements extends Component {
       });
   }
 
-  processElement(element) {
+  getModalRoute() {
+    return routes["contents.data"]+'?is_page=1&has_slug=1';
+  }
 
-    console.log("processElement :: ",element);
+  processContent(content) {
+
 
     var data = {
-      id : element.id,
-      title : element.name,
-      icon : element.icon,
-      params : [],
-      type : element.type
+      id : content.id,
+      title : content.title,
+      params : []
     };
 
     return data;
@@ -94,14 +96,16 @@ class ModalElements extends Component {
 
   handleSelectItem(item){
 
-    console.log("ElementSelectModal :: handleSelectItem => ",item);
+    console.log("ContentSelectModal :: handleSelectItem => ",item);
 
     if(item != null){
-      this.props.selectElement(this.processElement(item));
+      this.props.selectContent(this.processContent(item));
     }
   }
 
   render() {
+
+    var route = this.getModalRoute();
 
     return (
       <div style={{zIndex:this.state.zIndex}}>
@@ -110,7 +114,7 @@ class ModalElements extends Component {
             <div className="modal-container">
               <div className="modal-header">
 
-                  <h2>Sélectionner l'element</h2>
+                  <h2>{Lang.get('fields.select_content')}</h2>
 
                 <div className="modal-buttons">
                   <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
@@ -124,8 +128,9 @@ class ModalElements extends Component {
                   <div className="row">
                     <div className="col-xs-12">
 
-                        <ElementDataTable
+                        <ContentDataTable
                           init={this.state.isOpen}
+                          route={route}
                           onSelectItem={this.handleSelectItem.bind(this)}
                         />
 
@@ -149,19 +154,19 @@ class ModalElements extends Component {
 const mapStateToProps = state => {
     return {
         app: state.app,
-        display: state.elements.display,
+        display: state.contents.display,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        closeModalElements: () => {
-            return dispatch(closeModalElements());
+        closeModalContents: () => {
+            return dispatch(closeModalContents());
         },
-        selectElement: (element) => {
-            return dispatch(selectElement(element));
+        selectContent: (content) => {
+            return dispatch(selectContent(content));
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalElements);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalContents);

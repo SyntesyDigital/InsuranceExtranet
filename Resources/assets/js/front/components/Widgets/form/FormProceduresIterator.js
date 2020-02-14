@@ -35,24 +35,6 @@ class FormProceduresIterator extends Component {
 
       if(this.props.form.iterating) {
 
-        /*
-        const {procedures,currentProcedureIndex, stepsToProcess} = this.props.form;
-        const procedure = procedures[currentProcedureIndex];
-
-        //if the procedures no finished
-
-        if(currentProcedureIndex < procedures.length )
-        //if the methode is PUT set with a get
-        if(!stepsToProcess
-          && procedure.SERVICE !== undefined && procedure.SERVICE.METHODE == "PUT"){
-          //set the jsonResult with a get
-          return this.props.getJsonResultBeforePut(
-            procedure,
-            this.props.parameters.formParameters
-          );
-        }
-        */
-
         console.log("FormProceduresIterator :: start interate (props.form) ",this.props.form);
 
         //if there is something to iterate
@@ -74,19 +56,6 @@ class FormProceduresIterator extends Component {
         this.props.onFinish();
       }
 
-      /*
-      if(!prevProps.parameters.iterated && this.props.parameters.iterated){
-        //if iteration finished
-
-      }
-
-      /*
-      if(prevProps.someValue!==this.props.someValue){
-        //Perform some operation here
-        this.setState({someState: someValue});
-        this.classMethod();
-      }
-      */
     }
 
     render() {
@@ -113,11 +82,6 @@ const mapDispatchToProps = dispatch => {
         return dispatch(processProcedure(procedures,currentProcedureIndex, values,
             currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone))
       }
-      /*
-      iterateParameters: (formIterator,formParameters,variables) => {
-          return dispatch(iterateParameters(formIterator,formParameters,variables));
-      },
-      */
     }
 }
 
