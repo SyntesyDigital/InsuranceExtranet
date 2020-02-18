@@ -97,6 +97,14 @@
 
     $fonts = config('fonts');
 
+    //BOX TOTAL
+    $elementNumberColor = isset($storedStylesFront['elementNumberColor']) ? $storedStylesFront['elementNumberColor']->value : '#2A3649';
+    $backgroundColorIcon = isset($storedStylesFront['backgroundColorIcon']) ? $storedStylesFront['backgroundColorIcon']->value : '#eef0f4';
+    $iconColor = isset($storedStylesFront['iconColor']) ? $storedStylesFront['iconColor']->value : '#98a0aa';
+    $titleColor = isset($storedStylesFront['titleColor']) ? $storedStylesFront['titleColor']->value : '#2A3649';
+    $borderRadiusBox = isset($storedStylesFront['borderRadiusBox']) ? $storedStylesFront['borderRadiusBox']->value.'px' : $buttonRadius;
+    $backgroundColorIconOpacity = isset($storedStylesFront['backgroundColorIconOpacity']) ? $storedStylesFront['backgroundColorIconOpacity']->value : '1';
+    $boxShadowOpacity = isset($storedStylesFront['boxShadowOpacity']) ? $storedStylesFront['boxShadowOpacity']->value : '0';
     //LOGIN
 
    // $loginBackgroundColor = isset($storedStylesFront['loginBackgroundColor']) ? $storedStylesFront['loginBackgroundColor']->value : $bodyBackgroundColor;
@@ -128,6 +136,7 @@
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
 @include('extranet::front.partials.styles.form')
+@include('extranet::front.partials.styles.total-box')
 
 @if($frontFont)
   <style>

@@ -25,8 +25,8 @@ body {
     min-height: 125px;
     display: flex;
     flex-direction: row;
-    border-radius: 0;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // border-radius: 0;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   
     .title{
       @include font(16,18,400);
@@ -46,6 +46,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-left: 1px;
   
       i{
         font-size: 50px;

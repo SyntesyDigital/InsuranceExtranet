@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 //import Paginator from './../Common/Paginator';
 //import ReactDataGrid from 'react-data-grid';
 //import { Toolbar, Data } from "react-data-grid-addons";
+import NumberFormat from 'react-number-format';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -76,11 +77,9 @@ export default class TotalBox extends Component {
     render() {
         return (
             <div>
-              {this.state.total}
+              <NumberFormat value={this.state.total} displayType={'text'} thousandSeparator={true} renderText={value => <div>{value}</div>}/>
             </div>
-
         );
-
     }
 }
 
