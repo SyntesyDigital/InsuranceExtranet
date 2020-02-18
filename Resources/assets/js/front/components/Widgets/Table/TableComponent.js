@@ -87,8 +87,13 @@ export default class TableComponent extends Component {
           var link = $(e.target).closest('.modal-link');
           var url = link.data('modal');
 
+          //url has format [element_id]?[params]:[redirect_url]
+          var urlArray = url.split(":");
+          var elementUrl = urlArray[0];
+          var redirectUrl = urlArray[1];
+
           //console.log("modal link => ",link,url);
-          self.props.onOpenModal(url);
+          self.props.onOpenModal(elementUrl,redirectUrl);
         });
     }
 
