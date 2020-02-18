@@ -36,7 +36,7 @@
   @endif
 
     <div id="{{$field['settings']['htmlId'] or ''}}" class="total-box-container {{$field['settings']['htmlClass'] or ''}}">
-      <div class="col-md-8 container-parameters">
+      <div class="col-md-8 col-sm-8 col-xs-8 container-parameters">
         <div id="totalBox" class="totalBox"
           elementObject="{{base64_encode(json_encode($elementObject))}}"
           model="{{base64_encode(json_encode($model))}}"
@@ -45,7 +45,7 @@
         </div>
         <div class="title">{{$title}}</div>
       </div>
-      <div class="col-md-4 container-icon">
+      <div class="col-md-4 col-sm-4 col-xs-4 container-icon">
           <i class="{{$icon}}"></i>
       </div>
       
