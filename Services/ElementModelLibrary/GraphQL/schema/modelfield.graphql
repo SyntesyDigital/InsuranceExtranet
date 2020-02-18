@@ -1,0 +1,29 @@
+################################
+#   INPUT
+################################
+input CreateModelFieldInput {
+    name: String!
+    identifier: String!
+    type: String!
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}
+
+input UpdateModelFieldInput {
+    id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}

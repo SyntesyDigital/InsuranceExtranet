@@ -35,6 +35,6 @@ class ElementModel extends Model
 
     public function procedures(): HasMany
     {
-        return $this->hasMany(ModelProcedure::class, 'model_id', 'id');
+        return $this->hasMany(ModelProcedure::class, 'id', 'model_id');
     }
 }

@@ -8,9 +8,9 @@ type ModelProcedure {
     required: String
     repeatable: String
     repeatable_json: String
-    service: Service! @hasOne
+    service: Service! @belongsTo
+    elementModel: ElementModel! @belongsTo
     fields: [ModelField!]! @hasMany
-    model: ElementModel! @hasOne
 }
 
 type ModelField {
@@ -33,12 +33,27 @@ type ModelField {
 ################################
 
 input CreateServiceBelongsTo {
-  connect: ID
-  create: CreateServiceInput
-  update: UpdateServiceInput
-  upsert: UpdateServiceInput
+    connect: ID
+    create: CreateServiceInput
+    update: UpdateServiceInput
 }
 
+input CreateElementModelBelongsTo {
+    connect: ID
+    create: CreateElementModelInput
+    update: UpdateElementModelInput
+}
+
+input CreateModelFieldHasMany {
+    connect: [ID!]
+    sync: [ID!]
+    create: [CreateModelFieldInput!]
+    update: [UpdateModelFieldInput!]
+    upsert: [UpdateModelFieldInput!]
+}
+
+
+# PROCEDURE
 input CreateModelProcedureInput {
     name: String!
     configurable: String
@@ -46,9 +61,10 @@ input CreateModelProcedureInput {
     repeatable: String
     repeatable_json: String
     service: CreateServiceBelongsTo
-    #fields: ModelFieldsInput
-    #model: ElementModelInput
+    elementModel: CreateElementModelBelongsTo
+    fields: CreateModelFieldHasMany
 }
+
 
 input UpdateModelProcedureInput {
     id: ID!
@@ -59,52 +75,9 @@ input UpdateModelProcedureInput {
     repeatable_json: String
     #fields: ModelFieldsInput
     #model: ElementModelInput
-    service: CreateServiceBelongsTo
+    #service: CreateServiceBelongsTo
 }
 
-input CreateModelFieldInput {
-    name: String!
-    identifier: String!
-    type: String!
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
-}
-
-input UpdateModelFieldInput {
-    id: ID!
-    name: String!
-    identifier: String!
-    type: String!
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
-}
-
-input ElementModelInput {
-    connect: [ID!]
-    sync: [ID!]
-    create: [CreateElementModelInput!]
-    update: [CreateElementModelInput!]
-    upsert: [UpdateElementModelInput!]
-}
-
-
-input ModelFieldsInput {
-    connect: [ID!]
-    sync: [ID!]
-    create: [CreateModelFieldInput!]
-    update: [UpdateModelFieldInput!]
-    upsert: [UpdateModelFieldInput!]
-}
 
 
 ################################
