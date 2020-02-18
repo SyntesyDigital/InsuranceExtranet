@@ -122,7 +122,8 @@ function elementsReducer(state = initialState, action) {
             return {
               ...state,
               content : action.payload,
-              displayContents : false
+              displayContents : false,
+              needUpdate : true
             }
 
         case HAS_MODAL_ELEMENTS_OPEN_MODAL:
@@ -160,15 +161,19 @@ function elementsReducer(state = initialState, action) {
             return {
               ...state,
               element: null,
-              contents : null,
+              content : null,
               needUpdate : false
             }
 
         case HAS_MODAL_ELEMENTS_INIT :
 
+            var newContent = action.payload.redirect !== undefined ? 
+              action.payload.redirect : null;
+
             return {
               ...state,
               element: action.payload,
+              content : newContent,
               needUpdate : false
             }
 
