@@ -1,6 +1,5 @@
 
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
 import {
@@ -10,6 +9,8 @@ import {
 import {
   checkValidParameters
 } from './../../functions/';
+
+import RedirectButton from './Redirect/RedirectButton';
 
 class ElementParametersButton extends Component {
 
@@ -46,29 +47,6 @@ class ElementParametersButton extends Component {
 
   }
 
-  /*
-  componentWillReceiveProps(nextProps) {
-
-    var valid = true;
-    var loading = true;
-
-    console.log("ElementParametersButton :: componentWillReceiveProps ",nextProps.elements.element.params);
-
-    if(nextProps.elements.element !== undefined &&
-      nextProps.elements.element != null ){
-
-        valid = checkValidParameters(nextProps.elements.element.params);
-        loading = false;
-    }
-
-    this.setState({
-      valid : valid,
-      loading : loading
-    });
-
-  }
-  */
-
   onButtonPressed(event) {
     event.preventDefault();
 
@@ -78,6 +56,11 @@ class ElementParametersButton extends Component {
   }
 
   render() {
+
+    const element =  this.props.elements.element;
+    console.log("ParameterButton element => ",element);
+    const hasRedirect = element !== undefined && element != null && 
+      element.type !== undefined && element.type == 'form';
 
     return (
       <div>
@@ -94,6 +77,12 @@ class ElementParametersButton extends Component {
             </span>
           }
         </a>
+        &nbsp;&nbsp;
+        { hasRedirect &&
+          <RedirectButton
+          />
+        }
+
       </div>
     );
   }

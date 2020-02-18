@@ -89,7 +89,6 @@ export default class TableComponent extends Component {
 
           //console.log("modal link => ",link,url);
           self.props.onOpenModal(url);
-
         });
     }
 

@@ -59,14 +59,16 @@
 }
 .element-collapsable{
   cursor: pointer;
+  padding-left: 40px;
+
   &.collapsed{
     &:before{
       content: "\25B8";
       margin-right: 0px;
       position: absolute;
       top: 9px;
-      right: 19px;
-      font-size: 18px;
+      left: 15px;
+      font-size: 22px;
       color: $primary-color;
     }
   }
@@ -75,11 +77,12 @@
     margin-right: 0px;
     position: absolute;
     top: 9px;
-    right: 19px;
-    font-size: 18px;
+    left: 15px;
+    font-size: 22px;
     color: $primary-color;
   }
 }
+
 .more-btn{
   text-align: right;
   padding:15px;
