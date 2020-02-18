@@ -23,7 +23,8 @@ export default class ElementTable extends Component {
         super(props);
         this.state = {
           displayModal : false,
-          modalUrl : null
+          modalUrl : null,
+          redirectUrl : null
         };
         this.tableRef = React.createRef();
     }
@@ -31,12 +32,13 @@ export default class ElementTable extends Component {
     /**
     * Open modal with url [element_id]?[params]
     */
-    handleOpenModal(elementUrl){
+    handleOpenModal(elementUrl,redirectUrl){
       //console.log("ElementTable :: handleOpenModal : ",elementUrl);
 
       this.setState({
         displayModal : true,
-        modalUrl : elementUrl
+        modalUrl : elementUrl,
+        redirectUrl : redirectUrl
       });
     }
 
@@ -65,6 +67,7 @@ export default class ElementTable extends Component {
                 zIndex={1000}
                 onModalClose={this.handleModalClose.bind(this)}
                 modalUrl={this.state.modalUrl}
+                redirectUrl={this.state.redirectUrl}
                 onOpenModal={this.handleOpenModal.bind(this)}
                 onFormFinished={this.handleFormFinished.bind(this)}
               />

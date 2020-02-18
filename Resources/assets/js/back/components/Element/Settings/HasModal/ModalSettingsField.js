@@ -70,6 +70,7 @@ class ModalSettingsField extends Component {
     var checkbox = null;
     var display = false;
     var element = null;
+    var redirect = null;
     var initialised = false;
 
     console.log("ModalSettingsField :: componentWillRecieveProps :: ",nextProps);
@@ -87,15 +88,18 @@ class ModalSettingsField extends Component {
       */
 
       console.log("ModalSettingsField :: processProps : nextProps.elements.element => ", nextProps.elements.element);
+      console.log("ModalSettingsField :: processProps : nextProps.elements.redirect => ", nextProps.elements.content);
       //element came always from redux
       element = nextProps.elements.element != null ?
         nextProps.elements.element : null;
+      redirect = nextProps.elements.content !== undefined && nextProps.elements.content != null ?
+        nextProps.elements.content : null;
     }
 
     //if element changed
     console.log("ModalSettingsField :: need updated :: => checkbox => ", checkbox," , needupdate => ",nextProps.elements.needUpdate);
     if(checkbox && nextProps.elements.needUpdate){
-      this.handleElementUpdate(element);
+      this.handleElementUpdate(element,redirect);
     }
 
     this.setState({
@@ -148,9 +152,9 @@ class ModalSettingsField extends Component {
     this.props.onFieldChange(field);
   }
 
-  handleElementUpdate(element) {
+  handleElementUpdate(element,redirect) {
 
-    console.log("ModalSettingsField :: handleElementUpdate => , initialised => ",this.initialised,"element =>", element);
+    console.log("ModalSettingsField :: handleElementUpdate  (element,redirect)", element, redirect);
 
     if(this.initialised) {
 
@@ -158,6 +162,7 @@ class ModalSettingsField extends Component {
 
         if(element != null){
           elementValue = element;
+          elementValue.redirect = redirect;
           this.loadElementParameters(element.id);
         }
 

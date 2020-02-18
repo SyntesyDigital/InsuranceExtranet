@@ -63,7 +63,7 @@ class ElementParametersButton extends Component {
       element.type !== undefined && element.type == 'form';
 
     return (
-      <div>
+      <div style={{minWidth : 300}}>
 
         <a href="" className="btn btn-default btn-parameters" onClick={this.onButtonPressed.bind(this)}> paramètres &nbsp;
           {!this.state.valid && !this.state.loading &&

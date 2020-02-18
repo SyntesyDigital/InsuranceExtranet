@@ -176,7 +176,8 @@ class ModalTable extends Component {
             <FormComponent
               elementObject={this.state.element}
               parameters={this.state.parameters}
-              finalRedirectUrl={""}
+              finalRedirectUrl={this.props.redirectUrl != null ? 
+                this.props.redirectUrl : ''}
               onFormFinished={this.handleFormFinished.bind(this)}
             />
           </div>

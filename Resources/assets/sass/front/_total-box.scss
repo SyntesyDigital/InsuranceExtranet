@@ -1,0 +1,60 @@
+body {
+  .total-box-container-a {
+    width: 100%;
+    color: $primary-color;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .total-box-container {
+    color: $primary-color;
+    background-color: #fff;
+    text-align: left;
+    min-height: 125px;
+    display: flex;
+    flex-direction: row;
+    @media (max-width: 991px) {
+      margin-bottom: 20px;
+    }
+
+    .title {
+      @include font(16, 18, 400);
+      text-transform: uppercase;
+      i {
+        margin-right: 4px;
+      }
+    }
+    .totalBox {
+      margin-bottom: 10px;
+      font-size: 2.5vw;
+      @media (max-width: 991px) {
+        font-size: 45px;
+      }
+      font-weight: 100;
+      line-height: 35px;
+    }
+
+    .container-icon {
+      background-color: #eef0f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1px;
+
+      i {
+        font-size: 2.5vw;
+        @media (max-width: 991px) {
+          font-size: 50px;
+        }
+        color: #98a0aa;
+      }
+    }
+    .container-parameters {
+      padding-right: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}

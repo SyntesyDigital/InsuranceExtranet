@@ -42,28 +42,33 @@ class ModelValuesFormatTransformer extends Resource
         return json_encode($this->toArray($request));
     }
 
+    private function getContentUrl($contentId) {
+        if (!isset($this->contentUrls[$contentId])) {
+            //get the url
+            $content = Content::find($contentId);
+            $this->contentUrls[$contentId] = $content->url;
+            $url = $content->url;
+        } else {
+            $url = $this->contentUrls[$contentId];
+        }
+        return $url;
+    }
+
     private function processContent($hasRoute, $modelValue, $value)
     {
         if (isset($hasRoute['id'])) {
-            if (!isset($this->contentUrls[$hasRoute['id']])) {
-                //get the url
-                $content = Content::find($hasRoute['id']);
-                $this->contentUrls[$content->id] = $content->url;
-                $url = $content->url;
-            } else {
-                $url = $this->contentUrls[$hasRoute['id']];
-            }
-
+            $url = $this->getContentUrl($hasRoute['id']);
+            
             //process parameters
             if ($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0) {
                 $url .= '?';
 
                 //process parameters with model model values
                 $currentRouteParameters = $this->processParameters2Array(
-            $this->routeParameters,
-            $hasRoute['params'],
-            $modelValue
-          );
+                    $this->routeParameters,
+                    $hasRoute['params'],
+                    $modelValue
+                );
                 $url .= $this->arrayToUrl($currentRouteParameters);
             }
         }
@@ -246,9 +251,16 @@ class ModelValuesFormatTransformer extends Resource
                                     $result[$i][$elementField->identifier]
                                 );
 
-                                //get link with format [value];[id]?[params]
+                                $redirect = "";
+                                if(isset($elementField->settings['hasModal']['redirect'])){
+                                    $redirect = $this->getContentUrl(
+                                        $elementField->settings['hasModal']['redirect']['id']
+                                    );
+                                }
+                                
+                                //get link with format [value];[id]?[params]:[redirect_url]
                                 $result[$i][$elementField->identifier] =
-                                    $result[$i][$elementField->identifier].';'.$link;
+                                    $result[$i][$elementField->identifier].';'.$link.':'.$redirect;
                         }
                     }
                 }
