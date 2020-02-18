@@ -7,7 +7,15 @@ import ButtonDropdown from '../Layout/ButtonDropdown';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
 
-export default class ServicesUpdate extends Component {
+import {
+    mutation,
+    query,
+    GQL_GET_SERVICE,
+    GQL_CREATE_SERVICE,
+    GQL_UPDATE_SERVICE,
+} from './api/index.js';
+
+export default class ServiceForm extends Component {
 
     constructor(props) {
 
@@ -15,18 +23,11 @@ export default class ServicesUpdate extends Component {
 
         this.state = {
 
-            service:
-            {
-                id: 1,
-                identifiant: 'CSRIN',
-                name: 'Sinistre',
-                url: 'sinistre',
-                response: 'id',
-                methode: 'GET',
-                commentaire: 'modification sinistre',
-                P1: null,
-                P2: null
+            service: {
+                http_method : 'POST'
             },
+
+            errors: {},
 
             methodes: [
                 {
@@ -43,20 +44,75 @@ export default class ServicesUpdate extends Component {
                 },
             ],
 
-            
+
         };
 
 
     }
 
+    componentDidMount() {       
+        this.props.serviceId ? this.load() : null;
+    }
+
+    // ==============================
+    // Actions
+    // ==============================
+    load() {
+        mutation(GQL_GET_SERVICE, {
+            id: this.props.serviceId,
+        })
+            .then(function (payload) {
+                this.setState({
+                    'service': payload.data.service ? payload.data.service : null
+                });
+            }.bind(this));
+    }
+
+    save() {
+        mutation((this.state.service) && this.state.service.id ? GQL_UPDATE_SERVICE : GQL_CREATE_SERVICE , this.state.service)
+            .then(function (payload) {
+                payload.data.updateService 
+                    ? this.handleSaveSuccess(payload.data.updateService)
+                    : this.handleSaveSuccess(payload.data.createService)
+            }.bind(this))
+            .catch(function(error){
+                this.handleSaveError(error);
+            }.bind(this));
+    }
+
+
+
     // ==============================
     // Handlers
     // ==============================
 
+    handleSaveSuccess(service) {
+        this.setState({
+            service: service,
+            errors: {}
+        });
+        toastr.success('Service enregistré');
+    }
+
+    handleSaveError(error) {
+        toastr.error('Une erreur est survenue lors de l\'enregistrement du service');
+        
+        error.graphQLErrors.map(({ extensions }, i) => {
+            Object.keys(extensions.validation).map((k) => {
+                // FIXME: better way to do this ?
+                var errors = this.state.errors;
+                errors[k.split('.')[1]] = true;
+                this.setState({
+                    errors : errors
+                });
+            }, this);
+        }, this);
+    }
+
     handleFieldChange(name, value) {
-        console.log("handleFieldChange :: (name,value) ", name, value);
         const { service } = this.state;
         service[name] = value;
+
         this.setState({
             service: service
         });
@@ -67,9 +123,13 @@ export default class ServicesUpdate extends Component {
     }
 
     handleSubmit() {
-        console.log("handleSubmit");
+        this.save();
     }
 
+    onJsonChange(params) {
+        this.handleFieldChange('response', params.json);
+    }
+    
     // ==============================
     // Renderers
     // ==============================
@@ -77,12 +137,11 @@ export default class ServicesUpdate extends Component {
     render() {
 
         return (
-
             <div className="services-update">
 
                 <BarTitle
                     icon={'far fa-question-circle'}
-                    title={this.state.service.name}
+                    title={this.state.service.name ? this.state.service.name : 'Nouveau service'}
                     backRoute={routes['extranet.services.index']}
                 >
 
@@ -114,59 +173,74 @@ export default class ServicesUpdate extends Component {
                 <div className="container rightbar-page">
 
                     <div className="col-md-9 page-content form-fields">
-
                         <InputFieldJsonEdit
                             label={'JSON'}
                             width={'100%'}
+                            data={this.state.service.json ? JSON.parse(this.state.service.json) : {}}
+                            onChange={this.onJsonChange.bind(this)}
+                            
                         />
-
                     </div>
 
                     <div className="sidebar">
 
                         <InputField
                             label={'Identifier'}
-                            value={this.state.service.identifiant}
-                            name={'identifiant'}
+                            value={this.state.service.identifier ? this.state.service.identifier : ''}
+                            name={'identifier'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.identifier ? true : false}
                         />
 
                         <InputField
                             label={'Name'}
-                            value={this.state.service.name}
+                            value={this.state.service.name ? this.state.service.name : ''}
                             name={'name'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.name ? true : false}
                         />
 
                         <div className="form-group">
                             <SelectField
-                                label={'Methode'}
-                                value={this.state.service.methode}
-                                name={'methode'}
+                                label={'Methode HTTP'}
+                                value={this.state.service.http_method ? this.state.service.http_method : ''}
+                                name={'http_method'}
                                 arrayOfOptions={this.state.methodes}
                                 onChange={this.handleFieldChange.bind(this)}
+                                error={this.state.errors.http_method ? true : false}
                             />
                         </div>
 
                         <InputField
+                            label={'Boby (WS)'}
+                            value={this.state.service.boby ? this.state.service.boby : ''}
+                            name={'boby'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.boby ? true : false}
+                        />
+
+                        <InputField
                             label={'Url'}
-                            value={this.state.service.url}
+                            value={this.state.service.url ? this.state.service.url : ''}
                             name={'url'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.url ? true : false}
                         />
 
                         <InputField
                             label={'Response'}
-                            value={this.state.service.response}
+                            value={this.state.service.response ? this.state.service.response : ''}
                             name={'response'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.response ? true : false}
                         />
 
                         <InputField
                             label={'Commentaire'}
-                            value={this.state.service.commentaire}
-                            name={'commentaire'}
+                            value={this.state.service.comment ? this.state.service.comment : ''}
+                            name={'comment'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.comment ? true : false}
                         />
 
                     </div>
@@ -174,12 +248,12 @@ export default class ServicesUpdate extends Component {
             </div>
         );
     }
-
-
 }
 
-if (document.getElementById('services-update')) {
-    ReactDOM.render(<ServicesUpdate />, document.getElementById('services-update'));
+if (document.getElementById('services-form')) {
+    var element = document.getElementById('services-form');
+
+    ReactDOM.render(<ServiceForm serviceId={element.getAttribute('serviceId')} />, element);
 }
 
 

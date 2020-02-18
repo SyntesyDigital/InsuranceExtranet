@@ -32,6 +32,7 @@ class Service extends Model
         'http_method',
         'url',
         'boby',
+        'json',
         'response',
         'comment',
     ];

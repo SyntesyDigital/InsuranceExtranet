@@ -1,9 +1,10 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="services-update">
-</div>
-
+<div 
+    id="services-form" 
+    @if(isset($service))serviceId="{{$service->id}}"@endif
+></div>
 @endsection
 
 @push('javascripts')

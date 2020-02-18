@@ -11,7 +11,6 @@ const client = new ApolloClient({
   },
 });
 
-
 export function mutation(mutation,variables) {
   return client
     .mutate({
