@@ -21,13 +21,14 @@ body {
     .title {
       @include font(16, 18, 400);
       text-transform: uppercase;
+      height: 35px;
       i {
         margin-right: 4px;
       }
     }
     .totalBox {
       margin-bottom: 10px;
-      font-size: 2.5vw;
+      // font-size: 2.5vw;
       @media (max-width: 991px) {
         font-size: 45px;
       }
@@ -36,16 +37,15 @@ body {
     }
 
     .container-icon {
-      background-color: #eef0f4;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-left: 1px;
 
       i {
-        font-size: 2.5vw;
+        // font-size: 2.5vw;
         @media (max-width: 991px) {
-          font-size: 50px;
+          // font-size: 50px;
         }
         color: #98a0aa;
       }
