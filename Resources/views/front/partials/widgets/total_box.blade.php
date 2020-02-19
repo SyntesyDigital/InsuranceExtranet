@@ -43,7 +43,8 @@
           parameters="{{$parameters}}"
         >
         </div>
-        <div class="title">{{$title}}</div>
+        <div class="title">{{ \Illuminate\Support\Str::limit($title, 45, $end='...') }}</div>
+        
       </div>
       <div class="col-md-4 col-sm-4 col-xs-4 container-icon">
           <i class="{{$icon}}"></i>

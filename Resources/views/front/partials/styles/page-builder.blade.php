@@ -28,7 +28,7 @@
 
 .total-box-container{
   color:{{$elementColor}};
-  border-radius: {{$buttonRadius}};
+  /* border-radius: {{$buttonRadius}}; */
 }
 
 .box-button-container-a .box-button-container:hover{

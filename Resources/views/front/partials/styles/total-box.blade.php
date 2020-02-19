@@ -1,6 +1,7 @@
 <style type="text/css">
     body .total-box-container .title{
         color: {{$titleColor}}; 
+        font-size: {{$fontSizeLabel}}
     }
     body .total-box-container{
         border-radius: {{$borderRadiusBox}};
@@ -13,14 +14,15 @@
     }
     body .total-box-container .container-icon{
         background-color: {{$backgroundColorIcon}};
-        opacity: {{$backgroundColorIconOpacity/100}};
+        border-top-right-radius: {{$borderRadiusBox}};
+        border-bottom-right-radius: {{$borderRadiusBox}};
     }
     body .total-box-container .container-icon i{
         color: {{$iconColor}};
+        font-size: {{$fontSizeIcon}};
     }
-    body .total-box-container .container-icon {
-        border-top-right-radius: {{$borderRadiusBox}};
-        border-bottom-right-radius: {{$borderRadiusBox}};
+    body .total-box-container .totalBox{
+        font-size: {{$fontSizeNumbers}};
     }
 </style>
 
