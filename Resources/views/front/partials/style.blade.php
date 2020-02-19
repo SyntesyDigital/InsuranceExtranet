@@ -104,8 +104,8 @@
     $titleColor = isset($storedStylesFront['titleColor']) ? $storedStylesFront['titleColor']->value : '#2A3649';
     $borderRadiusBox = isset($storedStylesFront['borderRadiusBox']) ? $storedStylesFront['borderRadiusBox']->value.'px' : $buttonRadius;
     $boxShadowOpacity = isset($storedStylesFront['boxShadowOpacity']) ? $storedStylesFront['boxShadowOpacity']->value : '0';
-    $fontSizeIcon = isset($storedStylesFront['fontSizeIcon']) ? $storedStylesFront['fontSizeIcon']->value.'px' : '2.5vw';
-    $fontSizeNumbers = isset($storedStylesFront['fontSizeNumbers']) ? $storedStylesFront['fontSizeNumbers']->value.'px' : '2.5vw';
+    $fontSizeIcon = isset($storedStylesFront['fontSizeIcon']) ? $storedStylesFront['fontSizeIcon']->value.'px' : '45px';
+    $fontSizeNumbers = isset($storedStylesFront['fontSizeNumbers']) ? $storedStylesFront['fontSizeNumbers']->value.'px' : '40px';
     $fontSizeLabel = isset($storedStylesFront['fontSizeLabel']) ? $storedStylesFront['fontSizeLabel']->value.'px' : '16px';
 
     //LOGIN
