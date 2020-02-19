@@ -126,9 +126,7 @@ export const GQL_DELETE_SERVICE = gql`
         $id: ID!
     ) {
         deleteService(
-            input: {
-                id: $id
-            }
+            id: $id
         ) {
             id
             name

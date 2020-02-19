@@ -5,20 +5,24 @@ import ButtonPrimary from '../Layout/ButtonPrimary';
 import DataTable from '../Layout/DataTable';
 import Separator from '../Layout/Separator';
 
+import {
+    mutation,
+    query,
+    GQL_DELETE_SERVICE,
+} from './api/index.js';
+
 export default class ServicesIndex extends Component {
 
     // ==============================
     // Handlers
     // ==============================
-
-    handleRemoveItem(id) {
-        console.log("ServicesIndex :: removeItem :: (id) ", id);
-    }
-
-    handleDatatableClick(type, payload) {
+    handleDatatableClick(type, payload, datatable) {
         switch (type) {
             case 'delete':
-                this.handleRemoveItem(payload);
+                mutation(GQL_DELETE_SERVICE, {id: payload}).then(function (payload) {
+                    datatable.ajax.reload();
+                    toastr.success('Service supprimé !');
+                });
                 return;
             default:
                 return;
