@@ -9,10 +9,9 @@ export default class FormComponentTemp extends Component {
     }
 
     render() {
-
         return (
             <div>
-                FormComponentTemp.js
+                <p>FormComponentTemp.js</p>
             </div>
           );
     }
@@ -21,3 +20,4 @@ export default class FormComponentTemp extends Component {
 if (document.getElementById('elementFormTemp')) {
     ReactDOM.render(<FormComponentTemp/>, document.getElementById('elementFormTemp'));
 }
+
