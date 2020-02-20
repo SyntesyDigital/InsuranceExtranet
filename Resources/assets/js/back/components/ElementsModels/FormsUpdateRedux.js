@@ -49,13 +49,11 @@ class FormsUpdateRedux extends Component {
     
     handleEditProcedure(procedure){
         console.log("handleEditProcedure", procedure);
-        this.props.openModalEditProcedure(procedure);
-    }
 
-    handleFieldChange(name, value){
-        const { currentProcedure } = this.props.form;
-        this.props.updateProcedureField(currentProcedure, name, value);
-        console.log("handleFieldChange", currentProcedure, name, value);
+        //clone the object not send the reference
+        procedure = JSON.parse(JSON.stringify(procedure));
+
+        this.props.openModalEditProcedure(procedure);
     }
 
     handleCreateProcedure(){
@@ -108,7 +106,6 @@ class FormsUpdateRedux extends Component {
                     //onEvents
                     onEdit={this.handleEditProcedure.bind(this, procedure)}
                     onRemove={this.handleRemoveProcedure.bind(this, procedure)}
-                    onChange={this.handleFieldChange.bind(this)}
                 />
             </div>
         )
@@ -140,7 +137,9 @@ class FormsUpdateRedux extends Component {
                     size={'medium-large'}
                     title={'Test Json'}
                     display={this.props.form.displayEditProcedures}
+                    procedure={this.props.form.currentProcedure}
                     zIndex={10000}
+                    
                 />
 
                 <BarTitle
@@ -268,14 +267,6 @@ const mapDispatchToProps = dispatch => {
             return dispatch(saveForm(form));
         },
 
-        createForm: (form) => {
-            return dispatch(createForm(form));
-        },
-
-        updateForm: (form) => {
-            return dispatch(updateForm(form));
-        },
-
         removeForm: (form) => {
             return dispatch(removeForm(form));
         },
@@ -291,10 +282,6 @@ const mapDispatchToProps = dispatch => {
         // ==============================
         // Procedures
         // ==============================
-
-        updateProcedureField: (procedure, name, value) => {
-            return dispatch(updateProcedureField(procedure, name, value));
-        },
 
         removeProcedure:(procedures,procedure) => {
             return dispatch(removeProcedure(procedures,procedure));

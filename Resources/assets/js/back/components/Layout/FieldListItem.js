@@ -80,7 +80,7 @@ export default class FieldListItem extends Component {
         <div className="field-inputs">
           {isField ? (
             <div className="row">
-              <div className="col col-xs-6 text-left">
+              <div className="col col-xs-12 text-left">
                 {this.props.labelField}
               </div>
             </div>

@@ -20,15 +20,8 @@ const initialState = {
 
     saved: true,
 
-    //Groups
-    currentGroup: null,
-
-    //Permissions
-    selectedPermission: null,
-
     //Objects
     displayEditObject: false,
-    displayAddObject: false,
     currentObject: null,
 
     //Test
@@ -36,7 +29,6 @@ const initialState = {
 
     //Procedures
     displayEditProcedures: false,
-    displayAddProcedures: false,
     currentProcedure: null,
 
     form: {
@@ -68,8 +60,7 @@ const initialState = {
                         id : 1,
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
-                        icon: 'fas fa-calculator',
-                        format: 'Num',
+                        format: 'number',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -81,8 +72,7 @@ const initialState = {
                         id : 2,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        format: 'Text',
-                        icon: 'fas fa-font',
+                        format: 'text',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -107,7 +97,7 @@ const initialState = {
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
                         icon: 'fas fa-calculator',
-                        format: 'Num',
+                        format: 'number',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -119,7 +109,7 @@ const initialState = {
                         id : 4,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        format: 'Text',
+                        format: 'number',
                         icon: 'fas fa-font',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
@@ -204,7 +194,17 @@ function formReducer(state = initialState, action) {
         case OPEN_MODAL_CREATE_PROCEDURE:
             return {
                 ...state,
-                displayAddProcedures: true,
+                displayEditProcedures: true,
+                //add default procedure values
+                currentProcedure : {
+                    id: null,
+                    name: '',
+                    service: '',
+                    configurable: false,
+                    required: false,
+                    repeatable: false,
+                    objects: []
+                }
             }
 
         case OPEN_MODAL_EDIT_PROCEDURE:
@@ -233,14 +233,26 @@ function formReducer(state = initialState, action) {
             return {
                 ...state,
                 displayEditProcedures: false,
-                displayAddProcedures: false,
                 currentProcedure: null
             }
 
         case OPEN_MODAL_CREATE_OBJECT:
             return {
                 ...state,
-                displayAddObject: true,
+                displayEditObject: true,
+                //default current object
+                currentObject : {
+                    id : null,
+                    identifier: '',
+                    name: '',
+                    format: 'text',
+                    defaultValue: '',
+                    boby: '',
+                    jsonPath: '',
+                    example: '',
+                    configurable: false,
+                    visible: false
+                }
             }
 
         case OPEN_MODAL_EDIT_OBJECT:

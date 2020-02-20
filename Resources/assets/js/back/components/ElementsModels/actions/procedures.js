@@ -23,27 +23,44 @@ function getMaxId (list) {
 
 export function openModalCreateProcedure(procedures) {
 
-    var id = getMaxId(procedures);
-
-    var procedure = {
-        id: id,
-        name: 'Procedure '+id,
-        service: '',
-        configurable: false,
-        required: false,
-        repeatable: false,
-        objects: []
-    };
-
-    procedures.push(procedure);
-
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: OPEN_MODAL_CREATE_PROCEDURE
     };
 };
 
 export function openModalEditProcedure(procedure) {
     return { type: OPEN_MODAL_EDIT_PROCEDURE, payload: procedure };
+};
+
+export function saveProcedure(procedures,procedure) {
+
+    if(procedure.id == null){
+        return createProcedure(procedures,procedure);
+    }
+    else {
+        return updateProcedure(procedures,procedure);
+    }
+};
+
+export function createProcedure(procedures,procedure) {
+
+    //FIXME upate wit api result
+    procedure.id = 100;
+    procedures.push(procedure);
+
+    return { type: UPDATE_PROCEDURES, payload: procedures };
+};
+
+export function updateProcedure(procedures,procedure) {
+
+    var index = getProcedureIndex(procedures,procedure);
+
+    var objectsCopy = procedures[index].objects;
+    procedures[index] = procedure;
+    //objects are modified directly in the state
+    procedures[index].objects = objectsCopy;
+
+    return { type: UPDATE_PROCEDURES, payload: procedures };
 };
 
 export function removeProcedure(procedures,procedure) {
