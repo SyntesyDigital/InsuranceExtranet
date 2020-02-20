@@ -31,8 +31,9 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('http_method');
             $table->string('url');
             $table->string('boby');
-            $table->text('response');
-            $table->text('comment');
+            $table->text('json')->nullable();
+            $table->text('response')->nullable();
+            $table->text('comment')->nullable();
 
             $table->timestamps();
         });

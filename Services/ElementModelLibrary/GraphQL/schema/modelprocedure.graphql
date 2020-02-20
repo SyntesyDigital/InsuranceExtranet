@@ -13,71 +13,20 @@ type ModelProcedure {
     fields: [ModelField!]! @hasMany
 }
 
-type ModelField {
-    id: ID!
-    name: String!
-    identifier: String!
-    type: String
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
-}
-
 
 ################################
 #   INPUT
 ################################
-
-input CreateServiceBelongsTo {
-    connect: ID
-    create: CreateServiceInput
-    update: UpdateServiceInput
-}
-
-input CreateElementModelBelongsTo {
-    connect: ID
-    create: CreateElementModelInput
-    update: UpdateElementModelInput
-}
-
-input CreateModelFieldHasMany {
-    connect: [ID!]
-    sync: [ID!]
-    create: [CreateModelFieldInput!]
-    update: [UpdateModelFieldInput!]
-    upsert: [UpdateModelFieldInput!]
-}
-
-
-# PROCEDURE
-input CreateModelProcedureInput {
+input ModelProcedureInput {
+    id: ID
     name: String!
     configurable: String
     required: String
     repeatable: String
     repeatable_json: String
-    service: CreateServiceBelongsTo
-    elementModel: CreateElementModelBelongsTo
-    fields: CreateModelFieldHasMany
+    service_id: ID
+    model_id: ID
 }
-
-
-input UpdateModelProcedureInput {
-    id: ID!
-    name: String!
-    configurable: String
-    required: String
-    repeatable: String
-    repeatable_json: String
-    #fields: ModelFieldsInput
-    #model: ElementModelInput
-    #service: CreateServiceBelongsTo
-}
-
 
 
 ################################
@@ -89,12 +38,6 @@ extend type Query {
 
     modelProcedure(id: ID! @eq): ModelProcedure
         @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
-
-    modelFields: [ModelField!]!
-        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
-
-    modelField(id: ID! @eq): ModelField
-        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
 }
 
 
@@ -103,10 +46,10 @@ extend type Query {
 #   MUTATOR
 ################################
 extend type Mutation {
-    createModelProcedure(input: CreateModelProcedureInput! @spread): ModelProcedure
+    createModelProcedure(input: ModelProcedureInput! @spread): ModelProcedure
         @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
 
-    updateModelProcedure(input: UpdateModelProcedureInput! @spread): ModelProcedure
+    updateModelProcedure(input: ModelProcedureInput! @spread): ModelProcedure
         @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
 
     deleteModelProcedure(

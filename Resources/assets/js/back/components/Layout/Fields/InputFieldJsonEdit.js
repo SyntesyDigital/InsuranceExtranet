@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
+import locale from 'react-json-editor-ajrm/locale/fr';
 
 
 export default class InputFieldJsonEdit extends Component {
@@ -19,15 +19,17 @@ export default class InputFieldJsonEdit extends Component {
                 </label>
                 <JSONInput
                     id={this.props.id}
+                    value='{}'
                     className={this.props.className}
-                    placeholder={this.props.data} // data to display
+                    placeholder={this.props.data}
                     theme="light_mitsuketa_tribute"
-                    locale={locale}
+                    locale='fr'
                     colors={{
                         string: "#455660"
                     }}
                     height={this.props.height}
                     width={this.props.width}
+                    onChange={this.props.onChange}
                 />
             </div>
         )
