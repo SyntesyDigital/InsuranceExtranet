@@ -21,3 +21,4 @@ require('./components/Widgets/TableDocument');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/FileTemp/FileComponentTemp');
+ 
