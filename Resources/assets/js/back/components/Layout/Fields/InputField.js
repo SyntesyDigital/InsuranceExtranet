@@ -12,9 +12,9 @@ export default class InputField extends Component {
     }
 
     render() {
-        const { label } = this.props;
+        const { label, error } = this.props;
         return (
-            <div className="form-group bmd-form-group">
+            <div className={"form-group bmd-form-group" + (error ? ' has-error' : '')}>
                 <label className="bmd-label-floating">
                     {label}
                 </label>

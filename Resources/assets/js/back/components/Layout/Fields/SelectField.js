@@ -44,7 +44,7 @@ export default class SelectField extends Component {
         );
 
         return (
-            <div className="form-group bmd-form-group sidebar-item">
+            <div className={"form-group bmd-form-group sidebar-item" + (this.props.error ? ' has-error' : '')}>
                 <label htmlFor="parent_id" className="bmd-label-floating">
                     {label}
                 </label>

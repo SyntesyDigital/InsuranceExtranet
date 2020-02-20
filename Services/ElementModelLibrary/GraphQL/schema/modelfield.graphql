@@ -1,10 +1,11 @@
 ################################
-#   INPUT
+#   TYPE
 ################################
-input CreateModelFieldInput {
-    name: String!
-    identifier: String!
-    type: String!
+type ModelField {
+    id: ID!
+    name: String
+    identifier: String
+    type: String
     format: String 
     default_value: String 
     boby: String
@@ -14,11 +15,15 @@ input CreateModelFieldInput {
     visible: String
 }
 
-input UpdateModelFieldInput {
-    id: ID!
-    name: String!
-    identifier: String!
-    type: String!
+################################
+#   INPUT
+################################
+input ModelFieldInput {
+    id: ID
+    procedure_id: ID
+    name: String
+    identifier: String
+    type: String
     format: String 
     default_value: String 
     boby: String
@@ -26,4 +31,33 @@ input UpdateModelFieldInput {
     example: String 
     configurable: String 
     visible: String
+}
+
+
+################################
+#   QUERY
+################################
+extend type Query {
+    modelFields: [ModelField!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    modelField(id: ID! @eq): ModelField
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+}
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    createModelField(input: ModelFieldInput! @spread): ModelField
+        @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    updateModelField(input: ModelFieldInput! @spread): ModelField
+        @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    deleteModelField(
+        id: ID!
+    ): ModelField
+        @delete(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
 }

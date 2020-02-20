@@ -8,6 +8,7 @@ type Service {
     http_method: String!
     url: String!
     boby: String!
+    json: String
     response: String 
     comment: String
     procedures: [ModelProcedure!] @hasMany
@@ -24,27 +25,30 @@ input ServiceInput {
     http_method: String! @rules(apply: ["required"])
     url: String! @rules(apply: ["required"])
     boby: String! @rules(apply: ["required"])
+    json: String
     response: String 
     comment: String
 }
 
 input CreateServiceInput {
-    identifier: String! @rules(apply: ["required"])
-    name: String! @rules(apply: ["required"])
-    http_method: String! @rules(apply: ["required"])
-    url: String! @rules(apply: ["required"])
-    boby: String! @rules(apply: ["required"])
+    identifier: String @rules(apply: ["required"])
+    name: String @rules(apply: ["required"])
+    http_method: String @rules(apply: ["required"])
+    url: String @rules(apply: ["required"])
+    boby: String @rules(apply: ["required"])
+    json: String
     response: String 
     comment: String
 }
 
 input UpdateServiceInput {
     id: ID!
-    identifier: String!
-    name: String!
-    http_method: String!
-    url: String!
-    boby: String!
+    identifier: String @rules(apply: ["required"])
+    name: String @rules(apply: ["required"])
+    http_method: String @rules(apply: ["required"])
+    url: String @rules(apply: ["required"])
+    boby: String @rules(apply: ["required"])
+    json: String
     response: String 
     comment: String
 }
