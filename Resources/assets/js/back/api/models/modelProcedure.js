@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { mutation, query } from '../client.js';
 
 //------------------------------------------------------------//
-//          SERVICES 
+//          MODEL PROCEDURES 
 //------------------------------------------------------------//
 export let procedures = {
     get(id) {
@@ -64,38 +64,36 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
  *      comment (optional)
  */
 export const GQL_CREATE_MODEL_PROCEDURE = gql`
-  mutation createModelProcedure(
-        $name: String
-        $configurable: String
-        $required: String
-        $repeatable: String
-        $repeatable_json: String
-        $service: String 
-        $elementModel: String 
-        $fields: String
-    ) {
-        createModelProcedure(
-            input: {
-                name: $name
-                identifier: $identifier
-                http_method: $http_method
-                url: $url
-                boby: $boby
-                json: $json
-                response: $response
-                comment: $comment
-            }
+    mutation createModelProcedure(
+            $name: String
+            $configurable: String
+            $required: String
+            $repeatable: String
+            $repeatable_json: String
+            $service_id: ID! 
+            $model_id: ID! 
         ) {
-            name
-            configurable
-            required
-            repeatable
-            repeatable_json
-            service
-            elementModel
-            fields
-        }
-  } 
+            createModelProcedure(
+                input: {
+                    name: $name
+                    configurable: $configurable
+                    required: $required
+                    repeatable: $repeatable
+                    repeatable_json: $repeatable_json
+                    service_id: $service_id
+                    model_id: $model_id
+                }
+            ) {
+                name
+                configurable
+                required
+                repeatable
+                repeatable_json
+                service
+                elementModel
+                fields
+            }
+    } 
 `;
 
 /*
@@ -110,41 +108,38 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
  *      comment (optional)
  */
 export const GQL_UPDATE_MODEL_PROCEDURE = gql`
-  mutation updateService(
-        $id: ID!
-        $name: String
-        $identifier: String
-        $http_method: String
-        $url: String
-        $boby: String
-        $json: String
-        $response: String
-        $comment: String
-    ) {
-        updateService(
-            input: {
-                id: $id
-                name: $name
-                identifier: $identifier
-                http_method: $http_method
-                url: $url
-                boby: $boby
-                json: $json
-                response: $response
-                comment: $comment
-            }
+    mutation updateModelProcedure(
+            $id: ID!
+            $name: String
+            $configurable: String
+            $required: String
+            $repeatable: String
+            $repeatable_json: String
+            $service_id: ID
+            $model_id: ID
         ) {
-            id
-            name
-            identifier
-            http_method
-            url
-            boby
-            json
-            response
-            comment
-        }
-  } 
+            updateModelProcedure(
+                input: {
+                    id: $id
+                    name: $name
+                    configurable: $configurable
+                    required: $required
+                    repeatable: $repeatable
+                    repeatable_json: $repeatable_json
+                    service_id: $service_id
+                    model_id: $model_id
+                }
+            ) {
+                name
+                configurable
+                required
+                repeatable
+                repeatable_json
+                service
+                elementModel
+                fields
+            }
+    } 
 `;
 
 /*
