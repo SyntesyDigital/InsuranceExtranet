@@ -13,28 +13,40 @@ class Element extends Model
 {
     use HasUrl;
 
+    const FORM = 'form';
+    const FILE = 'file';
+    const TABLE = 'table';
+    const FORM_V2 = 'form-v2';
+
     const TYPES = [
-        'form' => [
-            'name' => 'Formulaire',
-            'identifier' => 'form',
-            'icon' => 'fa fa-list-alt',
-            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
-            'FORMAT' =>  'CR'
-        ],
-        'table' => [
+        Element::TABLE => [
             'name' => 'Tableau',
             'identifier' => 'table',
             'icon' => 'fa fa-table',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' =>  'TB'
         ],
-        'file' => [
+        Element::FILE => [
             'name' => 'Fiche',
             'identifier' => 'file',
             'icon' => 'fa fa-columns',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' =>  'FC'
         ],
+        Element::FORM => [
+            'name' => 'Formulaire v1.0',
+            'identifier' => 'form',
+            'icon' => 'fa fa-list-alt',
+            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
+            'FORMAT' =>  'CR'
+        ],
+        Element::FORM_V2 => [
+            'name' => 'Formulaire v2.0',
+            'identifier' => 'form-v2',
+            'icon' => 'fa fa-list-alt',
+            'WS_NAME' => '',
+            'FORMAT' =>  ''
+        ]
     ];
 
 

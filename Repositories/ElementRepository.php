@@ -45,13 +45,21 @@ class ElementRepository extends BaseRepository
     */
     public function getModelsByType($type)
     {
-        $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);
         $beans = [];
-        foreach ($allBeans as $bean) {
-          if($bean->FORMAT == Element::TYPES[$type]['FORMAT']){
-            $beans[]=$bean;
+
+        if($type == Element::FORM_V2){
+          
+        }
+        else {
+          $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);
+        
+          foreach ($allBeans as $bean) {
+            if($bean->FORMAT == Element::TYPES[$type]['FORMAT']){
+              $beans[]=$bean;
+            }
           }
         }
+
         return $beans;
     }
 
