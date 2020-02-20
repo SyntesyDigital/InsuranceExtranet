@@ -6,14 +6,7 @@ import InputField from '../Layout/Fields/InputField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
-
-import {
-    mutation,
-    query,
-    GQL_GET_SERVICE,
-    GQL_CREATE_SERVICE,
-    GQL_UPDATE_SERVICE,
-} from './api/index.js';
+import api from '../../api/index.js';
 
 export default class ServiceForm extends Component {
 
@@ -58,29 +51,29 @@ export default class ServiceForm extends Component {
     // Actions
     // ==============================
     load() {
-        mutation(GQL_GET_SERVICE, {
-            id: this.props.serviceId,
-        })
-            .then(function (payload) {
-                this.setState({
-                    'service': payload.data.service ? payload.data.service : null
-                });
-            }.bind(this));
+        api.services.get(this.props.serviceId)
+            .then(payload => this.setState({
+                'service': payload.data.service ? payload.data.service : null
+            }));
+    }
+
+    create() {
+        api.services.create(this.state.service)
+            .then(payload => this.handleSaveSuccess(payload.data.createService))
+            .catch(error => this.handleSaveError(error));
+    }
+
+    update() {
+        api.services.update(this.state.service.id, this.state.service)
+            .then(payload => this.handleSaveSuccess(payload.data.updateService))
+            .catch(error => this.handleSaveError(error));
     }
 
     save() {
-        mutation((this.state.service) && this.state.service.id ? GQL_UPDATE_SERVICE : GQL_CREATE_SERVICE , this.state.service)
-            .then(function (payload) {
-                payload.data.updateService 
-                    ? this.handleSaveSuccess(payload.data.updateService)
-                    : this.handleSaveSuccess(payload.data.createService)
-            }.bind(this))
-            .catch(function(error){
-                this.handleSaveError(error);
-            }.bind(this));
+        return this.state.service.id !== undefined 
+            ? this.update()
+            : this.create();
     }
-
-
 
     // ==============================
     // Handlers

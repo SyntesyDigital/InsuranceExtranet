@@ -1,4 +1,37 @@
 import { gql } from 'apollo-boost';
+import { mutation, query } from '../client.js';
+
+//------------------------------------------------------------//
+//          SERVICES 
+//------------------------------------------------------------//
+export let services = {
+    get(id) {
+        return query(GQL_GET_SERVICE, {
+            id: id,
+        });
+    },
+
+    delete(id) {
+        return mutation(GQL_DELETE_SERVICE, {
+            id: id,
+        });
+    },
+
+    update(id, params) {
+        return mutation(GQL_UPDATE_SERVICE, {
+            id: id,
+            ...params
+        });
+    },
+
+    create(params) {
+        return mutation(GQL_CREATE_SERVICE, params);
+    }
+}
+
+//------------------------------------------------------------//
+//          GRAPHQL
+//------------------------------------------------------------//
 
 /*
  *  GraphQL GET Service 
@@ -140,4 +173,3 @@ export const GQL_DELETE_SERVICE = gql`
         }
   } 
 `;
-

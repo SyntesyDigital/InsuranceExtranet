@@ -26,3 +26,5 @@ export function query(query,variables) {
       variables: variables,
     })
 }
+
+
