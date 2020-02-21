@@ -15,6 +15,14 @@ import api from '../../../api/index.js';
 
 //   } from "../api/";
 
+function transformElementModel(model) {
+    for(var key in model.procedures){
+        //model.procedures[key].service = model.procedures[key].service.id
+    }
+    return model;
+}
+
+
 export function initState(modelId) {
 
     if(modelId === undefined || modelId == null || modelId == '')
@@ -24,7 +32,10 @@ export function initState(modelId) {
         api.elementModel.get(modelId)
             .then(function(data) {
                 //console.log("initState :: (data) ",data);
-                dispatch({ type: INIT_STATE, payload : data.data.elementModel });
+                dispatch({ 
+                    type: INIT_STATE, 
+                    payload : transformElementModel(data.data.elementModel) 
+                });
             });
     }
 };

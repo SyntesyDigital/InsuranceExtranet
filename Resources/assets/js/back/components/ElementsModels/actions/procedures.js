@@ -42,7 +42,7 @@ export function saveProcedure(modelId,procedures,procedure) {
 
 export function createProcedure(modelId,procedures,procedure) {
 
-    console.log("createProcedure (procedure)",procedure);
+    //console.log("createProcedure (procedure)",procedure);
 
     return (dispatch) => {
         api.procedures.create({
@@ -57,7 +57,7 @@ export function createProcedure(modelId,procedures,procedure) {
         })
         .then(function(data) {
 
-            console.log("createProcedure : (data) ",data);
+            //console.log("createProcedure : (data) ",data);
 
             procedure.id = data.data.createModelProcedure.id;
             procedures.push(procedure);
@@ -68,11 +68,10 @@ export function createProcedure(modelId,procedures,procedure) {
     return { type: UPDATE_PROCEDURES, payload: procedures };
 };
 
-export function updateProcedure(procedures,procedure) {
+export function updateProcedure(modelId,procedures,procedure) {
 
     return (dispatch) => {
-        api.procedures.update({
-            id : procedure.id,
+        api.procedures.update(procedure.id,{
             name : procedure.name,
             configurable: procedure.configurable,
             required: procedure.required,

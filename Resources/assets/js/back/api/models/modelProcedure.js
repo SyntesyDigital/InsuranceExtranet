@@ -135,14 +135,12 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                     model_id: $model_id
                 }
             ) {
+                id
                 name
                 configurable
                 required
                 repeatable
                 repeatable_json
-                service
-                elementModel
-                fields
             }
     } 
 `;

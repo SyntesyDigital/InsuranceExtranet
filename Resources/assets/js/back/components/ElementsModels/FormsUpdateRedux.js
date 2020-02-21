@@ -118,7 +118,7 @@ class FormsUpdateRedux extends Component {
                         'fas fa-redo-alt'
                     ]}
                     labelInputLeft={procedure.name}
-                    labelInputRight={procedure.service}
+                    labelInputRight={procedure.service.name}
                     
                     //onEvents
                     onEdit={this.handleEditProcedure.bind(this, procedure)}

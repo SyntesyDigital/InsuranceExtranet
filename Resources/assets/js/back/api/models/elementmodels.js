@@ -62,6 +62,7 @@ export const GQL_GET_MODEL = gql`
             repeatable_jsonpath
             service {
                 id
+                name
             }
             fields {
                 id
