@@ -23,6 +23,7 @@
                 <div class="cell first-column">Nom</div>
                 <div class="cell first-column"></div>
               </div>
+              
               @foreach ($models as $model)
                 <div class="table-row">
                   <div class="cell second-column">

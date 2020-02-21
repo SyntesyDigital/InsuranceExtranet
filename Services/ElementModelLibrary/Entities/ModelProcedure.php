@@ -35,6 +35,7 @@ class ModelProcedure extends Model
         'required',
         'repeatable',
         'repeatable_json',
+        'repeatable_jsonpath'
     ];
 
     public function service(): BelongsTo

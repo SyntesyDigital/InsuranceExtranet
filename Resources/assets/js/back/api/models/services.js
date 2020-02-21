@@ -5,6 +5,11 @@ import { mutation, query } from '../client.js';
 //          SERVICES 
 //------------------------------------------------------------//
 export let services = {
+
+    getAll() {
+        return query(GQL_GET_ALL_SERVICE);
+    },
+
     get(id) {
         return query(GQL_GET_SERVICE, {
             id: id,
@@ -32,6 +37,22 @@ export let services = {
 //------------------------------------------------------------//
 //          GRAPHQL
 //------------------------------------------------------------//
+
+export const GQL_GET_ALL_SERVICE = gql`
+    {
+        services {
+            id
+            name
+            http_method
+            url
+            boby
+            json
+            identifier
+            response
+            comment
+        }
+    }
+`;
 
 /*
  *  GraphQL GET Service 

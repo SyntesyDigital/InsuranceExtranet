@@ -23,6 +23,8 @@ import {
 
 } from './actions';
 
+import api from '../../api/index.js';
+
 
 class ModalEditProcedures extends Component {
 
@@ -33,23 +35,42 @@ class ModalEditProcedures extends Component {
         this.state = {
             services: [
                 {
-                    name: 'service-01',
-                    value: 'Service-01'
-                },
-                {
-                    name: 'service-02',
-                    value: 'Service-02'
-                },
-                {
-                    name: 'service-03',
-                    value: 'Service-03'
-                },
+                    name: 'chargement...',
+                    value: ''
+                }
             ],
             procedure : null
         };
 
         this.handleChangeRepeatable = this.handleChangeRepeatable.bind(this);
 
+    }
+
+    componentDidMount() {
+        this.loadServices();
+    }
+
+    loadServices() {
+        var _this = this;
+        api.services.getAll()
+            .then(function(data){
+                //console.log("loadServices (data)",data);
+
+                var services = data.data.services.map((item) => {
+                    return {
+                        name : item.name,
+                        value : item.id
+                    }
+                });
+                services.unshift({
+                    name : '---',
+                    value : ''
+                });
+
+                _this.setState({
+                    services : services
+                })
+            });
     }
 
     componentDidUpdate(prevProps,prevState) {
@@ -113,6 +134,7 @@ class ModalEditProcedures extends Component {
     handleSubmit() {
         //this.props.saveGroup(this.state);
         this.props.saveProcedure(
+            this.props.form.form.id,
             this.props.form.form.procedures,
             this.state.procedure
         );
@@ -280,11 +302,25 @@ class ModalEditProcedures extends Component {
 
                             {currentProcedure.repeatable && 
 
+                                <InputField
+                                    label={'JSON Path'}
+                                    name={'repeatable_jsonpath'}
+                                    value={currentProcedure.repeatable_jsonpath}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                />
+                            }
+
+                            {currentProcedure.repeatable && 
+
                                 <InputFieldJsonEdit 
                                     label={'JSON'} 
-                                    data={currentProcedure.jsonPath}
+                                    name={'repeatable_json'}
+                                    value={currentProcedure.repeatable_json}
+                                    onChange={this.handleFieldChange.bind(this)}
                                 /> 
                             }
+
+                            
 
                         </div>
                     </div>
@@ -305,8 +341,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
 
-        saveProcedure: (procedures,procedure) => {
-            return dispatch(saveProcedure(procedures,procedure));
+        saveProcedure: (modelId,procedures,procedure) => {
+            return dispatch(saveProcedure(modelId,procedures,procedure));
         },
 
         //remove

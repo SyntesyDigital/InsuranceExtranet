@@ -18,13 +18,27 @@ type ModelField {
 ################################
 #   INPUT
 ################################
-input ModelFieldInput {
-    id: ID
-    procedure_id: ID
-    name: String
-    identifier: String
-    type: String
-    format: String 
+input CreateModelFieldInput {
+    procedure_id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String !
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+}
+
+input UpdateModelFieldInput {
+    id: ID!
+    procedure_id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String !
     default_value: String 
     boby: String
     jsonpath: String 
@@ -50,10 +64,10 @@ extend type Query {
 #   MUTATOR
 ################################
 extend type Mutation {
-    createModelField(input: ModelFieldInput! @spread): ModelField
+    createModelField(input: CreateModelFieldInput! @spread): ModelField
         @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
 
-    updateModelField(input: ModelFieldInput! @spread): ModelField
+    updateModelField(input: UpdateModelFieldInput! @spread): ModelField
         @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
 
     deleteModelField(

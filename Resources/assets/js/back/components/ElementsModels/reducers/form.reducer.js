@@ -13,12 +13,13 @@ import {
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
+    INIT_CREATE
 
 } from '../constants';
 
 const initialState = {
 
-    saved: true,
+    saved: false,
 
     //Objects
     displayEditObject: false,
@@ -31,6 +32,17 @@ const initialState = {
     displayEditProcedures: false,
     currentProcedure: null,
 
+    form : {
+        id: null,
+        name: '',
+        identifier: '',
+        description: '',
+        icon: '',
+        type: 'form-v2',
+        procedures : []
+    },
+
+    /*
     form: {
         id: 1,
         modele: 'CSRIN',
@@ -38,15 +50,7 @@ const initialState = {
         identifier: 'Identifier',
         description: 'Description',
         icon: 'fas fa-align-center',
-        objectId: 'SIN02',
-        etap: '101',
-        lib: 'Assuré',
-        rep: 'N',
-        conf: 'Y',
-        obl: 'Y',
-        p1: null,
-        P2: null,
-        p3: null,
+        type: 'form-v2',
         procedures: [
             {
                 id: 1,
@@ -122,6 +126,7 @@ const initialState = {
             }
         ]
     },
+    */
 
     test : {
         "causeCirconstance": "cause",
@@ -159,12 +164,17 @@ function formReducer(state = initialState, action) {
 
     switch (action.type) {
 
+        case INIT_CREATE : 
+            return {
+                ...state
+            }
         case INIT_STATE:
 
-            console.log("INIT_STATE from Elements Models=> ", action.data);
+            //console.log("INIT_STATE from Elements Models=> ", action.data);
 
             return {
                 ...state,
+                form : action.payload
             }
 
         case UPDATE_FIELD:
@@ -176,8 +186,14 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_FORM:
+
+            var proceduresCopy = state.form.procedures;
+            var newForm = action.payload;
+            newForm.procedures = proceduresCopy;
+
             return {
                 ...state,
+                form : newForm
             }
 
         case REMOVE_FORM:
@@ -203,6 +219,8 @@ function formReducer(state = initialState, action) {
                     configurable: false,
                     required: false,
                     repeatable: false,
+                    repeatable_json : '',
+                    repeatable_jsonpath : '',
                     objects: []
                 }
             }
