@@ -25,6 +25,7 @@ export let procedures = {
     },
 
     create(params) {
+        console.log("api.procedure.create (params)",params);
         return mutation(GQL_CREATE_MODEL_PROCEDURE, params);
     }
 }
@@ -46,7 +47,9 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
         required
         repeatable
         repeatable_json
-        service
+        service {
+            id
+        }
         elementModel
         fields
     }
@@ -65,11 +68,12 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
  */
 export const GQL_CREATE_MODEL_PROCEDURE = gql`
     mutation createModelProcedure(
-            $name: String
+            $name: String!
             $configurable: String
             $required: String
             $repeatable: String
             $repeatable_json: String
+            $repeatable_jsonpath: String
             $service_id: ID! 
             $model_id: ID! 
         ) {
@@ -80,18 +84,17 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                     required: $required
                     repeatable: $repeatable
                     repeatable_json: $repeatable_json
+                    repeatable_jsonpath: $repeatable_jsonpath
                     service_id: $service_id
                     model_id: $model_id
                 }
             ) {
+                id
                 name
                 configurable
                 required
                 repeatable
                 repeatable_json
-                service
-                elementModel
-                fields
             }
     } 
 `;
@@ -110,11 +113,12 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
 export const GQL_UPDATE_MODEL_PROCEDURE = gql`
     mutation updateModelProcedure(
             $id: ID!
-            $name: String
+            $name: String!
             $configurable: String
             $required: String
             $repeatable: String
             $repeatable_json: String
+            $repeatable_jsonpath: String
             $service_id: ID
             $model_id: ID
         ) {
@@ -126,18 +130,17 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                     required: $required
                     repeatable: $repeatable
                     repeatable_json: $repeatable_json
+                    repeatable_jsonpath: $repeatable_jsonpath
                     service_id: $service_id
                     model_id: $model_id
                 }
             ) {
+                id
                 name
                 configurable
                 required
                 repeatable
                 repeatable_json
-                service
-                elementModel
-                fields
             }
     } 
 `;
@@ -148,21 +151,13 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
  *      id
  */
 export const GQL_DELETE_MODEL_PROCEDURE = gql`
-  mutation deleteService(
+  mutation deleteModelProcedure(
         $id: ID!
     ) {
-        deleteService(
+        deleteModelProcedure(
             id: $id
         ) {
             id
-            name
-            identifier
-            http_method
-            url
-            boby
-            json
-            response
-            comment
         }
   } 
 `;

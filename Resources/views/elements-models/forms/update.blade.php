@@ -1,8 +1,9 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="elements-models-forms-update">
-    
+<div id="elements-models-forms-update"
+  modelId="{{$id or null}}"
+>  
 </div>
 @endsection
 

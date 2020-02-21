@@ -43,7 +43,7 @@ Route::group([
     //Elements Models
     Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
     Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
-    Route::get('/elements-models/forms/update', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
+    Route::get('/elements-models/forms/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
     Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
     Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
     Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');

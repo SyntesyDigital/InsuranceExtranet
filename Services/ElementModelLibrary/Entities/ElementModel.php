@@ -31,10 +31,11 @@ class ElementModel extends Model
         'name',
         'description',
         'icon',
+        'type'
     ];
 
     public function procedures(): HasMany
     {
-        return $this->hasMany(ModelProcedure::class, 'id', 'model_id');
+        return $this->hasMany(ModelProcedure::class, 'model_id', 'id');
     }
 }

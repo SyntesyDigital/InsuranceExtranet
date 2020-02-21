@@ -20,6 +20,7 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('icon')->nullable();
+            $table->string('type');
 
             $table->timestamps();
         });
@@ -51,7 +52,8 @@ class CreateElementModelLibraryTables extends Migration
             $table->boolean('configurable')->default(0);
             $table->boolean('required')->default(0);
             $table->boolean('repeatable')->default(0);
-            $table->boolean('repeatable_json')->nullable();
+            $table->text('repeatable_json')->nullable();
+            $table->string('repeatable_jsonpath')->nullable();
 
             $table->timestamps();
         });
