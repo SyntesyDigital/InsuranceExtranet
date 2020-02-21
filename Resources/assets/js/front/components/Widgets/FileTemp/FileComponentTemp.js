@@ -6,6 +6,7 @@ import IconField from './fields/IconField';
 import DefaultField from './fields/DefaultField';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+
 export default class FileComponentTemp extends Component {
 
     constructor(props) {
@@ -20,14 +21,15 @@ export default class FileComponentTemp extends Component {
     render() {
         return (
             <div>
-                <Label
-                    text={'FICHE AGRÉMENT'}
-                    textAlign={'center'}
-                />
+
                 <Grid
                     className="layout"
                     fluid={true}
                 >
+                    <Label
+                        text={'FICHE AGRÉMENT'}
+                        textAlign={'center'}
+                    />
                     <Row>
                         <Col md={6}>
                             <DefaultField
