@@ -6,6 +6,7 @@ export default class IconField extends Component {
 
     constructor(props) {
         super(props);
+
     }
 
     render() {
@@ -13,7 +14,8 @@ export default class IconField extends Component {
         const { icon, circle, checked, color, font } = this.props;
 
         const divStyle = {
-            textAlign: 'center'
+            textAlign: 'center',
+            margin: '30px'
         };
 
         const iconStyle = {
@@ -27,14 +29,13 @@ export default class IconField extends Component {
             paddingBottom: '20px',
             paddingLeft: '20px',
             paddingRight: '20px',
-            borderRadius: '50%',
             border: '1px solid',
             borderColor: '#a2a8b3'  
         };
 
         return (
             <div className="container-icon" style={divStyle}>
-                <span style={spanStyle}><i className={icon} style={iconStyle}></i></span>
+                <span style={spanStyle} className={circle ? 'border-radius' : null}><i className={icon} style={iconStyle}></i></span>
             </div>
         );
     }

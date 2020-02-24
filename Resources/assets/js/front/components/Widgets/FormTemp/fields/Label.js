@@ -9,7 +9,7 @@ export default class Label extends Component {
 
   render() {
 
-    const h1Style = {
+    const textStyle = {
       paddingBottom: '15px',
       borderBottom: '1px solid'
     };
@@ -21,8 +21,8 @@ export default class Label extends Component {
     return (
 
       <div className="label-field" style={divStyle}>
-        <div className="col-sm-12">
-          <h3 style={h1Style}>
+        <div className="row">
+          <h3 style={textStyle}>
             {this.props.text}
           </h3>
         </div>

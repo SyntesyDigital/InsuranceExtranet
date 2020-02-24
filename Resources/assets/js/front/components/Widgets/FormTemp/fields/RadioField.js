@@ -17,8 +17,9 @@ export default class RadioField extends PureComponent {
 
 
     }
-    
+
     toggleChecked() {
+        console.log('toggleChecked :: ')
         if (this.state.isAnimating) return false;
         this.setState({
             checked: !this.state.checked,
@@ -51,7 +52,7 @@ export default class RadioField extends PureComponent {
         const cl = this.composeStateClasses('ui-checkbox-btn');
         let options = this.props.arrayOfOptions.map((item, index) =>
             <div
-                className={cl}
+                className={(cl)}
                 onClick={this.toggleChecked}
             >
                 <input
@@ -61,6 +62,7 @@ export default class RadioField extends PureComponent {
                     type="checkbox"
                     checked={this.state.checked}
                 />
+
                 {
                     this.state.checked &&
                     <i className="icon">
@@ -83,8 +85,20 @@ export default class RadioField extends PureComponent {
         );
 
         return (
-            <div>
-                {options}
+            <div className="container-radio-field">
+                {this.props.label ?
+                    <label className="bmd-label-floating">
+                        {this.props.label}
+                    </label>
+                    : null}
+                {this.props.text ?
+                    <div className="container-text col-md-3">
+                        {this.props.text}
+                    </div>
+                    :null}
+                <div className={'container-options'}>
+                    {options}
+                </div>
             </div>
 
         );
@@ -92,7 +106,8 @@ export default class RadioField extends PureComponent {
 }
 
 RadioField.propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    text: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func,

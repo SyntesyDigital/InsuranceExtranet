@@ -36,12 +36,12 @@ export default class FormComponentTemp extends Component {
                     value: 'Option 1'
                 },
                 {
-                    name: 'option01',
-                    value: 'Option 1'
+                    name: 'option02',
+                    value: 'Option 2'
                 },
                 {
-                    name: 'option01',
-                    value: 'Option 1'
+                    name: 'option03',
+                    value: 'Option 3'
                 },
             ],
 
@@ -65,14 +65,14 @@ export default class FormComponentTemp extends Component {
         console.log("handleAddGroup :: ");
         this.setState({
             displayAddDocument: true
-          });
+        });
     }
-    
-    handleRemoveFields(){
+
+    handleRemoveFields() {
         console.log("handleRemoveObject :: ");
     }
 
-    handleEditFields(){
+    handleEditFields() {
         console.log("handleEditFields");
     }
 
@@ -291,7 +291,7 @@ export default class FormComponentTemp extends Component {
                     </Row>
                     <Row>
                         <div className="col-md-12 buttons-group">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary btn-rounded">
                                 <i className="fas fa-sign-in-alt"></i> Valider
                             </button>
                         </div>
@@ -358,7 +358,7 @@ export default class FormComponentTemp extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={8}>
+                        <Col md={12}>
                             <RadioField
                                 label={'Radio buttons'}
                                 arrayOfOptions={this.state.options}
@@ -366,11 +366,11 @@ export default class FormComponentTemp extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={2}>
-                            <p>Fumé ou tapoté ces deux dernières années ? *</p>
-                        </Col>
-                        <Col md={10}>
-                            
+                        <Col md={12}>
+                            <RadioField
+                                arrayOfOptions={this.state.optionsBoolean}
+                                text={'Fumé ou tapoté ces deux dernières années ? *'}
+                            />
                         </Col>
                     </Row>
                 </Grid>
@@ -380,7 +380,7 @@ export default class FormComponentTemp extends Component {
                 >
                     <Row>
                         <Label
-                            text={'CALCUL AGRÉMENT'}
+                            text={'DOCUMENTS'}
                             textAlign={'left'}
                         />
                     </Row>

@@ -263,13 +263,19 @@ export default class FileComponentTemp extends Component {
                         onChange={this.handleChange}
                     />
                 </Grid>
-                <IconField
-                    icon={'fas fa-building'}
-                    font={'40px'}
-                    color={'#a2a8b3'}
-                    circle={true}
-                    checked={true}
-                />
+                <Grid>
+                    <Row>
+                        <Col md={12}>
+                            <IconField
+                                icon={'fas fa-building'}
+                                font={'40px'}
+                                color={'#a2a8b3'}
+                                circle={false}
+                                checked={true}
+                            />
+                        </Col>
+                    </Row>
+                </Grid>
                 <DefaultField
                     label={'RESULTAT'}
                     value={'REFUS - A SOUMETTRE'}
