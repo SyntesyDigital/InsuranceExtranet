@@ -12,9 +12,11 @@ export default class InputFieldJsonEdit extends Component {
 
     handleChange(data){
 
-        //console.log("InputFieldJsonEdit :: handleChange (e)",e);
+        console.log("InputFieldJsonEdit :: handleChange (e)",data);
 
-        this.props.onChange(this.props.name,data.plainText);
+        if(!data.error){
+            this.props.onChange(this.props.name,data.json);
+        }
     }
 
     render() {
@@ -26,10 +28,10 @@ export default class InputFieldJsonEdit extends Component {
                 </label>
                 <JSONInput
                     id={this.props.id}
-                    value={this.props.value}
+                    placeholder={this.props.placeholder}
                     className={this.props.className}
                     theme="light_mitsuketa_tribute"
-                    locale='fr'
+                    locale={locale}
                     colors={{
                         string: "#455660"
                     }}

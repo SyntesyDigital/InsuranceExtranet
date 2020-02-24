@@ -90,9 +90,10 @@ class ModalEditProcedures extends Component {
         console.log("handleRemoveObject", procedure, object);
         this.props.removeProcedureObject(
             this.props.form.form.procedures,
-            procedure, object
+            procedure, 
+            object
         );
-        this.props.cancel
+        //this.props.cancel
     }
 
     handleEditObject(procedure, object){
@@ -153,6 +154,24 @@ class ModalEditProcedures extends Component {
         this.props.closeModalProcedure();
     }
 
+    handleServiceChange(name,value) {
+
+        var service = null;
+        for(var key in this.state.services){
+            if(this.state.services[key].value == value){
+                service = this.state.services[key];
+                //set id, beacause it's needed to graphql
+                service.id = value;
+            }
+        }
+
+        const {procedure} = this.state;
+        procedure[name] = service;
+        this.setState({
+            procedure : procedure
+        });
+    }
+
     // ==============================
     // Renderers
     // ==============================
@@ -178,7 +197,7 @@ class ModalEditProcedures extends Component {
 
         console.log("renderObjects :: (currentProcedure)",currentProcedure);
 
-        const displayObjects = currentProcedure.objects.map((object, index) =>
+        const displayObjects = currentProcedure.fields.map((object, index) =>
             <div key={object.identifier + index} className={object.identifier + index}>
                 <FieldListItem
                     key={index}
@@ -271,10 +290,10 @@ class ModalEditProcedures extends Component {
                      
                             <SelectField
                                 label={'Service'}
-                                value={currentProcedure.service}
+                                value={currentProcedure.service.id}
                                 name={'service'}
                                 arrayOfOptions={this.state.services}
-                                onChange={this.handleFieldChange.bind(this)}
+                                onChange={this.handleServiceChange.bind(this)}
                                 // onChange={this.handleFieldChange.bind(this)}
                             />
                             
@@ -282,21 +301,21 @@ class ModalEditProcedures extends Component {
                             <ToggleField
                                 label={'Configurable'}
                                 name={'configurable'}
-                                checked={currentProcedure.configurable}
+                                checked={currentProcedure.configurable == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Required'}
                                 name={'required'}
-                                checked={currentProcedure.required}
+                                checked={currentProcedure.required == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Repeatable'}
                                 name={'repeatable'}
-                                checked={currentProcedure.repeatable}
+                                checked={currentProcedure.repeatable == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
