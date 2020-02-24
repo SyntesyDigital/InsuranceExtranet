@@ -36,14 +36,14 @@ Route::group([
     // Services
     Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
     Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
-    Route::get('/services/{id}/update', 'ServiceController@update')->name('extranet.services.update');
+    Route::get('/services/{service}/update', 'ServiceController@update')->name('extranet.services.update');
     Route::get('/services/create', 'ServiceController@create')->name('extranet.services.create');
-    Route::delete('/services/{id}/delete', 'ServiceController@delete')->name('extranet.services.delete');
+    Route::delete('/services/{service}/delete', 'ServiceController@delete')->name('extranet.services.delete');
 
     //Elements Models
     Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
     Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
-    Route::get('/elements-models/forms/update', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
+    Route::get('/elements-models/forms/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
     Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
     Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
     Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');

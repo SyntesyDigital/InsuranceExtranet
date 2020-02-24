@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 //import Paginator from './../Common/Paginator';
 //import ReactDataGrid from 'react-data-grid';
 //import { Toolbar, Data } from "react-data-grid-addons";
+import NumberFormat from 'react-number-format';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -15,86 +16,82 @@ import moment from 'moment';
 
 export default class TotalBox extends Component {
 
-    constructor(props)
-    {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        const elementObject = props.elementObject ? JSON.parse(atob(props.elementObject)) : null;
-        const model = props.model ? JSON.parse(atob(props.model)) : null;
+    const elementObject = props.elementObject ? JSON.parse(atob(props.elementObject)) : null;
+    const model = props.model ? JSON.parse(atob(props.model)) : null;
 
-        this.state = {
-            elementObject :elementObject,
-            total: null,
-            model : model
-        };
-    }
+    this.state = {
+      elementObject: elementObject,
+      total: null,
+      model: model
+    };
+  }
 
-    componentDidMount() {
+  componentDidMount() {
 
-        this.query();
-    }
+    this.query();
+  }
 
-    getUrlParameters() {
-      //concat parameters, first constant parameters
-      var parameters = this.state.model.DEF1 != null ?
-        this.state.model.DEF1 : '';
+  getUrlParameters() {
+    //concat parameters, first constant parameters
+    var parameters = this.state.model.DEF1 != null ?
+      this.state.model.DEF1 : '';
 
-      if(parameters != '')
-        parameters += "&";
+    if (parameters != '')
+      parameters += "&";
 
-      //then
-      parameters += this.props.parameters;
+    //then
+    parameters += this.props.parameters;
 
-      return parameters;
-    }
+    return parameters;
+  }
 
-    query() {
-        var self = this;
-        const {elementObject} = this.state;
-        const parameters = this.getUrlParameters();
+  query() {
+    var self = this;
+    const { elementObject } = this.state;
+    const parameters = this.getUrlParameters();
 
-        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/1/?'+parameters)
-          .then(function (response) {
-              if(response.status == 200
-                  && response.data.modelValues !== undefined)
-              {
-                console.log("ModelValues  :: componentDidMount => ",response.data);
+    axios.get(ASSETS + 'architect/extranet/' + elementObject.id + '/model_values/data/1/?' + parameters)
+      .then(function (response) {
+        if (response.status == 200
+          && response.data.modelValues !== undefined) {
+          console.log("ModelValues  :: componentDidMount => ", response.data);
 
-                self.setState({
-                  total: response.data.total != null ? response.data.total : 0
-                });
-              }
+          self.setState({
+            total: response.data.total != null ? response.data.total : 0
+          });
+        }
 
-          }).catch(function (error) {
-             console.log(error);
-             self.setState({
-               loading: false
-             });
-           });
-    }
+      }).catch(function (error) {
+        console.log(error);
+        self.setState({
+          loading: false
+        });
+      });
+  }
 
-    render() {
-        return (
-            <div>
-              {this.state.total}
-            </div>
-
-        );
-
-    }
+  render() {
+    return (
+      <div>
+        <NumberFormat value={this.state.total} displayType={'text'} thousandSeparator={true} renderText={value => <div>{value.replace(',', '.')}</div>} />
+      </div>
+    );
+  }
 }
 
 if (document.getElementById('totalBox')) {
 
-   document.querySelectorAll('[id=totalBox]').forEach(function(element){
-       var elementObject = element.getAttribute('elementObject');
-       var model = element.getAttribute('model');
-       var parameters = element.getAttribute('parameters');
+  document.querySelectorAll('[id=totalBox]').forEach(function (element) {
+    var elementObject = element.getAttribute('elementObject');
+    var model = element.getAttribute('model');
+    var parameters = element.getAttribute('parameters');
 
-       ReactDOM.render(<TotalBox
-           elementObject={elementObject}
-           model={model}
-           parameters={parameters}
-         />, element);
-   });
+    ReactDOM.render(<TotalBox
+      elementObject={elementObject}
+      model={model}
+      parameters={parameters}
+    />, element);
+  });
 }

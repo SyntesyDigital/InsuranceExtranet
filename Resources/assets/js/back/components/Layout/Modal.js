@@ -59,7 +59,28 @@ export default class Modal extends Component {
 
   onRemove(e){
     e.preventDefault();
-    this.props.onRemove();
+
+    var _this = this;
+
+    bootbox.confirm({
+      message: this.props.rempoveMessage !== undefined ? 
+      this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+      buttons: {
+          confirm: {
+              label: Lang.get('fields.si') ,
+              className: 'btn-primary'
+          },
+          cancel: {
+              label:  Lang.get('fields.no'),
+              className: 'btn-default'
+          }
+      },
+      callback: function (result) {
+          if(result){
+              _this.props.onRemove();
+          }
+        }
+      });
   }
 
   render() {

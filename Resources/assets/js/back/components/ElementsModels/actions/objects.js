@@ -7,10 +7,7 @@ import {
 
 } from "../constants/";
 
-// import {
-
-
-//   } from "../api/";
+import api from '../../../api/index.js';
 
 export function initState(payload) {
     return { type: INIT_STATE, payload }
@@ -24,27 +21,10 @@ function getMaxId (list) {
     return parseInt(maxId) + 1;
 }
 
-export function openModalCreateObject(procedures,procedure) {
-
-    var index = getProcedureIndex(procedures,procedure);
-    var maxId = getMaxId(procedures[index].objects);
-
-    procedures[index].objects.push({
-        id : maxId,
-        identifier: 'identifier '+maxId,
-        name: 'Field Name '+maxId,
-        icon: 'fas fa-calculator',
-        format: 'Num',
-        defaultValue: 'defaultValue',
-        boby: 'boby',
-        jsonPath: 'jsonPath',
-        example: 'example',
-        configurable: false,
-        visible: false,
-    });
+export function openModalCreateObject() {
 
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: OPEN_MODAL_CREATE_OBJECT
     };
 };
 
@@ -87,23 +67,107 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
 
     object[name] = value;
     var index = getProcedureIndex(procedures,procedure);
-    var objectIndex = getObjectIndex(procedure.objects,object);
-    procedures[index].objects[objectIndex] = object;
+    var objectIndex = getObjectIndex(procedure.fields,object);
+    procedures[index].fields[objectIndex] = object;
 
     return {
         type: UPDATE_PROCEDURES, payload: procedures
     };
 };
 
+export function saveProcedureObject(procedures,procedure,object) {
+
+    if(object.id == null){
+        return createProcedureObject(procedures,procedure,object);
+    }
+    else {
+        return updateProcedureObject(procedures,procedure,object);
+    }
+};
+
+export function createProcedureObject(procedures,procedure,object) {
+
+    return (dispatch) => {
+        api.fields.create({
+            procedure_id: procedure.id,
+            name: object.name,
+            identifier: object.identifier,
+            type: object.type,
+            format: object.format,
+            default_value: object.default_value,
+            boby: object.boby,
+            jsonpath: object.jsonpath,
+            example: object.example,
+            configurable: object.configurable,
+            visible: object.visible
+        })
+        .then(function(data) {
+            object.id = data.data.createModelField.id;
+
+            var index = getProcedureIndex(procedures,procedure);
+            procedures[index].fields.push(object);
+
+            toastr.success(Lang.get('fields.success'));
+
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }
+
+};
+
+export function updateProcedureObject(procedures,procedure,object) {
+
+    return (dispatch) => {
+        api.fields.update(object.id,{
+            procedure_id: procedure.id,
+            name: object.name,
+            identifier: object.identifier,
+            type: object.type,
+            format: object.format,
+            default_value: object.default_value,
+            boby: object.boby,
+            jsonpath: object.jsonpath,
+            example: object.example,
+            configurable: object.configurable,
+            visible: object.visible
+        })
+        .then(function(data) {
+            var index = getProcedureIndex(procedures,procedure);
+            var objectIndex = getObjectIndex(procedure.fields,object);
+            
+            procedures[index].fields[objectIndex] = object;
+
+            toastr.success(Lang.get('fields.success'));
+                
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }
+};
+
 export function removeProcedureObject(procedures, procedure, object) {
 
-    var index = getProcedureIndex(procedures,procedure);
-    var objectIndex = getObjectIndex(procedure.objects,object);
-    procedures[index].objects.splice(objectIndex,1);
+    return (dispatch) => {
+        api.fields.delete(object.id)
+        .then(function(data) {
+            var index = getProcedureIndex(procedures,procedure);
+            var objectIndex = getObjectIndex(procedure.fields,object);
+            procedures[index].fields.splice(objectIndex,1);
 
-    return {
-        type: UPDATE_PROCEDURES, payload: procedures
-    };
+            toastr.success(Lang.get('fields.success'));
+
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }   
+
 };
 
 export function moveProcedureObject(procedure, object) {

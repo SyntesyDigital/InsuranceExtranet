@@ -13,7 +13,17 @@ export default class RedirectModal extends Component {
 
     handleSelectItem(item) {
         console.log("handleSelectItem :: (item) => ",item);
-        this.props.onContentSelect(item);
+        this.props.onContentSelect(this.processContent(item));
+    }
+
+    processContent(content) {
+        var data = {
+          id : content.id,
+          title : content.title,
+          params : []
+        };
+    
+        return data;
     }
 
     render() {

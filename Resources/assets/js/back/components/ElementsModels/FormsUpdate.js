@@ -16,12 +16,19 @@ export default class FormsUpdate extends Component {
   render() {
     return (
       <Provider store={store}>
-          <FormsUpdateRedux />
+          <FormsUpdateRedux 
+            modelId={this.props.modelId}
+          />
       </Provider>
     );
   }
 }
 
 if (document.getElementById('elements-models-forms-update')) {
-  ReactDOM.render(<FormsUpdate />, document.getElementById('elements-models-forms-update'));
+
+  var element = document.getElementById('elements-models-forms-update');
+
+  ReactDOM.render(<FormsUpdate 
+      modelId={element.getAttribute('modelId')}
+  />, document.getElementById('elements-models-forms-update'));
 }

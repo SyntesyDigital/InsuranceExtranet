@@ -10,7 +10,7 @@ import {
 
     removeProcedureObject,
     closeModalProcedureObject,
-    updateProcedureObjectField
+    saveProcedureObject
 
 } from './actions';
 
@@ -21,32 +21,41 @@ class ModalEditObject extends Component {
 
         super(props);
 
+        var formats = [];
+        for(var key in MODELS_FIELDS){
+            formats.push({
+                name : key,
+                value : key
+            });
+        }
+
         this.state = {
-            formats: [
-                {
-                    name: 'text',
-                    value: 'TEXT'
-                },
-                {
-                    name: 'num',
-                    value: 'Num'
-                },
-            ],
+            formats: formats,
             typeNature: [
                 {
-                    name: 'cte',
-                    value: 'CTE'
+                    name: 'input',
+                    value: 'INPUT'
                 },
                 {
                     name: 'system',
                     value: 'SYSTEM'
                 },
                 {
-                    name: 'input',
-                    value: 'INPUT'
-                },
-            ]
+                    name: 'cte',
+                    value: 'CTE'
+                }
+            ],
+            object : null
         };
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+        if(!prevProps.display && this.props.display) {
+            //modal is showing 
+            this.setState({
+                object : this.props.object
+            });
+        }
     }
 
     // ==============================
@@ -59,27 +68,64 @@ class ModalEditObject extends Component {
     }
 
     handleFieldChange(name, value){
-        
-        const { currentObject, currentProcedure, form } = this.props.form;
-        //console.log("Este es el objeto", currentObject);
+        const {object} = this.state;
+        object[name] = value;
+        this.setState({
+            object : object
+        });
+    }
 
-        //console.log("Este es el procedure", currentProcedure);
+    getProcedureIndex(procedures,procedure){
+        for(var key in procedures){
+            if(procedures[key].id == procedure.id){
+                return key;
+            }
+        }
+        return null;
+    }
 
-        this.props.updateProcedureObjectField(
-            form.procedures,
-            currentProcedure, 
-            currentObject, name, value);
+    handleSubmit() {
 
-        console.log("handleFieldChange", currentProcedure, currentObject, name, value);
+        var index = this.getProcedureIndex(
+            this.props.form.form.procedures,
+            this.props.form.currentProcedure,
+        );
+
+        this.props.saveProcedureObject(
+            this.props.form.form.procedures,
+            this.props.form.form.procedures[index],
+            this.state.object
+        );
+
+        //this.props.closeModalProcedureObject();
+    }
+
+    handleRemove() {
+        console.log("ModalEditObject :: handleRemove");
+        //this.props.removeGroup(this.state);
+        var index = this.getProcedureIndex(
+            this.props.form.form.procedures,
+            this.props.form.currentProcedure,
+        );
+
+        this.props.removeProcedureObject(
+            this.props.form.form.procedures,
+            this.props.form.form.procedures[index],
+            this.state.object
+        );
+        this.props.closeModalProcedureObject();
     }
 
     // ==============================
     // Renderers
     // ==============================
 
+
+
     render() {
         
         const { currentObject } = this.props.form;
+        const saved = currentObject != null ? currentObject.id != null : false;
 
         console.log(currentObject);
 
@@ -92,11 +138,11 @@ class ModalEditObject extends Component {
                 display={this.props.display}
                 zIndex={10000}
                 size={this.props.size}
-                deleteButton={false}
-                submitButton={false}
                 onModalClose={this.props.closeModalProcedureObject}
+                deleteButton={saved ? true : false}
                 onCancel={this.props.closeModalProcedureObject}
-
+                onSubmit={this.handleSubmit.bind(this)}
+                onRemove={this.handleRemove.bind(this)}
                
             >
                 {currentObject != null &&
@@ -121,8 +167,8 @@ class ModalEditObject extends Component {
 
                             <SelectField
                                 label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.typeNature}
-                                name={'typeNature'}
+                                value={currentObject.type}
+                                name={'type'}
                                 arrayOfOptions={this.state.typeNature}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
@@ -137,8 +183,8 @@ class ModalEditObject extends Component {
 
                             <InputField
                                 label={'Default value (valeur)'}
-                                name={'defaultValue'}
-                                value={currentObject.defaultValue}
+                                name={'default_value'}
+                                value={currentObject.default_value}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -151,8 +197,8 @@ class ModalEditObject extends Component {
 
                             <InputField
                                 label={'JSON path (concreto para este campo)'}
-                                name={'jsonPath'}
-                                value={currentObject.jsonPath}
+                                name={'jsonpath'}
+                                value={currentObject.jsonpath}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -166,14 +212,14 @@ class ModalEditObject extends Component {
                             <ToggleField
                                 label={'Configurable'}
                                 name={'configurable'}
-                                checked={currentObject.configurable}
+                                checked={currentObject.configurable == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Visible'}
                                 name={'visible'}
-                                checked={currentObject.visible}
+                                checked={currentObject.visible == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -194,20 +240,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        openModalCreateObject: (procedure) => {
-            return dispatch(openModalCreateObject(procedure));
-        },
-
-        openModalEditObject: (procedure, object) => {
-            return dispatch(openModalEditObject(procedure, object));
-        },
         
-        updateProcedureObjectField: (procedures, procedure, object, name, value) => {
-            return dispatch(updateProcedureObjectField(procedures, procedure, object, name, value));
+        saveProcedureObject: (procedures, procedure, object) => {
+            return dispatch(saveProcedureObject(procedures, procedure, object));
         },
 
-        removeProcedureObject: (procedure, object) => {
-            return dispatch(removeProcedureObject(procedure, object));
+        removeProcedureObject: (procedures,procedure, object) => {
+            return dispatch(removeProcedureObject(procedures, procedure, object));
         },
 
         closeModalProcedureObject: () => {

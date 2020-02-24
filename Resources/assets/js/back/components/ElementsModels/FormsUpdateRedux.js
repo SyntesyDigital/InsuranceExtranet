@@ -14,17 +14,13 @@ import { connect } from 'react-redux';
 
 import {
     initState,
-    loadForm,
     saveForm,
-    createForm,
-    updateForm,
     removeForm,
     testForm,
     updateField,
     removeProcedure,
     openModalCreateProcedure,
     openModalEditProcedure,
-    updateProcedureField
     
 } from './actions'
 
@@ -40,7 +36,7 @@ class FormsUpdateRedux extends Component {
 
         };
 
-        this.props.initState();
+        this.props.initState(this.props.modelId);
     }
 
     // ==============================
@@ -49,13 +45,11 @@ class FormsUpdateRedux extends Component {
     
     handleEditProcedure(procedure){
         console.log("handleEditProcedure", procedure);
-        this.props.openModalEditProcedure(procedure);
-    }
 
-    handleFieldChange(name, value){
-        const { currentProcedure } = this.props.form;
-        this.props.updateProcedureField(currentProcedure, name, value);
-        console.log("handleFieldChange", currentProcedure, name, value);
+        //clone the object not send the reference
+        procedure = JSON.parse(JSON.stringify(procedure));
+
+        this.props.openModalEditProcedure(procedure);
     }
 
     handleCreateProcedure(){
@@ -77,8 +71,29 @@ class FormsUpdateRedux extends Component {
     }
 
     handleRemoveForm(form) {
-        console.log("handleRemoveForm");
-        this.props.removeForm(this.props.form.form);
+
+        var _this = this;
+
+        bootbox.confirm({
+            message: this.props.rempoveMessage !== undefined ? 
+            this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si') ,
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label:  Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    console.log("handleRemoveForm");
+                    _this.props.removeForm(_this.props.form.form);
+                }
+              }
+            });
     }
 
     handleSubmit() {
@@ -103,12 +118,11 @@ class FormsUpdateRedux extends Component {
                         'fas fa-redo-alt'
                     ]}
                     labelInputLeft={procedure.name}
-                    labelInputRight={procedure.service}
+                    labelInputRight={procedure.service.name}
                     
                     //onEvents
                     onEdit={this.handleEditProcedure.bind(this, procedure)}
                     onRemove={this.handleRemoveProcedure.bind(this, procedure)}
-                    onChange={this.handleFieldChange.bind(this)}
                 />
             </div>
         )
@@ -120,6 +134,9 @@ class FormsUpdateRedux extends Component {
     }
 
     render() {
+
+        const saved = this.props.form.form.id == null ? false : true;
+
         return (
 
             <div className="forms-update">
@@ -140,7 +157,9 @@ class FormsUpdateRedux extends Component {
                     size={'medium-large'}
                     title={'Test Json'}
                     display={this.props.form.displayEditProcedures}
+                    procedure={this.props.form.currentProcedure}
                     zIndex={10000}
+                    
                 />
 
                 <BarTitle
@@ -148,11 +167,13 @@ class FormsUpdateRedux extends Component {
                     title={this.props.form.form.name}
                     backRoute={routes['extranet.elements-models.forms.index']}
                 >
-                    <ButtonSecondary
-                        label={'Test form'}
-                        icon={'fas fa-sync-alt'}
-                        onClick={this.handleTestForm.bind(this)}
-                    />
+                    {saved && 
+                        <ButtonSecondary
+                            label={'Test form'}
+                            icon={'fas fa-sync-alt'}
+                            onClick={this.handleTestForm.bind(this)}
+                        />
+                    }
 
                     <ButtonDropdown
                         label={'Actions'}
@@ -182,7 +203,10 @@ class FormsUpdateRedux extends Component {
 
                 <div className="container rightbar-page">
 
-                    <div className="col-md-9 page-content form-fields">
+                    <div className="col-md-9 page-content form-fields" style={{
+                            opacity : saved ? 1 : 0.5,
+                            pointerEvents : saved ? 'auto' : 'none'
+                        }}>
 
                         <FieldList>
 
@@ -200,16 +224,23 @@ class FormsUpdateRedux extends Component {
                     <div className="sidebar">
 
                         <InputField
+                            label={'Name'}
+                            value={this.props.form.form.name}
+                            name={'name'}
+                            onChange={this.props.updateField}
+                        />
+                        
+                        <InputField
                             label={'Identifier'}
                             value={this.props.form.form.identifier}
                             name={'identifier'}
                             onChange={this.props.updateField}
                         />
 
-                        <InputField
-                            label={'Name'}
-                            value={this.props.form.form.name}
-                            name={'name'}
+                        <IconField
+                            label={'Icone'}
+                            name={'icon'}
+                            value={this.props.form.form.icon}
                             onChange={this.props.updateField}
                         />
 
@@ -220,12 +251,7 @@ class FormsUpdateRedux extends Component {
                             onChange={this.props.updateField}
                         />
 
-                        <IconField
-                            label={'Icone'}
-                            name={'icon'}
-                            value={this.props.form.form.icon}
-                            onChange={this.props.updateField}
-                        />
+                        
 
                     </div>
                 </div>
@@ -248,8 +274,8 @@ const mapDispatchToProps = dispatch => {
         // Initial State
         // ==============================
 
-        initState: () => {
-            return dispatch(initState());
+        initState: (modelId) => {
+            return dispatch(initState(modelId));
         },
 
         // ==============================
@@ -260,20 +286,8 @@ const mapDispatchToProps = dispatch => {
             return dispatch(updateField(name, value));
         },
 
-        loadForm: (formId) => {
-            return dispatch(loadForm(formId));
-        },
-
         saveForm: (form) => {
             return dispatch(saveForm(form));
-        },
-
-        createForm: (form) => {
-            return dispatch(createForm(form));
-        },
-
-        updateForm: (form) => {
-            return dispatch(updateForm(form));
         },
 
         removeForm: (form) => {
@@ -291,10 +305,6 @@ const mapDispatchToProps = dispatch => {
         // ==============================
         // Procedures
         // ==============================
-
-        updateProcedureField: (procedure, name, value) => {
-            return dispatch(updateProcedureField(procedure, name, value));
-        },
 
         removeProcedure:(procedures,procedure) => {
             return dispatch(removeProcedure(procedures,procedure));

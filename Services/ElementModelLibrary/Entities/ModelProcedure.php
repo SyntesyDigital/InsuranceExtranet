@@ -3,8 +3,8 @@
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ModelProcedureDuplicator;
 use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
@@ -35,16 +35,17 @@ class ModelProcedure extends Model
         'required',
         'repeatable',
         'repeatable_json',
+        'repeatable_jsonpath'
     ];
 
-    public function service(): HasOne
+    public function service(): BelongsTo
     {
-        return $this->hasOne(Service::class, 'id', 'service_id');
+        return $this->belongsTo(Service::class, 'service_id', 'id');
     }
 
-    public function elementModel(): HasOne
+    public function elementModel(): BelongsTo
     {
-        return $this->hasOne(ElementModel::class, 'id', 'model_id');
+        return $this->belongsTo(ElementModel::class, 'model_id', 'id');
     }
 
     public function fields(): HasMany

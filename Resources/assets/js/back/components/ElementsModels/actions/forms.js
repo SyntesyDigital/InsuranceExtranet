@@ -3,17 +3,36 @@ import {
     UPDATE_FIELD,
     UPDATE_FORM,
     REMOVE_FORM,
-    TEST_FORM
+    TEST_FORM,
+    INIT_CREATE
 
 } from "../constants/";
 
-// import {
+import api from '../../../api/index.js';
+
+function transformElementModel(model) {
+    for(var key in model.procedures){
+        //model.procedures[key].service = model.procedures[key].service.id
+    }
+    return model;
+}
 
 
-//   } from "../api/";
+export function initState(modelId) {
 
-export function initState(payload) {
-    return { type: INIT_STATE, payload }
+    if(modelId === undefined || modelId == null || modelId == '')
+        return { type: INIT_CREATE };
+
+    return (dispatch) => {
+        api.elementModel.get(modelId)
+            .then(function(data) {
+                //console.log("initState :: (data) ",data);
+                dispatch({ 
+                    type: INIT_STATE, 
+                    payload : transformElementModel(data.data.elementModel) 
+                });
+            });
+    }
 };
 
 export function updateField(name, value) {
@@ -25,39 +44,68 @@ export function updateField(name, value) {
     };
 }
 
-export function loadForm(formId) {
-    return { type: UPDATE_FORM, formId }
-};
-
 export function saveForm(form) {
-    return {
-        type: UPDATE_FORM, payload: {
-            form: form,
-        }
-    };
+
+    if (form.id == null) {
+        return createForm(form);
+    }
+    else {
+        //else update
+        return updateForm(form);
+    }
 }
 
 export function createForm(form) {
-    return {
-        type: UPDATE_FORM, payload: {
-            form: form,
-        }
+    return (dispatch) => {
+        api.elementModel.create({
+            name : form.name,
+            identifier : form.identifier,
+            description : form.description,
+            icon : form.icon,
+            type : form.type
+        })
+        .then(function(data) {
+
+            toastr.success(Lang.get('fields.success'));
+
+            dispatch({type: UPDATE_FORM, payload: data.data.createElementModel});
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
     }
 };
 
 export function updateForm(form) {
-    return {
-        type: UPDATE_FORM, payload: {
-            form: form,
-        }
+    
+    return (dispatch) => {
+        api.elementModel.update(form.id,{
+            name : form.name,
+            identifier : form.identifier,
+            description : form.description,
+            icon : form.icon,
+            type : form.type
+        })
+        .then(function(data) {
+
+            toastr.success(Lang.get('fields.success'));
+
+            dispatch({type: UPDATE_FORM, payload: data.data.updateElementModel});
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
     }
 };
 
 export function removeForm(form) {
-    return {
-        type: REMOVE_FORM, payload: {
-            form: form,
-        }
+
+    return (dispatch) => {
+        api.elementModel.delete(form.id)
+        .then(function(data) {
+
+            window.location.href = routes['extranet.elements-models.forms.index'];
+        });
     }
 };
 

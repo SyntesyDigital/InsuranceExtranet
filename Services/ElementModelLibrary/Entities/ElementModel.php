@@ -31,6 +31,7 @@ class ElementModel extends Model
         'name',
         'description',
         'icon',
+        'type'
     ];
 
     public function procedures(): HasMany

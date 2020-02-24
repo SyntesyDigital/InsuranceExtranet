@@ -22,6 +22,7 @@ class ElementModelLibraryTest extends TestCase
             'http_method' => 'POST',
             'url' => 'http://..',
             'boby' => 'LE_BOBY',
+            'json' => '{}',
             'response' => 'response',
             'comment' => '...',
         ]);
@@ -38,6 +39,7 @@ class ElementModelLibraryTest extends TestCase
             'http_method' => 'POST',
             'url' => 'http://..',
             'boby' => 'LE_BOBY',
+            'json' => '{}',
             'response' => 'response',
             'comment' => '...',
         ]);

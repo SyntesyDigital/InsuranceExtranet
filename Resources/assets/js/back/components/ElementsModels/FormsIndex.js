@@ -5,9 +5,38 @@ import BoxList from '../Layout/BoxList';
 import BoxWithIcon from '../Layout/BoxWithIcon';
 import BoxAdd from '../Layout/BoxAdd';
 import ButtonPrimary from '../Layout/ButtonPrimary';
+import api from '../../api/index.js';
 
 export default class FormsIndex extends Component {
 
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            models : []
+        };
+    }
+
+    componentDidMount() {
+        var _this = this;
+        
+        api.elementModel.getAll()
+            .then(function (payload) {
+                console.log("getAll :: ",payload);
+                _this.setState({
+                    models : payload.data.elementModels
+                })
+            });
+    }
+    renderModels() {
+        return this.state.models.map((item,index) => 
+            <BoxWithIcon
+                icon={item.icon}
+                name={item.name}
+                route={routes['extranet.elements-models.forms.update'].replace(':id',item.id)}
+            />
+        );
+    }
     render() {
 
         return (
@@ -33,12 +62,8 @@ export default class FormsIndex extends Component {
                     <BoxList
                         subtitle={'Configuration générale des modèles utilisés dans les éléments'}
                     >
-                        <BoxWithIcon
-                            icon={'fas fa-list-ul'}
-                            name={'Form 1'}
-                            
-                        />
-
+                        {this.renderModels()}
+                        
                         <BoxAdd
                             label={'Ajouter'}
                             route={routes["extranet.elements-models.forms.create"]}

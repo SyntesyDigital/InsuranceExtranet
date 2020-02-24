@@ -16,6 +16,7 @@ use Auth;
 use Session;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Config;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 
 use Modules\Extranet\Tasks\Elements\ValidateElementRouteParameters;
 
@@ -45,13 +46,30 @@ class ElementRepository extends BaseRepository
     */
     public function getModelsByType($type)
     {
-        $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);
         $beans = [];
-        foreach ($allBeans as $bean) {
-          if($bean->FORMAT == Element::TYPES[$type]['FORMAT']){
-            $beans[]=$bean;
+
+        if($type == Element::FORM_V2){
+          $models = ElementModel::where('type',$type)->get();
+          
+          foreach($models as $model){
+            $beans[]=(object) [
+              'ID' => $model->id,
+              'ICONE' => $model->icon,
+              'TITRE' => $model->name
+            ];
+            
           }
         }
+        else {
+          $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);
+        
+          foreach ($allBeans as $bean) {
+            if($bean->FORMAT == Element::TYPES[$type]['FORMAT']){
+              $beans[]=$bean;
+            }
+          }
+        }
+
         return $beans;
     }
 

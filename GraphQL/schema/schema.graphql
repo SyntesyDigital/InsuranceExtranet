@@ -6,6 +6,8 @@ type Query
 #import role.graphql 
 #import auth.graphql 
 
+## Element Model Library 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/service.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/modelprocedure.graphql 
+#import ../../Services/ElementModelLibrary/GraphQL/schema/modelfield.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/elementmodel.graphql 

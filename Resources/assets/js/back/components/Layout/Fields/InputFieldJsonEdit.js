@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
+import locale from 'react-json-editor-ajrm/locale/fr';
 
 
 export default class InputFieldJsonEdit extends Component {
 
     constructor(props) {
         super(props)
+    }
+
+    handleChange(data){
+
+        console.log("InputFieldJsonEdit :: handleChange (e)",data);
+
+        if(!data.error){
+            this.props.onChange(this.props.name,data.json);
+        }
     }
 
     render() {
@@ -19,8 +28,8 @@ export default class InputFieldJsonEdit extends Component {
                 </label>
                 <JSONInput
                     id={this.props.id}
+                    placeholder={this.props.placeholder}
                     className={this.props.className}
-                    placeholder={this.props.data} // data to display
                     theme="light_mitsuketa_tribute"
                     locale={locale}
                     colors={{
@@ -28,6 +37,7 @@ export default class InputFieldJsonEdit extends Component {
                     }}
                     height={this.props.height}
                     width={this.props.width}
+                    onChange={this.handleChange.bind(this)}
                 />
             </div>
         )

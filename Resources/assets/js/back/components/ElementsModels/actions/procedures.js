@@ -8,10 +8,8 @@ import {
 
 } from "../constants/";
 
+import api from '../../../api/index.js';
 
-export function initState(payload) {
-    return { type: INIT_STATE, payload }
-};
 
 function getMaxId (list) {
     var maxId = 0;
@@ -23,22 +21,8 @@ function getMaxId (list) {
 
 export function openModalCreateProcedure(procedures) {
 
-    var id = getMaxId(procedures);
-
-    var procedure = {
-        id: id,
-        name: 'Procedure '+id,
-        service: '',
-        configurable: false,
-        required: false,
-        repeatable: false,
-        objects: []
-    };
-
-    procedures.push(procedure);
-
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: OPEN_MODAL_CREATE_PROCEDURE
     };
 };
 
@@ -46,13 +30,94 @@ export function openModalEditProcedure(procedure) {
     return { type: OPEN_MODAL_EDIT_PROCEDURE, payload: procedure };
 };
 
+export function saveProcedure(modelId,procedures,procedure) {
+
+    if(procedure.id == null){
+        return createProcedure(modelId,procedures,procedure);
+    }
+    else {
+        return updateProcedure(modelId,procedures,procedure);
+    }
+};
+
+export function createProcedure(modelId,procedures,procedure) {
+
+    console.log("createProcedure (procedure)",procedure);
+
+    return (dispatch) => {
+        api.procedures.create({
+            name : procedure.name,
+            configurable: procedure.configurable,
+            required: procedure.required,
+            repeatable: procedure.repeatable,
+            repeatable_json: procedure.repeatable_json,
+            repeatable_jsonpath : procedure.repeatable_jsonpath,
+            service_id: procedure.service.id,
+            model_id: modelId
+        })
+        .then(function(data) {
+
+            toastr.success(Lang.get('fields.success'));
+
+            procedure.id = data.data.createModelProcedure.id;
+            procedures.push(procedure);
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }
+};
+
+export function updateProcedure(modelId,procedures,procedure) {
+
+    return (dispatch) => {
+        api.procedures.update(procedure.id,{
+            name : procedure.name,
+            configurable: procedure.configurable,
+            required: procedure.required,
+            repeatable: procedure.repeatable,
+            repeatable_json: procedure.repeatable_json,
+            repeatable_jsonpath : procedure.repeatable_jsonpath,
+            service_id: procedure.service.id,
+            model_id: modelId
+        })
+        .then(function(data) {
+
+            var index = getProcedureIndex(procedures,procedure);
+            var objectsCopy = procedures[index].fields;
+            procedures[index] = procedure;
+            //objects are modified directly in the state
+            procedures[index].fields = objectsCopy;
+
+            toastr.success(Lang.get('fields.success'));
+
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+
+    }
+
+};
+
 export function removeProcedure(procedures,procedure) {
 
-    var index = getProcedureIndex(procedures,procedure);
+    return (dispatch) => {
+        api.procedures.delete(procedure.id)
+        .then(function(data) {
+            var index = getProcedureIndex(procedures,procedure);
+            procedures.splice(index,1);
 
-    procedures.splice(index,1);
+            toastr.success(Lang.get('fields.success'));
 
-    return { type: UPDATE_PROCEDURES, payload: procedures };
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }    
 };
 
 export function moveProcedure() {

@@ -20,6 +20,7 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('icon')->nullable();
+            $table->string('type');
 
             $table->timestamps();
         });
@@ -31,8 +32,9 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('http_method');
             $table->string('url');
             $table->string('boby');
-            $table->text('response');
-            $table->text('comment');
+            $table->text('json')->nullable();
+            $table->text('response')->nullable();
+            $table->text('comment')->nullable();
 
             $table->timestamps();
         });
@@ -50,7 +52,8 @@ class CreateElementModelLibraryTables extends Migration
             $table->boolean('configurable')->default(0);
             $table->boolean('required')->default(0);
             $table->boolean('repeatable')->default(0);
-            $table->boolean('repeatable_json')->nullable();
+            $table->text('repeatable_json')->nullable();
+            $table->string('repeatable_jsonpath')->nullable();
 
             $table->timestamps();
         });
@@ -65,10 +68,10 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('identifier');
             $table->string('type');
             $table->string('format');
-            $table->string('default_value');
-            $table->string('boby');
-            $table->string('jsonpath');
-            $table->text('example');
+            $table->string('default_value')->nullable();
+            $table->string('boby')->nullable();
+            $table->string('jsonpath')->nullable();
+            $table->text('example')->nullable();
             $table->boolean('configurable')->default(0);
             $table->boolean('visible')->default(0);
 

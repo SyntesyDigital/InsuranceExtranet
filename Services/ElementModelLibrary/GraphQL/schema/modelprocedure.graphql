@@ -8,47 +8,27 @@ type ModelProcedure {
     required: String
     repeatable: String
     repeatable_json: String
-    service: Service! @hasOne
+    repeatable_jsonpath: String
+    service: Service! @belongsTo
+    elementModel: ElementModel! @belongsTo
     fields: [ModelField!]! @hasMany
-    model: ElementModel! @hasOne
-}
-
-type ModelField {
-    id: ID!
-    name: String!
-    identifier: String!
-    type: String
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
 }
 
 
 ################################
 #   INPUT
 ################################
-
-input CreateServiceBelongsTo {
-  connect: ID
-  create: CreateServiceInput
-  update: UpdateServiceInput
-  upsert: UpdateServiceInput
-}
-
 input CreateModelProcedureInput {
     name: String!
     configurable: String
     required: String
     repeatable: String
     repeatable_json: String
-    service: CreateServiceBelongsTo
-    #fields: ModelFieldsInput
-    #model: ElementModelInput
+    repeatable_jsonpath: String
+    service_id: ID
+    model_id: ID
 }
+
 
 input UpdateModelProcedureInput {
     id: ID!
@@ -57,53 +37,9 @@ input UpdateModelProcedureInput {
     required: String
     repeatable: String
     repeatable_json: String
-    #fields: ModelFieldsInput
-    #model: ElementModelInput
-    service: CreateServiceBelongsTo
-}
-
-input CreateModelFieldInput {
-    name: String!
-    identifier: String!
-    type: String!
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
-}
-
-input UpdateModelFieldInput {
-    id: ID!
-    name: String!
-    identifier: String!
-    type: String!
-    format: String 
-    default_value: String 
-    boby: String
-    jsonpath: String 
-    example: String 
-    configurable: String 
-    visible: String
-}
-
-input ElementModelInput {
-    connect: [ID!]
-    sync: [ID!]
-    create: [CreateElementModelInput!]
-    update: [CreateElementModelInput!]
-    upsert: [UpdateElementModelInput!]
-}
-
-
-input ModelFieldsInput {
-    connect: [ID!]
-    sync: [ID!]
-    create: [CreateModelFieldInput!]
-    update: [UpdateModelFieldInput!]
-    upsert: [UpdateModelFieldInput!]
+    repeatable_jsonpath: String
+    service_id: ID
+    model_id: ID
 }
 
 
@@ -116,12 +52,6 @@ extend type Query {
 
     modelProcedure(id: ID! @eq): ModelProcedure
         @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
-
-    modelFields: [ModelField!]!
-        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
-
-    modelField(id: ID! @eq): ModelField
-        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
 }
 
 

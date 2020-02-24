@@ -13,22 +13,16 @@ import {
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
+    INIT_CREATE
 
 } from '../constants';
 
 const initialState = {
 
-    saved: true,
-
-    //Groups
-    currentGroup: null,
-
-    //Permissions
-    selectedPermission: null,
+    saved: false,
 
     //Objects
     displayEditObject: false,
-    displayAddObject: false,
     currentObject: null,
 
     //Test
@@ -36,9 +30,19 @@ const initialState = {
 
     //Procedures
     displayEditProcedures: false,
-    displayAddProcedures: false,
     currentProcedure: null,
 
+    form : {
+        id: null,
+        name: '',
+        identifier: '',
+        description: '',
+        icon: '',
+        type: 'form-v2',
+        procedures : []
+    },
+
+    /*
     form: {
         id: 1,
         modele: 'CSRIN',
@@ -46,15 +50,7 @@ const initialState = {
         identifier: 'Identifier',
         description: 'Description',
         icon: 'fas fa-align-center',
-        objectId: 'SIN02',
-        etap: '101',
-        lib: 'Assuré',
-        rep: 'N',
-        conf: 'Y',
-        obl: 'Y',
-        p1: null,
-        P2: null,
-        p3: null,
+        type: 'form-v2',
         procedures: [
             {
                 id: 1,
@@ -68,8 +64,7 @@ const initialState = {
                         id : 1,
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
-                        icon: 'fas fa-calculator',
-                        format: 'Num',
+                        format: 'number',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -81,8 +76,7 @@ const initialState = {
                         id : 2,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        format: 'Text',
-                        icon: 'fas fa-font',
+                        format: 'text',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -107,7 +101,7 @@ const initialState = {
                         identifier: 'identifier 1',
                         name: 'Field Name 01',
                         icon: 'fas fa-calculator',
-                        format: 'Num',
+                        format: 'number',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
                         jsonPath: 'jsonPath',
@@ -119,7 +113,7 @@ const initialState = {
                         id : 4,
                         identifier: 'identifier 2',
                         name: 'Field Name 02',
-                        format: 'Text',
+                        format: 'number',
                         icon: 'fas fa-font',
                         defaultValue: 'defaultValue',
                         boby: 'boby',
@@ -132,6 +126,7 @@ const initialState = {
             }
         ]
     },
+    */
 
     test : {
         "causeCirconstance": "cause",
@@ -169,12 +164,17 @@ function formReducer(state = initialState, action) {
 
     switch (action.type) {
 
+        case INIT_CREATE : 
+            return {
+                ...state
+            }
         case INIT_STATE:
 
-            console.log("INIT_STATE from Elements Models=> ", action.data);
+            //console.log("INIT_STATE from Elements Models=> ", action.data);
 
             return {
                 ...state,
+                form : action.payload
             }
 
         case UPDATE_FIELD:
@@ -186,8 +186,14 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_FORM:
+
+            var proceduresCopy = state.form.procedures;
+            var newForm = action.payload;
+            newForm.procedures = proceduresCopy;
+
             return {
                 ...state,
+                form : newForm
             }
 
         case REMOVE_FORM:
@@ -204,7 +210,19 @@ function formReducer(state = initialState, action) {
         case OPEN_MODAL_CREATE_PROCEDURE:
             return {
                 ...state,
-                displayAddProcedures: true,
+                displayEditProcedures: true,
+                //add default procedure values
+                currentProcedure : {
+                    id: null,
+                    name: '',
+                    service: '',
+                    configurable: false,
+                    required: false,
+                    repeatable: false,
+                    repeatable_json : '',
+                    repeatable_jsonpath : '',
+                    fields: []
+                }
             }
 
         case OPEN_MODAL_EDIT_PROCEDURE:
@@ -233,14 +251,27 @@ function formReducer(state = initialState, action) {
             return {
                 ...state,
                 displayEditProcedures: false,
-                displayAddProcedures: false,
                 currentProcedure: null
             }
 
         case OPEN_MODAL_CREATE_OBJECT:
             return {
                 ...state,
-                displayAddObject: true,
+                displayEditObject: true,
+                //default current object
+                currentObject : {
+                    id : null,
+                    identifier: '',
+                    name: '',
+                    type : 'INPUT',
+                    format: 'text',
+                    default_value: '',
+                    boby: '',
+                    jsonPath: '',
+                    example: '',
+                    configurable: false,
+                    visible: false
+                }
             }
 
         case OPEN_MODAL_EDIT_OBJECT:
