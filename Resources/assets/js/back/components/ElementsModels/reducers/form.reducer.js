@@ -221,7 +221,7 @@ function formReducer(state = initialState, action) {
                     repeatable: false,
                     repeatable_json : '',
                     repeatable_jsonpath : '',
-                    objects: []
+                    fields: []
                 }
             }
 
@@ -263,8 +263,9 @@ function formReducer(state = initialState, action) {
                     id : null,
                     identifier: '',
                     name: '',
+                    type : 'INPUT',
                     format: 'text',
-                    defaultValue: '',
+                    default_value: '',
                     boby: '',
                     jsonPath: '',
                     example: '',

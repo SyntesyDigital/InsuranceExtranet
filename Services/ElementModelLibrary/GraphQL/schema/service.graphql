@@ -18,17 +18,6 @@ type Service {
 ################################
 #   INPUT
 ################################
-input ServiceInput {
-    id: ID!
-    identifier: String! @rules(apply: ["required"])
-    name: String! @rules(apply: ["required"])
-    http_method: String! @rules(apply: ["required"])
-    url: String! @rules(apply: ["required"])
-    boby: String! @rules(apply: ["required"])
-    json: String
-    response: String 
-    comment: String
-}
 
 input CreateServiceInput {
     identifier: String @rules(apply: ["required"])
