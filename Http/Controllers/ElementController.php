@@ -210,35 +210,54 @@ class ElementController extends Controller
         }
     }
 
-    public function export(Element $element, $limit = null, Request $request)
+    public function export(Element $element, $filename = '', $limit = null, Request $request)
     {
-        $modelValues = (new ModelValuesFormatTransformer(
-        $this->elements->getModelValuesFromElement($element, $request->all())['modelValues'], $element->fields()->get(), $limit, null, false, true)
-        )->toArray();
-        $filename = Carbon::now()->format('YmdHs').'_'.str_slug($element->name, '_').'.csv';
-        $filepath = storage_path().'/app/'.$filename;
-        $handle = fopen($filepath, 'w+');
+        //cronstuct file
+        if ($filename == 'undefined') {
+            //cronstuct file
+            $filename = Carbon::now()->format('YmdHs').'_'.str_slug($element->name, '_').'.csv';
+            $filepath = storage_path().'/app/'.$filename;
+            $handle = fopen($filepath, 'w+');
 
-        $titles = $element->fields()->pluck('name')->toArray();
-        $colmuns = $element->fields()->pluck('name', 'identifier');
-        fputcsv($handle, $titles);
+            $titles = $element->fields()->pluck('name')->toArray();
+            fputcsv($handle, $titles);
+        } else {
+            $filepath = storage_path().'/app/'.$filename;
+            $handle = fopen($filepath, 'a+');
+        }
+        $columns = $element->fields()->pluck('name', 'identifier');
+
+        $result = $this->elements->getModelValuesFromElement($element, $request->all());
+        $modelValues = (new ModelValuesFormatTransformer(
+        $result['modelValues'], $element->fields()->get(), false, null, false, true)
+        )->toArray();
 
         foreach ($modelValues as $modelValue) {
             $row = [];
-            foreach ($colmuns as $key => $value) {
+            foreach ($columns as $key => $value) {
                 array_push($row, isset($modelValue[$key]) ? $modelValue[$key] : '');
             }
 
             fputcsv($handle, $row);
         }
-
         fclose($handle);
+
+        return response()->json([
+            'success' => true,
+            'filename' => $filename,
+        ]);
+    }
+
+    public function downloadCSV($filename)
+    {
+        //Close and download
 
         $headers = array(
             'Content-Type' => 'text/csv',
         );
+        $filepath = storage_path().'/app/'.$filename;
 
-        return response()->download($filepath, $filename, $headers);
+        return response()->download($filepath, $filename, $headers)->deleteFileAfterSend(true);
     }
 
     public function getSelectData($name, Request $request)

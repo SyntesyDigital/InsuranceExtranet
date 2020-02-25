@@ -23,10 +23,8 @@ export default class TableComponent extends Component {
         const itemsPerPage = props.itemsPerPage !== undefined
           && props.itemsPerPage != null
           && props.itemsPerPage != '' ? props.itemsPerPage : 10;
-
-        //console.log("props.itemsPerPage => ",props.itemsPerPage);
-        //console.log("itemsPerPage => ",itemsPerPage);
-
+        const exportBtn = props.exportBtn;
+        const downloadUrl = props.downloadUrl;
 
         const maxItems = props.maxItems !== undefined ? props.maxItems : false;
 
@@ -49,11 +47,14 @@ export default class TableComponent extends Component {
             sortColumnType:null,
             defaultDataLoadStep:defaultDataLoadStep,
             model : model,
-
+            exportBtn:exportBtn,
+            downloadUrl : props.downloadUrl,
             //iterator
             pageLimit : pageLimit,
             currentPage : 2,
             totalPages : 0,
+            csvElements : 0,
+            exportPage: 1
         };
     }
 
@@ -91,8 +92,6 @@ export default class TableComponent extends Component {
           var urlArray = url.split(":");
           var elementUrl = urlArray[0];
           var redirectUrl = urlArray[1];
-
-          //console.log("modal link => ",link,url);
           self.props.onOpenModal(elementUrl,redirectUrl);
         });
     }
@@ -105,13 +104,57 @@ export default class TableComponent extends Component {
 
       params += 'perPage='+limit+'&page='+page;
 
-      //console.log('SORT',this.state.sortColumnName);
       if( this.state.sortColumnName){
         params += '&orderBy='+this.state.sortColumnName+'&orderType='+this.state.sortColumnType;
       }
 
       return params;
     }
+
+    nothing(e) {
+      e.preventDefault();
+    }
+
+    export(e) {
+      // WS, PARAMS, PAGINA ACTUAL, REGISTRES PER PAGINES
+      e.preventDefault();
+      var event = e;
+        const {elementObject,downloadUrl,exportPage, downloading, loadingData, totalPages,pageLimit, filename} = this.state;
+
+            if(exportPage > totalPages){
+              var url = downloadUrl.replace(':filename',filename);
+              console.log('peticion terminada ', url);
+
+              this.setState({
+                downloading: false
+              });
+            
+              window.location.href=url;
+            }else{
+              var self = this;
+                self.setState({
+                  downloading: true
+                });
+                var params = this.getQueryParams(pageLimit,exportPage);
+                var self = this;
+                axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/'+filename+'/model_values/data/'+pageLimit+'/'+params).then(function (response) {
+                  self.setState({
+                      filename : response.data.filename,
+                      exportPage : exportPage + 1,
+                      downloading : true
+                    }, function(){
+                      self.export(event);
+                  });
+                  
+                }).catch(function (error) {
+                  self.setState({
+                    downloading: false
+                  });
+                });
+            }
+                
+    }
+
 
     query() {
         var self = this;
@@ -132,12 +175,10 @@ export default class TableComponent extends Component {
                   && response.data.modelValues !== undefined)
               {
                 //console.log("ModelValues  :: componentDidMount => ",response.data.modelValues);
-                console.log("CompleteObject  :: componentDidMount => ",response.data.totalPage);
+               // console.log("CompleteObject  :: componentDidMount => ",response.data.totalPage);
                 // en completeObject rengo el total de registros, por pagina, pagina, total de paginas, desde y hasta
 
                 var dataProcessed = self.processData(response.data.modelValues);
-
-
 
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
@@ -146,6 +187,10 @@ export default class TableComponent extends Component {
                 }, function(){
                     if(!maxItems) {
                       self.iterateAllPages();
+                    }else{
+                      self.setState({
+                          loadingData : false,
+                      });
                     }
                 });
 
@@ -165,16 +210,13 @@ export default class TableComponent extends Component {
         elementObject,totalPages,currentPage,
         pageLimit
       } = this.state;
-
       if(currentPage > totalPages){
-
         //process data and add to main data
         this.setState({
-          loadingData : true
+          loadingData : false
         })
       }
       else {
-
         //process page
         var params = this.getQueryParams(pageLimit,currentPage);
         var self = this;
@@ -246,7 +288,7 @@ export default class TableComponent extends Component {
           if(row.original[identifier] !== undefined && row.original[identifier] != null && row.original[identifier] != ""){
 
             if(field.settings !== undefined && field.settings.format !== undefined){
-              console.log(field.settings.format)
+             // console.log(field.settings.format)
               switch(field.settings.format) {
                 case 'day_month':
                   value = moment.unix(row.original[identifier]).format('DD/MM');
@@ -294,12 +336,10 @@ export default class TableComponent extends Component {
       }
 
       if(field.type == "file"){
-        //console.log("Field with has Route => ",field,row.original);
         return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
-        //console.log("Field with has Route => ",field,row.original);
         return <div dangerouslySetInnerHTML={{__html: row.original[identifier+"_url"]}} />
       }
       else if(field.settings.hasModal !== undefined && field.settings.hasModal != null){
@@ -363,10 +403,7 @@ export default class TableComponent extends Component {
             var dataValue = data[key][subkey];
 
             //if value has ';' that means it has a link
-            //console.log("dataValue => ",dataValue);
             if(typeof dataValue === 'string' && dataValue.indexOf(';') != -1){
-              //console.log("data => ",data[key],newSubkey,dataValue);
-              //dataValue =
               var valueArray = dataValue.split(';');
               data[key][newSubkey+'_url'] = valueArray[1];
               dataValue = valueArray[0];
@@ -380,37 +417,58 @@ export default class TableComponent extends Component {
     }
 
     filterMethod(identifier, filter, rows ) {
-        //console.log("identifier => ",identifier);
         return matchSorter(rows, filter.value, { keys: [identifier] });
     }
 
     renderTable() {
-      const {data, elementObject, itemsPerPage,maxItems} = this.state;
+      const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
 
       return (
-        <ReactTable
-          data={this.state.data}
-          columns={this.state.columns}
-          showPagination={this.state.pagination}
-          defaultSorted={[
-            {
-              id: this.state.sortColumnName,
-              desc: this.state.sortColumnType == 'DESC'?true:false
-            }
-          ]}
-          defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
-          loading={this.state.loading}
-          filterable={true}
-          //className="-striped -highlight"
-          className=""
-          previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
-          nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
-          loadingText={'Chargement...'}
-          noDataText={'Aucune donnée trouvée'}
-          pageText={'Page'}
-          ofText={'de'}
-          rowsText={'lignes'}
-        />
+        <div>
+          {this.props.exportBtn &&  !downloading && ! loadingData &&
+
+            <div className="excel-btn">
+              <a href="#" onClick={this.export.bind(this)} >
+                <i className="fas fa-download"></i>Exportation CSV
+              </a>
+            </div>
+          }
+
+          {this.props.exportBtn &&  (downloading || loadingData) &&
+
+            <div className="excel-btn">
+              <a href="#" onClick={this.nothing.bind(this)} className="disabled">
+                <i className="fas fa-download"></i>Exportation CSV
+              </a>
+            </div>
+          }
+          <div className={this.props.exportBtn? 'react-table-container m-top':'react-table-container'}>
+            <ReactTable
+              data={this.state.data}
+              columns={this.state.columns}
+              showPagination={this.state.pagination}
+              defaultSorted={[
+                {
+                  id: this.state.sortColumnName,
+                  desc: this.state.sortColumnType == 'DESC'?true:false
+                }
+              ]}
+              defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+              loading={this.state.loading}
+              filterable={true}
+              //className="-striped -highlight"
+              className=""
+              previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
+              nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
+              loadingText={'Chargement...'}
+              noDataText={'Aucune donnée trouvée'}
+              pageText={'Page'}
+              ofText={'de'}
+              rowsText={'lignes'}
+            />
+          </div>
+          
+        </div>
       );
     }
 

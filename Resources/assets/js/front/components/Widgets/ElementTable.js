@@ -82,6 +82,8 @@ export default class ElementTable extends Component {
                 maxItems={this.props.maxItems}
                 parameters={this.props.parameters}
                 onOpenModal={this.handleOpenModal.bind(this)}
+                exportBtn={this.props.exportBtn}
+                downloadUrl={this.props.downloadUrl}
               />
             </div>
 
@@ -100,7 +102,8 @@ if (document.getElementById('elementTable')) {
        var pagination = element.getAttribute('pagination');
        var itemsPerPage = element.getAttribute('itemsPerPage');
        var parameters = element.getAttribute('parameters');
-
+       var exportBtn = element.getAttribute('exportBtn');
+       var downloadUrl = element.getAttribute('downloadUrl');
        var elementObject = JSON.parse(atob(element.getAttribute('elementObject')));
        var model = JSON.parse(atob(element.getAttribute('model')));
 
@@ -112,6 +115,8 @@ if (document.getElementById('elementTable')) {
            itemsPerPage={itemsPerPage}
            maxItems={maxItems}
            parameters={parameters}
+           exportBtn={exportBtn}
+           downloadUrl={downloadUrl}
          />, element);
    });
 }
