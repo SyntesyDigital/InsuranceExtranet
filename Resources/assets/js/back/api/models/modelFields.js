@@ -102,6 +102,8 @@ export const GQL_UPDATE_MODEL_FIELD = gql`
                 identifier
                 type
                 format
+                configurable
+                visible
             }
     } 
 `;

@@ -42,7 +42,7 @@ export function saveProcedure(modelId,procedures,procedure) {
 
 export function createProcedure(modelId,procedures,procedure) {
 
-    //console.log("createProcedure (procedure)",procedure);
+    console.log("createProcedure (procedure)",procedure);
 
     return (dispatch) => {
         api.procedures.create({
@@ -52,20 +52,21 @@ export function createProcedure(modelId,procedures,procedure) {
             repeatable: procedure.repeatable,
             repeatable_json: procedure.repeatable_json,
             repeatable_jsonpath : procedure.repeatable_jsonpath,
-            service_id: procedure.service,
+            service_id: procedure.service.id,
             model_id: modelId
         })
         .then(function(data) {
 
-            //console.log("createProcedure : (data) ",data);
+            toastr.success(Lang.get('fields.success'));
 
             procedure.id = data.data.createModelProcedure.id;
             procedures.push(procedure);
             dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
         });
     }
-
-    return { type: UPDATE_PROCEDURES, payload: procedures };
 };
 
 export function updateProcedure(modelId,procedures,procedure) {
@@ -78,30 +79,45 @@ export function updateProcedure(modelId,procedures,procedure) {
             repeatable: procedure.repeatable,
             repeatable_json: procedure.repeatable_json,
             repeatable_jsonpath : procedure.repeatable_jsonpath,
-            service_id: procedure.service,
+            service_id: procedure.service.id,
             model_id: modelId
         })
         .then(function(data) {
 
             var index = getProcedureIndex(procedures,procedure);
-            var objectsCopy = procedures[index].objects;
+            var objectsCopy = procedures[index].fields;
             procedures[index] = procedure;
             //objects are modified directly in the state
-            procedures[index].objects = objectsCopy;
+            procedures[index].fields = objectsCopy;
+
+            toastr.success(Lang.get('fields.success'));
 
             dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
         });
+
     }
 
 };
 
 export function removeProcedure(procedures,procedure) {
 
-    var index = getProcedureIndex(procedures,procedure);
+    return (dispatch) => {
+        api.procedures.delete(procedure.id)
+        .then(function(data) {
+            var index = getProcedureIndex(procedures,procedure);
+            procedures.splice(index,1);
 
-    procedures.splice(index,1);
+            toastr.success(Lang.get('fields.success'));
 
-    return { type: UPDATE_PROCEDURES, payload: procedures };
+            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
+        });
+    }    
 };
 
 export function moveProcedure() {

@@ -10,11 +10,6 @@ import {
 
 import api from '../../../api/index.js';
 
-// import {
-
-
-//   } from "../api/";
-
 function transformElementModel(model) {
     for(var key in model.procedures){
         //model.procedures[key].service = model.procedures[key].service.id
@@ -70,7 +65,13 @@ export function createForm(form) {
             type : form.type
         })
         .then(function(data) {
+
+            toastr.success(Lang.get('fields.success'));
+
             dispatch({type: UPDATE_FORM, payload: data.data.createElementModel});
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
         });
     }
 };
@@ -86,7 +87,13 @@ export function updateForm(form) {
             type : form.type
         })
         .then(function(data) {
+
+            toastr.success(Lang.get('fields.success'));
+
             dispatch({type: UPDATE_FORM, payload: data.data.updateElementModel});
+        })
+        .catch(function(error) {
+            toastr.error(error.message);
         });
     }
 };
@@ -98,15 +105,7 @@ export function removeForm(form) {
         .then(function(data) {
 
             window.location.href = routes['extranet.elements-models.forms.index'];
-
-            //dispatch({type: UPDATE_FORM, payload: data.data.updateElementModel});
         });
-    }
-
-    return {
-        type: REMOVE_FORM, payload: {
-            form: form,
-        }
     }
 };
 

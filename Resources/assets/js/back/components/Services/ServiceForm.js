@@ -17,7 +17,8 @@ export default class ServiceForm extends Component {
         this.state = {
 
             service: {
-                http_method : 'POST'
+                http_method : 'POST',
+                json : '{}'
             },
 
             errors: {},
@@ -37,6 +38,8 @@ export default class ServiceForm extends Component {
                 },
             ],
 
+            json : {}
+
 
         };
 
@@ -53,7 +56,8 @@ export default class ServiceForm extends Component {
     load() {
         api.services.get(this.props.serviceId)
             .then(payload => this.setState({
-                'service': payload.data.service ? payload.data.service : null
+                'service': payload.data.service ? payload.data.service : null,
+                'json' : JSON.parse(payload.data.service.json)
             }));
     }
 
@@ -112,17 +116,37 @@ export default class ServiceForm extends Component {
     }
 
     handleRemove() {
-        console.log("handleRemoveRole");
+        
+        var _this = this;
+
+        bootbox.confirm({
+            message: this.props.rempoveMessage !== undefined ? 
+            this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si') ,
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label:  Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    api.services.delete(_this.state.service.id)
+                        .then(function(data){
+                            window.location.href = routes['extranet.services.index'];
+                        })
+                }
+              }
+            });        
     }
 
     handleSubmit() {
         this.save();
     }
 
-    onJsonChange(params) {
-        this.handleFieldChange('response', params.json);
-    }
-    
     // ==============================
     // Renderers
     // ==============================
@@ -133,7 +157,7 @@ export default class ServiceForm extends Component {
             <div className="services-update">
 
                 <BarTitle
-                    icon={'far fa-question-circle'}
+                    icon={'fas fa-external-link-alt'}
                     title={this.state.service.name ? this.state.service.name : 'Nouveau service'}
                     backRoute={routes['extranet.services.index']}
                 >
@@ -167,10 +191,12 @@ export default class ServiceForm extends Component {
 
                     <div className="col-md-9 page-content form-fields">
                         <InputFieldJsonEdit
+                            id={'json'}
                             label={'JSON'}
                             width={'100%'}
-                            data={this.state.service.json ? JSON.parse(this.state.service.json) : {}}
-                            onChange={this.onJsonChange.bind(this)}
+                            name={'json'}
+                            placeholder={this.state.json}
+                            onChange={this.handleFieldChange.bind(this)}
                             
                         />
                     </div>

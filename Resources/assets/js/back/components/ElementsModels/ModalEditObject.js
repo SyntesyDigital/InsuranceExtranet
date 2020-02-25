@@ -33,17 +33,17 @@ class ModalEditObject extends Component {
             formats: formats,
             typeNature: [
                 {
-                    name: 'cte',
-                    value: 'CTE'
+                    name: 'input',
+                    value: 'INPUT'
                 },
                 {
                     name: 'system',
                     value: 'SYSTEM'
                 },
                 {
-                    name: 'input',
-                    value: 'INPUT'
-                },
+                    name: 'cte',
+                    value: 'CTE'
+                }
             ],
             object : null
         };
@@ -96,7 +96,8 @@ class ModalEditObject extends Component {
             this.props.form.form.procedures[index],
             this.state.object
         );
-        this.props.closeModalProcedureObject();
+
+        //this.props.closeModalProcedureObject();
     }
 
     handleRemove() {
@@ -166,8 +167,8 @@ class ModalEditObject extends Component {
 
                             <SelectField
                                 label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.typeNature}
-                                name={'typeNature'}
+                                value={currentObject.type}
+                                name={'type'}
                                 arrayOfOptions={this.state.typeNature}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
@@ -182,8 +183,8 @@ class ModalEditObject extends Component {
 
                             <InputField
                                 label={'Default value (valeur)'}
-                                name={'defaultValue'}
-                                value={currentObject.defaultValue}
+                                name={'default_value'}
+                                value={currentObject.default_value}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -196,8 +197,8 @@ class ModalEditObject extends Component {
 
                             <InputField
                                 label={'JSON path (concreto para este campo)'}
-                                name={'jsonPath'}
-                                value={currentObject.jsonPath}
+                                name={'jsonpath'}
+                                value={currentObject.jsonpath}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -211,14 +212,14 @@ class ModalEditObject extends Component {
                             <ToggleField
                                 label={'Configurable'}
                                 name={'configurable'}
-                                checked={currentObject.configurable}
+                                checked={currentObject.configurable == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <ToggleField
                                 label={'Visible'}
                                 name={'visible'}
-                                checked={currentObject.visible}
+                                checked={currentObject.visible == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 

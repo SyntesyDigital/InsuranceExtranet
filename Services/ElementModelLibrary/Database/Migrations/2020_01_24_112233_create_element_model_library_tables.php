@@ -68,10 +68,10 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('identifier');
             $table->string('type');
             $table->string('format');
-            $table->string('default_value');
-            $table->string('boby');
-            $table->string('jsonpath');
-            $table->text('example');
+            $table->string('default_value')->nullable();
+            $table->string('boby')->nullable();
+            $table->string('jsonpath')->nullable();
+            $table->text('example')->nullable();
             $table->boolean('configurable')->default(0);
             $table->boolean('visible')->default(0);
 
