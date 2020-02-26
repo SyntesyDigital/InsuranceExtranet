@@ -14,8 +14,7 @@ export default class FileComponentTemp extends Component {
     }
 
     handleChange(e) {
-        var checked = e.target.checked;
-        console.log(checked)
+        console.log('handleChange :: ', e.target.checked)
     }
 
     render() {
@@ -31,29 +30,30 @@ export default class FileComponentTemp extends Component {
                         textAlign={'center'}
                     />
                     <Row>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default border-right">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
-                                labelAlign={'left'}
-                                valueAlign={'left'}
+                                labelAlign={'center'}
+                                valueAlign={'center'}
                                 inline={true}
+                                valueBackgroundColor={'red'}
+                                valueColor={'yelow'}
                             />
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
-                                labelAlign={'left'}
-                                valueAlign={'left'}
+                                labelAlign={'center'}
+                                valueAlign={'center'}
                                 inline={true}
+                                valueBackgroundColor={'green'}
+                                valueColor={'white'}
                             />
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -62,7 +62,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Nom de l’assuré'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -71,18 +70,16 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -91,7 +88,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -100,7 +96,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -109,7 +104,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Nom de l’assuré'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -118,7 +112,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -131,11 +124,10 @@ export default class FileComponentTemp extends Component {
                         textAlign={'center'}
                     />
                     <Row>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default border-right">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -144,7 +136,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -153,18 +144,16 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -173,7 +162,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -182,7 +170,6 @@ export default class FileComponentTemp extends Component {
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
                                 labelAlign={'left'}
                                 valueAlign={'left'}
@@ -192,67 +179,61 @@ export default class FileComponentTemp extends Component {
                     </Row>
                     <CheckField
                         text={'Je confirme que ce candidat locataire n’a pas le statut de diplomate, n’est pas une association, et justifie de revenus versés et déclarés à l’étranger'}
-                        onChange={this.handleChange}
+                        onChange={this.handleChange.bind(this)}
                     />
                     <Label
                         text={'LOCATAIRE 2'}
                         textAlign={'center'}
                     />
                     <Row>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default border-right">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} sm={6} className="container-fields-default">
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                             <DefaultField
                                 label={'Date Agrément'}
                                 value={'09-12-2019'}
-                                valueBackgroundColor={'#fff'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
                             <DefaultField
                                 label={'Ref'}
                                 value={'AGRE1012'}
-                                valueBackgroundColor={'#f8f9fa'}
                                 stripped={true}
-                                labelAlign={'right'}
+                                labelAlign={'left'}
                                 valueAlign={'left'}
                                 inline={true}
                             />
@@ -260,7 +241,7 @@ export default class FileComponentTemp extends Component {
                     </Row>
                     <CheckField
                         text={'Je confirme que ce candidat locataire n’a pas le statut de diplomate, n’est pas une association, et justifie de revenus versés et déclarés à l’étranger'}
-                        onChange={this.handleChange}
+                        onChange={this.handleChange.bind(this)}
                     />
                 </Grid>
                 <Grid>
@@ -270,7 +251,7 @@ export default class FileComponentTemp extends Component {
                                 icon={'fas fa-building'}
                                 font={'40px'}
                                 color={'#a2a8b3'}
-                                circle={false}
+                                circle={true}
                                 checked={true}
                             />
                         </Col>
@@ -279,11 +260,12 @@ export default class FileComponentTemp extends Component {
                 <DefaultField
                     label={'RESULTAT'}
                     value={'REFUS - A SOUMETTRE'}
-                    valueColor={'#fc7c7c'}
-                    stripped={true}
+                    valueColor={'#c05252'}
+                    valueBackgroundColor={'#fc7c7c'}
                     labelAlign={'center'}
                     valueAlign={'center'}
                     inline={true}
+                    stripped={false}
                 />
             </div>
         );

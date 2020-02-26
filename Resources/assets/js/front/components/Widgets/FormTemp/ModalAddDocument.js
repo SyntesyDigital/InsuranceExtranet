@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
-import Label from './fields/Label';
 import CheckField from '../FileTemp/fields/CheckField';
-// import RadioField from './fields/RadioField';
+import YesNoField from './fields/YesNoField';
 import TextField from './fields/TextField';
 import { Grid, Row, Col } from 'react-bootstrap';
-
 
 export default class ModalAddDocument extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-
+            optionsBooleanButton: 'Oui'
         }
     }
 
@@ -31,6 +29,9 @@ export default class ModalAddDocument extends Component {
 
     handleFieldChange(name, value) {
         console.log("handleFieldChange :: (name,value)", name, value);
+        const state = this.state;
+        state[name] = value;
+        this.setState(state);
     }
 
     handleSubmit() {
@@ -45,7 +46,7 @@ export default class ModalAddDocument extends Component {
         return (
             <Modal
                 id={this.props.id}
-                icon={this.props.icon}
+                title={this.props.title}
                 display={this.props.display}
                 zIndex={10000}
                 onModalClose={this.props.onModalClose}
@@ -60,10 +61,6 @@ export default class ModalAddDocument extends Component {
                         <Grid
                             className="layout"
                             fluid={true}>
-                            <Label
-                                text={'Ajouter Dcoument'}
-                                textAlign={'left'}
-                            />
                             <Row>
                                 <Col md={12}>
                                     <TextField
@@ -120,18 +117,20 @@ export default class ModalAddDocument extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={6}>
-                                    <p>Fumé ou tapoté ces deux dernières années ? *</p>
-                                </Col>
-                                <Col md={6}>
-                                   
+                                <Col md={12}>
+                                    <YesNoField
+                                        arrayOfOptions={this.props.arrayOfOptions}
+                                        name={'optionsBooleanButton'}
+                                        value={this.state.optionsBooleanButton}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                        text={'Fumé ou tapoté ces deux dernières années ? *'}
+                                    />
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={12}>
                                     <CheckField
                                         text={'Je confirme que ce candidat locataire n’a pas le statut de diplomate, n’est pas une association, et justifie de revenus versés et déclarés à l’étranger *'}
-
                                     />
                                 </Col>
                             </Row>

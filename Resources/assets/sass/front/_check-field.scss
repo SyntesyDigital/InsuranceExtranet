@@ -1,16 +1,7 @@
 .check-field {
   .MuiCheckbox-root {
     .MuiIconButton-label {
-      /* Double-sized Checkboxes */
-      -ms-transform: scale(1.5); /* IE */
-      -moz-transform: scale(1.5); /* FF */
-      -webkit-transform: scale(1.5); /* Safari and Chrome */
-      -o-transform: scale(1.5); /* Opera */
-      transform: scale(1.5);
-      padding: 10px;
+      padding: 10px 0px 10px 0px;
     }
-  }
-  .MuiFormControlLabel-label{
-      font-size: 1.4rem;
   }
 }

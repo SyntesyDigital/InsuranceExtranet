@@ -24,7 +24,6 @@ export default class CheckField extends Component {
                             value={this.props.name}
                             color="primary"
                             onChange={this.props.onChange}
-                            size="60"
                         />
                     }
                     label={text}

@@ -6,12 +6,11 @@ export default class IconField extends Component {
 
     constructor(props) {
         super(props);
-
     }
 
     render() {
 
-        const { icon, circle, checked, color, font } = this.props;
+        const { icon, circle, color, font } = this.props;
 
         const divStyle = {
             textAlign: 'center',
@@ -43,7 +42,7 @@ export default class IconField extends Component {
 
 IconField.propTypes = {
     icon: PropTypes.string.isRequired,
-    checked: PropTypes.string,
+    checked: PropTypes.bool,
     circle: PropTypes.bool,
     color: PropTypes.string,
     font: PropTypes.string

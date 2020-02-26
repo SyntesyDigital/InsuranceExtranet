@@ -21,14 +21,14 @@ export default class ListField extends Component {
 
         bootbox.confirm({
             message: this.props.rempoveMessage !== undefined ?
-                this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+                this.props.rempoveMessage : Lang.get('Want to remove this item?'),
             buttons: {
                 confirm: {
-                    label: Lang.get('fields.si'),
+                    label: Lang.get('Oui'),
                     className: 'btn-primary'
                 },
                 cancel: {
-                    label: Lang.get('fields.no'),
+                    label: Lang.get('Non'),
                     className: 'btn-default'
                 }
             },
@@ -53,25 +53,21 @@ export default class ListField extends Component {
         const divStyle = {
             cursor: 'pointer',
             textAlign: 'center',
-            border: '1px dashed #ccc' ,
+            border: '1px dashed #ccc',
             padding: '15px',
             marginBottom: '25px',
         };
 
-        const { identifier, isField } = this.props;
-
-        let arrayOfFields = this.props.arrayOfFields;
+        const { identifier } = this.props;
 
         let fields = this.props.arrayOfFields.map((item, index) =>
-            <div className="col-md-3">
+            <div className="col-md-3 col-xs-3" key={index}>
                 <label
-                    key={index}
                     value={item.value}
                 >
                     {item.name}
                 </label>
             </div>
-
         );
 
         return (
@@ -80,22 +76,16 @@ export default class ListField extends Component {
                     <div id={"field-list-item-" + identifier} className="typology-field field-list-item">
                         <div className="field-type">
                             <i className={this.props.icon}></i> &nbsp;
-    					{this.props.label}
-
+    					    {this.props.label}
                             <div className="type-info">
-                                <span className="text-success">
-
-                                </span>
+                                <span className="text-success"></span>
                             </div>
                         </div>
-
                         <div className="field-labels">
                             <div className="row">
                                 {fields}
                             </div>
                         </div>
-
-
                         <div className="field-actions text-right" style={{ paddingRight: '15px' }}>
                             <a href="#" onClick={this.handleEdit.bind(this)}>
                                 <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}
@@ -106,14 +96,11 @@ export default class ListField extends Component {
                             </a>
                         </div>
                     </div>
-                </div>
-
-                <div id={"heading" + identifier} style={divStyle} >
-                    <a href="#" className="btn btn-default" onClick={this.props.onAdd} style={{ borderRadius: '20px' }}>
-                        <span className="field-name">
-                            <i className="fas fa-plus-circle"></i> Ajouter
-                        </span>
-                    </a>
+                    <div id={identifier} style={divStyle} className="more-btn">
+                        <a href="#" className="btn" onClick={this.props.onAdd} style={{ borderRadius: '20px' }}>
+                            <span className="field-name"><i className="fas fa-plus-circle"></i> Ajouter</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         );
@@ -127,7 +114,6 @@ ListField.propTypes = {
     index: PropTypes.number,
     labelInputLeft: PropTypes.string,
     labelInputRight: PropTypes.string,
-    isField: PropTypes.bool,
 
     //onEvents props
     onEdit: PropTypes.func,

@@ -12,10 +12,7 @@ const theme = createMuiTheme({
     },
 });
 
-export default class RadioField extends PureComponent {
-    constructor(props) {
-        super(props);
-    }
+export default class YesNoField extends PureComponent {
 
     // ==============================
     // Handlers
@@ -30,10 +27,12 @@ export default class RadioField extends PureComponent {
     // ==============================
 
     renderOptions() {
-        
+
         return this.props.arrayOfOptions.map((item, index) => {
+
             const bordered = item.value == this.props.value ? 'bordered' : '';
             const checked = item.value == this.props.value ? true : false;
+
             return (
                 <FormControlLabel
                     key={index}
@@ -56,25 +55,29 @@ export default class RadioField extends PureComponent {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <FormControl component="fieldset" className={'container-radio-field'}>
-                    {this.props.label ?
-                        <label className="bmd-label-floating">
-                            {this.props.label}
-                        </label>
-                        : null}
-                    <RadioGroup 
-                        aria-label="position" 
-                        name="position" 
-                    >
-                        {this.renderOptions()}
-                    </RadioGroup>
-                </FormControl>
+                <div className="col-md-12 container-radio-field yes-no-field">
+                    <div className="container-text">
+                        {this.props.text}
+                    </div>
+                    <div className="container-fields-yes-no">
+                        <FormControl component="fieldset">
+                            {this.props.label ?
+                                <label className="bmd-label-floating">
+                                    {this.props.label}
+                                </label>
+                                : null}
+                            <RadioGroup aria-label="position" name="position">
+                                {this.renderOptions()}
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                </div>
             </ThemeProvider>
         );
     }
 }
 
-RadioField.propTypes = {
+YesNoField.propTypes = {
     label: PropTypes.string,
     text: PropTypes.string,
     name: PropTypes.string.isRequired,

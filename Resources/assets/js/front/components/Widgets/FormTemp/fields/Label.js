@@ -11,7 +11,7 @@ export default class Label extends Component {
 
     const textStyle = {
       paddingBottom: '15px',
-      borderBottom: '1px solid'
+      borderBottom: '1px solid',
     };
 
     const divStyle = {
@@ -20,7 +20,7 @@ export default class Label extends Component {
 
     return (
 
-      <div className="label-field" style={divStyle}>
+      <div style={divStyle}>
         <div className="row">
           <h3 style={textStyle}>
             {this.props.text}
