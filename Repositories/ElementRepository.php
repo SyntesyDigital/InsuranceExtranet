@@ -187,9 +187,9 @@ class ElementRepository extends BaseRepository
         //dd($element->model_exemple);
         $params = "?";
 
-        if(Auth::user()->session_id != Auth::user()->id){
+        //if(Auth::user()->session_id != Auth::user()->id){
           $params .= "SES=".Auth::user()->session_id;
-        }
+        //}
 
         if(isset($parameters) && sizeof($parameters) > 0){
           foreach($parameters as $key => $value) {
