@@ -17,6 +17,8 @@ use Modules\Extranet\Jobs\Element\UpdateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
 //use Modules\Extranet\Jobs\Element\PostService;
 
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
 use Illuminate\Http\Request;
 use Session;
@@ -75,19 +77,36 @@ class ElementController extends Controller
 
     public function create($element_type, $model_id, Request $request)
     {
-        //get model and fields
-        $models = $this->elements->getModelsByType($element_type);
-        $model = $this->getModelById($models, $model_id);
         $procedures = null;
+        //get model and fields
+        if($element_type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id',$model_id)->first();
+            $model = $elementModel->getObject();
+            $fields = $elementModel->getFields();
+            
+        }
+        else {
+            $model = $this->getModelById(
+                $this->elements->getModelsByType($element_type),
+                $model_id
+            );
+        }
 
         if (!$model) {
             abort(500);
         }
 
-        if ($element_type == 'form') {
+        if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        } else {
+
+            dd($fields,$procedures);
+        }
+        else if ($element_type == Element::FORM_V2) {
+            $fields = $this->elements->getFormFields($model->ID);
+            $procedures = $this->computeFormProcedures($model->ID);
+        } 
+        else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
@@ -393,12 +412,12 @@ class ElementController extends Controller
 
             //filter wich variables are necessary for this procedure
             $variables = $this->checkNecessaryVariables(
-            $variables,
-            $allVariables,
-            $systemVars,
-            $procedureServices,
-            $objects
-          );
+                $variables,
+                $allVariables,
+                $systemVars,
+                $procedureServices,
+                $objects
+            );
 
             if ($procedure->OBJID == 'SIN05') {
                 $procedures[$index]->{'CONF'} = 'N';

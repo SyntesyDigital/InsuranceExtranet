@@ -251,8 +251,6 @@ class FormsUpdateRedux extends Component {
                             onChange={this.props.updateField}
                         />
 
-                        
-
                     </div>
                 </div>
             </div>

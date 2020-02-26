@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+use Config;
+
 class ModelField extends Model
 {
     /**
@@ -32,6 +34,7 @@ class ModelField extends Model
         'boby',
         'jsonpath',
         'example',
+        'required',
         'configurable',
         'visible'
     ];
@@ -39,6 +42,38 @@ class ModelField extends Model
     public function procedure(): HasOne
     {
         return $this->hasOne(ModelProcedure::class, 'id', 'procedure_id');
+    }
+
+    public function getObject() 
+    {
+        if($this->configurable) {
+
+            $fieldConfig = $this->getFieldType();
+
+            return [
+                'type' => $fieldConfig['identifier'],
+                'identifier' => $this->identifier,
+                'name' => $this->name,
+                'icon' => $fieldConfig['icon'],
+                'help' => '',
+                'default' => $this->default_value,
+                'boby' => $this->boby,
+                'added' => false,
+                'required' => $this->required == 1,
+                'formats' => $fieldConfig['formats'],
+                'rules' => ['required'],
+                'settings' => array_diff($fieldConfig['settings'],['hasRoute'])
+              ];
+        }
+
+        return null;
+    }
+
+    public function getFieldType()
+    {
+        $configFields = Config('models.fields');
+
+        return $configFields[$this->format];
     }
 
 }

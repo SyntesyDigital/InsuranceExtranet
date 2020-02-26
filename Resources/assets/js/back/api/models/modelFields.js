@@ -41,6 +41,7 @@ export const GQL_CREATE_MODEL_FIELD = gql`
             $example: String 
             $configurable: String 
             $visible: String
+            $required: String
         ) {
             createModelField(
                 input: {
@@ -55,6 +56,7 @@ export const GQL_CREATE_MODEL_FIELD = gql`
                     example: $example
                     configurable: $configurable
                     visible: $visible
+                    required: $required
                 }
             ) {
                 id
@@ -80,6 +82,7 @@ export const GQL_UPDATE_MODEL_FIELD = gql`
             $example: String 
             $configurable: String 
             $visible: String
+            $required: String
         ) {
             updateModelField(
                 input: {
@@ -95,6 +98,7 @@ export const GQL_UPDATE_MODEL_FIELD = gql`
                     example: $example
                     configurable: $configurable
                     visible: $visible
+                    required: $required
                 }
             ) {
                 id
