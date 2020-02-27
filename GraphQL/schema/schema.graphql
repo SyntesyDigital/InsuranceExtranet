@@ -11,3 +11,8 @@ type Query
 #import ../../Services/ElementModelLibrary/GraphQL/schema/modelprocedure.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/modelfield.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/elementmodel.graphql 
+
+
+# Element Template 
+#import ../../Services/ElementTemplate/GraphQL/schema/elementtemplate.graphql 
+#import ../../Services/ElementTemplate/GraphQL/schema/elementtemplatefield.graphql 

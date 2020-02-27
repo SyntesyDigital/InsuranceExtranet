@@ -1,0 +1,62 @@
+################################
+#   TYPE
+################################
+type ElementTemplateField {
+    id: ID!
+    template_id: ID!
+    language_id: ID!
+    name: String
+    value: String 
+    relation: String  
+    parent_id: ID
+}
+
+################################
+#   INPUT
+################################
+input CreateElementTemplateFieldInput {
+    template_id: ID!
+    language_id: ID!
+    name: String
+    value: String 
+    relation: String  
+    parent_id: ID
+}
+
+input UpdateElementTemplateFieldInput {
+    id: ID!
+    template_id: ID!
+    language_id: ID!
+    name: String
+    value: String 
+    relation: String  
+    parent_id: ID
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    elementTemplateFields: [ElementTemplateField!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
+
+    elementTemplateField(id: ID! @eq): ElementTemplateField
+        @find(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
+}
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    createElementTemplateField(input: CreateElementTemplateFieldInput! @spread): ElementTemplateField
+        @create(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
+
+    updateElementTemplateField(input: UpdateElementTemplateFieldInput! @spread): ElementTemplateField
+        @update(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
+
+    deleteElementTemplateField(
+        id: ID!
+    ): ElementTemplateField
+        @delete(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
+}
