@@ -15,6 +15,7 @@ use Modules\Extranet\Jobs\Elements\ProcessService;
 use Modules\Extranet\Jobs\Element\CreateElement;
 use Modules\Extranet\Jobs\Element\UpdateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
+use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
 //use Modules\Extranet\Jobs\Element\PostService;
 
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
@@ -128,6 +129,8 @@ class ElementController extends Controller
 
         return view('extranet::elements.form', $data);
     }
+
+    
 
     public function show(Element $element, Request $request)
     {
@@ -336,7 +339,19 @@ class ElementController extends Controller
     public function getFormProcedures($modelId, Request $request)
     {
         try {
-            $data = $this->computeFormProcedures($modelId);
+
+            if(intval($modelId) != 0){
+                //ElementModel Form V2
+                $elementModel = ElementModel::where('id',$modelId)->first();
+                $data = $elementModel->getProcedures(
+                    $this->elements->getVariables()
+                );
+            }
+            else {
+                //$modelId is an string, so Form V1
+                $data = $this->computeFormProcedures($modelId);
+                
+            }
 
             if ($request->has('debug')) {
                 dd($data);
@@ -457,28 +472,6 @@ class ElementController extends Controller
     }
 
     /**
-     *   Convert parameters string to array of key value.
-     */
-    private function parameters2Array($paramString)
-    {
-        $result = [];
-
-        if (!isset($paramString) || $paramString == '') {
-            return $result;
-        }
-
-        $paramsArray = explode('&', $paramString);
-        for ($i = 0; $i < sizeof($paramsArray); ++$i) {
-            $paramsSubArray = explode('=', $paramsArray[$i]);
-            $result[$paramsSubArray[0]] = $paramsSubArray[1];
-        }
-
-        return $result;
-    }
-
-    
-
-    /**
      *  Get all variables that has filters, necessary to fill the settings,
      *  HiddenFilter.
      */
@@ -520,4 +513,53 @@ class ElementController extends Controller
 
         return response()->json($data);
     }
+
+    public function import($element_type, $model_id, Request $request)
+    {
+        $procedures = null;
+        //get model and fields
+        if($element_type != Element::FORM) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Only form type available'
+            ]);
+        }
+            
+        $model = $this->getModelById(
+            $this->elements->getModelsByType($element_type),
+            $model_id
+        );
+
+        if (!$model) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Model id not valid'
+            ]);
+        }
+        
+        $procedures = $this->computeFormProcedures($model->ID);
+
+        $data = [
+          'elementType' => $element_type,
+          'model' => $model,
+          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+          'variables' => isset($procedures) ? $procedures['variables'] : null,
+        ];
+
+        $elementModel = $this->dispatchNow(new ImportElementModel($data));
+
+        return response()->json([
+            'error' => false,
+            'message' => 'Model imported',
+            'model' => $elementModel
+        ]);
+        
+    }
+
+    public function getModelsByType($elementType) {
+        $models = $this->elements->getModelsByType($elementType);
+
+        return response()->json($models);
+    }
+
 }

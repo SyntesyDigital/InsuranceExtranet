@@ -10,7 +10,7 @@ import {
 
 import {
   getUrlParameters
-} from '../functions';
+} from '../../functions';
 
 export function initParametersState(parameters) {
 

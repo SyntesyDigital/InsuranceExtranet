@@ -171,7 +171,7 @@ class ElementModel extends Model
                 if (isset($object->BOBY)) {
                     $urlArray = explode('?', $object->BOBY);
                     if (sizeof($urlArray) > 1) {
-                        $urlArray = $this->parameters2Array($urlArray[1]);
+                        $urlArray = self::parameters2Array($urlArray[1]);
                         foreach ($urlArray as $key => $urlVariable) {
                             if ($key == $variableId) {
                                 $variables[$variableId] = $variable;
@@ -215,6 +215,26 @@ class ElementModel extends Model
 
         foreach ($variables as $index => $variable) {
             $result[$variable->PARAM] = $variable;
+        }
+
+        return $result;
+    }
+
+    /**
+     *   Convert parameters string to array of key value.
+     */
+    public static function parameters2Array($paramString)
+    {
+        $result = [];
+
+        if (!isset($paramString) || $paramString == '') {
+            return $result;
+        }
+
+        $paramsArray = explode('&', $paramString);
+        for ($i = 0; $i < sizeof($paramsArray); ++$i) {
+            $paramsSubArray = explode('=', $paramsArray[$i]);
+            $result[$paramsSubArray[0]] = $paramsSubArray[1];
         }
 
         return $result;

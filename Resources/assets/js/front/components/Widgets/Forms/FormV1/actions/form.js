@@ -19,7 +19,7 @@ import {
   procedureIsArray,
   processResponseParameters,
   processListProcedure
-} from "../functions";
+} from "../../functions";
 
 export function initState(payload) {
   return { type: INIT_STATE, payload }

@@ -101,6 +101,52 @@ class FormsUpdateRedux extends Component {
         this.props.saveForm(this.props.form.form);
     }
 
+    handleImportFromV1() {
+        var _this = this;
+        axios.get(routes['extranet.elements.get_by_type'])
+            .then(function(response) {
+                if(response.status == 200 && response.data !== undefined){
+
+                    bootbox.prompt({
+                        title: 'Importer',
+                        inputType: 'select',
+                        closeButton : false,
+                        buttons: {
+                            confirm: {
+                                label: 'Envoyer',
+                                className: 'btn-primary'
+                            },
+                            cancel : {
+                                label: 'Retour',
+                                className: 'btn-default'
+                            }
+                        },
+                        inputOptions: response.data.map((item) => {
+                            return {
+                                text : item.TITRE,
+                                value : item.ID
+                            }
+                        }),
+                        callback: function (result) {
+                          if(result != null && result != ''){
+                              //api and redirect
+                              _this.importModel(result);
+                          }
+                        }
+                    });
+                  }
+            });
+
+    }
+
+    importModel(modelId) {
+        axios.get(routes['extranet.element.import'].replace(':model_id',modelId))
+            .then(function(response) {
+                //console.log("importModel response",response.data.model.id);
+                window.location.href = routes['extranet.elements-models.forms.update'].replace(':id',response.data.model.id);
+            });
+    }
+
     // ==============================
     // Renderers
     // ==============================
@@ -154,7 +200,7 @@ class FormsUpdateRedux extends Component {
                 <ModalEditProcedures
                     id={'modal-edit-procedures'}
                     icon={'fas fa-bars'}
-                    size={'medium-large'}
+                    size={'large'}
                     title={'Test Json'}
                     display={this.props.form.displayEditProcedures}
                     procedure={this.props.form.currentProcedure}
@@ -183,6 +229,11 @@ class FormsUpdateRedux extends Component {
                                 icon: 'fa fa-plus-circle',
                                 route: routes['extranet.elements-models.forms.create'],
 
+                            },
+                            {
+                                label: 'Importer',
+                                icon: 'fas fa-clone',
+                                onClick: this.handleImportFromV1.bind(this),
                             },
                             {
                                 label: 'Supprimier',
