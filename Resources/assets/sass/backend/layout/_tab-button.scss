@@ -1,0 +1,25 @@
+.container-tabs {
+  display: inline-block;
+  position: relative;
+  margin-left: 30px;
+  .container-tab-button {
+    display: inline-block;
+    position: relative;
+    .MuiTabs-indicator {
+      background-color: #4a9fea;
+    }
+    header {
+        &.MuiPaper-root{
+            box-shadow: none !important;
+        }
+      .MuiTabs-root,
+      .MuiTabs-flexContainer {
+        height: 70px !important;
+      }
+      .MuiButtonBase-root{
+          border-right: 1px solid #ccc !important;
+          border-left: 1px solid #ccc !important;
+      }
+    }
+  }
+}

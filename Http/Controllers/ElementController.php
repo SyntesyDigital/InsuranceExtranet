@@ -143,6 +143,11 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
+    public function showTemplate(Request $request)
+    {
+        return view('extranet::elements.template');
+    }
+
     public function store(CreateElementRequest $request)
     {
         try {

@@ -1,0 +1,21 @@
+.field-list {
+  .field {
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    background-color: #fafafa;
+    padding-left: 60px;
+    border-radius: 6px;
+    i.fa, i.fas {
+        position: absolute;
+        top: 12px;
+        left: 23px;
+        font-size: 22px;
+        padding-right: 10px;
+        color: #b4b4b4;
+    }
+  }
+}
