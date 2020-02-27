@@ -3,28 +3,28 @@
 namespace Modules\Extranet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\Extranet\Repositories\ElementRepository;
-use Modules\Extranet\Repositories\BobyRepository;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Entities\RouteParameter;
 use Modules\Extranet\Http\Requests\Elements\CreateElementRequest;
-use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Http\Requests\Elements\DeleteElementRequest;
 use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
-use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Jobs\Element\CreateElement;
-use Modules\Extranet\Jobs\Element\UpdateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
 use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
-//use Modules\Extranet\Jobs\Element\PostService;
 
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 
+use Modules\Extranet\Jobs\Element\UpdateElement;
+
+use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Repositories\BobyRepository;
+use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
-use Illuminate\Http\Request;
 use Session;
-use Carbon\Carbon;
-use Auth;
 
 class ElementController extends Controller
 {
@@ -270,9 +270,9 @@ class ElementController extends Controller
 
         fclose($handle);
 
-        $headers = array(
+        $headers = [
             'Content-Type' => 'text/csv',
-        );
+        ];
 
         return response()->download($filepath, $filename, $headers);
     }
@@ -281,11 +281,7 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=100';
-        //if the the session is the same of the user, don't filter by SES
-        if (Auth::user()->session_id == Auth::user()->id) {
-            $params = '?perPage=100';
-        }
+        $params = '?SES='.Auth::user()->session_id.'&perPage=500';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -378,15 +374,15 @@ class ElementController extends Controller
 
         $allObjects = $this->boby->getModelValuesQuery(
             'WS_EXT2_DEF_OBJETS?perPage=500'
-          )['modelValues'];
+        )['modelValues'];
+
         $allServices = $this->boby->getModelValuesQuery(
             'WS_EXT2_DEF_SERVICES?perPage=100'
-          )['modelValues'];
+        )['modelValues'];
 
         //get system variables processed
         $allVariables = $this->elements->getVariables();
         $variables = [];
-
         $services = [];
 
         foreach ($allServices as $service) {

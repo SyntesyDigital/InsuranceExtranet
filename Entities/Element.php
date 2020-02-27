@@ -3,11 +3,9 @@
 namespace Modules\Extranet\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Architect\Traits\HasUrl;
-
-use Modules\Extranet\Entities\RouteParameter;
-
+use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 
 class Element extends Model
 {
@@ -24,31 +22,30 @@ class Element extends Model
             'identifier' => 'table',
             'icon' => 'fa fa-table',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
-            'FORMAT' =>  'TB'
+            'FORMAT' => 'TB',
         ],
         Element::FILE => [
             'name' => 'Fiche',
             'identifier' => 'file',
             'icon' => 'fa fa-columns',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
-            'FORMAT' =>  'FC'
+            'FORMAT' => 'FC',
         ],
         Element::FORM => [
             'name' => 'Formulaire v1.0',
             'identifier' => 'form',
             'icon' => 'fa fa-list-alt',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
-            'FORMAT' =>  'CR'
+            'FORMAT' => 'CR',
         ],
         Element::FORM_V2 => [
             'name' => 'Formulaire v2.0',
             'identifier' => 'form-v2',
             'icon' => 'fa fa-list-alt',
             'WS_NAME' => '',
-            'FORMAT' =>  ''
-        ]
+            'FORMAT' => '',
+        ],
     ];
-
 
     /**
      * The database table used by the model.
@@ -72,7 +69,7 @@ class Element extends Model
         'model_exemple',
         'type',
         'has_parameters',
-        'has_error'
+        'has_error',
     ];
 
     /**
@@ -81,7 +78,7 @@ class Element extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -92,17 +89,22 @@ class Element extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
-    public function fields()
+    public function fields(): HasMany
     {
         return $this->hasMany('\Modules\Extranet\Entities\ElementField');
     }
 
-    public function attrs()
+    public function attrs(): HasMany
     {
         return $this->hasMany('\Modules\Extranet\Entities\ElementAttribute');
+    }
+
+    public function template(): HasOne
+    {
+        return $this->hasOne(ElementTemplate::class, 'element_id', 'id');
     }
 
     public static function whereAttribute($name, $value)
@@ -114,22 +116,22 @@ class Element extends Model
     }
 
     /**
-    * Get all route parameters contained in attributes with settings included.
-    */
+     * Get all route parameters contained in attributes with settings included.
+     */
     public function getParameters()
     {
         //get ids from attributes that are parameters
         $parametersArray = $this->attrs->where('name', 'parameter')->keyBy('value')->toArray();
         $idsArray = [];
-        foreach($parametersArray as $id => $paramter){
-          $idsArray[] = $id;
+        foreach ($parametersArray as $id => $paramter) {
+            $idsArray[] = $id;
         }
 
         //get all route parameters with this ids
         $routeParameters = RouteParameter::whereIn('id', $idsArray)->get()->toArray();
         //add settings info to parameter
-        foreach($routeParameters as $index => $routeParameter){
-          $routeParameters[$index]['settings'] = json_decode($parametersArray[$routeParameter['id']]['settings']);
+        foreach ($routeParameters as $index => $routeParameter) {
+            $routeParameters[$index]['settings'] = json_decode($parametersArray[$routeParameter['id']]['settings']);
         }
 
         return $routeParameters;
@@ -137,7 +139,7 @@ class Element extends Model
 
     public function getSlug($languageId)
     {
-        if(!$this->has_slug) {
+        if (!$this->has_slug) {
             return false;
         }
 
@@ -148,5 +150,4 @@ class Element extends Model
 
         return $attr ? $attr->value : null;
     }
-
 }
