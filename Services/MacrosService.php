@@ -2,10 +2,10 @@
 
 namespace Modules\Extranet\Services;
 
-use Modules\Extranet\Entities\Customer;
-use Modules\Extranet\Entities\Tools\SiteList;
 use Collective\Html\FormBuilder;
 use Form;
+use Modules\Extranet\Entities\Customer;
+use Modules\Extranet\Entities\Tools\SiteList;
 
 class MacrosService extends FormBuilder
 {
@@ -39,7 +39,7 @@ class MacrosService extends FormBuilder
     {
         $list = SiteList::where('identifier', $identifier)->first();
 
-        if (! $list) {
+        if (!$list) {
             return false;
         }
 
