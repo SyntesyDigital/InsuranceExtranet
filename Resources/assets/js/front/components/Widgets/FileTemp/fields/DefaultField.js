@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 
 export default class DefaultField extends Component {
@@ -12,9 +12,6 @@ export default class DefaultField extends Component {
   render() {
     const { label, value, valueColor, valueBackgroundColor, stripped, labelAlign, valueAlign, inline } = this.props;
 
-    const gridStyle = {
-      backgroundColor: valueBackgroundColor
-    }
     const divStyle = {
       overflow: 'hidden',
     }
@@ -25,33 +22,30 @@ export default class DefaultField extends Component {
       textAlign: valueAlign
     }
     const labelStyle = {
-      marginBottom: '15px'
+      padding: '8px',
+      marginBottom: '0'
     };
-    const valueStyles = {
-      backgroundColor: valueColor,
+    const spanStyles = {
+      backgroundColor: valueBackgroundColor,
       textAlign: labelAlign,
-      paddingTop: '10px',
-      paddingBottom: '10px',
-      paddingLeft: '15px',
-      paddingRight: '15px',
+      color: valueColor,
       borderRadius: '5px',
-      display: 'inline-block'
+      padding: '8px',
+      marginBottom: '0',
+      maxWidth: '100%',
+      display: 'inline-block',
     };
 
     return (
-      <div style={divStyle}>
-        <Grid
-          style={gridStyle}
-          fluid={true}>
-          <Row>
-            <Col md={labelAlign == 'center' ? 12 : 6} style={divLabel}>
-              <label style={labelStyle}>{label}</label>
-            </Col>
-            <Col md={labelAlign == 'center' ? 12 : 6} style={divValue}>
-              <span style={valueColor ? valueStyles : null}>{value}</span>
-            </Col>
-          </Row>
-        </Grid>
+      <div style={divStyle} className={(stripped ? 'stripped' : null)}>
+        <Row>
+          <Col md={labelAlign == 'center' ? 12 : 6} style={divLabel}>
+            <label style={labelStyle}>{label}</label>
+          </Col>
+          <Col md={labelAlign == 'center' ? 12 : 6} style={divValue}>
+            <span style={spanStyles} className={valueAlign == 'center' ? 'value-center' : null}>{value}</span>
+          </Col>
+        </Row>
       </div>
     );
   }
