@@ -245,11 +245,7 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=100';
-        //if the the session is the same of the user, don't filter by SES
-        if (Auth::user()->session_id == Auth::user()->id) {
-            $params = '?perPage=100';
-        }
+        $params = '?SES='.Auth::user()->session_id.'&perPage=500';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
