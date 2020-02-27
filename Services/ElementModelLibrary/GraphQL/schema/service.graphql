@@ -7,7 +7,7 @@ type Service {
     name: String!
     http_method: String!
     url: String!
-    boby: String!
+    boby: String
     json: String
     response: String 
     comment: String
@@ -24,7 +24,7 @@ input CreateServiceInput {
     name: String @rules(apply: ["required"])
     http_method: String @rules(apply: ["required"])
     url: String @rules(apply: ["required"])
-    boby: String @rules(apply: ["required"])
+    boby: String
     json: String
     response: String 
     comment: String
@@ -36,7 +36,7 @@ input UpdateServiceInput {
     name: String @rules(apply: ["required"])
     http_method: String @rules(apply: ["required"])
     url: String @rules(apply: ["required"])
-    boby: String @rules(apply: ["required"])
+    boby: String
     json: String
     response: String 
     comment: String

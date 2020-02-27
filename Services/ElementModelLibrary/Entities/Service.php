@@ -41,4 +41,18 @@ class Service extends Model
     {
         return $this->hasMany(ModelProcedure::class, 'id', 'service_id');
     }
+
+    public function getObject() {
+        return (object)[
+            "ID"=> $this->id,
+            "SERVICE"=> $this->name,
+            "METHODE"=> $this->http_method,
+            "URL"=> $this->url,
+            "REPONSE"=> $this->response,
+            "COMMENTAIRE"=> $this->comment,
+            "P1"=> null,
+            "P2"=> null,
+            "JSON" => $this->json,
+        ];
+    }
 }

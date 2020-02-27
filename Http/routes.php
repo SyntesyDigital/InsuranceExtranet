@@ -68,7 +68,9 @@ Route::group([
     Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
     Route::get('/elements/datatable', 'ElementController@getDataTable')->name('extranet.elements.datatable');
     Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
+    Route::get('/elements/{element_type}', 'ElementController@getModelsByType')->name('extranet.elements.get_by_type');
     Route::get('/elements/create/{element_type}/{model_id}', 'ElementController@create')->name('extranet.element.create');
+    Route::get('/elements/import/{element_type}/{model_id}', 'ElementController@import')->name('extranet.element.import');
     Route::get('/elements/{element}/show', 'ElementController@show')->name('extranet.elements.show');
     Route::post('/elements/store', 'ElementController@store')->name('extranet.elements.store');
     Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');

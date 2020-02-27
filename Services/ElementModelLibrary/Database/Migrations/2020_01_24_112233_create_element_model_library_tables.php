@@ -18,9 +18,15 @@ class CreateElementModelLibraryTables extends Migration
             $table->increments('id');
             $table->string('identifier');
             $table->string('name');
+            $table->string('type');
             $table->string('description')->nullable();
             $table->string('icon')->nullable();
-            $table->string('type');
+            $table->string('ws')->nullable();   //
+            $table->string('ws_format')->nullable();    //
+            $table->string('filtres')->nullable();  //
+            $table->string('example')->nullable();  //
+            $table->string('def1')->nullable();     //
+            $table->string('def2')->nullable();     //
 
             $table->timestamps();
         });
@@ -49,6 +55,7 @@ class CreateElementModelLibraryTables extends Migration
             $table->foreign('model_id')->references('id')->on('elements_models')->onDelete('cascade');
 
             $table->string('name');
+            $table->integer('order');   //
             $table->boolean('configurable')->default(0);
             $table->boolean('required')->default(0);
             $table->boolean('repeatable')->default(0);
@@ -72,6 +79,7 @@ class CreateElementModelLibraryTables extends Migration
             $table->string('boby')->nullable();
             $table->string('jsonpath')->nullable();
             $table->text('example')->nullable();
+            $table->boolean('required')->default(0);    //
             $table->boolean('configurable')->default(0);
             $table->boolean('visible')->default(0);
 

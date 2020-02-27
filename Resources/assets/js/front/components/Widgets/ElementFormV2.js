@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import FormComponent from './Forms/FormV1/FormComponent';
+import FormComponent from './Forms/FormV2/FormComponent';
 
 export default class ElementForm extends Component {
 
@@ -28,9 +28,9 @@ export default class ElementForm extends Component {
     }
 }
 
-if (document.getElementById('elementForm')) {
+if (document.getElementById('element-form-v2')) {
 
-   document.querySelectorAll('[id=elementForm]').forEach(function(element){
+   document.querySelectorAll('[id=element-form-v2]').forEach(function(element){
        var field = JSON.parse(atob(element.getAttribute('field')));
        var elementObject = JSON.parse(atob(element.getAttribute('elementObject')));
        var parameters = element.getAttribute('parameters');
