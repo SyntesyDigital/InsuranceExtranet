@@ -5,6 +5,7 @@ namespace Modules\Extranet\Providers;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\ElementModelLibrary\Providers\ElementModelLibraryProvider;
+use Modules\Extranet\Services\ElementTemplate\Providers\ElementTemplateProvider;
 use Modules\Extranet\Services\RolesPermissions\Providers\RolesPermissionsProvider;
 
 class ExtranetServiceProvider extends ServiceProvider
@@ -31,6 +32,7 @@ class ExtranetServiceProvider extends ServiceProvider
 
         $this->app->register(RolesPermissionsProvider::class);
         $this->app->register(ElementModelLibraryProvider::class);
+        $this->app->register(ElementTemplateProvider::class);
     }
 
     /**
