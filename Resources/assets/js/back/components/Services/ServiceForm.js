@@ -230,6 +230,7 @@ export default class ServiceForm extends Component {
                             />
                         </div>
 
+                        {/*
                         <InputField
                             label={'Boby (WS)'}
                             value={this.state.service.boby ? this.state.service.boby : ''}
@@ -237,6 +238,7 @@ export default class ServiceForm extends Component {
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.boby ? true : false}
                         />
+                        */}
 
                         <InputField
                             label={'Url'}

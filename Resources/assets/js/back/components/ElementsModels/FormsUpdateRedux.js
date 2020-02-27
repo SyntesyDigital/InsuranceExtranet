@@ -115,7 +115,7 @@ class FormsUpdateRedux extends Component {
                     index={index}
                     icon={'fas fa-bars'}
                     icons={[
-                        'fas fa-redo-alt'
+                        (procedure.repeatable == 1 ? 'fas fa-redo-alt': '')
                     ]}
                     labelInputLeft={procedure.name}
                     labelInputRight={procedure.service.name}

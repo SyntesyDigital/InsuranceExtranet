@@ -69,7 +69,7 @@ class ElementModel extends Model
   
                 $fields = array_merge(
                     $fields,
-                    $procedure->getFieldsObjects()
+                    $procedure->getFieldsConfig()
                 );
   
               }
@@ -94,11 +94,131 @@ class ElementModel extends Model
         
     }
 
-    private function processField() {
-        
+    public function getProcedures($allVariables)
+    {
+        $procedures = $this->procedures()->get();
+        $procedures->load('fields','service');
+        $proceduresObjects = [];
+        $variables = [];
+
+        foreach($procedures as $procedure) {
+            $systemVars = [];
+            $fieldsObject = $procedure->getFieldsObject();
+
+            //process objects to values
+            foreach($fieldsObject as $index => $object){
+                if ($object->NATURE == 'SYSTEM') {
+                    $systemVars[$object->VALEUR] = true;
+                }
+            }
+
+            $service = $procedure->service->getObject();
+
+            $variables = self::checkNecessaryVariables(
+                $variables,
+                $allVariables,
+                $systemVars,
+                $service,
+                $fieldsObject
+            );
+
+            //process procedure as object
+
+            $currentProcedure = $procedure->getObject();
+            $currentProcedure->{'OBJECTS'} = $fieldsObject;
+            $currentProcedure->{'SERVICE'} = $procedure->service->getObject();
+            $currentProcedure->{'JSONP'} = $procedure->repeatable_jsonpath;
+            $currentProcedure->{'PARAMS'} = $systemVars;
+
+            $proceduresObjects[] = $currentProcedure;
+        }
+
+        $variables = self::checkInnerDependces($variables, $allVariables);
+        $variables = self::processAndSortVariables($variables);
+
+        return [
+            "procedures" => $proceduresObjects,
+            "variables" => $variables
+        ];
+
     }
 
+    /**
+     *   Function that check if variables are necessary for this procedure.
+     */
+    public static function checkNecessaryVariables($variables, $allVariables, $systemVars, $procedureServices, $objects)
+    {
+        foreach ($allVariables as $variableId => $variable) {
+            if (isset($systemVars['_'.$variableId])) {
+                //variable is nedeed as a system var
+                $variables[$variableId] = $variable;
+            }
 
+            if (isset($procedureServices->URL)) {
+                //if variable exist in the URL
+                $urlArray = explode('/', $procedureServices->URL);
+
+                $variableSlashes = '_'.$variableId;
+                foreach ($urlArray as $urlVariable) {
+                    if ($urlVariable == $variableSlashes) {
+                        $variables[$variableId] = $variable;
+                    }
+                }
+            }
+
+            //if variable exist in an object WS
+            foreach ($objects as $object) {
+                if (isset($object->BOBY)) {
+                    $urlArray = explode('?', $object->BOBY);
+                    if (sizeof($urlArray) > 1) {
+                        $urlArray = $this->parameters2Array($urlArray[1]);
+                        foreach ($urlArray as $key => $urlVariable) {
+                            if ($key == $variableId) {
+                                $variables[$variableId] = $variable;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $variables;
+    }
+
+    /**
+     *   If exist BOBYPAR in the selected varaibles, add also this variable, because
+     *   that means there is a inner dependance.
+     */
+    public static function checkInnerDependces($variables, $allVariables)
+    {
+        foreach ($variables as $variableId => $variable) {
+            if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
+                if (isset($allVariables[$variable->BOBYPAR])) {
+                    $variables[$variable->BOBYPAR] = $allVariables[$variable->BOBYPAR];
+                }
+            }
+        }
+
+        return $variables;
+    }
+
+    /**
+     * Convert variables to key value and sort by order.
+     */
+    public static function processAndSortVariables($variables)
+    {
+        $result = [];
+
+        usort($variables, function ($a, $b) {
+            return intval($a->P1) > intval($b->P1);
+        });
+
+        foreach ($variables as $index => $variable) {
+            $result[$variable->PARAM] = $variable;
+        }
+
+        return $result;
+    }
 
     
 }

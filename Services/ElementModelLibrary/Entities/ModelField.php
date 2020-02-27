@@ -44,7 +44,7 @@ class ModelField extends Model
         return $this->hasOne(ModelProcedure::class, 'id', 'procedure_id');
     }
 
-    public function getObject() 
+    public function getConfig() 
     {
         if($this->configurable) {
 
@@ -74,6 +74,29 @@ class ModelField extends Model
         $configFields = Config('models.fields');
 
         return $configFields[$this->format];
+    }
+
+    /**
+     * Transform field from entity to object
+     * needed to compute form.
+     */
+    public function getObject()
+    {
+        return (object) [
+            "ID" => $this->id,
+            "OBJ_JSONP" => $this->jsonpath,
+            "CHAMP" => $this->identifier,
+            "LIB" => $this->name,
+            "NATURE" => $this->type,
+            "FORMAT" => $this->format,
+            "VALEUR" => $this->default_value,
+            "BOBY" => $this->boby,
+            "OBL" => $this->required ? 'Y' : 'N',
+            "VIS" => $this->attributes['visible'] ? 'Y' : 'N',
+            "CONF" => $this->configurable ? 'Y' : 'N',
+            "EXEMPLE" => $this->example,
+
+        ];
     }
 
 }

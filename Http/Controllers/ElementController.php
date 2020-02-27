@@ -82,8 +82,6 @@ class ElementController extends Controller
         if($element_type == Element::FORM_V2) {
             $elementModel = ElementModel::where('id',$model_id)->first();
             $model = $elementModel->getObject();
-            $fields = $elementModel->getFields();
-            
         }
         else {
             $model = $this->getModelById(
@@ -99,12 +97,13 @@ class ElementController extends Controller
         if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-
-            dd($fields,$procedures);
         }
         else if ($element_type == Element::FORM_V2) {
-            $fields = $this->elements->getFormFields($model->ID);
-            $procedures = $this->computeFormProcedures($model->ID);
+
+            $fields = $elementModel->getFields();
+            $procedures = $elementModel->getProcedures(
+                $this->elements->getVariables()
+            );
         } 
         else {
             $fields = $this->elements->getFieldsByElement($model->WS);
@@ -132,13 +131,28 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
-        $models = $this->elements->getModelsByType($element->type);
-        $model = $this->getModelById($models, $element->model_identifier);
 
-        if ($element->type == 'form') {
+        if($element->type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id',$element->model_identifier)->first();
+            $model = $elementModel->getObject();
+        }
+        else {
+            $models = $this->elements->getModelsByType($element->type);
+            $model = $this->getModelById($models, $element->model_identifier);
+        }
+
+        if ($element->type ==  Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        } else {
+        }
+        else if ($element->type == Element::FORM_V2) {
+
+            $fields = $elementModel->getFields();
+            $procedures = $elementModel->getProcedures(
+                $this->elements->getVariables()
+            );
+        } 
+        else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
@@ -411,7 +425,7 @@ class ElementController extends Controller
             }
 
             //filter wich variables are necessary for this procedure
-            $variables = $this->checkNecessaryVariables(
+            $variables = ElementModel::checkNecessaryVariables(
                 $variables,
                 $allVariables,
                 $systemVars,
@@ -433,55 +447,13 @@ class ElementController extends Controller
         //dd($procedures);
 
         //check necessary variables between themselves
-        $variables = $this->checkInnerDependces($variables, $allVariables);
-        $variables = $this->processAndSortVariables($variables);
+        $variables = ElementModel::checkInnerDependces($variables, $allVariables);
+        $variables = ElementModel::processAndSortVariables($variables);
 
         return [
           'variables' => $variables,
           'procedures' => $procedures,
         ];
-    }
-
-    /**
-     *   Function that check if variables are necessary for this procedure.
-     */
-    private function checkNecessaryVariables($variables, $allVariables, $systemVars, $procedureServices, $objects)
-    {
-        foreach ($allVariables as $variableId => $variable) {
-            if (isset($systemVars['_'.$variableId])) {
-                //variable is nedeed as a system var
-                $variables[$variableId] = $variable;
-            }
-
-            if (isset($procedureServices->URL)) {
-                //if variable exist in the URL
-                $urlArray = explode('/', $procedureServices->URL);
-
-                $variableSlashes = '_'.$variableId;
-                foreach ($urlArray as $urlVariable) {
-                    if ($urlVariable == $variableSlashes) {
-                        $variables[$variableId] = $variable;
-                    }
-                }
-            }
-
-            //if variable exist in an object WS
-            foreach ($objects as $object) {
-                if (isset($object->BOBY)) {
-                    $urlArray = explode('?', $object->BOBY);
-                    if (sizeof($urlArray) > 1) {
-                        $urlArray = $this->parameters2Array($urlArray[1]);
-                        foreach ($urlArray as $key => $urlVariable) {
-                            if ($key == $variableId) {
-                                $variables[$variableId] = $variable;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return $variables;
     }
 
     /**
@@ -504,40 +476,7 @@ class ElementController extends Controller
         return $result;
     }
 
-    /**
-     *   If exist BOBYPAR in the selected varaibles, add also this variable, because
-     *   that means there is a inner dependance.
-     */
-    private function checkInnerDependces($variables, $allVariables)
-    {
-        foreach ($variables as $variableId => $variable) {
-            if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
-                if (isset($allVariables[$variable->BOBYPAR])) {
-                    $variables[$variable->BOBYPAR] = $allVariables[$variable->BOBYPAR];
-                }
-            }
-        }
-
-        return $variables;
-    }
-
-    /**
-     * Convert variables to key value and sort by order.
-     */
-    private function processAndSortVariables($variables)
-    {
-        $result = [];
-
-        usort($variables, function ($a, $b) {
-            return intval($a->P1) > intval($b->P1);
-        });
-
-        foreach ($variables as $index => $variable) {
-            $result[$variable->PARAM] = $variable;
-        }
-
-        return $result;
-    }
+    
 
     /**
      *  Get all variables that has filters, necessary to fill the settings,

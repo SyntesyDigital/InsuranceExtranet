@@ -56,12 +56,27 @@ class ModelProcedure extends Model
         return $this->hasMany(ModelField::class, 'procedure_id', 'id');
     }
 
-    public function getFieldsObjects() 
+    public function getObject()
+    {
+        return (object)[
+            "ID"=> $this->id,
+            "ETAP"=> $this->order,
+            "LIB"=> $this->name,
+            "REP"=> $this->repeatable ? 'Y' : 'N',
+            "CONF"=> $this->configurable ? 'Y' : 'N',
+            "OBL"=> $this->required ? 'Y' : 'N',
+            "P1"=> null,
+            "P2"=> null,
+            "P3"=> null
+        ];
+    }
+
+    public function getFieldsConfig() 
     {
 
         $fields = [];
         foreach($this->fields as $field){
-            $fieldObject = $field->getObject();
+            $fieldObject = $field->getConfig();
             if(isset($fieldObject)){
                 $fields[] = $fieldObject;
             }
@@ -71,7 +86,7 @@ class ModelProcedure extends Model
 
     public function getListFieldObject()
     {
-        $fields = $this->getFieldsObjects();
+        $fields = $this->getFieldsConfig();
 
         $configFields = Config('models.fields');
 
@@ -91,5 +106,14 @@ class ModelProcedure extends Model
             'settings' => $fieldType['settings'],
             'fields' => $fields
           ];
+    }
+
+    public function getFieldsObject() 
+    {
+        $fields = [];
+        foreach($this->fields as $field){
+            $fields[] = $field->getObject();
+        }
+        return $fields;
     }
 }
