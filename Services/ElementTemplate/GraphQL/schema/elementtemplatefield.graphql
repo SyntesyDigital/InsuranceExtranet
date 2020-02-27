@@ -9,6 +9,7 @@ type ElementTemplateField {
     value: String 
     relation: String  
     parent_id: ID
+    language: Language @hasOne
 }
 
 ################################

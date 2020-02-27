@@ -30,7 +30,7 @@ class ElementTemplate extends Model
 
     public function fields(): HasMany
     {
-        return $this->hasMany(ElementTemplate::class, 'template_id', 'id');
+        return $this->hasMany(ElementTemplateField::class, 'template_id', 'id');
     }
 
     public function element(): HasOne
