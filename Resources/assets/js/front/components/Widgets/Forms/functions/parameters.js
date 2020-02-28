@@ -40,6 +40,11 @@ export function processUrlParameters(url,formParameters) {
   var resultUrl = url;
 
   for(var key in formParameters) {
+    if(key == "" || formParameters[key] == null){
+      //console.error("processUrlParameters, parameter is null (key,formParameters[key])",key,formParameters[key]);
+      continue;
+    }
+
     resultUrl = resultUrl.replace(key,formParameters[key]);
   }
 
