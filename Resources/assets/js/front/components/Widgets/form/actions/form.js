@@ -311,6 +311,8 @@ export function submitProcedure(procedure, jsonResult, formParameters) {
       formParameters
     );
 
+    console.log("submitProcedure (url,procedure.SERVICE.URL) => ",url,procedure.SERVICE.URL);
+
     //if is request_parms need to be wrappen into json
     if(procedure.SERVICE.P1 == 'requests_params'){
       jsonResult = {
