@@ -4,6 +4,7 @@ import contentsReducer from './contents.reducer';
 import fontawesomeReducer from './fontawesome.reducer';
 import elementParametersReducer from './elementParameters.reducer';
 import elementsReducer from './elements.reducer';
+import templateReducer from './template.reducer';
 
 export default combineReducers({
     app: appReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     fontawesome : fontawesomeReducer,
     elementParameters : elementParametersReducer,
     elements : elementsReducer,
+    template: templateReducer
 });

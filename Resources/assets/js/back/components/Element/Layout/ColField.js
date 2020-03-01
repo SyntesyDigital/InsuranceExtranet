@@ -13,14 +13,17 @@ export default class ColField extends Component {
     // ==============================
 
     handleUp(e) {
+        e.preventDefault();
         this.props.onUp();
     }
 
     handleDown(e){
+        e.preventDefault();
         this.props.onDown();
     }
 
     handleRemove(e) {
+        e.preventDefault();
         this.props.onRemove();
     }
 

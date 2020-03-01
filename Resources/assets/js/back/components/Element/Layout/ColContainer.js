@@ -12,10 +12,12 @@ export default class ColContainer extends Component {
     // ==============================
 
     handleAdd(e){
+        e.preventDefault();
         this.props.onAdd();
     }
 
     handleEdit(e){
+        e.preventDefault();
         this.props.onEdit();
     }
 

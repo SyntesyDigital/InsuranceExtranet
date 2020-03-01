@@ -4,28 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import SettingsIcon from '@material-ui/icons/Settings';
-
-function TabButton(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
 
 function a11yProps(index) {
     return {
@@ -52,7 +32,6 @@ export default function SimpleTabs() {
     return (
         <div className="container-tab-button">
             <div className={classes.root}>
-
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
@@ -70,22 +49,13 @@ export default function SimpleTabs() {
                         />
                     </Tabs>
                 </AppBar>
-
-                {/* <TabButton value={value} index={0}>
-                    GLOBAL CONTENT
-                </TabButton>
-
-                <TabButton value={value} index={1}>
-                    TEMPLATES CONTENT
-                </TabButton> */}
-
             </div>
         </div>
     );
 }
 
-TabButton.propTypes = {
+SimpleTabs.propTypes = {
     children: PropTypes.node,
-    index: PropTypes.any.isRequired,
+    index: PropTypes.any,
     value: PropTypes.any.isRequired,
 };

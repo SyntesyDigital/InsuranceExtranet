@@ -12,22 +12,32 @@ export default class RowContainer extends Component {
     // ==============================
 
     handleEdit(e) {
+        e.preventDefault();
         this.props.onEdit();
     }
 
     handleUp(e) {
+        e.preventDefault();
         this.props.onUp();
     }
 
+    handleColumns(e) {
+        e.preventDefault();
+        console.log('handleColumns :: ')
+    }
+
     handleDown(e){
+        e.preventDefault();
         this.props.onDown();
     }
 
     handleDuplicate(e){
+        e.preventDefault();
         this.props.onDuplicate();
     }
     
     handleRemove(e){
+        e.preventDefault();
         this.props.onRemove();
     }
 
@@ -51,7 +61,7 @@ export default class RowContainer extends Component {
                             </a>
 
                             {columnsButton ?
-                                <a href="#" className="btn btn-link">
+                                <a href="#" className="btn btn-link" onClick={this.handleColumns.bind(this)}>
                                     <i className="fa fa-columns"></i>
                                 </a>
                                 : null}
