@@ -244,7 +244,9 @@ export default class FileComponentTemp extends Component {
                         onChange={this.handleChange.bind(this)}
                     />
                 </Grid>
-                <Grid>
+                <Grid
+                    fluid={true}
+                >
                     <Row>
                         <Col md={12}>
                             <IconField
