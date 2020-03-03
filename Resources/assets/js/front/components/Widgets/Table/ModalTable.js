@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import TableComponent from './TableComponent';
 import FileComponent from './../File/FileComponent';
-import FormComponent from './../Form/FormComponent';
+import FormComponent from './../Forms/FormV1/FormComponent';
 
 class ModalTable extends Component {
 

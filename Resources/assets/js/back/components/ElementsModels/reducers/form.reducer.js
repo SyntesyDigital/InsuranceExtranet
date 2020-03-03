@@ -221,7 +221,8 @@ function formReducer(state = initialState, action) {
                     repeatable: false,
                     repeatable_json : '',
                     repeatable_jsonpath : '',
-                    fields: []
+                    fields: [],
+                    order:0
                 }
             }
 

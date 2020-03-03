@@ -19,7 +19,7 @@ import {
   procedureIsArray,
   processResponseParameters,
   processListProcedure
-} from "../functions";
+} from "../../functions";
 
 export function initState(payload) {
   return { type: INIT_STATE, payload }
@@ -229,7 +229,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
             else {
               //skip procedure
               //this.skipProcedure(currentProcedureIndex,procedure,jsonResult);
-              return dispatch(skipProcedure(currentProcedureIndex,procedure,jsonResult));
+              return dispatch(skipProcedure(currentProcedureIndex,procedures,jsonResult));
             }
           }
         }

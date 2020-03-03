@@ -20,8 +20,8 @@ import {
   initProceduresIteration
 } from './actions'
 
-import FormParametersIterator from './FormParametersIterator';
-import FormProceduresIterator from './FormProceduresIterator';
+import FormParametersIterator from './FormV1/FormParametersIterator';
+import FormProceduresIterator from './FormV1/FormProceduresIterator';
 
 var jp = require('jsonpath');
 
@@ -295,7 +295,7 @@ class FormComponent extends Component {
                 padding:40,
                 textAlign : 'center'
               }}>
-                En attente de paramètres
+                En cours de chargement
               </div>
             }
             {loaded &&

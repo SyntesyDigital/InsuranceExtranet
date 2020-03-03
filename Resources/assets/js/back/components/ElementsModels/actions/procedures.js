@@ -53,7 +53,9 @@ export function createProcedure(modelId,procedures,procedure) {
             repeatable_json: procedure.repeatable_json,
             repeatable_jsonpath : procedure.repeatable_jsonpath,
             service_id: procedure.service.id,
-            model_id: modelId
+            model_id: modelId,
+            order : procedure.order
+
         })
         .then(function(data) {
 
@@ -80,7 +82,8 @@ export function updateProcedure(modelId,procedures,procedure) {
             repeatable_json: procedure.repeatable_json,
             repeatable_jsonpath : procedure.repeatable_jsonpath,
             service_id: procedure.service.id,
-            model_id: modelId
+            model_id: modelId,
+            order : procedure.order
         })
         .then(function(data) {
 

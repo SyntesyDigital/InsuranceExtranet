@@ -22,6 +22,7 @@
 .element-file-container .element-file-container-body{
   background-color: {{$elementBackground}};
   border: 1px solid {{$elementBorder}};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
 .element-file-container .element-file-container-body .element-file-input-container{
   border-bottom: 1px solid {{$elementFileInputBorder}};

@@ -99,7 +99,8 @@ export function createProcedureObject(procedures,procedure,object) {
             jsonpath: object.jsonpath,
             example: object.example,
             configurable: object.configurable,
-            visible: object.visible
+            visible: object.visible,
+            required : object.required
         })
         .then(function(data) {
             object.id = data.data.createModelField.id;
@@ -132,7 +133,8 @@ export function updateProcedureObject(procedures,procedure,object) {
             jsonpath: object.jsonpath,
             example: object.example,
             configurable: object.configurable,
-            visible: object.visible
+            visible: object.visible,
+            required : object.required
         })
         .then(function(data) {
             var index = getProcedureIndex(procedures,procedure);

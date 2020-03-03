@@ -13,6 +13,7 @@ type ModelField {
     example: String 
     configurable: String 
     visible: String
+    required: String
 }
 
 ################################
@@ -30,6 +31,7 @@ input CreateModelFieldInput {
     example: String 
     configurable: String 
     visible: String
+    required: String
 }
 
 input UpdateModelFieldInput {
@@ -45,6 +47,7 @@ input UpdateModelFieldInput {
     example: String 
     configurable: String 
     visible: String
+    required: String
 }
 
 

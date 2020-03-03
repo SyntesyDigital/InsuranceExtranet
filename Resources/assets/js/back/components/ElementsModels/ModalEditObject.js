@@ -152,16 +152,16 @@ class ModalEditObject extends Component {
                         <div className="col-xs-12 field-col">
 
                             <InputField
-                                label={'Identifier (champ)'}
-                                value={currentObject.identifier}
-                                name={'identifier'}
+                                label={'Name (lib)'}
+                                value={currentObject.name}
+                                name={'name'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
                             <InputField
-                                label={'Name (lib)'}
-                                value={currentObject.name}
-                                name={'name'}
+                                label={'Identifier (champ)'}
+                                value={currentObject.identifier}
+                                name={'identifier'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -188,12 +188,14 @@ class ModalEditObject extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            <InputField
-                                label={'Boby (solo si es select)'}
-                                name={'boby'}
-                                value={currentObject.boby}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                            {currentObject.format == 'select' && 
+                                <InputField
+                                    label={'Boby'}
+                                    name={'boby'}
+                                    value={currentObject.boby}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                />
+                            }
 
                             <InputField
                                 label={'JSON path (concreto para este campo)'}
@@ -220,6 +222,13 @@ class ModalEditObject extends Component {
                                 label={'Visible'}
                                 name={'visible'}
                                 checked={currentObject.visible == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Obligatoire'}
+                                name={'required'}
+                                checked={currentObject.required == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
