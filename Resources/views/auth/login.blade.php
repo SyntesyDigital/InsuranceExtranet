@@ -3,8 +3,13 @@
 ])
 
 @php
-    $storedStylesFront = \Cache::get('frontStyles');
-    dd($storedStylesFront);
+  $storedStylesFront = \Cache::get('frontStyles');
+  if(!isset($storedStylesFront)){
+    $seconds = 24*3600;
+    $style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
+    $storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
+    \Cache::put('frontStyles', $storedStylesFront, $seconds);
+  }
 @endphp
 
 @section('content')
