@@ -14,6 +14,7 @@
             <form method="POST" action="{{ route('login') }}">
               @csrf
               <div class="logo-container">
+                {{dd($storedStylesFront['frontLogo'])}}
                 @if(isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value))
                   <img style="max-height: 75px;" src="/{{$storedStylesFront['frontLogo']->value->urls['original']}}" alt="Logo" />
                 @else
