@@ -6,39 +6,44 @@ import {
 } from '../constants';
 
 const initialState = {
-    loaded : false,
-    saved: false,
-    champs: [
-        {
-            name: 'row',
-            value: 'Row'
+    "type": "row",
+    "settings": {
+        "htmlId": null,
+        "htmlClass": null,
+        "hasContainer": null
+    },
+    "children": [{
+        "type": "col",
+        "settings": {
+            "htmlId": null,
+            "htmlClass": null
         },
-        {
-            name: 'row',
-            value: 'Row'
-        },
-        {
-            name: 'row',
-            value: 'Row'
-        },
-    ],
-
-    elements: [
-        {
-            name: 'elementfield1',
-            value: 'Element Field 1'
-        },
-        {
-            name: 'elementfield2',
-            value: 'Element Field 2'
-        },
-        {
-            name: 'elementfield3',
-            value: 'Element Field 3'
-        },
-    ],
-
-    name: 'template 01'
+        "colClass": "col-xs-12",
+        "children": [{
+            "type": "item",
+            "field": {
+                "class": "Modules\\Architect\\Widgets\\Types\\ElementTable",
+                "rules": {
+                    "required": null
+                },
+                "label": "ELEMENT_TABLE",
+                "name": "Tableau principaux",
+                "type": "widget",
+                "icon": "fa fa-table",
+                "settings": {
+                    "pagination": "50",
+                    "tableElements": "34",
+                    "excel": null
+                },
+                "component": "CommonWidget",
+                "widget": null,
+                "hidden": false,
+                "defaultSettings": null,
+                "identifier": "temp_[0,0,0]",
+                "fieldname": "pagewidget_5d3b5e32baef2"
+            }
+        }]
+    }]
 };
 
 
