@@ -157,7 +157,7 @@ class Login
         $user = User::where('id_per', $userData['id'])->first();
 
         if (!$user) {
-            User::create([
+            $user = User::create([
                 'id_per' => $userData['id'],
                 'firstname' => $userData['firstname'],
                 'lastname' => $userData['lastname'],
