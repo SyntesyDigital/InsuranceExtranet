@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddIdentifierField extends Migration
 {
@@ -13,9 +13,9 @@ class AddIdentifierField extends Migration
      */
     public function up()
     {
-        Schema::table('models', function (Blueprint $table) {
-              $table->string('identifier')->nullable()->after('title');
-        });
+        // Schema::table('models', function (Blueprint $table) {
+        //       $table->string('identifier')->nullable()->after('title');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddIdentifierField extends Migration
      */
     public function down()
     {
-        Schema::table('models', function (Blueprint $table) {
-              $table->dropColumn('identifier');
-        });
+        // Schema::table('models', function (Blueprint $table) {
+        //       $table->dropColumn('identifier');
+        // });
     }
 }
