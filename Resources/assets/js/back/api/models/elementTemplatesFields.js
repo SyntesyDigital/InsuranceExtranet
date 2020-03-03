@@ -81,7 +81,7 @@ export const GQL_CREATE_ELEMENT_TEMPLATE_FIELDS = gql`
         $value: String
         $relation: String
     ) {
-        createElementModelField(
+        createElementTemplateField(
             input: {
                 template_id: $template_id
                 language_id: $language_id
@@ -116,7 +116,7 @@ export const GQL_UPDATE_ELEMENT_TEMPLATE_FIELDS = gql`
         $value: String
         $relation: String
     ) {
-        createElementModelField(
+        updateElementTemplateField(
             input: {
                 id: $id
                 template_id: $template_id
