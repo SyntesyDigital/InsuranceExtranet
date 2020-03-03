@@ -295,7 +295,7 @@ class FormComponent extends Component {
                 padding:40,
                 textAlign : 'center'
               }}>
-                En attente de paramètres
+                En cours de chargement
               </div>
             }
             {loaded &&

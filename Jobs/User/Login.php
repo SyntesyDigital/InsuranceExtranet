@@ -15,6 +15,9 @@ class Login
     private $password;
     private $test;
 
+    const MESSAGE_404 = "Nom d'utilisateur ou mot de passe incorrect";
+    const MESSAGE_500 = "Erreur de connexion. Veuillez réessayer après quelques minutes.";
+
     public function __construct($login, $password, $env = null)
     {
         $this->uid = $login;

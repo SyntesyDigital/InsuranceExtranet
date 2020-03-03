@@ -212,7 +212,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         }
         else {
           //there is no data
-          console.log("processProcedure :: No data :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
+          console.log("processProcedure :: No current data :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
 
           if(isRequired){
             //this is needed
@@ -221,6 +221,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
           }
           else {
             //if there is data to process, submit process
+            console.log("processProcedure :: Data to process  (stepsToProcess)",stepsToProcess);
             if(stepsToProcess){
               //this.submitStandardProcedure(currentProcedureIndex,procedure,jsonResult);
               return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
@@ -229,7 +230,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
             else {
               //skip procedure
               //this.skipProcedure(currentProcedureIndex,procedure,jsonResult);
-              return dispatch(skipProcedure(currentProcedureIndex,procedure,jsonResult));
+              return dispatch(skipProcedure(currentProcedureIndex,procedures,jsonResult));
             }
           }
         }
@@ -323,6 +324,11 @@ export function submitProcedure(procedure, jsonResult, formParameters) {
         ]
       };
     }
+    else if(procedure.SERVICE.P1 == 'requests'){
+      jsonResult = {
+        requests : [jsonResult]
+      };
+    }
 
     var params = {
       method : procedure.SERVICE.METHODE,
@@ -401,12 +407,16 @@ export function submitListProcedure(currentProcedureIndex,procedure,jsonResult,
 */
 export function skipProcedure(currentProcedureIndex, procedures, jsonResult) {
 
+  console.log("skipProcedure :: (currentProcedureIndex, procedures)",currentProcedureIndex, procedures);
+
   return (dispatch) => {
     var nextProcedure = null;
     if( currentProcedureIndex + 1 < procedures.length){
       //is the last one
       nextProcedure = procedures[currentProcedureIndex+1];
     }
+
+    console.log("skipProcedure :: ater process  (nextProcedure)",nextProcedure);
 
     if(nextProcedure != null){
 
