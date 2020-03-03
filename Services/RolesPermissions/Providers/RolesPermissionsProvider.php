@@ -2,10 +2,9 @@
 
 namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
-use Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
-use Auth;
+
 class RolesPermissionsProvider extends ServiceProvider
 {
     protected $helpers = [
@@ -39,7 +38,7 @@ class RolesPermissionsProvider extends ServiceProvider
             if (\File::isFile($helperPath)) {
                 $className = str_replace('.php', '', basename($helperPath));
                 require_once $helperPath;
-                $class = 'Modules\\Extranet\\Services\\RolesPermissions\\Helpers\\' . $className;
+                $class = 'Modules\\Extranet\\Services\\RolesPermissions\\Helpers\\'.$className;
                 new $class();
             }
         }

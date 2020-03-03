@@ -52,6 +52,12 @@ export const GQL_GET_MODEL = gql`
         description
         icon
         type
+        ws
+        ws_format
+        filtres
+        example
+        def1
+        def2
         procedures {
             id
             name
@@ -60,6 +66,7 @@ export const GQL_GET_MODEL = gql`
             repeatable
             repeatable_json
             repeatable_jsonpath
+            order
             service {
                 id
                 name
@@ -76,6 +83,7 @@ export const GQL_GET_MODEL = gql`
                 example
                 configurable
                 visible
+                required
             }
         }
     }
@@ -91,6 +99,12 @@ export const GQL_GET_ALL_MODELS = gql`
         description
         icon
         type
+        ws
+        ws_format
+        filtres
+        example
+        def1
+        def2
     }
   }
 `;
@@ -102,6 +116,12 @@ export const GQL_CREATE_MODEL = gql`
         $description: String
         $icon: String
         $type: String
+        $ws: String
+        $ws_format: String
+        $filtres: String
+        $example: String
+        $def1: String
+        $def2: String
     ) {
         createElementModel(
         input: {
@@ -110,6 +130,12 @@ export const GQL_CREATE_MODEL = gql`
             description: $description
             icon: $icon
             type: $type
+            ws: $ws
+            ws_format: $ws_format
+            filtres: $filtres
+            example: $example
+            def1: $def1
+            def2: $def2
         }
     ) {
         id
@@ -118,6 +144,12 @@ export const GQL_CREATE_MODEL = gql`
         description
         icon
         type
+        ws
+        ws_format
+        filtres
+        example
+        def1
+        def2
     }
   } 
 `;
@@ -130,6 +162,12 @@ export const GQL_UPDATE_MODEL = gql`
         $description: String
         $icon: String
         $type: String
+        $ws: String
+        $ws_format: String
+        $filtres: String
+        $example: String
+        $def1: String
+        $def2: String
     ) {
         updateElementModel(
         input: {
@@ -139,6 +177,12 @@ export const GQL_UPDATE_MODEL = gql`
             description: $description
             icon: $icon
             type: $type
+            ws: $ws
+            ws_format: $ws_format
+            filtres: $filtres
+            example: $example
+            def1: $def1
+            def2: $def2
         }
     ) {
         id
@@ -147,6 +191,12 @@ export const GQL_UPDATE_MODEL = gql`
         description
         icon
         type
+        ws
+        ws_format
+        filtres
+        example
+        def1
+        def2
     }
   } 
 `;
@@ -169,6 +219,12 @@ export const GQL_DELETE_MODEL = gql`
             description
             icon
             type
+            ws
+            ws_format
+            filtres
+            example
+            def1
+            def2
         }
   } 
 `;

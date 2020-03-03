@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import {
 
-} from './functions/';
+} from '../functions';
 
 import {
   getJsonResultBeforePut,

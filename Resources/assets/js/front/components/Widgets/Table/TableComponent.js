@@ -381,7 +381,11 @@ export default class TableComponent extends Component {
 
     filterMethod(identifier, filter, rows ) {
         //console.log("identifier => ",identifier);
-        return matchSorter(rows, filter.value, { keys: [identifier] });
+          return matchSorter(rows, filter.value, { keys: [{
+            key : identifier, 
+            threshold: matchSorter.rankings.CONTAINS
+          }] 
+        });
     }
 
     renderTable() {

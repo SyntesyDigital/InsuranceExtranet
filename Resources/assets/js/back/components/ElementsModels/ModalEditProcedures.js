@@ -297,6 +297,19 @@ class ModalEditProcedures extends Component {
                                 // onChange={this.handleFieldChange.bind(this)}
                             />
                             
+                            <InputField
+                                label={'Ordre'}
+                                name={'order'}
+                                value={currentProcedure.order}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <InputField
+                                label={'JSON Path'}
+                                name={'repeatable_jsonpath'}
+                                value={currentProcedure.repeatable_jsonpath}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
 
                             <ToggleField
                                 label={'Configurable'}
@@ -318,16 +331,6 @@ class ModalEditProcedures extends Component {
                                 checked={currentProcedure.repeatable == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
-
-                            {currentProcedure.repeatable && 
-
-                                <InputField
-                                    label={'JSON Path'}
-                                    name={'repeatable_jsonpath'}
-                                    value={currentProcedure.repeatable_jsonpath}
-                                    onChange={this.handleFieldChange.bind(this)}
-                                />
-                            }
 
                             {currentProcedure.repeatable && 
 

@@ -1,0 +1,21 @@
+.yes-no-field{
+    margin: 20px 0px 20px 0px;
+    align-items: center;
+    display: flex;
+    .container-text{
+        width: calc(100% - 240px);
+        display: inline-block;
+    }
+    .container-fields-yes-no{
+        text-align: right;
+        width: 240px;
+        display: inline-block;
+        position: relative;
+    }
+    div{
+        padding: 0;
+    }
+    .MuiFormControlLabel-root{
+        margin-bottom: 0;
+    }
+}

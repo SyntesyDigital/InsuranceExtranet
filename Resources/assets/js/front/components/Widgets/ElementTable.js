@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-//import MoreResults from './../Common/MoreResults';
-//import Paginator from './../Common/Paginator';
-//import ReactDataGrid from 'react-data-grid';
-//import { Toolbar, Data } from "react-data-grid-addons";
-
-import ReactTable from "react-table";
 import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
 
 import TableComponent from './Table/TableComponent';
 import ModalTable from './Table/ModalTable';
-
-import moment from 'moment';
 
 //const selectors = Data.Selectors;
 

@@ -19,7 +19,7 @@ import {
   procedureIsArray,
   processResponseParameters,
   processListProcedure
-} from "../functions";
+} from "../../functions";
 
 export function initState(payload) {
   return { type: INIT_STATE, payload }
@@ -229,7 +229,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
             else {
               //skip procedure
               //this.skipProcedure(currentProcedureIndex,procedure,jsonResult);
-              return dispatch(skipProcedure(currentProcedureIndex,procedure,jsonResult));
+              return dispatch(skipProcedure(currentProcedureIndex,procedures,jsonResult));
             }
           }
         }
@@ -310,8 +310,6 @@ export function submitProcedure(procedure, jsonResult, formParameters) {
       procedure.SERVICE.URL,
       formParameters
     );
-
-    console.log("submitProcedure (url,procedure.SERVICE.URL) => ",url,procedure.SERVICE.URL);
 
     //if is request_parms need to be wrappen into json
     if(procedure.SERVICE.P1 == 'requests_params'){

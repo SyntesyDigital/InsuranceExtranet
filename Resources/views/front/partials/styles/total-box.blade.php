@@ -1,4 +1,5 @@
 <style type="text/css">
+
     body .total-box-container .title{
         color: {{$titleColor}}; 
         font-size: {{$fontSizeLabel}}
@@ -6,6 +7,7 @@
     body .total-box-container{
         border-radius: {{$borderRadiusBox}};
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
+        background-color:{{$elementsBackgroundColor}}
     }
     body .total-box-container .container-parameters{
         color: {{$elementNumberColor}};
