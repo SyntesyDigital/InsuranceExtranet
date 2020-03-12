@@ -11,6 +11,18 @@
 
     .react-datepicker__input-container{
       display:block;
+
+      &:after {
+        font-family: "Font Awesome 5 Free"; 
+        font-weight: 500; 
+        content: "\f073";
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: #91979f;
+        pointer-events: none;
+        font-size: 16px;
+      }
     }
 
 

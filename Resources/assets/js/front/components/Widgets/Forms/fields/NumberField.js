@@ -13,10 +13,49 @@ class NumberField extends Component
   handleOnChange(event)
   {
 
+    var value = parseInt(event.target.value);
+    var max = parseInt(this.getNumberFromRules('maxNumber'));
+    var min = parseInt(this.getNumberFromRules('minNumber'));
+
+    if(min != '' && value < min){
+      return;
+    }
+    if(max != '' && value > max){
+      return;
+    }
+
     this.props.onFieldChange({
       name : event.target.name,
       value : event.target.value
     });
+
+  }
+
+  getNumberFromRules(key) {
+    const {rules} = this.props.field;
+    
+    if(rules[key] !== undefined && rules[key] != null && rules[key] != '' ){
+      return rules[key];
+    }
+
+    return '';
+  }
+
+  getPlaceholder() {
+    var max = this.getNumberFromRules('maxNumber');
+    var min = this.getNumberFromRules('minNumber');
+
+    if(max == '' && min == '')
+      return '';
+
+    var result = 'Valeur : ';
+
+    result += (min != '' ) ? '>= '+min+' ' : '';
+    result += (min != '' && max != '') ? ', ' : '';
+    result += (max != '' ) ? '<= '+max+' ' : '';
+    
+
+    return result;
 
   }
 
@@ -47,7 +86,10 @@ class NumberField extends Component
           <input type="number" name={field.identifier}
             className={"form-control " + errors}
             value={this.props.value}
+            max={this.getNumberFromRules('maxNumber')}
+            min={this.getNumberFromRules('minNumber')}
             onChange={this.handleOnChange.bind(this)}
+            placeholder={this.getPlaceholder()}
           />
         </div>
       </div>

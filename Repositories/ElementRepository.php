@@ -299,7 +299,7 @@ class ElementRepository extends BaseRepository
         'added' => false,
         'required' => $object->OBL == "Y" ? true : false,
         'formats' => $fieldType['formats'],
-        'rules' => ['required'],
+        'rules' => $fieldType['rules'],
         'settings' => array_diff($fieldType['settings'],['hasRoute'])
       ];
 

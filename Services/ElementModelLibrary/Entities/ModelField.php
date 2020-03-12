@@ -61,7 +61,7 @@ class ModelField extends Model
                 'added' => false,
                 'required' => $this->required == 1,
                 'formats' => $fieldConfig['formats'],
-                'rules' => ['required'],
+                'rules' => $fieldConfig['rules'],
                 'settings' => array_diff($fieldConfig['settings'],['hasRoute'])
               ];
         }
