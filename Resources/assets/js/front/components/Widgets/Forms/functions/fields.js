@@ -313,7 +313,8 @@ export function processResponseParameters(response,service,formParameters) {
         var parameterIdentifier = parameterArray[0];
         var responseValue = parameterArray[1];
 
-        formParameters[parameterIdentifier] = getValueFromObject(response,responseValue,null);
+        //force value to be string
+        formParameters[parameterIdentifier] = getValueFromObject(response,responseValue,null) + ""; 
       }
     }
   }
