@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 
-import SettingsField from './SettingsField';
-import InputField from '../../Layout/Fields/InputField';
+import SettingsField from './../SettingsField';
+import InputField from '../../../Layout/Fields/InputField';
 
-class InputSettingsField extends Component {
+class ExampleSettingsField extends Component {
 
   constructor(props) {
     super(props);
@@ -58,4 +58,4 @@ class InputSettingsField extends Component {
   }
 
 }
-export default InputSettingsField;
+export default ExampleSettingsField;

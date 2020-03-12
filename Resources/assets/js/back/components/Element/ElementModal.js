@@ -15,7 +15,7 @@ import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsFie
 import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 import BooleanValuesSettingsField from './Settings/BooleanValues/BooleanValuesSettingsField';
 import ConditionalFormattingSettingsField from './Settings/ConditionalFormatting/ConditionalFormattingSettingsField';
-
+import MaxDateSettingsField from './Settings/MaxDate/MaxDateSettingsField';
 
 import {
   closeModalSettings,
@@ -160,51 +160,27 @@ class ElementModal extends Component {
                       label="Champ unique"
                     />
 
-                    <InputSettingsField
-                      field={field}
-                      name="minCharacters"
-                      source="rules"
-                      onFieldChange={this.handleFieldSettingsChange}
-                      label="Caractères minimum"
-                      inputLabel="Indique le nombre minimum de caractères"
-                    />
+                    {field != null && field.rules != null && field.rules.minCharacters !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="minCharacters"
+                        source="rules"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Caractères minimum"
+                        inputLabel="Indique le nombre minimum de caractères"
+                      />
+                    }
 
-                    <InputSettingsField
-                      field={field}
-                      name="maxCharacters"
-                      source="rules"
-                      onFieldChange={this.handleFieldSettingsChange}
-                      label="Caractères maximum"
-                      inputLabel="Indique le nombre maximum de caractères"
-                    />
-
-                    <InputSettingsField
-                      field={field}
-                      name="maxItems"
-                      source="rules"
-                      onFieldChange={this.handleFieldSettingsChange}
-                      label="Nombre maximum d'éléments"
-                      inputLabel="Indique le nombre maximum"
-                    />
-
-
-                    <InputSettingsField
-                      field={field}
-                      name="minItems"
-                      source="rules"
-                      onFieldChange={this.handleFieldSettingsChange}
-                      label="Nombre minimum d'éléments"
-                      inputLabel="Indiquez le nombre minimum"
-                    />
-
-                    <InputSettingsField
-                      field={field}
-                      name="fieldHeight"
-                      source="settings"
-                      onFieldChange={this.handleFieldSettingsChange}
-                      label="Hauteur du champ"
-                      inputLabel="Indique la hauteur en pixels"
-                    />
+                    {field != null && field.rules != null && field.rules.maxCharacters !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="maxCharacters"
+                        source="rules"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Caractères maximum"
+                        inputLabel="Indique le nombre maximum de caractères"
+                      />
+                    }
 
                     <BooleanSettingsField
                       field={field}
@@ -313,6 +289,52 @@ class ElementModal extends Component {
                         label="Mise en forme conditionnelle"
                         value={field.settings.conditionalFormatting}
                         onFieldChange={this.handleFieldSettingsChange}
+                      />
+                    }
+
+                    {field != null && field.rules != null && field.rules.maxDate !== undefined && 
+                      <MaxDateSettingsField
+                        field={field}
+                        name="maxDate"
+                        source="rules"
+                        label="Date maximum"
+                        parameters={this.props.app.parameters}
+                        //value={field.rules.maxDate}
+                        onFieldChange={this.handleFieldSettingsChange}
+                      />
+                    }
+
+                    {field != null && field.rules != null && field.rules.minDate !== undefined && 
+                      <MaxDateSettingsField
+                        field={field}
+                        name="minDate"
+                        source="rules"
+                        label="Date minimum"
+                        parameters={this.props.app.parameters}
+                        //value={field.rules.maxDate}
+                        onFieldChange={this.handleFieldSettingsChange}
+                      />
+                    }
+
+                    {field != null && field.rules != null && field.rules.minNumber !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="minNumber"
+                        source="rules"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Nombre minimum"
+                        inputLabel="Indique la valeur minimum"
+                      />
+                    }
+
+                    {field != null && field.rules != null && field.rules.maxNumber !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="maxNumber"
+                        source="rules"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Nombre maximum"
+                        inputLabel="Indique la valeur maximum"
                       />
                     }
                     

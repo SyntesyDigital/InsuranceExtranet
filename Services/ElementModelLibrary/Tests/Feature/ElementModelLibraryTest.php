@@ -49,6 +49,7 @@ class ElementModelLibraryTest extends TestCase
             'name' => 'Element model',
             'description' => '',
             'icon' => '',
+            'type' => '',
         ]);
 
         $modelProcedure = ModelProcedure::create([

@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import {getParametersFromURL} from './../functions';
+
 class DateField extends Component
 {
   constructor(props)
@@ -46,6 +48,39 @@ class DateField extends Component
     }
 
     return false;
+  }
+
+  getMaxDate() {
+    return this.getDateFromRules('maxDate');
+  }
+
+  getMinDate() {
+    return this.getDateFromRules('minDate');
+  }
+
+  getDateFromRules(key) {
+      const {rules} = this.props.field;
+      var parameters = getParametersFromURL(this.props.parameters);
+
+      if(rules[key] !== undefined && rules[key] != null && rules[key].type != '' 
+        && rules[key].parameter != ''){
+        
+        if(rules[key].type == 'SYSTEM'){
+          switch(rules[key].parameter){
+            case '_now' : 
+              return moment();
+          }
+        }
+        else if(rules[key].type == 'PARAMETER'){
+          if(parameters[rules[key].parameter] == undefined){
+            console.error("Config Error : parameter not set as form parameter (parameter)",rules[key].parameter)
+            return null;
+          }
+          return moment(parameters[rules[key].parameter], 'DD/MM/YYYY');
+        }
+      }
+
+      return null;
   }
 
   isMonthYear() {
@@ -96,6 +131,10 @@ class DateField extends Component
     const errors = this.props.error ? 'is-invalid' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
+    const maxDate = this.getMaxDate();
+    const minDate = this.getMinDate();
+
+    console.log("DateField : Max Date, Min Date => ",maxDate,minDate);
 
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
@@ -126,6 +165,8 @@ class DateField extends Component
               //showMonthYearPicker={this.isMonthYear()}
               timeCaption="Heure"
               timeFormat="HH:mm"
+              maxDate={maxDate}
+              minDate={minDate}
               //onBlur={this.handleOnBlur.bind(this)}
           />
         </div>

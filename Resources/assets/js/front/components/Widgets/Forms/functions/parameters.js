@@ -32,6 +32,25 @@ export function getUrlParameters(formParameters) {
 }
 
 /**
+ *  Function to process from URL : cie_gli=CIE5&id_per_ass_gli=11407167
+ *  To object : 
+ * {
+ *    cie_gli : 'CIE5',
+ *    id_per_ass_gli : '11407167'
+ * }
+ *  
+ */
+export function getParametersFromURL(url) {
+  var parameters = {};
+  var urlArray = url.split('&');
+  for(var key in urlArray){
+    var parameterArray = urlArray[key].split('=');
+    parameters[parameterArray[0]] = parameterArray[1];
+  }
+  return parameters;
+}
+
+/**
 * Function to process url that have parameters like  /_id_pol/,
 * From formParameters
 */

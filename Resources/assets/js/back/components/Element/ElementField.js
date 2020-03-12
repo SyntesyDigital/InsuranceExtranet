@@ -210,9 +210,12 @@ class ElementField extends Component {
 							//only set as required when the field is required by default
 							if(this.props.modelDefinition.required)
 								required = true;
-							else
-								//if not reqired by default, then mark is done manually
+							else 
 								configured = true;
+						}
+						else {
+							//if not reqired by default, then mark is done manually
+							configured = true;
 						}
 					}
 				}

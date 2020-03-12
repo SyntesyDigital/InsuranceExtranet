@@ -42,7 +42,9 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
+          'maxNumber',
+          'minNumber'
         ],
         'settings' => [
           'format',
@@ -70,7 +72,9 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
+          'maxDate',
+          'minDate'
         ],
         'settings' => [
           'format',
