@@ -32,7 +32,7 @@ class TemplateRedux extends Component {
         this.props.initStateTemplate(this.props);
         // this.props.updateField(this.props);
         // this.props.addField(this.props);
-        // this.props.saveForm(this.props);
+       
         // this.props.loadForm(this.props);
         // this.props.createForm(this.props);
         // this.props.updateForm(this.props);
@@ -45,10 +45,6 @@ class TemplateRedux extends Component {
     // ==============================
 
     handleFieldChange(name, value) {
-        // console.log("handleFieldChange :: name, value -> ", name, value);
-        // const state = this.state;
-        // state[name] = value;
-        // this.setState(state);
         this.props.updateField(name, value);
     }
 
@@ -98,9 +94,12 @@ class TemplateRedux extends Component {
     handleAddLine() {
         console.log("handleAddLine");
     }
-
+    handleAddTemplate() {
+        console.log("handleAddTemplate");
+    }
     handleSubmit() {
         console.log("handleSubmit");
+        this.props.saveForm(this.props);
     }
 
     // ==============================
@@ -130,6 +129,7 @@ class TemplateRedux extends Component {
                             {
                                 label: 'Nouveau Template',
                                 icon: 'fa fa-plus-circle',
+                                onClick: this.handleAddTemplate.bind(this),
                             },
                         ]}
                     />
