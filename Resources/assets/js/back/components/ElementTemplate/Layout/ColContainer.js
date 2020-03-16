@@ -58,4 +58,4 @@ ColContainer.propTypes = {
     onAdd: PropTypes.func,
     onEdit: PropTypes.func,
 
-}; 
+};

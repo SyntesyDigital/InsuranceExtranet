@@ -8,9 +8,10 @@
 @push('javascripts')
 <script>
   var routes = {
-    'extranet.elements.template' : "{{route('extranet.elements.template', ['element' => ':element'])}}",
+    'extranet.elements.template' : "{{route('extranet.elements.template', ['element' => 'id'])}}",
+    'extranet.elements.show' : "{{route('extranet.elements.show', ['element' => 'id'])}}",
     'extranet.elements.index' : "{{route('extranet.elements.index')}}",
-    'settings' : "{{route('settings')}}"
+    'settings' : "{{route('settings')}}",
   };
 </script>
 @endpush

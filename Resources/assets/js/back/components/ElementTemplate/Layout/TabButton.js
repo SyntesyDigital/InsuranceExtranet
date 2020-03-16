@@ -7,12 +7,6 @@ import Tab from '@material-ui/core/Tab';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,31 +15,46 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+function handleClickGlobal(e) {
+    event.preventDefault;
+    window.location.href = routes['extranet.elements.show']
+}
+
+function handleClickTemplate(e) {
+    event.preventDefault;
+    window.location.href = routes['extranet.elements.template']
+}
+
 export default function SimpleTabs() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const [value] = React.useState(0);
 
     return (
+        
         <div className="container-tab-button">
             <div className={classes.root}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
-                        onChange={handleChange}
                     >
                         <Tab
                             label="GLOBAL"
                             icon={<SettingsIcon />}
                             {...a11yProps(0)}
+                            onClick={handleClickGlobal}
                         />
                         <Tab
                             label="TEMPLATE" 
                             icon={<InsertDriveFileIcon />}
                             {...a11yProps(1)}
+                            onClick={handleClickTemplate}
                         />
                     </Tabs>
                 </AppBar>
@@ -57,5 +66,4 @@ export default function SimpleTabs() {
 SimpleTabs.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any,
-    value: PropTypes.any.isRequired,
 };

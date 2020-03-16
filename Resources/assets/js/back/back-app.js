@@ -22,4 +22,4 @@ require('./components/Users/UsersIndex');
 require('./components/Services/ServicesIndex');
 require('./components/Services/ServiceForm');
 
-require('./components/Element/Template');
+require('./components/ElementTemplate/Template');
