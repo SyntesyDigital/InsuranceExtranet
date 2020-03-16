@@ -1,0 +1,49 @@
+.top {
+  &-left {
+    position: absolute;
+    left: 78px;
+    top: 39px;
+  }
+  &-middle {
+    position: absolute;
+    left: 190px;
+    top: 39px;
+  }
+  &-retroviseur {
+    position: absolute;
+    top: 39px;
+    left: 300px;
+  }
+  &-right {
+    position: absolute;
+    top: 39px;
+    left: 350px;
+  }
+}
+.middle {
+  &-right {
+    position: absolute;
+    top: 120px;
+    left: 400px;
+  }
+}
+.quart-middle {
+  position: absolute;
+  top: 120px;
+  right: 63px;
+}
+.parebrise-middle {
+  position: absolute;
+  top: 120px;
+  right: 137px;
+}
+.middle-middle{
+    position: absolute;
+    top: 120px;
+    left: 200px;
+}
+.quart-middle-paravrise{
+    position: absolute;
+    top: 120px;
+    left: 120px;
+}

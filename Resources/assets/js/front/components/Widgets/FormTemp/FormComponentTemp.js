@@ -7,6 +7,7 @@ import RadioField from './fields/RadioField';
 import YesNoField from './fields/YesNoField';
 import CheckField from '../FileTemp/fields/CheckField';
 import ListField from './fields/ListField';
+import CardField from './fields/CardField';
 import ModalAddDocument from './ModalAddDocument';
 
 
@@ -103,7 +104,7 @@ export default class FormComponentTemp extends Component {
     // ==============================
     // Renderers
     // ==============================
-    
+
     render() {
         return (
             <div className="form-component-temp">
@@ -382,6 +383,24 @@ export default class FormComponentTemp extends Component {
                         </Col>
                     </Row>
                 </Grid>
+                <Grid
+                    className="layout"
+                    fluid={true}
+
+                >
+                    <Row>
+                        <Col md={12}>
+                            <Label
+                                text={'DOMMAGES'}
+                                textAlign={'left'}
+                            />
+                            <CardField
+                            />
+                        </Col>
+                    </Row>
+                </Grid>
+
+
                 <Grid
                     className="layout"
                     fluid={true}
