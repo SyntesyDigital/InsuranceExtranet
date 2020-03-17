@@ -39,7 +39,9 @@ class ModalEditProcedures extends Component {
                     value: ''
                 }
             ],
-            procedure : null
+            procedure : null,
+            subJsonEnabled : false,
+            json : {}
         };
 
         this.handleChangeRepeatable = this.handleChangeRepeatable.bind(this);
@@ -75,9 +77,17 @@ class ModalEditProcedures extends Component {
 
     componentDidUpdate(prevProps,prevState) {
         if(!prevProps.display && this.props.display) {
+
+            const jsonValue = this.props.procedure.repeatable_json;
+            const jsonEnabled = jsonValue !== undefined 
+            && jsonValue != '' && jsonValue != null? true : false;
+            //console.log("componentDidUpdate (jsonValue)",jsonValue);
+
             //modal is showing 
             this.setState({
-                procedure : this.props.procedure
+                procedure : this.props.procedure,
+                subJsonEnabled : jsonEnabled,
+                json : jsonEnabled ? JSON.parse(jsonValue) : {}
             });
         }
     }
@@ -126,6 +136,9 @@ class ModalEditProcedures extends Component {
 
     handleFieldChange(name, value){
         const {procedure} = this.state;
+
+        console.log("ModalEditPRocedures (name,value) => ",name,value);
+
         procedure[name] = value;
         this.setState({
             procedure : procedure
@@ -172,6 +185,14 @@ class ModalEditProcedures extends Component {
         });
     }
 
+    handleSubJsonChange(name,value) {
+        console.log("handleSubJsonChange :: (value)",value);
+
+        this.setState({
+            subJsonEnabled : value
+        });
+    }
+
     // ==============================
     // Renderers
     // ==============================
@@ -185,6 +206,18 @@ class ModalEditProcedures extends Component {
         return null;
     }
 
+    getTypeIcon(type) {
+        switch(type) {
+            case "INPUT" : 
+                return 'far fa-user'
+            case "SYSTEM" : 
+                return 'fas fa-database'
+            case "CTE" : 
+                return 'fas fa-lock'
+        }
+        return '';
+    }
+
     renderObjects() {
 
         var procedures = this.props.form.form.procedures;
@@ -195,7 +228,7 @@ class ModalEditProcedures extends Component {
 
         var currentProcedure = procedures[index];
 
-        console.log("renderObjects :: (currentProcedure)",currentProcedure);
+        //console.log("renderObjects :: (currentProcedure)",currentProcedure);
 
         const displayObjects = currentProcedure.fields.map((object, index) =>
             <div key={object.identifier + index} className={object.identifier + index}>
@@ -204,11 +237,13 @@ class ModalEditProcedures extends Component {
                     identifier={object.identifier}
                     index={index}
                     icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                    icons={[this.getTypeIcon(object.type)]}
                     label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                    labelField={object.name}
+                    labelField={object.name + ' '+(object.jsonpath != null && object.jsonpath != '' ? ' ( '+object.jsonpath+' ) ' : '')}
                     isField={true}
                     onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
                     onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
+                    
                 />
             </div>
         )
@@ -332,13 +367,21 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            {currentProcedure.repeatable && 
 
+                            <ToggleField
+                                label={'Sub JSON'}
+                                name={'sub_json'}
+                                checked={this.state.subJsonEnabled}
+                                onChange={this.handleSubJsonChange.bind(this)}
+                            />
+
+                            {this.state.subJsonEnabled && 
                                 <InputFieldJsonEdit 
                                     label={'JSON'} 
                                     name={'repeatable_json'}
-                                    value={currentProcedure.repeatable_json}
+                                    placeholder={this.state.json}
                                     onChange={this.handleFieldChange.bind(this)}
+                                    height={200}
                                 /> 
                             }
 

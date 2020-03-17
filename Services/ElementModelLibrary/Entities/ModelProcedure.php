@@ -67,7 +67,8 @@ class ModelProcedure extends Model
             "OBL"=> $this->required ? 'Y' : 'N',
             "P1"=> null,
             "P2"=> null,
-            "P3"=> null
+            "P3"=> null,
+            "JSON" => $this->repeatable_json
         ];
     }
 

@@ -208,10 +208,14 @@ class ElementField extends Component {
 					if(this.props.rules[key] != null && this.props.rules[key] != false){
 						if(key == "required" && this.props.rules[key]){
 							//only set as required when the field is required by default
-							if(this.props.modelDefinition.required)
-								required = true;
-							else 
-								configured = true;
+							if(this.props.modelDefinition !== undefined){
+								if(this.props.modelDefinition.required) {
+									required = true;
+								}
+								else {
+									configured = true;
+								}
+							}
 						}
 						else {
 							//if not reqired by default, then mark is done manually
@@ -259,6 +263,11 @@ class ElementField extends Component {
 		var errors = this.props.errors !== undefined && this.props.errors != null
 			&& this.props.errors.length > 0 ?
 			true : false;
+
+		//if model definition not defined, this field is not in model
+		errors = this.props.modelDefinition === undefined ? true : errors;
+
+		const modelUndefined = this.props.modelDefinition === undefined ? true : false ;
 
 
 		var isEntryTitle = false;
@@ -339,7 +348,9 @@ class ElementField extends Component {
 					paddingRight : '15px'
 				}}>
 
-					<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
+					{!modelUndefined && 
+						<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
+					}
 
 					<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
 
@@ -372,3 +383,5 @@ export default flow(
   DragSource(FieldTypes.SORT_FIELD, fieldSource, collectSource),
   DropTarget(FieldTypes.SORT_FIELD, fieldTarget, collectTarget)
 )(ElementField);
+
+

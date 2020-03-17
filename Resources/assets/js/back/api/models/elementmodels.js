@@ -70,6 +70,13 @@ export const GQL_GET_MODEL = gql`
             service {
                 id
                 name
+                http_method
+                url
+                boby
+                json
+                identifier
+                response
+                comment
             }
             fields {
                 id
