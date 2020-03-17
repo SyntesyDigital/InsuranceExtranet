@@ -19,6 +19,8 @@ import {
   CONDITION_FIELD_TYPE_PARAMETER
 } from './../constants';
 
+let jp = require('jsonpath');
+
 const fieldComponents = {
     text: TextField,
     date: DateField,
@@ -518,14 +520,6 @@ export function processStandardProcedure(currentIndex,procedure,jsonResult,value
 
   //console.log("processStandardProcedure :: ",currentIndex,jsonResult);
 
-  //if conf == Y && repetable == N
-    //if OBL == N , check for values, if not values, don't process de procedure
-    //check for values
-    //normal procedure
-      //after procedure processed
-        //check what to do
-          //or next or finish
-
     const {arrayPosition, jsonRoot} = processJsonRoot(procedure.JSONP, jsonResult);
     console.log("processStandardProcedure :: processJsonRoot :: (arrayPosition, jsonRoot): ",arrayPosition, jsonRoot);
 
@@ -540,6 +534,8 @@ export function processStandardProcedure(currentIndex,procedure,jsonResult,value
     return jsonResult;
 
 }
+
+
 
 /**
 * When procedure is repeatable, and configurable, then the data is an array.
@@ -578,4 +574,243 @@ export function processListProcedure (currentIndex,procedure,values,jsonResult, 
 
     return jsonResult;
 
+}
+
+
+
+
+/**
+ * FORM V2 TO REMOVE FROM HERE
+ */
+
+ /**
+*   Process procedure to obtain json result.
+*/
+export function processStandardProcedureV2(currentIndex,procedure,jsonResult,values,formParameters) {
+
+  //console.log("processStandardProcedure :: ",currentIndex,jsonResult);
+
+  //init json result if not yet defined
+  jsonResult = initJSONResult(jsonResult,procedure);
+
+  jsonResult = updateJSONWithFields(
+    procedure.JSONP,
+    procedure.OBJECTS,
+    jsonResult,
+    values,
+    formParameters
+  );
+
+  return jsonResult;
+
+
+  /*
+  const {arrayPosition, jsonRoot} = processJsonRoot(procedure.JSONP, jsonResult);
+  console.log("processStandardProcedure :: processJsonRoot :: (arrayPosition, jsonRoot): ",arrayPosition, jsonRoot);
+
+  for(var j in procedure.OBJECTS) {
+    var object = procedure.OBJECTS[j];
+
+    //process the object modifing the jsonResult
+    jsonResult = processObject(object,jsonResult,jsonRoot,
+      arrayPosition,values, formParameters);
+  }
+
+  return jsonResult;
+  */
+
+}
+
+/**
+ * 
+ * @param {*} jsonResult 
+ * @param {*} procedure 
+ * @param {*} isRootArray : it's root is an array to be filled with jsons example $.documents
+ */
+function initJSONResult(jsonResult,procedure, isRootArray) {
+  //if json result not yet defined 
+  if(Object.keys(jsonResult).length === 0) {
+    //update jsonresult with service json
+
+    //if GET JSON process is not necessary
+    if(procedure.SERVICE.METHODE == "GET" && ( 
+      procedure.SERVICE.JSON == "" || procedure.SERVICE.JSON == "{}" ) ){
+        return {};
+    }
+
+    if(procedure.SERVICE.JSON == "" || procedure.SERVICE.JSON == "{}"){
+      console.error("Procedure service JSON not defined (procedure)",procedure);
+    }
+
+    if(isRootArray !== undefined && isRootArray){
+      //init with void array
+      jsonResult = [];
+    }
+    else {
+      jsonResult = JSON.parse(procedure.SERVICE.JSON);
+    }
+  }
+
+  return jsonResult;
+}
+
+export function updateJSONWithFields(root,fields,json,values,formParameters) {
+
+  for(var key in fields){
+      var jsonpath = root;
+      var field = fields[key];
+
+      if(field.OBJ_JSONP != null && field.OBJ_JSONP != ''){
+          jsonpath += field.OBJ_JSONP;
+      }
+      jsonpath += field.CHAMP;
+
+      /*
+      console.log("updateJSONWithFields :: processing field (json,jsonpath,field)",
+          JSON.parse(JSON.stringify(json)),
+          jsonpath,
+          field
+      );
+      */
+
+      try {
+
+          var value = processObjectValue(field,values, formParameters);
+
+          jp.apply(json, jsonpath, function() { 
+              return value 
+          });
+      }
+      catch(error) {
+          console.error(error);
+      }
+
+      console.log("updateJSONWithFields :: result after process (json)",
+          JSON.parse(JSON.stringify(json)),
+      );
+  }
+  return json;
+}
+
+
+
+/**
+*   Procedure that is a list.
+*   values = current list position with values of this item
+*/
+export function processListProcedureV2 (currentIndex,procedure,values,jsonResult, formParameters) {
+
+  //console.log("processListProcedure :: ",currentIndex, values, jsonResult);
+
+  console.log("processListProcedureV2 :: Start : (procedure)",procedure);
+
+  //it's necessary to identify if procedure it's at root example $.documents, 
+  //or into main json example $.listInfo
+  var isRootArray = false;
+  if(procedure.JSONP == "$.[]")
+    isRootArray = true;
+
+  jsonResult = initJSONResult(jsonResult,procedure,isRootArray);
+
+  console.log("processListProcedureV2 :: Step 0 : (jsonResult)",jsonResult);
+
+  //json to be filled with this item info
+  var objectJson = null;
+  if(isRootArray){
+    //take json from service
+    objectJson = initJSONResult({},procedure);
+  }
+  else {
+    //take json form procedure json
+    if(procedure.JSON == '' || procedure.JSON == '{}' || procedure.JSON == null)
+      console.error("Procedure JSON not defined and needed (procedure)",procedure);
+
+    objectJson = JSON.parse(procedure.JSON);
+  }
+
+  console.log("processListProcedureV2 :: Step 1 : (objectJson)",JSON.parse(JSON.stringify(objectJson)));
+
+  objectJson = updateJSONWithFields(
+    "$.",
+    procedure.OBJECTS,
+    objectJson,
+    values,
+    formParameters
+  );  
+              
+  console.log("processListProcedureV2 :: Step 2 : (objectJson)",JSON.parse(JSON.stringify(objectJson)));
+
+  //put object json edited into array
+  if(isRootArray){
+    //put to the root
+    jsonResult.push(objectJson);
+  }
+  else {
+    //process path
+    updateJSONFromArray(
+      procedure.JSONP,
+      procedure.OBJECTS,
+      jsonResult,
+      objectJson
+    );
+  }
+
+  console.log("processListProcedureV2 :: Step 3 : (jsonResult)",JSON.parse(JSON.stringify(jsonResult)));
+
+  return jsonResult;
+}
+
+function updateJSONFromArray(jsonpath,fields,fulljson,json) {
+
+  var paths = null;
+  try {
+      paths = jp.paths(fulljson,jsonpath);
+  }
+  catch(error) {
+      console.error(error);
+      return fulljson;
+  }
+  
+  //console.log("updateJSONFromArray :: (paths,fulljson,json,fields)",paths,fulljson,json,fields);
+
+  var path = paths[0];
+
+  //console.log("updateJSONFromArray :: after process (path,length, fulljson,json)",path,path.length,fulljson,json);
+
+  updateJSONFromPath(path,0,fulljson,json);
+
+  //console.log("updateJSONFromArray :: result (fulljson)",fulljson);
+
+  return fulljson;
+}
+
+/**
+* 
+* Iterate the json recursively until find the position where to add the array json.
+* 
+* @param {*} path array with the path to arrive to 
+* @param {*} index current index of the json
+* @param {*} variable current object form this point of array
+* @param {*} json json to add to array
+*/
+function updateJSONFromPath(path,index,variable,json) {
+
+  //console.log("updateJSONFromPath :: (path,index,variable)",path,path.length,index,variable);
+
+  if(index == path.length - 1){
+      
+      //if array is defined
+      if(!Array.isArray(variable)){
+          variable = [];
+      }
+
+      variable.push(json);
+  }
+  else {
+      //go ahead next step
+      index++;
+      updateJSONFromPath(
+              path,index,variable[path[index]],json
+          );
+  }
 }

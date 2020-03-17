@@ -18,8 +18,13 @@ import {
   processStandardProcedure,
   procedureIsArray,
   processResponseParameters,
-  processListProcedure
+  processListProcedure,
+
+  processStandardProcedureV2,
+  processListProcedureV2
 } from "../../functions";
+
+
 
 export function initState(payload) {
   return { type: INIT_STATE, payload }
@@ -150,7 +155,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         //normal procedure
         //console.log("!isRepetable :: Process standard iteration => ",currentProcedureIndex, jsonResult);
 
-        jsonResult = processStandardProcedure(
+        jsonResult = processStandardProcedureV2(
           currentProcedureIndex,procedure,
           jsonResult,values,formParameters
         );
@@ -174,38 +179,30 @@ export function processProcedure(procedures,currentProcedureIndex, values,
       else if(isConfigurable && isRepetable){
         //internal array, check for values list
 
-        //console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, values[procedure.OBJID],jsonResult);
+        console.log("processProcedure :: Process list iteration => ",currentProcedureIndex, currentListIndex, values[procedure.ID],jsonResult);
 
-        //check for value with id => procedure->OBJID
+        //check for value with id => procedure->ID
 
-        if(values[procedure.OBJID] !== undefined && values[procedure.OBJID].length > 0){
+        
+        if(values[procedure.ID] !== undefined && values[procedure.ID].length > 0){
           //there is values
 
           //check what is the current value index
 
           //process every values
-          jsonResult = processListProcedure (
+          jsonResult = processListProcedureV2 (
             currentProcedureIndex,
             procedure,
-            values[procedure.OBJID][currentListIndex],
+            values[procedure.ID][currentListIndex],
             jsonResult,
             formParameters
           );
 
-          console.log("processProcedure :: isList :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
-
-          //go to next value of this procedure of submit as standard procedure
-          /*
-          this.submitListProcedure(
-            currentProcedureIndex,
-            procedure,jsonResult,currentListIndex,
-            values[procedure.OBJID]
-          );
-          */
+          console.log("processProcedure :: isList :: jsonResult processed => ",currentProcedureIndex, JSON.parse(JSON.stringify(jsonResult)));
 
           return dispatch(submitListProcedure(
             currentProcedureIndex,procedure,jsonResult,
-            currentListIndex, values[procedure.OBJID],
+            currentListIndex, values[procedure.ID],
             formParameters,procedures
           ));
 
@@ -216,19 +213,17 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 
           if(isRequired){
             //this is needed
-            console.error("No list values and this procedure is required "+procedure.OBJID);
+            console.error("No list values and this procedure is required "+procedure.ID);
             return dispatch({type : SUBMIT_PROCEDURE_ERROR});
           }
           else {
             //if there is data to process, submit process
             if(stepsToProcess){
-              //this.submitStandardProcedure(currentProcedureIndex,procedure,jsonResult);
               return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
                 jsonResult,procedures,formParameters));
             }
             else {
               //skip procedure
-              //this.skipProcedure(currentProcedureIndex,procedure,jsonResult);
               return dispatch(skipProcedure(currentProcedureIndex,procedures,jsonResult));
             }
           }
