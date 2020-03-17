@@ -84,7 +84,7 @@ class ModalTestForm extends Component {
         var json = this.updateJSONWithFields(
             '$.',
             fields,
-            s
+            json
         );
 
         //console.log("updateJSONFromArray :: after process (path,length, fulljson,json)",path,path.length,fulljson,json);
