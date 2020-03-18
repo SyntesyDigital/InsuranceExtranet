@@ -237,7 +237,6 @@ export default class CardField extends Component {
     };
 
     render() {
-        console.log('state CardField component :: ', this.state);
         return (
             <div className="row container-car-field">
                 <div className="col-md-4 container-fix">

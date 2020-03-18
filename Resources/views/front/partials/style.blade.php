@@ -17,8 +17,8 @@
     $primaryColor = isset($storedStylesFront['frontPrimary']) ? $storedStylesFront['frontPrimary']->value : '#2A3649';
     $secondaryColor = isset($storedStylesFront['frontSecondary']) ? $storedStylesFront['frontSecondary']->value : '#E84B37';
 
-    $inputColor = isset($storedStylesFront['inputColor']) ? $storedStylesFront['inputColor']->value : '#69a8ff';
-    $errorColor = isset($storedStylesFront['errorColor']) ? $storedStylesFront['errorColor']->value : '#f77978';
+    $inputColor = isset($storedStylesFront['inputColor']) ? $storedStylesFront['inputColor']->value : '#77a9f4';
+    $errorColor = isset($storedStylesFront['errorColor']) ? $storedStylesFront['errorColor']->value : '#bf5329';
 
     $headerTextColor = isset($storedStylesFront['frontHeaderTextColor']) ? $storedStylesFront['frontHeaderTextColor']->value : '#fff';
     $headerRightPartBackgroundColor = isset($storedStylesFront['frontHeaderRightPartBackgroundColor']) ? $storedStylesFront['frontHeaderRightPartBackgroundColor']->value : '#1B3A6A';
