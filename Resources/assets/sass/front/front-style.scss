@@ -46,6 +46,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/date';
 @import 'fields/checkbox';
 @import 'fields/label';
+@import 'fields/card-field';
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
@@ -64,4 +65,6 @@ $bootstrap-sass-asset-helper: true;
 @import 'text-field';
 @import 'yes-no-field';
 @import 'modal-add-document';
+
+
 

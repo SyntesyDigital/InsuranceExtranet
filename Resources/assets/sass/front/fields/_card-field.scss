@@ -1,0 +1,180 @@
+.container-car-field {
+  margin-top: 20px;
+  .container-fix{
+    width: 470px;
+  }
+  .container-img {
+    border: 1px solid #b4b4b4;
+    background-image: url("../../../img/car_damage.png");
+    width: 425px;
+    height: 250px;
+    input + label {
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+  .top {
+    &-left + label {
+      left: 50px;
+      top: 25px;
+    }
+    &-middle + label {
+      left: 170px;
+      top: 25px;
+    }
+    &-retroviseur + label {
+      top: 15px;
+      right: 130px;
+    }
+    &-right + label {
+      top: 30px;
+      left: 335px;
+    }
+  }
+  .middle {
+    &-right + label {
+      top: 105px;
+      right: 0px;
+    }
+  }
+  .quart-middle + label {
+    top: 105px;
+    right: 55px;
+  }
+  .parebrise-middle + label {
+    top: 105px;
+    right: 115px;
+  }
+  .middle-middle + label {
+    top: 103px;
+    left: 170px;
+  }
+  .quart-middle-paravrise + label {
+    top: 105px;
+    left: 40px;
+  }
+  .middle-bottom-paravrise + label {
+    top: 105px;
+    left: 5px;
+  }
+  .bottom {
+    &-right + label {
+      bottom: 10px;
+      right: 35px;
+    }
+    &-retroviseur + label {
+      bottom: 0px;
+      right: 130px;
+    }
+    &-middle + label {
+      left: 170px;
+      bottom: 5px;
+    }
+    &-left + label {
+      bottom: 10px;
+      left: 50px;
+    }
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"] + label {
+    display: inline-block;
+    padding: 15px;
+    font-size: 14px;
+    border-radius: 50%;
+    color: #ffff;
+    &:before {
+      padding: 4px 6px;
+      border-radius: 50%;
+      background-color: #69a8ff;
+      content: "\f067";
+      font-size: 15px;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      font-family: FontAwesome;
+    }
+  }
+
+  input[type="checkbox"]:checked + label {
+    &:before {
+      padding: 4px 6px;
+      background-color: #f77978;
+      border-radius: 50%;
+      color: #ffff;
+      content: "\f068";
+      font-size: 15px;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      font-family: FontAwesome;
+    }
+  }
+  .table {
+    td {
+      &.label-item {
+       width: 155px;
+      }
+      &.delete-item{
+        width: 50px;
+      }
+    }
+    td,
+    th {
+      line-height: unset;
+      vertical-align: unset;
+      border: none;
+    }
+    input + label {
+      cursor: pointer;
+    }
+  }
+}
+body {
+  label{
+    &.label-custom{
+          padding: 0px 8px;
+    }
+  }
+  .container-car-field {
+    label {
+      &.bottom {
+        cursor: pointer;
+        color: #333;
+        width: unset;
+        height: unset;
+        &:before {
+          margin-right: 5px;
+          color: #ffff;
+        } 
+      }
+    }
+  }
+}
+@media (max-width: 1775px){
+  body .container-flex{
+    width: 64%;
+  }
+}
+@media (max-width: 1671px){
+  body .container-flex{
+    width: 60%;
+  }
+}
+@media (max-width: 1540px){
+  body .container-flex{
+    width: 56%;
+  }
+}
+@media (max-width: 1434px){
+  body .container-flex{
+    width: 54%;
+  }
+}
+@media (max-width: 1387px){
+  body .container-flex{
+    width: 100%;
+    margin-top: 25px
+  }
+}
