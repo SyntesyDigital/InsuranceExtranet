@@ -395,6 +395,8 @@ export default class FormComponentTemp extends Component {
                                 textAlign={'left'}
                             />
                             <CardField
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'cardfield'}
                             />
                         </Col>
                     </Row>
