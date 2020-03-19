@@ -5,6 +5,8 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter'
 
+import ExportButton from './ExportButton';
+
 import moment from 'moment';
 
 //const selectors = Data.Selectors;
@@ -115,10 +117,12 @@ export default class TableComponent extends Component {
       e.preventDefault();
     }
 
+    /*
     export(e) {
       // WS, PARAMS, PAGINA ACTUAL, REGISTRES PER PAGINES
       e.preventDefault();
       var event = e;
+
         const {elementObject,downloadUrl,exportPage, downloading, loadingData, totalPages,pageLimit, filename} = this.state;
 
             if(exportPage > totalPages){
@@ -154,7 +158,7 @@ export default class TableComponent extends Component {
             }
                 
     }
-
+    */
 
     query() {
         var self = this;
@@ -427,12 +431,23 @@ export default class TableComponent extends Component {
         <div>
           {this.props.exportBtn &&  !downloading && ! loadingData &&
 
+
+            <ExportButton
+              downloadUrl={this.props.downloadUrl}
+              elementObject={this.state.elementObject}
+              totalPages={this.state.totalPages}
+              pageLimit={this.state.pageLimit}
+              getQueryParams={this.getQueryParams}
+            />
+          }
+
+          {/*
             <div className="excel-btn">
               <a href="#" onClick={this.export.bind(this)} >
                 <i className="fas fa-download"></i>Exportation CSV
               </a>
             </div>
-          }
+          */}
 
           {this.props.exportBtn &&  (downloading || loadingData) &&
 
