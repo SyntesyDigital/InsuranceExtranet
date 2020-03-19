@@ -435,42 +435,45 @@ export default class TableComponent extends Component {
       const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
 
       return (
-        <div id={this.state.id}>
+        <div>
+          {this.props.exportBtn &&
 
-        {this.props.exportBtn &&
-          <ExportButton
-            disabled={loadingData}
-            downloadUrl={this.props.downloadUrl}
-            elementObject={this.state.elementObject}
-            totalPages={this.state.totalPages}
-            pageLimit={this.state.pageLimit}
-            getQueryParams={this.getQueryParams}
-          />
-        }
+            <ExportButton
+              disabled={loadingData}
+              downloadUrl={this.props.downloadUrl}
+              elementObject={this.state.elementObject}
+              totalPages={this.state.totalPages}
+              pageLimit={this.state.pageLimit}
+              getQueryParams={this.getQueryParams.bind(this)}
+            />
+          }
 
-          <ReactTable
-            data={this.state.data}
-            columns={this.state.columns}
-            showPagination={this.state.pagination}
-            defaultSorted={[
-              {
-                id: this.state.sortColumnName,
-                desc: this.state.sortColumnType == 'DESC'?true:false
-              }
-            ]}
-            defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
-            loading={this.state.loading}
-            filterable={true}
-            //className="-striped -highlight"
-            className=""
-            previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
-            nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
-            loadingText={'Chargement...'}
-            noDataText={'Aucune donnée trouvée'}
-            pageText={'Page'}
-            ofText={'de'}
-            rowsText={'lignes'}
-          />
+          <div className={this.props.exportBtn? 'react-table-container m-top':'react-table-container'}>
+            <ReactTable
+              data={this.state.data}
+              columns={this.state.columns}
+              showPagination={this.state.pagination}
+              defaultSorted={[
+                {
+                  id: this.state.sortColumnName,
+                  desc: this.state.sortColumnType == 'DESC'?true:false
+                }
+              ]}
+              defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+              loading={this.state.loading}
+              filterable={true}
+              //className="-striped -highlight"
+              className=""
+              previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
+              nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
+              loadingText={'Chargement...'}
+              noDataText={'Aucune donnée trouvée'}
+              pageText={'Page'}
+              ofText={'de'}
+              rowsText={'lignes'}
+            />
+          </div>
+          
         </div>
       );
     }

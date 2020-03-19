@@ -105,7 +105,7 @@ Route::group([
 
     //tables
     Route::get('/extranet/{element}/model_values/data/{limit?}', 'ElementController@getModelValues')->name('extranet.element.mode_values.data');
-    Route::get('/extranet/export/{element}/{filename?}/model_values/data/{limit?}', 'ElementController@export')->name('table.export');
+    Route::get('/extranet/export/{element}/model_values/data/{limit}/{filename?}/', 'ElementController@export')->name('table.export');
     Route::get('/extranet/download/data/export/{filename?}', 'ElementController@downloadCSV')->name('table.export.download');
 
     //form

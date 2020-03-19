@@ -246,10 +246,10 @@ class ElementController extends Controller
         }
     }
 
-    public function export(Element $element, $filename = '', $limit = null, Request $request)
+    public function export(Element $element,$limit, $filename = '', Request $request)
     {
         //cronstuct file
-        if ($filename == 'undefined') {
+        if ($filename == '') {
             //cronstuct file
             $filename = Carbon::now()->format('YmdHs').'_'.str_slug($element->name, '_').'.csv';
             $filepath = storage_path().'/app/'.$filename;

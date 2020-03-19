@@ -17,62 +17,67 @@ export default class ExportButton extends Component {
 
     handleExport(e) {
       e.preventDefault();
-      var event = e;
+  
+      this.iterateExport();
+    }
 
-      const {
-        downloadUrl,
-        elementObject,
-        totalPages,
-        pageLimit
-      } = this.props;
+    iterateExport() {
 
-      const {
-        filename,
-        exportPage
-      } = this.state;
+        const {
+          downloadUrl,
+          elementObject,
+          totalPages,
+          pageLimit
+        } = this.props;
 
-      //if no data nothing to do
-      if(totalPages == null)
-        return ;
+        const {
+          filename,
+          exportPage
+        } = this.state;
 
-      if(exportPage > totalPages){
-        var url = downloadUrl.replace(':filename',filename);
-        console.log('ExportButton :: peticion terminada (url,filename)', url,filename);
+        //if no data nothing to do
+        if(totalPages == null)
+          return ;
 
-        this.setState({
-          downloading: false
-        });
-      
-        console.log("ExportButton ::  download url : (url)",url)
-        //window.location.href=url;
+        if(exportPage > totalPages){
+          var url = downloadUrl.replace(':filename',filename);
+          console.log('ExportButton :: peticion terminada (url,filename)', url,filename);
 
-      }else{
-        var self = this;
-          self.setState({
-            downloading: true
+          this.setState({
+            downloading: false
           });
-          var params = this.props.getQueryParams(pageLimit,exportPage);
+        
+          console.log("ExportButton ::  download url : (url)",url)
+          window.location.href=url;
+
+        }else{
           var self = this;
-          axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/'+filename+'/model_values/data/'+pageLimit+'/'+params).then(function (response) {
             self.setState({
-                filename : response.data.filename,
-                exportPage : exportPage + 1,
-                downloading : true
-              }, function(){
-                self.export(event);
+              downloading: true
             });
-            
-          }).catch(function (error) {
-            self.setState({
-              downloading: false
+            var params = this.props.getQueryParams(pageLimit,exportPage);
+            var self = this;
+            axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+filename+'/'+params).then(function (response) {
+              self.setState({
+                  filename : response.data.filename,
+                  exportPage : exportPage + 1,
+                  downloading : true
+                }, function(){
+                  self.iterateExport();
+              });
+              
+            }).catch(function (error) {
+              self.setState({
+                downloading: false
+              });
             });
-          });
-      }
+        }
     }
     
     render() {
 
-        const disabled = this.props.disabled || this.state.downloading;
+        //const disabled = this.props.disabled || this.state.downloading;
+        const disabled = this.state.downloading;
 
         return (
           <div className="excel-btn">
