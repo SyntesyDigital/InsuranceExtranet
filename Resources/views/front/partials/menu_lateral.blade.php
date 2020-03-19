@@ -12,8 +12,8 @@
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url'].'*') ? 'active' : '' }}">
-
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}">
+			
 					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
