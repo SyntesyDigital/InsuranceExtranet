@@ -48,11 +48,11 @@ class NumberField extends Component
     if(max == '' && min == '')
       return '';
 
-    var result = 'Valeur : ';
+    var result = '';
 
-    result += (min != '' ) ? '>= '+min+' ' : '';
+    result += (min != '' ) ? 'minimum '+min+' ' : '';
     result += (min != '' && max != '') ? ', ' : '';
-    result += (max != '' ) ? '<= '+max+' ' : '';
+    result += (max != '' ) ? 'maximum '+max+' ' : '';
     
 
     return result;
