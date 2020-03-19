@@ -12,11 +12,11 @@ class RichtextField extends Component
   }
 
 
-  handleOnChange(event)
+  handleOnChange(content, delta, source, editor)
   {
     this.props.onFieldChange({
       name : this.props.field.identifier,
-      value : event.target.value
+      value : content
     });
 
   }
@@ -28,9 +28,23 @@ class RichtextField extends Component
       field.rules.required : false;
     const errors = this.props.error ? 'is-invalid' : '';
 
+    var modules = {
+      toolbar: [
+        ['bold', 'italic', 'underline','strike', 'blockquote'],
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        ['link']
+      ],
+     };
+ 
+      var formats = [
+        'bold', 'italic', 'underline', 'strike',
+        'list', 'bullet', 'indent',
+        'link'
+      ];
+
     return (
 
-      <div className="row element-form-row">
+      <div className="row element-form-row richttext-field">
         <div className="col-sm-4">
           <label>{field.name}
           {isRequired &&
@@ -41,10 +55,13 @@ class RichtextField extends Component
         <div className="col-sm-6">
           <ReactQuill
              id={field.identifier}
-             className={"form-control " + errors}
+             className={"" + errors}
              parent={this}
              value={this.props.value}
              onChange={this.handleOnChange}
+             modules={modules}
+             formats={formats}
+             height={200}
            />
         </div>
       </div>

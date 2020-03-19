@@ -68,7 +68,7 @@ class ElementController extends Controller
     private function getModelById($models, $modelId)
     {
         foreach ($models as $model) {
-            if ($model->ID == $modelId) {
+            if (trim($model->ID) == trim($modelId)) {
                 return $model;
             }
         }
@@ -134,7 +134,6 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
-
         if($element->type == Element::FORM_V2) {
             $elementModel = ElementModel::where('id',$element->model_identifier)->first();
             $model = $elementModel->getObject();
@@ -144,9 +143,10 @@ class ElementController extends Controller
             $model = $this->getModelById($models, $element->model_identifier);
         }
 
+        
         if ($element->type ==  Element::FORM) {
-            $fields = $this->elements->getFormFields($model->ID);
-            $procedures = $this->computeFormProcedures($model->ID);
+            $fields = $this->elements->getFormFields(trim($model->ID));
+            $procedures = $this->computeFormProcedures(trim($model->ID));
         }
         else if ($element->type == Element::FORM_V2) {
 
@@ -346,7 +346,6 @@ class ElementController extends Controller
             else {
                 //$modelId is an string, so Form V1
                 $data = $this->computeFormProcedures($modelId);
-                
             }
 
             if ($request->has('debug')) {
