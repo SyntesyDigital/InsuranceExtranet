@@ -9,8 +9,8 @@
     	)
 
 		&nbsp;&nbsp;&nbsp;
-		Architect v1.6.4 Extranet v1.6.18
-
+		<div class="version" style="">
+			Architect v1.6.4 Extranet v1.6.18
 		</div>
   </div>
 	<!-- end Col 2 -->
