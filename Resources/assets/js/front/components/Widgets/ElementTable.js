@@ -5,7 +5,7 @@ import "react-table/react-table.css";
 import TableComponent from './Table/TableComponent';
 import ModalTable from './Table/ModalTable';
 
-//const selectors = Data.Selectors;
+import moment from 'moment';
 
 export default class ElementTable extends Component {
 
@@ -15,7 +15,8 @@ export default class ElementTable extends Component {
         this.state = {
           displayModal : false,
           modalUrl : null,
-          redirectUrl : null
+          redirectUrl : null,
+          id :  props.model.ID+moment().unix()
         };
         this.tableRef = React.createRef();
     }
@@ -24,7 +25,7 @@ export default class ElementTable extends Component {
     * Open modal with url [element_id]?[params]
     */
     handleOpenModal(elementUrl,redirectUrl){
-      //console.log("ElementTable :: handleOpenModal : ",elementUrl);
+      console.log("ElementTable :: handleOpenModal : (elementUrl,redirectUrl)",elementUrl,redirectUrl);
 
       this.setState({
         displayModal : true,
@@ -54,7 +55,7 @@ export default class ElementTable extends Component {
 
               <ModalTable
                 display={this.state.displayModal}
-                id={"modal-table-component"}
+                id={"modal-table-component-"+this.state.id}
                 zIndex={1000}
                 onModalClose={this.handleModalClose.bind(this)}
                 modalUrl={this.state.modalUrl}
@@ -64,6 +65,7 @@ export default class ElementTable extends Component {
               />
 
               <TableComponent
+                id={this.state.id}
                 ref={this.tableRef}
                 //field={this.props.field}
                 elementObject={this.props.elementObject}

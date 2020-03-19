@@ -33,6 +33,8 @@ export default class TableComponent extends Component {
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
         this.state = {
+            id : props.id,
+
             //field : field,
             elementObject : elementObject,
             data:[],
@@ -80,7 +82,7 @@ export default class TableComponent extends Component {
         this.processColumns();
         var self = this;
 
-        $(document).on('click','.modal-link',function(e){
+        $(document).on('click','#'+this.state.id+' .modal-link',function(e){
 
           e.preventDefault();
 
@@ -392,29 +394,31 @@ export default class TableComponent extends Component {
       const {data, elementObject, itemsPerPage,maxItems} = this.state;
 
       return (
-        <ReactTable
-          data={this.state.data}
-          columns={this.state.columns}
-          showPagination={this.state.pagination}
-          defaultSorted={[
-            {
-              id: this.state.sortColumnName,
-              desc: this.state.sortColumnType == 'DESC'?true:false
-            }
-          ]}
-          defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
-          loading={this.state.loading}
-          filterable={true}
-          //className="-striped -highlight"
-          className=""
-          previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
-          nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
-          loadingText={'Chargement...'}
-          noDataText={'Aucune donnée trouvée'}
-          pageText={'Page'}
-          ofText={'de'}
-          rowsText={'lignes'}
-        />
+        <div id={this.state.id}>
+          <ReactTable
+            data={this.state.data}
+            columns={this.state.columns}
+            showPagination={this.state.pagination}
+            defaultSorted={[
+              {
+                id: this.state.sortColumnName,
+                desc: this.state.sortColumnType == 'DESC'?true:false
+              }
+            ]}
+            defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+            loading={this.state.loading}
+            filterable={true}
+            //className="-striped -highlight"
+            className=""
+            previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
+            nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
+            loadingText={'Chargement...'}
+            noDataText={'Aucune donnée trouvée'}
+            pageText={'Page'}
+            ofText={'de'}
+            rowsText={'lignes'}
+          />
+        </div>
       );
     }
 
