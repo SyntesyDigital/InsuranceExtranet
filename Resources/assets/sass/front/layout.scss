@@ -101,6 +101,13 @@ footer{
   left: 0;
   border-top:1px solid $separator-line-color;
 
+  .version {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 12px;
+    opacity: 0.5;
+  }
 
   p{
     color:$footer-text-color;
