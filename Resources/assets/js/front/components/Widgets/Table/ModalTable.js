@@ -50,6 +50,9 @@ class ModalTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+
+    console.log(" ModalTable :: componentDidUpdate (prevProps,this.props)",prevProps,this.props);
+
     if(this.props.display){
       if(!this.isOn){
         this.isOn = true;
@@ -63,7 +66,7 @@ class ModalTable extends Component {
 
   loadElement(modalUrl) {
 
-      //console.log("loadElement :: ",modalUrl.split('?'));
+      console.log("loadElement :: ",modalUrl.split('?'));
       var modelId = modalUrl;
       var parameters = "";
 
@@ -192,7 +195,7 @@ class ModalTable extends Component {
 
     return (
       <div
-        className="custom-modal"
+        className="modal-table-component custom-modal modal-table "
         id={this.props.id}
         style={{
           zIndex: this.props.zIndex !== undefined ? this.props.zIndex : 500
@@ -218,14 +221,6 @@ class ModalTable extends Component {
               <div className="modal-body">
 
                 {this.renderElement()}
-
-                {/*
-                <div className="row">
-                  <div className="col-xs-12 col-md-10 col-md-offset-1">
-
-                  </div>
-                </div>
-                */}
 
               </div>
 
