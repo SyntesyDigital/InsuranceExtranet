@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import FormComponent from './Form/FormComponent';
+import FormComponent from './Forms/FormV1/FormComponent';
 
 export default class ElementForm extends Component {
 

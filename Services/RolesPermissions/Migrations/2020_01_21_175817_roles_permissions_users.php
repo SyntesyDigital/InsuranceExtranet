@@ -11,6 +11,16 @@ class RolesPermissionsUsers extends Migration
      */
     public function up()
     {
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Schema::dropIfExists('users_roles');
+        // Schema::dropIfExists('users_permissions');
+        // Schema::dropIfExists('roles_permissions');
+        // Schema::dropIfExists('users');
+        // Schema::dropIfExists('roles');
+        // Schema::dropIfExists('permissions');
+        // Schema::dropIfExists('permissions_groups');
+        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('id_per');
@@ -25,8 +35,8 @@ class RolesPermissionsUsers extends Migration
             $table->increments('id');
             $table->string('identifier');
             $table->string('name');
-            $table->string('icon');
-            $table->boolean('default');
+            $table->string('icon')->nullable();
+            $table->boolean('default')->default(0);
             $table->string('description')->nullable();
             $table->timestamps();
         });

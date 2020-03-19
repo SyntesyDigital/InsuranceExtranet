@@ -33,6 +33,8 @@ export default class TableComponent extends Component {
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
         this.state = {
+            id : props.id,
+
             //field : field,
             elementObject : elementObject,
             data:[],
@@ -83,7 +85,7 @@ export default class TableComponent extends Component {
         this.processColumns();
         var self = this;
 
-        $(document).on('click','.modal-link',function(e){
+        $(document).on('click','#'+this.state.id+' .modal-link',function(e){
 
           e.preventDefault();
 
@@ -421,69 +423,54 @@ export default class TableComponent extends Component {
     }
 
     filterMethod(identifier, filter, rows ) {
-        return matchSorter(rows, filter.value, { keys: [identifier] });
+        //console.log("identifier => ",identifier);
+          return matchSorter(rows, filter.value, { keys: [{
+            key : identifier, 
+            threshold: matchSorter.rankings.CONTAINS
+          }] 
+        });
     }
 
     renderTable() {
       const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
 
       return (
-        <div>
-          {this.props.exportBtn &&
+        <div id={this.state.id}>
 
+        {this.props.exportBtn &&
+          <ExportButton
+            disabled={loadingData}
+            downloadUrl={this.props.downloadUrl}
+            elementObject={this.state.elementObject}
+            totalPages={this.state.totalPages}
+            pageLimit={this.state.pageLimit}
+            getQueryParams={this.getQueryParams}
+          />
+        }
 
-            <ExportButton
-              disabled={loadingData}
-              downloadUrl={this.props.downloadUrl}
-              elementObject={this.state.elementObject}
-              totalPages={this.state.totalPages}
-              pageLimit={this.state.pageLimit}
-              getQueryParams={this.getQueryParams}
-            />
-          }
-
-          {/*
-            <div className="excel-btn">
-              <a href="#" onClick={this.export.bind(this)} >
-                <i className="fas fa-download"></i>Exportation CSV
-              </a>
-            </div>
-          */}
-
-          {this.props.exportBtn &&  (downloading || loadingData) &&
-
-            <div className="excel-btn">
-              <a href="#" onClick={this.nothing.bind(this)} className="disabled">
-                <i className="fas fa-download"></i>Exportation CSV
-              </a>
-            </div>
-          }
-          <div className={this.props.exportBtn? 'react-table-container m-top':'react-table-container'}>
-            <ReactTable
-              data={this.state.data}
-              columns={this.state.columns}
-              showPagination={this.state.pagination}
-              defaultSorted={[
-                {
-                  id: this.state.sortColumnName,
-                  desc: this.state.sortColumnType == 'DESC'?true:false
-                }
-              ]}
-              defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
-              loading={this.state.loading}
-              filterable={true}
-              //className="-striped -highlight"
-              className=""
-              previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
-              nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
-              loadingText={'Chargement...'}
-              noDataText={'Aucune donnée trouvée'}
-              pageText={'Page'}
-              ofText={'de'}
-              rowsText={'lignes'}
-            />
-          </div>
-          
+          <ReactTable
+            data={this.state.data}
+            columns={this.state.columns}
+            showPagination={this.state.pagination}
+            defaultSorted={[
+              {
+                id: this.state.sortColumnName,
+                desc: this.state.sortColumnType == 'DESC'?true:false
+              }
+            ]}
+            defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+            loading={this.state.loading}
+            filterable={true}
+            //className="-striped -highlight"
+            className=""
+            previousText={<span><i className="fa fa-caret-left"></i> &nbsp; Précédente</span>}
+            nextText={<span>Suivante &nbsp; <i className="fa fa-caret-right"></i></span>}
+            loadingText={'Chargement...'}
+            noDataText={'Aucune donnée trouvée'}
+            pageText={'Page'}
+            ofText={'de'}
+            rowsText={'lignes'}
+          />
         </div>
       );
     }

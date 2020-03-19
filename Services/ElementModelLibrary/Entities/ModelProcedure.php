@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ModelProcedureDuplicator;
 use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
 
+use Config;
+
 class ModelProcedure extends Model
 {
     use Duplicator;
@@ -35,7 +37,8 @@ class ModelProcedure extends Model
         'required',
         'repeatable',
         'repeatable_json',
-        'repeatable_jsonpath'
+        'repeatable_jsonpath',
+        'order'
     ];
 
     public function service(): BelongsTo
@@ -51,5 +54,67 @@ class ModelProcedure extends Model
     public function fields(): HasMany
     {
         return $this->hasMany(ModelField::class, 'procedure_id', 'id');
+    }
+
+    public function getObject()
+    {
+        return (object)[
+            "ID"=> $this->id,
+            "ETAP"=> $this->order,
+            "LIB"=> $this->name,
+            "REP"=> $this->repeatable ? 'Y' : 'N',
+            "CONF"=> $this->configurable ? 'Y' : 'N',
+            "OBL"=> $this->required ? 'Y' : 'N',
+            "P1"=> null,
+            "P2"=> null,
+            "P3"=> null,
+            "JSON" => $this->repeatable_json
+        ];
+    }
+
+    public function getFieldsConfig() 
+    {
+
+        $fields = [];
+        foreach($this->fields as $field){
+            $fieldObject = $field->getConfig();
+            if(isset($fieldObject)){
+                $fields[] = $fieldObject;
+            }
+        }
+        return $fields;
+    }
+
+    public function getListFieldObject()
+    {
+        $fields = $this->getFieldsConfig();
+
+        $configFields = Config('models.fields');
+
+        $fieldType = $configFields['list'];
+
+        return [
+            'type' => $fieldType['identifier'],
+            'identifier' => $this->id,
+            'name' => $this->name,
+            'icon' => $fieldType['icon'],
+            'help' => '',
+            'default' => '',
+            'boby' => '',
+            'added' => false,
+            'formats' => $fieldType['formats'],
+            'rules' => $fieldType['rules'],
+            'settings' => $fieldType['settings'],
+            'fields' => $fields
+          ];
+    }
+
+    public function getFieldsObject() 
+    {
+        $fields = [];
+        foreach($this->fields as $field){
+            $fields[] = $field->getObject();
+        }
+        return $fields;
     }
 }

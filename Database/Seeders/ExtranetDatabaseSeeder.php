@@ -3,12 +3,12 @@
 namespace Modules\Extranet\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Architect\Entities\Style;
-use Modules\Architect\Entities\Menu;
 use Modules\Architect\Entities\Content;
 use Modules\Architect\Entities\ContentField;
-use Modules\Architect\Entities\Page;
 use Modules\Architect\Entities\Language;
+use Modules\Architect\Entities\Menu;
+use Modules\Architect\Entities\Page;
+use Modules\Architect\Entities\Style;
 
 class ExtranetDatabaseSeeder extends Seeder
 {
@@ -20,9 +20,9 @@ class ExtranetDatabaseSeeder extends Seeder
         $language = Language::first();
 
         $front = Style::create([
-         'identifier' => 'front',
-         'icon' => 'fas fa-desktop',
-       ]);
+            'identifier' => 'front',
+            'icon' => 'fas fa-desktop',
+        ]);
         $back = Style::create([
          'identifier' => 'back',
          'icon' => 'fas fa-user-lock',

@@ -99,6 +99,11 @@ class VeosUserProvider implements UserProvider
 
             $sessionUser = User::where('id_per',$user->id)->first();
 
+            if (!isset($sessionUser)) {
+                header('Location: /login');
+                exit();
+            }
+
             // Refresh user session token
             $session = UserSession::where('user_id', $sessionUser->id)->first();
 

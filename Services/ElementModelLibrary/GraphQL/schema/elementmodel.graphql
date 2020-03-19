@@ -8,6 +8,13 @@ type ElementModel {
     description: String
     icon: String
     type: String
+    ws: String
+    ws_format: String
+    filtres: String
+    example: String
+    def1: String
+    def2: String
+
     procedures: [ModelProcedure!] @hasMany
 }
 
@@ -20,6 +27,12 @@ input CreateElementModelInput {
     description: String
     icon: String
     type: String
+    ws: String
+    ws_format: String
+    filtres: String
+    example: String
+    def1: String
+    def2: String
 }
 
 input UpdateElementModelInput {
@@ -29,6 +42,12 @@ input UpdateElementModelInput {
     description: String
     icon: String
     type: String
+    ws: String
+    ws_format: String
+    filtres: String
+    example: String
+    def1: String
+    def2: String
 }
 
 ################################

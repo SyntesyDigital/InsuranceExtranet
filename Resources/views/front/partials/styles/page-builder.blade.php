@@ -42,11 +42,13 @@
   color:{{$elementButtonColor}};
   /*border: 1px solid {{$elementButtonColor}};*/
   border-radius: {{$buttonRadius}};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
 
 .static-banner{
   border-radius: {{$buttonRadius}};
-  background-color:{{$sidebarBackgroundColor}}
+  background-color:{{$elementsBackgroundColor}};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
 .static-banner .text-static-banner h1, .static-banner .text-static-banner a{
   color: {{$primaryColor}};

@@ -1,0 +1,6 @@
+type Language {
+    id: ID!
+    name: String!
+    iso: String
+    default: Int
+}

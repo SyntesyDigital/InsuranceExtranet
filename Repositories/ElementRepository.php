@@ -174,11 +174,7 @@ class ElementRepository extends BaseRepository
     public function getModelValuesFromElement($element, $parameters)
     {
         //dd($element->model_exemple);
-        $params = '?';
-
-        if (Auth::user()->session_id != Auth::user()->id) {
-            $params .= 'SES='.Auth::user()->session_id;
-        }
+        $params = "?SES=".Auth::user()->session_id;
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -285,8 +281,8 @@ class ElementRepository extends BaseRepository
         'added' => false,
         'required' => $object->OBL == 'Y' ? true : false,
         'formats' => $fieldType['formats'],
-        'rules' => ['required'],
-        'settings' => array_diff($fieldType['settings'], ['hasRoute']),
+        'rules' => $fieldType['rules'],
+        'settings' => array_diff($fieldType['settings'],['hasRoute'])
       ];
     }
 

@@ -3,25 +3,28 @@
 namespace Modules\Extranet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\Extranet\Repositories\ElementRepository;
-use Modules\Extranet\Repositories\BobyRepository;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Entities\RouteParameter;
 use Modules\Extranet\Http\Requests\Elements\CreateElementRequest;
-use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Http\Requests\Elements\DeleteElementRequest;
 use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
-use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Jobs\Element\CreateElement;
-use Modules\Extranet\Jobs\Element\UpdateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
-//use Modules\Extranet\Jobs\Element\PostService;
+use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
 
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+
+use Modules\Extranet\Jobs\Element\UpdateElement;
+
+use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Repositories\BobyRepository;
+use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
-use Illuminate\Http\Request;
 use Session;
-use Carbon\Carbon;
-use Auth;
 
 class ElementController extends Controller
 {
@@ -65,7 +68,7 @@ class ElementController extends Controller
     private function getModelById($models, $modelId)
     {
         foreach ($models as $model) {
-            if ($model->ID == $modelId) {
+            if (trim($model->ID) == trim($modelId)) {
                 return $model;
             }
         }
@@ -75,19 +78,35 @@ class ElementController extends Controller
 
     public function create($element_type, $model_id, Request $request)
     {
-        //get model and fields
-        $models = $this->elements->getModelsByType($element_type);
-        $model = $this->getModelById($models, $model_id);
         $procedures = null;
+        //get model and fields
+        if($element_type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id',$model_id)->first();
+            $model = $elementModel->getObject();
+        }
+        else {
+            $model = $this->getModelById(
+                $this->elements->getModelsByType($element_type),
+                $model_id
+            );
+        }
 
         if (!$model) {
             abort(500);
         }
 
-        if ($element_type == 'form') {
+        if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        } else {
+        }
+        else if ($element_type == Element::FORM_V2) {
+
+            $fields = $elementModel->getFields();
+            $procedures = $elementModel->getProcedures(
+                $this->elements->getVariables()
+            );
+        } 
+        else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
@@ -111,15 +130,32 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
+    
+
     public function show(Element $element, Request $request)
     {
-        $models = $this->elements->getModelsByType($element->type);
-        $model = $this->getModelById($models, $element->model_identifier);
+        if($element->type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id',$element->model_identifier)->first();
+            $model = $elementModel->getObject();
+        }
+        else {
+            $models = $this->elements->getModelsByType($element->type);
+            $model = $this->getModelById($models, $element->model_identifier);
+        }
 
-        if ($element->type == 'form') {
-            $fields = $this->elements->getFormFields($model->ID);
-            $procedures = $this->computeFormProcedures($model->ID);
-        } else {
+        
+        if ($element->type ==  Element::FORM) {
+            $fields = $this->elements->getFormFields(trim($model->ID));
+            $procedures = $this->computeFormProcedures(trim($model->ID));
+        }
+        else if ($element->type == Element::FORM_V2) {
+
+            $fields = $elementModel->getFields();
+            $procedures = $elementModel->getProcedures(
+                $this->elements->getVariables()
+            );
+        } 
+        else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
@@ -264,11 +300,7 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=100';
-        //if the the session is the same of the user, don't filter by SES
-        if (Auth::user()->session_id == Auth::user()->id) {
-            $params = '?perPage=100';
-        }
+        $params = '?SES='.Auth::user()->session_id.'&perPage=500';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -322,7 +354,18 @@ class ElementController extends Controller
     public function getFormProcedures($modelId, Request $request)
     {
         try {
-            $data = $this->computeFormProcedures($modelId);
+
+            if(intval($modelId) != 0){
+                //ElementModel Form V2
+                $elementModel = ElementModel::where('id',$modelId)->first();
+                $data = $elementModel->getProcedures(
+                    $this->elements->getVariables()
+                );
+            }
+            else {
+                //$modelId is an string, so Form V1
+                $data = $this->computeFormProcedures($modelId);
+            }
 
             if ($request->has('debug')) {
                 dd($data);
@@ -349,15 +392,15 @@ class ElementController extends Controller
 
         $allObjects = $this->boby->getModelValuesQuery(
             'WS_EXT2_DEF_OBJETS?perPage=500'
-          )['modelValues'];
+        )['modelValues'];
+
         $allServices = $this->boby->getModelValuesQuery(
             'WS_EXT2_DEF_SERVICES?perPage=100'
-          )['modelValues'];
+        )['modelValues'];
 
         //get system variables processed
         $allVariables = $this->elements->getVariables();
         $variables = [];
-
         $services = [];
 
         foreach ($allServices as $service) {
@@ -411,13 +454,13 @@ class ElementController extends Controller
             }
 
             //filter wich variables are necessary for this procedure
-            $variables = $this->checkNecessaryVariables(
-            $variables,
-            $allVariables,
-            $systemVars,
-            $procedureServices,
-            $objects
-          );
+            $variables = ElementModel::checkNecessaryVariables(
+                $variables,
+                $allVariables,
+                $systemVars,
+                $procedureServices,
+                $objects
+            );
 
             if ($procedure->OBJID == 'SIN05') {
                 $procedures[$index]->{'CONF'} = 'N';
@@ -433,110 +476,13 @@ class ElementController extends Controller
         //dd($procedures);
 
         //check necessary variables between themselves
-        $variables = $this->checkInnerDependces($variables, $allVariables);
-        $variables = $this->processAndSortVariables($variables);
+        $variables = ElementModel::checkInnerDependces($variables, $allVariables);
+        $variables = ElementModel::processAndSortVariables($variables);
 
         return [
           'variables' => $variables,
           'procedures' => $procedures,
         ];
-    }
-
-    /**
-     *   Function that check if variables are necessary for this procedure.
-     */
-    private function checkNecessaryVariables($variables, $allVariables, $systemVars, $procedureServices, $objects)
-    {
-        foreach ($allVariables as $variableId => $variable) {
-            if (isset($systemVars['_'.$variableId])) {
-                //variable is nedeed as a system var
-                $variables[$variableId] = $variable;
-            }
-
-            if (isset($procedureServices->URL)) {
-                //if variable exist in the URL
-                $urlArray = explode('/', $procedureServices->URL);
-
-                $variableSlashes = '_'.$variableId;
-                foreach ($urlArray as $urlVariable) {
-                    if ($urlVariable == $variableSlashes) {
-                        $variables[$variableId] = $variable;
-                    }
-                }
-            }
-
-            //if variable exist in an object WS
-            foreach ($objects as $object) {
-                if (isset($object->BOBY)) {
-                    $urlArray = explode('?', $object->BOBY);
-                    if (sizeof($urlArray) > 1) {
-                        $urlArray = $this->parameters2Array($urlArray[1]);
-                        foreach ($urlArray as $key => $urlVariable) {
-                            if ($key == $variableId) {
-                                $variables[$variableId] = $variable;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return $variables;
-    }
-
-    /**
-     *   Convert parameters string to array of key value.
-     */
-    private function parameters2Array($paramString)
-    {
-        $result = [];
-
-        if (!isset($paramString) || $paramString == '') {
-            return $result;
-        }
-
-        $paramsArray = explode('&', $paramString);
-        for ($i = 0; $i < sizeof($paramsArray); ++$i) {
-            $paramsSubArray = explode('=', $paramsArray[$i]);
-            $result[$paramsSubArray[0]] = $paramsSubArray[1];
-        }
-
-        return $result;
-    }
-
-    /**
-     *   If exist BOBYPAR in the selected varaibles, add also this variable, because
-     *   that means there is a inner dependance.
-     */
-    private function checkInnerDependces($variables, $allVariables)
-    {
-        foreach ($variables as $variableId => $variable) {
-            if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
-                if (isset($allVariables[$variable->BOBYPAR])) {
-                    $variables[$variable->BOBYPAR] = $allVariables[$variable->BOBYPAR];
-                }
-            }
-        }
-
-        return $variables;
-    }
-
-    /**
-     * Convert variables to key value and sort by order.
-     */
-    private function processAndSortVariables($variables)
-    {
-        $result = [];
-
-        usort($variables, function ($a, $b) {
-            return intval($a->P1) > intval($b->P1);
-        });
-
-        foreach ($variables as $index => $variable) {
-            $result[$variable->PARAM] = $variable;
-        }
-
-        return $result;
     }
 
     /**
@@ -581,4 +527,53 @@ class ElementController extends Controller
 
         return response()->json($data);
     }
+
+    public function import($element_type, $model_id, Request $request)
+    {
+        $procedures = null;
+        //get model and fields
+        if($element_type != Element::FORM) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Only form type available'
+            ]);
+        }
+            
+        $model = $this->getModelById(
+            $this->elements->getModelsByType($element_type),
+            $model_id
+        );
+
+        if (!$model) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Model id not valid'
+            ]);
+        }
+        
+        $procedures = $this->computeFormProcedures($model->ID);
+
+        $data = [
+          'elementType' => $element_type,
+          'model' => $model,
+          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+          'variables' => isset($procedures) ? $procedures['variables'] : null,
+        ];
+
+        $elementModel = $this->dispatchNow(new ImportElementModel($data));
+
+        return response()->json([
+            'error' => false,
+            'message' => 'Model imported',
+            'model' => $elementModel
+        ]);
+        
+    }
+
+    public function getModelsByType($elementType) {
+        $models = $this->elements->getModelsByType($elementType);
+
+        return response()->json($models);
+    }
+
 }

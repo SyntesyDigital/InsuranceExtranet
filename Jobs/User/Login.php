@@ -15,6 +15,9 @@ class Login
     private $password;
     private $test;
 
+    const MESSAGE_404 = "Nom d'utilisateur ou mot de passe incorrect";
+    const MESSAGE_500 = "Erreur de connexion. Veuillez réessayer après quelques minutes.";
+
     public function __construct($login, $password, $env = null)
     {
         $this->uid = $login;
@@ -154,7 +157,7 @@ class Login
         $user = User::where('id_per', $userData['id'])->first();
 
         if (!$user) {
-            User::create([
+            $user = User::create([
                 'id_per' => $userData['id'],
                 'firstname' => $userData['firstname'],
                 'lastname' => $userData['lastname'],

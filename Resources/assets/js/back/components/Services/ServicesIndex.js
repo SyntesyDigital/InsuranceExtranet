@@ -58,7 +58,6 @@ export default class ServicesIndex extends Component {
                             { data: 'name', name: 'Nom' },
                             { data: 'http_method', name: 'Methode' },
                             { data: 'url', name: 'URL' },
-                            { data: 'boby', name: 'Boby' },
                             { data: 'action', name: '', orderable: false, searchable: false }
                         ]}
                         init={true}

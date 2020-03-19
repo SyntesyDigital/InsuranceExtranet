@@ -7,16 +7,21 @@ export const SETTINGS_AVOID = {
   'required': ['table','file'],
   'minCharacters': ['table','file'],
   'maxCharacters': ['table','file'],
-  'searchable': ['form','file'],
-  'sortable': ['form','file'],
-  'sortableByDefault': ['form','file'],
+  'searchable': ['form','file','form-v2'],
+  'sortable': ['form','file','form-v2'],
+  'sortableByDefault': ['form','file','form-v2'],
+  'maxDate' : ['table','file'],
+  'minDate' : ['table','file'],
+  'minNumber' : ['table','file'], 
+  'maxNumber' : ['table','file'],
   //settings
   //'format' : ['form'],
-  'maxLength' : ['form'],
-  'hasRoute' : ['form'],
-  'hasModal' : ['form','file'],
+  'maxLength' : ['form','form-v2'],
+  'hasRoute' : ['form','form-v2'],
+  'hasModal' : ['form','file','form-v2'],
   'conditionalVisibility' : ['table','file'],
-  'defaultValue' : ['table','file']
+  'defaultValue' : ['table','file'],
+  
 };
 
 /*
@@ -58,6 +63,8 @@ export function getFieldToAdd(field,id,elementType) {
 
   var settings = exploteToObject(field.settings,elementType);
   var rules = exploteToObject(field.rules,elementType);
+
+  //console.log("Rules => ",rules);
 
   if(field.fields != null){
     settings.fields = field.fields;
