@@ -429,10 +429,11 @@ export default class TableComponent extends Component {
 
       return (
         <div>
-          {this.props.exportBtn &&  !downloading && ! loadingData &&
+          {this.props.exportBtn &&
 
 
             <ExportButton
+              disabled={loadingData}
               downloadUrl={this.props.downloadUrl}
               elementObject={this.state.elementObject}
               totalPages={this.state.totalPages}
