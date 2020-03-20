@@ -7,7 +7,7 @@ import RadioField from './fields/RadioField';
 import YesNoField from './fields/YesNoField';
 import CheckField from '../FileTemp/fields/CheckField';
 import ListField from './fields/ListField';
-import CardField from './fields/CardField';
+import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
 
 
@@ -394,9 +394,9 @@ export default class FormComponentTemp extends Component {
                                 text={'DOMMAGES'}
                                 textAlign={'left'}
                             />
-                            <CardField
+                            <CarField
                                 onChange={this.handleFieldChange.bind(this)}
-                                name={'cardfield'}
+                                name={'carfield'}
                             />
                         </Col>
                     </Row>

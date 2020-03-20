@@ -20,7 +20,7 @@ function BootstrapTooltip(props) {
     return <Tooltip arrow classes={classes} {...props} />;
 }
 
-export default class CardField extends Component {
+export default class CarField extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -201,15 +201,29 @@ export default class CardField extends Component {
 
     updateStateList(e, value) {
         console.log(e.target.checked)
+        var self = this;
+
         if (e.target.checked) {
             //append to array
             this.setState({
                 keyGen: this.state.keyGen.concat([value])
+            }, function () {
+                self.props.onFieldChange({
+                    name : self.props.field.name,
+                    value : this.getString()
+                  });
+    
             })
         } else {
             //remove from array
             this.setState({
                 keyGen: this.state.keyGen.filter(function (val) { return val !== value })
+            }, function () {
+                self.props.onFieldChange({
+                    name : self.props.field.name,
+                    value : this.getString()
+                  });
+    
             })
         }
     }
@@ -219,11 +233,16 @@ export default class CardField extends Component {
         const keyGen = this.state.keyGen;
 
         keyGen[index].value = value;
+        var self = this;
 
         this.setState({
             keyGen: keyGen
         }, function () {
-            this.props.onChange(this.props.name, this.getString());
+            self.props.onFieldChange({
+                name : self.props.field.name,
+                value : this.getString()
+              });
+
         });
     }
 
@@ -237,8 +256,15 @@ export default class CardField extends Component {
     };
 
     render() {
+
+        const {field} = this.props;
+        const errors = this.props.error ? 'is-invalid' : '';
+        let isRequired = field.rules.required !== undefined ?
+            field.rules.required : false;
+
+
         return (
-            <div className="row container-car-field">
+            <div className={"row container-car-field "+errors}>
                 <div className="col-md-4 container-fix">
                     <div className="container-img">
                         {
@@ -263,7 +289,7 @@ export default class CardField extends Component {
                         }
                     </div>
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 bottom-buttons">
                             {
                                 this.state.arrayPointsBottom.map((item, index) => {
                                     return (
@@ -276,7 +302,9 @@ export default class CardField extends Component {
                                                 type='checkbox'
                                                 onChange={(e) => this.updateStateList(e, item)}
                                             />
-                                            <label className={'bottom'} htmlFor={item.identifier}>{item.label}</label>
+                                            <BootstrapTooltip title={item.tooltip} placement="top-start" arrow>
+                                                <label className={'bottom'} htmlFor={item.identifier}>{item.label}</label>
+                                            </BootstrapTooltip>
                                         </span>
                                     )
                                 })
@@ -287,6 +315,9 @@ export default class CardField extends Component {
                 <div className="col-md-8 col-lg-8 container-flex">
                     <label className="bmd-label-floating label-custom">
                         Précisez le dommage (Rayé, cassé, enfoncé...)
+                        {isRequired &&
+                            <span className="required">&nbsp; *</span>
+                        }
                     </label>
                     <div className="row">
                         <table class="table">
@@ -334,6 +365,6 @@ export default class CardField extends Component {
     }
 }
 
-CardField.propTypes = {
-    onChange: PropTypes.func
+CarField.propTypes = {
+    handleOnChange: PropTypes.func
 };
