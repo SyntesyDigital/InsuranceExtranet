@@ -84,21 +84,30 @@
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
 
-  //elements buttons
+    //ELEMENTS BUTTON
+    //Button Primary
     $buttonPrimaryColor = isset($storedStylesFront['buttonPrimaryColor']) ? $storedStylesFront['buttonPrimaryColor']->value : $primaryColor;
-    $buttonPrimaryBackgroundColor = isset($storedStylesFront['buttonPrimaryBackgroundColor']) ? $storedStylesFront['buttonPrimaryBackgroundColor']->value : '#fff';
     $buttonPrimaryHoverColor = isset($storedStylesFront['buttonPrimaryHoverColor']) ? $storedStylesFront['buttonPrimaryHoverColor']->value : $secondaryColor;
-    $buttonPrimaryHoverBackgroundColor = isset($storedStylesFront['buttonPrimaryHoverBackgroundColor']) ? $storedStylesFront['buttonPrimaryHoverBackgroundColor']->value : '#fff';
     $buttonPrimaryBorderRadius = isset($storedStylesFront['buttonPrimaryBorderRadius']) ? $storedStylesFront['buttonPrimaryBorderRadius']->value.'px' : $buttonRadius;
 
+    $buttonPrimaryBackgroundHoverColor = isset($storedStylesFront['buttonPrimaryBackgroundHoverColor']) ? $storedStylesFront['buttonPrimaryBackgroundHoverColor']->value : '#eef0f4';
+    $buttonPrimaryBackgroundImageColor = isset($storedStylesFront['buttonPrimaryBackgroundImageColor']) ? $storedStylesFront['buttonPrimaryBackgroundImageColor']->value : '#fff';
+    $buttonPrimaryBackgroundBottomColor = isset($storedStylesFront['buttonPrimaryBackgroundBottomColor']) ? $storedStylesFront['buttonPrimaryBackgroundBottomColor']->value : '#eef0f4';
+    $buttonPrimaryIconColor = isset($storedStylesFront['buttonPrimaryIconColor']) ? $storedStylesFront['buttonPrimaryIconColor']->value : '#a2a8b0';
+    $buttonPrimaryIconHoverColor = isset($storedStylesFront['buttonPrimaryIconHoverColor']) ? $storedStylesFront['buttonPrimaryIconHoverColor']->value : $primaryColor;
+
+    //Button Secondary
     $buttonSecondaryColor = isset($storedStylesFront['buttonSecondaryColor']) ? $storedStylesFront['buttonSecondaryColor']->value : $secondaryColor;
-    $buttonSecondaryBackgroundColor = isset($storedStylesFront['buttonSecondaryBackgroundColor']) ? $storedStylesFront['buttonSecondaryBackgroundColor']->value : '#fff';
     $buttonSecondaryHoverColor = isset($storedStylesFront['buttonSecondaryHoverColor']) ? $storedStylesFront['buttonSecondaryHoverColor']->value : $primaryColor;
-    $buttonSecondaryHoverBackgroundColor = isset($storedStylesFront['buttonSecondaryHoverBackgroundColor']) ? $storedStylesFront['buttonSecondaryHoverBackgroundColor']->value : '#fff';
     $buttonSecondaryBorderRadius = isset($storedStylesFront['buttonSecondaryBorderRadius']) ? $storedStylesFront['buttonSecondaryBorderRadius']->value.'px' : $buttonRadius;
+   
+    $buttonSecondaryHoverBackgroundColor = isset($storedStylesFront['buttonSecondaryHoverBackgroundColor']) ? $storedStylesFront['buttonSecondaryHoverBackgroundColor']->value : '#eef0f4';
+    $buttonSecondaryBackgroundImageColor = isset($storedStylesFront['buttonSecondaryBackgroundImageColor']) ? $storedStylesFront['buttonSecondaryBackgroundImageColor']->value : '#fff';
+    $buttonSecondaryBackgroundBottomColor = isset($storedStylesFront['buttonSecondaryBackgroundBottomColor']) ? $storedStylesFront['buttonSecondaryBackgroundBottomColor']->value : '#eef0f4';
+    $buttonSecondaryIconColor = isset($storedStylesFront['buttonSecondaryIconColor']) ? $storedStylesFront['buttonSecondaryIconColor']->value : '#a2a8b0';
+    $buttonSecondaryIconHoverColor = isset($storedStylesFront['buttonSecondaryIconHoverColor']) ? $storedStylesFront['buttonSecondaryIconHoverColor']->value : $primaryColor;
 
     $elementFileInputBorder = isset($storedStylesFront['elementFileInputBorder']) ? $storedStylesFront['elementFileInputBorder']->value : $elementsBackgroundColor;
-
     $fonts = config('fonts');
 
     //BOX TOTAL
