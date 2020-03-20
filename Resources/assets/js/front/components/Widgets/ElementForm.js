@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import FormComponent from './Forms/FormV1/FormComponent';
+import FormComponent from './Forms/Form/FormComponent';
 
 export default class ElementForm extends Component {
 
@@ -23,6 +23,7 @@ export default class ElementForm extends Component {
             parameters={this.props.parameters}
             finalRedirectUrl={this.props.finalRedirectUrl}
             onFormFinished={this.handleFormFinished.bind(this)}
+            version={"1"}
           />
         );
     }

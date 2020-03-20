@@ -48,7 +48,8 @@ class FormProceduresIterator extends Component {
             this.props.form.stepsToProcess,
             this.props.form.jsonResult,
             this.props.parameters.formParameters,
-            this.props.form.jsonGetDone
+            this.props.form.jsonGetDone,
+            this.props.version
           );
 
       }
@@ -78,9 +79,9 @@ const mapDispatchToProps = dispatch => {
         return dispatch(getJsonResultBeforePut(procedure,formParameters));
       },
       processProcedure : (procedures,currentProcedureIndex, values,
-          currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone) => {
+          currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) => {
         return dispatch(processProcedure(procedures,currentProcedureIndex, values,
-            currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone))
+            currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone,version))
       }
     }
 }
