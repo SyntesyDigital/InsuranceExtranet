@@ -57,7 +57,7 @@ export default class ServiceForm extends Component {
         api.services.get(this.props.serviceId)
             .then(payload => this.setState({
                 'service': payload.data.service ? payload.data.service : null,
-                'json' : JSON.parse(payload.data.service.json)
+                'json' : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {}
             }));
     }
 
@@ -230,6 +230,7 @@ export default class ServiceForm extends Component {
                             />
                         </div>
 
+                        {/*
                         <InputField
                             label={'Boby (WS)'}
                             value={this.state.service.boby ? this.state.service.boby : ''}
@@ -237,6 +238,7 @@ export default class ServiceForm extends Component {
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.boby ? true : false}
                         />
+                        */}
 
                         <InputField
                             label={'Url'}

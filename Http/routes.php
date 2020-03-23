@@ -67,7 +67,10 @@ Route::group([
     // Elements
     Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
     Route::get('/elements/datatable', 'ElementController@getDataTable')->name('extranet.elements.datatable');
+    Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
+    Route::get('/elements/get-model/{element_type}', 'ElementController@getModelsByType')->name('extranet.elements.get_by_type');
     Route::get('/elements/create/{element_type}/{model_id}', 'ElementController@create')->name('extranet.element.create');
+    Route::get('/elements/import/{element_type}/{model_id}', 'ElementController@import')->name('extranet.element.import');
     Route::get('/elements/{element}/show', 'ElementController@show')->name('extranet.elements.show');
     Route::post('/elements/store', 'ElementController@store')->name('extranet.elements.store');
     Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');
@@ -96,14 +99,16 @@ Route::group([
 
     Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
     Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
+
     Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
 
     //filters
     Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
 
     //tables
-    Route::get('/elements/{element}/export/{limit?}', 'ElementController@export')->name('table.export');
     Route::get('/extranet/{element}/model_values/data/{limit?}', 'ElementController@getModelValues')->name('extranet.element.mode_values.data');
+    Route::get('/extranet/export/{element}/model_values/data/{limit}/{filename?}/', 'ElementController@export')->name('table.export');
+    Route::get('/extranet/download/data/export/{filename?}', 'ElementController@downloadCSV')->name('table.export.download');
 
     //form
     Route::get('/elements/select/data/{name}', 'ElementController@getSelectData')->name('elements.select.data');

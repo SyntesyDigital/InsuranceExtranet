@@ -22,13 +22,6 @@
   <div class="title">
     <h4>{{$field['fields'][0]['value'][App::getLocale()] or ''}}</h4>
     <div class="title-btns">
-      @if(isset($field['settings']['excel']) && $field['settings']['excel'])
-      <div class="excel-btn">
-        <a href="{{route('table.export', [$field['settings']['tableElements'], $field['settings']['pagination']] )}}" element="" class="">
-          <i class="fas fa-download"></i>Exportation CSV
-        </a>
-      </div>
-      @endif
       <div class="add-btn">
         @include('extranet::front.partials.fields.'.$field['fields'][1]['type'],
           [
@@ -50,6 +43,8 @@
         elementObject="{{base64_encode(json_encode($elementObject))}}"
         model="{{base64_encode(json_encode($model))}}"
         parameters="{{$parameters}}"
+        exportBtn="{{isset($field['settings']['excel']) && $field['settings']['excel']?true:false}}"
+        downloadUrl="{{isset($field['settings']['excel']) && $field['settings']['excel']?route('table.export.download',['filename' => ':filename']):''}}"
       >
       </div>
   </div>

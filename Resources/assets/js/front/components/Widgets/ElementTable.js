@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-//import MoreResults from './../Common/MoreResults';
-//import Paginator from './../Common/Paginator';
-//import ReactDataGrid from 'react-data-grid';
-//import { Toolbar, Data } from "react-data-grid-addons";
-
-import ReactTable from "react-table";
 import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
 
 import TableComponent from './Table/TableComponent';
 import ModalTable from './Table/ModalTable';
 
 import moment from 'moment';
-
-//const selectors = Data.Selectors;
 
 export default class ElementTable extends Component {
 
@@ -24,7 +15,8 @@ export default class ElementTable extends Component {
         this.state = {
           displayModal : false,
           modalUrl : null,
-          redirectUrl : null
+          redirectUrl : null,
+          id :  props.model.ID+moment().unix()
         };
         this.tableRef = React.createRef();
     }
@@ -33,7 +25,7 @@ export default class ElementTable extends Component {
     * Open modal with url [element_id]?[params]
     */
     handleOpenModal(elementUrl,redirectUrl){
-      //console.log("ElementTable :: handleOpenModal : ",elementUrl);
+      console.log("ElementTable :: handleOpenModal : (elementUrl,redirectUrl)",elementUrl,redirectUrl);
 
       this.setState({
         displayModal : true,
@@ -63,7 +55,7 @@ export default class ElementTable extends Component {
 
               <ModalTable
                 display={this.state.displayModal}
-                id={"modal-table-component"}
+                id={"modal-table-component-"+this.state.id}
                 zIndex={1000}
                 onModalClose={this.handleModalClose.bind(this)}
                 modalUrl={this.state.modalUrl}
@@ -73,6 +65,7 @@ export default class ElementTable extends Component {
               />
 
               <TableComponent
+                id={this.state.id}
                 ref={this.tableRef}
                 //field={this.props.field}
                 elementObject={this.props.elementObject}
@@ -82,6 +75,8 @@ export default class ElementTable extends Component {
                 maxItems={this.props.maxItems}
                 parameters={this.props.parameters}
                 onOpenModal={this.handleOpenModal.bind(this)}
+                exportBtn={this.props.exportBtn}
+                downloadUrl={this.props.downloadUrl}
               />
             </div>
 
@@ -100,7 +95,8 @@ if (document.getElementById('elementTable')) {
        var pagination = element.getAttribute('pagination');
        var itemsPerPage = element.getAttribute('itemsPerPage');
        var parameters = element.getAttribute('parameters');
-
+       var exportBtn = element.getAttribute('exportBtn');
+       var downloadUrl = element.getAttribute('downloadUrl');
        var elementObject = JSON.parse(atob(element.getAttribute('elementObject')));
        var model = JSON.parse(atob(element.getAttribute('model')));
 
@@ -112,6 +108,8 @@ if (document.getElementById('elementTable')) {
            itemsPerPage={itemsPerPage}
            maxItems={maxItems}
            parameters={parameters}
+           exportBtn={exportBtn}
+           downloadUrl={downloadUrl}
          />, element);
    });
 }

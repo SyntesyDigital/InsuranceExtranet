@@ -17,6 +17,8 @@ require('./components/Fields/MapField');
 require('./components/Widgets/ElementFile');
 require('./components/Widgets/ElementTable');
 require('./components/Widgets/ElementForm');
+require('./components/Widgets/ElementFormV2');
+require('./components/Widgets/ElementFormButton');
 require('./components/Widgets/TableDocument');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');

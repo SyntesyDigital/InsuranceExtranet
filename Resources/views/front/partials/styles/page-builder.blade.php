@@ -21,61 +21,80 @@
   color:{{$frontBodyH5Color}};
   font-size:{{$frontBodyH5FontSize}};
 }
-
 .total-box-container-a{
   color:{{$elementLinkColor}};
 }
-
 .total-box-container{
   color:{{$elementColor}};
-  /* border-radius: {{$buttonRadius}}; */
 }
-
 .box-button-container-a .box-button-container:hover{
   color:{{$elementButtonHoverColor}};
-  /*
-  border: 1px solid {{$elementButtonHoverColor}};
-  */
 }
-
 .box-button-container{
   color:{{$elementButtonColor}};
-  /*border: 1px solid {{$elementButtonColor}};*/
   border-radius: {{$buttonRadius}};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
-
 .static-banner{
   border-radius: {{$buttonRadius}};
-  background-color:{{$sidebarBackgroundColor}}
+  background-color:{{$elementsBackgroundColor}};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
 .static-banner .text-static-banner h1, .static-banner .text-static-banner a{
   color: {{$primaryColor}};
 }
 
 /* button primary */
-.box-button-container,.box-button-container-a {
+.box-button-container, .box-button-container-a {
   color: {{$buttonPrimaryColor}};
-  background-color: {{$buttonPrimaryBackgroundColor}};
   border-radius: {{$buttonPrimaryBorderRadius}};
 }
-
+.box-button-container-a .image-container{
+  background-color: {{$buttonPrimaryBackgroundImageColor}};
+}
+.box-button-container-a .box-button-container:not(.box-button-secondary) .image-container i{
+  color: {{$buttonPrimaryIconColor}};
+}
+.box-button-container-a .label-container{
+  background-color: {{$buttonPrimaryBackgroundBottomColor}};
+}
 .box-button-container-a .box-button-container:hover {
   color: {{$buttonPrimaryHoverColor}};
-  background-color: {{$buttonPrimaryHoverBackgroundColor}};
-
+}
+.box-button-container-a .box-button-container:not(.box-button-secondary):hover > .wrap-box-button .image-container i{
+  color: {{$buttonPrimaryIconHoverColor}};
+}
+.box-button-container-a .box-button-container:not(.box-button-secondary):hover > .wrap-box-button .image-container{
+  background-color: {{$buttonPrimaryBackgroundHoverColor}}
+}
+.box-button-container-a .box-button-container:not(.box-button-secondary):hover > .wrap-box-button .label-container{
+  background-color: {{$buttonPrimaryBackgroundHoverColor}}
 }
 
 /* button Secondary */
 .box-button-container.box-button-secondary, .box-button-container-a .box-button-secondary {
   color: {{$buttonSecondaryColor}};
-  background-color: {{$buttonSecondaryBackgroundColor}};
   border-radius: {{$buttonSecondaryBorderRadius}};
 }
-
+.box-button-container.box-button-secondary .label-container{
+  background-color: {{$buttonSecondaryBackgroundBottomColor}};
+}
+.box-button-container.box-button-secondary .image-container{
+  background-color: {{$buttonSecondaryBackgroundImageColor}};
+}
 .box-button-container-a .box-button-container.box-button-secondary:hover {
   color: {{$buttonSecondaryHoverColor}};
-  background-color: {{$buttonSecondaryHoverBackgroundColor}};
-
 }
-
+.box-button-container.box-button-secondary .image-container i{
+  color: {{$buttonSecondaryIconColor}};
+}
+.box-button-container.box-button-secondary.box-button-container:hover > .wrap-box-button .image-container i{
+  color: {{$buttonSecondaryIconHoverColor}};
+}
+.box-button-container.box-button-secondary:hover > .wrap-box-button .image-container{
+  background-color: {{$buttonSecondaryHoverBackgroundColor}}
+}
+.box-button-container.box-button-secondary:hover > .wrap-box-button .label-container{
+  background-color: {{$buttonSecondaryHoverBackgroundColor}}
+}
 </style>

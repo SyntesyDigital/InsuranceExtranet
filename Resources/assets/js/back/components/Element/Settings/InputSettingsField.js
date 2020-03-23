@@ -1,112 +1,59 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 
+import SettingsField from './SettingsField';
+import InputField from '../../Layout/Fields/InputField';
+
 class InputSettingsField extends Component {
 
   constructor(props) {
     super(props);
-
-    var checkbox = null;
-    var input = "";
-    var display = false;
-
-    this.state = {
-      checkbox : checkbox,
-      input : input,
-      display : display
-    };
-
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-
   }
 
-  componentDidMount(){
-    this.processProps(this.props);
-  }
+  /**
+   *  Define what happen when input change
+   */
+  handleInputChange(name,value) {
 
-  componentWillReceiveProps(nextProps){
-    this.processProps(nextProps);
-  }
+    var fieldValue = this.props.field[this.props.source][this.props.name];
 
-  processProps(nextProps){
-    var checkbox = null;
-    var input = "";
-    var display = false;
-
-    //console.log("InputSettingsField :: componentWillRecieveProps");
-    //console.log(nextProps);
-
-    if(nextProps.field != null && nextProps.field[nextProps.source] != null &&
-       nextProps.field[nextProps.source][nextProps.name] !== undefined){
-
-      checkbox = nextProps.field[nextProps.source][nextProps.name] != null;
-      display = true;
-
-      input = nextProps.field[nextProps.source][nextProps.name] == null ?
-        '' : nextProps.field[nextProps.source][nextProps.name];
-    }
-
-    this.setState({
-      checkbox : checkbox,
-      input : input,
-      display : display
-    });
-  }
-
-  handleFieldChange(event) {
+    fieldValue = value;
 
     var field = {
       name : this.props.name,
       source : this.props.source,
-      value : event.target.checked ? "" : null
+      value : fieldValue
     };
 
-    this.props.onFieldChange(field);
-  }
-
-  handleInputChange(event) {
-
-    var field = {
-      name : this.props.name,
-      source : this.props.source,
-      value : event.target.value
-    };
+    console.log("handleInputChange :: ",field);
 
     this.props.onFieldChange(field);
-
+    
   }
 
   render() {
 
-    const {checkbox,input} = this.state;
+    const value = this.props.field[this.props.source][this.props.name];
+    //value is null, when setting field is disabled
 
     return (
+      <SettingsField
+        field={this.props.field}
+        onFieldChange={this.props.onFieldChange}
+        label={this.props.label}
+        name={this.props.name}
+        source={this.props.source}
+        defaultValue={''}
+      >
 
-      <div style={{display : this.state.display ? 'block' : 'none'}}>
-        <div className="setup-field" >
-          <div className="togglebutton">
-            <label>
-                <input type="checkbox"
-                  name={this.props.name}
-                  checked={ this.state.checkbox != null ? checkbox : false }
-                  onChange={this.handleFieldChange}
-                />
-                {this.props.label}
-            </label>
-          </div>
+        <InputField
+          label={this.props.inputLabel}
+          name={this.props.name}
+          value={value != null ? value : ''}
+          onChange={this.handleInputChange.bind(this)}
+        />
 
-
-          <div className="setup-field-config" style={{display : this.state.checkbox != null && this.state.checkbox ? "block" : "none" }}>
-            <div className="form-group bmd-form-group">
-               <label htmlFor="num" className="bmd-label-floating">{this.props.inputLabel}</label>
-               <input type="text" name="" className="form-control" id="num" value={this.state.input} onChange={this.handleInputChange}/>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+      </SettingsField>
     );
   }
 

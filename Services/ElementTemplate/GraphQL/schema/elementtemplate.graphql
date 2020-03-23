@@ -1,0 +1,54 @@
+################################
+#   TYPE
+################################
+type ElementTemplate {
+    id: ID!
+    element_id: ID!
+    name: String!
+    layout: String
+    fields: [ElementTemplateField!] @hasMany
+}
+
+################################
+#   INPUT
+################################
+input CreateElementTemplateInput {
+    name: String
+    layout: String
+    element_id: ID
+}
+
+input UpdateElementTemplateInput {
+    id: ID!
+    name: String
+    layout: String
+    element_id: ID
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    elementTemplates: [ElementTemplate!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+
+    elementTemplate(id: ID! @eq): ElementTemplate
+        @find(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+}
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    createElementTemplate(input: CreateElementTemplateInput! @spread): ElementTemplate
+        @create(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+
+    updateElementTemplate(input: UpdateElementTemplateInput! @spread): ElementTemplate
+        @update(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+
+    deleteElementTemplate(
+        id: ID!
+    ): ElementTemplate
+        @delete(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+}
