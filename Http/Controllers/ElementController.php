@@ -300,7 +300,7 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=500';
+        $params = '?SES='.Auth::user()->session_id.'&perPage=10000';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {

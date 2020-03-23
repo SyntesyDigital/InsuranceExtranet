@@ -1,37 +1,108 @@
-.box-button-container-a{
+.box-button-container-a {
   width: 100%;
-  &:hover{
+  &:hover {
     text-decoration: none;
   }
-  .box-button-container{
-
-    &:hover{
-      color:$primary-color;
+  .box-button-container {
+    &:hover {
+      color: $primary-color;
       text-decoration: none;
-      /*border: 1px solid $primary-color;*/
-
     }
-
   }
 }
-.box-button-container{
-  color:$secondary-color;
+.box-button-container {
+  color: $secondary-color;
   background-color: #fff;
-  /*
-  border: 1px solid $secondary-color;
-  */
   padding: 20px 40px;
   text-align: center;
   width: 100%;
   border-radius: 12px;
   min-height: 125px;
-  i{
-    font-size:40px;
+
+  i {
+    font-size: 40px;
     line-height: 40px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
   }
-  p{
-    @include font(18,18,300);
+  p {
+    @include font(18, 18, 300);
     margin-bottom: 0;
+  }
+}
+
+.box-button-root {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 15px;
+}
+.box-button-container-a .box-button-container:hover {
+  color: #2a3649;
+  text-decoration: none;
+}
+.box-button-container {
+  overflow: hidden;
+  color: #e84b37;
+  background-color: #fff;
+  text-align: center;
+  width: 100%;
+  border-radius: 12px;
+  min-height: 125px;
+  padding: 0;
+
+  i {
+    @extend .animate;
+    font-size: 6rem;
+    margin-bottom: 0px;
+  }
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  .wrap-box-button {
+    display: table;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50%;
+    margin-right: -50%;
+    
+    .image-container {
+      padding: 0px;
+      height: 70px;
+      display: table-row;
+      @extend .animate;
+
+      .wrap-image,
+      .wrap-icon { 
+        display: table-cell;
+        vertical-align: middle;
+      }
+      .wrap-image {
+        img {
+          max-width: 80px;
+          max-height: 80px;
+        }
+      }
+    }
+    .label-container {
+      height: 100%;
+      display: table-row;
+      @extend .animate;
+      div {
+        display: table-cell;
+        vertical-align: middle;
+        border-top: 2px solid;
+        border-top-color: rgba(0, 0, 0, 0.1);
+      }
+      p {
+        text-transform: uppercase;
+        width: 108px;
+        margin: auto;
+      }
+    }
   }
 }
