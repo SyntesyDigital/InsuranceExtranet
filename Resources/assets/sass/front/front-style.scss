@@ -47,6 +47,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/checkbox';
 @import 'fields/label';
 @import 'fields/richtext';
+@import 'fields/car-field';
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
@@ -65,4 +66,6 @@ $bootstrap-sass-asset-helper: true;
 @import 'text-field';
 @import 'yes-no-field';
 @import 'modal-add-document';
+
+
 

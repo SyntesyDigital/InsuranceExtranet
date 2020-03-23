@@ -9,9 +9,6 @@
   }
   $url = isset($field['value']) && isset($field['value']->getUrlsAttribute()[$crop]) ? asset($field['value']->getUrlsAttribute()[$crop]) : null;
 @endphp
-@if(!isset($div))
-<p class="{{$settings['htmlClass'] or ''}}">
-@endif
 
 @if(isset($url))
   <img
@@ -23,8 +20,4 @@
     width="{{$width or ''}}"
     height="{{$height or ''}}"
   />
-@endif
-
-@if(!isset($div))
-</p>
 @endif

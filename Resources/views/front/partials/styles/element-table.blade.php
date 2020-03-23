@@ -1,9 +1,7 @@
  <style type="text/css">
 
 /*TABLES*/
-.element-table-container{
-  border-radius: {{$buttonRadius}};
-}
+
 .element-table-container .element-table-container-body{
   border-radius: {{$buttonRadius}};
 }
@@ -28,8 +26,12 @@
 }
 
 .element-table-container .elementTable{
-  background-color:{{$elementBackground}};
   color:{{$elementColor}};
+}
+.element-table-container .elementTable .react-table-container{
+  background-color:{{$elementBackground}};
+  border-radius: {{$buttonRadius}};
+
 }
 .element-table-container .elementTable a{
   color:{{$elementLinkColor}};
