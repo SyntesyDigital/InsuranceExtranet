@@ -106,7 +106,10 @@ class FormButtonRedux extends Component {
         const icon = this.props.field.fields[1].value[LOCALE];
 
         return (
-          <div className={"form-button "+(this.props.form.loading == true ? 'loading' : '')}>
+          <div 
+              className={"form-button box-button-container-a "+(!loaded ? 'loading' : '')}
+              onClick={this.handleSubmit.bind(this)}
+            >
 
             <FormParametersIterator />
             <FormProceduresIterator
@@ -115,14 +118,18 @@ class FormButtonRedux extends Component {
               version={'2'}
             />
 
-            <button
-              className={"btn btn-primary right "+(!loaded?'disabled':'')} type="submit"
-              onClick={this.handleSubmit.bind(this)}
-              disabled={this.props.form.processing}
-            >
-              <i className={icon}></i>{title}
-            </button>
-                  
+            <div className={"box-button-root box-button-container "+(!loaded?'disabled':'')}>
+              <div className="wrap-box-button">
+                <div className="image-container">
+                  <div className="wrap-icon"><i className={icon}></i></div>
+                </div>
+                <div class="label-container">
+                  <div>
+                    <p>{title}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
     }
