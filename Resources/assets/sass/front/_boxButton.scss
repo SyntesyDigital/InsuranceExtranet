@@ -51,7 +51,7 @@
 
   i {
     @extend .animate;
-    font-size: 6rem;
+    font-size: 48px;
     margin-bottom: 0px;
   }
   p {
@@ -95,7 +95,7 @@
       div {
         display: table-cell;
         vertical-align: middle;
-        border-top: 2px solid;
+        border-top: 1px solid;
         border-top-color: rgba(0, 0, 0, 0.1);
       }
       p {

@@ -287,6 +287,7 @@ class FormComponent extends Component {
             <FormProceduresIterator
               values={this.state.values}
               onFinish={this.handleFinish.bind(this)}
+              version={this.props.version}
             />
 
             {

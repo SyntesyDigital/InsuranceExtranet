@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import TableComponent from './TableComponent';
 import FileComponent from './../File/FileComponent';
-import FormComponent from './../Forms/FormV1/FormComponent';
+import FormComponent from './../Forms/Form/FormComponent';
 
 class ModalTable extends Component {
 
@@ -182,6 +182,7 @@ class ModalTable extends Component {
               finalRedirectUrl={this.props.redirectUrl != null ? 
                 this.props.redirectUrl : ''}
               onFormFinished={this.handleFormFinished.bind(this)}
+              version={"1"}
             />
           </div>
         </div>

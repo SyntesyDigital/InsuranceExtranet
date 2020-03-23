@@ -18,7 +18,9 @@ import {
   processStandardProcedure,
   procedureIsArray,
   processResponseParameters,
-  processListProcedure
+  processListProcedure,
+  processStandardProcedureV2,
+  processListProcedureV2
 } from "../../functions";
 
 export function initState(payload) {
@@ -114,7 +116,7 @@ export function getJsonResultBeforePut(procedure,formParameters) {
 *   Function to process current iteration
 */
 export function processProcedure(procedures,currentProcedureIndex, values,
-    currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone) {
+    currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) {
 
     //const {procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess} = this.state;
     //let {jsonResult} = this.state;
@@ -150,10 +152,21 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         //normal procedure
         //console.log("!isRepetable :: Process standard iteration => ",currentProcedureIndex, jsonResult);
 
-        jsonResult = processStandardProcedure(
-          currentProcedureIndex,procedure,
-          jsonResult,values,formParameters
-        );
+        if(version === undefined || version == null || version == '' || version == "1"){
+          jsonResult = processStandardProcedure(
+            currentProcedureIndex,procedure,
+            jsonResult,values,formParameters
+          );
+        }
+        else if(version == "2"){
+          jsonResult = processStandardProcedureV2(
+            currentProcedureIndex,procedure,
+            jsonResult,values,formParameters
+          );
+        }
+        else {
+          console.error("processProcedure :: version not defined (version)",version);
+        }
 
         console.log("processProcedure :: !isRepetable :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
 
@@ -184,13 +197,27 @@ export function processProcedure(procedures,currentProcedureIndex, values,
           //check what is the current value index
 
           //process every values
-          jsonResult = processListProcedure (
-            currentProcedureIndex,
-            procedure,
-            values[procedure.OBJID][currentListIndex],
-            jsonResult,
-            formParameters
-          );
+          if(version === undefined || version == null || version == '' || version == "1"){
+            jsonResult = processListProcedure (
+              currentProcedureIndex,
+              procedure,
+              values[procedure.OBJID][currentListIndex],
+              jsonResult,
+              formParameters
+            );
+          }
+          else if(version == "2"){
+            jsonResult = processListProcedureV2 (
+              currentProcedureIndex,
+              procedure,
+              values[procedure.ID][currentListIndex],
+              jsonResult,
+              formParameters
+            );
+          }
+          else {
+            console.error("processProcedure :: version not defined (version)",version);
+          }
 
           console.log("processProcedure :: isList :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
 

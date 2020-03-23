@@ -24,6 +24,7 @@ export default class FormComponent extends Component {
               parametersObject={this.props.parameters}
               finalRedirectUrl={this.props.finalRedirectUrl}
               onFormFinished={this.props.onFormFinished}
+              version={this.props.version}
             />
           </Provider>
         );
