@@ -18,6 +18,7 @@
   width: 100%;
   border-radius: 12px;
   min-height: 125px;
+
   i {
     font-size: 40px;
     line-height: 40px;
@@ -31,7 +32,7 @@
 
 .box-button-root {
   width: 100%;
-  height: 170px;
+  height: 120px;
   margin-bottom: 15px;
 }
 .box-button-container-a .box-button-container:hover {
@@ -47,12 +48,14 @@
   border-radius: 12px;
   min-height: 125px;
   padding: 0;
+
   i {
+    @extend .animate;
     font-size: 6rem;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
   p {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 18px;
     font-weight: 400;
     margin-bottom: 0;
@@ -60,18 +63,21 @@
   .wrap-box-button {
     display: table;
     height: 100%;
-    width: 100vw;
+    width: 100%;
     position: relative;
     left: 50%;
     right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    margin-left: -50%;
+    margin-right: -50%;
+    
     .image-container {
-      padding: 15px;
-      height: 105px;
+      padding: 0px;
+      height: 70px;
       display: table-row;
+      @extend .animate;
+
       .wrap-image,
-      .wrap-icon {
+      .wrap-icon { 
         display: table-cell;
         vertical-align: middle;
       }
@@ -85,6 +91,7 @@
     .label-container {
       height: 100%;
       display: table-row;
+      @extend .animate;
       div {
         display: table-cell;
         vertical-align: middle;
