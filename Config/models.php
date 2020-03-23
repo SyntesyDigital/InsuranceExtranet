@@ -185,7 +185,20 @@ return [
         'settings' => [
           'conditionalVisibility'
         ]
-      ]  
+      ],
+      'car' => [
+        'mapping' => 'car',
+        'identifier' => 'car',
+        'label' => 'Vehicule',
+        'icon' => 'fas fa-car',
+        'formats' => [],
+        'rules' => [
+          'required'
+        ],
+        'settings' => [
+          
+        ]
+      ],
     ],  // --- end fields ---
 
     'parameters' => [

@@ -1,0 +1,11 @@
+.form-button {
+  cursor:pointer;
+
+  &.loading {
+    pointer-events: none;
+  }
+
+  .disabled {
+    opacity:0.5;
+  }
+}

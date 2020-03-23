@@ -72,22 +72,22 @@ class ElementModel extends Model
                     $procedure->getFieldsConfig()
                 );
   
-              }
-              else if($procedure->configurable && $procedure->repeatable){
+            }
+            else if($procedure->configurable && $procedure->repeatable){
                 //internal array like assure contact
-  
+
                 //add speceific field to define a internal array
                 $fields[] = $procedure->getListFieldObject();
-  
-              }
-              else if(!$procedure->configurable && $procedure->repeatable){
+
+            }
+            else if(!$procedure->configurable && $procedure->repeatable){
                 //list with external model like documents
-  
+
                 //TODO añadir un modelo externo
-              }
-              else {
+            }
+            else {
                 //nothing to do
-              }
+            }
         }
 
         return $fields;
@@ -191,15 +191,44 @@ class ElementModel extends Model
      */
     public static function checkInnerDependces($variables, $allVariables)
     {
+
+        $result = [];
+
         foreach ($variables as $variableId => $variable) {
-            if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
-                if (isset($allVariables[$variable->BOBYPAR])) {
-                    $variables[$variable->BOBYPAR] = $allVariables[$variable->BOBYPAR];
-                }
-            }
+            $result = self::iterateVariables(
+                $variable,
+                $result,
+                $allVariables
+            );
         }
 
-        return $variables;
+        return $result;
+    }
+
+    /**
+     * Iterate recursively all variables, until no more dependences
+     */
+    private static function iterateVariables($variable, $result,$allVariables) {
+        if(isset($result[$variable->PARAM])){
+            //already added
+            return $result;
+        }
+
+        //add variable 
+        $result[$variable->PARAM] = $variable;
+        
+        //continue with next
+        if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
+            //start iteration
+            if(isset($allVariables[$variable->BOBYPAR])){
+                $result = self::iterateVariables(
+                    $allVariables[$variable->BOBYPAR],
+                    $result,
+                    $allVariables
+                );
+            }
+        }
+        return $result;
     }
 
     /**

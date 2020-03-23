@@ -9,6 +9,7 @@ import ListField from './../fields/ListField';
 import FileField from './../fields/FileField';
 import CheckField from './../fields/CheckField';
 import LabelField from './../fields/LabelField';
+import CarField from './../fields/CarField';
 
 import {
   HIDDEN_FIELD,
@@ -30,7 +31,8 @@ const fieldComponents = {
     richtext:RichtextField,
     list:ListField,
     boolean : CheckField,
-    label : LabelField
+    label : LabelField,
+    car : CarField
 };
 
 export function getFieldComponent(type) {

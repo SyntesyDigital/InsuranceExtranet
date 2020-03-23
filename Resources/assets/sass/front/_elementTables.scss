@@ -1,4 +1,39 @@
 .element-table-container{
+  .elementTable{
+    .excel-btn{
+      position: absolute;
+      top: -50px;
+      a{
+        margin:10px 0;
+        padding:7px 20px;
+        text-decoration: none;
+        color:$primary-color;
+        border: 1px solid $primary-color;
+        background-color: white;
+        @include round($button-radius);
+
+        &.disabled{
+          opacity: 0.3;
+          cursor: not-allowed;
+          &:hover{
+            color:$primary-color;
+            border: 1px solid $primary-color;
+          }
+        }
+    
+        i{
+          margin-right: 10px;
+        }
+        &:hover{
+          color:$secondary-color;
+          border: 1px solid $secondary-color;
+    
+        }
+      }
+    }
+  }
+  
+
   margin:20px 0;
   @include round($elements-radius);
   overflow: hidden;
@@ -38,7 +73,7 @@
   }
   .elementTable{
     padding:0px;
-    background-color:white;
+   // background-color:white;
     .navigation{
       padding:15px;
       list-style-type:none;
@@ -63,7 +98,13 @@
         }
       }
     }
-
+    .react-table-container{
+      background-color:white;
+      overflow:hidden;
+      &.m-top{
+        margin-top:40px;
+      }
+    }
   }
 
   .more-btn{
@@ -86,28 +127,7 @@
     &.title-btns-no-header{
       padding-left:0px;
     }
-    .excel-btn{
-      float:right;
-      overflow: hidden;
-      a{
-        margin:10px 0;
-        padding:7px 20px;
-        text-decoration: none;
-        color:$primary-color;
-        border: 1px solid $primary-color;
-        background-color: white;
-        @include round($button-radius);
-
-        i{
-          margin-right: 10px;
-        }
-        &:hover{
-          color:$secondary-color;
-          border: 1px solid $secondary-color;
-
-        }
-      }
-    }
+    
     .add-btn{
     float:left;
     overflow: hidden;
@@ -131,6 +151,8 @@
   }
   }
 }
+
+
 
 
 //CSS TABLE MODIFICATIONS

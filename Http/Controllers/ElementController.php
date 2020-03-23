@@ -68,7 +68,7 @@ class ElementController extends Controller
     private function getModelById($models, $modelId)
     {
         foreach ($models as $model) {
-            if ($model->ID == $modelId) {
+            if (trim($model->ID) == trim($modelId)) {
                 return $model;
             }
         }
@@ -134,7 +134,6 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
-
         if($element->type == Element::FORM_V2) {
             $elementModel = ElementModel::where('id',$element->model_identifier)->first();
             $model = $elementModel->getObject();
@@ -144,9 +143,10 @@ class ElementController extends Controller
             $model = $this->getModelById($models, $element->model_identifier);
         }
 
+        
         if ($element->type ==  Element::FORM) {
-            $fields = $this->elements->getFormFields($model->ID);
-            $procedures = $this->computeFormProcedures($model->ID);
+            $fields = $this->elements->getFormFields(trim($model->ID));
+            $procedures = $this->computeFormProcedures(trim($model->ID));
         }
         else if ($element->type == Element::FORM_V2) {
 
@@ -246,42 +246,61 @@ class ElementController extends Controller
         }
     }
 
-    public function export(Element $element, $limit = null, Request $request)
+    public function export(Element $element,$limit, $filename = '', Request $request)
     {
-        $modelValues = (new ModelValuesFormatTransformer(
-        $this->elements->getModelValuesFromElement($element, $request->all())['modelValues'], $element->fields()->get(), $limit, null, false, true)
-        )->toArray();
-        $filename = Carbon::now()->format('YmdHs').'_'.str_slug($element->name, '_').'.csv';
-        $filepath = storage_path().'/app/'.$filename;
-        $handle = fopen($filepath, 'w+');
+        //cronstuct file
+        if ($filename == '') {
+            //cronstuct file
+            $filename = Carbon::now()->format('YmdHs').'_'.str_slug($element->name, '_').'.csv';
+            $filepath = storage_path().'/app/'.$filename;
+            $handle = fopen($filepath, 'w+');
 
-        $titles = $element->fields()->pluck('name')->toArray();
-        $colmuns = $element->fields()->pluck('name', 'identifier');
-        fputcsv($handle, $titles);
+            $titles = $element->fields()->pluck('name')->toArray();
+            fputcsv($handle, $titles);
+        } else {
+            $filepath = storage_path().'/app/'.$filename;
+            $handle = fopen($filepath, 'a+');
+        }
+        $columns = $element->fields()->pluck('name', 'identifier');
+
+        $result = $this->elements->getModelValuesFromElement($element, $request->all());
+        $modelValues = (new ModelValuesFormatTransformer(
+        $result['modelValues'], $element->fields()->get(), false, null, false, true)
+        )->toArray();
 
         foreach ($modelValues as $modelValue) {
             $row = [];
-            foreach ($colmuns as $key => $value) {
+            foreach ($columns as $key => $value) {
                 array_push($row, isset($modelValue[$key]) ? $modelValue[$key] : '');
             }
 
             fputcsv($handle, $row);
         }
-
         fclose($handle);
 
-        $headers = [
-            'Content-Type' => 'text/csv',
-        ];
+        return response()->json([
+            'success' => true,
+            'filename' => $filename,
+        ]);
+    }
 
-        return response()->download($filepath, $filename, $headers);
+    public function downloadCSV($filename)
+    {
+        //Close and download
+
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+        $filepath = storage_path().'/app/'.$filename;
+
+        return response()->download($filepath, $filename, $headers)->deleteFileAfterSend(true);
     }
 
     public function getSelectData($name, Request $request)
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=500';
+        $params = '?SES='.Auth::user()->session_id.'&perPage=10000';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -346,7 +365,6 @@ class ElementController extends Controller
             else {
                 //$modelId is an string, so Form V1
                 $data = $this->computeFormProcedures($modelId);
-                
             }
 
             if ($request->has('debug')) {

@@ -97,14 +97,16 @@ Route::group([
 
     Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
     Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
+
     Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
 
     //filters
     Route::get('/extranet/filters/', 'ElementController@getFilterVariables')->name('elements.filters');
 
     //tables
-    Route::get('/elements/{element}/export/{limit?}', 'ElementController@export')->name('table.export');
     Route::get('/extranet/{element}/model_values/data/{limit?}', 'ElementController@getModelValues')->name('extranet.element.mode_values.data');
+    Route::get('/extranet/export/{element}/model_values/data/{limit}/{filename?}/', 'ElementController@export')->name('table.export');
+    Route::get('/extranet/download/data/export/{filename?}', 'ElementController@downloadCSV')->name('table.export.download');
 
     //form
     Route::get('/elements/select/data/{name}', 'ElementController@getSelectData')->name('elements.select.data');
