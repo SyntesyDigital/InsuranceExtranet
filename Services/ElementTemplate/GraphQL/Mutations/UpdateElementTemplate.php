@@ -10,7 +10,6 @@ use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuild
 
 class UpdateElementTemplate
 {
-
     use PageBuilderFields;
     
     /**
@@ -32,7 +31,7 @@ class UpdateElementTemplate
         }
 
         $elementTemplate->fields()->delete();
-        
+
         $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
 
         $elementTemplate->update([
@@ -42,7 +41,4 @@ class UpdateElementTemplate
 
         return $elementTemplate;
     }
-
-    
-  
 }

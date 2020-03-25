@@ -10,7 +10,6 @@ use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuild
 
 class CreateElementTemplate
 {
-
     use PageBuilderFields;
 
     /**
@@ -30,18 +29,13 @@ class CreateElementTemplate
             'element_id' => $args['element_id'],
             'layout' => 'creating'
         ]);
-        
+
         $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
 
         $elementTemplate->update([
             'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes))
         ]);
 
-        
-
         return $elementTemplate;
-    }
-
-    
-    
+    } 
 }
