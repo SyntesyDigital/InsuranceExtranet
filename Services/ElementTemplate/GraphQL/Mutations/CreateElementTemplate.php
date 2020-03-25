@@ -27,7 +27,7 @@ class CreateElementTemplate
         $elementTemplate = ElementTemplate::create([
             'name' => $args['name'],
             'element_id' => $args['element_id'],
-            'layout' => 'creating'
+            'layout' => ''
         ]);
 
         $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
