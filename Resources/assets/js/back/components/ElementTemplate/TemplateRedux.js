@@ -9,7 +9,7 @@ import RowContainer from './Layout/RowContainer';
 import ColContainer from './Layout/ColContainer';
 import ColField from './Layout/ColField';
 import DragField from './Layout/DragField';
-import SimpleTabs from './Layout/TabButton';
+import SimpleTabs from '../Layout/TabButton';
 import { connect } from 'react-redux';
 import {
     initStateTemplate,
@@ -37,7 +37,7 @@ class TemplateRedux extends Component {
         // this.props.createForm(this.props);
         // this.props.updateForm(this.props);
         // this.props.removeForm(this.props);
-        console.log('Estas son las props :: ', this.props);
+        // console.log('Estas son las props :: ', this.props);
     }
 
     // ==============================
@@ -109,6 +109,7 @@ class TemplateRedux extends Component {
     render() {
         return (
             <div className="element-template">
+                
                 <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
@@ -139,6 +140,7 @@ class TemplateRedux extends Component {
                         onClick={this.handleSubmit.bind(this)}
                     />
                 </BarTitle>
+                
                 <div className="container rightbar-page">
                     <div className="col-xs-9 page-content elements-template">
                         <RowContainer
@@ -181,86 +183,7 @@ class TemplateRedux extends Component {
                                 />
                             </Col>
                         </RowContainer>
-                        <RowContainer
-                            editButton={true}
-                            columnsButton={true}
-                            duplicateButton={true}
-                            removeButton={true}
-                            onUp={this.handleUpRowContainer.bind(this)}
-                            onDown={this.handleDownRowContainer.bind(this)}
-                            onEdit={this.handleEditRowContainer.bind(this)}
-                            onDuplicate={this.handleDuplicateRowContainer.bind(this)}
-                            onRemove={this.handleRemoveRowContainer.bind(this)}
-                        >
-                            <Col md={6}>
-                                <ColContainer
-                                    editButton={true}
-                                    onAdd={this.handleAddColContainer.bind(this)}
-                                    onEdit={this.handleEditColContainer.bind(this)}
-                                >
-                                    <ColField
-                                        label={'label'}
-                                        onUp={this.handleUpColField.bind(this)}
-                                        onDown={this.handleDownColField.bind(this)}
-                                        onRemove={this.handleRemoveColField.bind(this)}
-                                    />
-                                    <ColField
-                                        label={'label'}
-                                        onUp={this.handleUpColField.bind(this)}
-                                        onDown={this.handleDownColField.bind(this)}
-                                        onRemove={this.handleRemoveColField.bind(this)}
-                                    />
-                                </ColContainer>
-                            </Col>
-                            <Col md={6}>
-                                <ColContainer
-                                    editButton={true}
-                                    onAdd={this.handleAddColContainer.bind(this)}
-                                    onEdit={this.handleEditColContainer.bind(this)}
-                                >
-                                    <ColField
-                                        label={'label'}
-                                        onUp={this.handleUpColField.bind(this)}
-                                        onDown={this.handleDownColField.bind(this)}
-                                        onRemove={this.handleRemoveColField.bind(this)}
-                                    />
-                                    <ColField
-                                        label={'label'}
-                                        onUp={this.handleUpColField.bind(this)}
-                                        onDown={this.handleDownColField.bind(this)}
-                                        onRemove={this.handleRemoveColField.bind(this)}
-                                    />
-                                </ColContainer>
-                            </Col>
-                        </RowContainer>
-                        <RowContainer
-                            editButton={true}
-                            columnsButton={true}
-                            duplicateButton={true}
-                            removeButton={true}
-                            onUp={this.handleUpRowContainer.bind(this)}
-                            onDown={this.handleDownRowContainer.bind(this)}
-                            onEdit={this.handleEditRowContainer.bind(this)}
-                            onDuplicate={this.handleDuplicateRowContainer.bind(this)}
-                            onRemove={this.handleRemoveRowContainer.bind(this)}
-                        />
-                        <RowContainer
-                            editButton={true}
-                            columnsButton={true}
-                            duplicateButton={true}
-                            removeButton={true}
-                            onUp={this.handleUpRowContainer.bind(this)}
-                            onDown={this.handleDownRowContainer.bind(this)}
-                            onEdit={this.handleEditRowContainer.bind(this)}
-                            onDuplicate={this.handleDuplicateRowContainer.bind(this)}
-                            onRemove={this.handleRemoveRowContainer.bind(this)}
-                        >
-                            <ColContainer
-                                editButton={true}
-                                onAdd={this.handleAddColContainer.bind(this)}
-                                onEdit={this.handleEditColContainer.bind(this)}
-                            />
-                        </RowContainer>
+                       
                         <BoxAddGroup
                             identifier='1'
                             title='Ajouter une ligne'

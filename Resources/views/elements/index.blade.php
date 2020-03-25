@@ -30,8 +30,6 @@ $element_types = \Modules\Extranet\Entities\Element::TYPES;
                 </a>
             </div>
           @endforeach
-
-
         </div>
       </div>
 
