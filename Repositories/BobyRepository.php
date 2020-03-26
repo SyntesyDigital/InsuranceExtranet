@@ -147,6 +147,9 @@ class BobyRepository
 
         $first = true;
         $url = "";
+        if(!isset($params))
+            return $url;
+            
         foreach($params as $key => $value){
             if($value != "" && $value != null){
                 $url .= ($first?'?':'&').$key."=".$value;

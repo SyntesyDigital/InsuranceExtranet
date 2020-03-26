@@ -33,12 +33,12 @@
 <script>
 var routes = {
   'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
-  'showElement' : "{{route('extranet.elements.show', $element)}}",
+  'showElement' : "{{route('extranet.elements.show', isset($element) ? $element : '')}}",
   'contents.data' : "{{ route('contents.modal.data') }}",
   'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
   'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
-  'extranet.element.parameters' : "{{route('extranet.element.parameters', $element)}}",
-  'extranet.elements.template' : "{{route('extranet.elements.template', $element)}}",
+  'extranet.element.parameters' : "{{route('extranet.element.parameters', isset($element) ? $element : '')}}",
+  'extranet.elements.template' : "{{route('extranet.elements.template', isset($element) ? $element : '')}}",
 };
 </script>
 
