@@ -9,7 +9,9 @@ import CheckField from '../FileTemp/fields/CheckField';
 import ListField from './fields/ListField';
 import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
+import Stepper from '../Stepper';
 
+const steps = [{ title: 'Profil 1' }, { title: 'Profil 2' }, { title: 'Profil 3' }, { title: 'Profil 4' }]
 
 export default class FormComponentTemp extends Component {
 
@@ -17,7 +19,7 @@ export default class FormComponentTemp extends Component {
         super(props);
 
         this.state = {
-
+            activeStep: 3,
             items: [
                 {
                     name: 'field01',
@@ -397,6 +399,15 @@ export default class FormComponentTemp extends Component {
                             <CarField
                                 onChange={this.handleFieldChange.bind(this)}
                                 name={'carfield'}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <Stepper
+                                steps={steps}
+                                activeStep={this.state.activeStep}
+                                showNumber={true}
                             />
                         </Col>
                     </Row>

@@ -154,6 +154,7 @@
 @include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.total-box')
 @include('extranet::front.partials.styles.form-template')
+@include('extranet::front.partials.styles.stepper')
 
 @if($frontFont)
   <style>

@@ -36,9 +36,6 @@ class ElementModal extends Component {
       id : 'modal-element-settings',
       isOpen : false
     };
-
-    console.log("Hello world!");
-
   }
 
   handleFieldSettingsChange(field) {
