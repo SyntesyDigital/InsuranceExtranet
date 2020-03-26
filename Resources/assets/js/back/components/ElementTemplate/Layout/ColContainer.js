@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import RowContainer from './RowContainer';
 
-export default class ColContainer extends Component {
+import EmptyItem from './EmptyItem';
+import PageItem from './PageItem';
+
+import {
+    selectItem,
+    editSettings,
+} from './../actions/';
+
+import {
+    ITEM_POSITION_BEFORE,
+    ITEM_POSITION_AFTER
+} from './../constants/';
+
+class ColContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +28,11 @@ export default class ColContainer extends Component {
 
     handleAdd(e){
         e.preventDefault();
-        this.props.onAdd();
+       
+        this.props.selectItem(
+            this.props.pathToIndex,
+            ITEM_POSITION_AFTER
+        );
     }
 
     handleEdit(e){
@@ -24,6 +43,60 @@ export default class ColContainer extends Component {
     // ==============================
     // Renderers
     // ==============================
+
+    renderChildren() {
+
+        var children = [];
+
+        if (this.props.data.children != null && this.props.data.children !== undefined &&
+            this.props.data.children.length > 0) {
+            for (var key in this.props.data.children) {
+                var item = this.props.data.children[key];
+                if (item.type == "row") {
+                    children.push(
+                        <RowContainer
+                            key={key}
+                            index={parseInt(key)}
+                            childrenLength={this.props.data.children.length}
+                            data={item}
+                            pathToIndex={this.getPathToIndex(key)}
+                        />
+                    );
+                }
+                else if (item.type == "item") {
+                    children.push(
+                        <PageItem
+                            key={key}
+                            childrenLength={this.props.data.children.length}
+                            data={item}
+                            pathToIndex={this.getPathToIndex(key)}
+                        />
+                    );
+                }
+                else {
+                    <EmptyItem
+                        key={key}
+                        index={key}
+                        onSelectItem={this.onSelectItem.bind(this)}
+                        pathToIndex={this.props.pathToIndex}
+                    />
+                }
+
+            }
+        }
+        else {
+            children.push(
+                <EmptyItem
+                    key={0}
+                    index={0}
+                    onSelectItem={this.onSelectItem.bind(this)}
+                    pathToIndex={this.props.pathToIndex}
+                />
+            );
+        }
+
+        return children;
+    }
 
     render() {
         const { editButton } = this.props;
@@ -45,6 +118,9 @@ export default class ColContainer extends Component {
                             <i className="fa fa-plus"></i>
                         </a>
                     </div>
+
+                    {this.renderChildren()}
+
                     <div className="row-container-body-bottom"></div>
                 </div>
             </div>
@@ -52,10 +128,30 @@ export default class ColContainer extends Component {
     }
 }
 
-ColContainer.propTypes = {
+// ColContainer.propTypes = {
 
-    editButton: PropTypes.bool,
-    onAdd: PropTypes.func,
-    onEdit: PropTypes.func,
+//     editButton: PropTypes.bool,
+//     onAdd: PropTypes.func,
+//     onEdit: PropTypes.func,
 
-};
+// };
+
+
+const mapStateToProps = state => {
+    return {
+        layout: state.template.layout
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        selectItem: (pathToIndex, position) => {
+            return dispatch(selectItem(pathToIndex, position));
+        },
+        editSettings: (item) => {
+            return dispatch(editSettings(item))
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ColContainer);
