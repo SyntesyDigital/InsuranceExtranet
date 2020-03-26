@@ -75,3 +75,17 @@ form.contact-form {
 .date-delivery {
   margin-top : 30px !important;
 }
+
+#preload-form {
+  .buttons {
+    width:30%;
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+
+  .element-form-row{
+    .col-sm-6 {
+      width: 60%;
+    }
+  }
+}

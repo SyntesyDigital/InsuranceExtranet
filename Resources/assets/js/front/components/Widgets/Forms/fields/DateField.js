@@ -35,9 +35,32 @@ class DateField extends Component
 
   }
 
+  componentDidUpdate(prevProps, prevState) {
+
+    console.log("DateField :: componentDidUpdate :: nextProps",this.props.value);
+
+    //if value is different
+    if(prevProps.value != this.props.value) {
+
+      var date = this.props.value != '' && this.props.value != null ? 
+        moment(this.props.value, this.getDateFormat()) : null;
+
+    
+      this.setState({
+        value : date
+      });
+    }
+    
+  }
+
+  /*
   componentWillReceiveProps(nextProps) {
 
+    this.state = {
+      value : nextProps.value != '' ? moment(nextProps.value) : null
+    }
   }
+  */
 
   isTime() {
     const {settings} = this.props.field;

@@ -48,6 +48,7 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
         repeatable
         repeatable_json
         order
+        preload
         service {
             id
         }
@@ -74,7 +75,8 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
             $required: String
             $repeatable: String
             $repeatable_json: String
-            $repeatable_jsonpath: String
+            $repeatable_jsonpath: String,
+            $preload: String,
             $service_id: ID! 
             $model_id: ID! 
             $order: Int
@@ -90,6 +92,7 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                     service_id: $service_id
                     model_id: $model_id
                     order: $order
+                    preload: $preload
                 }
             ) {
                 id
@@ -99,6 +102,7 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                 repeatable
                 repeatable_json
                 order
+                preload
             }
     } 
 `;
@@ -126,6 +130,7 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
             $service_id: ID
             $model_id: ID
             $order: Int
+            $preload: String,
         ) {
             updateModelProcedure(
                 input: {
@@ -139,6 +144,7 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                     service_id: $service_id
                     model_id: $model_id
                     order: $order
+                    preload: $preload
                 }
             ) {
                 id
@@ -148,6 +154,7 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                 repeatable
                 repeatable_json
                 order
+                preload
             }
     } 
 `;

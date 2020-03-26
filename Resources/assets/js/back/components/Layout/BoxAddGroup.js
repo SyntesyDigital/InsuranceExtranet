@@ -12,6 +12,11 @@ export default class BoxAddGroup extends Component {
     };
   }
 
+  handleClick(e) {
+    e.preventDefault();
+
+    this.props.onClick();
+  }
 
 
   render() {
@@ -32,7 +37,7 @@ export default class BoxAddGroup extends Component {
         <ButtonSecondary
           label={title}
           icon='fa fa-plus-circle'
-          onClick={this.props.onClick}
+          onClick={this.handleClick.bind(this)}
         />
       </div>
     );

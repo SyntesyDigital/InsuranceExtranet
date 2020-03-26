@@ -76,6 +76,8 @@ Route::group([
     Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');
     Route::delete('/elements/{element}/delete', 'ElementController@delete')->name('extranet.elements.delete');
     Route::get('/api/elements/data', 'ElementController@data')->name('extranet.api.elements.data');
+    Route::get('/elements/{element}/template', 'ElementController@showTemplate')->name('extranet.elements.template');
+    Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
 
     // Routes Parameters
     Route::get('/routes_parameters', 'RouteParameterController@index')->name('extranet.routes_parameters.index');

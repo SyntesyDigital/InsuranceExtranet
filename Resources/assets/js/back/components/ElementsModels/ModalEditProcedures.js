@@ -367,6 +367,13 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
+                            <ToggleField
+                                label={'précharge (PUT uniquement)'}
+                                name={'preload'}
+                                checked={currentProcedure.preload == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
 
                             <ToggleField
                                 label={'Sub JSON'}
@@ -384,6 +391,8 @@ class ModalEditProcedures extends Component {
                                     height={200}
                                 /> 
                             }
+
+
 
                             
 

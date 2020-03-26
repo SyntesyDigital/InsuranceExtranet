@@ -1,0 +1,38 @@
+.col-container {
+  background-color: #fafafa;
+//   min-height: 150px;
+  padding: 10px;
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .row-container-body-content {
+    background-color: #eeeeee;
+    padding: 0 10px;
+    .row-empty-item {
+      border: 1px dashed #ccc;
+      .btn-link{
+        color: #455660;
+        padding: 12px 0px;
+      }
+    }
+    .row-container-body-top {
+        min-height: 15px;
+      .btn-link {
+        padding: 0;
+        color: #acacac;
+        display: inline-block;
+        text-decoration: none;
+      }
+    }
+    .row-container-body-bottom {
+      min-height: 15px;
+      .btn-link {
+        padding: 0;
+        color: #acacac;
+        display: inline-block;
+        text-decoration: none;
+      }
+    }
+  }
+}

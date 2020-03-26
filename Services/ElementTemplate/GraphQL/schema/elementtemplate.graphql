@@ -42,10 +42,10 @@ extend type Query {
 ################################
 extend type Mutation {
     createElementTemplate(input: CreateElementTemplateInput! @spread): ElementTemplate
-        @create(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+        @field(resolver: "Modules\\Extranet\\Services\\ElementTemplate\\GraphQL\\Mutations\\CreateElementTemplate")
 
     updateElementTemplate(input: UpdateElementTemplateInput! @spread): ElementTemplate
-        @update(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+        @field(resolver: "Modules\\Extranet\\Services\\ElementTemplate\\GraphQL\\Mutations\\UpdateElementTemplate")
 
     deleteElementTemplate(
         id: ID!
