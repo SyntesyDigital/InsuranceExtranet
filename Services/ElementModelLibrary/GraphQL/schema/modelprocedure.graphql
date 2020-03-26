@@ -9,6 +9,7 @@ type ModelProcedure {
     repeatable: String
     repeatable_json: String
     repeatable_jsonpath: String
+    preload: String
     order: Int
     service: Service! @belongsTo
     elementModel: ElementModel! @belongsTo
@@ -26,6 +27,7 @@ input CreateModelProcedureInput {
     repeatable: String
     repeatable_json: String
     repeatable_jsonpath: String
+    preload: String
     service_id: ID
     model_id: ID
     order: Int
@@ -40,6 +42,7 @@ input UpdateModelProcedureInput {
     repeatable: String
     repeatable_json: String
     repeatable_jsonpath: String
+    preload: String
     service_id: ID
     model_id: ID
     order: Int

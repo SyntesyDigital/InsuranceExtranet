@@ -6,6 +6,9 @@ import InputField from '../Layout/Fields/InputField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
+import CollapsableGroup from '../Layout/CollapsableGroup';
+import KeyValuesField from '../Layout/Fields/KeyValuesField';
+
 import api from '../../api/index.js';
 
 export default class ServiceForm extends Component {
@@ -18,7 +21,8 @@ export default class ServiceForm extends Component {
 
             service: {
                 http_method : 'POST',
-                json : '{}'
+                json : '{}',
+                reponse_json : '{}'
             },
 
             errors: {},
@@ -38,7 +42,8 @@ export default class ServiceForm extends Component {
                 },
             ],
 
-            json : {}
+            json : {},
+            response_json : {}
 
 
         };
@@ -57,7 +62,8 @@ export default class ServiceForm extends Component {
         api.services.get(this.props.serviceId)
             .then(payload => this.setState({
                 'service': payload.data.service ? payload.data.service : null,
-                'json' : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {}
+                'json' : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
+                'response_json' : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
             }));
     }
 
@@ -189,19 +195,39 @@ export default class ServiceForm extends Component {
 
                 <div className="container rightbar-page">
 
-                    <div className="col-md-9 page-content form-fields">
-                        <InputFieldJsonEdit
-                            id={'json'}
-                            label={'JSON'}
-                            width={'100%'}
-                            name={'json'}
-                            placeholder={this.state.json}
-                            onChange={this.handleFieldChange.bind(this)}
-                            
-                        />
+                    <div className="col-xs-7 page-content form-fields">
+                        <CollapsableGroup
+                            identifier="json"
+                            title="JSON"
+                        >
+                            <InputFieldJsonEdit
+                                id={'json'}
+                                label={'JSON'}
+                                width={'100%'}
+                                name={'json'}
+                                placeholder={this.state.json}
+                                onChange={this.handleFieldChange.bind(this)}
+                                height={400}
+                            />
+                        </CollapsableGroup>
+
+                        <CollapsableGroup
+                            identifier="response_json"
+                            title="Response JSON (Exemple)"
+                        >
+                            <InputFieldJsonEdit
+                                id={'response_json'}
+                                label={'Response JSON'}
+                                width={'100%'}
+                                name={'response_json'}
+                                placeholder={this.state.response_json}
+                                onChange={this.handleFieldChange.bind(this)}
+                                height={400}
+                            />
+                        </CollapsableGroup>
                     </div>
 
-                    <div className="sidebar">
+                    <div className="sidebar" style={{width:'41%'}}>
 
                         <InputField
                             label={'Identifier'}
@@ -249,19 +275,21 @@ export default class ServiceForm extends Component {
                         />
 
                         <InputField
-                            label={'Response'}
-                            value={this.state.service.response ? this.state.service.response : ''}
-                            name={'response'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.response ? true : false}
-                        />
-
-                        <InputField
                             label={'Commentaire'}
                             value={this.state.service.comment ? this.state.service.comment : ''}
                             name={'comment'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.comment ? true : false}
+                        />
+
+                        <hr/>
+
+                        <KeyValuesField
+                            label={'Response paramètres'}
+                            value={this.state.service.response ? this.state.service.response : ''}
+                            name={'response'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.response ? true : false}
                         />
 
                     </div>

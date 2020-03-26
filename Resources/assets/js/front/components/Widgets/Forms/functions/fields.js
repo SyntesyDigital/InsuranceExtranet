@@ -302,9 +302,13 @@ export function validateField(field,values,isModal) {
 *   Process the response of the POST to see if necessary to
 *   to add a form parameter.
 */
-export function processResponseParameters(response,service,formParameters) {
+export function processResponseParameters(response,service,formParameters,version) {
 
-  if(service.REPONSE != ''){
+  if(version !== undefined && version == "2"){
+    //process response with json
+    formParameters = processResponseFromJSONPath(response,service,formParameters);
+  }
+  else if(service.REPONSE != '' ){
     //there is parameters to process
     var parametersArray = service.REPONSE.split('&');
 
@@ -321,9 +325,43 @@ export function processResponseParameters(response,service,formParameters) {
         formParameters[parameterIdentifier] = getValueFromObject(response,responseValue,null) + ""; 
       }
     }
+
   }
 
   //console.log("processResponseParameters :: form parameters => ",formParameters);
+
+  return formParameters;
+}
+
+/**
+ * Function to process all service response field with json submit. Put fields to 
+ * form parameters. 
+ * 
+ * @param {*} response 
+ * @param {*} service 
+ * @param {*} formParameters 
+ */
+function processResponseFromJSONPath(response,service,formParameters){
+  
+  //console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
+
+  if(service.REPONSE != null && service.REPONSE != ""){
+    var fields = JSON.parse(service.REPONSE);
+    console.log("processResponseFromJSONPath (fields)",fields);
+    for(var key in fields){
+      var field = fields[key];
+
+      try {
+        var value = jp.value(response,field.value);
+        formParameters[field.key] = value;
+      }
+      catch(error) {
+          console.error("processResponseFromJSONPath :: json path error "+field.value,error);
+      }
+    }
+  }
+
+  console.log("processResponseFromJSONPath (formParameters)",formParameters);
 
   return formParameters;
 }
@@ -604,22 +642,6 @@ export function processStandardProcedureV2(currentIndex,procedure,jsonResult,val
   );
 
   return jsonResult;
-
-
-  /*
-  const {arrayPosition, jsonRoot} = processJsonRoot(procedure.JSONP, jsonResult);
-  console.log("processStandardProcedure :: processJsonRoot :: (arrayPosition, jsonRoot): ",arrayPosition, jsonRoot);
-
-  for(var j in procedure.OBJECTS) {
-    var object = procedure.OBJECTS[j];
-
-    //process the object modifing the jsonResult
-    jsonResult = processObject(object,jsonResult,jsonRoot,
-      arrayPosition,values, formParameters);
-  }
-
-  return jsonResult;
-  */
 
 }
 
