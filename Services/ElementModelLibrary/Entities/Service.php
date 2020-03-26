@@ -35,6 +35,7 @@ class Service extends Model
         'json',
         'response',
         'comment',
+        'response_json'
     ];
 
     public function procedures(): HasMany
@@ -49,6 +50,7 @@ class Service extends Model
             "METHODE"=> $this->http_method,
             "URL"=> $this->url,
             "REPONSE"=> $this->response,
+            "REPONSE_JSON"=> $this->response_json,
             "COMMENTAIRE"=> $this->comment,
             "P1"=> null,
             "P2"=> null,

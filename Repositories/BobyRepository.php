@@ -132,7 +132,7 @@ class BobyRepository
            $response = $this->client->put(VeosWsUrl::get().$url, $params);
            break;
          case 'GET':
-           $response = $this->client->get(VeosWsUrl::get().$url, $params);
+           $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($params['json']), $params);
            break;
          //case "DELETE":
             //return $this->client->delete(VeosWsUrl::get() . $url, $params);
@@ -141,6 +141,19 @@ class BobyRepository
       }
 
         return json_decode($response->getBody());
+    }
+
+    private function params2url($params){
+
+        $first = true;
+        $url = "";
+        foreach($params as $key => $value){
+            if($value != "" && $value != null){
+                $url .= ($first?'?':'&').$key."=".$value;
+                $first = false;
+            }
+        }
+        return $url;
     }
 
     public function checkDocumentAvailable($id)

@@ -11,7 +11,7 @@ export default  class SidebarTitle extends Component {
     render() {
         const {title} = this.props;
         return (
-          <label className="bmd-label-floating">{title}</label>
+          <label className="bmd-label-floating" style={{textTransform:"uppercase"}}>{title}</label>
         );
     }
 }

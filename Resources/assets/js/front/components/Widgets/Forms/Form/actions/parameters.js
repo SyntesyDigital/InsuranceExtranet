@@ -5,7 +5,8 @@ import {
   PARAMETERS_LOADED,
   PARAMETER_UPDATE,
   PARAMETER_UPDATE_ERROR,
-  PARAMETERS_NEXT_ITERATION
+  PARAMETERS_NEXT_ITERATION,
+  PARAMETER_PARENT_UPDATE
 } from "../constants/";
 
 import {
@@ -167,4 +168,22 @@ export function setParameterFromBoby(variable,key, formParameters) {
         dispatch({type:PARAMETER_UPDATE_ERROR});
       });
     }
+}
+
+/**
+ * Check all parent parameters and update form parameters. 
+ * Used to update fields from a preload form. 
+ * @param {*} parentParameters 
+ * @param {*} formParameters 
+ */
+export function updateParametersFromParent(parentParameters,formParameters) {
+ 
+  if(parentParameters != null && parentParameters !== undefined){
+    for(var key in parentParameters){
+      formParameters[key] = parentParameters[key];
+    }
+  }
+
+  return {type : PARAMETER_PARENT_UPDATE, payload : formParameters};
+
 }
