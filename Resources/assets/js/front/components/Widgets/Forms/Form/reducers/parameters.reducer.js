@@ -5,7 +5,8 @@ import {
   PARAMETERS_LOADED,
   PARAMETERS_NEXT_ITERATION,
   PARAMETER_UPDATE,
-  PROCEDURE_SUBMITED
+  PROCEDURE_SUBMITED,
+  PARAMETER_PARENT_UPDATE
 } from '../constants';
 
 const initialState =  {
@@ -73,7 +74,11 @@ function parametersReducer(state = initialState, action) {
               formIterator : state.formIterator + 1,
               formParameters : action.payload
           }
-
+        case PARAMETER_PARENT_UPDATE :
+          return {
+            ...state,
+            formParameters : action.payload
+          }
 
         default:
             return state;

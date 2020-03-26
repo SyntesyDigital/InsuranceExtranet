@@ -135,7 +135,8 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 
       //if the methode is PUT set with a get
       if(!stepsToProcess && procedure.SERVICE !== undefined &&
-        procedure.SERVICE.METHODE == "PUT" && !jsonGetDone){
+        procedure.SERVICE.METHODE == "PUT" && 
+        procedure.PRELOAD == "Y" &&  !jsonGetDone){
         //set the jsonResult with a get
         return dispatch(getJsonResultBeforePut(procedure,formParameters));
       }
@@ -174,7 +175,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 
         //if has values
             return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
-              jsonResult,procedures,formParameters));
+              jsonResult,procedures,formParameters,version));
 
             //this.submitStandardProcedure(currentProcedureIndex,procedure,jsonResult);
 
@@ -233,7 +234,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
           return dispatch(submitListProcedure(
             currentProcedureIndex,procedure,jsonResult,
             currentListIndex, values[procedure.OBJID],
-            formParameters,procedures
+            formParameters,procedures,version
           ));
 
         }
@@ -252,7 +253,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
             if(stepsToProcess){
               //this.submitStandardProcedure(currentProcedureIndex,procedure,jsonResult);
               return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
-                jsonResult,procedures,formParameters));
+                jsonResult,procedures,formParameters,version));
             }
             else {
               //skip procedure
@@ -276,7 +277,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 *   Submit standard procedure.
 */
 export function submitStandardProcedure(currentProcedureIndex,procedure,
-  jsonResult,procedures,formParameters) {
+  jsonResult,procedures,formParameters,version) {
 
   //const {procedures} = this.state;
   //console.log("submitStandardProcedure parameters =>",currentProcedureIndex,procedure,
@@ -300,14 +301,14 @@ export function submitStandardProcedure(currentProcedureIndex,procedure,
       if(nextProcedure == null) {
         //process this procedure
 
-        return dispatch(submitProcedure(procedure, jsonResult, formParameters));
+        return dispatch(submitProcedure(procedure, jsonResult, formParameters,version));
 
 
       }
       else if(nextProcedure.SERVICE.ID != procedure.SERVICE.ID ){
         //the service is different, process the procedure
 
-        return dispatch(submitProcedure(procedure, jsonResult, formParameters));
+        return dispatch(submitProcedure(procedure, jsonResult, formParameters,version));
 
       }
       else {
@@ -322,7 +323,7 @@ export function submitStandardProcedure(currentProcedureIndex,procedure,
 * Process the procedure, with the service and the json
 * Returns info for next Step
 */
-export function submitProcedure(procedure, jsonResult, formParameters) {
+export function submitProcedure(procedure, jsonResult, formParameters, version) {
 
   return (dispatch) => {
 
@@ -374,7 +375,8 @@ export function submitProcedure(procedure, jsonResult, formParameters) {
               formParameters : processResponseParameters(
                   response.data.result,
                   procedure.SERVICE,
-                  formParameters
+                  formParameters,
+                  version
               )
             }});
         }
@@ -407,7 +409,7 @@ export function finish() {
 *   Submit procedure that is a list. It has its own iteartor.
 */
 export function submitListProcedure(currentProcedureIndex,procedure,jsonResult,
-  currentListIndex, listValues, formParameters,procedures) {
+  currentListIndex, listValues, formParameters,procedures,version) {
 
   return (dispatch) => {
 
@@ -424,7 +426,7 @@ export function submitListProcedure(currentProcedureIndex,procedure,jsonResult,
     else {
       //process this as standard procedure
       return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
-        jsonResult,procedures,formParameters));
+        jsonResult,procedures,formParameters,version));
     }
   }
 }
