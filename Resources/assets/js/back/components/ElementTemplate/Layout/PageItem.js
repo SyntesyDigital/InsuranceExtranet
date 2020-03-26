@@ -234,6 +234,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        /*
         copyItem: (pathToIndex, layout) => {
             return dispatch(copyItem(pathToIndex, layout))
         },
@@ -252,6 +253,7 @@ const mapDispatchToProps = dispatch => {
         updateParameters: (definition, elements, pageParameters, parametersList) => {
             return dispatch(updateParameters(definition, elements, pageParameters, parametersList))
         }
+        */
     }
 }
 

@@ -18,10 +18,15 @@ const initialState = {
     saved: false,
     layout: [],
     modalItem: true,
-    form: {}
+    form: {
+        name : "test"
+    }
 };
 
 function templateReducer(state = initialState, action) {
+
+    //console.log("templateReducer :: ",action.type, action.payload);
+
     switch (action.type) {
 
         case INIT_STATE_TEMPLATE:

@@ -5,8 +5,6 @@ import configureStore from './configureStore';
 import TemplateRedux from './TemplateRedux';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-let store = configureStore();
-
 const theme = createMuiTheme({
     typography: {
         fontSize: 20,
@@ -17,11 +15,12 @@ export default class Template extends Component {
 
     constructor(props) {
         super(props);
+        this.store = configureStore();
     }
 
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={this.store}>
                 <ThemeProvider theme={theme}>
                     <TemplateRedux
                         templateId={this.props.templateId}

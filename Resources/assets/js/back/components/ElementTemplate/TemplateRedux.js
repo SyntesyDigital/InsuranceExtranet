@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
-import BoxAddGroup from '../Layout/BoxAddGroup';
+//import BoxAddGroup from '../Layout/BoxAddGroup';
 import InputField from '../Layout/Fields/InputField';
-import ButtonDropdown from '../Layout/ButtonDropdown';
-import { Col } from 'react-bootstrap';
-import RowContainer from './Layout/RowContainer';
-import ColContainer from './Layout/ColContainer';
-import ColField from './Layout/ColField';
+//import ButtonDropdown from '../Layout/ButtonDropdown';
+//import { Col } from 'react-bootstrap';
+//import RowContainer from './Layout/RowContainer';
+//import ColContainer from './Layout/ColContainer';
+//import ColField from './Layout/ColField';
 import DragField from './Layout/DragField';
 import SimpleTabs from '../Layout/TabButton';
 import { connect } from 'react-redux';
-import ModalSelectItem from './ModalSelectItem';
+
 
 import {
     addRow,
@@ -24,6 +24,7 @@ import {
     updateForm,
     removeForm,
 } from './actions';
+import PageBuilder from '../PageBuilder/PageBuilder';
 
 class TemplateRedux extends Component {
 
@@ -33,15 +34,6 @@ class TemplateRedux extends Component {
 
         };
         this.props.initStateTemplate(this.props);
-
-        // this.props.updateField(this.props);
-        // this.props.addField(this.props);
-
-        // this.props.loadForm(this.props);
-        // this.props.createForm(this.props);
-        // this.props.updateForm(this.props);
-        // this.props.removeForm(this.props);
-        // console.log('Estas son las props :: ', this.props);
     }
 
     // ==============================
@@ -52,44 +44,10 @@ class TemplateRedux extends Component {
         this.props.updateField(name, value);
     }
 
-    // RowContainer
-    handleDuplicateRowContainer() {
-        console.log("handleDuplicateRowContainer");
-    }
-
-    handleEditRowContainer() {
-        console.log("handleEditRowContainer");
-    }
-
-    //ColContainer
-    handleEditColContainer() {
-        console.log("handleEditColContainer")
-    }
-
-    handleAddColContainer() {
-        console.log("handleAddColContainer");
-    }
-
-    // ColField
-    handleUpColField() {
-        console.log("handleUpColField");
-    }
-
-    handleDownColField() {
-        console.log("handleDownColField");
-    }
-
-    handleRemoveColField() {
-        console.log("handleRemoveColField");
-    }
-
-    handleAddLine() {
-        this.props.addRow(this.props.layout);
-    }
-
     handleAddTemplate() {
         console.log("handleAddTemplate");
     }
+
     handleSubmit() {
         console.log("handleSubmit");
         this.props.saveForm(this.props);
@@ -99,24 +57,8 @@ class TemplateRedux extends Component {
     // Renderers
     // ==============================
 
-    renderRows() {
-
-        const { layout } = this.props;
-
-        return (
-            layout.map((item, index) =>
-                <RowContainer
-                    index={index}
-                    key={index}
-                    data={item}
-                    editButton={true}
-                    duplicateButton={true}
-                    removeButton={true}
-                    pathToIndex={[parseInt(index)]}
-                    childrenLength={layout.length}
-                />
-            )
-        );
+    handleLayoutChange(layout) {
+        console.log("TemplateRedux :: handleLayoutChange",layout);
     }
 
     render() {
@@ -154,28 +96,29 @@ class TemplateRedux extends Component {
                     />
                 </BarTitle> */}
 
-                <div className="container rightbar-page">
-                    <div className="col-xs-9 page-content elements-template">
+                <div className="container rightbar-page content">
+                    
+                    <PageBuilder 
+                        //pages={[]}
+                        //tags={[]}
+                        //categories={[]}
+                        //fields={[]}
+                        layout={{}}
+                        //users={[]}
+                        enableWidgets={false}
+                        nonAllowedFields={[
+                            "contents","boolean","date","file",
+                            "images","key_values","localization","slug",
+                            "translated_file","link","url","video"
+                        ]}
+                        onChange={this.handleLayoutChange.bind(this)}
+                    />
 
-                        <ModalSelectItem
-                            zIndex={9000}
-                        />
-
-                        {this.props.layout != null &&
-                            this.renderRows()
-                        }
-
-                        <BoxAddGroup
-                            identifier='1'
-                            title='Ajouter une ligne'
-                            onClick={this.handleAddLine.bind(this)}
-                        />
-                    </div>
                     <div className="sidebar">
                         <InputField
                             label={'Nom'}
                             name={'name'}
-                            value={this.props.value}
+                            value={this.props.template.form.name}
                             onChange={this.handleFieldChange.bind(this)}
                         />
                         <hr />
@@ -241,12 +184,6 @@ const mapDispatchToProps = dispatch => {
         },
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
-        },
-        addRow: (layout) => {
-            return dispatch(addRow(layout));
-        },
-        addField: () => {
-            return dispatch(addField());
         },
         saveForm: () => {
             return dispatch(saveForm());
