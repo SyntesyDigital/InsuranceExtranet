@@ -11,6 +11,7 @@ type Service {
     json: String
     response: String 
     comment: String
+    response_json: String
     procedures: [ModelProcedure!] @hasMany
 }
 
@@ -28,6 +29,7 @@ input CreateServiceInput {
     json: String
     response: String 
     comment: String
+    response_json: String
 }
 
 input UpdateServiceInput {
@@ -40,6 +42,7 @@ input UpdateServiceInput {
     json: String
     response: String 
     comment: String
+    response_json: String
 }
 
 ################################

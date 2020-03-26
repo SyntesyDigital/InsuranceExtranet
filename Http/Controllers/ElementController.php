@@ -14,17 +14,13 @@ use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
 use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Jobs\Element\CreateElement;
 use Modules\Extranet\Jobs\Element\DeleteElement;
-use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
-
-use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
-
 use Modules\Extranet\Jobs\Element\UpdateElement;
-
 use Modules\Extranet\Jobs\Elements\ProcessService;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
-use Session;
 
 class ElementController extends Controller
 {
@@ -80,11 +76,10 @@ class ElementController extends Controller
     {
         $procedures = null;
         //get model and fields
-        if($element_type == Element::FORM_V2) {
-            $elementModel = ElementModel::where('id',$model_id)->first();
+        if ($element_type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id', $model_id)->first();
             $model = $elementModel->getObject();
-        }
-        else {
+        } else {
             $model = $this->getModelById(
                 $this->elements->getModelsByType($element_type),
                 $model_id
@@ -98,15 +93,12 @@ class ElementController extends Controller
         if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        }
-        else if ($element_type == Element::FORM_V2) {
-
+        } elseif ($element_type == Element::FORM_V2) {
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
             );
-        } 
-        else {
+        } else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
@@ -130,53 +122,53 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
-    
-
     public function show(Element $element, Request $request)
     {
-        if($element->type == Element::FORM_V2) {
-            $elementModel = ElementModel::where('id',$element->model_identifier)->first();
+        if ($element->type == Element::FORM_V2) {
+            $elementModel = ElementModel::where('id', $element->model_identifier)->first();
             $model = $elementModel->getObject();
-        }
-        else {
+        } else {
             $models = $this->elements->getModelsByType($element->type);
             $model = $this->getModelById($models, $element->model_identifier);
         }
 
-        
-        if ($element->type ==  Element::FORM) {
+        if ($element->type == Element::FORM) {
             $fields = $this->elements->getFormFields(trim($model->ID));
             $procedures = $this->computeFormProcedures(trim($model->ID));
-        }
-        else if ($element->type == Element::FORM_V2) {
-
+        } elseif ($element->type == Element::FORM_V2) {
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
             );
-        } 
-        else {
+        } else {
             $fields = $this->elements->getFieldsByElement($model->WS);
         }
 
         $parametersList = RouteParameter::all();
 
         $data = [
-        'element_type' => $element->type,
-        'model' => $model,
-        'fields' => $fields,
-        'element' => $element->load('fields', 'fields.errors', 'attrs'),
-        'parametersList' => $parametersList,
-        'parameters' => $element->getParameters(),
-        'procedures' => isset($procedures) ? $procedures['procedures'] : null,
-        'variables' => isset($procedures) ? $procedures['variables'] : null,
-      ];
+            'element_type' => $element->type,
+            'model' => $model,
+            'fields' => $fields,
+            'element' => $element->load('fields', 'fields.errors', 'attrs'),
+            'parametersList' => $parametersList,
+            'parameters' => $element->getParameters(),
+            'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+            'variables' => isset($procedures) ? $procedures['variables'] : null,
+        ];
 
         if ($request->has('debug')) {
             dd($data);
         }
 
         return view('extranet::elements.form', $data);
+    }
+
+    public function showTemplate(Element $element, Request $request)
+    {
+        return view('extranet::elements.template', [
+            'element' => $element
+        ]);
     }
 
     public function store(CreateElementRequest $request)
@@ -246,7 +238,7 @@ class ElementController extends Controller
         }
     }
 
-    public function export(Element $element,$limit, $filename = '', Request $request)
+    public function export(Element $element, $limit, $filename = '', Request $request)
     {
         //cronstuct file
         if ($filename == '') {
@@ -288,9 +280,9 @@ class ElementController extends Controller
     {
         //Close and download
 
-        $headers = array(
+        $headers = [
             'Content-Type' => 'text/csv',
-        );
+        ];
         $filepath = storage_path().'/app/'.$filename;
 
         return response()->download($filepath, $filename, $headers)->deleteFileAfterSend(true);
@@ -354,15 +346,13 @@ class ElementController extends Controller
     public function getFormProcedures($modelId, Request $request)
     {
         try {
-
-            if(intval($modelId) != 0){
+            if (intval($modelId) != 0) {
                 //ElementModel Form V2
-                $elementModel = ElementModel::where('id',$modelId)->first();
+                $elementModel = ElementModel::where('id', $modelId)->first();
                 $data = $elementModel->getProcedures(
                     $this->elements->getVariables()
                 );
-            }
-            else {
+            } else {
                 //$modelId is an string, so Form V1
                 $data = $this->computeFormProcedures($modelId);
             }
@@ -532,13 +522,13 @@ class ElementController extends Controller
     {
         $procedures = null;
         //get model and fields
-        if($element_type != Element::FORM) {
+        if ($element_type != Element::FORM) {
             return response()->json([
                 'error' => true,
-                'message' => 'Only form type available'
+                'message' => 'Only form type available',
             ]);
         }
-            
+
         $model = $this->getModelById(
             $this->elements->getModelsByType($element_type),
             $model_id
@@ -547,10 +537,10 @@ class ElementController extends Controller
         if (!$model) {
             return response()->json([
                 'error' => true,
-                'message' => 'Model id not valid'
+                'message' => 'Model id not valid',
             ]);
         }
-        
+
         $procedures = $this->computeFormProcedures($model->ID);
 
         $data = [
@@ -565,15 +555,14 @@ class ElementController extends Controller
         return response()->json([
             'error' => false,
             'message' => 'Model imported',
-            'model' => $elementModel
+            'model' => $elementModel,
         ]);
-        
     }
 
-    public function getModelsByType($elementType) {
+    public function getModelsByType($elementType)
+    {
         $models = $this->elements->getModelsByType($elementType);
 
         return response()->json($models);
     }
-
 }

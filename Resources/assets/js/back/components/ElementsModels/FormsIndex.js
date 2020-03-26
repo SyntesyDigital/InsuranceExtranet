@@ -22,7 +22,6 @@ export default class FormsIndex extends Component {
         
         api.elementModel.getAll()
             .then(function (payload) {
-                console.log("getAll :: ",payload);
                 _this.setState({
                     models : payload.data.elementModels
                 })

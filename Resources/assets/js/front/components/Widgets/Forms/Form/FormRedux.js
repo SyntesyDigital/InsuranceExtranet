@@ -17,11 +17,13 @@ import {
   initParametersState,
   checkParameters,
   loadProcedures,
-  initProceduresIteration
+  initProceduresIteration,
+  updateParametersFromParent
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
 import FormProceduresIterator from './FormProceduresIterator';
+import FormPreload from './FormPreload';
 
 var jp = require('jsonpath');
 
@@ -31,10 +33,12 @@ class FormComponent extends Component {
     {
         super(props);
 
-        const parametersObject = parameteres2Array(props.parametersObject);
+        var parametersObject = parameteres2Array(props.parametersObject);
+
+        //if parent parameters defined update
+        parametersObject = this.updateFormParentParemeters(props.parentFormParameters,parametersObject);
 
         this.state = {
-
             elementObject : props.elementObject,
             values : this.initValues(props.elementObject),
             errors : {},
@@ -46,6 +50,21 @@ class FormComponent extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
 
         this.props.loadProcedures(props.elementObject.model_identifier);
+    }
+
+    /**
+     * Update parameters from parent parameters, needed when others form
+     * linked to this one.
+     */
+    updateFormParentParemeters(parentParameters,parameters){
+      if(parentParameters == null){
+        return parameters;
+      }
+
+      for(var key in parentParameters){
+        parameters[key.substr(1)] = parentParameters[key];
+      }
+      return parameters;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -62,7 +81,22 @@ class FormComponent extends Component {
           this.props.form.procedures,
           this.state.parameters
         );
+      }
 
+      //console.log("FormRedux :: componentDidUpdate  : (prevProps,this.props)",prevProps,this.props);
+      if(this.props.preloadUpdate && !prevProps.preloadUpdate){
+        
+        console.log("FormRedux :: update formParameters : (parentFormParameters)",this.props.parentFormParameters);
+
+        this.updateValuesFromParameters(this.props.parentFormParameters);
+
+        //if form parameters has changed check if need to update form parameters
+        this.props.updateParametersFromParent(
+          this.props.parentFormParameters,
+          this.props.parameters.formParameters
+        )
+
+        this.props.onPreloadUpdated();
       }
 
     }
@@ -142,18 +176,29 @@ class FormComponent extends Component {
 
         ////console.log("is visible ==> "+field.name,field,visible);
 
-        if(visible)
-          fields.push(<FieldComponent
-              key={key}
-              field={field}
-              value={this.state.values[field.identifier]}
-              error={this.state.errors[field.identifier] !== undefined ? true : false}
-              onFieldChange={this.handleOnChange}
-              parameters={getUrlParameters(
-                this.props.parameters.formParameters
-              )}
-              values={this.state.values}
-            />);
+        if(visible){
+          var fieldComponent = <FieldComponent
+            key={key}
+            field={field}
+            value={this.state.values[field.identifier]}
+            error={this.state.errors[field.identifier] !== undefined ? true : false}
+            onFieldChange={this.handleOnChange}
+            parameters={getUrlParameters(
+              this.props.parameters.formParameters
+            )}
+            values={this.state.values}
+            inline={this.props.isFormPreload}
+          />;
+          
+            if(this.props.isFormPreload){
+              fieldComponent = 
+                <div className="col-xs-12 col-md-4">
+                  {fieldComponent}
+                </div>;
+            }
+
+            fields.push(fieldComponent);
+         }
 
       }
 
@@ -161,10 +206,10 @@ class FormComponent extends Component {
 
     }
 
-    handleSubmit(e) {
+    handleSubmit(formId,e) {
       e.preventDefault();
 
-      ////console.log("handleSubmit");
+      console.log("handleSubmit :: formId",formId);
 
       const hasErrors = this.validateFields();
 
@@ -195,14 +240,16 @@ class FormComponent extends Component {
     */
     handleFinish() {
 
-      toastr.success('Formulaire traité avec succès');
+      if(!this.props.isFormPreload) {
+        toastr.success('Formulaire traité avec succès');
+      }
 
       if(this.props.finalRedirectUrl != ""){
         window.location.href = this.props.finalRedirectUrl+"?"+
           getUrlParameters(this.props.parameters.formParameters);
       }
       else {
-        this.props.onFormFinished();
+        this.props.onFormFinished(this.props.parameters.formParameters);
       }
 
     }
@@ -274,14 +321,61 @@ class FormComponent extends Component {
         return hasErrors;
     }
 
+    /**
+     * Event fired when first GET preload is done. 
+     * If done, it's necessary to process json result and update
+     * values from init json.
+     */
+    handlePreload(newValues) {
 
+      console.log("FormRedux :: handlePreload (newValues)",newValues);
+      //if new values is != null, merge with current values 
+
+      const values = this.state.values;
+
+      this.setState({
+        values : {
+          ...values,
+          ...newValues
+        }
+      });
+
+    }
+
+    /**
+     * Read all form parameters and updapte values with form parameters. 
+     * Needed when form is preloaded with other form.
+     * @param {} formParameters 
+     */
+    updateValuesFromParameters(formParameters) {
+      const values = this.state.values;
+
+      for(var key in values){
+        if(formParameters["_"+key] !== undefined){
+          values[key] = formParameters["_"+key];
+        }
+      }
+
+      this.setState({
+        values : values
+      });
+
+    }
 
     render() {
 
-        const loaded = this.props.parameters.formParametersLoaded;
+        const loaded = this.props.preload.done;
+        const version = this.props.version;
 
         return (
           <div className={"form-component element-form-wrapper row "+(this.props.form.loading == true ? 'loading' : '')}>
+
+
+            <FormPreload 
+              onPreloadDone={this.handlePreload.bind(this)}
+              version={this.props.version}
+            />
+            
 
             <FormParametersIterator />
             <FormProceduresIterator
@@ -300,19 +394,25 @@ class FormComponent extends Component {
               </div>
             }
             {loaded &&
-                <form>
+                <form id={this.props.id} onSubmit={this.handleSubmit.bind(this,this.props.id)} >
 
                   {this.renderItems()}
 
-                  <div className="row element-form-row">
-                    <div className="col-md-4"></div>
+                  <div className={"element-form-row "+(this.props.isFormPreload ? '' : 'row')}>
+
+                    {!this.props.isFormPreload && 
+                       <div className="col-md-4"></div>
+                    }
+
                     <div className="col-md-6 buttons">
                         <button
-                          className="btn btn-primary right" type="submit"
-                          onClick={this.handleSubmit.bind(this)}
+                          className={"btn "+(!this.props.isFormPreload ? "right btn-primary" : "btn-secondary")}
+                          type="submit"
                           disabled={this.props.form.processing}
                         >
-                          <i className="fa fa-paper-plane"></i>Valider
+                          <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
+
+                        {(!this.props.isFormPreload ? "Valider" : "Précharger")}
                         </button>
                         {/*
                         <a className="btn btn-back left"><i className="fa fa-angle-left"></i> Retour</a>
@@ -330,7 +430,9 @@ class FormComponent extends Component {
 const mapStateToProps = state => {
     return {
         form: state.form,
-        parameters : state.parameters
+        parameters : state.parameters,
+        preload : state.preload,
+
     }
 }
 
@@ -347,6 +449,9 @@ const mapDispatchToProps = dispatch => {
       },
       loadProcedures : (modelIdentifier) => {
           return dispatch(loadProcedures(modelIdentifier))
+      },
+      updateParametersFromParent : (parentParameters,formParameters) => {
+          return dispatch(updateParametersFromParent(parentParameters,formParameters))
       }
     }
 }

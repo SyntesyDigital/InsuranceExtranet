@@ -50,6 +50,7 @@ export const GQL_GET_ALL_SERVICE = gql`
             identifier
             response
             comment
+            response_json
         }
     }
 `;
@@ -71,6 +72,7 @@ export const GQL_GET_SERVICE = gql`
         identifier
         response
         comment
+        response_json
     }
   }
 `;
@@ -95,6 +97,7 @@ export const GQL_CREATE_SERVICE = gql`
         $json: String 
         $response: String 
         $comment: String
+        $response_json: String
     ) {
         createService(
         input: {
@@ -106,6 +109,7 @@ export const GQL_CREATE_SERVICE = gql`
             json: $json
             response: $response
             comment: $comment
+            response_json: $response_json
         }
     ) {
         id
@@ -117,6 +121,7 @@ export const GQL_CREATE_SERVICE = gql`
         json
         response
         comment
+        response_json
     }
   } 
 `;
@@ -143,6 +148,7 @@ export const GQL_UPDATE_SERVICE = gql`
         $json: String
         $response: String
         $comment: String
+        $response_json: String
     ) {
         updateService(
             input: {
@@ -155,6 +161,7 @@ export const GQL_UPDATE_SERVICE = gql`
                 json: $json
                 response: $response
                 comment: $comment
+                response_json: $response_json
             }
         ) {
             id
@@ -166,6 +173,7 @@ export const GQL_UPDATE_SERVICE = gql`
             json
             response
             comment
+            response_json
         }
   } 
 `;
@@ -191,6 +199,7 @@ export const GQL_DELETE_SERVICE = gql`
             json
             response
             comment
+            response_json
         }
   } 
 `;

@@ -86,6 +86,14 @@ class FormButtonRedux extends Component {
 
       //TODO redirect to _url parameter
 
+      var parameters = this.props.parameters.formParameters;
+
+      for(var key in parameters){
+        if(key == "_redirectUrl") {
+          window.location.href = parameters[key];
+        }
+      }
+
       /*
       if(this.props.finalRedirectUrl != ""){
         window.location.href = this.props.finalRedirectUrl+"?"+

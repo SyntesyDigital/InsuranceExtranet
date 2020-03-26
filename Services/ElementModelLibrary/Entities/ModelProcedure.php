@@ -38,7 +38,8 @@ class ModelProcedure extends Model
         'repeatable',
         'repeatable_json',
         'repeatable_jsonpath',
-        'order'
+        'order',
+        'preload'
     ];
 
     public function service(): BelongsTo
@@ -65,6 +66,7 @@ class ModelProcedure extends Model
             "REP"=> $this->repeatable ? 'Y' : 'N',
             "CONF"=> $this->configurable ? 'Y' : 'N',
             "OBL"=> $this->required ? 'Y' : 'N',
+            "PRELOAD"=> $this->preload ? 'Y' : 'N',
             "P1"=> null,
             "P2"=> null,
             "P3"=> null,
