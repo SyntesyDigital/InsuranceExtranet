@@ -1,10 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ColContainer from './ColContainer';
 
-export default class RowContainer extends Component {
+
+import {
+    deleteRow,
+    pullUpItem,
+    pullDownItem
+} from '../actions';
+
+class RowContainer extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            olsOpen : false
+        };
+    
+        this.colTypes = [
+            ['col-xs-12'],
+            ['col-xs-12 col-sm-6','col-xs-12 col-sm-6'],
+            ['col-xs-12 col-sm-4','col-xs-12 col-sm-8'],
+            ['col-xs-12 col-sm-8','col-xs-12  col-sm-4'],
+            ['col-xs-12  col-sm-4','col-xs-12 col-sm-4','col-xs-12 col-sm-4'],
+            ['col-xs-12 col-sm-6 col-md-3','col-xs-12  col-sm-6 col-md-3','col-xs-12  col-sm-6 col-md-3','col-xs-12 col-sm-6 col-md-3'],
+            ['col-xs-12 col-sm-offset-1 col-sm-10 columna central']
+        ];
     }
 
     // ==============================
@@ -18,7 +41,18 @@ export default class RowContainer extends Component {
 
     handleUp(e) {
         e.preventDefault();
-        this.props.onUp();
+        this.props.pullUpItem(
+            this.props.pathToIndex,
+            this.props.layout
+        );
+    }
+
+    handleDown(e){
+        e.preventDefault();
+        this.props.pullDownItem(
+            this.props.pathToIndex,
+            this.props.layout
+        );
     }
 
     handleColumns(e) {
@@ -26,10 +60,6 @@ export default class RowContainer extends Component {
         console.log('handleColumns :: ')
     }
 
-    handleDown(e){
-        e.preventDefault();
-        this.props.onDown();
-    }
 
     handleDuplicate(e){
         e.preventDefault();
@@ -38,15 +68,73 @@ export default class RowContainer extends Component {
     
     handleRemove(e){
         e.preventDefault();
-        this.props.onRemove();
+  
+        var self = this;
+
+        bootbox.confirm({
+            message: Lang.get('fields.delete_row_alert'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si'),
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    self.props.deleteRow(
+                        self.props.pathToIndex,
+                        self.props.layout
+                    );
+                }
+            }
+        });
+    }
+
+    // ==============================
+    // Helpers
+    // ==============================
+    getPathToIndex(index) {
+        const pathToIndex = this.props.pathToIndex.slice(0);
+        pathToIndex.push(parseInt(index));
+        return pathToIndex;
     }
 
     // ==============================
     // Renderers
     // ==============================
 
+    renderChildren() {
+        var children = [];
+    
+        if(this.props.data.children != null){
+          for(var key in this.props.data.children){
+              var item = this.props.data.children[key];
+              if(item.type == "col"){
+                children.push(
+                  <ColContainer
+                    key={key}
+                    colClass={item.colClass}
+                    index={parseInt(key)}
+                    data={item}
+                    pathToIndex={this.getPathToIndex(key)}
+                  />
+                );
+              }
+          }
+        }
+    
+        return children;
+      }
+
     render() {
-        const { duplicateButton, removeButton, columnsButton, editButton } = this.props;
+        const { duplicateButton, removeButton, columnsButton, editButton, childrenLength } = this.props;
+
+        const childrenIndex = this.props.pathToIndex[this.props.pathToIndex.length-1];
+        const isWrapper = this.props.data.wrapper !== undefined ? this.props.data.wrapper : false ;
 
         return (
             <div className="page-row filled">
@@ -56,9 +144,12 @@ export default class RowContainer extends Component {
                             <a href="#" className="btn btn-link" onClick={this.handleUp.bind(this)}>
                                 <i className="fa fa-arrow-up"></i>
                             </a>
+
+                            {childrenIndex < childrenLength - 1 &&
                             <a href="#" className="btn btn-link" onClick={this.handleDown.bind(this)}>
                                 <i className="fa fa-arrow-down"></i>
                             </a>
+                            }
 
                             {columnsButton ?
                                 <a href="#" className="btn btn-link" onClick={this.handleColumns.bind(this)}>
@@ -88,7 +179,11 @@ export default class RowContainer extends Component {
                     <div className="row-container-body">
                         <div className="row">
                             <div className="col-xs-12">
-                                {this.props.children}
+                                {this.props.data.children != null &&
+                                    <div className="row">
+                                        {this.renderChildren()}
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -98,17 +193,54 @@ export default class RowContainer extends Component {
     }
 }
 
-RowContainer.propTypes = {
 
-    editButton: PropTypes.bool,
-    duplicateButton: PropTypes.bool,
-    columnsButton: PropTypes.bool,
-    removeButton: PropTypes.bool,
 
-    onUp: PropTypes.func,
-    onDown: PropTypes.func,
-    onEdit: PropTypes.func,
-    onDuplicate: PropTypes.func,
-    onRemove: PropTypes.func,
+const mapStateToProps = state => {
+    return {
+        layout: state.template.layout
+    }
+}
 
-};
+const mapDispatchToProps = dispatch => {
+    return {
+        // selectItem: (pathToIndex) => {
+        //     return dispatch(selectItem(pathToIndex));
+        // },
+        deleteRow: (pathToIndex,layout) => {
+            return dispatch(deleteRow(pathToIndex,layout))
+        },
+        pullUpItem: (pathToIndex,layout) => {
+            return dispatch(pullUpItem(pathToIndex,layout))
+        },
+        pullDownItem: (pathToIndex,layout) => {
+            return dispatch(pullDownItem(pathToIndex,layout))
+        },
+        // editSettings: (item) => {
+        //     return dispatch(editSettings(item))
+        // },
+        // changeColumns: (pathToIndex, data, layout) => {
+        //     return dispatch(changeColumns(pathToIndex,data,layout))
+        // },
+        // copyItem: (pathToIndex,layout) => {
+        //   return dispatch(copyItem(pathToIndex,layout))
+        // }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RowContainer);
+
+
+// RowContainer.propTypes = {
+
+//     editButton: PropTypes.bool,
+//     duplicateButton: PropTypes.bool,
+//     columnsButton: PropTypes.bool,
+//     removeButton: PropTypes.bool,
+
+//     onUp: PropTypes.func,
+//     onDown: PropTypes.func,
+//     onEdit: PropTypes.func,
+//     onDuplicate: PropTypes.func,
+
+//     pathToIndex: PropTypes.string
+// };

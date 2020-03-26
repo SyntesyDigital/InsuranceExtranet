@@ -11,7 +11,10 @@ import ColField from './Layout/ColField';
 import DragField from './Layout/DragField';
 import SimpleTabs from '../Layout/TabButton';
 import { connect } from 'react-redux';
+import ModalSelectItem from './ModalSelectItem';
+
 import {
+    addRow,
     initStateTemplate,
     loadForm,
     updateField,
@@ -20,19 +23,20 @@ import {
     createForm,
     updateForm,
     removeForm,
-} from './actions/template';
+} from './actions';
 
 class TemplateRedux extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-      
+
         };
         this.props.initStateTemplate(this.props);
+
         // this.props.updateField(this.props);
         // this.props.addField(this.props);
-       
+
         // this.props.loadForm(this.props);
         // this.props.createForm(this.props);
         // this.props.updateForm(this.props);
@@ -53,20 +57,8 @@ class TemplateRedux extends Component {
         console.log("handleDuplicateRowContainer");
     }
 
-    handleRemoveRowContainer() {
-        console.log("handleRemoveRowContainer");
-    }
-
     handleEditRowContainer() {
         console.log("handleEditRowContainer");
-    }
-
-    handleDownRowContainer() {
-        console.log("handleDownRowContainer");
-    }
-
-    handleUpRowContainer() {
-        console.log("handleUpRowContainer");
     }
 
     //ColContainer
@@ -92,8 +84,9 @@ class TemplateRedux extends Component {
     }
 
     handleAddLine() {
-        console.log("handleAddLine");
+        this.props.addRow(this.props.layout);
     }
+
     handleAddTemplate() {
         console.log("handleAddTemplate");
     }
@@ -106,11 +99,31 @@ class TemplateRedux extends Component {
     // Renderers
     // ==============================
 
+    renderRows() {
+
+        const { layout } = this.props;
+
+        return (
+            layout.map((item, index) =>
+                <RowContainer
+                    index={index}
+                    key={index}
+                    data={item}
+                    editButton={true}
+                    duplicateButton={true}
+                    removeButton={true}
+                    pathToIndex={[parseInt(index)]}
+                    childrenLength={layout.length}
+                />
+            )
+        );
+    }
+
     render() {
         return (
             <div className="element-template">
-                
-                <BarTitle
+
+                {/* <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
@@ -139,51 +152,19 @@ class TemplateRedux extends Component {
                         icon={'fa fa-save'}
                         onClick={this.handleSubmit.bind(this)}
                     />
-                </BarTitle>
-                
+                </BarTitle> */}
+
                 <div className="container rightbar-page">
                     <div className="col-xs-9 page-content elements-template">
-                        <RowContainer
-                            editButton={true}
-                            columnsButton={true}
-                            duplicateButton={true}
-                            removeButton={true}
-                            onUp={this.handleUpRowContainer.bind(this)}
-                            onDown={this.handleDownRowContainer.bind(this)}
-                            onEdit={this.handleEditRowContainer.bind(this)}
-                            onDuplicate={this.handleDuplicateRowContainer.bind(this)}
-                            onRemove={this.handleRemoveRowContainer.bind(this)}
-                        >
-                            <Col md={4}>
-                                <ColContainer
-                                    editButton={true}
-                                    onAdd={this.handleAddColContainer.bind(this)}
-                                    onEdit={this.handleEditColContainer.bind(this)}
-                                >
-                                    <ColField
-                                        label={'label'}
-                                        onUp={this.handleUpColField.bind(this)}
-                                        onDown={this.handleDownColField.bind(this)}
-                                        onRemove={this.handleRemoveColField.bind(this)}
-                                    />
-                                </ColContainer>
-                            </Col>
-                            <Col md={4}>
-                                <ColContainer
-                                    editButton={true}
-                                    onAdd={this.handleAddColContainer.bind(this)}
-                                    onEdit={this.handleEditColContainer.bind(this)}
-                                />
-                            </Col>
-                            <Col md={4}>
-                                <ColContainer
-                                    editButton={false}
-                                    onAdd={this.handleAddColContainer.bind(this)}
-                                    onEdit={this.handleEditColContainer.bind(this)}
-                                />
-                            </Col>
-                        </RowContainer>
-                       
+
+                        <ModalSelectItem
+                            zIndex={9000}
+                        />
+
+                        {this.props.layout != null &&
+                            this.renderRows()
+                        }
+
                         <BoxAddGroup
                             identifier='1'
                             title='Ajouter une ligne'
@@ -246,8 +227,10 @@ class TemplateRedux extends Component {
 const mapStateToProps = state => {
     return {
         template: state.template,
+        layout: state.template.layout
     }
 }
+
 const mapDispatchToProps = dispatch => {
     return {
         initStateTemplate: () => {
@@ -258,6 +241,9 @@ const mapDispatchToProps = dispatch => {
         },
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
+        },
+        addRow: (layout) => {
+            return dispatch(addRow(layout));
         },
         addField: () => {
             return dispatch(addField());
@@ -276,4 +262,5 @@ const mapDispatchToProps = dispatch => {
         },
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(TemplateRedux);
