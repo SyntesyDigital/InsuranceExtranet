@@ -3,7 +3,7 @@ import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
 //import BoxAddGroup from '../Layout/BoxAddGroup';
 import InputField from '../Layout/Fields/InputField';
-//import ButtonDropdown from '../Layout/ButtonDropdown';
+import ButtonDropdown from '../Layout/ButtonDropdown';
 //import { Col } from 'react-bootstrap';
 //import RowContainer from './Layout/RowContainer';
 //import ColContainer from './Layout/ColContainer';
@@ -46,7 +46,7 @@ class TemplateRedux extends Component {
     }
 
     handleSubmit() {
-        var form = this.props.form;
+        var form = this.props.template.form;
 
         this.props.submitForm(form);
     }
@@ -57,9 +57,14 @@ class TemplateRedux extends Component {
 
     handleLayoutChange(layout) {
         console.log("TemplateRedux :: handleLayoutChange",layout);
+
+        this.props.updateField('layout', layout);
     }
 
     render() {
+
+        console.log("TemplateRedux :: ",this.props.template);
+
         return (
             <div className="element-template">
 
@@ -167,8 +172,7 @@ class TemplateRedux extends Component {
 
 const mapStateToProps = state => {
     return {
-        form: state.template.form,
-        layout: state.template.layout
+        template: state.template
     }
 }
 

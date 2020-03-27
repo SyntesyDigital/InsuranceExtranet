@@ -35,7 +35,10 @@ class PageBuilderRedux extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.props.onChange(this.props.app.layout);
+
+    if(this.props.app.layoutChange != prevProps.app.layoutChange){
+      this.props.onChange(this.props.app.layout);
+    }
   }
 
   handleAddRow(e) {

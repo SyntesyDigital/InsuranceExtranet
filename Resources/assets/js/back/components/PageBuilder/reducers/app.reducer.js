@@ -70,7 +70,8 @@ const initialState =  {
 
   //loadParameters : false,
   //loadElements : false,
-  loaded : false
+  loaded : false,
+  layoutChange : 0
 }
 
 function exploteToObject(fields) {
@@ -89,7 +90,7 @@ function exploteToObject(fields) {
 
 function appReducer(state = initialState, action) {
 
-    const {fields, translations, parameters} = state;
+    const {fields, translations, parameters,layoutChange} = state;
 
     //console.log("AppReducer => ",action);
 
@@ -316,13 +317,15 @@ function appReducer(state = initialState, action) {
 
           return {
             ...state,
-            layout : action.payload
+            layout : action.payload,
+            layoutChange : layoutChange+1
           }
 
         case UPDATE_PAGE_LAYOUT :
           return {
             ...state,
             layout : action.payload.layout,
+            layoutChange : layoutChange+1,
             settings : action.payload.settings
           }
 
