@@ -28,7 +28,7 @@ class TemplateRedux extends Component {
     constructor(props) {
         super(props);
 
-        var templates = props.templates ? JSON.parse(atob(props.templates)) : null;
+        var templates = props.templates ? JSON.parse(atob(props.templates)) : [];
         var elementId = props.elementId;
         var templateId =  props.templateId ? props.templateId : null;
 
@@ -185,8 +185,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initStateTemplate: () => {
-            return dispatch(initStateTemplate());
+        initStateTemplate: (props) => {
+            return dispatch(initStateTemplate(props));
         },
         loadTemplate: (id) => {
             return dispatch(loadTemplate(id));

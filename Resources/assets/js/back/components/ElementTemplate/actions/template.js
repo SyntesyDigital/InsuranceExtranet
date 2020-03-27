@@ -42,6 +42,8 @@ export function loadTemplate(id) {
     return (dispatch) => {
         api.elementTemplates.get(id)
             .then(function(data) {
+                console.log('elementTemplate', data.data.elementTemplate);
+
                 dispatch({
                     type: LOAD_TEMPLATE, 
                     payload: data.data.elementTemplate

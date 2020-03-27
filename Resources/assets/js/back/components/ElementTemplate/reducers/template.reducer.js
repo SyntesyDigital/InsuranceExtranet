@@ -26,6 +26,10 @@ function templateReducer(state = initialState, action) {
         case INIT_STATE_TEMPLATE:
             return {
                 ...state,
+                form: {
+                    ...state.form,
+                    element_id: action.payload.elementId
+                }
             };
 
         case SUBMIT_FORM:
@@ -45,9 +49,9 @@ function templateReducer(state = initialState, action) {
             };
 
         case LOAD_TEMPLATE:
-            state.form = action.payload;
             return {
                 ...state,
+                form : action.payload
             };
 
         default:
