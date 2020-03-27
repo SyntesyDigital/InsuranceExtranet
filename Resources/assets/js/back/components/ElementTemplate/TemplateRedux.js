@@ -27,11 +27,39 @@ class TemplateRedux extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
 
+        var templates = props.templates ? JSON.parse(atob(props.templates)) : null;
+        var elementId = props.elementId;
+        var templateId =  props.templateId ? props.templateId : null;
+
+        // BUILD Template list
+        // FIXME : move to reducer ?        
+        var templatesList = [];
+        let arr = Object.keys(templates).map(key => {
+            templatesList.push({
+                label: templates[key].name,
+                icon: 'fa fa-file',
+                route: routes.template.replace(':id', templates[key].id),
+            });
+        });
+
+        templatesList.push({
+            label: 'Nouveau Template',
+            icon: 'fa fa-plus-circle',
+            route: routes['template.create']
+        });
+
+        this.state = {
+            templatesList: templatesList
         };
+
         this.props.initStateTemplate(this.props);
+
+        if(templateId) {
+            this.props.loadTemplate(templateId);
+        }
     }
+
 
     // ==============================
     // Handlers
@@ -46,9 +74,7 @@ class TemplateRedux extends Component {
     }
 
     handleSubmit() {
-        var form = this.props.template.form;
-
-        this.props.submitForm(form);
+        this.props.submitForm(this.props.template.form);
     }
 
     // ==============================
@@ -56,15 +82,10 @@ class TemplateRedux extends Component {
     // ==============================
 
     handleLayoutChange(layout) {
-        console.log("TemplateRedux :: handleLayoutChange",layout);
-
         this.props.updateField('layout', layout);
     }
 
     render() {
-
-        console.log("TemplateRedux :: ",this.props.template);
-
         return (
             <div className="element-template">
 
@@ -76,21 +97,7 @@ class TemplateRedux extends Component {
                 >
                     <ButtonDropdown
                         label={'Select Template'}
-                        list={[
-                            {
-                                label: 'Template-1',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Template-2',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Nouveau Template',
-                                icon: 'fa fa-plus-circle',
-                                onClick: this.handleAddTemplate.bind(this),
-                            },
-                        ]}
+                        list={this.state.templatesList}
                     />
                     <ButtonPrimary
                         label={'Sauvegarder'}

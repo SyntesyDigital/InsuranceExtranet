@@ -197,15 +197,15 @@ class PageItem extends Component {
     console.log("renderPreview :: ",this.props.data.field);
 
     switch (this.props.data.field.type) {
-      case FIELDS.TEXT.type:
+      case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
         return this.renderTextPreview();
-      case FIELDS.RICHTEXT.type:
+      case ELEMENT_TEMPLATE_FIELDS.RICHTEXT.type:
         return <RichTextPreview
           field={this.props.data.field}
         />;
-      case FIELDS.IMAGE.type:
+      case ELEMENT_TEMPLATE_FIELDS.IMAGE.type:
         return this.renderImagePreview();
-      case FIELDS.LINK.type:
+      case ELEMENT_TEMPLATE_FIELDS.LINK.type:
         return this.renderLinkPreview();
       case "widget":
         return <WidgetPreview

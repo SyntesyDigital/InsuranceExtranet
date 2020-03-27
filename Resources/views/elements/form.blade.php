@@ -39,7 +39,7 @@
         'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
         'extranet.element.parameters' : "{{route('extranet.element.parameters', $element)}}",
-        'extranet.elements.template' : "{{route('extranet.elements.template', $element)}}",
+        'extranet.elements.template' : "{{route('extranet.elements.template.create', $element)}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
     };
 @else 

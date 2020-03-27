@@ -34,7 +34,9 @@ extend type Query {
 
     elementTemplate(id: ID! @eq): ElementTemplate
         @field(resolver: "Modules\\Extranet\\Services\\ElementTemplate\\GraphQL\\Queries\\ElementTemplateQuery")
-        # @find(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
+
+    elementTemplatesByElementId(id: ID! @eq): ElementTemplate
+        @field(resolver: "Modules\\Extranet\\Services\\ElementTemplate\\GraphQL\\Queries\\ElementTemplateByElementIdQuery")
 }
 
 
