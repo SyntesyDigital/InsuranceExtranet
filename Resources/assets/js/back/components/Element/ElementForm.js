@@ -93,7 +93,7 @@ class ElementForm extends Component {
 
     render() {
         return (
-            <div id="model-container">
+            <div id="model-container" className="element-template">
                 <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}

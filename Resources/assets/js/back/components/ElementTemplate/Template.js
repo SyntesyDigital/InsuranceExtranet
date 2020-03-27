@@ -11,7 +11,6 @@ const theme = createMuiTheme({
     typography: {
         fontSize: 20,
     },
-
 });
 
 
