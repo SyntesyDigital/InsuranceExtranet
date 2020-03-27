@@ -17,12 +17,9 @@ import {
     addRow,
     initStateTemplate,
     loadForm,
+    submitForm,
     updateField,
-    addField,
-    saveForm,
-    createForm,
-    updateForm,
-    removeForm,
+    loadTemplate
 } from './actions';
 import PageBuilder from '../PageBuilder/PageBuilder';
 
@@ -49,8 +46,9 @@ class TemplateRedux extends Component {
     }
 
     handleSubmit() {
-        console.log("handleSubmit");
-        this.props.saveForm(this.props);
+        var form = this.props.form;
+
+        this.props.submitForm(form);
     }
 
     // ==============================
@@ -65,7 +63,7 @@ class TemplateRedux extends Component {
         return (
             <div className="element-template">
 
-                {/* <BarTitle
+                <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
@@ -94,7 +92,7 @@ class TemplateRedux extends Component {
                         icon={'fa fa-save'}
                         onClick={this.handleSubmit.bind(this)}
                     />
-                </BarTitle> */}
+                </BarTitle>
 
                 <div className="container rightbar-page content">
                     
@@ -169,7 +167,7 @@ class TemplateRedux extends Component {
 
 const mapStateToProps = state => {
     return {
-        template: state.template,
+        form: state.template.form,
         layout: state.template.layout
     }
 }
@@ -179,23 +177,14 @@ const mapDispatchToProps = dispatch => {
         initStateTemplate: () => {
             return dispatch(initStateTemplate());
         },
-        loadForm: () => {
-            return dispatch(loadForm());
+        loadTemplate: (id) => {
+            return dispatch(loadTemplate(id));
         },
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
         },
-        saveForm: () => {
-            return dispatch(saveForm());
-        },
-        createForm: () => {
-            return dispatch(createForm());
-        },
-        updateForm: () => {
-            return dispatch(updateForm());
-        },
-        removeForm: () => {
-            return dispatch(removeForm());
+        submitForm: (payload) => {
+            return dispatch(submitForm(payload));
         },
     }
 }

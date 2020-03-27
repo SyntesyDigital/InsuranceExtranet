@@ -1,25 +1,19 @@
 import {
     INIT_STATE_TEMPLATE,
-    UPDATE_FORM,
-    UPDATE_FIELD,
-    REMOVE_FORM,
-    UPDATE_LAYOUT,
-    SETTINGS_SELECT,
-    SETTINGS_CANCEL,
-    UPDATE_SETTINGS,
-    UPDATE_ITEM,
-    ITEM_SELECT,
-    ITEM_CANCEL,
-    ITEM_POSITION_AFTER
+    SUBMIT_FORM,
+    SUBMITED_FORM,
+    UPDATE_FIELD
 } from "../constants/";
 
 
 const initialState = {
     saved: false,
-    layout: [],
     modalItem: true,
     form: {
-        name : "test"
+        id: null,
+        name: null,
+        layout: [],
+        elementId: null
     }
 };
 
@@ -28,29 +22,23 @@ function templateReducer(state = initialState, action) {
     //console.log("templateReducer :: ",action.type, action.payload);
 
     switch (action.type) {
-
         case INIT_STATE_TEMPLATE:
             return {
                 ...state,
             };
 
-        case UPDATE_FORM:
+        case SUBMIT_FORM:
+            return {
+                ...state,
+            };
+        case SUBMITED_FORM:
+            state.form = action.payload;
             return {
                 ...state,
             };
 
         case UPDATE_FIELD:
-            return {
-                ...state,
-            };
-
-        case UPDATE_LAYOUT:
-            return {
-                ...state,
-                layout: action.payload
-            };
-
-        case REMOVE_FORM:
+            state.form[action.payload.name] = action.payload.value;
             return {
                 ...state,
             };

@@ -9,7 +9,9 @@ const theme = createMuiTheme({
     typography: {
         fontSize: 20,
     },
+
 });
+
 
 export default class Template extends Component {
 
