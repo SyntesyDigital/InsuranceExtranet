@@ -59,7 +59,7 @@ export function submitForm(payload) {
         id: payload.id ? payload.id : null,
         name : payload.name,
         layout : JSON.stringify(payload.layout),
-        element_id : payload.element_id
+        element_id : payload.elementId
     };
 
     return (dispatch) => {

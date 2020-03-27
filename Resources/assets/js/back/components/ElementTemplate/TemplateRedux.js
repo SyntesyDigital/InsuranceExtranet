@@ -28,14 +28,16 @@ class TemplateRedux extends Component {
     constructor(props) {
         super(props);
 
-        var templates = props.templates ? JSON.parse(atob(props.templates)) : null;
+        var templates = props.templates ? JSON.parse(atob(props.templates)) : [];
         var elementId = props.elementId;
         var templateId =  props.templateId ? props.templateId : null;
 
         // BUILD Template list
-        // FIXME : move to reducer ?        
+        // FIXME : move to reducer ?    
+
+        console.log("templates",templates);
         var templatesList = [];
-        let arr = Object.keys(templates).map(key => {
+        let arr = Object.keys(templates).map((key) => {
             templatesList.push({
                 label: templates[key].name,
                 icon: 'fa fa-file',
