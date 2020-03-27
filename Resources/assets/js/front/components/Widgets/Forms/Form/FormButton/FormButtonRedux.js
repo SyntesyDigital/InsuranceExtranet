@@ -86,6 +86,14 @@ class FormButtonRedux extends Component {
 
       //TODO redirect to _url parameter
 
+      var parameters = this.props.parameters.formParameters;
+
+      for(var key in parameters){
+        if(key == "_redirectUrl") {
+          window.location.href = parameters[key];
+        }
+      }
+
       /*
       if(this.props.finalRedirectUrl != ""){
         window.location.href = this.props.finalRedirectUrl+"?"+
@@ -104,6 +112,7 @@ class FormButtonRedux extends Component {
 
         const title = this.props.field.fields[0].value[LOCALE];
         const icon = this.props.field.fields[1].value[LOCALE];
+        const buttonClass = this.props.field.settings['buttonClass'];
 
         return (
           <div 
@@ -118,7 +127,11 @@ class FormButtonRedux extends Component {
               version={'2'}
             />
 
-            <div className={"box-button-root box-button-container "+(!loaded?'disabled':'')}>
+            <div className={
+                "box-button-root box-button-container "+
+                (!loaded?'disabled':'')+
+                (buttonClass ? ' '+buttonClass : '')
+              }>
               <div className="wrap-box-button">
                 <div className="image-container">
                   <div className="wrap-icon"><i className={icon}></i></div>
