@@ -20,6 +20,7 @@ use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
+use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
 
 class ElementController extends Controller
@@ -164,10 +165,18 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
-    public function showTemplate(Element $element, Request $request)
+    public function createTemplate(Element $element, Request $request)
     {
         return view('extranet::elements.template', [
             'element' => $element->load('fields'),
+        ]);
+    }
+
+    public function showTemplate(Element $element, ElementTemplate $template, Request $request)
+    {
+        return view('extranet::elements.template', [
+            'element' => $element,
+            'template' => $template,
         ]);
     }
 

@@ -1,18 +1,13 @@
 <?php
 
-namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations;
+namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Architect\Entities\Language;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
-use Modules\Extranet\Services\ElementTemplate\Fields\Adapters\LayoutAdapter;
-use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuilderFields;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class UpdateElementTemplate
+class ElementTemplateByElementIdQuery
 {
-    use PageBuilderFields;
-
     /**
      * Return a value for the field.
      *
@@ -25,26 +20,6 @@ class UpdateElementTemplate
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $elementTemplate = ElementTemplate::find($args['id']);
-
-        if (!$elementTemplate) {
-            abort(500);
-        }
-
-        $elementTemplate->fields()->delete();
-
-        $nodes = json_decode(substr(stripslashes($args['layout']), 1, -1), true);
-        $layout = $nodes
-            ? $this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)
-            : null;
-
-        $elementTemplate->update([
-            'name' => $args['name'],
-            'layout' => $layout ? json_encode($layout) : null,
-        ]);
-
-        $elementTemplate->layout = $layout ? json_encode((new LayoutAdapter($elementTemplate))->get()) : null;
-
-        return $elementTemplate;
+        return ElementTemplate::where('element_id', $args['id'])->get();
     }
 }

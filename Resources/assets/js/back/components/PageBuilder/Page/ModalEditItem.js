@@ -302,7 +302,7 @@ class ModalEditItem extends Component {
     console.log("ModalEditItem : renderField => ",this.state.field,FIELDS);
 
     switch(this.state.field.type) {
-      case FIELDS.TEXT.type:
+      case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
         return (
           <TextField
             field={this.state.field}
@@ -310,7 +310,7 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-      case FIELDS.RICHTEXT.type:
+      case ELEMENT_TEMPLATE_FIELDS.RICHTEXT.type:
         return (
           <RichTextField
             field={this.state.field}
@@ -318,7 +318,7 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-        case FIELDS.IMAGE.type:
+        case ELEMENT_TEMPLATE_FIELDS.IMAGE.type:
           return (
             <ImageField
                 field={this.state.field}
@@ -334,7 +334,7 @@ class ModalEditItem extends Component {
                 onFieldChange={this.onFieldChange}
             />
           );
-        case FIELDS.TRANSLATED_FILE.type:
+        case ELEMENT_TEMPLATE_FIELDS.TRANSLATED_FILE.type:
           return (
             <TranslatedFileField
                 field={this.state.field}
@@ -343,7 +343,7 @@ class ModalEditItem extends Component {
                 onFieldChange={this.onFieldChange}
             />
           );
-        case FIELDS.DATE.type:
+        case ELEMENT_TEMPLATE_FIELDS.DATE.type:
           return (
             <DateField
                 field={this.state.field}
@@ -351,7 +351,7 @@ class ModalEditItem extends Component {
                 onFieldChange={this.onFieldChange}
             />
           );
-        case FIELDS.IMAGES.type:
+        case ELEMENT_TEMPLATE_FIELDS.IMAGES.type:
           return (
             <ImagesField
                 field={this.state.field}
@@ -360,7 +360,7 @@ class ModalEditItem extends Component {
                 onImageSelect={this.props.onImageSelect}
             />
           );
-        case FIELDS.CONTENTS.type:
+        case ELEMENT_TEMPLATE_FIELDS.CONTENTS.type:
           return (
             <ContentsField
                 field={this.state.field}
@@ -369,7 +369,7 @@ class ModalEditItem extends Component {
                 onContentSelect={this.props.onContentSelect}
             />
           );
-        case FIELDS.BOOLEAN.type:
+        case ELEMENT_TEMPLATE_FIELDS.BOOLEAN.type:
           return (
             <BooleanField
                 field={this.state.field}
@@ -377,7 +377,7 @@ class ModalEditItem extends Component {
                 onFieldChange={this.onFieldChange}
             />
           );
-        case FIELDS.LINK.type:
+        case ELEMENT_TEMPLATE_FIELDS.LINK.type:
           return (
             <LinkField
                 field={this.state.field}
@@ -387,7 +387,7 @@ class ModalEditItem extends Component {
             />
           );
 
-        case FIELDS.VIDEO.type:
+        case ELEMENT_TEMPLATE_FIELDS.VIDEO.type:
           return (
             <VideoField
                 field={this.state.field}
@@ -395,7 +395,7 @@ class ModalEditItem extends Component {
                 onFieldChange={this.onFieldChange}
             />
           );
-        case FIELDS.LOCALIZATION.type:
+        case ELEMENT_TEMPLATE_FIELDS.LOCALIZATION.type:
           return (
             <LocalizationField
                 field={this.state.field}

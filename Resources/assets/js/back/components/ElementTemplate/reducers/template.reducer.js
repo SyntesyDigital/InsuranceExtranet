@@ -2,7 +2,8 @@ import {
     INIT_STATE_TEMPLATE,
     SUBMIT_FORM,
     SUBMITED_FORM,
-    UPDATE_FIELD
+    UPDATE_FIELD,
+    LOAD_TEMPLATE
 } from "../constants/";
 
 
@@ -41,6 +42,12 @@ function templateReducer(state = initialState, action) {
 
         case UPDATE_FIELD:
             state.form[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+            };
+
+        case LOAD_TEMPLATE:
+            state.form = action.payload;
             return {
                 ...state,
             };

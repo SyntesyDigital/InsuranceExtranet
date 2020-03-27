@@ -9,7 +9,6 @@ const theme = createMuiTheme({
     typography: {
         fontSize: 20,
     },
-
 });
 
 
@@ -25,8 +24,10 @@ export default class Template extends Component {
             <Provider store={this.store}>
                 <ThemeProvider theme={theme}>
                     <TemplateRedux
+                        elementId={this.props.elementId}
                         templateId={this.props.templateId}
                         fields={this.props.fields}
+                        templates={this.props.templates}
                     />
                 </ThemeProvider>
             </Provider>
@@ -39,8 +40,10 @@ if (document.getElementById('elements-template')) {
     
     ReactDOM.render(
         <Template
+            elementId={element.getAttribute('elementId')}
             templateId={element.getAttribute('templateId')}
             fields={element.getAttribute('fields')}
+            templates={element.getAttribute('templates')}
         />,document.getElementById('elements-template')
     );
 }

@@ -1,43 +1,43 @@
-<?php 
+<?php
 
 namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits;
-
 
 trait PageBuilderFields
 {
     /**
-     * savePageBuilderFields
+     * savePageBuilderFields.
      *
      * @param array $nodes
-     * @return array 
+     *
+     * @return array
      */
-    public function savePageBuilderFields($elementTemplate, $languages, &$nodes) 
+    public function savePageBuilderFields($elementTemplate, $languages, &$nodes)
     {
         if (!$nodes) {
-            return $nodes;
+            return null;
         }
-        
+
         foreach ($nodes as $key => $node) {
-            if(isset($node['children'])) {
+            if (isset($node['children'])) {
                 $nodes[$key]['children'] = $this->savePageBuilderFields($elementTemplate, $languages, $node['children']);
             } else {
                 $field = isset($node['field']) ? $node['field'] : null;
 
-                if($field) {
+                if ($field) {
                     $fieldName = uniqid('templatefield_');
                     $value = isset($field['value']) ? $field['value'] : null;
                     $class = str_replace('|', '\\', $field['class']); // => TO REMOVE only for test
-                
+
                     // Save field
-                    (new $class)
+                    (new $class())
                         ->save(
-                            $elementTemplate, 
-                            $fieldName, 
-                            $value, 
+                            $elementTemplate,
+                            $fieldName,
+                            $value,
                             $languages
                         );
 
-                    // Replace class path and set fieldname layout structure 
+                    // Replace class path and set fieldname layout structure
                     $nodes[$key]['field']['class'] = $class;
                     $nodes[$key]['field']['fieldname'] = $fieldName;
 
@@ -46,7 +46,6 @@ trait PageBuilderFields
                 }
             }
         }
-        
 
         return $nodes;
     }
