@@ -127,6 +127,19 @@ class ModalSelectItem extends Component {
     });
   }
 
+  addElementField(field,e) {
+
+    e.preventDefault();
+
+    var newField = JSON.parse(JSON.stringify(field));
+
+    this.handleSelectItem({
+      type : 'element_field',
+      field : newField
+    });
+
+  }
+
   addSeparator(e) {
 
     e.preventDefault();
@@ -198,6 +211,26 @@ class ModalSelectItem extends Component {
       return widgets;
   }
 
+  renderElementFields() {
+    var fields = this.props.fields;
+
+    if(fields === undefined)
+      return;
+
+    return fields.map((item) => 
+      <div className="col-xs-3" key={item.identifier}>
+        <a href="" onClick={this.addElementField.bind(this,item)}>
+          <div className="grid-item">
+            <i className={item.icon}></i>
+            <p className="grid-item-name">
+              {item.name}
+            </p>
+          </div>
+        </a>
+      </div>
+    );
+}
+
   render() {
 
       // <div className="col-xs-3">
@@ -266,6 +299,13 @@ class ModalSelectItem extends Component {
                       </div>
 
                       <hr />
+
+                      <div className="row">
+
+                          {this.renderElementFields()}
+
+                        </div>
+
                       <br />
 
                       {this.props.enableWidgets && 

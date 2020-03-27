@@ -51,7 +51,7 @@ class Col extends Component {
               />
             );
           }
-          else if(item.type == "item"){
+          else if(item.type == "item" || item.type == "element_field"){
             children.push(
               <PageItem
                 key={key}

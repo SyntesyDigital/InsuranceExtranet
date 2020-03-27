@@ -31,7 +31,9 @@ class PageBuilderRedux extends Component {
 
   componentDidMount() {
 
-    this.props.initState({});
+    this.props.initState({
+      layout : this.props.initLayout
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -128,6 +130,7 @@ class PageBuilderRedux extends Component {
         <ModalSelectItem
           enableWidgets={this.props.enableWidgets}
           nonAllowedFields={this.props.nonAllowedFields}
+          fields={this.props.fields}
           zIndex={9000}
         />
 

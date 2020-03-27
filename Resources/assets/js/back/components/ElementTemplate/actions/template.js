@@ -55,12 +55,15 @@ export function loadTemplate(id) {
 
 export function submitForm(payload) {
 
+    //console.log("submitForm :: payload : ",payload);
     var params = {
         id: payload.id ? payload.id : null,
         name : payload.name,
         layout : JSON.stringify(payload.layout),
         element_id : payload.elementId
     };
+
+    //console.log("submitForm :: params : ",params);
 
     return (dispatch) => {
         var query = payload.id 
