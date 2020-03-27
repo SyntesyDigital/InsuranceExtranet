@@ -345,18 +345,20 @@ function processResponseFromJSONPath(response,service,formParameters){
   
   //console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
 
-  if(service.REPONSE != null && service.REPONSE != ""){
+  if(service.REPONSE != null && service.REPONSE != "" && service.REPONSE.indexOf("[") != -1){
     var fields = JSON.parse(service.REPONSE);
     console.log("processResponseFromJSONPath (fields)",fields);
     for(var key in fields){
+      
       var field = fields[key];
-
-      try {
-        var value = jp.value(response,field.value);
-        formParameters[field.key] = value;
-      }
-      catch(error) {
-          console.error("processResponseFromJSONPath :: json path error "+field.value,error);
+      if(field.key != "" && field.value != ""){        
+        try {
+          var value = jp.value(response,field.value);
+          formParameters[field.key] = value;
+        }
+        catch(error) {
+            console.error("processResponseFromJSONPath :: json path error "+field.value,error);
+        }
       }
     }
   }
