@@ -43,8 +43,11 @@ export default class KeyValuesField extends Component {
                 //old version
                 items = this.url2object(items);
             }
-            else {
+            else if(items.indexOf('[') != -1){
                 items = JSON.parse(items);
+            }
+            else {
+                items = [];
             }
         
           this.setState({
