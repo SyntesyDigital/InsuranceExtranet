@@ -1,18 +1,14 @@
 <?php
 
-namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations;
+namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Architect\Entities\Language;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Fields\Adapters\LayoutAdapter;
-use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuilderFields;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class CreateElementTemplate
+class ElementTemplateQuery
 {
-    use PageBuilderFields;
-
     /**
      * Return a value for the field.
      *
@@ -25,18 +21,7 @@ class CreateElementTemplate
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $elementTemplate = ElementTemplate::create([
-            'name' => $args['name'],
-            'element_id' => $args['element_id'],
-            'layout' => '',
-        ]);
-
-        $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
-
-        $elementTemplate->update([
-            'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)),
-        ]);
-
+        $elementTemplate = ElementTemplate::find($args['id']);
         $elementTemplate->layout = json_encode((new LayoutAdapter($elementTemplate))->get());
 
         return $elementTemplate;

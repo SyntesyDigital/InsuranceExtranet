@@ -1,11 +1,14 @@
 import {
     INIT_STATE_TEMPLATE,
-    UPDATE_FORM,
+    SUBMIT_FORM,
+    SUBMITED_FORM,
     UPDATE_FIELD,
-    REMOVE_FORM
+    LOAD_TEMPLATE,
+    UPDATE_LAYOUT
 } from "../constants/";
 
 export * from './helpers';
+import api from '../../../api/index.js';
 
 // ==============================
 // Actions
@@ -20,7 +23,8 @@ export function initStateTemplate(payload) {
 
 export function updateField(name, value) {
     return {
-        type: UPDATE_FIELD, payload: {
+        type: UPDATE_FIELD, 
+        payload: {
             name: name,
             value: value,
         }
@@ -35,8 +39,47 @@ export function loadForm(payload) {
     console.log('action -> loadForm :: ', payload)
 };
 
-export function saveForm(payload) {
-    console.log('action -> saveForm :: ', payload)
+export function loadTemplate(id) {
+    return (dispatch) => {
+        api.elementTemplates.get(id)
+            .then(function(data) {
+                dispatch({
+                    type: LOAD_TEMPLATE, 
+                    payload: data.data.elementTemplate
+                });
+            })
+            .catch(function(error) {
+                toastr.error(error.message);
+            });
+    }
+}
+
+export function submitForm(payload) {
+
+    var params = {
+        id: payload.id ? payload.id : null,
+        name : payload.name,
+        layout : JSON.stringify(payload.layout),
+        element_id : 6
+    };
+
+    return (dispatch) => {
+        var query = payload.id 
+                ? api.elementTemplates.update(params)
+                : api.elementTemplates.create(params);
+
+        query
+            .then(function(data) {
+                toastr.success(Lang.get('fields.success'));
+                dispatch({
+                    type: SUBMITED_FORM, 
+                    payload: data.data.createElementTemplate
+                });
+            })
+            .catch(function(error) {
+                toastr.error(error.message);
+            });
+    }
 };
 
 export function createForm(payload) {
@@ -45,18 +88,52 @@ export function createForm(payload) {
 
 export function updateForm(payload) {
     return {
-        type: UPDATE_FORM,
-        payload
-    };
-};
-
-export function removeForm(payload) {
-    return {
-        type: REMOVE_FORM,
+        type: SUBMIT_FORM,
         payload
     };
 };
 
 
+export function copyItem(pathToIndex, layout) {
 
+    layout = changeItemChildren(layout, -1, pathToIndex, function (children, index) {
 
+        var copy = jQuery.extend(true, {}, children[index]);
+
+        if (index == children.length - 1) {
+            children.push(copy);
+        }
+        else {
+            children.splice(index + 1, 0, copy);
+        }
+
+        return children;
+    });
+
+    return { type: UPDATE_LAYOUT, payload: layout }
+
+}
+
+export function changePageField(field, pathToIndex, layout) {
+
+    var data = field;
+
+    ////console.log("changeField => ",field,pathToIndex);
+
+    layout = changeItemWithCallback(layout, -1, pathToIndex, data,
+        function (field, newField) {
+            return newField;
+        }
+    );
+
+    return { type: UPDATE_LAYOUT, payload: layout }
+
+}
+
+export function deletePageItem(pathToIndex, layout) {
+
+    layout = removeItem(layout, -1, pathToIndex);
+
+    return { type: UPDATE_LAYOUT, payload: layout }
+
+}

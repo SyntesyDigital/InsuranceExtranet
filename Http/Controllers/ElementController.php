@@ -43,10 +43,10 @@ class ElementController extends Controller
     public function data(Request $request)
     {
         switch ($request->get('q')) {
-        case 'errors':
-          return response()->json($this->elements->getErrors());
-        break;
-      }
+            case 'errors':
+                return response()->json($this->elements->getErrors());
+            break;
+        }
     }
 
     public function typeIndex($element_type, Request $request)
@@ -107,12 +107,12 @@ class ElementController extends Controller
         $parametersList = RouteParameter::all();
 
         $data = [
-          'element_type' => $element_type,
-          'model' => $model,
-          'fields' => $fields,
-          'parametersList' => $parametersList,
-          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
-          'variables' => isset($procedures) ? $procedures['variables'] : null,
+            'element_type' => $element_type,
+            'model' => $model,
+            'fields' => $fields,
+            'parametersList' => $parametersList,
+            'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+            'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
         if ($request->has('debug')) {
@@ -167,7 +167,7 @@ class ElementController extends Controller
     public function showTemplate(Element $element, Request $request)
     {
         return view('extranet::elements.template', [
-            'element' => $element
+            'element' => $element,
         ]);
     }
 

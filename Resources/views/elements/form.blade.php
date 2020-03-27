@@ -31,15 +31,24 @@
 
 @push('javascripts-libs')
 <script>
-var routes = {
-  'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
-  'showElement' : "{{route('extranet.elements.show', $element)}}",
-  'contents.data' : "{{ route('contents.modal.data') }}",
-  'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
-  'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
-  'extranet.element.parameters' : "{{route('extranet.element.parameters', $element)}}",
-  'extranet.elements.template' : "{{route('extranet.elements.template', $element)}}",
-};
+    @if((isset($element)) && $element)
+    var routes = {
+        'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
+        'showElement' : "{{route('extranet.elements.show', $element)}}",
+        'contents.data' : "{{ route('contents.modal.data') }}",
+        'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
+        'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+        'extranet.element.parameters' : "{{route('extranet.element.parameters', $element)}}",
+        'extranet.elements.template' : "{{route('extranet.elements.template', $element)}}",
+    };
+    @else 
+    var routes = {
+        'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
+        'contents.data' : "{{ route('contents.modal.data') }}",
+        'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
+        'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+    };
+    @endif
 </script>
 
 @endpush

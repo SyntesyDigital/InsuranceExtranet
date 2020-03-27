@@ -17,12 +17,9 @@ import {
     addRow,
     initStateTemplate,
     loadForm,
+    submitForm,
     updateField,
-    addField,
-    saveForm,
-    createForm,
-    updateForm,
-    removeForm,
+    loadTemplate
 } from './actions';
 
 class TemplateRedux extends Component {
@@ -90,9 +87,11 @@ class TemplateRedux extends Component {
     handleAddTemplate() {
         console.log("handleAddTemplate");
     }
+
     handleSubmit() {
-        console.log("handleSubmit");
-        this.props.saveForm(this.props);
+        var form = this.props.form;
+
+        this.props.submitForm(form);
     }
 
     // ==============================
@@ -123,7 +122,7 @@ class TemplateRedux extends Component {
         return (
             <div className="element-template">
 
-                {/* <BarTitle
+                <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
@@ -152,7 +151,7 @@ class TemplateRedux extends Component {
                         icon={'fa fa-save'}
                         onClick={this.handleSubmit.bind(this)}
                     />
-                </BarTitle> */}
+                </BarTitle>
 
                 <div className="container rightbar-page">
                     <div className="col-xs-9 page-content elements-template">
@@ -226,7 +225,7 @@ class TemplateRedux extends Component {
 
 const mapStateToProps = state => {
     return {
-        template: state.template,
+        form: state.template.form,
         layout: state.template.layout
     }
 }
@@ -236,8 +235,8 @@ const mapDispatchToProps = dispatch => {
         initStateTemplate: () => {
             return dispatch(initStateTemplate());
         },
-        loadForm: () => {
-            return dispatch(loadForm());
+        loadTemplate: (id) => {
+            return dispatch(loadTemplate(id));
         },
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
@@ -245,20 +244,8 @@ const mapDispatchToProps = dispatch => {
         addRow: (layout) => {
             return dispatch(addRow(layout));
         },
-        addField: () => {
-            return dispatch(addField());
-        },
-        saveForm: () => {
-            return dispatch(saveForm());
-        },
-        createForm: () => {
-            return dispatch(createForm());
-        },
-        updateForm: () => {
-            return dispatch(updateForm());
-        },
-        removeForm: () => {
-            return dispatch(removeForm());
+        submitForm: (payload) => {
+            return dispatch(submitForm(payload));
         },
     }
 }

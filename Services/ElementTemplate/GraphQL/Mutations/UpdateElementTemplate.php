@@ -4,14 +4,15 @@ namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Architect\Entities\Language;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
+use Modules\Extranet\Services\ElementTemplate\Fields\Adapters\LayoutAdapter;
 use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuilderFields;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UpdateElementTemplate
 {
     use PageBuilderFields;
-    
+
     /**
      * Return a value for the field.
      *
@@ -26,7 +27,7 @@ class UpdateElementTemplate
     {
         $elementTemplate = ElementTemplate::find($args['id']);
 
-        if(!$elementTemplate) {
+        if (!$elementTemplate) {
             abort(500);
         }
 
@@ -36,8 +37,10 @@ class UpdateElementTemplate
 
         $elementTemplate->update([
             'name' => $args['name'],
-            'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes))
+            'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)),
         ]);
+
+        $elementTemplate->layout = json_encode((new LayoutAdapter($elementTemplate))->get());
 
         return $elementTemplate;
     }
