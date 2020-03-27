@@ -145,12 +145,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        /*
         selectItem: (pathToIndex, position) => {
             return dispatch(selectItem(pathToIndex, position));
         },
         editSettings: (item) => {
             return dispatch(editSettings(item))
         },
+        */
     }
 }
 

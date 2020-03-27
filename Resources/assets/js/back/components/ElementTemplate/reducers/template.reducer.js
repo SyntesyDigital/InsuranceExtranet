@@ -18,6 +18,9 @@ const initialState = {
 };
 
 function templateReducer(state = initialState, action) {
+
+    //console.log("templateReducer :: ",action.type, action.payload);
+
     switch (action.type) {
         case INIT_STATE_TEMPLATE:
             return {

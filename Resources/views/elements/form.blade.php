@@ -31,7 +31,6 @@
 
 @push('javascripts-libs')
 <script>
-<<<<<<< HEAD
     @if((isset($element)) && $element)
     var routes = {
         'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
@@ -50,17 +49,6 @@
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
     };
     @endif
-=======
-var routes = {
-  'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
-  'showElement' : "{{route('extranet.elements.show', isset($element) ? $element : '')}}",
-  'contents.data' : "{{ route('contents.modal.data') }}",
-  'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
-  'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
-  'extranet.element.parameters' : "{{route('extranet.element.parameters', isset($element) ? $element : '')}}",
-  'extranet.elements.template' : "{{route('extranet.elements.template', isset($element) ? $element : '')}}",
-};
->>>>>>> 466e22414b67a370a1bce78a5f953ae767925489
 </script>
 
 @endpush
