@@ -167,7 +167,7 @@ class ElementController extends Controller
     public function showTemplate(Element $element, Request $request)
     {
         return view('extranet::elements.template', [
-            'element' => $element,
+            'element' => $element->load('fields'),
         ]);
     }
 

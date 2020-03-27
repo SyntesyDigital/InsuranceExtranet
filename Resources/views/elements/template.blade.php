@@ -1,7 +1,12 @@
 @extends('architect::layouts.master')
 
 @section('content')
-<div id="elements-template" @if(isset($element))elementId="{{$element->id}}"@endif></div>
+<div id="elements-template" 
+    @if(isset($element))elementId="{{$element->id}}"@endif
+    @if(isset($element))
+        fields="{{base64_encode(json_encode($element->fields,true))}}"
+    @endif
+></div>
 @endsection
 
 @push('plugins')

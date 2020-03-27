@@ -124,27 +124,9 @@ class TemplateRedux extends Component {
                             value={this.props.template.form.name}
                             onChange={this.handleFieldChange.bind(this)}
                         />
+                        
                         <hr />
                         <h3>AJOUTER CHAMPS</h3>
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                            arrayOfItems={this.state.champs}
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                        />
-                        <hr />
                         <DragField
                             label={'Element Field 3'}
                             icon={'fas fa-font'}
@@ -178,8 +160,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initStateTemplate: () => {
-            return dispatch(initStateTemplate());
+        initStateTemplate: (payload) => {
+            return dispatch(initStateTemplate(payload));
         },
         loadTemplate: (id) => {
             return dispatch(loadTemplate(id));
