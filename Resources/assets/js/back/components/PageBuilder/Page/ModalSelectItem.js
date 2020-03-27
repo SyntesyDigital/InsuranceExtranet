@@ -161,16 +161,16 @@ class ModalSelectItem extends Component {
 
     var nonAllowed = this.props.nonAllowedFields;
 
-    for( var key in FIELDS){
+    for( var key in ELEMENT_TEMPLATE_FIELDS){
 
-      if(nonAllowed.indexOf(FIELDS[key].type) == -1){
+      if(nonAllowed.indexOf(ELEMENT_TEMPLATE_FIELDS[key].type) == -1){
         fields.push(
           <div className="col-xs-3" key={key}>
-            <a href="" onClick={this.addItem.bind(this,FIELDS[key])}>
+            <a href="" onClick={this.addItem.bind(this,ELEMENT_TEMPLATE_FIELDS[key])}>
               <div className="grid-item">
-                <i className={"fa "+FIELDS[key].icon}></i>
+                <i className={"fa "+ELEMENT_TEMPLATE_FIELDS[key].icon}></i>
                 <p className="grid-item-name">
-                  {FIELDS[key].name}
+                  {ELEMENT_TEMPLATE_FIELDS[key].name}
                 </p>
               </div>
             </a>
@@ -283,6 +283,7 @@ class ModalSelectItem extends Component {
                           </a>
                         </div>
 
+                        {/*
                         <div className="col-xs-3">
                           <a href="" onClick={this.addSeparator.bind(this)}>
                             <div className="grid-item">
@@ -293,6 +294,7 @@ class ModalSelectItem extends Component {
                             </div>
                           </a>
                         </div>
+                        */}
 
                         {this.renderFields()}
 
