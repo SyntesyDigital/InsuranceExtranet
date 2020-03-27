@@ -14,7 +14,7 @@ const initialState = {
     form: {
         id: null,
         name: null,
-        layout: [],
+        layout: null,
         elementId: null
     }
 };
@@ -59,7 +59,9 @@ function templateReducer(state = initialState, action) {
             var elementId = state.form.elementId;
             var form = action.payload
             form.elementId = elementId;
-
+            form.layout = form.layout != null && form.layout != "null" && 
+                form.layout !== undefined && form.layout != "" ? JSON.parse(form.layout) : [];
+            
             return {
                 ...state,
                 form : form

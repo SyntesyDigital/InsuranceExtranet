@@ -88,6 +88,9 @@ class TemplateRedux extends Component {
     }
 
     render() {
+
+        const initLayout = this.props.template.form.layout;
+
         return (
             <div className="element-template">
 
@@ -110,21 +113,19 @@ class TemplateRedux extends Component {
 
                 <div className="container rightbar-page content">
                     
-                    <PageBuilder 
-                        //pages={[]}
-                        //tags={[]}
-                        //categories={[]}
-                        //fields={[]}
-                        layout={{}}
-                        //users={[]}
-                        enableWidgets={false}
-                        nonAllowedFields={[
-                            "contents","boolean","date","file",
-                            "images","key_values","localization","slug",
-                            "translated_file","link","url","video"
-                        ]}
-                        onChange={this.handleLayoutChange.bind(this)}
-                    />
+                    {initLayout != null && 
+                        <PageBuilder 
+                            fields={this.props.template.fields}
+                            initLayout={initLayout}
+                            enableWidgets={false}
+                            nonAllowedFields={[
+                                "contents","boolean","date","file",
+                                "images","key_values","localization","slug",
+                                "translated_file","link","url","video"
+                            ]}
+                            onChange={this.handleLayoutChange.bind(this)}
+                        />
+                    }
 
                     <div className="sidebar">
                         <InputField

@@ -23,6 +23,10 @@ class PageItem extends Component {
   onEditItem(e) {
     e.preventDefault();
 
+    //if element field modal not needed
+    if(this.props.data.type == "element_field")
+      return ;
+
     this.props.editItem(this.props);
   }
 
@@ -267,7 +271,10 @@ class PageItem extends Component {
           
         </div>
 
-        <div className="item-content" onClick={this.onEditItem.bind(this)}>
+        <div className="item-content" 
+            style={{pointerEvents : this.props.data.type == "element_field" ? 'none': 'auto'}} 
+            onClick={this.onEditItem.bind(this)}
+          >
           {this.renderPreview()}
         </div>
       </div>
