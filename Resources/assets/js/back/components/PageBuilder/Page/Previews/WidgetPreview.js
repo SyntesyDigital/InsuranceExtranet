@@ -16,7 +16,7 @@ class WidgetPreview extends Component {
     for(var index in field.fields){
       var currentField = field.fields[index];
 
-      if(currentField.type == FIELDS.TEXT.type){
+      if(currentField.type == ELEMENT_TEMPLATE_FIELDS.TEXT.type){
         if(currentField.value !== undefined &&
             currentField.value[DEFAULT_LOCALE] !== undefined &&
             currentField.value[DEFAULT_LOCALE] != null ){

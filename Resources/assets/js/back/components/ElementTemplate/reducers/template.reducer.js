@@ -2,7 +2,8 @@ import {
     INIT_STATE_TEMPLATE,
     SUBMIT_FORM,
     SUBMITED_FORM,
-    UPDATE_FIELD
+    UPDATE_FIELD,
+    LOAD_TEMPLATE
 } from "../constants/";
 
 
@@ -19,7 +20,7 @@ const initialState = {
 
 function templateReducer(state = initialState, action) {
 
-    //console.log("templateReducer :: ",action.type, action.payload);
+    console.log("templateReducer :: ",action.type, action.payload);
 
     switch (action.type) {
         case INIT_STATE_TEMPLATE:
@@ -39,6 +40,12 @@ function templateReducer(state = initialState, action) {
 
         case UPDATE_FIELD:
             state.form[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+            };
+
+        case LOAD_TEMPLATE:
+            state.form = action.payload;
             return {
                 ...state,
             };

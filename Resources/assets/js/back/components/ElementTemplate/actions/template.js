@@ -59,12 +59,12 @@ export function submitForm(payload) {
         id: payload.id ? payload.id : null,
         name : payload.name,
         layout : JSON.stringify(payload.layout),
-        element_id : 6
+        element_id : payload.element_id
     };
 
     return (dispatch) => {
         var query = payload.id 
-                ? api.elementTemplates.update(params)
+                ? api.elementTemplates.update(params.id, params)
                 : api.elementTemplates.create(params);
 
         query
@@ -72,7 +72,9 @@ export function submitForm(payload) {
                 toastr.success(Lang.get('fields.success'));
                 dispatch({
                     type: SUBMITED_FORM, 
-                    payload: data.data.createElementTemplate
+                    payload: payload.id 
+                        ? data.data.updateElementTemplate 
+                        : data.data.createElementTemplate 
                 });
             })
             .catch(function(error) {

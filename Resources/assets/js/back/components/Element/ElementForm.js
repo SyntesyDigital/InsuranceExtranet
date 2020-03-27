@@ -93,31 +93,13 @@ class ElementForm extends Component {
 
     render() {
         return (
-            <div id="model-container">
+            <div id="model-container" className="element-template">
                 <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
                     slot={<SimpleTabs />}
                 >
-                    <ButtonDropdown
-                        label={'Select Template'}
-                        list={[
-                            {
-                                label: 'Template-1',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Template-2',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Nouveau Template',
-                                icon: 'fa fa-plus-circle',
-                                onClick: this.handleAddTemplate.bind(this),
-                            },
-                        ]}
-                    />
                     <ButtonPrimary
                         label={'Sauvegarder'}
                         icon={'fa fa-save'}
