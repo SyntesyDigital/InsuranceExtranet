@@ -5,22 +5,78 @@ import CheckField from './fields/CheckField';
 import IconField from './fields/IconField';
 import DefaultField from './fields/DefaultField';
 import { Grid, Row, Col } from 'react-bootstrap';
+import api from './../../../../back/api';
 
-
-export default class FileComponentTemp extends Component {
+export default class ElementCard extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            //field : field,
+            element: JSON.parse(atob(props.element)),
+            modelValues: [],
+            model: JSON.parse(atob(props.model)),
+            layout: []
+        };
     }
 
     handleChange(e) {
-        console.log('handleChange :: ', e.target.checked)
+        // console.log('handleChange :: ', e.target.checked)
+    }
+
+    componentDidMount() {
+        this.loadValues();
+        this.loadTemplate();
+    }
+
+    getUrlParameters() {
+        //concat parameters, first constant parameters
+        var parameters = this.state.model.DEF1 != null ?
+            this.state.model.DEF1 : '';
+
+        if (parameters != '')
+            parameters += "&";
+
+        //then
+        parameters += this.props.parameters;
+
+        return parameters;
+    }
+
+    loadValues(page, filters) {
+        let self = this;
+        let parameters = this.getUrlParameters();
+        let url = ASSETS + 'architect/extranet/' + this.state.element.id + '/model_values/data?' + parameters;
+
+        axios.get(url)
+            .then(function (response) {
+                if(response.status != 200) {
+                    return;
+                }
+
+                if(response.data.modelValues !== undefined) {                    
+                    self.setState({
+                        modelValues: response.data.modelValues
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    loadTemplate() {
+        api.elementTemplates.get(48)
+            .then(response => {
+                this.setState({
+                    layout : JSON.parse(response.data.elementTemplate.layout)
+                });
+            });
     }
 
     render() {
         return (
             <div>
-
                 <Grid
                     className="layout"
                     fluid={true}
@@ -274,8 +330,18 @@ export default class FileComponentTemp extends Component {
     }
 }
 
-if (document.getElementById('elementFileTemp')) {
-    ReactDOM.render(<FileComponentTemp />, document.getElementById('elementFileTemp'));
-}
 
+if (document.getElementById('element-card')) {
 
+    document.querySelectorAll('[id=element-card]').forEach(function(el){
+        var element = el.getAttribute('element');
+        var model = el.getAttribute('model');
+        var parameters = el.getAttribute('parameters');
+ 
+        ReactDOM.render(<ElementCard
+            element={element}
+            model={model}
+            parameters={parameters}
+        />, el);
+    });
+ }
