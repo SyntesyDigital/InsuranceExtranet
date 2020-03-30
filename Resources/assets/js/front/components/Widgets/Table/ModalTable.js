@@ -155,6 +155,7 @@ class ModalTable extends Component {
         <TableComponent
           elementObject={this.state.element}
           model={this.state.model}
+          id={this.state.model.ID+moment().unix()}
           pagination={10}
           itemsPerPage={10}
           onOpenModal={this.props.onOpenModal}

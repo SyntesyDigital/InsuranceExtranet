@@ -85,12 +85,16 @@ export default class TableComponent extends Component {
         this.processColumns();
         var self = this;
 
+        console.log("TableComponent :: (id) ",('#'+this.state.id+' .modal-link'));
+
         $(document).on('click','#'+this.state.id+' .modal-link',function(e){
 
           e.preventDefault();
 
           var link = $(e.target).closest('.modal-link');
           var url = link.data('modal');
+
+          console.log("TableComponent :: on click! (url) ",url);
 
           //url has format [element_id]?[params]:[redirect_url]
           var urlArray = url.split(":");
@@ -435,7 +439,7 @@ export default class TableComponent extends Component {
       const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
 
       return (
-        <div>
+        <div id={this.state.id}>
           {this.props.exportBtn &&
 
             <ExportButton
