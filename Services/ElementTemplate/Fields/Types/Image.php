@@ -23,7 +23,7 @@ class Image extends Field implements FieldInterface
         'htmlClass'
     ];
 
-    public function save($template, $identifier, $media, $languages = null)
+    public function save(ElementTemplate $template, $identifier, $media, $languages = null)
     {
         $mediaId = isset($media['id']) ? $media['id'] : null;
 

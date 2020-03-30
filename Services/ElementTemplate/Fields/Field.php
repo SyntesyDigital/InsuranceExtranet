@@ -70,4 +70,4 @@ abstract class Field
         return $this->settings;
     }
 }
-?>
+

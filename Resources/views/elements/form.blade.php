@@ -31,15 +31,27 @@
 
 @push('javascripts-libs')
 <script>
-var routes = {
-  'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
-  'showElement' : "{{route('extranet.elements.show', isset($element) ? $element : '')}}",
-  'contents.data' : "{{ route('contents.modal.data') }}",
-  'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
-  'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
-  'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
-  'extranet.elements.template' : "{{route('extranet.elements.template', isset($element) ? $element : '')}}",
-};
+@if((isset($element)) && $element)
+    var routes = {
+        'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
+        'showElement' : "{{route('extranet.elements.show', $element)}}",
+        'contents.data' : "{{ route('contents.modal.data') }}",
+        'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
+        'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+        'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
+        'extranet.elements.template' : "{{route('extranet.elements.template.create', $element)}}",
+        'extranet.elements.index' : "{{route('extranet.elements.index')}}",
+        'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
+    };
+@else 
+    var routes = {
+        'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
+        'contents.data' : "{{ route('contents.modal.data') }}",
+        'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
+        'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+        'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
+        'extranet.elements.index' : "{{route('extranet.elements.index')}}",
+    };
+@endif
 </script>
-
 @endpush

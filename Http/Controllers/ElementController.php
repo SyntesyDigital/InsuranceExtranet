@@ -20,6 +20,7 @@ use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
+use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
 
 class ElementController extends Controller
@@ -43,10 +44,10 @@ class ElementController extends Controller
     public function data(Request $request)
     {
         switch ($request->get('q')) {
-        case 'errors':
-          return response()->json($this->elements->getErrors());
-        break;
-      }
+            case 'errors':
+                return response()->json($this->elements->getErrors());
+            break;
+        }
     }
 
     public function typeIndex($element_type, Request $request)
@@ -107,12 +108,12 @@ class ElementController extends Controller
         $parametersList = RouteParameter::all();
 
         $data = [
-          'element_type' => $element_type,
-          'model' => $model,
-          'fields' => $fields,
-          'parametersList' => $parametersList,
-          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
-          'variables' => isset($procedures) ? $procedures['variables'] : null,
+            'element_type' => $element_type,
+            'model' => $model,
+            'fields' => $fields,
+            'parametersList' => $parametersList,
+            'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+            'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
         if ($request->has('debug')) {
@@ -164,10 +165,18 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
-    public function showTemplate(Element $element, Request $request)
+    public function createTemplate(Element $element, Request $request)
     {
         return view('extranet::elements.template', [
-            'element' => $element
+            'element' => $element->load('fields'),
+        ]);
+    }
+
+    public function showTemplate(Element $element, ElementTemplate $template, Request $request)
+    {
+        return view('extranet::elements.template', [
+            'element' => $element,
+            'template' => $template,
         ]);
     }
 
