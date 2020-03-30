@@ -4,7 +4,8 @@ import {
     SUBMITED_FORM,
     UPDATE_FIELD,
     LOAD_TEMPLATE,
-    UPDATE_LAYOUT
+    UPDATE_LAYOUT,
+    DELETE_TEMPLATE
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -42,8 +43,6 @@ export function loadTemplate(id) {
     return (dispatch) => {
         api.elementTemplates.get(id)
             .then(function(data) {
-                console.log('elementTemplate', data.data.elementTemplate);
-
                 dispatch({
                     type: LOAD_TEMPLATE, 
                     payload: data.data.elementTemplate
@@ -55,32 +54,50 @@ export function loadTemplate(id) {
     }
 }
 
-export function submitForm(payload) {
+export function deleteTemplate(id) {
+    return (dispatch) => {
+        api.elementTemplates.delete(id)
+            .then(function(data) {
+                dispatch({
+                    type: DELETE_TEMPLATE
+                });
+            })
+            .catch(function(error) {
+                toastr.error(error.message);
+            });
+    }
+}
 
-    //console.log("submitForm :: payload : ",payload);
+export function submitForm(payload, onSuccess) {
+
     var params = {
         id: payload.id ? payload.id : null,
         name : payload.name,
         layout : JSON.stringify(payload.layout),
-        element_id : payload.elementId
+        element_id : payload.element_id
     };
-
-    //console.log("submitForm :: params : ",params);
 
     return (dispatch) => {
         var query = payload.id 
                 ? api.elementTemplates.update(params.id, params)
                 : api.elementTemplates.create(params);
 
-        query
+        return query
             .then(function(data) {
                 toastr.success(Lang.get('fields.success'));
+
+                var response = payload.id 
+                    ? data.data.updateElementTemplate 
+                    : data.data.createElementTemplate;
+
                 dispatch({
                     type: SUBMITED_FORM, 
-                    payload: payload.id 
-                        ? data.data.updateElementTemplate 
-                        : data.data.createElementTemplate 
+                    payload: response
                 });
+
+                if(onSuccess) {
+                    onSuccess(response);
+                }
             })
             .catch(function(error) {
                 toastr.error(error.message);
@@ -89,7 +106,7 @@ export function submitForm(payload) {
 };
 
 export function createForm(payload) {
-    console.log('action -> createForm :: ', payload)
+
 };
 
 export function updateForm(payload) {
@@ -123,8 +140,6 @@ export function copyItem(pathToIndex, layout) {
 export function changePageField(field, pathToIndex, layout) {
 
     var data = field;
-
-    ////console.log("changeField => ",field,pathToIndex);
 
     layout = changeItemWithCallback(layout, -1, pathToIndex, data,
         function (field, newField) {

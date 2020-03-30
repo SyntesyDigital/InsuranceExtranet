@@ -41,6 +41,7 @@
         'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
         'extranet.elements.template' : "{{route('extranet.elements.template.create', $element)}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
+        'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
     };
 @else 
     var routes = {

@@ -3,7 +3,8 @@ import {
     SUBMIT_FORM,
     SUBMITED_FORM,
     UPDATE_FIELD,
-    LOAD_TEMPLATE
+    LOAD_TEMPLATE,
+    DELETE_TEMPLATE
 } from "../constants/";
 
 
@@ -20,12 +21,8 @@ const initialState = {
 };
 
 function templateReducer(state = initialState, action) {
-
-    console.log("templateReducer :: ",action.type, action.payload);
-
     switch (action.type) {
         case INIT_STATE_TEMPLATE:
-
             return {
                 ...state,
                 form: {
@@ -35,15 +32,6 @@ function templateReducer(state = initialState, action) {
                 fields : action.payload.fields ? JSON.parse(atob(action.payload.fields)) : [],
             };
 
-        case SUBMIT_FORM:
-            return {
-                ...state,
-            };
-        case SUBMITED_FORM:
-            return {
-                ...state,
-                //form : action.payload
-            };
 
         case UPDATE_FIELD:
             var form = state.form;
@@ -59,12 +47,24 @@ function templateReducer(state = initialState, action) {
             var elementId = state.form.elementId;
             var form = action.payload
             form.elementId = elementId;
-            form.layout = form.layout != null && form.layout != "null" && 
-                form.layout !== undefined && form.layout != "" ? JSON.parse(form.layout) : [];
+            
+            form.layout = (form.layout != null 
+                && form.layout != "null" 
+                && form.layout !== undefined 
+                && form.layout != "") 
+            ? JSON.parse(form.layout) 
+            : [];
             
             return {
                 ...state,
                 form : form
+            };
+
+        case DELETE_TEMPLATE:
+        case SUBMIT_FORM:
+        case SUBMITED_FORM:
+            return {
+                ...state,
             };
 
         default:
