@@ -38,7 +38,7 @@
         'contents.data' : "{{ route('contents.modal.data') }}",
         'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
-        'extranet.element.parameters' : "{{route('extranet.element.parameters', $element)}}",
+        'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
         'extranet.elements.template' : "{{route('extranet.elements.template.create', $element)}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
     };
@@ -48,6 +48,7 @@
         'contents.data' : "{{ route('contents.modal.data') }}",
         'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
+        'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
     };
 @endif

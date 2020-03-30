@@ -95,7 +95,7 @@ class DateField extends Component
           }
         }
         else if(rules[key].type == 'PARAMETER'){
-          if(parameters[rules[key].parameter] == undefined){
+          if(parameters[rules[key].parameter] === undefined){
             console.error("Config Error : parameter not set as form parameter (parameter)",rules[key].parameter)
             return null;
           }
