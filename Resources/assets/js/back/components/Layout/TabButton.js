@@ -33,30 +33,34 @@ function handleClickTemplate(e) {
 
 export default function SimpleTabs() {
     const classes = useStyles();
-    const [value] = React.useState(0);
+    //const [value] = React.useState(0);
 
+    let value = window.location.href == routes['extranet.elements.show'] ? 1 : 2;
+    
     return (
         <div className="container-tab-button">
             <div className={classes.root}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
-                        initialSelectedIndex={2}
                     >
                         <Tab
+                            key={1}
                             label="GLOBAL"
-                            value={1}
                             icon={<SettingsIcon />}
                             {...a11yProps(0)}
                             onClick={handleClickGlobal}
+                            value={1}
+                            disabled={value == 1}
                         />
                         <Tab
+                            key={2}
                             label="TEMPLATE" 
                             icon={<InsertDriveFileIcon />}
                             {...a11yProps(1)}
                             onClick={handleClickTemplate}
                             value={2}
-                            selected={true}
+                            disabled={value == 2}
                         />
                     </Tabs>
                 </AppBar>

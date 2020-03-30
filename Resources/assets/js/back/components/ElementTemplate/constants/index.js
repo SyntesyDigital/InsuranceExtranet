@@ -6,6 +6,7 @@ export const UPDATE_FIELD = "UPDATE_FIELD";
 export const SUBMIT_FORM = "SUBMIT_FORM";
 export const SUBMITED_FORM = "SUBMITED_FORM";
 export const LOAD_TEMPLATE = "LOAD_TEMPLATE";
+export const DELETE_TEMPLATE = "DELETE_TEMPLATE";
 export const UPDATE_LAYOUT = "UPDATE_LAYOUT";
 
 //page functions

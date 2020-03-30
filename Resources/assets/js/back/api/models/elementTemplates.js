@@ -44,6 +44,7 @@ export const GQL_GET_ELEMENT_TEMPLATE = gql`
         id
         name
         layout
+        element_id
         fields {
             name 
             value
@@ -65,6 +66,7 @@ export const GQL_GET_ALL_ELEMENT_TEMPLATE = gql`
         id
         name
         layout
+        element_id
         fields {
             name 
             value
@@ -96,6 +98,7 @@ export const GQL_CREATE_ELEMENT_TEMPLATE = gql`
             id
             name
             layout
+            element_id
         }
     } 
 `;
@@ -118,6 +121,7 @@ export const GQL_UPDATE_ELEMENT_TEMPLATE = gql`
             id
             name
             layout
+            element_id
         }
     } 
 `;
@@ -132,6 +136,7 @@ export const GQL_DELETE_ELEMENT_TEMPLATE = gql`
             id
             name
             layout
+            element_id
         }
   } 
 `;

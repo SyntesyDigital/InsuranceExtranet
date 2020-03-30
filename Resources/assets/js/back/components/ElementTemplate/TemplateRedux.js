@@ -34,8 +34,6 @@ class TemplateRedux extends Component {
 
         // BUILD Template list
         // FIXME : move to reducer ?    
-
-        console.log("templates",templates);
         var templatesList = [];
         let arr = Object.keys(templates).map((key) => {
             templatesList.push({
@@ -54,6 +52,7 @@ class TemplateRedux extends Component {
         this.state = {
             templatesList: templatesList
         };
+        //
 
         this.props.initStateTemplate(this.props);
 
@@ -67,6 +66,10 @@ class TemplateRedux extends Component {
     // Handlers
     // ==============================
 
+    handleDeleteElement() {
+
+    }
+
     handleFieldChange(name, value) {
         this.props.updateField(name, value);
     }
@@ -76,7 +79,9 @@ class TemplateRedux extends Component {
     }
 
     handleSubmit() {
-        this.props.submitForm(this.props.template.form);
+        this.props.submitForm(this.props.template.form, function(response){
+            window.location.replace(routes["template"].replace(':id', response.id));
+        });
     }
 
     // ==============================
@@ -98,12 +103,14 @@ class TemplateRedux extends Component {
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
-                    slot={<SimpleTabs />}
+                    slot={<SimpleTabs value={2} />}
                 >
+                    {this.props.elementId &&
                     <ButtonDropdown
                         label={'Select Template'}
                         list={this.state.templatesList}
                     />
+                    }
                     <ButtonPrimary
                         label={'Sauvegarder'}
                         icon={'fa fa-save'}
@@ -155,6 +162,13 @@ class TemplateRedux extends Component {
                             icon={'fas fa-font'}
                         />
                         <hr />
+
+                        {this.props.templateId && 
+                            <div className="text-right">
+                                <a className="btn btn-link text-danger" onClick={this.handleDeleteElement}><i className="fa fa-trash"></i> Supprimer</a>
+                            </div>
+                        }
+                  
                     </div>
                 </div>
             </div>
@@ -179,8 +193,8 @@ const mapDispatchToProps = dispatch => {
         updateField: (name, value) => {
             return dispatch(updateField(name, value));
         },
-        submitForm: (payload) => {
-            return dispatch(submitForm(payload));
+        submitForm: (payload, onSuccess) => {
+            return dispatch(submitForm(payload, onSuccess));
         },
     }
 }
