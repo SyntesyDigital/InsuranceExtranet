@@ -44,7 +44,7 @@ const initialState =  {
 
   //typology : '',
   //content : '',
-  //fields : '',
+  fields : [],
 
   tags : [],
   tagsList : [],
@@ -120,28 +120,11 @@ function appReducer(state = initialState, action) {
                 ...state,
 
                 page : isPage ? action.payload.page : '',
-                pages : action.payload.pages,
-                layout : action.payload.page ? action.payload.page : [],
-
-                //status: action.payload.content ? action.payload.content.status : 0,
-                //category: action.payload.content && action.payload.content.categories &&
-                //  action.payload.content.categories.length > 0 ? action.payload.content.categories[0].id : null,
+                layout : action.payload.layout ? action.payload.layout : [],
                 errors : {},
-                //tags : action.payload.content.tags ? action.payload.content.tags : [],   // Los tags del contenido que hay que guardar
-                //tagsList : action.payload.tags ? action.payload.tags : [], // La lista de los tags
                 translations: newTranslations,
-                //content: action.payload.content,
-                //typology: action.payload.typology,
-                //categories: action.payload.categories,
                 languages: LANGUAGES,
-                //fields: isPage ? null : (
-                //  action.payload.fields ? action.payload.fields : action.payload.typology.fields
-                //),
-                //created_at: action.payload.content ? moment(action.payload.content.created_at).format('DD/MM/YYYY') : null,
-                //parent_id : action.payload.content ? action.payload.content.parent_id : null,
-                //settings : action.payload.settings ? action.payload.settings : (
-                //  isPage ? exploteToObject(PAGE_SETTINGS) : exploteToObject(CONTENT_SETTINGS)
-                //),
+                fields: action.payload.fields,
                 saving : false,
                 saved : action.payload.saved,
             }

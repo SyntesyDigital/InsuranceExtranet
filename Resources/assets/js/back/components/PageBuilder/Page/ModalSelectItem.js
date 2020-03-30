@@ -127,6 +127,19 @@ class ModalSelectItem extends Component {
     });
   }
 
+  addElementField(field,e) {
+
+    e.preventDefault();
+
+    var newField = JSON.parse(JSON.stringify(field));
+
+    this.handleSelectItem({
+      type : 'element_field',
+      field : newField
+    });
+
+  }
+
   addSeparator(e) {
 
     e.preventDefault();
@@ -148,16 +161,16 @@ class ModalSelectItem extends Component {
 
     var nonAllowed = this.props.nonAllowedFields;
 
-    for( var key in FIELDS){
+    for( var key in ELEMENT_TEMPLATE_FIELDS){
 
-      if(nonAllowed.indexOf(FIELDS[key].type) == -1){
+      if(nonAllowed.indexOf(ELEMENT_TEMPLATE_FIELDS[key].type) == -1){
         fields.push(
           <div className="col-xs-3" key={key}>
-            <a href="" onClick={this.addItem.bind(this,FIELDS[key])}>
+            <a href="" onClick={this.addItem.bind(this,ELEMENT_TEMPLATE_FIELDS[key])}>
               <div className="grid-item">
-                <i className={"fa "+FIELDS[key].icon}></i>
+                <i className={"fa "+ELEMENT_TEMPLATE_FIELDS[key].icon}></i>
                 <p className="grid-item-name">
-                  {FIELDS[key].name}
+                  {ELEMENT_TEMPLATE_FIELDS[key].name}
                 </p>
               </div>
             </a>
@@ -197,6 +210,26 @@ class ModalSelectItem extends Component {
 
       return widgets;
   }
+
+  renderElementFields() {
+    var fields = this.props.fields;
+
+    if(fields === undefined)
+      return;
+
+    return fields.map((item) => 
+      <div className="col-xs-3" key={item.identifier}>
+        <a href="" onClick={this.addElementField.bind(this,item)}>
+          <div className="grid-item">
+            <i className={item.icon}></i>
+            <p className="grid-item-name">
+              {item.name}
+            </p>
+          </div>
+        </a>
+      </div>
+    );
+}
 
   render() {
 
@@ -250,6 +283,7 @@ class ModalSelectItem extends Component {
                           </a>
                         </div>
 
+                        {/*
                         <div className="col-xs-3">
                           <a href="" onClick={this.addSeparator.bind(this)}>
                             <div className="grid-item">
@@ -260,12 +294,20 @@ class ModalSelectItem extends Component {
                             </div>
                           </a>
                         </div>
+                        */}
 
                         {this.renderFields()}
 
                       </div>
 
                       <hr />
+
+                      <div className="row">
+
+                          {this.renderElementFields()}
+
+                        </div>
+
                       <br />
 
                       {this.props.enableWidgets && 

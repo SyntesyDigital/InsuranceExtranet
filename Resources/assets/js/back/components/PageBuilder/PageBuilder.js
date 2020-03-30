@@ -20,7 +20,7 @@ export default class PageBuilder extends Component {
             tags={this.props.tags}
             categories={this.props.categories}
             fields={this.props.fields}
-            layout={this.props.layout}
+            initLayout={this.props.initLayout}
             users={this.props.users}
             enableWidgets={this.props.enableWidgets}
             nonAllowedFields={this.props.nonAllowedFields}

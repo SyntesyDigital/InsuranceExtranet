@@ -33,7 +33,8 @@ class UpdateElementTemplate
 
         $elementTemplate->fields()->delete();
 
-        $nodes = json_decode(substr(stripslashes($args['layout']), 1, -1), true);
+        $nodes = json_decode($args['layout'], true);
+    
         $layout = $nodes
             ? $this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)
             : null;
@@ -42,6 +43,8 @@ class UpdateElementTemplate
             'name' => $args['name'],
             'layout' => $layout ? json_encode($layout) : null,
         ]);
+
+        
 
         $elementTemplate->layout = $layout ? json_encode((new LayoutAdapter($elementTemplate))->get()) : null;
 

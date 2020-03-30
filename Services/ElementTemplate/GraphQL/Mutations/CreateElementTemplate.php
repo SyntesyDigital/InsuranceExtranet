@@ -28,17 +28,9 @@ class CreateElementTemplate
         $elementTemplate = ElementTemplate::create([
             'name' => $args['name'],
             'element_id' => $args['element_id'],
-            'layout' => '',
+            'layout' => null,
         ]);
-
-        $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
-
-        $elementTemplate->update([
-            'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)),
-        ]);
-
-        $elementTemplate->layout = json_encode((new LayoutAdapter($elementTemplate))->get());
-
+        
         return $elementTemplate;
     }
 }

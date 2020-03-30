@@ -21,8 +21,12 @@ trait PageBuilderFields
             if (isset($node['children'])) {
                 $nodes[$key]['children'] = $this->savePageBuilderFields($elementTemplate, $languages, $node['children']);
             } else {
-                $field = isset($node['field']) ? $node['field'] : null;
+                if($node['type'] == "element_field"){
+                    continue;
+                }
 
+                $field = isset($node['field']) ? $node['field'] : null;
+                
                 if ($field) {
                     $fieldName = uniqid('templatefield_');
                     $value = isset($field['value']) ? $field['value'] : null;

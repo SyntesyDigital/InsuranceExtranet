@@ -135,10 +135,13 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 
       //if the methode is PUT set with a get
       if(!stepsToProcess && procedure.SERVICE !== undefined &&
-        procedure.SERVICE.METHODE == "PUT" && 
-        procedure.PRELOAD == "Y" &&  !jsonGetDone){
-        //set the jsonResult with a get
-        return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        procedure.SERVICE.METHODE == "PUT" && !jsonGetDone){
+        
+        //if version 2 check if preload, if version 1 or indefined always go ahead
+        if((version == "2" && procedure.PRELOAD == "Y") || (version == "1" || versin === undefined)) {
+          //set the jsonResult with a get
+          return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        }
       }
 
 
