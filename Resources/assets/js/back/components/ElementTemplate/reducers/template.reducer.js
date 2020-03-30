@@ -10,6 +10,7 @@ import {
 const initialState = {
     saved: false,
     modalItem: true,
+    fields : [],
     form: {
         id: null,
         name: null,
@@ -24,12 +25,14 @@ function templateReducer(state = initialState, action) {
 
     switch (action.type) {
         case INIT_STATE_TEMPLATE:
+
             return {
                 ...state,
                 form: {
                     ...state.form,
                     element_id: action.payload.elementId
-                }
+                },
+                fields : action.payload.fields ? JSON.parse(atob(action.payload.fields)) : [],
             };
 
         case SUBMIT_FORM:
@@ -37,21 +40,29 @@ function templateReducer(state = initialState, action) {
                 ...state,
             };
         case SUBMITED_FORM:
-            state.form = action.payload;
             return {
                 ...state,
+                //form : action.payload
             };
 
         case UPDATE_FIELD:
-            state.form[action.payload.name] = action.payload.value;
+            var form = state.form;
+            form[action.payload.name] = action.payload.value;
+            
             return {
                 ...state,
+                form : form
             };
 
         case LOAD_TEMPLATE:
+
+            var elementId = state.form.elementId;
+            var form = action.payload
+            form.elementId = elementId;
+
             return {
                 ...state,
-                form : action.payload
+                form : form
             };
 
         default:

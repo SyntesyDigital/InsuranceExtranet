@@ -26,6 +26,7 @@ export default class Template extends Component {
                     <TemplateRedux
                         elementId={this.props.elementId}
                         templateId={this.props.templateId}
+                        fields={this.props.fields}
                         templates={this.props.templates}
                     />
                 </ThemeProvider>
@@ -36,11 +37,12 @@ export default class Template extends Component {
 
 if (document.getElementById('elements-template')) {
     var element = document.getElementById('elements-template');
-
+    
     ReactDOM.render(
         <Template
             elementId={element.getAttribute('elementId')}
             templateId={element.getAttribute('templateId')}
+            fields={element.getAttribute('fields')}
             templates={element.getAttribute('templates')}
         />,document.getElementById('elements-template')
     );

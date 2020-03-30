@@ -33,9 +33,11 @@ class TemplateRedux extends Component {
         var templateId =  props.templateId ? props.templateId : null;
 
         // BUILD Template list
-        // FIXME : move to reducer ?        
+        // FIXME : move to reducer ?    
+
+        console.log("templates",templates);
         var templatesList = [];
-        let arr = Object.keys(templates).map(key => {
+        let arr = Object.keys(templates).map((key) => {
             templatesList.push({
                 label: templates[key].name,
                 icon: 'fa fa-file',
@@ -131,27 +133,9 @@ class TemplateRedux extends Component {
                             value={this.props.template.form.name}
                             onChange={this.handleFieldChange.bind(this)}
                         />
+                        
                         <hr />
                         <h3>AJOUTER CHAMPS</h3>
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                            arrayOfItems={this.state.champs}
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                        />
-                        <DragField
-                            label={'row'}
-                            icon={'fas fa-font'}
-                        />
-                        <hr />
                         <DragField
                             label={'Element Field 3'}
                             icon={'fas fa-font'}
@@ -185,8 +169,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initStateTemplate: (props) => {
-            return dispatch(initStateTemplate(props));
+        initStateTemplate: (payload) => {
+            return dispatch(initStateTemplate(payload));
         },
         loadTemplate: (id) => {
             return dispatch(loadTemplate(id));

@@ -3,6 +3,9 @@
 @section('content')
 <div id="elements-template" 
     @if(isset($element))elementId="{{$element->id}}"@endif
+    @if(isset($element))
+        fields="{{base64_encode(json_encode($element->fields,true))}}"
+    @endif
     @if($element->templates->count() > 0)templates="{{ base64_encode(json_encode($element->templates->toArray())) }}"@endif
     @if(isset($template))templateId="{{$template->id}}"@endif
 ></div>

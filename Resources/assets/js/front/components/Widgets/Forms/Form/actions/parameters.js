@@ -111,6 +111,7 @@ export function setParameterFromBoby(variable,key, formParameters) {
 
             for(var index in response.data.data ){
               response.data.data[index]['text'] = response.data.data[index]['name'];
+              response.data.data[index]['value'] = response.data.data[index]['value']+"";
             }
 
             if(response.data.data.length == 0){
@@ -120,7 +121,7 @@ export function setParameterFromBoby(variable,key, formParameters) {
             }
             else if(response.data.data.length == 1){
               //not necessary to process parameter take the result
-              formParameters['_'+key] = response.data.data[0].value;
+              formParameters['_'+key] = response.data.data[0].value+"";
 
               //set new value and got to next
               dispatch({type:PARAMETER_UPDATE,payload : formParameters});
@@ -145,7 +146,7 @@ export function setParameterFromBoby(variable,key, formParameters) {
                   callback: function (result) {
                     if(result != null && result != ''){
                         //post sessions
-                        formParameters['_'+key] = result;
+                        formParameters['_'+key] = result+"";
 
                         //set new value and got to next
                         dispatch({type:PARAMETER_UPDATE,payload : formParameters});
