@@ -121,6 +121,25 @@ export default class ElementCard extends Component {
                     );
                 break;
 
+            case 'checkfield':
+                return (
+                    <CheckField
+                        text={node.field.value.fr}
+                        checked={true}
+                    />
+                );
+                break;
+            case 'icon':
+                return (
+                    <IconField
+                        icon={'fas fa-' + node.field.value}
+                        font={'40px'}
+                        color={'#a2a8b3'}
+                        circle={true}
+                        checked={true}
+                    />
+                );
+                break;
             case 'image':
                 return 'image';
                 break;
@@ -131,8 +150,6 @@ export default class ElementCard extends Component {
     render() {
         return (
             <div>
-                
-
                 <Grid
                     className="layout"
                     fluid={true}

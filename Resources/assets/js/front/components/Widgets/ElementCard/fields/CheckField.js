@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-
 export default class CheckField extends Component {
 
     constructor(props) {
@@ -12,7 +11,13 @@ export default class CheckField extends Component {
 
     render() {
 
-        const { text, disabled } = this.props;
+        const { 
+            text, 
+            disabled, 
+            checked, 
+            value, 
+            onChange 
+        } = this.props;
     
         return (
             <div className="check-field">
@@ -20,10 +25,11 @@ export default class CheckField extends Component {
                     disabled={disabled}
                     control={
                         <Checkbox
-                            checked={this.props.value}
-                            value={this.props.name}
+                            name={name}
+                            checked={checked}
+                            value={value}
                             color="primary"
-                            onChange={this.props.onChange}
+                            onChange={onChange}
                         />
                     }
                     label={text}
@@ -35,6 +41,8 @@ export default class CheckField extends Component {
 
 CheckField.propTypes = {
     text: PropTypes.string.isRequired,
-    value: PropTypes.bool,
-    disabled: PropTypes.bool
+    name: PropTypes.string,
+    value: PropTypes.string,
+    disabled: PropTypes.bool,
+    checked: PropTypes.bool
 };
