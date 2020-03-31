@@ -131,15 +131,17 @@ export default class ElementCard extends Component {
     render() {
         return (
             <div>
-                <LayoutParser 
-                    layout={this.state.layout}
-                    fieldRender={this.fieldRender.bind(this)}
-                />
+                
 
                 <Grid
                     className="layout"
                     fluid={true}
                 >
+                    <LayoutParser 
+                        layout={this.state.layout}
+                        fieldRender={this.fieldRender.bind(this)}
+                    />
+
                     <Label
                         text={'FICHE AGRÉMENT'}
                         textAlign={'center'}

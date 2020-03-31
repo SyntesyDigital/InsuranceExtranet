@@ -13,6 +13,8 @@ export default class LayoutParser extends Component {
         };
     }
 
+
+
     parseNode(nodes) {
         return nodes.map((node, key) => {
             switch(node.type) {
@@ -24,13 +26,17 @@ export default class LayoutParser extends Component {
                     break;
 
                 case "col":
-                    let classes = node.colClass.split(' ');
+                    let sm = /col-xs-(.*?)(?:\s|$)/g.exec(node.colClass);
+                    let md = /col-sm-(.*?)(?:\s|$)/g.exec(node.colClass);                    
+                    sm = sm ? sm[1] : 12;
+                    md = md ? md[1] : 12;
+
                     return (
                         <Col 
                             key={key} 
-                            sm={classes[0] !== undefined ? parseInt(classes[0]) : 12} 
-                            sm={classes[1] !== undefined ? parseInt(classes[1]) : 12} 
-                            className="container-fields-default border-right"
+                            sm={sm}
+                            md={md}
+                            className={"container-fields-default"}
                         >
                             {this.parseNode(node.children)}
                         </Col>);
