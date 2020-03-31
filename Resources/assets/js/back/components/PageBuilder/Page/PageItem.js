@@ -201,6 +201,7 @@ class PageItem extends Component {
     console.log("renderPreview :: ",this.props.data.field);
 
     switch (this.props.data.field.type) {
+      
       case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
         return this.renderTextPreview();
       case ELEMENT_TEMPLATE_FIELDS.RICHTEXT.type:
@@ -209,19 +210,6 @@ class PageItem extends Component {
         />;
       case ELEMENT_TEMPLATE_FIELDS.IMAGE.type:
         return this.renderImagePreview();
-      case ELEMENT_TEMPLATE_FIELDS.LINK.type:
-        return this.renderLinkPreview();
-      case "widget":
-        return <WidgetPreview
-            field={this.props.data.field}
-          />
-        ;
-
-      /*
-      case WIDGETS.IMAGE_TEXT_LINK.type:
-        return this.renderImageTextLinkPreview();
-      */
-
       default :
         return this.renderDefaultPreview();
     }
