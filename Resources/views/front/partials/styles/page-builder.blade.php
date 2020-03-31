@@ -65,10 +65,10 @@
   color: {{$buttonPrimaryIconHoverColor}};
 }
 .box-button-container-a .box-button-container:not(.box-button-secondary):hover > .wrap-box-button .image-container{
-  background-color: {{$buttonPrimaryBackgroundHoverColor}}
+  background-color: {{$buttonPrimaryBackgroundIconHoverColor}}
 }
 .box-button-container-a .box-button-container:not(.box-button-secondary):hover > .wrap-box-button .label-container{
-  background-color: {{$buttonPrimaryBackgroundHoverColor}}
+  background-color: {{$buttonPrimaryBackgroundLabelHoverColor}}
 }
 
 /* button Secondary */
@@ -92,9 +92,9 @@
   color: {{$buttonSecondaryIconHoverColor}};
 }
 .box-button-container.box-button-secondary:hover > .wrap-box-button .image-container{
-  background-color: {{$buttonSecondaryHoverBackgroundColor}}
+  background-color: {{$buttonSecondaryBackgroundIconHoverColor}}
 }
 .box-button-container.box-button-secondary:hover > .wrap-box-button .label-container{
-  background-color: {{$buttonSecondaryHoverBackgroundColor}}
+  background-color: {{$buttonSecondaryBackgroundLabelHoverColor}}
 }
 </style>
