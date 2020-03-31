@@ -5,7 +5,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import Label from './fields/Label';
 import RadioField from './fields/RadioField';
 import YesNoField from './fields/YesNoField';
-import CheckField from '../FileTemp/fields/CheckField';
+import CheckField from '../ElementCard/fields/CheckField'; // FIXME
 import ListField from './fields/ListField';
 import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
