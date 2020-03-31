@@ -144,6 +144,9 @@ class FormsUpdateRedux extends Component {
             .then(function(response) {
                 //console.log("importModel response",response.data.model.id);
                 window.location.href = routes['extranet.elements-models.forms.update'].replace(':id',response.data.model.id);
+            })
+            .catch(function (error) {
+                toastr.error(error.response.data.message);
             });
     }
 
