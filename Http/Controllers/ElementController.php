@@ -547,7 +547,7 @@ class ElementController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Model id not valid',
-            ]);
+            ],422);
         }
 
         $procedures = $this->computeFormProcedures($model->ID);
@@ -559,7 +559,15 @@ class ElementController extends Controller
           'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
-        $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        try {
+            $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ],422);
+        }
 
         return response()->json([
             'error' => false,
