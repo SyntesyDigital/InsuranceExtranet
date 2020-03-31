@@ -158,8 +158,9 @@ export default class ElementCard extends Component {
                         layout={this.state.layout}
                         fieldRender={this.fieldRender.bind(this)}
                     />
+                </Grid>
 
-                    <Label
+                    {/* <Label
                         text={'FICHE AGRÉMENT'}
                         textAlign={'center'}
                     />
@@ -391,9 +392,9 @@ export default class ElementCard extends Component {
                                 checked={true}
                             />
                         </Col>
-                    </Row>
-                </Grid>
-                <DefaultField
+                    </Row> */}
+                {/* </Grid> */}
+                {/* <DefaultField
                     label={'RESULTAT'}
                     value={'REFUS - A SOUMETTRE'}
                     valueColor={'#c05252'}
@@ -402,7 +403,7 @@ export default class ElementCard extends Component {
                     valueAlign={'center'}
                     inline={true}
                     stripped={false}
-                />
+                /> */}
             </div>
         );
     }

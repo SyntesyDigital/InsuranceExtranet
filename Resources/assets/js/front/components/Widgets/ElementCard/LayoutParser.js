@@ -13,8 +13,6 @@ export default class LayoutParser extends Component {
         };
     }
 
-
-
     parseNode(nodes) {
         return nodes.map((node, key) => {
             switch(node.type) {
@@ -56,7 +54,4 @@ export default class LayoutParser extends Component {
             </div>
         );
     }
-
-
-
 }
