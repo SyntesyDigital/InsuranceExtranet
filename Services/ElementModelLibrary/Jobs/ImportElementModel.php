@@ -38,8 +38,8 @@ class ImportElementModel
         $configFields[$configField['mapping']] = $configField;
       }
 
-
       $model = $this->attributes['model'];
+      //dd($model);
 
       $elementModel = ElementModel::create([
         'identifier' => $model->ID,
@@ -112,7 +112,7 @@ class ImportElementModel
         }
 
       }
-
+      
       return $elementModel;
 
     }

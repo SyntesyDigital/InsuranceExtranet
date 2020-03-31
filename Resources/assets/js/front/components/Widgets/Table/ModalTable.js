@@ -5,6 +5,8 @@ import TableComponent from './TableComponent';
 import FileComponent from './../File/FileComponent';
 import FormComponent from './../Forms/Form/FormComponent';
 
+import moment from 'moment';
+
 class ModalTable extends Component {
 
   constructor(props){
