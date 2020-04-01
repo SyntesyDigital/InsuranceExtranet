@@ -1,45 +1,39 @@
 {{-- ROW --}}
 @if($node['type'] == "row")
-    <div id="{{$node['settings']['htmlId'] or ''}}" class="row {{$node['settings']['htmlClass'] or ''}}">
+    <div 
+        id="{{$node['settings']['htmlId'] or ''}}" 
+        class="row {{$node['settings']['htmlClass'] or ''}}"
+    >
       @if($node['settings']['hasContainer'])
         <div class="container">
-          <div class="row">
+            <div class="row">
       @endif
 @endif
 
 {{-- COL --}}
 @if($node['type'] == "col")
-    <div id="{{$node['settings']['htmlId'] or ''}}" class="{{$node['colClass']}} {{$node['settings']['htmlClass'] or ''}}">
+    <div 
+        id="{{$node['settings']['htmlId'] or ''}}" 
+        class="{{$node['colClass']}} {{$node['settings']['htmlClass'] or ''}}"
+    >
 @endif
-
 
 {{-- FIELDS --}}
 @if($node['type'] == "item")
   @if(isset($node['field']))
-
     @if(isset($node['field']['type']) && ( $node['field']['type'] == "widget" || $node['field']['type'] == "widget-list") )
-
-      @includeIf('extranet::front.partials.widgets.'.strtolower($node['field']['label']),
-        [
-          "field" => $node['field'],
-          "iterator" => $iterator
-        ]
-      )
-
-    @else
-
-      @if(isset($node['field']['type']) && isset($node['field']['value']))
-
-        @includeIf('extranet::front.partials.fields.'.$node['field']['type'],
-          [
+        @includeIf('extranet::front.partials.widgets.' . strtolower($node['field']['label']),[
             "field" => $node['field'],
-            "settings" => $node['field']['settings'],
-          ]
-        )
-      @endif
-
+            "iterator" => $iterator
+        ])
+    @else
+        @if(isset($node['field']['type']) && isset($node['field']['value']))
+            @includeIf('extranet::front.partials.fields.' . $node['field']['type'], [
+                "field" => $node['field'],
+                "settings" => $node['field']['settings'],
+            ])
+        @endif
     @endif
-
   @endif
 @endif
 
@@ -61,9 +55,9 @@
 
 {{-- CLOSE ROW AND COL --}}
 @if($node['type'] == "row" || $node['type'] == "col")
-      @if(isset($node['settings']['hasContainer']) && $node['settings']['hasContainer'])
-          </div>
+    @if(isset($node['settings']['hasContainer']) && $node['settings']['hasContainer'])
+            </div>
         </div>
-      @endif
+    @endif
     </div>
 @endif
