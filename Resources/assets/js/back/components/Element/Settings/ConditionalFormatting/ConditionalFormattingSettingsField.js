@@ -136,8 +136,7 @@ class ConditionalFormattingSettingsField extends Component {
     };
   }
 
-  handleAddClick(e) {
-    e.preventDefault();
+  handleAddClick() {
 
     var conditions = this.state.value.conditions;
     conditions.push(this.getDefaultConditionValue());

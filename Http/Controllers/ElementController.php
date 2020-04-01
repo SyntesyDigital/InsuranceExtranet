@@ -534,8 +534,8 @@ class ElementController extends Controller
         if ($element_type != Element::FORM) {
             return response()->json([
                 'error' => true,
-                'message' => 'Only form type available',
-            ]);
+                'message' => 'Only form type available. Element of type '.$element_type,
+            ],422);
         }
 
         $model = $this->getModelById(
@@ -546,8 +546,8 @@ class ElementController extends Controller
         if (!$model) {
             return response()->json([
                 'error' => true,
-                'message' => 'Model id not valid',
-            ]);
+                'message' => 'Model id does not exist in Models database. Id to find : '.$model_id,
+            ],422);
         }
 
         $procedures = $this->computeFormProcedures($model->ID);
@@ -559,11 +559,19 @@ class ElementController extends Controller
           'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
-        $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        try {
+            $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ],422);
+        }
 
         return response()->json([
             'error' => false,
-            'message' => 'Model imported',
+            'message' => 'Model imported successfully',
             'model' => $elementModel,
         ]);
     }

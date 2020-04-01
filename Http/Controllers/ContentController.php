@@ -68,8 +68,12 @@ class ContentController extends Controller
 
       $pageBuilderAdapter = new PageBuilderAdapter($content);
 
-      if($request->has('debug'))
-        dd($pageBuilderAdapter->get());
+      if($request->has('debug')){
+        dd(
+          $pageBuilderAdapter->get(),
+          $this->elements->getModelsByIdentifier()
+        );
+      }
 
       return view('extranet::front.contents.page',[
         'content' => $content,
@@ -126,8 +130,12 @@ class ContentController extends Controller
             abort(404,'Insuficient parameters');
         }
 
-        if($request->has('debug'))
-          dd($pageBuilderAdapter->get());
+        if($request->has('debug')){
+          dd(
+            $pageBuilderAdapter->get(),
+            $this->elements->getModelsByIdentifier()
+          );
+        }
 
         return view('extranet::front.contents.page',[
             'content' => $content,
