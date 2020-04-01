@@ -25,15 +25,13 @@ export default class LayoutParser extends Component {
 
                 case "col":
                     let sm = /col-xs-(.*?)(?:\s|$)/g.exec(node.colClass);
-                    let md = /col-sm-(.*?)(?:\s|$)/g.exec(node.colClass);                    
-                    sm = sm ? sm[1] : 12;
-                    md = md ? md[1] : 12;
+                    let md = /col-sm-(.*?)(?:\s|$)/g.exec(node.colClass);
 
                     return (
                         <Col 
                             key={key} 
-                            sm={sm}
-                            md={md}
+                            sm={sm ? parseInt(sm[1]) : 12}
+                            md={md ? parseInt(md[1]) : 12}
                             className={"container-fields-default"}
                         >
                             {this.parseNode(node.children)}
@@ -41,7 +39,7 @@ export default class LayoutParser extends Component {
                     break;
 
                 default:
-                    return this.props.fieldRender(node);
+                    return this.props.fieldRender(node, key);
                     break;
             }
         });

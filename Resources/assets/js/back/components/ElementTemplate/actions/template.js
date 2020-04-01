@@ -54,13 +54,18 @@ export function loadTemplate(id) {
     }
 }
 
-export function deleteTemplate(id) {
+export function deleteTemplate(id, onSuccess) {
     return (dispatch) => {
         api.elementTemplates.delete(id)
-            .then(function(data) {
+            .then(function(response) {
+                toastr.success(Lang.get('fields.success'));
                 dispatch({
                     type: DELETE_TEMPLATE
                 });
+
+                if(onSuccess) {
+                    onSuccess(response);
+                }
             })
             .catch(function(error) {
                 toastr.error(error.message);

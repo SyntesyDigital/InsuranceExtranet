@@ -28,6 +28,7 @@ export default class Template extends Component {
                         templateId={this.props.templateId}
                         fields={this.props.fields}
                         templates={this.props.templates}
+                        tabsRoutes={this.props.tabsRoutes}
                     />
                 </ThemeProvider>
             </Provider>
@@ -44,6 +45,7 @@ if (document.getElementById('elements-template')) {
             templateId={element.getAttribute('templateId')}
             fields={element.getAttribute('fields')}
             templates={element.getAttribute('templates')}
+            tabsRoutes={element.getAttribute('tabsRoutes')}
         />,document.getElementById('elements-template')
     );
 }

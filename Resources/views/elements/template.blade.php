@@ -1,6 +1,18 @@
 @extends('architect::layouts.master')
 
 @section('content')
+@php 
+    $tabsRoutes = [
+        route('extranet.elements.show', $element),
+        $element->templates->count() < 1 
+            ? route('extranet.elements.template.create', $element) 
+            : route('extranet.elements.template.show', [
+                'element' => $element,
+                'template' => $element->templates->first() 
+            ])
+    ];
+@endphp 
+
 <div id="elements-template" 
     @if(isset($element))elementId="{{$element->id}}"@endif
     @if(isset($element))
@@ -8,6 +20,7 @@
     @endif
     @if($element->templates->count() > 0)templates="{{ base64_encode(json_encode($element->templates->toArray())) }}"@endif
     @if(isset($template))templateId="{{$template->id}}"@endif
+    tabsRoutes="{{base64_encode(json_encode($tabsRoutes))}}"
 ></div>
 @endsection
 
