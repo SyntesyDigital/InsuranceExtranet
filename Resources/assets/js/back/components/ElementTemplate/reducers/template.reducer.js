@@ -12,9 +12,11 @@ const initialState = {
     saved: false,
     modalItem: true,
     fields : [],
+    tabsRoutes: [],
+    templatesList: [],
     form: {
         id: null,
-        name: null,
+        name: '',
         layout: null,
         elementId: null
     }
@@ -23,13 +25,35 @@ const initialState = {
 function templateReducer(state = initialState, action) {
     switch (action.type) {
         case INIT_STATE_TEMPLATE:
+
+            // BUILD Template list
+            var templatesList = [{
+                label: 'Nouveau Template',
+                icon: 'fa fa-plus-circle',
+                route: routes['template.create']
+            }];
+
+            if(action.payload.templates) {
+                let templates = JSON.parse(atob(action.payload.templates));
+                Object.keys(templates).map((key) => {
+                    templatesList.unshift({
+                        label: templates[key].name,
+                        icon: 'fa fa-file',
+                        route: routes.template.replace(':id', templates[key].id),
+                    });
+                });
+            }
+
             return {
                 ...state,
                 form: {
                     ...state.form,
+                    id: action.payload.templateId ? action.payload.templateId : null,
                     element_id: action.payload.elementId
                 },
                 fields : action.payload.fields ? JSON.parse(atob(action.payload.fields)) : [],
+                tabsRoutes: action.payload.tabsRoutes ? JSON.parse(atob(action.payload.tabsRoutes)) : [],
+                templatesList: templatesList
             };
 
 

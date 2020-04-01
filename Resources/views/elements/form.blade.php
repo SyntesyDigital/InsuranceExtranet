@@ -1,23 +1,37 @@
 @extends('architect::layouts.master')
 
 @section('content')
+
+    @php 
+        $tabsRoutes = [
+            route('extranet.elements.show', $element),
+            $element->templates->count() < 1 
+                ? route('extranet.elements.template.create', $element) 
+                : route('extranet.elements.template.show', [
+                    'element' => $element,
+                    'template' => $element->templates->first() 
+                ])
+        ];
+    @endphp 
+
     <div id="element-form"
-      fields="{{base64_encode(json_encode($fields,true))}}"
-      model="{{base64_encode(json_encode($model,true))}}"
-      wsModelIdentifier="{{$model->ID}}"
-      wsModel="{{$model->WS or ''}}"
-      wsModelFormat="{{$model->WS_FORMAT or ''}}"
-      wsModelExemple="{{$model->EXEMPLE or ''}}"
-      parametersList="{{base64_encode(json_encode($parametersList,true))}}"
-      @if((isset($parameters)) && $parameters)
-        parameters="{{base64_encode(json_encode($parameters,true))}}"
-      @endif
-      elementType="{{$element_type}}"
-      @if((isset($element)) && $element)
-        element="{{base64_encode($element->toJson())}}"
-      @endif
-      procedures="{{base64_encode(json_encode($procedures,true))}}"
-      variables="{{base64_encode(json_encode($variables,true))}}"
+        fields="{{base64_encode(json_encode($fields,true))}}"
+        model="{{base64_encode(json_encode($model,true))}}"
+        wsModelIdentifier="{{$model->ID}}"
+        wsModel="{{$model->WS or ''}}"
+        wsModelFormat="{{$model->WS_FORMAT or ''}}"
+        wsModelExemple="{{$model->EXEMPLE or ''}}"
+        parametersList="{{base64_encode(json_encode($parametersList,true))}}"
+        @if((isset($parameters)) && $parameters)
+            parameters="{{base64_encode(json_encode($parameters,true))}}"
+        @endif
+        elementType="{{$element_type}}"
+        @if((isset($element)) && $element)
+            element="{{base64_encode($element->toJson())}}"
+        @endif
+        procedures="{{base64_encode(json_encode($procedures,true))}}"
+        variables="{{base64_encode(json_encode($variables,true))}}"
+        tabsRoutes="{{base64_encode(json_encode($tabsRoutes))}}"
     ></div>
 @stop
 
@@ -39,7 +53,7 @@
         'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
         'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
-        'extranet.elements.template' : "{{route('extranet.elements.template.create', $element)}}",
+        'extranet.elements.template' : "{{ route('extranet.elements.template.create', $element) }}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
         'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
     };
