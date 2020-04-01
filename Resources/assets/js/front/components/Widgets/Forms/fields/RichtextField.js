@@ -12,11 +12,21 @@ class RichtextField extends Component
   }
 
 
+  /*
   handleOnChange(content, delta, source, editor)
   {
     this.props.onFieldChange({
       name : this.props.field.identifier,
       value : content
+    });
+
+  }
+  */
+  handleOnChange(event) {
+
+    this.props.onFieldChange({
+      name : event.target.name,
+      value : event.target.value
     });
 
   }
@@ -53,6 +63,15 @@ class RichtextField extends Component
           </label>
         </div>
         <div className="col-sm-6">
+          <textarea
+            id={field.identifier}
+            name={field.identifier}
+            className={"form-control " + errors}
+            value={this.props.value}
+            onChange={this.handleOnChange}
+            rows={4}
+          ></textarea>
+          {/*
           <ReactQuill
              id={field.identifier}
              className={"" + errors}
@@ -63,6 +82,7 @@ class RichtextField extends Component
              formats={formats}
              height={200}
            />
+          */}
         </div>
       </div>
     );
