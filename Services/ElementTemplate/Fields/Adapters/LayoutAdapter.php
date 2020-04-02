@@ -6,7 +6,6 @@ use Modules\Architect\Entities\Language;
 use Modules\Architect\Entities\Media;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplateField;
-use Modules\Extranet\Entities\ElementField;
 
 class LayoutAdapter
 {
@@ -49,10 +48,6 @@ class LayoutAdapter
 
         if ($name) {
             $fieldName = $name;
-        }
-
-        if(isset($field['element_id'])){
-            return ElementField::find($field['id'])->toArray();
         }
 
         switch ($field['type']) {

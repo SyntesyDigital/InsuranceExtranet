@@ -12,15 +12,16 @@ import DragField from './Layout/DragField';
 import SimpleTabs from '../Layout/TabButton';
 import { connect } from 'react-redux';
 
-
 import {
     addRow,
     initStateTemplate,
     loadForm,
     submitForm,
     updateField,
-    loadTemplate
+    loadTemplate,
+    deleteTemplate
 } from './actions';
+
 import PageBuilder from '../PageBuilder/PageBuilder';
 
 class TemplateRedux extends Component {
@@ -28,36 +29,12 @@ class TemplateRedux extends Component {
     constructor(props) {
         super(props);
 
-        var templates = props.templates ? JSON.parse(atob(props.templates)) : [];
-        var elementId = props.elementId;
-        var templateId =  props.templateId ? props.templateId : null;
-
-        // BUILD Template list
-        // FIXME : move to reducer ?    
-        var templatesList = [];
-        let arr = Object.keys(templates).map((key) => {
-            templatesList.push({
-                label: templates[key].name,
-                icon: 'fa fa-file',
-                route: routes.template.replace(':id', templates[key].id),
-            });
-        });
-
-        templatesList.push({
-            label: 'Nouveau Template',
-            icon: 'fa fa-plus-circle',
-            route: routes['template.create']
-        });
-
-        this.state = {
-            templatesList: templatesList
-        };
-        //
+        this.state = {};
 
         this.props.initStateTemplate(this.props);
 
-        if(templateId) {
-            this.props.loadTemplate(templateId);
+        if(this.props.templateId) {
+            this.props.loadTemplate(this.props.templateId);
         }
     }
 
@@ -66,16 +43,31 @@ class TemplateRedux extends Component {
     // Handlers
     // ==============================
 
-    handleDeleteElement() {
-
+    handleDeleteTemplate() {
+        bootbox.confirm({
+            message:  Lang.get('fields.sure'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si'),
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label:  Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+              if(result){
+                this.props.deleteTemplate(this.props.templateId, function(response){
+                    window.location.replace(routes["template.create"]);
+                });
+              }
+            }.bind(this)
+        });
     }
 
     handleFieldChange(name, value) {
         this.props.updateField(name, value);
-    }
-
-    handleAddTemplate() {
-        console.log("handleAddTemplate");
     }
 
     handleSubmit() {
@@ -93,8 +85,9 @@ class TemplateRedux extends Component {
     }
 
     render() {
-
         const initLayout = this.props.template.form.layout;
+
+        
 
         return (
             <div className="element-template">
@@ -103,12 +96,12 @@ class TemplateRedux extends Component {
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
-                    slot={<SimpleTabs value={2} />}
+                    slot={<SimpleTabs routes={this.props.template.tabsRoutes} />}
                 >
                     {this.props.elementId &&
                     <ButtonDropdown
                         label={'Select Template'}
-                        list={this.state.templatesList}
+                        list={this.props.template.templatesList}
                     />
                     }
                     <ButtonPrimary
@@ -163,9 +156,9 @@ class TemplateRedux extends Component {
                         />
                         <hr />
 
-                        {this.props.templateId && 
+                        {this.props.template.form.id && 
                             <div className="text-right">
-                                <a className="btn btn-link text-danger" onClick={this.handleDeleteElement}><i className="fa fa-trash"></i> Supprimer</a>
+                                <a className="btn btn-link text-danger" onClick={this.handleDeleteTemplate.bind(this)}><i className="fa fa-trash"></i> Supprimer</a>
                             </div>
                         }
                   
@@ -186,6 +179,9 @@ const mapDispatchToProps = dispatch => {
     return {
         initStateTemplate: (payload) => {
             return dispatch(initStateTemplate(payload));
+        },
+        deleteTemplate: (id, onSuccess) => {
+            return dispatch(deleteTemplate(id, onSuccess));
         },
         loadTemplate: (id) => {
             return dispatch(loadTemplate(id));

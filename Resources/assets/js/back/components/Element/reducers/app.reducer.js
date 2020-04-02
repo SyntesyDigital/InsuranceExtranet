@@ -57,7 +57,8 @@ const initialState =  {
   element : null,
   settingsField : null,
   modelParameters : null,
-  modalSettingsDisplay : false
+  modalSettingsDisplay : false,
+  tabsRoutes: {}
 }
 
 function checkIfFieldAdded(field,fields) {
@@ -271,22 +272,25 @@ function appReducer(state = initialState, action) {
                 wsModelIdentifier : action.payload.wsModelIdentifier,
                 wsModel : action.payload.wsModel,
                 wsModelFormat : action.payload.wsModelFormat,
-                wsModelExemple : action.payload.wsModelExemple ?
-                  action.payload.wsModelExemple : action.payload.wsModelIdentifier,
+                wsModelExemple : action.payload.wsModelExemple 
+                    ? action.payload.wsModelExemple 
+                    : action.payload.wsModelIdentifier,
+
                 elementType :  action.payload.elementType,
                 parameters: parametersMerged,
                 parametersList : action.payload.parametersList,
                 modelParameters : modelParameters,
-                fields : action.payload.element != null ?
-                  addDefinitionToFields(
-                    action.payload.element.fields,
-                    action.payload.fieldsList
-                  ) : getRequiredFields(
-                    action.payload.fieldsList,
-                    action.payload.elementType
-                  ),
-                modelVariables : action.payload.variables != null ?
-                  action.payload.variables : [],
+                fields : action.payload.element != null 
+                    ? addDefinitionToFields(action.payload.element.fields, action.payload.fieldsList) 
+                    : getRequiredFields(action.payload.fieldsList, action.payload.elementType),
+
+                modelVariables : action.payload.variables != null 
+                    ? action.payload.variables 
+                    : [],
+
+                tabsRoutes : action.payload.tabsRoutes != null 
+                    ? action.payload.tabsRoutes 
+                    : [],
             }
         case INPUT_CHANGE :
 

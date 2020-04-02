@@ -4,6 +4,7 @@ import Label from './fields/Label';
 import CheckField from './fields/CheckField';
 import IconField from './fields/IconField';
 import DefaultField from './fields/DefaultField';
+import ImageField from './fields/ImageField';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../back/api';
 import LayoutParser from './LayoutParser';
@@ -95,7 +96,7 @@ export default class ElementCard extends Component {
     // ----------------------------------------------- //
     //      RENDERS
     // ----------------------------------------------- //
-    fieldRender(node) {
+    fieldRender(node, key) {
 
         if(node.type == 'element_field') {
             return (
@@ -106,6 +107,7 @@ export default class ElementCard extends Component {
                     labelAlign={'left'}
                     valueAlign={'left'}
                     inline={true}
+                    key={key}
                 />
             );
         }
@@ -115,6 +117,7 @@ export default class ElementCard extends Component {
             case 'text':
                     return (
                         <Label
+                            key={key}
                             text={node.field.value.fr}
                             textAlign={'center'}
                         />
@@ -124,6 +127,7 @@ export default class ElementCard extends Component {
             case 'checkfield':
                 return (
                     <CheckField
+                        key={key}
                         text={node.field.value.fr}
                         checked={true}
                     />
@@ -132,6 +136,7 @@ export default class ElementCard extends Component {
             case 'icon':
                 return (
                     <IconField
+                        key={key}
                         icon={'fas fa-' + node.field.value}
                         font={'40px'}
                         color={'#a2a8b3'}
@@ -141,7 +146,12 @@ export default class ElementCard extends Component {
                 );
                 break;
             case 'image':
-                return 'image';
+                return (
+                    <ImageField
+                        key={key}
+                        field={node.field}
+                    />
+                );
                 break;
         }
     }
@@ -158,8 +168,9 @@ export default class ElementCard extends Component {
                         layout={this.state.layout}
                         fieldRender={this.fieldRender.bind(this)}
                     />
+                </Grid>
 
-                    <Label
+                    {/* <Label
                         text={'FICHE AGRÉMENT'}
                         textAlign={'center'}
                     />
@@ -391,9 +402,9 @@ export default class ElementCard extends Component {
                                 checked={true}
                             />
                         </Col>
-                    </Row>
-                </Grid>
-                <DefaultField
+                    </Row> */}
+                {/* </Grid> */}
+                {/* <DefaultField
                     label={'RESULTAT'}
                     value={'REFUS - A SOUMETTRE'}
                     valueColor={'#c05252'}
@@ -402,7 +413,7 @@ export default class ElementCard extends Component {
                     valueAlign={'center'}
                     inline={true}
                     stripped={false}
-                />
+                /> */}
             </div>
         );
     }
