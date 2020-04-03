@@ -102,13 +102,11 @@ export default class ElementCard extends Component {
         return {};
       }
 
-      getConfig() {
+      getConfig(field) {
         var config = {
             checked : 1,
             unchecked : 0
         };
-
-        var field = this.props.field;
 
         if(field.settings.booleanValues !== undefined && 
             field.settings.booleanValues != null){
@@ -118,10 +116,10 @@ export default class ElementCard extends Component {
         return config;
     }
     
-    getConfigValue(value) {
-        var config = this.getConfig();
+    getConfigValue(field,value) {
+        var config = this.getConfig(field);
 
-        console.log("getConfigValue :: (field,config,value) ",this.props.field,config,value);
+        //console.log("getConfigValue :: (field,config,value) ",field,config,value);
 
         if(config.checked == value){
             return true;
@@ -249,7 +247,7 @@ export default class ElementCard extends Component {
                     value={value}
                     stripped={stripped}
                     key={field.id}
-                    checked={this.getConfigValue(value)}
+                    checked={this.getConfigValue(field,value)}
                     settings={settings}
                 />
                 

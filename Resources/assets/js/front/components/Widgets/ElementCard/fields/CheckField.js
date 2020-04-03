@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Row, Col } from 'react-bootstrap';;
 
 export default class CheckField extends Component {
 
@@ -12,23 +11,43 @@ export default class CheckField extends Component {
     render() {
 
         const { 
-            text, 
-            disabled, 
-            checked, 
-            value, 
-            onChange 
+            label, 
+            stripped,
+            checked,
+            valueAlign
         } = this.props;
     
+        const divStyle = {
+            overflow: 'hidden',
+          }
+        const divValue = {
+            textAlign: valueAlign,
+            padding: '8px',
+          }
+        const labelStyle = {
+            padding: '8px',
+            marginBottom: '0'
+        };
+        const checkStyle = {
+            padding: '8px',
+            marginBottom: '0',
+            paddingTop:'12px'
+        };
+
         return (
             <div style={divStyle} className={(stripped ? 'stripped' : null)}>
                 <Row>
-                    {checked && 
-                        <i className="fas fa-check-square"></i>
-                    }
-                    {!checked && 
-                        <i className="far fa-square"></i>
-                    }
-                    {text}
+                    <Col sm={1} style={checkStyle} className="text-right">
+                        {checked && 
+                            <i className="fas fa-check-square"></i>
+                        }
+                        {!checked && 
+                            <i className="far fa-square"></i>
+                        }
+                    </Col>
+                    <Col sm={11} style={divValue}>
+                        <span style={labelStyle}>{label}</span>
+                    </Col>
                 </Row>
             </div>
         );
@@ -36,7 +55,7 @@ export default class CheckField extends Component {
 }
 
 CheckField.propTypes = {
-    text: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     name: PropTypes.string,
     value: PropTypes.string,
     disabled: PropTypes.bool,
