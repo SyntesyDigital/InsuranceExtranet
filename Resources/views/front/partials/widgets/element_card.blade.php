@@ -1,12 +1,12 @@
 @php
     $htmlId = uniqid();
 
-    $elementObject = isset($field['settings']['fileElements']) 
-        ? \Modules\Extranet\Entities\Element::where('id',$field['settings']['fileElements'])->first()->load('fields')
+    $element = isset($field['settings']['fileElements']) 
+        ? \Modules\Extranet\Entities\Element::find($field['settings']['fileElements'])->load('fields')
         : null;
 
-    $model = (isset($elementObject)) && isset($models[$elementObject->model_identifier])
-        ? $models[$elementObject->model_identifier]
+    $model = (isset($element)) && isset($models[$element->model_identifier])
+        ? $models[$element->model_identifier]
         : null;
 
     $view = 'extranet::front.partials.fields.' . $field['fields'][1]['type'];
@@ -45,11 +45,10 @@
         >
 
             <div 
-                id="elementFile" 
+                id="element-card" 
                 class="elementFile"
                 field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
-                doubleColumn="{{ $field['settings']['doubleColumn'] ? $field['settings']['doubleColumn'] : false }}"
-                elementObject="{{ base64_encode(json_encode($elementObject)) }}"
+                element="{{ base64_encode(json_encode($element)) }}"
                 model="{{ base64_encode(json_encode($model)) }}"
                 parameters="{{ $parameters }}"
             >

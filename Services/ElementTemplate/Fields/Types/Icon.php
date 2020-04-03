@@ -5,11 +5,11 @@ namespace Modules\Extranet\Services\ElementTemplate\Fields\Types;
 use Modules\Extranet\Services\ElementTemplate\Fields\Field;
 use Modules\Extranet\Services\ElementTemplate\Fields\FieldInterface;
 
-class Text extends Field implements FieldInterface
+class Icon extends Field implements FieldInterface
 {
-    public $type = 'text';
+    public $type = 'icon';
     public $icon = 'fa-font';
-    public $name = 'TEXT';
+    public $name = 'ICON';
 
     public $rules = [
         'required',
@@ -19,9 +19,7 @@ class Text extends Field implements FieldInterface
     ];
 
     public $settings = [
-        'entryTitle',
         'htmlId',
         'htmlClass',
-        'textAlign'
     ];
 }

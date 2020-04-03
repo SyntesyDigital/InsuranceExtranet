@@ -8,19 +8,27 @@ use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplateField;
 use Modules\Extranet\Entities\ElementField;
 
+
 class LayoutAdapter
 {
     public function __construct(ElementTemplate $elementTemplate)
     {
         $this->elementTemplate = $elementTemplate;
         $this->languages = Language::getAllCached();
+        $this->elementFields = $this->elementTemplate->element
+            ->load('fields')
+            ->fields
+            ->mapWithKeys(function ($field) {
+                return [$field['identifier'] => $field];
+            });
     }
 
     public function get()
     {
         $nodes = json_decode($this->elementTemplate->layout, true);
 
-        return $this->getPage($nodes);
+        $layout = $this->getPage($nodes);
+        return $layout;
     }
 
     public function getPage(&$nodes)
@@ -34,8 +42,20 @@ class LayoutAdapter
                 $nodes[$key]['children'] = $this->getPage($node['children']);
             } else {
                 if (isset($node['field'])) {
-                    $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
-                    $nodes[$key]['field']['value'] = $this->buildPageField($node['field']);
+                    if(isset($node['field']['element_id'])){
+
+                        $field = $node['field'];
+                        $elementField = isset($this->elementFields[$field['identifier']])  
+                            ? $this->elementFields[$field['identifier']]->toArray() 
+                            : null ;
+
+                        $nodes[$key]['field'] = $elementField;
+                        $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
+                    }
+                    else {
+                        $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
+                        $nodes[$key]['field']['value'] = $this->buildPageField($node['field']);
+                    }
                 }
             }
         }
@@ -50,11 +70,7 @@ class LayoutAdapter
         if ($name) {
             $fieldName = $name;
         }
-
-        if(isset($field['element_id'])){
-            return ElementField::find($field['id'])->toArray();
-        }
-
+        
         switch ($field['type']) {
             case 'richtext':
             case 'text':
@@ -88,6 +104,7 @@ class LayoutAdapter
                     ->toArray();
             break;
 
+            /*
             default:
                 $fields = ElementTemplateField::where('name', $fieldName)
                     ->where('template_id', $this->elementTemplate->id)
@@ -95,6 +112,7 @@ class LayoutAdapter
 
                 return $fields ? $fields->value : null;
             break;
+            */
         }
 
         return null;

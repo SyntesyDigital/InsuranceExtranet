@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 
 import SettingsField from './SettingsField';
 import InputField from '../../Layout/Fields/InputField';
+
 
 class InputSettingsField extends Component {
 
@@ -25,10 +25,9 @@ class InputSettingsField extends Component {
       value : fieldValue
     };
 
-    console.log("handleInputChange :: ",field);
+    architect.log("InputSettingsField :: handleInputChange :: ",field);
 
     this.props.onFieldChange(field);
-    
   }
 
   render() {

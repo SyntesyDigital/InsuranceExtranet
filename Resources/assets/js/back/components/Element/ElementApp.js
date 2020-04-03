@@ -35,6 +35,7 @@ if (document.getElementById('element-form')) {
                     elementType={htmlElement.getAttribute('elementType')}
                     procedures={htmlElement.getAttribute('procedures')}
                     variables={htmlElement.getAttribute('variables')}
+                    tabsRoutes={htmlElement.getAttribute('tabsRoutes')}
                 />
         </ThemeProvider>
       </Provider>

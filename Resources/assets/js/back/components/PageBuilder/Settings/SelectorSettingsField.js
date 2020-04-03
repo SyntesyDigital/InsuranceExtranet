@@ -1,44 +1,41 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 
 import SettingsField from './SettingsField';
-import InputField from '../../Layout/Fields/InputField';
 
-class InputSettingsField extends Component {
+class SelectorSettingsField extends Component {
 
   constructor(props) {
     super(props);
   }
 
-  /**
-   *  Define what happen when input change
-   */
-  handleInputChange(name,value) {
-
-    var fieldValue = this.props.field[this.props.source][this.props.name];
-
-    fieldValue = value;
+  handleInputChange(event) {
 
     var field = {
       name : this.props.name,
       source : this.props.source,
-      value : fieldValue
+      value : event.target.value
     };
 
-    console.log("handleInputChange :: ",field);
-
     this.props.onFieldChange(field);
-    
+  }
+
+  renderOptions() {
+    return (this.props.options.map((item,i) => (
+        <option value={item.value} key={i}>{item.name}</option>
+      ))
+    );
   }
 
   render() {
-
+    
     if(this.props.field == null || this.props.field[this.props.source] == null || 
       this.props.field[this.props.source][this.props.name] === undefined)
       return null;
 
     const value = this.props.field[this.props.source][this.props.name];
-    //value is null, when setting field is disabled
+
+
+    //console.log("SelectorSettingsValue => ",value);
 
     return (
       <SettingsField
@@ -49,17 +46,18 @@ class InputSettingsField extends Component {
         source={this.props.source}
         defaultValue={''}
       >
-
-        <InputField
-          label={this.props.inputLabel}
-          name={this.props.name}
-          value={value != null ? value : ''}
-          onChange={this.handleInputChange.bind(this)}
-        />
-
-      </SettingsField>
+        <div className="form-group bmd-form-group">
+          <select className="form-control" 
+            name={this.props.name} 
+            value={value} 
+            onChange={this.handleInputChange.bind(this)} 
+          >
+            {this.renderOptions()}
+          </select>
+        </div>
+       </SettingsField>
     );
   }
 
 }
-export default InputSettingsField;
+export default SelectorSettingsField;

@@ -7,8 +7,9 @@ import {
   changeFieldSettings
 } from './../actions/';
 
-import InputSettingsField from './../../Typology/Settings/InputSettingsField';
-import BooleanSettingsField from './../../Typology/Settings/BooleanSettingsField';
+import InputSettingsField from './../Settings/InputSettingsField';
+import BooleanSettingsField from './../Settings/BooleanSettingsField';
+import SelectorSettingsField from './../Settings/SelectorSettingsField';
 
 
 class ModalEditClass extends Component {
@@ -111,6 +112,23 @@ class ModalEditClass extends Component {
       });
   }
 
+  getAlignmentOptions() {
+    return [
+          {
+              value: "",
+              name: 'gauche',
+          },
+          {
+              value: "center",
+              name: "centre",
+          },
+          {
+            value: "right",
+            name: "droite",
+          }
+      ];
+  }
+
   renderSettings() {
 
     //console.log("renderSettings!",this.state.field);
@@ -146,6 +164,61 @@ class ModalEditClass extends Component {
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label={Lang.get('modals.has_container')}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="textAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du texte'}
+          options={this.getAlignmentOptions()}
+        />
+
+
+
+        <BooleanSettingsField
+          field={data}
+          name="stripped"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Annuler ligne de couleur intercalé'}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="labelAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du libellé'}
+          options={this.getAlignmentOptions()}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="valueAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du valeur'}
+          options={this.getAlignmentOptions()}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="display"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Disposition'}
+          options={[
+            {
+                value: "",
+                name: 'Label/Valeur en ligne',
+            },
+            {
+                value: "block",
+                name: "Label/Valeur superposés",
+            }
+          ]}
         />
 
       </div>

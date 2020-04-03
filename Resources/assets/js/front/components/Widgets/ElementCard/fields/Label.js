@@ -11,18 +11,16 @@ export default class Label extends Component {
 
     const textStyle = {
       paddingBottom: '15px',
-      borderBottom: '1px solid',
+      borderBottom: '1px solid #ccc',
       marginBottom: '0'
     };
 
-    const divStyle = {
-      textAlign: this.props.textAlign
-    };
+    const divStyle = {};
 
     return (
 
       <div style={divStyle}>
-        <div className="row">
+        <div className={"row "+this.props.textAlign}>
           <h3 style={textStyle}>
             {this.props.text}
           </h3>
