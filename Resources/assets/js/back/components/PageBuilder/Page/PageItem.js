@@ -90,7 +90,7 @@ class PageItem extends Component {
   renderTextPreview() {
     var value = null;
 
-    if(this.props.data.field.value !== undefined &&
+    if(this.props.data.field.value &&
       this.props.data.field.value[DEFAULT_LOCALE] !== undefined ){
 
       value = this.props.data.field.value[DEFAULT_LOCALE];

@@ -20,20 +20,16 @@ export default class CheckField extends Component {
         } = this.props;
     
         return (
-            <div className="check-field">
-                <FormControlLabel
-                    disabled={disabled}
-                    control={
-                        <Checkbox
-                            name={name}
-                            checked={checked}
-                            value={value}
-                            color="primary"
-                            onChange={onChange}
-                        />
+            <div style={divStyle} className={(stripped ? 'stripped' : null)}>
+                <Row>
+                    {checked && 
+                        <i className="fas fa-check-square"></i>
                     }
-                    label={text}
-                />
+                    {!checked && 
+                        <i className="far fa-square"></i>
+                    }
+                    {text}
+                </Row>
             </div>
         );
     }
@@ -44,5 +40,6 @@ CheckField.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
     disabled: PropTypes.bool,
-    checked: PropTypes.bool
+    checked: PropTypes.bool,
+    stripped: PropTypes.bool,
 };

@@ -13,13 +13,41 @@ export default class LayoutParser extends Component {
         };
     }
 
-    parseNode(nodes) {
+    /**
+     * Merge settings along hierarchy. Necessary to final field, for col properties.
+     * @param {} node 
+     * @param {*} settings 
+     */
+    mergeSettings(node,settings) {
+        const newSettings = node.settings;
+
+        return {
+            ...settings,
+            ...newSettings
+        };
+    }
+
+    parseNode(nodes,settings) {
+
+
+        
         return nodes.map((node, key) => {
+
+            const alignment = node.settings && node.settings.textAlign ? 
+                'text-'+node.settings.textAlign : '';
+
             switch(node.type) {
                 case "row":
+                    console.log("parseNode :: row (node)",node);
+
                     return (
-                        <Row key={key}>
-                            {this.parseNode(node.children)}
+                        <Row key={key} className={alignment}>
+                            {node.children != null && 
+                                this.parseNode(
+                                    node.children,
+                                    this.mergeSettings(node,settings)
+                                )
+                            }
                         </Row>);
                     break;
 
@@ -32,14 +60,23 @@ export default class LayoutParser extends Component {
                             key={key} 
                             sm={sm ? parseInt(sm[1]) : 12}
                             md={md ? parseInt(md[1]) : 12}
-                            className={"container-fields-default"}
+                            className={"container-fields-default border-right "+(" "+alignment)}
                         >
-                            {this.parseNode(node.children)}
+                            {node.children != null && 
+                                this.parseNode(
+                                    node.children,
+                                    this.mergeSettings(node,settings)
+                                )
+                            }
                         </Col>);
                     break;
 
                 default:
-                    return this.props.fieldRender(node, key);
+                    return this.props.fieldRender(
+                        node, 
+                        key, 
+                        this.mergeSettings(node,settings)
+                    );
                     break;
             }
         });

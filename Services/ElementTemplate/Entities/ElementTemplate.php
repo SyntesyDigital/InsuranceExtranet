@@ -35,6 +35,6 @@ class ElementTemplate extends Model
 
     public function element(): HasOne
     {
-        return $this->hasMany(Element::class, 'id', 'element_id');
+        return $this->hasOne(Element::class, 'id', 'element_id');
     }
 }

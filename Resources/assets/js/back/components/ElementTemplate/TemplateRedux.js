@@ -71,18 +71,37 @@ class TemplateRedux extends Component {
     }
 
     handleSubmit() {
+        var self = this;
         this.props.submitForm(this.props.template.form, function(response){
-            window.location.replace(routes["template"].replace(':id', response.id));
+            if(!self.props.template.form.id) {
+                window.location.replace(routes["template"].replace(':id', response.id));
+            }
+
         });
+    }
+
+    handleLayoutChange(layout) {
+        this.props.updateField('layout', layout);
     }
 
     // ==============================
     // Renderers
     // ==============================
 
-    handleLayoutChange(layout) {
-        this.props.updateField('layout', layout);
+    renderFields() {
+
+        if(!this.props.template || !this.props.template.fields){
+            return null;
+        }
+
+        return this.props.template.fields.map((item) => 
+            <DragField
+                label={item.name}
+                icon={item.icon}
+            />
+        );
     }
+    
 
     render() {
         const initLayout = this.props.template.form.layout;
@@ -121,7 +140,7 @@ class TemplateRedux extends Component {
                             nonAllowedFields={[
                                 "contents","boolean","date","file",
                                 "images","key_values","localization","slug",
-                                "translated_file","link","url","video"
+                                "translated_file","link","url","video","richtext","icon"
                             ]}
                             onChange={this.handleLayoutChange.bind(this)}
                         />
@@ -137,23 +156,8 @@ class TemplateRedux extends Component {
                         
                         <hr />
                         <h3>AJOUTER CHAMPS</h3>
-                        <DragField
-                            label={'Element Field 3'}
-                            icon={'fas fa-font'}
-                            arrayOfItems={this.state.elements}
-                        />
-                        <DragField
-                            label={'Element Field 3'}
-                            icon={'fas fa-font'}
-                        />
-                        <DragField
-                            label={'Element Field 3'}
-                            icon={'fas fa-font'}
-                        />
-                        <DragField
-                            label={'Element Field 3'}
-                            icon={'fas fa-font'}
-                        />
+                        
+                        {this.renderFields()}
                         <hr />
 
                         {this.props.template.form.id && 

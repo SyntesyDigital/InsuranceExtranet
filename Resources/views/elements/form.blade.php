@@ -3,15 +3,18 @@
 @section('content')
 
     @php 
-        $tabsRoutes = [
-            route('extranet.elements.show', $element),
-            $element->templates->count() < 1 
-                ? route('extranet.elements.template.create', $element) 
-                : route('extranet.elements.template.show', [
-                    'element' => $element,
-                    'template' => $element->templates->first() 
-                ])
-        ];
+        $tabsRoutes = [];
+        if(isset($element)){
+            $tabsRoutes = [
+                route('extranet.elements.show', $element),
+                $element->templates->count() < 1 
+                    ? route('extranet.elements.template.create', $element) 
+                    : route('extranet.elements.template.show', [
+                        'element' => $element,
+                        'template' => $element->templates->first() 
+                    ])
+            ];
+        }
     @endphp 
 
     <div id="element-form"
@@ -60,6 +63,7 @@
 @else 
     var routes = {
         'elements' : "{{route('extranet.elements.typeIndex',$element_type)}}",
+        'showElement' : "{{route('extranet.elements.show', ['element' => ':element'])}}",
         'contents.data' : "{{ route('contents.modal.data') }}",
         'extranet.elements.datatable' : "{{ route('extranet.elements.datatable') }}",
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",

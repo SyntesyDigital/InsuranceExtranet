@@ -72,6 +72,8 @@ class ElementForm extends Component {
             wsModelExemple: this.props.app.wsModelExemple ? this.props.app.wsModelExemple : null,
             elementType: this.props.app.elementType ? this.props.app.elementType : null,
             parameters: this.props.app.parameters ? this.props.app.parameters : null
+        }, function(response){
+            window.location.href = routes.showElement.replace(':element',response.element.id);
         });
     }
 
@@ -154,8 +156,8 @@ const mapDispatchToProps = dispatch => {
         initState: (payload) => {
             return dispatch(initState(payload));
         },
-        submitForm: (data) => {
-            return dispatch(submitForm(data));
+        submitForm: (data,onSuccess) => {
+            return dispatch(submitForm(data,onSuccess));
         }
     }
 }

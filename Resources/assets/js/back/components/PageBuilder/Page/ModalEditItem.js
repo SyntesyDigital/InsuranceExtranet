@@ -30,18 +30,16 @@ import ListWidget from './../Widgets/ListWidget';
 import TitleImageWidget from './../Widgets/TitleImageWidget';
 
 
-import InputSettingsField from './../../Typology/Settings/InputSettingsField';
-import RadioSettingsField from './../../Typology/Settings/RadioSettingsField';
-import SelectorSettingsField from './../../Typology/Settings/SelectorSettingsField';
-import InputTranslatedSettingsField from './../../Typology/Settings/InputTranslatedSettingsField';
-import BooleanSettingsField from './../../Typology/Settings/BooleanSettingsField';
+import InputSettingsField from './../Settings/InputSettingsField';
+import RadioSettingsField from './../Settings/RadioSettingsField';
+import SelectorSettingsField from './../Settings/SelectorSettingsField';
+
+import InputTranslatedSettingsField from './../Settings/InputTranslatedSettingsField';
 
 import HiddenFilter from './Settings/HiddenFilter';
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 
 import ModalEditListItem from './ModalEditListItem';
-
-import axios from 'axios';
 
 class ModalEditItem extends Component {
 
@@ -492,7 +490,7 @@ class ModalEditItem extends Component {
 
   renderSettings() {
 
-    ////console.log("renderSettings!",this.state.field);
+    //console.log("ModalEditItem :: renderSettings!",this.state.field);
 
     return (
       <div>
@@ -566,6 +564,28 @@ class ModalEditItem extends Component {
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label="Afficher selon conditions"
           parameters={this.props.app.parametersList}
+        />
+
+        <SelectorSettingsField
+          field={this.state.field}
+          name="textAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du texte'}
+          options={[
+              {
+                  value: "",
+                  name: 'gauche',
+              },
+              {
+                  value: "center",
+                  name: "centre",
+              },
+              {
+                value: "right",
+                name: "droite",
+              }
+          ]}
         />
 
       </div>
