@@ -1,0 +1,19 @@
+.file-field {
+  .uploaded-file {
+
+    border: 1px solid #77a9f4;
+    padding: 5px 10px;
+
+    .col-xs-10 {
+      padding-left:0;
+      line-height: 22px;
+    }
+    .col-xs-2{
+      text-align: right;
+      padding: 0;
+      .btn i {
+        margin:0;
+      }
+    }
+  }
+}

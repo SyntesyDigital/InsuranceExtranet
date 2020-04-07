@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { render } from 'react-dom';
 
 import ModalListField from './ModalListField';
+import Label from './../../ElementCard/fields/Label';
 
 class ListField extends Component
 {
@@ -60,30 +61,15 @@ class ListField extends Component
 
     return fields.map((item,index) => {
 
-      if(item.identifier == 'datas'){
+      //only a maximum of 4 render previews are available
+      if(item.identifier == 'datas' || index >= 4){
         return null;
       }
 
       return (
-        <th key={index}>{value[item.identifier]}</th>
+        <div className="col-xs-3" key={index}>{value[item.identifier]}</div>
       )
     });
-
-    /*
-    return Object.keys(value).map((key) => {
-      var item = value[key];
-
-      //if is a base64 string print null
-      if(item === undefined || item == null ||
-        item == '' || item.indexOf('data:') != -1){
-          return (<td></td>);
-      }
-
-      return (
-        <td>{item}</td>
-      );
-    });
-    */
   }
 
   handleEditItem(item,e) {
@@ -100,55 +86,67 @@ class ListField extends Component
 
       const {value} = this.state;
 
-      value.splice(index,1);
-      this.setState({
-        value : value
-      });
-  }
+      var _this = this;
 
-  renderValues() {
-    const {value} = this.state;
-    const {fields} = this.props.field.settings;
-
-    return value.map((item,key) => {
-
-      return (
-          <tr key={key}>
-            {this.renderCols(item,fields)}
-            <td className="text-right">
-              <a href="#" className="btn btn-link"
-                onClick={this.handleEditItem.bind(this,item)}
-              >
-                <i className="fas fa-pencil-alt"></i>
-              </a> &nbsp;
-              <a href="#" className="btn btn-link btn-danger"
-                onClick={this.handleRemoveItem.bind(this,key)}
-              >
-                <i className="fas fa-trash-alt"></i>
-              </a>
-            </td>
-          </tr>
-        )
+      bootbox.confirm({
+        message: this.props.rempoveMessage !== undefined ?
+            this.props.rempoveMessage : 'Êtes-vous sûr de vouloir supprimer cette ligne et son contenu ?',
+        buttons: {
+            confirm: {
+                label: Lang.get('Oui'),
+                className: 'btn-primary'
+            },
+            cancel: {
+                label: Lang.get('Non'),
+                className: 'btn-default'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                value.splice(index,1);
+                _this.setState({
+                  value : value
+                });
+            }
+        }
     });
   }
 
   renderTable() {
-    return (
-      <table className="table">
-        <thead>
-          <tr>
-            {this.renderFields()}
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-            {this.state.value.length > 0 &&
-              this.renderValues()
-            }
-        </tbody>
-      </table>
+
+    const {value} = this.state;
+    const {fields} = this.props.field.settings;
+    const {field} = this.props;
+
+    if(this.state.value.length == 0)
+      return null;
+
+    console.log("renderTable => (field,value,fields)",field,value,fields);
+
+    return value.map((item,key) => 
+      <div className="typology-field field-list-item" key={key}>
+          <div className="field-type">
+              <i class="fa fa-file"></i> &nbsp;
+          </div>
+          <div className="field-labels">
+              <div className="row">
+                {this.renderCols(item,fields)}
+              </div>
+          </div>
+          <div className="field-actions text-primary" style={{ paddingRight: '15px' }}>
+              <a href="#" className="text-primary" onClick={this.handleEditItem.bind(this,item)}>
+                <i className="fas fa-pencil-alt"></i>
+              </a>
+              <a href="#" className="text-danger" onClick={this.handleRemoveItem.bind(this,key)}>
+                <i className="fa fa-trash"></i>
+              </a>
+          </div>
+        </div>
     );
+
   }
+
+
 
   handleModalClose(){
     this.setState({
@@ -177,12 +175,24 @@ class ListField extends Component
 
   render() {
 
+    const divStyle = {
+      cursor: 'pointer',
+      textAlign: 'center',
+      border: '1px dashed #ccc',
+      padding: '15px',
+      marginBottom: '25px',
+    };
+
     const {field} = this.props;
 
     //console.log("List Field => ",field);
 
     return (
       <div className="list-field">
+
+        <Label 
+          text={field.name}
+        />
 
         <ModalListField
           id={field.id}
@@ -194,6 +204,22 @@ class ListField extends Component
           fields={this.props.field.settings.fields}
           onAjouter={this.handleModalSubmit.bind(this)}
         />
+
+
+        <div className="fields-list-container">
+            <div class="list-items">
+              {this.renderTable()}
+            </div>
+            <div id={field.identifier} style={divStyle} className="more-btn">
+                <a href="#" className="btn"  onClick={this.openModal.bind(this)} style={{ borderRadius: '20px' }}>
+                    <span className="field-name"><i className="fas fa-plus-circle"></i> Ajouter</span>
+                </a>
+            </div>
+        </div>
+
+
+
+        {/*
 
         <div className="row element-form-row">
           <div className="col-sm-4">
@@ -212,6 +238,7 @@ class ListField extends Component
             </div>
           </div>
         }
+        */}
       </div>
     );
   }

@@ -12,7 +12,7 @@ export default class Label extends Component {
     const textStyle = {
       paddingBottom: '15px',
       borderBottom: '1px solid #ccc',
-      marginBottom: '0'
+      textTransform : 'uppercase'
     };
 
     const divStyle = {};

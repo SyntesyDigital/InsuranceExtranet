@@ -101,7 +101,10 @@ class ElementForm extends Component {
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
-                    slot={ this.props.app.element && this.props.app.element.type != "table" ? <SimpleTabs routes={this.props.app.tabsRoutes} /> : null}
+                    slot={ this.props.app.element && this.props.app.element.type != "table" 
+                        ? <SimpleTabs routes={this.props.app.tabsRoutes} /> 
+                        : null
+                    }
                 >
                     <ButtonPrimary
                         label={'Sauvegarder'}

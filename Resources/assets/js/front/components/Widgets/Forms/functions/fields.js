@@ -10,6 +10,8 @@ import FileField from './../fields/FileField';
 import CheckField from './../fields/CheckField';
 import LabelField from './../fields/LabelField';
 import CarField from './../fields/CarField';
+import YesNoField from './../fields/YesNoField';
+import RadioField from './../fields/RadioField';
 
 import {
   HIDDEN_FIELD,
@@ -32,7 +34,9 @@ const fieldComponents = {
     list:ListField,
     boolean : CheckField,
     label : LabelField,
-    car : CarField
+    car : CarField,
+    yesno : YesNoField,
+    radio : RadioField
 };
 
 export function getFieldComponent(type) {

@@ -6,9 +6,40 @@ class NumberField extends Component
   constructor(props)
   {
     super(props);
+    this.state = {
+      addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
+
+  // ==============================
+  // Handlers
+  // ==============================
+
+  handleBlur(e){
+    this.setState({ 
+      addClassBordered: false 
+    });
+  }
+
+  handleFocus(e){
+    this.setState({ 
+      addClassBordered: true
+    });
+  }
+
+  handleFocus(e){
+      if (e.target.value != '') {
+          this.setState({ 
+              addClassBordered: false
+          });
+      }else{
+          this.setState({ 
+              addClassBordered: true
+          });
+      }
+  }  
 
   handleOnChange(event)
   {
@@ -16,6 +47,19 @@ class NumberField extends Component
     var value = parseInt(event.target.value);
     var max = parseInt(this.getNumberFromRules('maxNumber'));
     var min = parseInt(this.getNumberFromRules('minNumber'));
+
+    min = min && min != "" ? min : -Number.MAX_VALUE;
+    max = max && max != "" ? max : Number.MAX_VALUE;
+
+    console.log("Number Field :: handleOnChange (value,max,min)",value,max,min);
+
+    if(isNaN(value)){
+      this.props.onFieldChange({
+        name : event.target.name,
+        value : ''
+      });
+      return;
+    }
 
     if(min != '' && value < min){
       return;
@@ -62,7 +106,7 @@ class NumberField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
@@ -72,26 +116,30 @@ class NumberField extends Component
       isRequired = field.required;
     }
 
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
+
     return (
 
-      <div className="row element-form-row">
-        <div className="col-sm-4">
-          <label>{field.name}
+      <div className={"form-group bmd-form-group" + (errors)}>
+        <label className="bmd-label-floating">
+            {field.name} 
             {isRequired &&
               <span className="required">&nbsp; *</span>
             }
-          </label>
-        </div>
-        <div className="col-sm-6">
-          <input type="number" name={field.identifier}
-            className={"form-control " + errors}
-            value={this.props.value}
-            max={this.getNumberFromRules('maxNumber')}
-            min={this.getNumberFromRules('minNumber')}
-            onChange={this.handleOnChange.bind(this)}
-            placeholder={this.getPlaceholder()}
-          />
-        </div>
+        </label>
+        <input type="number" name={field.identifier}
+          className={"form-control " + (textFieldClass.join(' '))}
+          value={this.props.value}
+          max={this.getNumberFromRules('maxNumber')}
+          min={this.getNumberFromRules('minNumber')}
+          onChange={this.handleOnChange.bind(this)}
+          onBlur={this.handleBlur.bind(this)}
+          onFocus={this.handleFocus.bind(this)}
+          placeholder={this.getPlaceholder()}
+        />
       </div>
     );
   }

@@ -1,5 +1,9 @@
 .check-field {
     label {
+        span{
+            color:#77a9f4;
+        }
+        float: none;
         span.MuiTypography-root {
             color:$brand-dark-color-1 !important;
         }
