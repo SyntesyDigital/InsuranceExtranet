@@ -5,9 +5,16 @@ import FormComponent from './Forms/Form/FormComponent';
 
 export default class ElementForm extends Component {
 
-    constructor(props)
-    {
+    constructor(props){
         super(props);
+
+        //console.log("props.field",props.field);
+        var template = props.field.settings.template ? props.field.settings.template : null;
+
+        this.state = {
+          field : props.field,
+          template : template
+        }
     }
 
     handleFormFinished() {
@@ -24,6 +31,7 @@ export default class ElementForm extends Component {
             finalRedirectUrl={this.props.finalRedirectUrl}
             onFormFinished={this.handleFormFinished.bind(this)}
             version={"2"}
+            template={this.state.template}
           />
         );
     }

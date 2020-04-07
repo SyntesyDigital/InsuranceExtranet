@@ -115,6 +115,10 @@
 
 
   .element-form-row{
+
+    
+
+
     margin:15px 0;
     label{
       padding:7px 0;
@@ -123,6 +127,7 @@
       }
     }
     .buttons{
+      text-align: center;
       margin-top:20px;
       padding-bottom: 20px;
       .btn{
@@ -138,6 +143,16 @@
         }
       }
     }
+
+    /**
+    *   Conditions when is form preload
+    */
+    .preload-form {
+      .buttons {
+        text-align: right;
+      }
+    }
+
   }
 
   input.is-invalid {
@@ -262,4 +277,24 @@
       border-bottom-right-radius: 12px;
   }
 
+}
+
+
+/* Template */
+.element-form-container{
+  .layout {
+
+    h3{
+      margin-bottom: 10px;
+    }
+
+    .border-right {
+      border:none;
+    }
+
+    .container-fields-default {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
 }

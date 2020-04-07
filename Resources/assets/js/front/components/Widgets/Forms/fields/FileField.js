@@ -114,7 +114,7 @@ class FileField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
@@ -124,18 +124,21 @@ class FileField extends Component
       isRequired = field.required;
     }
 
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
 
     return (
 
-      <div className="row element-form-row">
-        <div className="col-sm-4">
-          <label>{field.name}
-          {isRequired &&
-            <span className="required">&nbsp; *</span>
-          }
-          </label>
-        </div>
-        <div className="col-sm-6">
+      <div className={"form-group bmd-form-group file-field " + (errors)}>
+        <label className="bmd-label-floating">
+            {field.name} 
+            {isRequired &&
+              <span className="required">&nbsp; *</span>
+            }
+        </label>
+        <div>
           {(this.props.value == null || this.props.value == '') &&
 
             <FilePicker
@@ -143,19 +146,19 @@ class FileField extends Component
               onChange={this.handleOnChange.bind(this)}
               onError={this.handleError.bind(this)}
             >
-              <a className="btn btn-default" href="#">
+              <button className="btn btn-default" href="#" type="button">
                 <i className="fas fa-paperclip"></i> télécharger le fichier
-              </a>
+              </button>
             </FilePicker>
           }
 
           {this.props.value != null && this.props.value != '' &&
-            <div className="row">
+            <div className="row uploaded-file">
               <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
                 {this.props.values['docName']}
               </div>
               <div className="col-xs-2">
-                <a href="#" className="btn btn-link btn-danger"
+                <a href="" className="btn btn-link btn-danger"
                   onClick={this.removeFile.bind(this)}
                 >
                   <i className="fas fa-trash-alt"></i>
@@ -163,8 +166,6 @@ class FileField extends Component
               </div>
             </div>
           }
-
-
         </div>
       </div>
     );

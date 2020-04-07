@@ -8,20 +8,41 @@ class RichtextField extends Component
   constructor(props)
   {
     super(props);
+    this.state = {
+      addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
 
-  /*
-  handleOnChange(content, delta, source, editor)
-  {
-    this.props.onFieldChange({
-      name : this.props.field.identifier,
-      value : content
-    });
+  // ==============================
+  // Handlers
+  // ==============================
 
+  handleBlur(e){
+    this.setState({ 
+      addClassBordered: false 
+    });
   }
-  */
+
+  handleFocus(e){
+    this.setState({ 
+      addClassBordered: true
+    });
+  }
+
+  handleFocus(e){
+      if (e.target.value != '') {
+          this.setState({ 
+              addClassBordered: false
+          });
+      }else{
+          this.setState({ 
+              addClassBordered: true
+          });
+      }
+  }  
+
   handleOnChange(event) {
 
     this.props.onFieldChange({
@@ -36,54 +57,33 @@ class RichtextField extends Component
     const {field} = this.props;
     const isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
 
-    var modules = {
-      toolbar: [
-        ['bold', 'italic', 'underline','strike', 'blockquote'],
-        [{'list': 'ordered'}, {'list': 'bullet'}],
-        ['link']
-      ],
-     };
- 
-      var formats = [
-        'bold', 'italic', 'underline', 'strike',
-        'list', 'bullet', 'indent',
-        'link'
-      ];
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
 
     return (
 
-      <div className="row element-form-row richttext-field">
-        <div className="col-sm-4">
-          <label>{field.name}
-          {isRequired &&
-            <span className="required">&nbsp; *</span>
-          }
-          </label>
-        </div>
-        <div className="col-sm-6">
-          <textarea
-            id={field.identifier}
-            name={field.identifier}
-            className={"form-control " + errors}
-            value={this.props.value}
-            onChange={this.handleOnChange}
-            rows={4}
-          ></textarea>
-          {/*
-          <ReactQuill
-             id={field.identifier}
-             className={"" + errors}
-             parent={this}
-             value={this.props.value}
-             onChange={this.handleOnChange}
-             modules={modules}
-             formats={formats}
-             height={200}
-           />
-          */}
-        </div>
+      <div className={"form-group bmd-form-group" + (errors)}>
+        <label className="bmd-label-floating">
+            {field.name} 
+            {isRequired &&
+              <span className="required">&nbsp; *</span>
+            }
+        </label>
+        
+        <textarea
+          id={field.identifier}
+          name={field.identifier}
+          className={"form-control " + (textFieldClass.join(' '))}
+          value={this.props.value}
+          onChange={this.handleOnChange}
+          onBlur={this.handleBlur.bind(this)}
+          onFocus={this.handleFocus.bind(this)}
+          rows={4}
+        ></textarea>
       </div>
     );
   }

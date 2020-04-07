@@ -32,6 +32,7 @@ export default class FormComponent extends Component {
               preloadUpdate={this.props.preloadUpdate ? 
                 this.props.preloadUpdate : false}
               onPreloadUpdated={this.props.onPreloadUpdated}
+              template={this.props.template ? this.props.template : null}
             />
           </Provider>
         );

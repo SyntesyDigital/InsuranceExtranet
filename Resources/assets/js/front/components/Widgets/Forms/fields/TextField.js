@@ -1,15 +1,32 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
+import PropTypes from 'prop-types';
 
 class TextField extends Component
 {
   constructor(props)
   {
     super(props);
+    this.state = {
+      addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
+  }
+  
+  // ==============================
+  // Handlers
+  // ==============================
 
+  handleBlur(e){
+    this.setState({ 
+      addClassBordered: false 
+    });
   }
 
+  handleFocus(e){
+    this.setState({ 
+      addClassBordered: true
+    });
+  }
 
   handleOnChange(event)
   {
@@ -24,7 +41,7 @@ class TextField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
@@ -34,31 +51,42 @@ class TextField extends Component
       isRequired = field.required;
     }
 
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
+
     return (
 
-      <div className="row element-form-row">
-        <div className="col-sm-4">
-          <label>{field.name}
-          {isRequired &&
-            <span className="required">&nbsp; *</span>
-          }
-          </label>
-        </div>
-        <div className="col-sm-6">
-          
-          <input
+      <div className={"form-group bmd-form-group" + (errors)}>
+        <label className="bmd-label-floating">
+            {field.name} 
+            {isRequired &&
+              <span className="required">&nbsp; *</span>
+            }
+        </label>
+        <input
             type="text"
+            className={"form-control " + (textFieldClass.join(' '))}
             name={field.identifier}
-            className={"form-control " + errors}
             value={this.props.value}
             onChange={this.handleOnChange.bind(this)}
-
-          />
-        </div>
+            onBlur={this.handleBlur.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+        />
       </div>
+      
     );
   }
 
 }
 
 export default TextField;
+
+TextField.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  isFilled: PropTypes.bool,
+  onChange: PropTypes.func
+};

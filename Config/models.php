@@ -102,6 +102,26 @@ return [
           'conditionalFormatting'
         ]
       ],
+      'radio' => [
+        'mapping' => 'radio',
+        'identifier' => 'radio',
+        'label' => 'Radio',
+        'icon' => 'far fa-dot-circle',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'ws',
+          'conditionalVisibility',
+          'defaultValue',
+          'conditionalFormatting'
+        ]
+      ],
       'file' => [
         'mapping' => 'doc',
         'identifier' => 'file',
@@ -162,6 +182,24 @@ return [
         'identifier' => 'boolean',
         'label' => 'Boolean',
         'icon' => 'far fa-check-square',
+        'formats' => [],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault'
+        ],
+        'settings' => [
+          'booleanValues',
+          'conditionalVisibility',
+          'defaultValue',
+        ]
+      ],
+      'yesno' => [
+        'mapping' => 'yesno',
+        'identifier' => 'yesno',
+        'label' => 'Oui/Non',
+        'icon' => 'fas fa-toggle-on',
         'formats' => [],
         'rules' => [
           'required',

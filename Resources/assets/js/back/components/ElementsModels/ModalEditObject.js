@@ -188,7 +188,7 @@ class ModalEditObject extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            {currentObject.format == 'select' && 
+                            {(currentObject.format == 'select' || currentObject.format == 'radio' ) && 
                                 <InputField
                                     label={'Boby'}
                                     name={'boby'}

@@ -11,6 +11,9 @@ class DateField extends Component
   constructor(props)
   {
     super(props);
+    this.state = {
+      addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
 
     this.state = {
@@ -18,13 +21,15 @@ class DateField extends Component
     }
   }
 
-
+  // ==============================
+  // Handlers
+  // ==============================
   handleOnChange(date)
   {
 
     var field = {
       name : this.props.field.identifier,
-      value : date.format(this.getDateFormat())
+      value : date ? date.format(this.getDateFormat()) : ''
     };
 
     this.props.onFieldChange(field);
@@ -151,7 +156,7 @@ class DateField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
     const maxDate = this.getMaxDate();
@@ -165,34 +170,35 @@ class DateField extends Component
       isRequired = field.required;
     }
 
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
+
     return (
 
-      <div className="row element-form-row">
-        <div className="col-sm-4">
-          <label>{field.name}
+      <div className={"form-group bmd-form-group" + (errors)}>
+        <label className="bmd-label-floating">
+            {field.name} 
             {isRequired &&
               <span className="required">&nbsp; *</span>
             }
-          </label>
-        </div>
-        <div className="col-sm-6">
-          <DatePicker
-              className={"form-control "+errors}
-              selected={this.state.value}
-              onChange={this.handleOnChange}
-              dateFormat={this.getDateFormat()}
-              timeIntervals={15}
-              locale="fr"
-              showTimeSelect={this.isTime()}
-              showTimeSelectOnly={this.isTime()}
-              //showMonthYearPicker={this.isMonthYear()}
-              timeCaption="Heure"
-              timeFormat="HH:mm"
-              maxDate={maxDate}
-              minDate={minDate}
-              //onBlur={this.handleOnBlur.bind(this)}
-          />
-        </div>
+        </label>
+        <DatePicker
+            className={"form-control " + (textFieldClass.join(' '))}
+            selected={this.state.value}
+            onChange={this.handleOnChange}
+            dateFormat={this.getDateFormat()}
+            timeIntervals={15}
+            locale="fr"
+            showTimeSelect={this.isTime()}
+            showTimeSelectOnly={this.isTime()}
+            //showMonthYearPicker={this.isMonthYear()}
+            timeCaption="Heure"
+            timeFormat="HH:mm"
+            maxDate={maxDate}
+            minDate={minDate}
+        />
       </div>
     );
   }

@@ -1,6 +1,17 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 import axios from 'axios';
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+      fontSize: 18,
+  },
+});
 
 import {
   HIDDEN_FIELD
@@ -10,7 +21,7 @@ import {
   parameteres2Array
 } from './../functions/';
 
-class SelectField extends Component
+class RadioField extends Component
 {
   constructor(props)
   {
@@ -136,25 +147,45 @@ class SelectField extends Component
 
   handleOnChange(event)
   {
-
     this.props.onFieldChange({
-      name : event.target.name,
+      name : this.props.field.identifier,
       value : event.target.value
     });
-
   }
 
   renderOptions() {
 
-    return this.state.data.map((item,index) =>
-      <option value={item.value} key={index}>{item.name}</option>
-    );
+    const value = this.props.value ? this.props.value : ''; 
+
+   return this.state.data.map((item, index) => {
+        const bordered = item.value == value ? 'bordered' : '';
+        const checked = item.value == value ? true : false;
+        return (
+            <FormControlLabel
+                key={index}
+                value={item.value}
+                control={
+                    <Radio
+                        color="primary"
+                        onChange={this.handleOnChange.bind(this)}
+                        value={item.value}
+                        checked={checked}
+                    />
+                }
+                label={item.name}
+                labelPlacement="start"
+                className={bordered}
+            />
+        )
+    })
+
+
   }
 
   render() {
 
     const {field} = this.props;
-    let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
+    let defaultValue = this.state.loading ? 'Chargement...' : '';
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
     const errors = this.props.error ? ' has-error' : '';
     const display = this.state.display;
@@ -174,30 +205,31 @@ class SelectField extends Component
     }
 
     return (
-
       <div className={"form-group bmd-form-group" + (errors)} style={{display : display ? 'block' : 'none'}}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-        </label>
-        <select
-          name={field.identifier}
-          className={"form-control " + (textFieldClass.join(' '))}
-          value={this.props.value}
-          onChange={this.handleOnChange.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
-          onFocus={this.handleFocus.bind(this)}
-        >
-          <option value="">{defaultValue}</option>
-          {this.renderOptions()}
-        </select>
-        
+        <ThemeProvider theme={theme}>
+          <FormControl component="fieldset" className={'container-radio-field'}>
+              <label className="bmd-label-floating">
+                {field.name} 
+                {isRequired &&
+                  <span className="required">&nbsp; *</span>
+                }
+              </label>
+              <div>
+                {defaultValue}
+              </div>
+              <RadioGroup 
+                  aria-label="position" 
+                  name="position" 
+              >
+                  {this.renderOptions()}
+              </RadioGroup>
+          </FormControl>
+        </ThemeProvider>
       </div>
+
     );
   }
 
 }
 
-export default SelectField;
+export default RadioField;
