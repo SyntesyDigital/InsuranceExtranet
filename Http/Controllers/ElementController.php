@@ -582,4 +582,11 @@ class ElementController extends Controller
 
         return response()->json($models);
     }
+
+    public function getElements() 
+    {
+        $elements= Element::all();
+        $elements->load('attrs','templates');
+        return $elements->toArray();
+    }
 }

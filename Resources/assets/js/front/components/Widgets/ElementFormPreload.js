@@ -14,12 +14,15 @@ export default class ElementFormPreload extends Component {
     {
         super(props);
 
+        var template = props.field.settings.template ? props.field.settings.template : null;
+
         this.state = {
           preloaded : false,
           formPreloadEnabled : true,
           formEnabled : false,
           preloadParameters : {},
-          formPreloadUpdate : false
+          formPreloadUpdate : false,
+          template : template
         };
     }
 
@@ -73,6 +76,7 @@ export default class ElementFormPreload extends Component {
               parentFormParameters={this.state.preloadParameters}
               preloadUpdate={this.state.formPreloadUpdate}
               onPreloadUpdated={this.handlePreloadUpdate.bind(this)}
+              template={this.state.template}
             />
           </div>
         );
