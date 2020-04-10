@@ -147,9 +147,16 @@
     /**
     *   Conditions when is form preload
     */
-    .preload-form {
+    &.preload-form {
+
+      margin: 0px;
+      padding:0px;
+
+
       .buttons {
-        text-align: right;
+        text-align: left;
+        padding-left: 41px;
+        margin-bottom: 20px;
       }
     }
 
