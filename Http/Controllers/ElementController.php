@@ -257,7 +257,12 @@ class ElementController extends Controller
             $handle = fopen($filepath, 'w+');
 
             $titles = $element->fields()->pluck('name')->toArray();
-            fputcsv($handle, $titles);
+            $row = [];
+            foreach ($titles as $key => $value) {
+                array_push($row, isset($value) ? mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8') : '');
+            }
+
+            fputcsv($handle, $row, ";");
         } else {
             $filepath = storage_path().'/app/'.$filename;
             $handle = fopen($filepath, 'a+');
@@ -272,10 +277,10 @@ class ElementController extends Controller
         foreach ($modelValues as $modelValue) {
             $row = [];
             foreach ($columns as $key => $value) {
-                array_push($row, isset($modelValue[$key]) ? $modelValue[$key] : '');
+                array_push($row, isset($modelValue[$key]) ? mb_convert_encoding($modelValue[$key], 'ISO-8859-1', 'UTF-8') : '');
             }
 
-            fputcsv($handle, $row);
+            fputcsv($handle, $row, ";");
         }
         fclose($handle);
 
@@ -290,7 +295,7 @@ class ElementController extends Controller
         //Close and download
 
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv;',
         ];
         $filepath = storage_path().'/app/'.$filename;
 

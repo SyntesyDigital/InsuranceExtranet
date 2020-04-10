@@ -61,7 +61,11 @@ export function createProcedure(modelId,procedures,procedure) {
 
             toastr.success(Lang.get('fields.success'));
 
+            console.log("procedures.js action :: createProcedure :: (procedure,data)",procedure,data)
+
             procedure.id = data.data.createModelProcedure.id;
+            procedure.service = data.data.createModelProcedure.service;
+            
             procedures.push(procedure);
             dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
         })
@@ -87,6 +91,11 @@ export function updateProcedure(modelId,procedures,procedure) {
             preload : procedure.preload
         })
         .then(function(data) {
+
+            //console.log("procedures.js action :: updateProcedure :: (data)",data)
+
+            //update the service form info loaded after update
+            procedure.service = data.data.updateModelProcedure.service;
 
             var index = getProcedureIndex(procedures,procedure);
             var objectsCopy = procedures[index].fields;

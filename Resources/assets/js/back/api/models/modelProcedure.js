@@ -51,6 +51,14 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
         preload
         service {
             id
+            name
+            http_method
+            url
+            boby
+            json
+            identifier
+            response
+            comment
         }
         elementModel
         fields
@@ -103,6 +111,17 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                 repeatable_json
                 order
                 preload
+                service {
+                    id
+                    name
+                    http_method
+                    url
+                    boby
+                    json
+                    identifier
+                    response
+                    comment
+                }
             }
     } 
 `;
@@ -155,6 +174,17 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                 repeatable_json
                 order
                 preload
+                service {
+                    id
+                    name
+                    http_method
+                    url
+                    boby
+                    json
+                    identifier
+                    response
+                    comment
+                }
             }
     } 
 `;

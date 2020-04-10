@@ -105,7 +105,7 @@ class YesNoField extends Component
                   />
               }
               label={label}
-              labelPlacement="start"
+              labelPlacement="end"
               className={bordered}
           />
       );

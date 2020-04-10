@@ -132,6 +132,7 @@ class ModalTestForm extends Component {
         //test 
         var services = {};
         var procedures = this.props.form.form.procedures;
+
         console.log("updateJSONWithFields :: Start modal test (procedures)",procedures);
         
         for(var key in procedures){
@@ -150,6 +151,7 @@ class ModalTestForm extends Component {
             //if service not yet added 
             if(services[service.id] === undefined){
                services[service.id] = JSON.parse(JSON.stringify(service));
+               services[service.id].order = procedure.order;
             }
             else {
                 //get json from stored in services
@@ -201,6 +203,10 @@ class ModalTestForm extends Component {
         for(var key in services) {
             result.push(services[key]);
         }
+
+        result.sort((a, b) => {
+            return parseInt(a.order) - parseInt(b.order);
+        });
 
         console.log("updateJSONWithFields :: (result) ",result);
 

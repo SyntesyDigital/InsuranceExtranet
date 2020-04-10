@@ -40,6 +40,10 @@ export default class ServiceForm extends Component {
                     name: 'PUT',
                     value: 'PUT'
                 },
+                {
+                    name: 'NONE',
+                    value: 'NONE'
+                }
             ],
 
             json : {},
@@ -115,6 +119,15 @@ export default class ServiceForm extends Component {
     handleFieldChange(name, value) {
         const { service } = this.state;
         service[name] = value;
+
+        if(name == "http_method" ){
+            if(value == "NONE" ){
+                service['url'] = "NONE";
+            }
+            else if(service['url'] == "NONE") {
+                service['url'] = "";
+            }
+        }
 
         this.setState({
             service: service
@@ -266,13 +279,15 @@ export default class ServiceForm extends Component {
                         />
                         */}
 
-                        <InputField
-                            label={'Url'}
-                            value={this.state.service.url ? this.state.service.url : ''}
-                            name={'url'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.url ? true : false}
-                        />
+                        {this.state.service.http_method != "NONE" && 
+                            <InputField
+                                label={'Url'}
+                                value={this.state.service.url ? this.state.service.url : ''}
+                                name={'url'}
+                                onChange={this.handleFieldChange.bind(this)}
+                                error={this.state.errors.url ? true : false}
+                            />
+                        }
 
                         <InputField
                             label={'Commentaire'}
