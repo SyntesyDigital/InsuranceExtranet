@@ -59,7 +59,7 @@ export function processUrlParameters(url,formParameters) {
   var resultUrl = url;
 
   for(var key in formParameters) {
-    if(key == "" || formParameters[key] == null || url.indexOf(formParameters[key]) == -1){
+    if(key == "" || formParameters[key] == null || url.indexOf(key) == -1){
       continue;
     }
     
