@@ -20,6 +20,7 @@ use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ElementModelLibrary\Jobs\ImportElementModel;
+use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Transformers\ModelValuesFormatTransformer;
 
 class ElementController extends Controller
@@ -43,10 +44,10 @@ class ElementController extends Controller
     public function data(Request $request)
     {
         switch ($request->get('q')) {
-        case 'errors':
-          return response()->json($this->elements->getErrors());
-        break;
-      }
+            case 'errors':
+                return response()->json($this->elements->getErrors());
+            break;
+        }
     }
 
     public function typeIndex($element_type, Request $request)
@@ -107,12 +108,12 @@ class ElementController extends Controller
         $parametersList = RouteParameter::all();
 
         $data = [
-          'element_type' => $element_type,
-          'model' => $model,
-          'fields' => $fields,
-          'parametersList' => $parametersList,
-          'procedures' => isset($procedures) ? $procedures['procedures'] : null,
-          'variables' => isset($procedures) ? $procedures['variables'] : null,
+            'element_type' => $element_type,
+            'model' => $model,
+            'fields' => $fields,
+            'parametersList' => $parametersList,
+            'procedures' => isset($procedures) ? $procedures['procedures'] : null,
+            'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
         if ($request->has('debug')) {
@@ -164,10 +165,18 @@ class ElementController extends Controller
         return view('extranet::elements.form', $data);
     }
 
-    public function showTemplate(Element $element, Request $request)
+    public function createTemplate(Element $element, Request $request)
     {
         return view('extranet::elements.template', [
-            'element' => $element
+            'element' => $element->load('fields'),
+        ]);
+    }
+
+    public function showTemplate(Element $element, ElementTemplate $template, Request $request)
+    {
+        return view('extranet::elements.template', [
+            'element' => $element,
+            'template' => $template,
         ]);
     }
 
@@ -248,7 +257,12 @@ class ElementController extends Controller
             $handle = fopen($filepath, 'w+');
 
             $titles = $element->fields()->pluck('name')->toArray();
-            fputcsv($handle, $titles);
+            $row = [];
+            foreach ($titles as $key => $value) {
+                array_push($row, isset($value) ? mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8') : '');
+            }
+
+            fputcsv($handle, $row, ";");
         } else {
             $filepath = storage_path().'/app/'.$filename;
             $handle = fopen($filepath, 'a+');
@@ -263,10 +277,10 @@ class ElementController extends Controller
         foreach ($modelValues as $modelValue) {
             $row = [];
             foreach ($columns as $key => $value) {
-                array_push($row, isset($modelValue[$key]) ? $modelValue[$key] : '');
+                array_push($row, isset($modelValue[$key]) ? mb_convert_encoding($modelValue[$key], 'ISO-8859-1', 'UTF-8') : '');
             }
 
-            fputcsv($handle, $row);
+            fputcsv($handle, $row, ";");
         }
         fclose($handle);
 
@@ -281,7 +295,7 @@ class ElementController extends Controller
         //Close and download
 
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv;',
         ];
         $filepath = storage_path().'/app/'.$filename;
 
@@ -525,8 +539,8 @@ class ElementController extends Controller
         if ($element_type != Element::FORM) {
             return response()->json([
                 'error' => true,
-                'message' => 'Only form type available',
-            ]);
+                'message' => 'Only form type available. Element of type '.$element_type,
+            ],422);
         }
 
         $model = $this->getModelById(
@@ -537,8 +551,8 @@ class ElementController extends Controller
         if (!$model) {
             return response()->json([
                 'error' => true,
-                'message' => 'Model id not valid',
-            ]);
+                'message' => 'Model id does not exist in Models database. Id to find : '.$model_id,
+            ],422);
         }
 
         $procedures = $this->computeFormProcedures($model->ID);
@@ -550,11 +564,19 @@ class ElementController extends Controller
           'variables' => isset($procedures) ? $procedures['variables'] : null,
         ];
 
-        $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        try {
+            $elementModel = $this->dispatchNow(new ImportElementModel($data));
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ],422);
+        }
 
         return response()->json([
             'error' => false,
-            'message' => 'Model imported',
+            'message' => 'Model imported successfully',
             'model' => $elementModel,
         ]);
     }
@@ -564,5 +586,12 @@ class ElementController extends Controller
         $models = $this->elements->getModelsByType($elementType);
 
         return response()->json($models);
+    }
+
+    public function getElements() 
+    {
+        $elements= Element::all();
+        $elements->load('attrs','templates');
+        return $elements->toArray();
     }
 }

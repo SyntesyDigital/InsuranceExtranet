@@ -19,27 +19,15 @@ export default class TextField extends Component {
     }
 
     handleBlur(e){
-        if (e.target.value != '') {
-            this.setState({ 
-                addClassBordered: true 
-            });
-        }else{
-            this.setState({ 
-                addClassBordered: false 
-            });
-        }
+        this.setState({ 
+            addClassBordered: true 
+        });
     }
 
     handleFocus(e){
-        if (e.target.value != '') {
-            this.setState({ 
-                addClassBordered: false
-            });
-        }else{
-            this.setState({ 
-                addClassBordered: true
-            });
-        }
+        this.setState({ 
+            addClassBordered: false
+        });
     }  
     
     // ==============================

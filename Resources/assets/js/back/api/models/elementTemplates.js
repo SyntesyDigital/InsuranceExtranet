@@ -44,6 +44,7 @@ export const GQL_GET_ELEMENT_TEMPLATE = gql`
         id
         name
         layout
+        element_id
         fields {
             name 
             value
@@ -65,6 +66,7 @@ export const GQL_GET_ALL_ELEMENT_TEMPLATE = gql`
         id
         name
         layout
+        element_id
         fields {
             name 
             value
@@ -86,40 +88,42 @@ export const GQL_CREATE_ELEMENT_TEMPLATE = gql`
         $layout: String!
         $element_id: ID!
     ) {
-        createElementModel(
-        input: {
-            name: $name
-            layout: $layout
-            element_id: $element_id
+        createElementTemplate(
+            input: {
+                name: $name
+                layout: $layout
+                element_id: $element_id
+            }
+        ) {
+            id
+            name
+            layout
+            element_id
         }
-    ) {
-        id
-        name
-        layout
-    }
-  } 
+    } 
 `;
 
 export const GQL_UPDATE_ELEMENT_TEMPLATE = gql`
   mutation updateElementTemplate(
         $id: ID!
         $name: String!
-        $layout: String!
+        $layout: String
         $element_id: ID!
     ) {
-        createElementModel(
-        input: {
-            id: $id
-            name: $name
-            layout: $layout
-            element_id: $element_id
+        updateElementTemplate(
+            input: {
+                id: $id
+                name: $name
+                layout: $layout
+                element_id: $element_id
+            }
+        ) {
+            id
+            name
+            layout
+            element_id
         }
-    ) {
-        id
-        name
-        layout
-    }
-  } 
+    } 
 `;
 
 export const GQL_DELETE_ELEMENT_TEMPLATE = gql`
@@ -132,6 +136,7 @@ export const GQL_DELETE_ELEMENT_TEMPLATE = gql`
             id
             name
             layout
+            element_id
         }
   } 
 `;

@@ -13,14 +13,42 @@ export default class KeyValuesField extends Component {
         this.state = {items : []};
     }
 
+    /**
+     * Process _num=message&_test2=test to object with key and values
+     * @param {*} url 
+     */
+    url2object(url) {
+        var object = [];
+        var urlArray = url.split('&');
+        for(var key in urlArray){
+            var item = urlArray[key].split("=");
+            object.push({
+                "key" : item[0],
+                "value" : item[1]
+            })
+        }
+        return object;
+    }
+    
     componentDidUpdate(prevProps, prevState) {
 
         //if value is different
         if(prevProps.value != this.props.value) {
     
-          var items = this.props.value != '' && this.props.value != null ? 
-            JSON.parse(this.props.value) : [];
-    
+          var items = this.props.value !== undefined && this.props.value != '' && 
+            this.props.value != null ? 
+            this.props.value : '[]';
+
+            if(items.indexOf('=') != -1){
+                //old version
+                items = this.url2object(items);
+            }
+            else if(items.indexOf('[') != -1){
+                items = JSON.parse(items);
+            }
+            else {
+                items = [];
+            }
         
           this.setState({
             items : items

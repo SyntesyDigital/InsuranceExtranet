@@ -21,42 +21,57 @@ function a11yProps(index) {
     };
 }
 
-function handleClickGlobal(e) {
+function handleClickGlobal(e, route) {
     e.preventDefault;
-    window.location.href = routes['extranet.elements.show']
+    // window.location.href = routes['extranet.elements.show']
+    window.location.href = route;
 }
 
-function handleClickTemplate(e) {
+function handleClickTemplate(e, route) {
     e.preventDefault;
-    window.location.href = routes['extranet.elements.template']
+    //window.location.href = routes['extranet.elements.template'];
+    window.location.href = route;
 }
 
-export default function SimpleTabs() {
+function go(route) {
+    window.location.href = route;
+}
+
+export default function SimpleTabs(props) {
     const classes = useStyles();
-    const [value] = React.useState(0);
-
+    
+    let value = window.location.href == props.routes[0] ? 1 : 2;
+    
     return (
         <div className="container-tab-button">
             <div className={classes.root}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
-                        initialSelectedIndex={2}
                     >
                         <Tab
+                            key={1}
                             label="GLOBAL"
-                            value={1}
                             icon={<SettingsIcon />}
                             {...a11yProps(0)}
-                            onClick={handleClickGlobal}
+                            onClick={e => {
+                                e.preventDefault();
+                                go(props.routes[0]);
+                            }}
+                            value={1}
+                            disabled={value == 1}
                         />
                         <Tab
+                            key={2}
                             label="TEMPLATE" 
                             icon={<InsertDriveFileIcon />}
                             {...a11yProps(1)}
-                            onClick={handleClickTemplate}
+                            onClick={e => {
+                                e.preventDefault();
+                                go(props.routes[1]);
+                            }}
                             value={2}
-                            selected={true}
+                            disabled={value == 2}
                         />
                     </Tabs>
                 </AppBar>

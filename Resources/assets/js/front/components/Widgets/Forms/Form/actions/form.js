@@ -135,10 +135,13 @@ export function processProcedure(procedures,currentProcedureIndex, values,
 
       //if the methode is PUT set with a get
       if(!stepsToProcess && procedure.SERVICE !== undefined &&
-        procedure.SERVICE.METHODE == "PUT" && 
-        procedure.PRELOAD == "Y" &&  !jsonGetDone){
-        //set the jsonResult with a get
-        return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        procedure.SERVICE.METHODE == "PUT" && !jsonGetDone){
+        
+        //if version 2 check if preload, if version 1 or indefined always go ahead
+        if((version == "2" && procedure.PRELOAD == "Y") || (version == "1" || versin === undefined)) {
+          //set the jsonResult with a get
+          return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        }
       }
 
 
@@ -334,6 +337,20 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       return dispatch({type: SUBMIT_PROCEDURE_ERROR });
     }
 
+    //the service is only to process json to form parameters
+    if(procedure.SERVICE.METHODE == "NONE"){
+      //update form parameters
+      return dispatch({type:PROCEDURE_SUBMITED,payload: {
+        formParameters : processResponseParameters(
+            jsonResult,
+            procedure.SERVICE,
+            formParameters,
+            version
+        )
+      }});
+    }
+
+
     //process URL parameters
     var url = processUrlParameters(
       procedure.SERVICE.URL,
@@ -371,7 +388,7 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
         if(response.status == 200){
 
             //update form parameters
-            dispatch({type:PROCEDURE_SUBMITED,payload: {
+            return dispatch({type:PROCEDURE_SUBMITED,payload: {
               formParameters : processResponseParameters(
                   response.data.result,
                   procedure.SERVICE,

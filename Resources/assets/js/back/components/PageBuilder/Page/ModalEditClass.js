@@ -1,0 +1,296 @@
+import React, {Component} from 'react';
+import { render } from 'react-dom';
+import {connect} from 'react-redux';
+
+import {
+  cancelSettings,
+  changeFieldSettings
+} from './../actions/';
+
+import InputSettingsField from './../Settings/InputSettingsField';
+import BooleanSettingsField from './../Settings/BooleanSettingsField';
+import SelectorSettingsField from './../Settings/SelectorSettingsField';
+
+
+class ModalEditClass extends Component {
+
+  constructor(props){
+    super(props);
+
+    // //console.log(" ModalEditClass :: construct ",props);
+
+    this.mounted = false;
+
+    this.state = {
+      field : null
+    };
+
+    this.onModalClose = this.onModalClose.bind(this);
+  }
+
+  componentDidMount() {
+
+    if(this.props.modalSettings.displayModal){
+        this.modalOpen();
+    }
+
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  componentWillReceiveProps(nextProps)
+  {
+
+    console.log(" ModalEditClass :: componentWillReceiveProps ",nextProps);
+
+    var field = null;
+
+    if(nextProps.modalSettings.displayModal){
+        this.modalOpen();
+        field = nextProps.modalSettings.item;
+
+    } else {
+        this.modalClose();
+    }
+
+     ////console.log("ModalEditClass :: componentWillReceiveProps :: =>",field);
+
+    if(this.mounted){
+      this.setState({
+        field : field
+      });
+    }
+
+  }
+
+  onModalClose(e){
+      e.preventDefault();
+      this.props.cancelSettings();
+  }
+
+  modalOpen()
+  {
+    TweenMax.to($("#modal-edit-class"),0.5,{opacity:1,display:"block",ease:Power2.easeInOut});
+  }
+
+  modalClose() {
+
+    var self =this;
+      TweenMax.to($("#modal-edit-class"),0.5,{display:"none",opacity:0,ease:Power2.easeInOut,onComplete:function(){
+        /*
+        self.setState({
+          field : null
+        });
+        */
+      }});
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const field = this.state.field;
+
+    this.props.changeFieldSettings(field,this.props.app.layout);
+
+  }
+
+  /*************** SETTINGS **********************/
+
+  handleFieldSettingsChange(field) {
+
+      //console.log("ModalEditClass :: handleFieldSettingsChange => ", field);
+
+      const stateField = this.state.field;
+
+      stateField.data[field.source][field.name] = field.value;
+
+      this.setState({
+          field : stateField
+      });
+  }
+
+  getAlignmentOptions() {
+    return [
+          {
+              value: "",
+              name: 'gauche',
+          },
+          {
+              value: "center",
+              name: "centre",
+          },
+          {
+            value: "right",
+            name: "droite",
+          }
+      ];
+  }
+
+  renderSettings() {
+
+    //console.log("renderSettings!",this.state.field);
+
+    const data = this.state.field != null ? this.state.field.data : null;
+
+    return (
+      <div>
+
+        <h6>{Lang.get('modals.configuration')}</h6>
+
+        <InputSettingsField
+          field={data}
+          name="htmlId"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Html ID"
+          inputLabel={Lang.get('modals.indica_html')}
+        />
+
+        <InputSettingsField
+          field={data}
+          name="htmlClass"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Html Class"
+          inputLabel={Lang.get('modals.indica_css')}
+        />
+
+        <BooleanSettingsField
+          field={data}
+          name="hasContainer"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={Lang.get('modals.has_container')}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="textAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du texte'}
+          options={this.getAlignmentOptions()}
+        />
+
+
+
+        <BooleanSettingsField
+          field={data}
+          name="stripped"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Annuler ligne de couleur intercalé'}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="labelAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du libellé'}
+          options={this.getAlignmentOptions()}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="valueAlign"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Alignement du valeur'}
+          options={this.getAlignmentOptions()}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="display"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Disposition'}
+          options={[
+            {
+                value: "",
+                name: 'Label/Valeur en ligne',
+            },
+            {
+                value: "block",
+                name: "Label/Valeur superposés",
+            }
+          ]}
+        />
+
+      </div>
+
+    );
+
+
+  }
+
+  render() {
+
+    return (
+      <div>
+
+        <div className="custom-modal" id="modal-edit-class" style={{zIndex:this.props.zIndex}}>
+          <div className="modal-background"></div>
+
+
+            <div className="modal-container">
+
+              {this.state.field != null &&
+                <div className="modal-header">
+                    <h2>{this.state.field.data.type == 'row' ? 'Fila' : 'Columna'} | {Lang.get('modals.edition')}</h2>
+                  <div className="modal-buttons">
+                    <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
+                      <i className="fa fa-times"></i>
+                    </a>
+                  </div>
+                </div>
+              }
+
+              <div className="modal-content">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-xs-6 col-xs-offset-3">
+                      {this.renderSettings()}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-footer">
+                  <a href="" className="btn btn-default" onClick={this.onModalClose}> {Lang.get('modals.cancel')} </a> &nbsp;
+                  <a href="" className="btn btn-primary" onClick={this.onSubmit.bind(this)}> {Lang.get('modals.accept')} </a> &nbsp;
+                </div>
+
+              </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+}
+
+
+const mapStateToProps = state => {
+    return {
+        app: state.app,
+        modalSettings : state.modalSettings
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        cancelSettings: () => {
+            return dispatch(cancelSettings());
+        },
+        changeFieldSettings: (field,layout) => {
+            return dispatch(changeFieldSettings(field, layout));
+        }
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditClass);

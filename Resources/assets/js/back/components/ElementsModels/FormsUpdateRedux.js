@@ -144,6 +144,9 @@ class FormsUpdateRedux extends Component {
             .then(function(response) {
                 //console.log("importModel response",response.data.model.id);
                 window.location.href = routes['extranet.elements-models.forms.update'].replace(':id',response.data.model.id);
+            })
+            .catch(function (error) {
+                toastr.error(error.response.data.message);
             });
     }
 
@@ -153,6 +156,12 @@ class FormsUpdateRedux extends Component {
 
     renderProcedures() {
         
+        var procedures = this.props.form.form.procedures;
+
+        procedures.sort((a, b) => {
+            return parseInt(a.order) - parseInt(b.order);
+        });
+
         const displayProcedures = this.props.form.form.procedures.map((procedure, index) =>
             <div key={procedure.name+index} className={procedure.name+index}>
                 <FieldListItem

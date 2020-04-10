@@ -1,0 +1,74 @@
+.fields-list-container {
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+
+  .typology-field {
+    border: 1px solid #77a9f4;
+    position: relative;
+    height: 50px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border-radius: 6px;
+
+    .field-type {
+      width: 60px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      font-size: 14px;
+      line-height: 50px;
+      font-weight: 500;
+      text-align: left;
+      .type-info {
+        position: absolute;
+        top: 0;
+        right: 20px;
+      }
+      i.fa {
+        position: absolute;
+        top: 12px;
+        left: 18px;
+        font-size: 22px;
+        padding-right: 10px;
+        color: #77a9f4;
+      }
+    }
+    .field-labels {
+      position: relative;
+      padding-right: 70px;
+      padding-top: 2px;
+      line-height: 40px;
+      padding-left: 60px;
+    }
+    .field-actions {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 70px;
+      padding-right: 0;
+      a {
+        font-size: 12px;
+        line-height: 50px;
+        font-weight: 400;
+        display: inline-block;
+        font-size: 17px;
+        padding: 14px 6px;
+
+        &.text-primary {
+          color : #77a9f4;
+        }
+      }
+    }
+    .remove-field-btn {
+      color: #fc4b6c;
+    }
+  }
+
+  .more-btn {
+    a {
+      background-color:#fff;
+    }
+  }
+}

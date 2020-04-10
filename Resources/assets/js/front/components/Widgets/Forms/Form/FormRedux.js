@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { Grid, Row, Col } from 'react-bootstrap';
+import api from './../../../../../back/api';
 
 import axios from 'axios';
 import moment from 'moment';
+
+import ImageField from './../../ElementCard/fields/ImageField';
+import Label from './../../ElementCard/fields/Label';
+
+import LayoutParser from './../../ElementCard/LayoutParser';
 
 import {
   getFieldComponent,
@@ -43,6 +50,10 @@ class FormComponent extends Component {
             values : this.initValues(props.elementObject),
             errors : {},
             parameters : parametersObject,
+
+            template : props.template ? props.template : null,
+            layout : null,
+            templateLoaded : props.template ? false : true
         };
 
         this.props.initParametersState(parametersObject);
@@ -50,6 +61,26 @@ class FormComponent extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
 
         this.props.loadProcedures(props.elementObject.model_identifier);
+    }
+
+    componentDidMount() {
+        if(this.state.template){
+            this.loadTemplate(this.state.template);
+        }
+    }
+
+    // ----------------------------------------------- //
+    //      LOADERS
+    // ----------------------------------------------- //
+
+    loadTemplate(template) {
+      api.elementTemplates.get(template)
+          .then(response => {
+              this.setState({
+                  layout : JSON.parse(response.data.elementTemplate.layout),
+                  templateLoaded : true
+              });
+          });
     }
 
     /**
@@ -158,16 +189,28 @@ class FormComponent extends Component {
     }
 
 
+    hasTemplate() {
+      if(this.state.templateLoaded && this.state.layout != null){
+        return true;
+      }
+      return false;
+    }
+
     renderItems() {
 
       if(this.state.elementObject.fields === undefined || this.state.elementObject.fields == null){
         return null;
       }
 
-      var fields = [];
+      if(this.hasTemplate()) {
+        return this.renderTemplate();
+      }
+      else {
+        return this.renderDefaultTemplate();
+      }
+    }
 
-      for(var key in this.state.elementObject.fields) {
-        var field = this.state.elementObject.fields[key];
+    renderField(field,key) {
         
         const FieldComponent = getFieldComponent(field.type);
 
@@ -176,33 +219,116 @@ class FormComponent extends Component {
 
         ////console.log("is visible ==> "+field.name,field,visible);
 
-        if(visible){
-          var fieldComponent = <FieldComponent
-            key={key}
-            field={field}
-            value={this.state.values[field.identifier]}
-            error={this.state.errors[field.identifier] !== undefined ? true : false}
-            onFieldChange={this.handleOnChange}
-            parameters={getUrlParameters(
-              this.props.parameters.formParameters
-            )}
-            values={this.state.values}
-            inline={this.props.isFormPreload}
-          />;
-          
-            if(this.props.isFormPreload){
-              fieldComponent = 
-                <div className="col-xs-12 col-md-4">
-                  {fieldComponent}
-                </div>;
-            }
+        if(!visible){
+          return null;
+        }
 
-            fields.push(fieldComponent);
-         }
+        var fieldComponent = <FieldComponent
+          key={key}
+          field={field}
+          value={this.state.values[field.identifier]}
+          error={this.state.errors[field.identifier] !== undefined ? true : false}
+          onFieldChange={this.handleOnChange}
+          parameters={getUrlParameters(
+            this.props.parameters.formParameters
+          )}
+          values={this.state.values}
+          inline={this.props.isFormPreload}
+        />;
+        
+        if(this.props.isFormPreload){
+          fieldComponent = 
+            <div className="col-xs-12 col-md-6">
+              {fieldComponent}
+            </div>;
+        }
+
+        return fieldComponent;
+    }
+
+    renderDefaultTemplate() {
+
+      var fields = [];
+
+      for(var key in this.state.elementObject.fields) {
+
+        var field = this.state.elementObject.fields[key];
+        
+        var fieldRendered = this.renderField(field,key);
+
+        if(fieldRendered){
+          fields.push(fieldRendered);
+        }
 
       }
 
-      return fields;
+      return (
+        <Grid
+            className="layout"
+            fluid={true}
+          >
+            <Row style={{paddingTop:20}}>
+                <Col sm={12} className="container-fields-default"></Col>
+            </Row>
+            <Row>
+                <Col sm={12} className="container-fields-default">
+                    {fields}
+                </Col>
+            </Row>
+        </Grid>
+      );
+    }
+
+    fieldRender(node, key, settings) {
+
+        //console.log("fieldRender :: settings merged : (settings) ",settings);
+
+        if(node.type == 'element_field') {
+            return this.renderField(node.field,key);
+        }
+
+        switch(node.field.type) {
+          case 'label':
+          case 'text':
+
+              const textAlign = node.field && node.field.settings && node.field.settings.textAlign ? 
+                  'text-'+node.field.settings.textAlign : '';
+
+              return (
+                  <Label
+                      key={key}
+                      text={node.field.value.fr}
+                      textAlign={textAlign}
+                  />
+              );
+          case 'image':
+              return (
+                  <ImageField
+                      key={key}
+                      field={node.field}
+                  />
+              );
+        }
+    }
+
+    renderTemplate() {
+
+      return (
+        <Grid
+            className="layout"
+            fluid={true}
+        >
+            {this.state.layout != null && 
+                <LayoutParser 
+                    layout={this.state.layout}
+                    fieldRender={this.fieldRender.bind(this)}
+                />
+            }
+            {this.state.layout == null && 
+                <div>Aucun modèle configuré</div>
+            }
+        </Grid>
+      );
 
     }
 
@@ -364,18 +490,16 @@ class FormComponent extends Component {
 
     render() {
 
-        const loaded = this.props.preload.done;
+        const loaded = this.props.preload.done && this.state.templateLoaded;
         const version = this.props.version;
 
         return (
           <div className={"form-component element-form-wrapper row "+(this.props.form.loading == true ? 'loading' : '')}>
-
-
+            
             <FormPreload 
               onPreloadDone={this.handlePreload.bind(this)}
               version={this.props.version}
             />
-            
 
             <FormParametersIterator />
             <FormProceduresIterator
@@ -398,15 +522,11 @@ class FormComponent extends Component {
 
                   {this.renderItems()}
 
-                  <div className={"element-form-row "+(this.props.isFormPreload ? '' : 'row')}>
+                  <div className={"element-form-row "+(this.props.isFormPreload ? 'preload-form' : '')}>
 
-                    {!this.props.isFormPreload && 
-                       <div className="col-md-4"></div>
-                    }
-
-                    <div className="col-md-6 buttons">
+                    <div className="col-md-12 buttons">
                         <button
-                          className={"btn "+(!this.props.isFormPreload ? "right btn-primary" : "btn-secondary")}
+                          className={"btn "+(!this.props.isFormPreload ? "btn-primary" : "btn-secondary")}
                           type="submit"
                           disabled={this.props.form.processing}
                         >

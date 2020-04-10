@@ -4,14 +4,15 @@ namespace Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Architect\Entities\Language;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
+use Modules\Extranet\Services\ElementTemplate\Fields\Adapters\LayoutAdapter;
 use Modules\Extranet\Services\ElementTemplate\GraphQL\Mutations\Traits\PageBuilderFields;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UpdateElementTemplate
 {
     use PageBuilderFields;
-    
+
     /**
      * Return a value for the field.
      *
@@ -26,18 +27,26 @@ class UpdateElementTemplate
     {
         $elementTemplate = ElementTemplate::find($args['id']);
 
-        if(!$elementTemplate) {
+        if (!$elementTemplate) {
             abort(500);
         }
 
         $elementTemplate->fields()->delete();
 
-        $nodes = json_decode(str_replace('\\', '|', $args['layout']), true); // => TO REMOVE only for test
+        $nodes = json_decode($args['layout'], true);
+    
+        $layout = $nodes
+            ? $this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes)
+            : null;
 
         $elementTemplate->update([
             'name' => $args['name'],
-            'layout' => json_encode($this->savePageBuilderFields($elementTemplate, Language::getAllCached(), $nodes))
+            'layout' => $layout ? json_encode($layout) : null,
         ]);
+
+        
+
+        $elementTemplate->layout = $layout ? json_encode((new LayoutAdapter($elementTemplate))->get()) : null;
 
         return $elementTemplate;
     }

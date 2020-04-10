@@ -102,9 +102,9 @@ class Element extends Model
         return $this->hasMany('\Modules\Extranet\Entities\ElementAttribute');
     }
 
-    public function template(): HasOne
+    public function templates(): HasMany
     {
-        return $this->hasOne(ElementTemplate::class, 'element_id', 'id');
+        return $this->hasMany(ElementTemplate::class, 'element_id', 'id');
     }
 
     public static function whereAttribute($name, $value)

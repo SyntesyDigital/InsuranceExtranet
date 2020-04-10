@@ -17,17 +17,18 @@
 
         <!-- twitter -->
         <meta name="twitter:card" content="summary_large_image"/>
-    		<meta name="twitter:site" content=""/>
-    		<meta name="twitter:creator" content=""/>
-    		<meta name="twitter:title" content=""/>
-    		<meta name="twitter:description" content=""/>
+        <meta name="twitter:site" content=""/>
+        <meta name="twitter:creator" content=""/>
+        <meta name="twitter:title" content=""/>
+        <meta name="twitter:description" content=""/>
 
         <!-- facebook -->
-    		<meta property="og:url" content="" />
-    		<meta property="og:image" content="" />
-    		<meta property="og:title" content=""/>
-    		<meta property="og:description" content=""/>
-    		<meta property="og:type" content="website"/>
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <meta property="og:title" content=""/>
+        <meta property="og:description" content=""/>
+        <meta property="og:type" content="website"/>
+        
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
         <link href="{{asset('modules/extranet/css/front-style.css')}}" rel="stylesheet" type="text/css" />
@@ -40,13 +41,10 @@
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">-->
         <link rel="stylesheet" media="all" href="{{ asset('/front/css/font-awesome.min.css')}}" />
 
-
         @stack('styles')
-
-
     </head>
-    <body class="{{$mainClass or ''}} {{is_test_environment() ? 'is-test' : ''}}">
 
+    <body class="{{$mainClass or ''}} {{is_test_environment() ? 'is-test' : ''}}">
 
         @stack('modal')
 
@@ -81,13 +79,14 @@
           const WEBROOT = '{{route("home")}}';
           const ASSETS = '{{asset('')}}';
           const LOCALE = '{{App::getLocale()}}';
-
+          
           @if(isset(Auth::user()->id))
             const ID_PER_ASS = '{{Auth::user()->id}}';
             const ID_PER_USER = '{{Auth::user()->id}}';
+            const SESSION = {!! Auth::session() ? json_encode(Auth::session()->toArray(), JSON_PRETTY_PRINT) : null !!};
           @endif
-
         </script>
+        
         {{-- <script type="text/javascript" src="{{route('messages', App::getLocale())}}" ></script> --}}
         <script type="text/javascript" src="{{route('localization.js', App::getLocale())}}" ></script>
 

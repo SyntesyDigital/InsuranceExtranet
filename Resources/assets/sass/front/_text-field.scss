@@ -1,18 +1,17 @@
 body {
-  input {
+  input, select, textarea {
     &.form-control {
-      &.text-field {
-        border-radius: 0;
-        &.bordered{
-            border: 1px solid #77a9f4;
-            @extend .animate;
-        }
-        &:focus {
-          border-color: #77a9f4;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-        }
+      border-radius: 0;
+      &.bordered{
+          border: 1px solid #77a9f4;
+          @extend .animate;
+      }
+      &:focus {
+        border-color: #77a9f4;
+        -webkit-box-shadow: none;
+        box-shadow: none;
       }
     }
   }
+
 }

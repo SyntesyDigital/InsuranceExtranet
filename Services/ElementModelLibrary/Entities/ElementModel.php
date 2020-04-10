@@ -136,6 +136,10 @@ class ElementModel extends Model
         $variables = self::checkInnerDependces($variables, $allVariables);
         $variables = self::processAndSortVariables($variables);
 
+        usort($proceduresObjects, function ($a, $b) {
+            return intval($a->ETAP) > intval($b->ETAP);
+        });
+
         return [
             "procedures" => $proceduresObjects,
             "variables" => $variables

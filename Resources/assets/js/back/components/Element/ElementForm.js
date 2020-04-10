@@ -46,6 +46,7 @@ class ElementForm extends Component {
             parameters: props.parameters ? JSON.parse(atob(props.parameters)) : [],
             variables: props.variables ? JSON.parse(atob(props.variables)) : [],
             procedures: props.procedures ? JSON.parse(atob(props.procedures)) : [],
+            tabsRoutes: props.tabsRoutes ? JSON.parse(atob(props.tabsRoutes)) : [],
         });
     }
     
@@ -70,7 +71,9 @@ class ElementForm extends Component {
             wsModelFormat: this.props.app.wsModelFormat ? this.props.app.wsModelFormat : null,
             wsModelExemple: this.props.app.wsModelExemple ? this.props.app.wsModelExemple : null,
             elementType: this.props.app.elementType ? this.props.app.elementType : null,
-            parameters: this.props.app.parameters ? this.props.app.parameters : null,
+            parameters: this.props.app.parameters ? this.props.app.parameters : null
+        }, function(response){
+            window.location.href = routes.showElement.replace(':element',response.element.id);
         });
     }
 
@@ -93,31 +96,16 @@ class ElementForm extends Component {
 
     render() {
         return (
-            <div id="model-container">
+            <div id="model-container" className="element-template">
                 <BarTitle
                     icon={'far fa-list-alt'}
                     title={'Formulario Name'}
                     backRoute={routes['extranet.elements.index']}
-                    slot={<SimpleTabs />}
+                    slot={ this.props.app.element && this.props.app.element.type != "table" 
+                        ? <SimpleTabs routes={this.props.app.tabsRoutes} /> 
+                        : null
+                    }
                 >
-                    <ButtonDropdown
-                        label={'Select Template'}
-                        list={[
-                            {
-                                label: 'Template-1',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Template-2',
-                                icon: 'fa fa-file',
-                            },
-                            {
-                                label: 'Nouveau Template',
-                                icon: 'fa fa-plus-circle',
-                                onClick: this.handleAddTemplate.bind(this),
-                            },
-                        ]}
-                    />
                     <ButtonPrimary
                         label={'Sauvegarder'}
                         icon={'fa fa-save'}
@@ -171,8 +159,8 @@ const mapDispatchToProps = dispatch => {
         initState: (payload) => {
             return dispatch(initState(payload));
         },
-        submitForm: (data) => {
-            return dispatch(submitForm(data));
+        submitForm: (data,onSuccess) => {
+            return dispatch(submitForm(data,onSuccess));
         }
     }
 }

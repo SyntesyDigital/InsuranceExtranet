@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
-import CheckField from '../FileTemp/fields/CheckField';
+import CheckField from '../ElementCard/fields/CheckField'; // FIXME
 import YesNoField from './fields/YesNoField';
 import TextField from './fields/TextField';
 import { Grid, Row, Col } from 'react-bootstrap';

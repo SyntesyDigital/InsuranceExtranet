@@ -8,6 +8,13 @@ export default class ElementForm extends Component {
     constructor(props)
     {
         super(props);
+
+        var template = props.field.settings.template ? props.field.settings.template : null;
+
+        this.state = {
+          field : props.field,
+          template : template
+        }
     }
 
     handleFormFinished() {
@@ -24,6 +31,7 @@ export default class ElementForm extends Component {
             finalRedirectUrl={this.props.finalRedirectUrl}
             onFormFinished={this.handleFormFinished.bind(this)}
             version={"1"}
+            template={this.state.template}
           />
         );
     }

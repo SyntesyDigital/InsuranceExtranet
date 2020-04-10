@@ -127,7 +127,12 @@ class ModalEditObject extends Component {
         const { currentObject } = this.props.form;
         const saved = currentObject != null ? currentObject.id != null : false;
 
-        console.log(currentObject);
+        if(currentObject == null || this.props.procedure == null)
+            return null;
+
+        var currentJsonpath = this.props.procedure.repeatable_jsonpath
+            +(currentObject.jsonpath != null ? currentObject.jsonpath : '')
+            +currentObject.identifier;
 
         return (
 
@@ -182,13 +187,13 @@ class ModalEditObject extends Component {
                             />
 
                             <InputField
-                                label={'Default value (valeur)'}
+                                label={'Default value ( System variables avec _ ex : _idPol)'}
                                 name={'default_value'}
                                 value={currentObject.default_value}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            {currentObject.format == 'select' && 
+                            {(currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' ) && 
                                 <InputField
                                     label={'Boby'}
                                     name={'boby'}
@@ -198,7 +203,7 @@ class ModalEditObject extends Component {
                             }
 
                             <InputField
-                                label={'JSON path (concreto para este campo)'}
+                                label={'JSON path (résultat : '+currentJsonpath+' ) '}
                                 name={'jsonpath'}
                                 value={currentObject.jsonpath}
                                 onChange={this.handleFieldChange.bind(this)}

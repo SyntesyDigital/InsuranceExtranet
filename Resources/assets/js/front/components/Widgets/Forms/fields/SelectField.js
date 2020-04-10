@@ -15,6 +15,9 @@ class SelectField extends Component
   constructor(props)
   {
     super(props);
+    this.state = {
+      addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
 
     const {boby,parameters} = this.processBoby(this.props.field.boby);
@@ -115,6 +118,22 @@ class SelectField extends Component
     });
   }
 
+  // ==============================
+  // Handlers
+  // ==============================
+
+  handleBlur(e){
+    this.setState({ 
+      addClassBordered: false 
+    });
+  }
+
+  handleFocus(e){
+    this.setState({ 
+      addClassBordered: true
+    });
+  }
+
   handleOnChange(event)
   {
 
@@ -137,7 +156,7 @@ class SelectField extends Component
     const {field} = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     const display = this.state.display;
 
     let isRequired = field.rules.required !== undefined ?
@@ -149,28 +168,32 @@ class SelectField extends Component
       isRequired = field.required;
     }
 
+    let textFieldClass = ["text-field"];
+    if (this.state.addClassBordered || this.props.value != "") {
+        textFieldClass.push('bordered');
+    }
+
     return (
 
-      <div className="row element-form-row" style={{display : display ? 'block' : 'none'}}>
-        <div className="col-sm-4">
-          <label>{field.name}
+      <div className={"form-group bmd-form-group" + (errors)} style={{display : display ? 'block' : 'none'}}>
+        <label className="bmd-label-floating">
+            {field.name} 
             {isRequired &&
               <span className="required">&nbsp; *</span>
             }
-          </label>
-        </div>
-        <div className="col-sm-6">
-
-          <select
-            name={field.identifier}
-            className={"form-control " + errors}
-            value={this.props.value}
-            onChange={this.handleOnChange.bind(this)}
-          >
-            <option value="">{defaultValue}</option>
-            {this.renderOptions()}
-          </select>
-        </div>
+        </label>
+        <select
+          name={field.identifier}
+          className={"form-control " + (textFieldClass.join(' '))}
+          value={this.props.value}
+          onChange={this.handleOnChange.bind(this)}
+          onBlur={this.handleBlur.bind(this)}
+          onFocus={this.handleFocus.bind(this)}
+        >
+          <option value="">{defaultValue}</option>
+          {this.renderOptions()}
+        </select>
+        
       </div>
     );
   }

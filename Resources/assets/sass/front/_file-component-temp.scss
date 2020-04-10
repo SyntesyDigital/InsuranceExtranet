@@ -1,6 +1,12 @@
 .container-fields-default{
     padding: 0;
     &.border-right{
-        border-right: 1px solid #333;
+        border-right: 1px solid #ccc;
+    }
+    &.border-right:last-child{
+        border-right:none;
+    }
+    h3{
+        border-bottom : 1px solid #ccc;
     }
 }

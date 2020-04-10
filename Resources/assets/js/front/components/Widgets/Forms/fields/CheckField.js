@@ -103,26 +103,20 @@ class CheckField extends Component
 
     return (
       <ThemeProvider theme={theme}>
-        <div className="row element-form-row check-field">
-          <div className="col-sm-4">
-          </div>
-          <div className="col-sm-6">
-              <FormControlLabel
-                  className={errors}
-                  control={
-                      <Checkbox
-                          name={field.identifier}
-                          checked={value}
-                          value={value}
-                          color="primary"
-                          onChange={this.handleOnChange.bind(this)}
-                      />
-                  }
-                  label={field.name + (isRequired ? ' *' : '')}
-              />
-
-
-          </div>
+        <div className="check-field">
+            <FormControlLabel
+                className={errors}
+                control={
+                    <Checkbox
+                        name={field.identifier}
+                        checked={value}
+                        value={value}
+                        color="primary"
+                        onChange={this.handleOnChange.bind(this)}
+                    />
+                }
+                label={field.name + (isRequired ? ' *' : '')}
+            />
         </div>
       </ThemeProvider>
     );

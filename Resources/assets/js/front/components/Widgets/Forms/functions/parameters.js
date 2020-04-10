@@ -59,12 +59,20 @@ export function processUrlParameters(url,formParameters) {
   var resultUrl = url;
 
   for(var key in formParameters) {
-    if(key == "" || formParameters[key] == null){
-      //console.error("processUrlParameters, parameter is null (key,formParameters[key])",key,formParameters[key]);
+    if(key == "" || formParameters[key] == null || url.indexOf(formParameters[key]) == -1){
       continue;
     }
-
-    resultUrl = resultUrl.replace(key,formParameters[key]);
+    
+    if(Array.isArray(formParameters[key])){
+      //FIXME we understand only one parameter in this url
+      resultUrl = [];
+      for(var index in formParameters[key]){
+        resultUrl.push(url.replace(key,formParameters[key][index]));
+      }
+    }
+    else {
+      resultUrl = resultUrl.replace(key,formParameters[key]);
+    }
   }
 
   console.log("processUrlParameters (url,formParameters => resultUrl)",url,formParameters,resultUrl);

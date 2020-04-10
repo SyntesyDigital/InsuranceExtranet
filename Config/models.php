@@ -102,6 +102,46 @@ return [
           'conditionalFormatting'
         ]
       ],
+      'radio' => [
+        'mapping' => 'radio',
+        'identifier' => 'radio',
+        'label' => 'Radio',
+        'icon' => 'far fa-dot-circle',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'ws',
+          'conditionalVisibility',
+          'defaultValue',
+          'conditionalFormatting'
+        ]
+      ],
+      'multi' => [
+        'mapping' => 'multi',
+        'identifier' => 'multi',
+        'label' => 'Radio multi option',
+        'icon' => 'fas fa-ellipsis-h',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'ws',
+          'conditionalVisibility',
+          'defaultValue',
+          'conditionalFormatting'
+        ]
+      ],
       'file' => [
         'mapping' => 'doc',
         'identifier' => 'file',
@@ -175,6 +215,24 @@ return [
           'defaultValue',
         ]
       ],
+      'yesno' => [
+        'mapping' => 'yesno',
+        'identifier' => 'yesno',
+        'label' => 'Oui/Non',
+        'icon' => 'fas fa-toggle-on',
+        'formats' => [],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault'
+        ],
+        'settings' => [
+          'booleanValues',
+          'conditionalVisibility',
+          'defaultValue',
+        ]
+      ],
       'label' => [
         'mapping' => 'LABEL',
         'identifier' => 'label',
@@ -190,13 +248,28 @@ return [
         'mapping' => 'car',
         'identifier' => 'car',
         'label' => 'Vehicule',
-        'icon' => 'fas fa-car',
+        'icon' => 'fas fa-car-crash',
         'formats' => [],
         'rules' => [
           'required'
         ],
         'settings' => [
           
+        ]
+      ],
+      'immat' => [
+        'mapping' => 'immat',
+        'identifier' => 'immat',
+        'label' => 'Immat',
+        'icon' => 'fas fa-car',
+        'formats' => [],
+        'rules' => [
+          'required',
+          'searchable'
+        ],
+        'settings' => [
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
     ],  // --- end fields ---

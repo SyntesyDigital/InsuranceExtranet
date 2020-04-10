@@ -49,6 +49,9 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/label';
 @import 'fields/richtext';
 @import 'fields/car-field';
+@import 'fields/file';
+@import 'fields/list-field';
+@import 'fields/immat';
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
@@ -58,7 +61,6 @@ $bootstrap-sass-asset-helper: true;
 
 @import 'env-bar';
 
-@import 'list-field';
 @import 'radio-field';
 @import 'icon-field';
 @import 'check-field';

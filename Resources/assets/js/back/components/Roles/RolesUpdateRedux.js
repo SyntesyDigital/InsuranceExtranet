@@ -109,8 +109,7 @@ class RolesUpdateRedux extends Component {
         );
     }
 
-    handleAddGroup(e) {
-        e.preventDefault();
+    handleAddGroup() {
         this.props.openModalCreateGroup();
     }
 

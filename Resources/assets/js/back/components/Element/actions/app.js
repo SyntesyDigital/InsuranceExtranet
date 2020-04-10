@@ -34,12 +34,12 @@ export function inputChange(field){
 
 }
 
-export function submitForm(data) {
+export function submitForm(data,onSuccess) {
 
   console.log("submitForm :: ",data);
 
   if(data.elementId == null){
-      return createElement(data);
+      return createElement(data,onSuccess);
   }
   else {
       return updateElement(data);
@@ -47,7 +47,7 @@ export function submitForm(data) {
 
 }
 
-export function createElement(data) {
+export function createElement(data,onSuccess) {
 
   var _this = this;
   console.log('CREATE::',data);
@@ -58,10 +58,12 @@ export function createElement(data) {
        .then((response) => {
 
            if(response.data.success) {
-               dispatch(onSaveSuccess(response.data))
-               setTimeout(function(){
-                   window.location.href = routes.showElement.replace(':element',response.data.element.id);
-               },1500);
+
+              onSuccess(response.data);
+
+              dispatch(onSaveSuccess(response.data));
+
+              //console.log("redirect to => ",routes.showElement.replace(':element',response.data.element.id));
            }
        })
        .catch((error) => {

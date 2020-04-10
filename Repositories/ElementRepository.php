@@ -47,7 +47,7 @@ class ElementRepository extends BaseRepository
 
             foreach ($models as $model) {
                 $beans[] = (object) [
-              'ID' => $model->id,
+              'ID' => trim($model->id),
               'ICONE' => $model->icon,
               'TITRE' => $model->name,
             ];
@@ -77,7 +77,7 @@ class ElementRepository extends BaseRepository
         $allBeans = $this->boby->postQuery('WS_EXT2_DEF_MODELES');
         $beans = [];
         foreach ($allBeans as $bean) {
-            $beans[$bean->ID] = $bean;
+            $beans[trim($bean->ID)] = $bean;
         }
 
         return $beans;

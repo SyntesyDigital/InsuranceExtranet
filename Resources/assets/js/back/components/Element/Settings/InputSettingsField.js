@@ -33,6 +33,10 @@ class InputSettingsField extends Component {
 
   render() {
 
+    if(this.props.field == null || this.props.field[this.props.source] == null || 
+      this.props.field[this.props.source][this.props.name] === undefined)
+      return null;
+
     const value = this.props.field[this.props.source][this.props.name];
     //value is null, when setting field is disabled
 
