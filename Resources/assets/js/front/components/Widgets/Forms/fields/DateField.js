@@ -11,13 +11,12 @@ class DateField extends Component
   constructor(props)
   {
     super(props);
-    this.state = {
-      addClassBordered: false,
-    }
+    
     this.handleOnChange = this.handleOnChange.bind(this);
 
     this.state = {
-      value : props.value != '' ? moment(props.value) : null
+      value : props.value != '' ? moment(props.value) : null,
+      addClassBordered: false,
     }
   }
 

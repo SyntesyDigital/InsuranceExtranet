@@ -106,6 +106,12 @@ class BobyRepository
             }
             //FIXME get a response that represents all items
             return $result;
+        } else if(is_array($url)){
+            //process every post of array
+            foreach($url as $currentUrl){
+                $result = $this->processMethod($method, $currentUrl, $data);
+            }
+            return $result;
         } else {
             return $this->processMethod($method, $url, $data);
         }

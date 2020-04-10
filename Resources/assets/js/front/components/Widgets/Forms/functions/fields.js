@@ -12,6 +12,8 @@ import LabelField from './../fields/LabelField';
 import CarField from './../fields/CarField';
 import YesNoField from './../fields/YesNoField';
 import RadioField from './../fields/RadioField';
+import ImmatField from './../fields/ImmatField';
+import RadioMultiOptionField from './../fields/RadioMultiOptionField';
 
 import {
   HIDDEN_FIELD,
@@ -36,7 +38,9 @@ const fieldComponents = {
     label : LabelField,
     car : CarField,
     yesno : YesNoField,
-    radio : RadioField
+    radio : RadioField,
+    multi : RadioMultiOptionField,
+    immat : ImmatField
 };
 
 export function getFieldComponent(type) {
@@ -347,7 +351,7 @@ export function processResponseParameters(response,service,formParameters,versio
  */
 function processResponseFromJSONPath(response,service,formParameters){
   
-  //console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
+  console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
 
   if(service.REPONSE != null && service.REPONSE != "" && service.REPONSE.indexOf("[") != -1){
     var fields = JSON.parse(service.REPONSE);
@@ -358,7 +362,15 @@ function processResponseFromJSONPath(response,service,formParameters){
       if(field.key != "" && field.value != ""){        
         try {
           var value = jp.value(response,field.value);
-          formParameters[field.key] = value+"";
+          console.log("processResponseFromJSONPath (value) ",value);
+          if(Array.isArray(value)){
+            //keep as array
+            formParameters[field.key] = value;
+          }
+          else {
+            //convert to string
+            formParameters[field.key] = value+"";
+          }
         }
         catch(error) {
             console.error("processResponseFromJSONPath :: json path error "+field.value,error);

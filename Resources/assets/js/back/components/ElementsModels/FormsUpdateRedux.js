@@ -156,6 +156,12 @@ class FormsUpdateRedux extends Component {
 
     renderProcedures() {
         
+        var procedures = this.props.form.form.procedures;
+
+        procedures.sort((a, b) => {
+            return parseInt(a.order) - parseInt(b.order);
+        });
+
         const displayProcedures = this.props.form.form.procedures.map((procedure, index) =>
             <div key={procedure.name+index} className={procedure.name+index}>
                 <FieldListItem

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import Radio from '@material-ui/core/Radio';
+import Checkbox from '@material-ui/core/Checkbox';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -21,7 +21,7 @@ import {
   parameteres2Array
 } from './../functions/';
 
-class RadioField extends Component
+class RadioMultiOptionField extends Component
 {
   constructor(props)
   {
@@ -125,7 +125,7 @@ class RadioField extends Component
   setUniqueValue(value) {
     this.props.onFieldChange({
       name : this.props.field.identifier,
-      value : value
+      value : [value]
     });
   }
 
@@ -147,25 +147,51 @@ class RadioField extends Component
 
   handleOnChange(event)
   {
+
+    var currentValue = this.props.value;
+    if(currentValue === undefined || currentValue == "" || currentValue == null)
+      currentValue = [];
+
+    var newValue = event.target.value;
+    var position = currentValue.indexOf(newValue);
+
+    if(position != -1){
+      //if exist the value in the array
+      currentValue.splice(position,1);
+    }
+    else {
+      currentValue.push(newValue);
+    }
+
+    console.log("handleOnChange :: currentValue => (value array,newValue)",currentValue,newValue);    
+
     this.props.onFieldChange({
       name : this.props.field.identifier,
-      value : event.target.value
+      value : currentValue
     });
+
+
   }
 
   renderOptions() {
 
     const value = this.props.value ? this.props.value : ''; 
+    
 
    return this.state.data.map((item, index) => {
-        const bordered = item.value == value ? 'bordered' : '';
-        const checked = item.value == value ? true : false;
+
+
+        const checked = value.indexOf(item.value+"") != -1 ? true : false;
+        const bordered = checked ? 'bordered' : '';
+
+        console.log("renderOptions :: (value,item.value,checked)",value,item.value,checked);
+        
         return (
             <FormControlLabel
                 key={index}
                 value={item.value}
                 control={
-                    <Radio
+                    <Checkbox
                         color="primary"
                         onChange={this.handleOnChange.bind(this)}
                         value={item.value}
@@ -232,4 +258,4 @@ class RadioField extends Component
 
 }
 
-export default RadioField;
+export default RadioMultiOptionField;

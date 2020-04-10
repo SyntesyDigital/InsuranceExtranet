@@ -239,7 +239,7 @@ class ModalEditProcedures extends Component {
                     icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
                     icons={[this.getTypeIcon(object.type)]}
                     label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                    labelField={object.name + ' '+(object.jsonpath != null && object.jsonpath != '' ? ' ( '+object.jsonpath+' ) ' : '')}
+                    labelField={object.name + ' ( '+currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier+' ) '}
                     isField={true}
                     onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
                     onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
@@ -285,6 +285,7 @@ class ModalEditProcedures extends Component {
                     title={'Object | Configuration'}
                     display={this.props.form.displayEditObject}
                     object={this.props.form.currentObject}
+                    procedure={currentProcedure}
                     zIndex={10000}
                     onModalClose={this.handleModalCloseEditObject.bind(this)}
                 />

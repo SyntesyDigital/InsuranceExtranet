@@ -122,6 +122,26 @@ return [
           'conditionalFormatting'
         ]
       ],
+      'multi' => [
+        'mapping' => 'multi',
+        'identifier' => 'multi',
+        'label' => 'Radio multi option',
+        'icon' => 'fas fa-ellipsis-h',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'ws',
+          'conditionalVisibility',
+          'defaultValue',
+          'conditionalFormatting'
+        ]
+      ],
       'file' => [
         'mapping' => 'doc',
         'identifier' => 'file',
@@ -228,13 +248,28 @@ return [
         'mapping' => 'car',
         'identifier' => 'car',
         'label' => 'Vehicule',
-        'icon' => 'fas fa-car',
+        'icon' => 'fas fa-car-crash',
         'formats' => [],
         'rules' => [
           'required'
         ],
         'settings' => [
           
+        ]
+      ],
+      'immat' => [
+        'mapping' => 'immat',
+        'identifier' => 'immat',
+        'label' => 'Immat',
+        'icon' => 'fas fa-car',
+        'formats' => [],
+        'rules' => [
+          'required',
+          'searchable'
+        ],
+        'settings' => [
+          'conditionalVisibility',
+          'defaultValue'
         ]
       ],
     ],  // --- end fields ---

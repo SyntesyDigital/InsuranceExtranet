@@ -250,11 +250,27 @@ class ContentController extends Controller
         }
 
         $result = $this->document->find($id);
-      //  return $result->datas;
+
         $content = base64_decode($result->datas);
 
-        return response($content, 200)->header('Content-Type', $result->contentType);
+        $contentType = $result->contentType;
+        
+        //if content type not defined setup dinamically
+        if(!isset($contentType)){
+          $extension = explode(".",$result->name);
+          $extension = $extension[sizeof($extension)-1];
+          
+          switch($extension){
+            case "msg":
+              $contentType = 'application/msg';
+            default : 
+              $contentType = 'application/'.$extension;
+          }
+        }
 
+        return response($content, 200)
+          ->header('Content-Type' , $contentType)
+          ->header('Content-Disposition','attachment; filename="'.$result->name.'"');
     }
 
     public function showDocumentPreview($id)

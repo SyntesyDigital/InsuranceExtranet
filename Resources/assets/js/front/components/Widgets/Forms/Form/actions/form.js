@@ -337,6 +337,20 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       return dispatch({type: SUBMIT_PROCEDURE_ERROR });
     }
 
+    //the service is only to process json to form parameters
+    if(procedure.SERVICE.METHODE == "NONE"){
+      //update form parameters
+      return dispatch({type:PROCEDURE_SUBMITED,payload: {
+        formParameters : processResponseParameters(
+            jsonResult,
+            procedure.SERVICE,
+            formParameters,
+            version
+        )
+      }});
+    }
+
+
     //process URL parameters
     var url = processUrlParameters(
       procedure.SERVICE.URL,
@@ -374,7 +388,7 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
         if(response.status == 200){
 
             //update form parameters
-            dispatch({type:PROCEDURE_SUBMITED,payload: {
+            return dispatch({type:PROCEDURE_SUBMITED,payload: {
               formParameters : processResponseParameters(
                   response.data.result,
                   procedure.SERVICE,

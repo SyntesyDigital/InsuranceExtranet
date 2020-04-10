@@ -5,7 +5,7 @@
 		display: inline;
 		.MuiFormControlLabel-root{
 			border: 1px solid #ccc;
-			padding: 0px 10px 0px 25px;
+			padding: 0px 25px 0px 10px;
 			margin-right: 16px;
 			margin-left: 0px;
 			.Mui-checked{
@@ -15,6 +15,14 @@
 	}
 	.bordered{
 		border: 1px solid #8db7f7 !important;
+	}
+}
+
+.has-error{
+	.container-radio-field{
+		.MuiFormControlLabel-root {
+			border: 1px solid #a94442;
+		}
 	}
 }
 

@@ -84,8 +84,6 @@ class TextField extends Component
 export default TextField;
 
 TextField.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   value: PropTypes.string,
   isFilled: PropTypes.bool,
   onChange: PropTypes.func

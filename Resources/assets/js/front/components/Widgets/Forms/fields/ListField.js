@@ -62,7 +62,7 @@ class ListField extends Component
     return fields.map((item,index) => {
 
       //only a maximum of 4 render previews are available
-      if(item.identifier == 'datas' || index >= 4){
+      if(item.type == 'file' || index >= 4){
         return null;
       }
 
