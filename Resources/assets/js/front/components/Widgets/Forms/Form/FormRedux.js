@@ -238,7 +238,7 @@ class FormComponent extends Component {
         
         if(this.props.isFormPreload){
           fieldComponent = 
-            <div className="col-xs-12 col-md-4">
+            <div className="col-xs-12 col-md-6">
               {fieldComponent}
             </div>;
         }

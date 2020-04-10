@@ -56,21 +56,22 @@ export function getParametersFromURL(url) {
 */
 export function processUrlParameters(url,formParameters) {
 
-  var resultUrl = "";
+  var resultUrl = url;
 
   for(var key in formParameters) {
-    if(key == "" || formParameters[key] == null){
+    if(key == "" || formParameters[key] == null || url.indexOf(formParameters[key]) == -1){
       continue;
     }
-
+    
     if(Array.isArray(formParameters[key])){
+      //FIXME we understand only one parameter in this url
       resultUrl = [];
       for(var index in formParameters[key]){
         resultUrl.push(url.replace(key,formParameters[key][index]));
       }
     }
     else {
-      resultUrl = url.replace(key,formParameters[key]);
+      resultUrl = resultUrl.replace(key,formParameters[key]);
     }
   }
 
