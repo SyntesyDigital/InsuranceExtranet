@@ -41,6 +41,10 @@ export default class ServiceForm extends Component {
                     value: 'PUT'
                 },
                 {
+                    name: 'DELETE',
+                    value: 'DELETE'
+                },
+                {
                     name: 'NONE',
                     value: 'NONE'
                 }
@@ -243,19 +247,19 @@ export default class ServiceForm extends Component {
                     <div className="sidebar" style={{width:'41%'}}>
 
                         <InputField
-                            label={'Identifier'}
-                            value={this.state.service.identifier ? this.state.service.identifier : ''}
-                            name={'identifier'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.identifier ? true : false}
-                        />
-
-                        <InputField
                             label={'Name'}
                             value={this.state.service.name ? this.state.service.name : ''}
                             name={'name'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.name ? true : false}
+                        />
+
+                        <InputField
+                            label={'Identifier'}
+                            value={this.state.service.identifier ? this.state.service.identifier : ''}
+                            name={'identifier'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.identifier ? true : false}
                         />
 
                         <div className="form-group">

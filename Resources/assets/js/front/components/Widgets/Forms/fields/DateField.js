@@ -131,6 +131,8 @@ class DateField extends Component
     switch (settings.format) {
       case 'day_month_year':
         return 'DD/MM/YYYY';
+      case 'day_month_year_2':
+        return 'DD-MM-YYYY';
       case 'month_year':
         return 'MM/YYYY';
       case 'year':

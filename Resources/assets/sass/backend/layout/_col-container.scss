@@ -7,6 +7,7 @@
     margin-right: 0px;
   }
   .row-container-body-content {
+
     background-color: #eeeeee;
     padding: 0 10px;
     .row-empty-item {
@@ -34,5 +35,16 @@
         text-decoration: none;
       }
     }
+  }
+}
+
+.empty-item {
+  
+  &.is-active {
+    border-color:$brand-primary;
+    background-color: #fff;
+  }
+  &.can-drop {
+    background-color: #fff;
   }
 }

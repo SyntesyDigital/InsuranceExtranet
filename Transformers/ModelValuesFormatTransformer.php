@@ -189,6 +189,8 @@ class ModelValuesFormatTransformer extends Resource
                                     //only process date when is not table. At tables date is processed in react to sort properly
                                     if (!$this->isTable) {
                                         if ($elementField->settings['format'] == 'day_month_year') {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d/m/Y');
+                                        } elseif ($elementField->settings['format'] == 'day_month_year_2') {
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m-Y');
                                         } elseif ($elementField->settings['format'] == 'day_month') {
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d-m');

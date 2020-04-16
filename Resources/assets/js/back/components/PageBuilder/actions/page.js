@@ -59,6 +59,8 @@ export function addRow(layout) {
 
 export function itemSelected(item,pathToIndex,position,layout) {
 
+  console.log("page.js :: itemSelected ((item,pathToIndex,position,layout)",item,pathToIndex,position,layout);
+
   if(position != null && position == ITEM_POSITION_BEFORE){
     //put object to the begining
     layout = changeRow(layout,-1,pathToIndex,item,true);

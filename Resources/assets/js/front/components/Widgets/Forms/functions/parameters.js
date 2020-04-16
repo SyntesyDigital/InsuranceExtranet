@@ -51,31 +51,47 @@ export function getParametersFromURL(url) {
 }
 
 /**
+ * Methode to process the diference between array and variable. This is necessary 
+ * because sometimes a parameter can be more than one values. Forms multi contrats.
+ * 
+ * @param {*} url : Can be an array or a variable
+ * @param {*} parameter : Parameter to modify
+ */
+function replaceUrlParameter(url,key,value) {
+  //value is an array, process all array valus as urlss
+  if(Array.isArray(value)){
+    //is necessar to duplicate same url as many times as variables in this value
+    var resultUrl = [];
+    for(var i in value){
+      for(var j in url){
+        resultUrl.push(url[j].replace(key,value[i]))
+      }
+    }
+    url = resultUrl;
+  }
+  else {
+    //if value is not an url just replace values
+    for(var index in url){
+      url[index] = url[index].replace(key,value);
+    }
+  }
+  return url;
+}
+
+/**
 * Function to process url that have parameters like  /_id_pol/,
 * From formParameters
 */
 export function processUrlParameters(url,formParameters) {
 
-  var resultUrl = url;
+  console.log("processUrlParameters :: before :: (url,formParameters)",url,formParameters);
 
-  for(var key in formParameters) {
-    if(key == "" || formParameters[key] == null || url.indexOf(key) == -1){
-      continue;
-    }
-    
-    if(Array.isArray(formParameters[key])){
-      //FIXME we understand only one parameter in this url
-      resultUrl = [];
-      for(var index in formParameters[key]){
-        resultUrl.push(url.replace(key,formParameters[key][index]));
-      }
-    }
-    else {
-      resultUrl = resultUrl.replace(key,formParameters[key]);
-    }
+  var resultUrl = [url];
+  for(var key in formParameters ){
+    resultUrl = replaceUrlParameter(resultUrl,key,formParameters[key]);
   }
 
-  console.log("processUrlParameters (url,formParameters => resultUrl)",url,formParameters,resultUrl);
+  console.log("processUrlParameters :: after (resultUrl)",resultUrl);
   
   return resultUrl;
 }
