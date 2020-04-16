@@ -127,24 +127,23 @@ class BobyRepository
       ];
 
         switch ($method) {
-         case 'POST':
-            $response = $this->client->post(VeosWsUrl::get().$url, $params);
+            case 'POST':
+                $response = $this->client->post(VeosWsUrl::get().$url, $params);
+                break;
+            case 'PUT':
+            case 'PUT*':  //FIXME to delete when not used
+            case 'PUT_2':
+                $response = $this->client->put(VeosWsUrl::get().$url, $params);
             break;
-         case 'PUT':
-            $response = $this->client->put(VeosWsUrl::get().$url, $params);
+            case 'GET':
+                $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url,$params['json']), $params);
             break;
-        case 'PUT*':  //FIXME to delete when not used
-        case 'PUT_2':
-           $response = $this->client->put(VeosWsUrl::get().$url, $params);
-           break;
-         case 'GET':
-           $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url,$params['json']), $params);
-           break;
-         //case "DELETE":
-            //return $this->client->delete(VeosWsUrl::get() . $url, $params);
-         default:
-           return null;
-      }
+            case 'DELETE':
+                $response = $this->client->delete(VeosWsUrl::get().$url, $params);
+            default:
+                return null;
+        }
+
 
         return json_decode($response->getBody());
     }
