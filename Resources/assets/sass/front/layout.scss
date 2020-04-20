@@ -327,3 +327,12 @@ body {
   background-color: #ecbebe;
   color: #aa1818;
 }
+
+article.page-builder {
+  padding: 0;
+
+  @include mq(wide){
+    padding: 0 7%;
+  }
+}
+
