@@ -52,6 +52,16 @@ class RichtextField extends Component
 
   }
 
+  getNumberFromRules(key) {
+    const {rules} = this.props.field;
+    
+    if(rules[key] !== undefined && rules[key] != null && rules[key] != '' ){
+      return parseInt(rules[key]);
+    }
+
+    return '';
+  }
+
   render() {
 
     const {field} = this.props;
@@ -64,6 +74,9 @@ class RichtextField extends Component
         textFieldClass.push('bordered');
     }
 
+    var maxCharacters = this.getNumberFromRules('maxCharacters');
+    var minCharacters = this.getNumberFromRules('minCharacters');
+
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
@@ -72,7 +85,13 @@ class RichtextField extends Component
             {isRequired &&
               <span className="required">&nbsp; *</span>
             }
+            
         </label>
+
+        &nbsp;
+            {maxCharacters != "" && 
+              ('( Max: '+maxCharacters+' caractères )')
+            }
         
         <textarea
           id={field.identifier}
@@ -83,6 +102,9 @@ class RichtextField extends Component
           onBlur={this.handleBlur.bind(this)}
           onFocus={this.handleFocus.bind(this)}
           rows={4}
+          maxLength={maxCharacters}
+          minLength={minCharacters}
+
         ></textarea>
       </div>
     );

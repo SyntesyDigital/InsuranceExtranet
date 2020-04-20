@@ -6,6 +6,12 @@ html{
 header{
   border-bottom: none !important;
 
+  .session-changer {
+    margin-top:-8px;
+    background-color: #e7eaef;
+    border: 1px solid #2a3649;
+  }
+
   &:first-child{
       .row{
         &.row-header{
@@ -327,3 +333,12 @@ body {
   background-color: #ecbebe;
   color: #aa1818;
 }
+
+article.page-builder {
+  padding: 0;
+
+  @include mq(wide){
+    padding: 0 7%;
+  }
+}
+

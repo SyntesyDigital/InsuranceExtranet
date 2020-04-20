@@ -466,7 +466,7 @@ export function isVisible(file,formParameters,values) {
   ////console.log("isVisible :: ",file,formParameters,values);
 
   //if no has settings return visible
-  if(file.settings.conditionalVisibility === undefined || file.settings.conditionalVisibility == null){
+  if(file.settings === undefined || file.settings.conditionalVisibility === undefined || file.settings.conditionalVisibility == null){
     return true;
   }
 
