@@ -9,6 +9,8 @@ import PageItem from './../PageItem';
 import {
   selectItem,
   editSettings,
+  itemSelected,
+  deletePageItem
 } from './../../actions/';
 
 import {
@@ -32,13 +34,42 @@ class Col extends Component {
     return pathToIndex;
   }
 
+  handleFieldAdded(field) {
+
+    var item = {
+      type : field.element_id ? 'element_field' : 'item',
+      field : field
+    };
+
+    console.log("handleFieldAdded :: (field,this.props.pathToIndex)",field,this.props.pathToIndex)
+
+    if(field.pathToIndex !== undefined){
+      //remove item
+      this.props.deletePageItem(
+        field.pathToIndex,
+        this.props.app.layout
+      );
+    }
+
+    //add item
+    this.props.itemSelected(
+      item,
+      this.props.pathToIndex,
+      ITEM_POSITION_AFTER,
+      this.props.app.layout
+    );
+
+  }
+
   renderChildren() {
 
     var children = [];
 
+    var key = 0;
+
     if(this.props.data.children != null && this.props.data.children !== undefined &&
        this.props.data.children.length > 0){
-      for(var key in this.props.data.children){
+      for(key in this.props.data.children){
           var item = this.props.data.children[key];
           if(item.type == "row"){
             children.push(
@@ -61,27 +92,18 @@ class Col extends Component {
               />
             );
           }
-          else {
-            <EmptyItem
-              key={key}
-              index={key}
-              onSelectItem={this.onSelectItem.bind(this)}
-              pathToIndex={this.props.pathToIndex}
-            />
-          }
-
       }
     }
-    else {
-      children.push(
-        <EmptyItem
-          key={0}
-          index={0}
-          onSelectItem={this.onSelectItem.bind(this)}
-          pathToIndex={this.props.pathToIndex}
-        />
-      );
-    }
+    
+    children.push(
+      <EmptyItem
+        key={key + 1}
+        index={0}
+        onSelectItem={this.onSelectItem.bind(this)}
+        onFieldAdded={this.handleFieldAdded.bind(this)}
+        pathToIndex={this.props.pathToIndex}
+      />
+    );
 
     return children;
   }
@@ -148,11 +170,13 @@ class Col extends Component {
 
           {!architect.currentUserHasRole(ROLES['ROLE_ADMIN']) &&
             <div className="row-container-body-bottom">
-              {childrenLength > 0 &&
+              {/*
+              {childrenLength > 0  &&
                 <a href="" className="btn btn-link" onClick={this.onSelectItemAfter.bind(this)}>
                   <i className="fa fa-plus"></i>
                 </a>
               }
+              */}
             </div>
           }
 
@@ -179,6 +203,12 @@ const mapDispatchToProps = dispatch => {
         editSettings: (item) => {
             return dispatch(editSettings(item))
         },
+        itemSelected: (item,pathToIndex,position,layout) => {
+          return dispatch(itemSelected(item,pathToIndex,position,layout))
+        },
+        deletePageItem: (pathToIndex,layout) => {
+          return dispatch(deletePageItem(pathToIndex,layout))
+        }
     }
 }
 

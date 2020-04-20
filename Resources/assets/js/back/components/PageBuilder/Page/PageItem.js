@@ -13,6 +13,7 @@ import {
 import RichTextPreview from './Previews/RichTextPreview';
 import WidgetPreview from './Previews/WidgetPreview';
 import SettingsPreview from './Previews/SettingsPreview';
+import PageDragItem from './PageDragItem';
 
 class PageItem extends Component {
 
@@ -20,8 +21,7 @@ class PageItem extends Component {
     super(props);
   }
 
-  onEditItem(e) {
-    e.preventDefault();
+  onEditItem() {
 
     //if element field modal not needed
     if(this.props.data.type == "element_field")
@@ -188,10 +188,33 @@ class PageItem extends Component {
   }
 
   renderDefaultPreview() {
+
+    const required = this.props.data.field.rules && this.props.data.field.rules.required 
+      ? this.props.data.field.rules.required 
+      : false;
+    const error = this.props.data.field.identifier === undefined ? true : false;
+
+    if(error) {
+      return (
+        <a href="" className="btn btn-link" style={{
+          color:"#fc4b6c"
+        }}>
+          <i class="fa fas fa-exclamation-triangle"></i>
+          <p className="title">
+            Champ non trouvé
+          </p>
+        </a>
+      );
+    }
+
     return (
       <a href="" className="btn btn-link">
         <i className={"fa "+this.props.data.field.icon}></i>
-        <p className="title">{this.props.data.field.name}</p>
+        <p className="title">{this.props.data.field.name}
+          {required && 
+            <span>&nbsp;*</span>
+          }
+        </p>
       </a>
     );
   }
@@ -249,9 +272,11 @@ class PageItem extends Component {
           </div>
           
           <div className="right-buttons">
+            {this.props.data.type != "element_field" && 
             <a href="" className="btn btn-link" onClick={this.onCopyItem.bind(this)}>
               <i className="far fa-copy"></i>
             </a>
+            }
             <a href="" className="btn btn-link text-danger" onClick={this.onDeleteItem.bind(this)}>
               <i className="fas fa-trash-alt"></i>
             </a>
@@ -259,12 +284,14 @@ class PageItem extends Component {
           
         </div>
 
-        <div className="item-content" 
-            style={{pointerEvents : this.props.data.type == "element_field" ? 'none': 'auto'}} 
-            onClick={this.onEditItem.bind(this)}
-          >
+        <PageDragItem
+          editable={this.props.data.type != "element_field"}
+          onEditItem={this.onEditItem.bind(this)}
+          definition={this.props.data}
+          pathToIndex={this.props.pathToIndex}
+        >
           {this.renderPreview()}
-        </div>
+        </PageDragItem>
       </div>
     );
   }

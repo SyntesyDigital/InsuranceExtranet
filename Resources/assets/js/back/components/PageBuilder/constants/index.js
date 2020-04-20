@@ -75,3 +75,7 @@ export const CONDITION_FIELD_TYPE_UNCONFIGURABLE = "unconfig_field";
 
 export const CONDITION_JOIN_AND = "and";
 export const CONDITION_JOIN_OR = "or";
+
+//drop constants
+export const DROP_FIELD = "field"; //same drop and drag field
+export const DRAG_FIELD = "field"; //same drop and drag field

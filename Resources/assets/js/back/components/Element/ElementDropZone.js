@@ -40,8 +40,6 @@ class ElementDropZone extends Component {
 		this.handleRemoveField = this.handleRemoveField.bind(this);
 		this.handleFieldChange = this.handleFieldChange.bind(this);
 		this.handleOpenSettings = this.handleOpenSettings.bind(this);
-
-		this.ini
 	}
 
 	getMaxId() {

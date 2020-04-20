@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
-//import BoxAddGroup from '../Layout/BoxAddGroup';
 import InputField from '../Layout/Fields/InputField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
-//import { Col } from 'react-bootstrap';
-//import RowContainer from './Layout/RowContainer';
-//import ColContainer from './Layout/ColContainer';
-//import ColField from './Layout/ColField';
 import DragField from './Layout/DragField';
 import SimpleTabs from '../Layout/TabButton';
 import { connect } from 'react-redux';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import {
     addRow,
     initStateTemplate,
-    loadForm,
     submitForm,
     updateField,
     loadTemplate,
@@ -70,8 +66,33 @@ class TemplateRedux extends Component {
         this.props.updateField(name, value);
     }
 
+    /**
+     * Check if all element required fields are added to template. 
+     * Necessary to process submit.
+     */
+    allRequiredAdded() {
+        var fields = this.props.template.fields;
+        for(var key in fields){
+            if(fields[key].required && !fields[key].added){
+                return false;
+            }
+        }
+        return true;
+    }
+
     handleSubmit() {
         var self = this;
+
+        if(this.props.template.errors) {
+            toastr.error('Champ non défini dans la template');
+            return;
+        }
+
+        if(self.props.template.form.id && !this.allRequiredAdded()){
+            toastr.error('Tous les champs obligatoires doivent être ajoutés');
+            return;
+        }
+
         this.props.submitForm(this.props.template.form, function(response){
             if(!self.props.template.form.id) {
                 window.location.replace(routes["template"].replace(':id', response.id));
@@ -94,8 +115,10 @@ class TemplateRedux extends Component {
             return null;
         }
 
-        return this.props.template.fields.map((item) => 
+        return this.props.template.fields.map((item,index) => 
             <DragField
+                key={index}
+                definition={item}
                 label={item.name}
                 icon={item.icon}
             />
@@ -130,44 +153,51 @@ class TemplateRedux extends Component {
                     />
                 </BarTitle>
 
-                <div className="container rightbar-page content">
-                    
-                    {initLayout != null && 
-                        <PageBuilder 
-                            fields={this.props.template.fields}
-                            initLayout={initLayout}
-                            enableWidgets={false}
-                            nonAllowedFields={[
-                                "contents","boolean","date","file",
-                                "images","key_values","localization","slug",
-                                "translated_file","link","url","video","richtext","icon"
-                            ]}
-                            onChange={this.handleLayoutChange.bind(this)}
-                        />
-                    }
-
-                    <div className="sidebar">
-                        <InputField
-                            label={'Nom'}
-                            name={'name'}
-                            value={this.props.template.form.name}
-                            onChange={this.handleFieldChange.bind(this)}
-                        />
+                
+                <DragDropContextProvider backend={HTML5Backend}>
+                    <div className="container rightbar-page content">
                         
-                        <hr />
-                        <h3>AJOUTER CHAMPS</h3>
-                        
-                        {this.renderFields()}
-                        <hr />
-
-                        {this.props.template.form.id && 
-                            <div className="text-right">
-                                <a className="btn btn-link text-danger" onClick={this.handleDeleteTemplate.bind(this)}><i className="fa fa-trash"></i> Supprimer</a>
-                            </div>
+                        {initLayout != null && 
+                            <PageBuilder 
+                                fields={this.props.template.fields}
+                                initLayout={initLayout}
+                                enableWidgets={false}
+                                nonAllowedFields={[
+                                    "contents","boolean","date","file",
+                                    "images","key_values","localization","slug",
+                                    "translated_file","link","url","video","richtext","icon"
+                                ]}
+                                onChange={this.handleLayoutChange.bind(this)}
+                            />
                         }
-                  
+
+                        <div className="sidebar">
+                            <InputField
+                                label={'Nom'}
+                                name={'name'}
+                                value={this.props.template.form.name}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+                            
+                            <hr />
+                            <h3>AJOUTER CHAMPS</h3>
+                            
+                            
+                                <div className="field-list">
+                                    {this.renderFields()}
+                                </div>
+                            
+                            <hr />
+
+                            {this.props.template.form.id && 
+                                <div className="text-right">
+                                    <a className="btn btn-link text-danger" onClick={this.handleDeleteTemplate.bind(this)}><i className="fa fa-trash"></i> Supprimer</a>
+                                </div>
+                            }
+                    
+                        </div>
                     </div>
-                </div>
+                </DragDropContextProvider>
             </div>
         );
     }

@@ -227,6 +227,9 @@ export default class TableDocument extends Component {
                 case 'day_month_year':
                   value = moment.unix(value).format('DD/MM/YYYY');
                   break;
+                case 'day_month_year_2':
+                  value = moment.unix(value).format('DD-MM-YYYY');
+                  break;
                 case 'month_year':
                   value = moment.unix(value).format('MM/YYYY');
                   break;

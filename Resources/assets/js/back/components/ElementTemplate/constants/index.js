@@ -41,5 +41,7 @@ export const LOAD_PARAMETERS = "LOAD_PARAMETERS";
 export const UPDATE_PARAMETERS = "UPDATE_PARAMETERS";
 export const UPDATE_DEFAULT_PARAMETERS = "UPDATE_DEFAULT_PARAMETERS";
 
+//field types
+export const DRAG_FIELD = "field";
 
 

@@ -302,6 +302,7 @@ class ModalSelectItem extends Component {
 
                       <hr />
 
+                      {/*
                       <div className="row">
 
                           {this.renderElementFields()}
@@ -309,6 +310,7 @@ class ModalSelectItem extends Component {
                         </div>
 
                       <br />
+                      */}
 
                       {this.props.enableWidgets && 
                         <div className="row">
