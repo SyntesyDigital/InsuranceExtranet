@@ -212,6 +212,11 @@ class FormComponent extends Component {
 
     renderField(field,key) {
         
+        //console.log("renderField (field)",field);
+        if(field === undefined || field.element_id === undefined){
+          return null;
+        }
+
         const FieldComponent = getFieldComponent(field.type);
 
         //check visibilitiy
