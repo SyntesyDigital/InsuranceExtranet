@@ -209,7 +209,7 @@ export default class CarField extends Component {
                 keyGen: this.state.keyGen.concat([value])
             }, function () {
                 self.props.onFieldChange({
-                    name : self.props.field.name,
+                    name : self.props.field.identifier,
                     value : this.getString()
                   });
     
@@ -220,7 +220,7 @@ export default class CarField extends Component {
                 keyGen: this.state.keyGen.filter(function (val) { return val !== value })
             }, function () {
                 self.props.onFieldChange({
-                    name : self.props.field.name,
+                    name : self.props.field.identifier,
                     value : this.getString()
                   });
     
@@ -239,7 +239,7 @@ export default class CarField extends Component {
             keyGen: keyGen
         }, function () {
             self.props.onFieldChange({
-                name : self.props.field.name,
+                name : self.props.field.identifier,
                 value : this.getString()
               });
 
@@ -265,6 +265,14 @@ export default class CarField extends Component {
 
         return (
             <div className={"row container-car-field "+errors}>
+                <div className="row">
+                    <label className="bmd-label-floating">
+                        {field.name} 
+                        {isRequired &&
+                        <span className="required">&nbsp; *</span>
+                        }
+                    </label>
+                </div>
                 <div className="col-md-4 container-fix">
                     <div className="container-img">
                         {
@@ -315,9 +323,6 @@ export default class CarField extends Component {
                 <div className="col-md-8 col-lg-8 container-flex">
                     <label className="bmd-label-floating label-custom">
                         Précisez le dommage (Rayé, cassé, enfoncé...)
-                        {isRequired &&
-                            <span className="required">&nbsp; *</span>
-                        }
                     </label>
                     <div className="row">
                         <table class="table">
