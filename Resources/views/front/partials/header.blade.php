@@ -55,10 +55,7 @@
                     </div>
 									@endif
 									<p class="user-name">
-										Bonjour, {{Auth::user()->firstname}}
-										@if(Auth::user()->supervue && isset(Auth::user()->session_info))
-											({{Auth::user()->session_info->{'USEREXT.nom2_per'} }})
-										@endif
+										@include('extranet::front.partials.session_select');
 									</p>
 								</div>
 							</div>

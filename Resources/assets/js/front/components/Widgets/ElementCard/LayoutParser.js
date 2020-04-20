@@ -52,15 +52,10 @@ export default class LayoutParser extends Component {
                     break;
 
                 case "col":
-                    let sm = /col-xs-(.*?)(?:\s|$)/g.exec(node.colClass);
-                    let md = /col-sm-(.*?)(?:\s|$)/g.exec(node.colClass);
-
                     return (
-                        <Col 
+                        <div 
                             key={key} 
-                            sm={sm ? parseInt(sm[1]) : 12}
-                            md={md ? parseInt(md[1]) : 12}
-                            className={"container-fields-default border-right "+(" "+alignment)}
+                            className={" container-fields-default border-right "+node.colClass+(" "+alignment)}
                         >
                             {node.children != null && 
                                 this.parseNode(
@@ -68,7 +63,7 @@ export default class LayoutParser extends Component {
                                     this.mergeSettings(node,settings)
                                 )
                             }
-                        </Col>);
+                        </div>);
                     break;
 
                 default:
