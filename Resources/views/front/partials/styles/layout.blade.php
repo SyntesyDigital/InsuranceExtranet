@@ -30,7 +30,7 @@ header .session-changer {
   border:1px solid {{$headerButtonColor}};
   color:{{$headerButtonColor}};
   border-radius: {{$buttonRadius}};
-  background-color: {{$headerLogoBackgroundColor}};
+  background-color: {{$headerRightPartBackgroundColor}};
 }
 
 header:first-child .navbar-toggle .icon-bar{
