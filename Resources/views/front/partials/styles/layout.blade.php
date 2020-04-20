@@ -26,6 +26,12 @@ header:first-child .row.row-header .right-part-header .user-info .button-header-
   color:{{$headerHoverColor}};
 }
 
+header .session-changer {
+  border:1px solid {{$headerButtonColor}};
+  color:{{$headerButtonColor}};
+  border-radius: {{$buttonRadius}};
+}
+
 header:first-child .navbar-toggle .icon-bar{
   background: {{$headerRightPartTextColor}};
 }
