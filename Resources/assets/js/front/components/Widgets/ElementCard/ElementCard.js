@@ -237,8 +237,8 @@ export default class ElementCard extends Component {
         const backgroundColor = conditionalFormating.backgroundColor ? conditionalFormating.backgroundColor : null;
 
 
-        //if(value == null || value == "")
-        //    return null;
+        if(value == null || value == "")
+            return null;
 
         switch(field.type) {
             case 'boolean' :
