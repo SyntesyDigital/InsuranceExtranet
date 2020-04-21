@@ -7,6 +7,7 @@ use Modules\Extranet\Entities\ElementAttribute;
 use Modules\Extranet\Entities\ElementField;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplateField;
+use Modules\Extranet\Services\ExportImport\Exporters\Filters\Clear;
 use Modules\Extranet\Services\ExportImport\Interfaces\ModelExporterInterface;
 
 class ElementExporter extends Exporter implements ModelExporterInterface
@@ -22,6 +23,12 @@ class ElementExporter extends Exporter implements ModelExporterInterface
                     'fields' => ElementTemplateField::class,
                 ],
             ],
+        ],
+    ];
+
+    public $modelsFilters = [
+        ElementField::class => [
+            'settings' => Clear::class,
         ],
     ];
 }

@@ -32,7 +32,20 @@ abstract class Exporter
                 return $field != 'id' && substr($field, -3) != '_id';
             });
 
-        return collect($model->toArray())
+        $filters = isset($this->modelsFilters[get_class($model)])
+            ? $this->modelsFilters[get_class($model)]
+            : null;
+
+        $model = $model->toArray();
+
+        // Filter model
+        if ($filters) {
+            foreach ($filters as $field => $class) {
+                $model = $class::apply($model, $field);
+            }
+        }
+
+        return collect($model)
             ->only($attrs->toArray())
             ->toArray();
     }
