@@ -13,9 +13,11 @@ class UpdateLanguageId extends Migration
      */
     public function up()
     {
+        /*
         Schema::table('elements_templates_fields', function (Blueprint $table) {
             $table->string('language_id')->unsigned()->nullable()->change();
         });
+        */
     }
 
     /**
