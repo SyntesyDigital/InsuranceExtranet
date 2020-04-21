@@ -362,7 +362,7 @@ export default class TableComponent extends Component {
         '</a>'}} />
       }
       else {
-        return <div className={hasColor ? 'has-color' : ''} style={style}>{value}</div>;
+        return <div className={hasColor ? 'has-color' : ''} style={style} dangerouslySetInnerHTML={{__html: value}} />
       }
 
     }

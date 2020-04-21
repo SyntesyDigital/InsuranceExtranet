@@ -8,7 +8,9 @@
 		foreach($sessions as $session) {
 			$options[$session->session] = $session->lib;
 		}
-		$current = Auth::user()->session_info->{'USEREXT.id_per'};
+        $current = isset(Auth::user()->session_info->{'USEREXT.id_per'}) 
+            ? Auth::user()->session_info->{'USEREXT.id_per'} 
+            : null;
 	@endphp
 
 	{!!
