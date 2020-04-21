@@ -40,10 +40,16 @@ export default class DefaultField extends Component {
       <div style={divStyle} className={(stripped ? 'stripped' : null)}>
         <Row>
           <Col md={!inline ? 12 : 6} style={divLabel}>
-            <label style={labelStyle}>{label}</label>
+            <label style={labelStyle}
+              dangerouslySetInnerHTML={{__html: label}}
+            ></label>
           </Col>
           <Col md={!inline ? 12 : 6} style={divValue}>
-            <span style={spanStyles} className={valueAlign == 'center' ? 'value-center' : null}>{value}</span>
+            <span 
+              style={spanStyles} className={valueAlign == 'center' ? 'value-center' : null}
+              dangerouslySetInnerHTML={{__html: value}}
+              >
+            </span>
           </Col>
         </Row>
       </div>
