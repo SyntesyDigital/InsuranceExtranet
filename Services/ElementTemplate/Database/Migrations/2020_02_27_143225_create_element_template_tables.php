@@ -26,8 +26,8 @@ class CreateElementTemplateTables extends Migration
             $table->increments('id');
             $table->integer('template_id')->unsigned();
             $table->foreign('template_id')->references('id')->on('elements_templates')->onDelete('cascade');
-            $table->integer('language_id')->unsigned();
-            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
+            $table->integer('language_id')->unsigned()->nullable();
+            $table->foreign('language_id')->references('id')->on('languages');
             $table->string('name');
             $table->longText('value')->nullable();
             $table->text('relation')->nullable();

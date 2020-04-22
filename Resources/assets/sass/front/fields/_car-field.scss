@@ -2,6 +2,7 @@
   margin-top: 20px;
   .container-fix{
     width: 450px;
+    padding-left:0px;
 
     .bottom-buttons {
       label {
@@ -138,6 +139,13 @@
       cursor: pointer;
     }
   }
+
+  &.is-invalid {
+    .container-img {
+      border: 1px solid #bf5229;
+    }
+  }
+
 }
 body {
   label{

@@ -99,7 +99,7 @@ class ElementForm extends Component {
             <div id="model-container" className="element-template">
                 <BarTitle
                     icon={'far fa-list-alt'}
-                    title={'Formulario Name'}
+                    title={this.props.app.inputs.name ? this.props.app.inputs.name : ''}
                     backRoute={routes['extranet.elements.index']}
                     slot={ this.props.app.element && this.props.app.element.type != "table" 
                         ? <SimpleTabs routes={this.props.app.tabsRoutes} /> 

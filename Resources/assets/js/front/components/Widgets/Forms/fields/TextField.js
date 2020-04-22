@@ -38,12 +38,26 @@ class TextField extends Component
 
   }
 
+  getNumberFromRules(key) {
+    const {rules} = this.props.field;
+    
+    if(rules[key] !== undefined && rules[key] != null && rules[key] != '' ){
+      return parseInt(rules[key]);
+    }
+
+    return '';
+  }
+  
+
   render() {
 
     const {field} = this.props;
     const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
+
+    var maxCharacters = this.getNumberFromRules('maxCharacters');
+    var minCharacters = this.getNumberFromRules('minCharacters');
 
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
@@ -65,6 +79,11 @@ class TextField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
+
+        &nbsp;
+            {maxCharacters != "" && 
+              ('( Max: '+maxCharacters+' caractères )')
+            }
         <input
             type="text"
             className={"form-control " + (textFieldClass.join(' '))}
@@ -73,6 +92,8 @@ class TextField extends Component
             onChange={this.handleOnChange.bind(this)}
             onBlur={this.handleBlur.bind(this)}
             onFocus={this.handleFocus.bind(this)}
+            maxLength={maxCharacters}
+            minLength={minCharacters}
         />
       </div>
       

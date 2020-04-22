@@ -88,7 +88,9 @@ export function processUrlParameters(url,formParameters) {
 
   var resultUrl = [url];
   for(var key in formParameters ){
-    resultUrl = replaceUrlParameter(resultUrl,key,formParameters[key]);
+    if(key != "" &&  formParameters[key] != null){
+      resultUrl = replaceUrlParameter(resultUrl,key,formParameters[key]);
+    }
   }
 
   console.log("processUrlParameters :: after (resultUrl)",resultUrl);
