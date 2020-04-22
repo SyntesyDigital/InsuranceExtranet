@@ -15,5 +15,3 @@
   </div>
 	<!-- end Col 2 -->
 </footer><!-- END FOOTER -->
-
-{{dd(env('APP_URL'))}}
