@@ -80,6 +80,9 @@ class ImmatField extends Component
       //remove spaces
       return value.split(" ").join("");
     }
+    else if(index > 3){
+      return value;
+    }
     else {
       return "";
     }
@@ -90,11 +93,22 @@ class ImmatField extends Component
     //check SIV AA-999-AA
     //2 routes AA 999 A
 
+    //formats direct result from processment. ( all formats are processed to a format, if user introduce directly
+    //this format, it should work also.)
+    //999AAA9999
+    //99AA9999
+    //AA999AA
+    //AA999A
+
     var formats = [
       /^[0-9]{4} [A-Z]{3} [0-9]{3}$/g, 
       /^[0-9]{4} [A-Z]{2} [0-9]{2}$/g, 
       /^[A-Z]{2}-[1-9]{3}-[A-Z]{2}$/g, 
       /^[A-Z]{2} [1-9]{3} [A-Z]{1}$/g, 
+      /^[0-9]{3}[A-Z]{3}[0-9]{4}$/g, 
+      /^[0-9]{2}[A-Z]{2}[0-9]{4}$/g, 
+      /^[A-Z]{2}[1-9]{3}[A-Z]{2}$/g, 
+      /^[A-Z]{2}[1-9]{3}[A-Z]{1}$/g, 
     ];
 
     var regex = "";
