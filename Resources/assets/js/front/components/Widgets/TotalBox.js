@@ -53,7 +53,7 @@ export default class TotalBox extends Component {
     const { elementObject } = this.state;
     const parameters = this.getUrlParameters();
 
-    axios.get('/architect/extranet/' + elementObject.id + '/model_values/data/1/?' + parameters)
+    axios.get('/architect/extranet/' + elementObject.id + '/model_values/data/1?' + parameters)
       .then(function (response) {
         if (response.status == 200
           && response.data.modelValues !== undefined) {

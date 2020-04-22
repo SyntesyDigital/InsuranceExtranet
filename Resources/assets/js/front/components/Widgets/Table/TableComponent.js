@@ -188,7 +188,7 @@ export default class TableComponent extends Component {
         var params = this.getQueryParams(pageLimit,currentPage);
         var self = this;
 
-        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+params)
+        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
           .then(function (response) {
               if(response.status == 200
                   && response.data.modelValues !== undefined)
