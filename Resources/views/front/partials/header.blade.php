@@ -55,7 +55,7 @@
                     </div>
 									@endif
 									<p class="user-name">
-										@include('extranet::front.partials.session_select');
+										@include('extranet::front.partials.session_select')
 									</p>
 								</div>
 							</div>
