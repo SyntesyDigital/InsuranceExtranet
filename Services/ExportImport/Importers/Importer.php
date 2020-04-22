@@ -35,33 +35,26 @@ abstract class Importer
             $entity = $identifier ? $model::where('identifier', $identifier)->first() : null;
 
             // If identifier exist we create another one
-            if ($entity) {
-                $attributes['identifier'] .= '_'.date('Y_m_d_h_i_s');
+            if ($entity && $identifier) {
+                $attributes['identifier'] .= '_'.date('Ymdhis');
             }
 
             // Create entity (model)
             $entity = $model::create($attributes);
 
-            // Save relations of the model
             if ($relations) {
-                foreach ($relations as $relation => $entities) {
-                    $class = get_class($entity->$relation()->getRelated());
-
-                    foreach ($entities as $attr) {
-                        $entity->$relation()->save(new $class($attr));
+                foreach ($relations as $relation => $node) {
+                    if (isset($node['model'])) {
+                        $this->iterator($node);
+                    } else {
+                        // foreach ($node as $values) {
+                        //     $class = get_class($entity->$relation()->getRelated());
+                        //     $entity->$relation()->save(new $class($values));
+                        // }
                     }
                 }
             }
         }
-        // if (isset($node['relations'])) {
-        //     foreach ($node['relations'] as $k => $relation) {
-        //         $node['relations'][$k] = $this->model->$k->map(function ($model) use ($relation) {
-        //             return is_array($relation)
-        //                 ? $this->iterator($relation, $model)
-        //                 : $this->getModelAttributes($model);
-        //         })->toArray();
-        //     }
-        // }
 
         return $node;
     }

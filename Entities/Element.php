@@ -5,6 +5,7 @@ namespace Modules\Extranet\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Architect\Traits\HasUrl;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 
 class Element extends Model
@@ -105,6 +106,13 @@ class Element extends Model
     public function templates(): HasMany
     {
         return $this->hasMany(ElementTemplate::class, 'element_id', 'id');
+    }
+
+    public function elementModel()
+    {
+        if ($this->type == 'form-v2') {
+            return $this->hasOne(ElementModel::class, 'id', 'model_identifier');
+        }
     }
 
     public static function whereAttribute($name, $value)

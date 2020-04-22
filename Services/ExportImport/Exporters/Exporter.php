@@ -2,6 +2,8 @@
 
 namespace Modules\Extranet\Services\ExportImport\Exporters;
 
+use Illuminate\Database\Eloquent\Collection;
+
 abstract class Exporter
 {
     public $structure = [];
@@ -27,6 +29,10 @@ abstract class Exporter
      */
     private function getModelAttributes($model)
     {
+        if ($model === null) {
+            return null;
+        }
+
         $attrs = collect($model->getFillable())
             ->filter(function ($field) {
                 return $field != 'id' && substr($field, -3) != '_id';
@@ -85,11 +91,17 @@ abstract class Exporter
 
         if (isset($node['relations'])) {
             foreach ($node['relations'] as $k => $relation) {
-                $node['relations'][$k] = $this->model->$k->map(function ($model) use ($relation) {
-                    return is_array($relation)
-                        ? $this->iterator($relation, $model)
-                        : $this->getModelAttributes($model);
-                })->toArray();
+                if (get_class($model->$k) == Collection::class) { // If Many relations
+                    $node['relations'][$k] = $model->$k->map(function ($m) use ($relation) {
+                        return is_array($relation)
+                            ? $this->iterator($relation, $m)
+                            : $this->getModelAttributes($m);
+                    })->toArray();
+                } else { // If single relations
+                    $node['relations'][$k] = is_array($relation)
+                        ? $this->iterator($relation, $model->$k)
+                        : $this->getModelAttributes($model->$k);
+                }
             }
         }
 
