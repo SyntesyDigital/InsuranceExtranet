@@ -16,4 +16,4 @@
 	<!-- end Col 2 -->
 </footer><!-- END FOOTER -->
 
-{{dd(env('APP_ENV'))}}
+{{dd(env('APP_URL'))}}
