@@ -10,8 +10,10 @@
 
 		&nbsp;&nbsp;&nbsp;
 		<div class="version" style="">
-			Architect v1.11.0 Extranet v1.11.7
+			Architect v1.11.0 Extranet v1.11.8
 		</div>
   </div>
 	<!-- end Col 2 -->
 </footer><!-- END FOOTER -->
+
+{{dd(env('APP_ENV'))}}

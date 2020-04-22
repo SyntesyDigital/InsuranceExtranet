@@ -83,7 +83,7 @@ class ModalTable extends Component {
 
       var self = this;
 
-      axios.get('/architect/extranet/element-modal/'+modelId)
+      axios.get(ASSETS+'/architect/extranet/element-modal/'+modelId)
         .then(function(response) {
             if(response.status == 200
                 && response.data !== undefined)
