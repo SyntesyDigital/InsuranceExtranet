@@ -123,49 +123,6 @@ export default class TableComponent extends Component {
       e.preventDefault();
     }
 
-    /*
-    export(e) {
-      // WS, PARAMS, PAGINA ACTUAL, REGISTRES PER PAGINES
-      e.preventDefault();
-      var event = e;
-
-        const {elementObject,downloadUrl,exportPage, downloading, loadingData, totalPages,pageLimit, filename} = this.state;
-
-            if(exportPage > totalPages){
-              var url = downloadUrl.replace(':filename',filename);
-              console.log('peticion terminada ', url);
-
-              this.setState({
-                downloading: false
-              });
-            
-              window.location.href=url;
-            }else{
-              var self = this;
-                self.setState({
-                  downloading: true
-                });
-                var params = this.getQueryParams(pageLimit,exportPage);
-                var self = this;
-                axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/'+filename+'/model_values/data/'+pageLimit+'/'+params).then(function (response) {
-                  self.setState({
-                      filename : response.data.filename,
-                      exportPage : exportPage + 1,
-                      downloading : true
-                    }, function(){
-                      self.export(event);
-                  });
-                  
-                }).catch(function (error) {
-                  self.setState({
-                    downloading: false
-                  });
-                });
-            }
-                
-    }
-    */
-
     query() {
         var self = this;
         const {

@@ -105,7 +105,7 @@ export function setParameterFromBoby(variable,key, formParameters) {
 
   return (dispatch) => {
     //ask boby
-    axios.get('/architect/elements/select/data/'+variable.BOBY+"?"+getUrlParameters(formParameters))
+    axios.get(ASSETS+'architect/elements/select/data/'+variable.BOBY+"?"+getUrlParameters(formParameters))
       .then(function(response) {
         if(response.status == 200 && response.data.data !== undefined){
 

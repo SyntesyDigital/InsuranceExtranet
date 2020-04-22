@@ -74,7 +74,7 @@ class SelectField extends Component
         return;
       }
 
-      axios.get('/architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
+      axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
         .then(function(response) {
           if(response.status == 200 && response.data.data !== undefined){
 

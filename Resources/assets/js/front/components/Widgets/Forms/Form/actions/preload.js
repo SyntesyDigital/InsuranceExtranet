@@ -32,7 +32,7 @@ export function preloadForm(procedure,formParameters) {
 
     self = this;
 
-    axios.post('/architect/elements/form/process-service',params)
+    axios.post(ASSETS+'architect/elements/form/process-service',params)
       .then(function(response) {
         ////console.log("response => ",response);
         ////console.log("getJsonResultBeforePut :: response ",response);
