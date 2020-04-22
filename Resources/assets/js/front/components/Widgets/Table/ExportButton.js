@@ -57,7 +57,7 @@ export default class ExportButton extends Component {
             });
             var params = this.props.getQueryParams(pageLimit,exportPage);
             var self = this;
-            axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+filename+'/'+params).then(function (response) {
+            axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+filename+params).then(function (response) {
               self.setState({
                   filename : response.data.filename,
                   exportPage : exportPage + 1,
