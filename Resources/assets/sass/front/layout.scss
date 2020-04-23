@@ -10,6 +10,12 @@ header{
     margin-top:-8px;
     background-color: transparent;
     border: 1px solid #2a3649;
+    display:none;
+    width:200px;
+
+    @include mq(tablet) {
+      display:inline-block;
+    }
   }
 
   &:first-child{

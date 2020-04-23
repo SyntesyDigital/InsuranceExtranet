@@ -13,11 +13,13 @@ class UpdateLanguageId extends Migration
      */
     public function up()
     {
-        /*
-        Schema::table('elements_templates_fields', function (Blueprint $table) {
-            $table->string('language_id')->unsigned()->nullable()->change();
-        });
-        */
+        // Schema::table('elements_templates_fields', function (Blueprint $table) {
+        //     // Remove Foreign key
+        //     //DB::raw("ALTER TABLE 'elements_templates_fields' DROP INDEX 'elements_templates_fields_language_id_foreign'");
+
+        //     // Change field and set foreign key
+        //     $table->string('language_id')->unsigned()->nullable()->change();
+        // });
     }
 
     /**
@@ -27,6 +29,13 @@ class UpdateLanguageId extends Migration
      */
     public function down()
     {
-        
+        // Schema::table('elements_templates_fields', function (Blueprint $table) {
+        //     // Remove Foreign key
+        //     //DB::raw("ALTER TABLE 'elements_templates_fields' DROP INDEX 'elements_templates_fields_language_id_foreign'");
+
+        //     // Change field and set foreign key
+        //     $table->string('language_id')->unsigned()->change();
+        //     // $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
+        // });
     }
 }
