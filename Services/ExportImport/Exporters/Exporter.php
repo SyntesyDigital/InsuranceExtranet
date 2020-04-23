@@ -47,7 +47,13 @@ abstract class Exporter
         // Filter model
         if ($filters) {
             foreach ($filters as $field => $class) {
-                $model = $class::apply($model, $field);
+                if (is_array($class)) {
+                    foreach ($class as $filter) {
+                        $model = $filter::apply($model, $field);
+                    }
+                } else {
+                    $model = $class::apply($model, $field);
+                }
             }
         }
 
@@ -91,16 +97,20 @@ abstract class Exporter
 
         if (isset($node['relations'])) {
             foreach ($node['relations'] as $k => $relation) {
-                if (get_class($model->$k) == Collection::class) { // If Many relations
-                    $node['relations'][$k] = $model->$k->map(function ($m) use ($relation) {
-                        return is_array($relation)
-                            ? $this->iterator($relation, $m)
-                            : $this->getModelAttributes($m);
-                    })->toArray();
-                } else { // If single relations
-                    $node['relations'][$k] = is_array($relation)
-                        ? $this->iterator($relation, $model->$k)
-                        : $this->getModelAttributes($model->$k);
+                if ($model) {
+                    if (get_class($model->$k) == Collection::class) { // If Many relations
+                        $node['relations'][$k] = $model->$k->map(function ($m) use ($relation) {
+                            return is_array($relation)
+                                ? $this->iterator($relation, $m)
+                                : $this->getModelAttributes($m);
+                        })->toArray();
+                    } else { // If single relations
+                        $node['relations'][$k] = is_array($relation)
+                            ? $this->iterator($relation, $model->$k)
+                            : $this->getModelAttributes($model->$k);
+                    }
+                } else {
+                    return [];
                 }
             }
         }

@@ -11,7 +11,8 @@ use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplateField;
-use Modules\Extranet\Services\ExportImport\Exporters\Filters\Clear;
+use Modules\Extranet\Services\ExportImport\Exporters\Filters\ClearHasModal;
+use Modules\Extranet\Services\ExportImport\Exporters\Filters\ClearHasRoute;
 use Modules\Extranet\Services\ExportImport\Interfaces\ModelExporterInterface;
 
 class ElementExporter extends Exporter implements ModelExporterInterface
@@ -21,6 +22,13 @@ class ElementExporter extends Exporter implements ModelExporterInterface
         'relations' => [
             'fields' => ElementField::class,
             'attrs' => ElementAttribute::class,
+            'templates' => [
+                'model' => ElementTemplate::class,
+                'relations' => [
+                    'fields' => ElementTemplateField::class,
+                ],
+            ],
+
             'elementModel' => [
                 'model' => ElementModel::class,
                 'relations' => [
@@ -33,18 +41,15 @@ class ElementExporter extends Exporter implements ModelExporterInterface
                     ],
                 ],
             ],
-            'templates' => [
-                'model' => ElementTemplate::class,
-                'relations' => [
-                    'fields' => ElementTemplateField::class,
-                ],
-            ],
         ],
     ];
 
     public $modelsFilters = [
         ElementField::class => [
-            'settings' => Clear::class,
+            'settings' => [
+                ClearHasRoute::class,
+                ClearHasModal::class,
+            ],
         ],
     ];
 }

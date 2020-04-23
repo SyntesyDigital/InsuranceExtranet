@@ -113,6 +113,8 @@ class Element extends Model
         if ($this->type == 'form-v2') {
             return $this->hasOne(ElementModel::class, 'id', 'model_identifier');
         }
+
+        return $this->hasOne(ElementModel::class, 'id', 'model_identifier')->where('id', 0);
     }
 
     public static function whereAttribute($name, $value)
