@@ -191,7 +191,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
       else if(isConfigurable && isRepetable){
         //internal array, check for values list
 
-        console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, values[procedure.OBJID],jsonResult);
+        console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, procedure,  values,jsonResult);
 
         //check for value with id => procedure->OBJID
 
