@@ -37,7 +37,7 @@ export function loadProcedures(modelIdentifier) {
 
   return (dispatch) => {
     //this.state.elementObject.modelIdentifier;
-    axios.get('/architect/elements/procedures/'+modelIdentifier)
+    axios.get(ASSETS+'architect/elements/procedures/'+modelIdentifier)
       .then(function(response) {
         if(response.status == 200 && response.data.data !== undefined){
 
@@ -85,7 +85,7 @@ export function getJsonResultBeforePut(procedure,formParameters) {
 
     self = this;
 
-    axios.post('/architect/elements/form/process-service',params)
+    axios.post(ASSETS+'architect/elements/form/process-service',params)
       .then(function(response) {
         ////console.log("response => ",response);
         ////console.log("getJsonResultBeforePut :: response ",response);
@@ -191,7 +191,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
       else if(isConfigurable && isRepetable){
         //internal array, check for values list
 
-        //console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, values[procedure.OBJID],jsonResult);
+        console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, procedure,  values,jsonResult);
 
         //check for value with id => procedure->OBJID
 
@@ -382,7 +382,7 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       is_array : procedureIsArray(procedure)
     };
 
-    axios.post('/architect/elements/form/process-service',params)
+    axios.post(ASSETS+'architect/elements/form/process-service',params)
       .then(function(response) {
         ////console.log("response => ",response);
         if(response.status == 200){

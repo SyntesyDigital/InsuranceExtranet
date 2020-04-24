@@ -34,7 +34,7 @@ class HiddenFilter extends Component {
 
     var self = this;
 
-    axios.get(ASSETS+'/architect/extranet/filters')
+    axios.get(ASSETS+'architect/extranet/filters')
       .then(function (response) {
           if(response.status == 200
               && response.data.data !== undefined

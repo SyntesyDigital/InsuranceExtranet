@@ -33,6 +33,10 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->app->register(RolesPermissionsProvider::class);
         $this->app->register(ElementModelLibraryProvider::class);
         $this->app->register(ElementTemplateProvider::class);
+
+        if(config('app.env') == 'production') {
+            \URL::forceScheme('https');
+        }
     }
 
     /**
