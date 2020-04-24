@@ -80,10 +80,6 @@ class TextField extends Component
             }
         </label>
 
-        &nbsp;
-            {maxCharacters != "" && 
-              ('( Max: '+maxCharacters+' caractères )')
-            }
         <input
             type="text"
             className={"form-control " + (textFieldClass.join(' '))}
@@ -94,6 +90,7 @@ class TextField extends Component
             onFocus={this.handleFocus.bind(this)}
             maxLength={maxCharacters}
             minLength={minCharacters}
+            placeholder={maxCharacters != "" ? 'Max: '+maxCharacters+' caractères' : ""}
         />
       </div>
       

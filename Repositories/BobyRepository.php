@@ -101,9 +101,12 @@ class BobyRepository
     {
         if ($isArray) {
             //is array ( example documents ) process every item
-            foreach ($data as $item) {
-                $result = $this->processMethod($method, $url, $item);
+            foreach($url as $currentUrl){
+                foreach ($data as $item) {
+                    $result = $this->processMethod($method, $currentUrl, $item);
+                }
             }
+
             //FIXME get a response that represents all items
             return $result;
         } else if(is_array($url)){
@@ -123,8 +126,8 @@ class BobyRepository
           'json' => $data,
           'headers' => [
               'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
-      ];
+          ]
+        ];
 
         switch ($method) {
             case 'POST':
@@ -144,6 +147,7 @@ class BobyRepository
                 return null;
         }
 
+        
 
         return json_decode($response->getBody());
     }
