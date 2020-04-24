@@ -66,7 +66,7 @@ class ImmatField extends Component
 
   getValueFromRegex(index,value) {
     var result = "";
-    if(index == 0 || index == 1){
+    if(index == 0 || index == 1 || index == 4){
       //revert numbers and remove spaces
       var valueArray = value.split(" ");
       result = valueArray[2]+valueArray[1]+valueArray[0];
@@ -80,7 +80,7 @@ class ImmatField extends Component
       //remove spaces
       return value.split(" ").join("");
     }
-    else if(index > 3){
+    else if(index > 4){
       return value;
     }
     else {
@@ -89,7 +89,7 @@ class ImmatField extends Component
   }
 
   getFormatIndex(value) {
-    //check format FNI 9999 AAA 999 or 9999 AA 99
+    //check format FNI 9999 AAA 999 or 9999 AA 99 or 357 CCG 38
     //check SIV AA-999-AA
     //2 routes AA 999 A
 
@@ -99,16 +99,19 @@ class ImmatField extends Component
       //99AA9999
       //AA999AA
       //AA999A
+      //99AAA999
 
     var formats = [
-      /^[0-9]{4} [A-Z]{3} [0-9]{3}$/g, 
+      /^[0-9]{4} [A-Z]{3} [0-9]{3}$/g, //0
       /^[0-9]{4} [A-Z]{2} [0-9]{2}$/g, 
       /^[A-Z]{2}-[1-9]{3}-[A-Z]{2}$/g, 
       /^[A-Z]{2} [1-9]{3} [A-Z]{1}$/g, 
-      /^[0-9]{3}[A-Z]{3}[0-9]{4}$/g, 
+      /^[0-9]{3} [A-Z]{3} [0-9]{2}$/g, //4
+      /^[0-9]{3}[A-Z]{3}[0-9]{4}$/g, //5
       /^[0-9]{2}[A-Z]{2}[0-9]{4}$/g, 
       /^[A-Z]{2}[1-9]{3}[A-Z]{2}$/g, 
       /^[A-Z]{2}[1-9]{3}[A-Z]{1}$/g, 
+      /^[0-9]{2}[A-Z]{3}[0-9]{3}$/g, 
     ];
 
     var regex = "";
