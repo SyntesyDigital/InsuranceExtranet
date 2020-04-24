@@ -95,10 +95,10 @@ class ImmatField extends Component
 
     //formats direct result from processment. ( all formats are processed to a format, if user introduce directly
     //this format, it should work also.)
-    //999AAA9999
-    //99AA9999
-    //AA999AA
-    //AA999A
+      //999AAA9999
+      //99AA9999
+      //AA999AA
+      //AA999A
 
     var formats = [
       /^[0-9]{4} [A-Z]{3} [0-9]{3}$/g, 
