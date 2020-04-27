@@ -31,7 +31,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'elementFiles';
 @import 'elementForms';
 @import 'elementTables';
-@import 'tableDocument';
+
 @import 'total-box';
 @import 'boxButton';
 @import 'staticBanner';
@@ -58,6 +58,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/filter-bar';
 @import 'widgets/modal-table-component';
 @import 'widgets/form-button';
+@import 'widgets/table-document';
 
 @import 'env-bar';
 
