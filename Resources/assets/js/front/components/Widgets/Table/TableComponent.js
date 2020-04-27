@@ -28,7 +28,7 @@ export default class TableComponent extends Component {
         const exportBtn = props.exportBtn;
         const downloadUrl = props.downloadUrl;
 
-        const maxItems = props.maxItems !== undefined ? props.maxItems : false;
+        const maxItems = props.maxItems !== undefined  && props.maxItems != ""? props.maxItems : false;
 
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
@@ -306,7 +306,7 @@ export default class TableComponent extends Component {
       }
 
       if(field.type == "file"){
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
+        return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
@@ -423,7 +423,7 @@ export default class TableComponent extends Component {
                   desc: this.state.sortColumnType == 'DESC'?true:false
                 }
               ]}
-              defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+              defaultPageSize={maxItems? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
               loading={this.state.loading}
               filterable={true}
               //className="-striped -highlight"
