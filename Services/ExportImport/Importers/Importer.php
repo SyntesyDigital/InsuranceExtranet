@@ -3,9 +3,14 @@
 namespace Modules\Extranet\Services\ExportImport\Importers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 
 abstract class Importer
 {
+    private $report = [];
+
+    private $nodeAlreadySaved = false;
+
     /**
      * __construct.
      *
@@ -42,34 +47,49 @@ abstract class Importer
      */
     public function iterator($nodes, $entity)
     {
+        if (!$entity) {
+            return false;
+        }
+
         foreach ($nodes as $name => $node) {
             $class = get_class($entity->$name()->getRelated());
 
             if (isset($node[0])) { // IF multi array relations
                 if (isset($node[0]['attributes'])) { // IF attributes we create the model and start new iteration
                     foreach ($node as $n) {
-                        $_entity = $this->saveRelation($entity, $name, new $class($n['attributes']));
+                        $_entity = $this->saveRelation($entity, $name, new $class($n['attributes']), $n);
 
-                        if (isset($n['relations'])) {
+                        if (isset($n['relations']) && $_entity) {
                             $this->iterator($n['relations'], $_entity);
                         }
                     }
                 } else { // IF no model to create, we save relations data
                     foreach ($node as $n) {
-                        $this->saveRelation($entity, $name, new $class($n));
+                        $this->saveRelation($entity, $name, new $class($n), $node);
                     }
                 }
             } elseif (isset($node['relations'])) {
-                $this->iterator(
-                    $node['relations'],
-                    $this->saveRelation($entity, $name, new $class($node['attributes']))
-                );
+                $_entity = $this->saveRelation($entity, $name, new $class($node['attributes']), $node);
+
+                if ($_entity) {
+                    $this->iterator(
+                        $node['relations'],
+                        $_entity
+                    );
+                }
             } else {
-                $this->saveRelation($entity, $name, new $class($node));
+                $this->saveRelation($entity, $name, new $class($node), $node);
             }
         }
     }
 
+    /**
+     * getObjectPayload.
+     *
+     * @param mixed $object
+     *
+     * @return void
+     */
     private function getObjectPayload($object)
     {
         $class = get_class($object);
@@ -81,6 +101,64 @@ abstract class Importer
     }
 
     /**
+     * buildArrayObjectWithRelations.
+     *
+     * @param mixed $node
+     * @param mixed $arr
+     *
+     * @return void
+     */
+    private function buildArrayObjectWithRelations($node, $arr = [])
+    {
+        if (isset($node['attributes'])) {
+            $arr = $node['attributes'];
+        }
+
+        if (isset($node['relations'])) {
+            foreach ($node['relations'] as $relation => $v) {
+                if (isset($v[0]['relations'])) {
+                    foreach ($v as $k => $v2) {
+                        $arr[$relation][$k] = $this->buildArrayObjectWithRelations($v2);
+                    }
+                } elseif (isset($v['relations'])) {
+                    $arr[$relation] = $this->buildArrayObjectWithRelations($v);
+                } else {
+                    foreach ($v as $k => $v2) {
+                        $arr[$relation][$k] = $v2;
+                    }
+                }
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
+     * walkArrayAndRemoveDBFields.
+     *
+     * @param mixed $node
+     * @param mixed $arr
+     *
+     * @return void
+     */
+    public function walkArrayAndRemoveDBFields($node, &$arr = [])
+    {
+        foreach ($node as $k => $n) {
+            if (is_array($n)) {
+                $arr[$k] = $this->walkArrayAndRemoveDBFields($n);
+
+                continue;
+            }
+
+            if (substr($k, -3) != '_id' && !in_array($k, ['id', 'created_at', 'updated_at'])) {
+                $arr[$k] = $n;
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
      * Checksum comparation for check if similar object exist.
      *
      * @param mixed $relation
@@ -88,19 +166,48 @@ abstract class Importer
      *
      * @return void
      */
-    private function checkIfObjectExist($relation, $object)
+    private function checkIfObjectExist($relation, $object, $node)
     {
         $class = get_class($object);
-        $source = $class::where('identifier', $object->identifier)->first();
+
+        $field = is_array($this->duplicateIfNotExists[$class])
+            ? $this->duplicateIfNotExists[$class]['field']
+            : $this->duplicateIfNotExists[$class];
+
+        $source = $class::where($field, $object->$field)->first();
 
         if ($source) {
-            $sourcePayload = $this->getObjectPayload($source)->toJson();
-            $objectPayload = $this->getObjectPayload($object)->toJson();
+            // Load relations
+            if (isset($this->duplicateIfNotExists[$class]['relations'])) {
+                $source->load($this->duplicateIfNotExists[$class]['relations']);
+            }
 
-            return md5($sourcePayload) == md5($objectPayload) ? $source : false;
+            // Build array from imported JSON
+            $arr1 = isset($node['relations']) ? $this->buildArrayObjectWithRelations($node) : $node;
+
+            // Build array from DB object
+            $arr2 = $this->walkArrayAndRemoveDBFields($source->toArray());
+
+            return md5(json_encode($arr1)) == md5(json_encode($arr2)) ? $source : false;
         }
 
         return false;
+    }
+
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    public function reportCreatedObject($object)
+    {
+        $class = get_class($object);
+
+        if (!isset($this->report[$class])) {
+            $this->report[$class] = 0;
+        }
+
+        ++$this->report[$class];
     }
 
     /**
@@ -112,27 +219,35 @@ abstract class Importer
      *
      * @return void
      */
-    private function saveRelation($model, $relation, $object)
+    private function saveRelation($model, $relation, $object, $node = null)
     {
         $class = get_class($object);
-        $source = null;
+        $source = isset($this->duplicateIfNotExists[$class])
+            ? $this->checkIfObjectExist($relation, $object, $node)
+            : null;
 
-        if ($class == "Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel") {
+        if ($class == ElementModel::class) {
+            if ($source) {
+                return false;
+            }
+
             $object->save();
+            $this->reportCreatedObject($object);
 
             return $object;
         }
 
-        if (isset($object->identifier)) {
-            if (isset($this->duplicateIfNotExists[$class])) {
-                $source = $this->checkIfObjectExist($relation, $object);
-            }
+        if (!$source) {
+            $this->reportCreatedObject($object);
         }
 
         switch (get_class($model->{$relation}())) {
             case BelongsTo::class:
                 if ($source) {
                     $model->{$relation}()->associate($source);
+                    $model->save();
+
+                    return false;
                 } else {
                     $object->save();
                     $model->{$relation}()->associate($object);
@@ -142,9 +257,13 @@ abstract class Importer
             break;
 
             default:
-                return $source
-                    ? $model->{$relation}()->attach($source->id)
-                    : $model->{$relation}()->save($object);
+                if ($source) {
+                    $model->{$relation}()->attach($source->id);
+
+                    return false;
+                }
+
+                return $model->{$relation}()->save($object);
             break;
         }
     }
@@ -174,6 +293,10 @@ abstract class Importer
         }
 
         // Create entity (model)
-        return $model::create($attributes);
+        $object = $model::create($attributes);
+
+        $this->reportCreatedObject($object);
+
+        return $object;
     }
 }
