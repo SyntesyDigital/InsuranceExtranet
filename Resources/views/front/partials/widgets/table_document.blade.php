@@ -16,22 +16,30 @@
   }
 @endphp
 
-<div id="{{$field['settings']['htmlId'] or ''}}" class="table-document-container {{$field['settings']['htmlClass'] or ''}}">
 
-  <div class="title">
-    <h4>{{$field['fields'][0]['value'][App::getLocale()] or ''}}</h4>
-  </div>
+@if($visible)
 
-  <div class="table-document-container-body">
-      <div id="tableDocument" class="tableDocument tableDocumentNoHeader"
-        field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
-        pagination="{{$field['settings']['pagination'] != null ? true : false }}"
-        itemsPerPage="{{$field['settings']['pagination']}}"
-        columns="{{$field['settings']['bootstrapColumns']}}"
-        elementObject="{{base64_encode(json_encode($elementObject))}}"
-        model="{{base64_encode(json_encode($model))}}"
-        parameters="{{$parameters}}"
-      >
+<div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container table-document-container {{$field['settings']['htmlClass'] or ''}}">
+
+    <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-table-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsetable-{{$identifier}}" aria-expanded="true" aria-controls="collapsetable-{{$identifier}}"@endif>
+      {{$field['fields'][0]['value'][App::getLocale()] or ''}}
+    </div>
+
+    <div id="collapsetable-{{$identifier}}" class=" {{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-table-container-body">
+
+      <div class="table-document-container-body">
+          <div id="tableDocument" class="tableDocument tableDocumentNoHeader"
+            field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
+            pagination="{{$field['settings']['pagination'] != null ? true : false }}"
+            itemsPerPage="{{$field['settings']['pagination']}}"
+            columns="{{$field['settings']['bootstrapColumns']}}"
+            elementObject="{{base64_encode(json_encode($elementObject))}}"
+            model="{{base64_encode(json_encode($model))}}"
+            parameters="{{$parameters}}"
+          >
+          </div>
       </div>
-  </div>
+    </div>
 </div>
+
+@endif
