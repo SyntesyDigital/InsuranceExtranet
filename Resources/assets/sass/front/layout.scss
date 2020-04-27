@@ -42,6 +42,7 @@ header{
               width: 40px;
               height: 40px;
               float:left;
+              margin-left: 230px;
             }
             .user-info{
               overflow: hidden;
@@ -147,7 +148,6 @@ footer{
   }
 }
 .sidebar{
-  position:absolute;
   width: 100%;
   z-index: 100;
   overflow: hidden;
@@ -156,6 +156,11 @@ footer{
   padding:8px 0px 8px;
   height: 100%;
   min-height: calc(100vh - 174px);
+  position: fixed;
+  top: 62px;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
   @extend .animate;
   &.collapsed{
     width:0px;
@@ -175,6 +180,12 @@ footer{
   }
   &.initial{
     width:0px !important;
+    .logo-container{
+      width: 230px;
+      height: 62px;
+      text-align: center;
+      padding: 0 25px;
+    }
   }
   ul{
     margin:0px;
@@ -269,7 +280,14 @@ body {
         &.row-header{
           .logo-container{
             width: 230px;
-            float:left;
+            height: 62px;
+            background-color: #fff;
+            text-align: center;
+            padding: 0 25px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
             &.collapsed{
               width: 100px;
               padding:0 5px;
@@ -290,7 +308,7 @@ body {
         }
       }
     }
-    .navbar-toggle {;
+    .navbar-toggle {
       display: block;
     }
   }
@@ -326,4 +344,15 @@ body {
   font-weight: 100;
   background-color: #ecbebe;
   color: #aa1818;
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    top: 125px;
+    width: 100%;
+  }
+  header:first-child .row.row-header .right-part-header .menu{
+    margin-left: unset;
+  }
 }
