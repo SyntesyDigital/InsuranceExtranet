@@ -325,6 +325,7 @@ class ElementController extends Controller
                 $resultData[] = [
                 'name' => $item->lib,
                 'value' => $item->val,
+                'value_preload' => isset($item->valpreload) ? $item->valpreload : null 
               ];
             }
 
