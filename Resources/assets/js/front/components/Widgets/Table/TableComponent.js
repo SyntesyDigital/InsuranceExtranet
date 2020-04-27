@@ -306,7 +306,7 @@ export default class TableComponent extends Component {
       }
 
       if(field.type == "file"){
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
+        return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
