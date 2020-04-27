@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-//import MoreResults from './../Common/MoreResults';
-//import Paginator from './../Common/Paginator';
-//import ReactDataGrid from 'react-data-grid';
-//import { Toolbar, Data } from "react-data-grid-addons";
-
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
 
 import moment from 'moment';
 
-//const selectors = Data.Selectors;
 
 export default class TableDocument extends Component {
 
@@ -25,12 +16,11 @@ export default class TableDocument extends Component {
         const pagination =  props.pagination ? true : false;
         const itemsPerPage = props.itemsPerPage !== undefined
           && props.itemsPerPage != null
-          && props.itemsPerPage != '' ? props.itemsPerPage : 10;
+          && props.itemsPerPage != '' ? props.itemsPerPage : 4;
 
-        const maxItems = props.maxItems !== undefined ? props.maxItems : false;
         const columns = props.columns  !== undefined ? props.columns : 'col-1';
 
-        var pageLimit = pagination ? itemsPerPage : maxItems;
+        var pageLimit = itemsPerPage;
 
         this.state = {
             field : field,
@@ -39,10 +29,10 @@ export default class TableDocument extends Component {
             columns:columns,
             pagination : pagination,
             itemsPerPage : itemsPerPage,
-            maxItems :  maxItems,
             filters : [],
             currPage:1,
             modelValuesPaginated:[],
+            initiliased : false,
             loading : true,
             filterable : false,
             sortColumnName: null,
@@ -50,7 +40,7 @@ export default class TableDocument extends Component {
             model : model,
 
             pageLimit : pageLimit,
-            currentPage : 2,
+            currentPage : 1,  //load more starts at 2
             totalPages : 0,
             dataProcessing : []
         };
@@ -81,10 +71,10 @@ export default class TableDocument extends Component {
     query() {
         var self = this;
         const {
-          elementObject,maxItems, pageLimit
+          elementObject, pageLimit,currentPage
         } = this.state;
 
-        var params = this.getQueryParams(pageLimit,1);
+        var params = this.getQueryParams(pageLimit,currentPage);
 
         //add url params
         if(this.props.parameters != '')
@@ -104,7 +94,9 @@ export default class TableDocument extends Component {
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
                     totalPages : response.data.totalPage,
-                    loading : false
+                    currentPage : currentPage + 1,
+                    loading : false,
+                    initiliased : true
                 });
 
 
@@ -113,7 +105,8 @@ export default class TableDocument extends Component {
           }).catch(function (error) {
              console.log(error);
              self.setState({
-               loading: false
+               loading: false,
+               initiliased : true
              });
            });
     }
@@ -134,6 +127,10 @@ export default class TableDocument extends Component {
       else {
         //process page
         var params = this.getQueryParams(pageLimit,currentPage);
+
+        //add url params
+        if(this.props.parameters != '')
+          params += "&"+this.props.parameters;
         var self = this;
 
         axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
@@ -222,7 +219,7 @@ export default class TableDocument extends Component {
       if(field.type == "date") {
           if(value !== undefined && value != "" && null !== value){
 
-            if(field.settings !== undefined && field.settings.format !== undefined){
+            if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
               switch(field.settings.format) {
                 case 'day_month_year':
                   value = moment.unix(value).format('DD/MM/YYYY');
@@ -271,28 +268,20 @@ export default class TableDocument extends Component {
 
     renderItem(item) {
 
-      var result = [];
+      var file = null;
+      var infos = [];
       const {elementObject} = this.state;
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
         if(elementObject.fields[key].type == 'file'){
-          result.push(
-            <div className="field-container" key={key}>
-                <div className="col-md-12 field-name">{item[identifier],elementObject.fields[key].name} :</div>
-                <div className="col-md-12">
-                  {this.renderField(item[identifier],elementObject.fields[key])}
-                </div>
-            </div>
-          );
-        }else{
-          result.push(
 
+          file = this.renderField(item[identifier],elementObject.fields[key]);
+          
+        }else{
+          infos.push(
               <div className="field-container" key={key}>
-                  <div className="col-lg-2 col-md-3 col-sm-6 field-name">{item[identifier],elementObject.fields[key].name} :</div>
-                  <div className="col-lg-10 col-md-9 col-sm-6">
-                    {this.renderField(item[identifier],elementObject.fields[key])}
-                  </div>
+                  {this.renderField(item[identifier],elementObject.fields[key])}
               </div>
           );
         }
@@ -301,7 +290,17 @@ export default class TableDocument extends Component {
 
       return (
           <div>
-                  {result}
+            <div className="file-contianer">
+              {file}
+            </div>
+            <div className="file-infos-container">
+              <div className="file-icon">
+                <i class="far fa-file"></i>
+              </div>
+              <div className="file-infos">
+                {infos}
+              </div>
+            </div>
           </div>
         );
       }
@@ -332,29 +331,33 @@ export default class TableDocument extends Component {
 
 
     renderTable() {
-      const {data, elementObject, maxItems, currentPage, totalPages} = this.state;
+      const {data, currentPage, totalPages,initiliased} = this.state;
 
       return (
         <div>
-          { data == null &&
-              <p>{/*Carregant dades...*/}</p>
+          { !initiliased &&
+              <p className="message">Chargement...</p>
           }
 
-          {data != null && data.length == 0 &&
-              <p>Il n'y a element aucun</p>
+          {initiliased && data != null && data.length == 0 &&
+              <p className="message">Aucune donnée trouvée</p>
           }
 
           {data != null && data.length > 0 &&
 
-                <div className="documentsContainer">
+                <div className="documents-container">
                   {this.renderItems()}
 
                 </div>
           }
           {currentPage <= totalPages &&  !this.state.loading &&
 
-            <div className="more">
-              <a href="#" onClick={(e) => this.loadMore(e)}> LOAD MORE</a>
+            <div className="more-btn">
+              <a href="#" onClick={(e) => this.loadMore(e)}> 
+                <i className="far fa-arrow-alt-circle-down"></i>
+                &nbsp;
+                Voire plus 
+              </a>
             </div>
           }
         </div>
@@ -379,8 +382,6 @@ if (document.getElementById('tableDocument')) {
        var field = element.getAttribute('field');
        var elementObject = element.getAttribute('elementObject');
        var model = element.getAttribute('model');
-       var maxItems = element.getAttribute('maxItems');
-       var pagination = element.getAttribute('pagination');
        var itemsPerPage = element.getAttribute('itemsPerPage');
        var parameters = element.getAttribute('parameters');
        var columns = element.getAttribute('columns');
@@ -389,9 +390,7 @@ if (document.getElementById('tableDocument')) {
            field={field}
            elementObject={elementObject}
            model={model}
-           pagination={pagination}
            itemsPerPage={itemsPerPage}
-           maxItems={maxItems}
            columns={columns}
            parameters={parameters}
          />, element);
