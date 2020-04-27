@@ -125,6 +125,16 @@ Route::group([
 */
 
 Route::group([
+  'middleware' => ['web'],
+  'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+  Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
+  Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
+  Route::get('/change-password', 'ResetPasswordController@changePassword')->name('change-password');
+  
+});
+
+Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
   //'middleware' => ['web','auth:veos-ws','localeSessionRedirect', 'localeViewPath','localize'],
   'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM'],
