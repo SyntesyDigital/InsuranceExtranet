@@ -1,0 +1,87 @@
+.table-document-container{
+  margin:20px 0;
+  @include round($elements-radius);
+  overflow: hidden;
+  background-color:white;
+
+  p.message {
+    padding:20px;
+    text-align:center;
+  }
+
+  .more-btn{
+    text-align: center;
+  }
+
+  .table-document-container-body{
+    @include round($elements-radius);
+    overflow: hidden;
+
+    &.collapse{
+      @include round(0);
+    }
+  }
+
+  .documents-container{
+    padding: 20px;
+    .item-container{
+      margin-bottom: 15px;
+      .field-container{
+        overflow: hidden;
+        margin-bottom: 5px;
+        .field-name{
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .item-container {
+    .file-contianer {
+
+      a.file-link{
+
+        height:170px;
+        width:100%;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color : #2A3649;
+        font-size: 50px;
+
+        &.image-link {
+          
+        }
+      }
+    }
+
+    .file-infos-container {
+      .file-icon {
+        position: absolute;
+        left:5px;
+        //top: calc(50% - 12px);
+        top:12px;
+        i {
+          font-size: 22px;
+        }
+      }
+      .file-infos {
+        padding-top: 7px;
+        padding-left:35px;
+      }
+    }
+  }
+
+
+}
+
+.title{
+  margin-bottom: 10px;
+  overflow: hidden;
+  h4{
+    text-transform: uppercase;
+     @include font(24,32,300);
+     float:left;
+  }
+}

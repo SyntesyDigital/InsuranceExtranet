@@ -131,7 +131,6 @@ Route::group([
   Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
   Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
   Route::get('/change-password', 'ResetPasswordController@changePassword')->name('change-password');
-  
 });
 
 Route::group([
@@ -154,7 +153,7 @@ Route::group([
 
     Route::get('/', 'ContentController@index')->name('home');
     Route::get('/document/show/{id}', 'ContentController@showDocument')->name('document.show');
-    Route::get('/document/show/preview/{id}', 'ContentController@showDocumentPreview')->name('document.show.preview');
+    Route::get('/document/show/preview/{id}/{size?}', 'ContentController@showDocumentPreview')->name('document.show.preview');
 
     Route::get('/not-found', 'ContentController@languageNotFound')->name('language-not-found');
 
