@@ -30,8 +30,7 @@
       <div class="table-document-container-body">
           <div id="tableDocument" class="tableDocument tableDocumentNoHeader"
             field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
-            pagination="{{$field['settings']['pagination'] != null ? true : false }}"
-            itemsPerPage="{{$field['settings']['pagination']}}"
+            itemsPerPage="{{$field['settings']['itemsPerPage']}}"
             columns="{{$field['settings']['bootstrapColumns']}}"
             elementObject="{{base64_encode(json_encode($elementObject))}}"
             model="{{base64_encode(json_encode($model))}}"
