@@ -1,0 +1,15 @@
+
+################################
+#   TYPES
+################################
+type Export {
+    payload: String
+}
+
+################################
+#   QUERY
+################################
+extend type Query {
+    export(id: ID! @eq, class: String! @eq): Export
+        @field(resolver: "Modules\\Extranet\\Services\\ExportImport\\GraphQL\\Queries\\ExportQuery")
+}
