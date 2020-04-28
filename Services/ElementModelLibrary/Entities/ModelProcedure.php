@@ -70,7 +70,8 @@ class ModelProcedure extends Model
             "P1"=> null,
             "P2"=> null,
             "P3"=> null,
-            "JSON" => $this->repeatable_json
+            "JSON" => $this->repeatable_json,
+            "OBJID" => $this->id
         ];
     }
 

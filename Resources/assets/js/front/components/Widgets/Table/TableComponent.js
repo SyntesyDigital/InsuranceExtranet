@@ -28,7 +28,7 @@ export default class TableComponent extends Component {
         const exportBtn = props.exportBtn;
         const downloadUrl = props.downloadUrl;
 
-        const maxItems = props.maxItems !== undefined ? props.maxItems : false;
+        const maxItems = props.maxItems !== undefined  && props.maxItems != ""? props.maxItems : false;
 
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
@@ -123,49 +123,6 @@ export default class TableComponent extends Component {
       e.preventDefault();
     }
 
-    /*
-    export(e) {
-      // WS, PARAMS, PAGINA ACTUAL, REGISTRES PER PAGINES
-      e.preventDefault();
-      var event = e;
-
-        const {elementObject,downloadUrl,exportPage, downloading, loadingData, totalPages,pageLimit, filename} = this.state;
-
-            if(exportPage > totalPages){
-              var url = downloadUrl.replace(':filename',filename);
-              console.log('peticion terminada ', url);
-
-              this.setState({
-                downloading: false
-              });
-            
-              window.location.href=url;
-            }else{
-              var self = this;
-                self.setState({
-                  downloading: true
-                });
-                var params = this.getQueryParams(pageLimit,exportPage);
-                var self = this;
-                axios.get(ASSETS+'architect/extranet/export/'+elementObject.id+'/'+filename+'/model_values/data/'+pageLimit+'/'+params).then(function (response) {
-                  self.setState({
-                      filename : response.data.filename,
-                      exportPage : exportPage + 1,
-                      downloading : true
-                    }, function(){
-                      self.export(event);
-                  });
-                  
-                }).catch(function (error) {
-                  self.setState({
-                    downloading: false
-                  });
-                });
-            }
-                
-    }
-    */
-
     query() {
         var self = this;
         const {
@@ -179,7 +136,7 @@ export default class TableComponent extends Component {
         if(this.props.parameters != '')
           params += "&"+this.props.parameters;
 
-        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+params)
+        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
           .then(function (response) {
               if(response.status == 200
                   && response.data.modelValues !== undefined)
@@ -231,7 +188,7 @@ export default class TableComponent extends Component {
         var params = this.getQueryParams(pageLimit,currentPage);
         var self = this;
 
-        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+'/'+params)
+        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
           .then(function (response) {
               if(response.status == 200
                   && response.data.modelValues !== undefined)
@@ -349,7 +306,7 @@ export default class TableComponent extends Component {
       }
 
       if(field.type == "file"){
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
+        return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
@@ -466,7 +423,7 @@ export default class TableComponent extends Component {
                   desc: this.state.sortColumnType == 'DESC'?true:false
                 }
               ]}
-              defaultPageSize={maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+              defaultPageSize={maxItems? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
               loading={this.state.loading}
               filterable={true}
               //className="-striped -highlight"

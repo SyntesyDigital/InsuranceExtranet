@@ -1,3 +1,4 @@
+
 @php
   $storedStylesFront = \Cache::get('frontStyles');
 @endphp
@@ -15,7 +16,7 @@
 <header>
 	<!-- CORPO i IDIOMES -->
 				<div class="row row-header">
-					<div class=" logo-container">
+					<div class="logo-container">
 						<a href="{{route('home')}}">
 							@if(isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value))
 								<img src="/{{$storedStylesFront['frontLogo']->value->urls['original']}}" alt="Logo" />
@@ -55,7 +56,7 @@
                     </div>
 									@endif
 									<p class="user-name">
-										@include('extranet::front.partials.session_select');
+										@include('extranet::front.partials.session_select')
 									</p>
 								</div>
 							</div>

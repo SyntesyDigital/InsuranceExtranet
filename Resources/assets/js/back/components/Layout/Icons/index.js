@@ -23,7 +23,7 @@ export const fontAwesomeIcons = {
     'fas fa-arrow-alt-circle-left' : 'f359',
     'fas fa-arrow-alt-circle-right' : 'f35a',
     'fas fa-arrow-alt-circle-up' : 'f35b',
-    'fas fa-arrow-circle-down' : 'f0ab',
+    'fas fa-arrow-circle-down' : 'f0ab', 
     'fas fa-arrow-circle-left' : 'f0a8',
     'fas fa-arrow-circle-right' : 'f0a9',
     'fas fa-arrow-circle-up' : 'f0aa',

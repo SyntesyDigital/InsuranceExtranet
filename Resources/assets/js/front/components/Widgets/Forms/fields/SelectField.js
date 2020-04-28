@@ -27,10 +27,37 @@ class SelectField extends Component
       data : [],
       boby : boby,
       parameters : parameters,
-      display : true
+      display : true,
+      preloadData : []
     };
 
     this.loadData();
+  }
+
+  componentDidUpdate(prevProps,prevState) {
+    const identifier = this.props.field.identifier;
+    const {preloadData} = this.state;
+
+    /*
+    console.log("SelectField :: componentDidUpdate : (currentValue, oldValue)",
+      this.props.value,
+      prevProps.value
+    );
+    */
+
+    if(this.props.value != prevProps.value){
+      
+      var dataPosition = preloadData.indexOf(this.props.value);
+      if(dataPosition != -1){
+
+        //console.log("SelectField :: update preload : (dataPosition,value)",dataPosition,this.state.data[dataPosition].value);
+        //if exist the value into preload data, change to veos valu
+        this.props.onFieldChange({
+          name : identifier,
+          value : this.state.data[dataPosition].value
+        });
+      }
+    }
   }
 
   /**
@@ -65,6 +92,23 @@ class SelectField extends Component
     }
   }
 
+  /**
+   * Process data array to allow indeOf to check if exists.
+   * @param {*} data 
+   */
+  processPreloadData(data) {
+    var result = [];
+
+    if(data.length == 0 || data[0].value_preload == null){
+      return [];
+    }
+
+    for(var key in data){
+      result.push(data[key].value_preload);
+    }
+    return result;
+  }
+
   loadData() {
 
       var self = this;
@@ -74,11 +118,13 @@ class SelectField extends Component
         return;
       }
 
-      axios.get('/architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
+      axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
         .then(function(response) {
           if(response.status == 200 && response.data.data !== undefined){
 
             var display = false;
+
+            var preloadData = self.processPreloadData(response.data.data);
 
             if(response.data.data.length == 0){
               //no data set this field as hidden, not needed
@@ -95,7 +141,8 @@ class SelectField extends Component
             self.setState({
               data : response.data.data,
               loading : false,
-              display : display
+              display : display,
+              preloadData : preloadData
             });
 
           }
@@ -116,6 +163,9 @@ class SelectField extends Component
       name : this.props.field.identifier,
       value : value
     });
+  }
+  setFromPreload() {
+
   }
 
   // ==============================
