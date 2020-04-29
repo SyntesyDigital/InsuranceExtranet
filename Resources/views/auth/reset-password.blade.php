@@ -19,6 +19,23 @@
         </div>
     </div>
 
+    @if(Request::has('debug') || old('env') != null)
+
+        <hr/>
+
+        <div class="form-group row">
+            <label for="env" class="col-md-12 col-form-label text-md-right">Environnement</label>
+
+            <div class="col-md-12">
+                <select id="env" class="form-control" name="env" >
+                    @foreach(\Modules\Extranet\Extensions\VeosWsUrl::getEnvironmentOptions() as $env)
+                    <option name="{{$env}}">{{$env}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
+
     <div class="form-group row mb-0">
       <div class="col-md-12 buttons-group">
           <button type="submit" class="btn btn-primary">
@@ -27,6 +44,12 @@
       </div>
     </div>
 
+    @if(session()->has('message'))
+        <div class="text-success text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+    
     @if ($errors->has('server'))
         <div class="invalid-feedback">
             {{ $errors->first('server') }}

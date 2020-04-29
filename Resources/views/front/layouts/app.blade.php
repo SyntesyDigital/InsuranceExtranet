@@ -53,9 +53,11 @@
           @include('extranet::front.partials.session_modal')
         @endif
 
+        
         @if(null !== Auth::user())
          @include ('extranet::front.partials.header')
         @endif
+        
         @include ('extranet::front.partials.env_bar')
 
         <div>

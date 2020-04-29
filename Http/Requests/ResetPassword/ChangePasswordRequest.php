@@ -4,7 +4,7 @@ namespace Modules\Extranet\Http\Requests\ResetPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendEmailRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class SendEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'env' => ''
+            'password' => 'required|confirmed|min:6',
         ];
     }
 }

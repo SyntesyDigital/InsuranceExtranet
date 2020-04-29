@@ -1,5 +1,9 @@
 @extends('extranet::front.layouts.auth')
 
+@php
+    $test = Request::has('debug') || old('env') != null ? true : false;
+@endphp
+
 @section('form')
   <form method="POST" action="{{ route('login') }}">
     @csrf
@@ -33,7 +37,7 @@
         </div>
     </div>
 
-    @if(Request::has('debug'))
+    @if($test)
 
       <hr/>
 
@@ -72,10 +76,17 @@
               <i class="fas fa-sign-in-alt"></i> Connexion
           </button>
           <p class="forgot">
-            <a href="{{route('reset-password')}}">Mot de pass obluié ?</a>
+            <a href="{{route('reset-password')}}@if($test)?debug=1 @endif">Mot de pass obluié ?</a>
           </p>
       </div>
     </div>
+
+    @if(session()->has('message'))
+        <div class="text-success text-center">
+            <i class="fa fa-check"></i>&nbsp;
+            {{ session()->get('message') }}
+        </div>
+    @endif
 
     @if ($errors->has('server'))
         <div class="invalid-feedback">

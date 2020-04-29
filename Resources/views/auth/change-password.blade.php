@@ -1,7 +1,8 @@
 @extends('extranet::front.layouts.auth')
 
 @section('form')
-  <form method="POST" action="{{ route('send-reset-password') }}">
+  <form method="POST" action="{{ route('update-password') }}">
+    <input type="hidden" name="token" value="{{$token}}" />
     @csrf
 
     <h2>RÉINITIALISER MOT DE PASSE</h2>
@@ -20,18 +21,35 @@
     </div>
 
     <div class="form-group row">
-        <label for="confirm-password" class="col-sm-12 col-form-label text-md-right"><i class="fa fa-lock"></i>Confirmation mot de passe</label>
+        <label for="password_confirmation" class="col-sm-12 col-form-label text-md-right"><i class="fa fa-lock"></i>Confirmation mot de passe</label>
 
         <div class="col-md-12">
-            <input id="confirm-password" type="password" class="form-control{{ $errors->has('confirm-password') ? ' is-invalid' : '' }}" name="confirm-password" value="{{ old('confirm-password') }}" placeholder="" required autofocus>
+            <input id="password_confirmation" type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="" required autofocus>
 
-            @if ($errors->has('confirm-password'))
+            @if ($errors->has('password_confirmation'))
                 <div class="invalid-field">
-                    <strong>{{ $errors->first('confirm-password') }}</strong>
+                    <strong>{{ $errors->first('password_confirmation') }}</strong>
                 </div>
             @endif
         </div>
     </div>
+
+    @if(isset($env))
+
+        <hr/>
+
+        <div class="form-group row">
+            <label for="env" class="col-md-12 col-form-label text-md-right">Environnement</label>
+
+            <div class="col-md-12">
+                <select id="env" class="form-control" name="env" >
+                    @foreach(\Modules\Extranet\Extensions\VeosWsUrl::getEnvironmentOptions() as $item)
+                    <option name="{{$item}}" @if($env == $item) selected @endif>{{$item}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
 
     <div class="form-group row mb-0">
       <div class="col-md-12 buttons-group">
@@ -40,6 +58,12 @@
           </button>
       </div>
     </div>
+
+    @if(session()->has('message'))
+        <div class="text-success text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
 
     @if ($errors->has('server'))
         <div class="invalid-feedback">

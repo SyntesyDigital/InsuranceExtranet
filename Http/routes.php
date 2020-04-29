@@ -130,7 +130,9 @@ Route::group([
 ], function () {
   Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
   Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
-  Route::get('/change-password', 'ResetPasswordController@changePassword')->name('change-password');
+  Route::get('/change-password/{env?}', 'ResetPasswordController@changePassword')->name('change-password');
+  Route::post('/update-password', 'ResetPasswordController@updatePassword')->name('update-password');
+  
 });
 
 Route::group([

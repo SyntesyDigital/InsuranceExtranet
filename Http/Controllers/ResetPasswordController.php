@@ -7,10 +7,18 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
+use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
 use Modules\Extranet\Jobs\ResetPassword\SendResetPassword;
+use Modules\Extranet\Jobs\ResetPassword\ChangePassword;
+use Modules\Extranet\Extensions\VeosWsUrl;
+use Validator;
 
 class ResetPasswordController extends Controller
 {
+
+    const ERROR_MESSAGE = "E-mail d'utilisateur incorrect";
+    const ERROR_CHANGE_MESSAGE = "E-mail d'utilisateur ou token incorrect";
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -23,54 +31,62 @@ class ResetPasswordController extends Controller
     public function sendEmail(SendEmailRequest $request) 
     {
 
+      $error = null;
       try {
 
-        if(dispatch_now(SendResetPassword::fromRequest($request))) {
+        $result = dispatch_now(SendResetPassword::fromRequest($request));
+
+        if($result) {
           return redirect(route('reset-password'))
-            ->with('success', "Success!");
+            ->with('message', "E-mail envoyé avec succès")
+            ->withInput($request->input());
         }
         
       } catch (\Exception $ex) {
         $error = $ex->getMessage();
       }
+      $validator = Validator::make($request->all(),[]);
+      $validator->errors()->add('server', ResetPasswordController::ERROR_MESSAGE);
 
       return redirect(route('reset-password'))
-        ->with('error', $error)
+        ->withErrors($validator)
         ->withInput($request->input());
     }
 
-    public function changePassword(Request $request) 
+    public function changePassword(Request $request, $env = null) 
     {
 
-      /*
-      //si el token es correcto
-      if(!Cache::has($email)){
-        $request->session()->flash('error_message', Lang::get('form.flash.send_error'));
-
-        return redirect('/password/reset');
+      if(!$request->has('np') && !$request->old('token') ){
+        return redirect(route('login'));
       }
 
-      $cacheToken = Cache::get($email);
+      return view('extranet::auth.change-password',[
+        "env" => $env,
+        "token" => $request->has('np') ? $request->get('np') : $request->old('token')
+      ]);
+    }
 
-      if($token != $cacheToken){
-        $request->session()->flash('error_message', Lang::get('form.flash.token_missmatch'));
+    public function updatePassword(ChangePasswordRequest $request) 
+    {
 
-        return redirect('/password/reset');
+      $error = null;
+      try {
+
+        $result = dispatch_now(ChangePassword::fromRequest($request));
+
+        if($result) {
+          return redirect(route('login'))
+            ->with('message', "Mot de passé changé avec succèss");
+        }
+        
+      } catch (\Exception $ex) {
+        $error = $ex->getMessage();
       }
+      $validator = Validator::make($request->all(),[]);
+      $validator->errors()->add('server', ResetPasswordController::ERROR_CHANGE_MESSAGE);
 
-      //hacemos login con el WS
-
-      $testMode = substr(strtolower($email), -4) == '-dev' ? true : false;
-
-      //if($userToken = $this->loginWSUser()){
-      $uid = $testMode ? 'WS-dev' : 'WS';
-      if($this->dispatchNow(Login::fromAttributes($uid,'WS1234','fr'))) {
-
-        //redirect to a Controller into the Auth to execute the bobys
-        return redirect('/password/reset-form/'.$email.'/'.$token);
-      }
-      */
-
-      return view('extranet::auth.change-password');
+      return redirect(route('change-password'))
+        ->withErrors($validator)
+        ->withInput($request->input());
     }
 }

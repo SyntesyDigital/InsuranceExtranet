@@ -2,7 +2,7 @@
 
 namespace Modules\Extranet\Jobs\ResetPassword;
 
-use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
+use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Modules\Extranet\Extensions\VeosWsUrl;
@@ -13,7 +13,7 @@ use Session;
 use Lang;
 use Config;
 
-class SendResetPassword
+class ChangePassword
 {
 
     private $env;
@@ -21,7 +21,8 @@ class SendResetPassword
     public function __construct(array $attributes)
     {
         $this->attributes = array_only($attributes, [
-            'email',
+            'password',
+            'token',
             'env'
         ]);
 
@@ -30,9 +31,9 @@ class SendResetPassword
           : VeosWsUrl::PROD;        
     }
 
-    public static function fromRequest(SendEmailRequest $request)
+    public static function fromRequest(ChangePasswordRequest $request)
     {
-        return new SendResetPassword($request->all());
+        return new ChangePassword($request->all());
     }
 
     public function handle()
@@ -44,18 +45,15 @@ class SendResetPassword
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
         $json = [
-          'uid' => $this->attributes['email'],
-          'url' => route('change-password',$this->env),
-          'idMail' => null,
+          'passwd' => $this->attributes['password'],
+          'token' => $this->attributes['token'],
         ];
 
-        dd($json);
-
-        $result = $client->post($WsUrl.'login/reset/request', [
+        $result = $client->post($WsUrl.'login/reset/apply', [
             'json' => $json,
         ]);
+
         return true;
-        
       }
       catch (\Exception $ex) {
         throw $ex;
