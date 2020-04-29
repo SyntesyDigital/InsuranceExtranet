@@ -43,9 +43,11 @@ class SendResetPassword
 
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
+        $urlEnv = $this->env == VeosWsUrl::PROD ? "" : $this->env;
+
         $json = [
           'uid' => $this->attributes['email'],
-          'url' => route('change-password',$this->env),
+          'url' => route('change-password',$urlEnv),
           'idMail' => null,
         ];
 
