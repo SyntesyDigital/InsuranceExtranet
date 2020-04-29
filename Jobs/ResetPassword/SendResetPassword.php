@@ -49,8 +49,6 @@ class SendResetPassword
           'idMail' => null,
         ];
 
-        dd($json);
-
         $result = $client->post($WsUrl.'login/reset/request', [
             'json' => $json,
         ]);
