@@ -50,7 +50,7 @@ export default class FormsIndex extends Component {
 
     handleSelectAll(e) {
         e.preventDefault();
-        console.log("handleSelectAll :: ")
+        console.log("handleSelectAll :: ");
         // this.setState({
         //     selected: [],
         //     displaySubmit: !this.state.displaySubmit,
@@ -59,11 +59,33 @@ export default class FormsIndex extends Component {
     }
 
     handleSubmit(items) {
-        console.log("handleSubmit:: ", items)
+
+        let exportArray = [];
+
+        
+        (async (items) => {
+            console.log(items);
+        });
+
+        // items.forEach(item => {
+            
+        //         await api.exportImport.export(item.id, EXPORT_MODELS.ElementModel).toPromise();
+            
+        //         // all of the script.... 
+            
+        //     })();
+
+
+            
+        //     // api.exportImport.export(item.id, EXPORT_MODELS.ElementModel)
+        //     //     .then(function (payload) {
+        //     //         exportArray.push(payload.data.export.payload);
+        //     //     });
+        // });
+        //console.log("handleSubmit:: ", EXPORT_MODELS)
     }
 
     updateSelectedList(e, value) {
-        console.log(e.target.checked)
         if (e.target.checked) {
             this.setState({
                 selected: this.state.selected.concat([value])
@@ -106,9 +128,6 @@ export default class FormsIndex extends Component {
     }
 
     render() {
-
-        console.log(this.state);
-
         return (
             <div className="container grid-page elements-models-page">
                 <div className="col-xs-offset-2 col-xs-8 page-content">
