@@ -5,6 +5,7 @@ import {procedures} from './models/modelProcedure';
 import {fields} from './models/modelFields';
 import {elementTemplates} from './models/elementTemplates';
 import {elementTemplatesFields} from './models/elementTemplatesFields';
+import {exportImport} from './services/exportImport';
 
 let api = {
     services : services,
@@ -12,7 +13,8 @@ let api = {
     procedures : procedures,
     fields : fields,
     elementTemplates : elementTemplates,
-    elementTemplatesFields : elementTemplatesFields
+    elementTemplatesFields : elementTemplatesFields,
+    exportImport: exportImport
 };
 
 export default api;

@@ -16,3 +16,8 @@ type Query
 # Element Template 
 #import ../../Services/ElementTemplate/GraphQL/schema/elementtemplate.graphql 
 #import ../../Services/ElementTemplate/GraphQL/schema/elementtemplatefield.graphql 
+
+# EXPORT IMPORT
+#import ../../Services/ExportImport/GraphQL/schema/export.graphql 
+#import ../../Services/ExportImport/GraphQL/schema/import.graphql 
+
