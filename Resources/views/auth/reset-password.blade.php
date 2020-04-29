@@ -6,7 +6,7 @@
 
     <h2>MOT DE PASSE OUBLIÉ</h2>
     <div class="form-group row">
-        <label for="email" class="col-sm-12 col-form-label text-md-right"><i class="fa fa-envelope"></i>Indiquer votre adresse E-mail</label>
+        <label for="email" class="col-sm-12 col-form-label text-md-right"><i class="fa fa-user"></i>Utilisateur</label>
 
         <div class="col-md-12">
             <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="" required autofocus>
