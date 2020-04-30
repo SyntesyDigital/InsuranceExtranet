@@ -5,6 +5,7 @@ import ExportButton from '../Layout/ExportButton';
 import ModalResultImport from '../ElementsModels/ModalResultImport';
 
 import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
+import { saveAs } from 'file-saver';
 
 export default class FormsIndex extends Component {
 
@@ -48,9 +49,31 @@ export default class FormsIndex extends Component {
         })
     }
 
+    export(items, model) {
+        const promises = [];
+
+        items.forEach(item => {
+            promises.push(api.exportImport.export(item.id, model).then(response => {
+                return JSON.parse(response.data.export.payload);
+            }));
+        });
+
+        Promise.all(promises)
+            .then(response => {
+                var fileName = 'export.json';
+
+                var fileToSave = new Blob([JSON.stringify(response)], {
+                    type: 'application/json',
+                    name: fileName
+                });
+
+                saveAs(fileToSave, fileName);
+            });
+    }
+
     handleSelectAll(e) {
         e.preventDefault();
-        console.log("handleSelectAll :: ");
+        this.export(this.state.models, EXPORT_MODELS.ElementModel);
         // this.setState({
         //     selected: [],
         //     displaySubmit: !this.state.displaySubmit,
@@ -59,30 +82,7 @@ export default class FormsIndex extends Component {
     }
 
     handleSubmit(items) {
-
-        let exportArray = [];
-
-        
-        (async (items) => {
-            console.log(items);
-        });
-
-        // items.forEach(item => {
-            
-        //         await api.exportImport.export(item.id, EXPORT_MODELS.ElementModel).toPromise();
-            
-        //         // all of the script.... 
-            
-        //     })();
-
-
-            
-        //     // api.exportImport.export(item.id, EXPORT_MODELS.ElementModel)
-        //     //     .then(function (payload) {
-        //     //         exportArray.push(payload.data.export.payload);
-        //     //     });
-        // });
-        //console.log("handleSubmit:: ", EXPORT_MODELS)
+        this.export(items, EXPORT_MODELS.ElementModel);
     }
 
     updateSelectedList(e, value) {
