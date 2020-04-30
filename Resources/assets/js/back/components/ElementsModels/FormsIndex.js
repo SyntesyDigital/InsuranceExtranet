@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../api/index.js';
 import ExportButton from '../Layout/ExportButton';
-import ModalResultImport from '../ElementsModels/ModalResultImport';
 
 import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
 
@@ -75,22 +74,6 @@ export default class FormsIndex extends Component {
         }
     }
 
-    openModalResultImport(e){
-        if (e !== undefined) {
-            e.preventDefault();
-        }
-        this.setState({
-            displayResultImport: true
-        });
-    }
-
-    handleModalResultImportClose() {
-        this.setState({
-            displayResultImport: false
-        });
-    }
-
-
     renderModels() {
         return this.state.models.map((item, index) =>
             <BoxWithIcon
@@ -149,22 +132,13 @@ export default class FormsIndex extends Component {
                             />
                             : null}
 
-
-                        <ModalResultImport
-                            id={'modal-result-import'}
-                            icon={'fas fa-bars'}
-                            size={'medium'}
-                            title={'Resultado de la importación'}
-                            display={this.state.displayResultImport}
-                            zIndex={10000}
-                            onModalClose={this.handleModalResultImportClose.bind(this)}
-                        />
-
-                        {/* <ExportButton
-                            label={"ENVOYER"}
+                        <ExportButton
+                            label={"IMPORTER"}
                             icon={"fas fa-upload"}
-                            onClick={this.openModalResultImport.bind(this)}
-                        /> */}
+                            importApi={'url'}
+                            onSuccess={''}
+                            onError={''}
+                        />
 
                     </PageTitle>
 
