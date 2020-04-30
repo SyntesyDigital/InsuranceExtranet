@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../api/index.js';
 import ExportButton from '../Layout/ExportButton';
+import moment from 'moment';
 import ModalResultImport from '../ElementsModels/ModalResultImport';
 
 import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
 import { saveAs } from 'file-saver';
+
 
 export default class FormsIndex extends Component {
 
@@ -21,13 +23,26 @@ export default class FormsIndex extends Component {
         };
     }
 
+    compare( a, b ) {
+        if ( a.name < b.name ){
+          return -1;
+        }
+        if ( a.name > b.name ){
+          return 1;
+        }
+        return 0;
+    }
+
     componentDidMount() {
         var _this = this;
 
         api.elementModel.getAll()
             .then(function (payload) {
+
+
+
                 _this.setState({
-                    models: payload.data.elementModels
+                    models: payload.data.elementModels.sort(_this.compare)
                 })
             });
     }
@@ -118,7 +133,7 @@ export default class FormsIndex extends Component {
             <BoxWithIcon
                 icon={item.icon}
                 name={item.name}
-                subtitle={'22/01/08'}
+                subtitle={moment(item.created_at).format('D/M/YY HH:mm')}
                 onSelect={(e) => this.updateSelectedList(e, item)}
                 route={routes['extranet.elements-models.forms.update'].replace(':id', item.id)}
                 selectable={this.state.selecting}
@@ -163,7 +178,7 @@ export default class FormsIndex extends Component {
                         {this.state.displaySubmit ?
                             <ButtonSecondary
                                 label={"Télécharger"}
-                                icon={"fas fa-cloud-upload-alt"}
+                                icon={"fas fa-download"}
                                 onClick={this.handleSubmit.bind(this, this.state.selected)}
                             />
                             : null}
