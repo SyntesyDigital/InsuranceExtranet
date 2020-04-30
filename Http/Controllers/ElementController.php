@@ -229,16 +229,16 @@ class ElementController extends Controller
             $result = $this->elements->getModelValuesFromElement($element, $request->all());
 
             return response()->json([
-                      'success' => true,
-                      'modelValues' => new ModelValuesFormatTransformer(
-                        $result['modelValues'],
-                        $element->fields()->get(),
-                        $limit, $request->all(),
-                        $element->type == Element::TYPES['table']['identifier'] ? true : false
-                      ),
-                      'totalPage' => $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
-                      'total' => $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
-                  ]);
+                'success' => true,
+                'modelValues' => new ModelValuesFormatTransformer(
+                    $result['modelValues'],
+                    $element->fields()->get(),
+                    $limit, $request->all(),
+                    $element->type == Element::TYPES['table']['identifier'] ? true : false
+                ),
+                'totalPage' => $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
+                'total' => $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -262,7 +262,7 @@ class ElementController extends Controller
                 array_push($row, isset($value) ? mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8') : '');
             }
 
-            fputcsv($handle, $row, ";");
+            fputcsv($handle, $row, ';');
         } else {
             $filepath = storage_path().'/app/'.$filename;
             $handle = fopen($filepath, 'a+');
@@ -280,7 +280,7 @@ class ElementController extends Controller
                 array_push($row, isset($modelValue[$key]) ? mb_convert_encoding($modelValue[$key], 'ISO-8859-1', 'UTF-8') : '');
             }
 
-            fputcsv($handle, $row, ";");
+            fputcsv($handle, $row, ';');
         }
         fclose($handle);
 
@@ -325,7 +325,7 @@ class ElementController extends Controller
                 $resultData[] = [
                 'name' => $item->lib,
                 'value' => $item->val,
-                'value_preload' => isset($item->valpreload) ? $item->valpreload : null 
+                'value_preload' => isset($item->valpreload) ? $item->valpreload : null,
               ];
             }
 
@@ -541,7 +541,7 @@ class ElementController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Only form type available. Element of type '.$element_type,
-            ],422);
+            ], 422);
         }
 
         $model = $this->getModelById(
@@ -553,7 +553,7 @@ class ElementController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Model id does not exist in Models database. Id to find : '.$model_id,
-            ],422);
+            ], 422);
         }
 
         $procedures = $this->computeFormProcedures($model->ID);
@@ -567,12 +567,11 @@ class ElementController extends Controller
 
         try {
             $elementModel = $this->dispatchNow(new ImportElementModel($data));
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage(),
-            ],422);
+            ], 422);
         }
 
         return response()->json([
@@ -589,10 +588,11 @@ class ElementController extends Controller
         return response()->json($models);
     }
 
-    public function getElements() 
+    public function getElements()
     {
-        $elements= Element::all();
-        $elements->load('attrs','templates');
+        $elements = Element::all();
+        $elements->load('attrs', 'templates');
+
         return $elements->toArray();
     }
 }

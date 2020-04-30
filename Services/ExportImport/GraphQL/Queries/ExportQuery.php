@@ -4,7 +4,9 @@ namespace Modules\Extranet\Services\ExportImport\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Extranet\Entities\Element;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ExportImport\Exporters\ElementExporter;
+use Modules\Extranet\Services\ExportImport\Exporters\ElementModelExporter;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ExportQuery
@@ -28,10 +30,14 @@ class ExportQuery
             case Element::class:
                 $exporter = new ElementExporter($object);
             break;
+
+            case ElementModel::class:
+                $exporter = new ElementModelExporter($object);
+            break;
         }
 
         return [
-            'payload' => json_encode($exporter->export()),
+            'payload' => isset($exporter) ? json_encode($exporter->export()) : null,
         ];
     }
 }

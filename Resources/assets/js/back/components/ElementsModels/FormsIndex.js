@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../api/index.js';
 import ExportButton from '../Layout/ExportButton';
+import moment from 'moment';
 
 import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
+import { saveAs } from 'file-saver';
+
 
 export default class FormsIndex extends Component {
 
@@ -19,13 +22,26 @@ export default class FormsIndex extends Component {
         };
     }
 
+    compare( a, b ) {
+        if ( a.name < b.name ){
+          return -1;
+        }
+        if ( a.name > b.name ){
+          return 1;
+        }
+        return 0;
+    }
+
     componentDidMount() {
         var _this = this;
 
         api.elementModel.getAll()
             .then(function (payload) {
+
+
+
                 _this.setState({
-                    models: payload.data.elementModels
+                    models: payload.data.elementModels.sort(_this.compare)
                 })
             });
     }
@@ -47,9 +63,31 @@ export default class FormsIndex extends Component {
         })
     }
 
+    export(items, model) {
+        const promises = [];
+
+        items.forEach(item => {
+            promises.push(api.exportImport.export(item.id, model).then(response => {
+                return JSON.parse(response.data.export.payload);
+            }));
+        });
+
+        Promise.all(promises)
+            .then(response => {
+                var fileName = 'export.json';
+
+                var fileToSave = new Blob([JSON.stringify(response)], {
+                    type: 'application/json',
+                    name: fileName
+                });
+
+                saveAs(fileToSave, fileName);
+            });
+    }
+
     handleSelectAll(e) {
         e.preventDefault();
-        console.log("handleSelectAll :: ")
+        this.export(this.state.models, EXPORT_MODELS.ElementModel);
         // this.setState({
         //     selected: [],
         //     displaySubmit: !this.state.displaySubmit,
@@ -58,11 +96,10 @@ export default class FormsIndex extends Component {
     }
 
     handleSubmit(items) {
-        console.log("handleSubmit:: ", items)
+        this.export(items, EXPORT_MODELS.ElementModel);
     }
 
     updateSelectedList(e, value) {
-        console.log(e.target.checked)
         if (e.target.checked) {
             this.setState({
                 selected: this.state.selected.concat([value])
@@ -79,7 +116,7 @@ export default class FormsIndex extends Component {
             <BoxWithIcon
                 icon={item.icon}
                 name={item.name}
-                subtitle={'22/01/08'}
+                subtitle={moment(item.created_at).format('D/M/YY HH:mm')}
                 onSelect={(e) => this.updateSelectedList(e, item)}
                 route={routes['extranet.elements-models.forms.update'].replace(':id', item.id)}
                 selectable={this.state.selecting}
@@ -89,9 +126,6 @@ export default class FormsIndex extends Component {
     }
 
     render() {
-
-        console.log(this.state);
-
         return (
             <div className="container grid-page elements-models-page">
                 <div className="col-xs-offset-2 col-xs-8 page-content">
@@ -127,7 +161,7 @@ export default class FormsIndex extends Component {
                         {this.state.displaySubmit ?
                             <ButtonSecondary
                                 label={"Télécharger"}
-                                icon={"fas fa-cloud-upload-alt"}
+                                icon={"fas fa-download"}
                                 onClick={this.handleSubmit.bind(this, this.state.selected)}
                             />
                             : null}
