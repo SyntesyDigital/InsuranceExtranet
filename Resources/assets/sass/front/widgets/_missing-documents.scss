@@ -1,0 +1,63 @@
+.missing-documents-component {
+  background-color: #fff;
+  color: #2a3649;
+  border-radius: 12px;
+  .wrapper {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin: 15px 0px 60px 0px;
+    grid-gap: 10px;
+    background-color: #fff;
+    color: #444;
+  }
+  .box {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    .text {
+      &-file {
+        color: #69a8ff;
+      }
+      &-success {
+        color: #84e584;
+      }
+    }
+    .icon-wrapper {
+        display: block;
+        margin: 30px;
+      i {
+        font-size: 2.5vw;
+      }
+    }
+    &-state-01 {
+      border: 4px dotted #ccc;
+      .icon-wrapper {
+        i {
+          color: #ccc;
+        }
+      }
+    }
+    &-state-02 {
+      border: 1.5px solid #69a8ff;
+      .icon-wrapper {
+        i {
+          color: #69a8ff;
+        }
+      }
+      button{
+        position: absolute;
+        bottom: -46px;
+        right: 23%;
+      }
+    }
+    &-state-03 {
+      border: 1.5px solid #ccc;
+      .icon-wrapper {
+        i {
+          color: #84e584;
+        }
+      }
+    }
+  }
+}
