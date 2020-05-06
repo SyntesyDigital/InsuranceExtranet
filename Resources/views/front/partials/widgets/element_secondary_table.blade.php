@@ -30,6 +30,7 @@
           pagination="{{$field['settings']['pagination'] != null ? true : false }}"
           itemsPerPage="{{$field['settings']['pagination']}}"
           maxItems = "{{$field['settings']['maxItems']}}"
+          hideEmptyRows = "{{isset($field['settings']['hideEmptyRows']) ? $field['settings']['hideEmptyRows'] : false}}"
           elementObject="{{base64_encode(json_encode($elementObject))}}"
           model="{{base64_encode(json_encode($model))}}"
           parameters="{{$parameters}}"
