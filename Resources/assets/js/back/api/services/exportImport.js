@@ -33,11 +33,7 @@ export const GQL_IMPORT = gql`
   mutation import(
         $payload: String!
     ) {
-        import(
-            input: {
-                payload: $payload
-            }
-        ) {
+        import(payload: $payload) {
             payload
         }
   } 

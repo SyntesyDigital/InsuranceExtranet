@@ -3,9 +3,12 @@
 namespace Modules\Extranet\Services\ExportImport\GraphQL\Mutations;
 
 use Modules\Extranet\Entities\Element;
+
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Extranet\Services\ExportImport\Importers\ElementImporter;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+use Modules\Extranet\Services\ExportImport\Importers\ElementModelImporter;
 
 class ImporterMutator
 {
@@ -23,19 +26,24 @@ class ImporterMutator
     {
         $payload = json_decode($args["payload"]);
         $payload = is_array($payload) ? $payload : [$payload];
-        
+
+        $result = [];
+
         foreach($payload as $p) {
             switch($p->model) {
                 case Element::class: 
                     $importer = new ElementImporter(json_encode($p));
                     $importer->import();
-                    return [
-                        'payload' => json_encode($importer->getReport())
-                    ];
-                break;
+                    $result[] = $importer->getReport();
+                    break;
+                case ElementModel::class: 
+                    $importer = new ElementModelImporter(json_encode($p));
+                    $importer->import();
+                    $result[] = $importer->getReport();
+                    break;
             }
         }
 
-        return null;
+        return ["payload" => json_encode($result)];
     }
 }
