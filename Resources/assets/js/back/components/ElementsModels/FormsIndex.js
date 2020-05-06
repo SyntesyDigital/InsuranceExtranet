@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../api/index.js';
-import ExportButton from '../Layout/ExportButton';
+import ImportButton from './../Layout/ImportButton';
 import moment from 'moment';
 
 import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
@@ -63,8 +63,13 @@ export default class FormsIndex extends Component {
         })
     }
 
+    handleJsonUploaded(json) {
+        
+    }
+
     export(items, model) {
         const promises = [];
+        var self = this;
 
         items.forEach(item => {
             promises.push(api.exportImport.export(item.id, model).then(response => {
@@ -82,6 +87,14 @@ export default class FormsIndex extends Component {
                 });
 
                 saveAs(fileToSave, fileName);
+
+                toastr.success('Exporté avec succès');
+
+                self.setState({
+                    displaySubmit : false,
+                    selecting : false,
+                    selected : []
+                });
             });
     }
 
@@ -97,6 +110,7 @@ export default class FormsIndex extends Component {
 
     handleSubmit(items) {
         this.export(items, EXPORT_MODELS.ElementModel);
+        
     }
 
     updateSelectedList(e, value) {
@@ -128,7 +142,7 @@ export default class FormsIndex extends Component {
     render() {
         return (
             <div className="container grid-page elements-models-page">
-                <div className="col-xs-offset-2 col-xs-8 page-content">
+                <div className="col-xs-offset-1 col-xs-10 page-content">
                     <PageTitle
                         title={'Formulaires'}
                         icon={'fas fa-cog'}
@@ -140,8 +154,15 @@ export default class FormsIndex extends Component {
                             route={routes["extranet.elements-models.forms.create"]}
                         />
 
+                        <ImportButton
+                            label={"IMPORTER"}
+                            icon={"fas fa-download"}
+                            onJsonUploaded={this.handleJsonUploaded.bind(this)}
+                        />
+
                         <ButtonDropdown
                             label={"EXPORTER"}
+                            icon={"fas fa-download"}
                             list={[
                                 {
                                     label: "Exporter Tous",
@@ -159,20 +180,14 @@ export default class FormsIndex extends Component {
                         />
 
                         {this.state.displaySubmit ?
-                            <ButtonSecondary
+                            <ButtonPrimary
                                 label={"Télécharger"}
                                 icon={"fas fa-download"}
                                 onClick={this.handleSubmit.bind(this, this.state.selected)}
                             />
                             : null}
 
-                        <ExportButton
-                            label={"IMPORTER"}
-                            icon={"fas fa-upload"}
-                            importApi={'url'}
-                            onSuccess={''}
-                            onError={''}
-                        />
+                        
 
                     </PageTitle>
 

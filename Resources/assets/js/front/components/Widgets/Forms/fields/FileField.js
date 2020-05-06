@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
-import { FilePicker } from 'react-file-picker'
+import { FilePicker } from 'react-file-picker';
 
 class FileField extends Component
 {
