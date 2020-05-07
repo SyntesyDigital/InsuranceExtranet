@@ -2,10 +2,14 @@
 *   Function to process form parameters to URL param=value&param2=value2
 *   from this.props.parameters.formParameters
 */
-export function getUrlParameters(formParameters) {
+export function getUrlParameters(formParameters, forceRemoveArrayParameters) {
 
   //all parameters are initially added to formParameters so no need to add again
   //var parameters = this.props.parameters;
+
+  var forceRemoveArrayParameters = forceRemoveArrayParameters !== undefined 
+    ? forceRemoveArrayParameters 
+    : false;
 
   var parameters = "";
   var formParametersArray = Object.keys(formParameters);
@@ -19,6 +23,11 @@ export function getUrlParameters(formParameters) {
         //if has _ remove first character
         if(formParameterKey.charAt(0) == "_"){
           formParameterKey = formParameterKey.substr(1);
+        }
+        
+        //if is an array remove  this parameter from url
+        if(forceRemoveArrayParameters && formParameterKey.indexOf("[") != -1){
+          continue;
         }
 
         parameters += (parameters != ''?"&":"")+formParameterKey+"="

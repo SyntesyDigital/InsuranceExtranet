@@ -76,7 +76,7 @@
               <i class="fas fa-sign-in-alt"></i> Connexion
           </button>
           <p class="forgot">
-            <a href="{{route('reset-password')}}@if($test)?debug=1 @endif">Mot de pass obluié ?</a>
+            <a href="{{route('reset-password')}}@if($test)?debug=1 @endif">Mot de passe oublié ?</a>
           </p>
       </div>
     </div>
