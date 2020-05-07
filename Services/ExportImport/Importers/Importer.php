@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\ExportImport\Importers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
 
 abstract class Importer
 {

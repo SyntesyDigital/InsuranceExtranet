@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\ExportImport\Importers;
 
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ExportImport\Interfaces\ModelImporterInterface;
+use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
 
 class ElementModelImporter extends Importer implements ModelImporterInterface
 {
@@ -16,5 +17,6 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
                 'procedures.service',
             ],
         ],
+        Service::class => "identifier"
     ];
 }
