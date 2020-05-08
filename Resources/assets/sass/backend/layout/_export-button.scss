@@ -1,0 +1,16 @@
+#modal-result-import {
+  .success {
+    color: #00c851;
+  }
+  .error {
+    color: #ff4444;
+  }
+  .modal{
+      &-content{
+        padding-bottom: 0;
+      }
+      &-footer{
+        display: none;
+      }
+  }
+}

@@ -6,6 +6,8 @@ export default class ButtonDropdown extends Component {
     constructor(props)
     {
         super(props);
+        this.state = {
+        }
     }
 
     renderList() {
@@ -41,5 +43,7 @@ export default class ButtonDropdown extends Component {
 
 ButtonDropdown.propTypes = {
   label: PropTypes.string.isRequired,
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  disabled: PropTypes.string
+   
 };

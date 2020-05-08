@@ -29,6 +29,7 @@ export default class TableComponent extends Component {
         const downloadUrl = props.downloadUrl;
 
         const maxItems = props.maxItems !== undefined  && props.maxItems != ""? props.maxItems : false;
+        const hideEmptyRows = props.hideEmptyRows !== undefined  && props.hideEmptyRows != ""? props.hideEmptyRows : false;
 
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
@@ -58,7 +59,9 @@ export default class TableComponent extends Component {
             currentPage : 2,
             totalPages : 0,
             csvElements : 0,
-            exportPage: 1
+            exportPage: 1,
+            pageSize : 10,
+            hideEmptyRows: hideEmptyRows
         };
     }
 
@@ -147,9 +150,20 @@ export default class TableComponent extends Component {
 
                 var dataProcessed = self.processData(response.data.modelValues);
 
+                var pageSize = self.state.maxItems? parseInt(self.state.maxItems) : parseInt(self.state.itemsPerPage);
+                console.log('DATA PAGINATION', self.state.pagination);
+                console.log('HIDEEMPTY',self.state.hideEmptyRows);
+                console.log('DATA PROCESED', dataProcessed.length);
+                console.log('PAGE SIXZE',pageSize);
+
+                if(!self.state.pagination && self.state.hideEmptyRows == '1' && dataProcessed.length < pageSize){
+                  pageSize = dataProcessed.length;
+                }
+
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
                     totalPages : response.data.totalPage,
+                    pageSize: pageSize,
                     loading : false
                 }, function(){
                     if(!maxItems) {
@@ -397,7 +411,7 @@ export default class TableComponent extends Component {
 
     renderTable() {
       const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
-
+      var originalPageSize = maxItems? parseInt(maxItems) : parseInt(this.state.itemsPerPage);
       return (
         <div id={this.state.id}>
           {this.props.exportBtn &&
@@ -424,6 +438,7 @@ export default class TableComponent extends Component {
                 }
               ]}
               defaultPageSize={maxItems? parseInt(maxItems) : parseInt(this.state.itemsPerPage)}
+              pageSize={this.state.pageSize}
               loading={this.state.loading}
               filterable={true}
               //className="-striped -highlight"
