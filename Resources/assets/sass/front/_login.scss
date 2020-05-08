@@ -38,12 +38,15 @@
       border: 1px solid #DBDBDB;
      // border: 1px solid $login-border-color;
     //  background-color:$login-background-color;
+
+      .logo-container{
+        text-align: center;
+      }
+
       form{
         border:none;
         padding: 0;
-        .logo-container{
-          text-align: center;
-        }
+        
         h2{
           text-align: center;
           @include font(18,24,400);
