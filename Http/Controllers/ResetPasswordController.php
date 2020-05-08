@@ -76,7 +76,7 @@ class ResetPasswordController extends Controller
 
         if($result) {
           return redirect(route('login'))
-            ->with('message', "Mot de passé changé avec succèss");
+            ->with('message', "Mot de passe changé avec succèss");
         }
         
       } catch (\Exception $ex) {

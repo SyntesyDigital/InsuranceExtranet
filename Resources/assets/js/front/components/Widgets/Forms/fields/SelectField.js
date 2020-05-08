@@ -113,12 +113,9 @@ class SelectField extends Component
 
       var self = this;
 
-      if(this.state.parameters == null){
-        console.error("Parameter necessary not defined , "+key);
-        return;
-      }
-
-      axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
+      var parameters = this.state.parameters == null ? "" : this.state.parameters ;
+      
+      axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+parameters)
         .then(function(response) {
           if(response.status == 200 && response.data.data !== undefined){
 
