@@ -7,7 +7,6 @@ export default class ButtonDropdown extends Component {
     {
         super(props);
         this.state = {
-          selected: '',
         }
     }
 

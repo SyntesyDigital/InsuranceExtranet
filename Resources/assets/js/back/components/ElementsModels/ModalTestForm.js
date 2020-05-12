@@ -76,7 +76,7 @@ class ModalTestForm extends Component {
             return fulljson;
         }
         
-        //console.log("updateJSONFromArray :: (paths,fulljson,json,fields)",paths,fulljson,json,fields);
+        console.log("updateJSONFromArray :: (paths,fulljson,json,fields)",paths,fulljson,json,fields);
 
         var path = paths[0];
 
