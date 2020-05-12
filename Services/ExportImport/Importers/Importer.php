@@ -174,21 +174,25 @@ abstract class Importer
             ? $this->duplicateIfNotExists[$class]['field']
             : $this->duplicateIfNotExists[$class];
 
-        $source = $class::where($field, $object->$field)->first();
+        $sources = $class::where($field, $object->$field)->get();
 
-        if ($source) {
+        foreach ($sources as $source) {
             // Load relations
             if (isset($this->duplicateIfNotExists[$class]['relations'])) {
                 $source->load($this->duplicateIfNotExists[$class]['relations']);
             }
 
             // Build array from imported JSON
-            $arr1 = isset($node['relations']) ? $this->buildArrayObjectWithRelations($node) : $node;
+            $arr1 = isset($node['relations'])
+                ? $this->buildArrayObjectWithRelations($node)
+                : $node;
 
             // Build array from DB object
             $arr2 = $this->walkArrayAndRemoveDBFields($source->toArray());
 
-            return md5(json_encode($arr1)) == md5(json_encode($arr2)) ? $source : false;
+            if (md5(json_encode($arr1)) == md5(json_encode($arr2))) {
+                return $source;
+            }
         }
 
         return false;
