@@ -22,6 +22,7 @@ class Text extends Field implements FieldInterface
         'entryTitle',
         'htmlId',
         'htmlClass',
-        'textAlign'
+        'textAlign',
+        'hideBorders',
     ];
 }

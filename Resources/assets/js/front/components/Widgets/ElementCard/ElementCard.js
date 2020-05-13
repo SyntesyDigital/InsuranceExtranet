@@ -21,20 +21,20 @@ export default class ElementCard extends Component {
         var template = field.settings.template ? field.settings.template : null;
 
         this.state = {
-            field : field,
+            field: field,
             element: JSON.parse(atob(props.element)),
             modelValues: [],
             model: JSON.parse(atob(props.model)),
             layout: [],
-            template : template,
-            dataLoaded : false,
-            templateLoaded : template ? false : true
+            template: template,
+            dataLoaded: false,
+            templateLoaded: template ? false : true
         };
     }
 
     componentDidMount() {
         this.loadModelValues();
-        if(this.state.template != null){
+        if (this.state.template != null) {
             this.loadTemplate(this.state.template);
         }
     }
@@ -45,7 +45,7 @@ export default class ElementCard extends Component {
     handleChange(e) {
         // console.log('handleChange :: ', e.target.checked)
     }
-    
+
     // ----------------------------------------------- //
     //      GETTERS
     // ----------------------------------------------- //
@@ -65,63 +65,63 @@ export default class ElementCard extends Component {
 
     getModelFieldValue(fieldname) {
 
-        return this.state.modelValues[0] !== undefined && 
+        return this.state.modelValues[0] !== undefined &&
             this.state.modelValues[0][fieldname] ? this.state.modelValues[0][fieldname] : "";
     }
 
-    getConditionalFormating(field,value) {
+    getConditionalFormating(field, value) {
 
-        if(value === undefined)
+        if (value === undefined)
             return {};
 
         value = typeof value === 'string' ? value.toLowerCase() : value;
-        
-        if(field.settings.conditionalFormatting !== undefined && 
-          field.settings.conditionalFormatting != null) {
-          
-          for(var key in field.settings.conditionalFormatting.conditions){
-            var condition = field.settings.conditionalFormatting.conditions[key];
 
-            console.log("condition => ",condition);
+        if (field.settings.conditionalFormatting !== undefined &&
+            field.settings.conditionalFormatting != null) {
 
-            var conditionValue = typeof condition.value === 'string' ? 
-              condition.value.toLowerCase() : condition.value;
-    
-            console.log("comparision :: value, conditiaonValue,  value.indexOf(conditionValue) != -1",value, conditionValue, value.indexOf(conditionValue) != -1);
+            for (var key in field.settings.conditionalFormatting.conditions) {
+                var condition = field.settings.conditionalFormatting.conditions[key];
 
-            if(value.indexOf(conditionValue) != -1) {
-              //if the string is contained in the string
-              return {
-                color : condition.color,
-                backgroundColor : condition.backgroundColor,
-              };
+                console.log("condition => ", condition);
+
+                var conditionValue = typeof condition.value === 'string' ?
+                    condition.value.toLowerCase() : condition.value;
+
+                console.log("comparision :: value, conditiaonValue,  value.indexOf(conditionValue) != -1", value, conditionValue, value.indexOf(conditionValue) != -1);
+
+                if (value.indexOf(conditionValue) != -1) {
+                    //if the string is contained in the string
+                    return {
+                        color: condition.color,
+                        backgroundColor: condition.backgroundColor,
+                    };
+                }
             }
-          }
         }
-    
-        return {};
-      }
 
-      getConfig(field) {
+        return {};
+    }
+
+    getConfig(field) {
         var config = {
-            checked : 1,
-            unchecked : 0
+            checked: 1,
+            unchecked: 0
         };
 
-        if(field.settings.booleanValues !== undefined && 
-            field.settings.booleanValues != null){
+        if (field.settings.booleanValues !== undefined &&
+            field.settings.booleanValues != null) {
             config = field.settings.booleanValues;
         }
 
         return config;
     }
-    
-    getConfigValue(field,value) {
+
+    getConfigValue(field, value) {
         var config = this.getConfig(field);
 
         //console.log("getConfigValue :: (field,config,value) ",field,config,value);
 
-        if(config.checked == value){
+        if (config.checked == value) {
             return true;
         }
         else {
@@ -139,14 +139,14 @@ export default class ElementCard extends Component {
 
         axios.get(url)
             .then(function (response) {
-                if(response.status != 200) {
+                if (response.status != 200) {
                     return;
                 }
 
-                if(response.data.modelValues !== undefined) {                    
+                if (response.data.modelValues !== undefined) {
                     self.setState({
                         modelValues: response.data.modelValues,
-                        dataLoaded : true
+                        dataLoaded: true
                     });
                 }
             }).catch(function (error) {
@@ -158,39 +158,43 @@ export default class ElementCard extends Component {
         api.elementTemplates.get(template)
             .then(response => {
                 this.setState({
-                    layout : JSON.parse(response.data.elementTemplate.layout),
-                    templateLoaded : true
+                    layout: JSON.parse(response.data.elementTemplate.layout),
+                    templateLoaded: true
                 });
             });
     }
 
-    
+
 
     // ----------------------------------------------- //
     //      RENDERS
     // ----------------------------------------------- //
     fieldRender(node, key, settings) {
 
-        //console.log("fieldRender :: settings merged : (settings) ",settings);
+        // console.log("fieldRender :: settings merged : (settings) ", settings);
 
-        if(node.type == 'element_field') {
-            return this.renderElementField(node.field,settings);
+        if (node.type == 'element_field') {
+            return this.renderElementField(node.field, settings);
         }
 
-        switch(node.field.type) {
+        switch (node.field.type) {
             case 'label':
             case 'text':
 
-                    const textAlign = node.field && node.field.settings && node.field.settings.textAlign ? 
-                        'text-'+node.field.settings.textAlign : '';
+                const textAlign = node.field && node.field.settings && node.field.settings.textAlign ?
+                    'text-' + node.field.settings.textAlign : '';
 
-                    return (
-                        <Label
-                            key={key}
-                            text={node.field.value.fr}
-                            textAlign={textAlign}
-                        />
-                    );
+                const border = node.field && node.field.settings && node.field.settings.hideBorders ?
+                    true : false;
+                    
+                return (
+                    <Label
+                        key={key}
+                        text={node.field.value.fr}
+                        textAlign={textAlign}
+                        border={border}
+                    />
+                );
                 break;
 
             case 'icon':
@@ -216,14 +220,14 @@ export default class ElementCard extends Component {
         }
     }
 
-    renderElementField(field,settings) {
-        
+    renderElementField(field, settings) {
+
         const value = this.getModelFieldValue(field.identifier);
         const fieldSettings = field.settings;
-        const conditionalFormating = this.getConditionalFormating(field,value);
+        const conditionalFormating = this.getConditionalFormating(field, value);
 
-        console.log("renderElementField :: (field,conditionalFormating,value)",field,conditionalFormating,value);
-        
+        console.log("renderElementField :: (field,conditionalFormating,value)", field, conditionalFormating, value);
+
         settings = {
             ...fieldSettings,
             ...settings
@@ -237,21 +241,21 @@ export default class ElementCard extends Component {
         const backgroundColor = conditionalFormating.backgroundColor ? conditionalFormating.backgroundColor : null;
 
 
-        if(value == null || value == "")
+        if (value == null || value == "")
             return null;
 
-        switch(field.type) {
-            case 'boolean' :
+        switch (field.type) {
+            case 'boolean':
                 return <CheckField
                     label={field.name}
                     value={value}
                     stripped={stripped}
                     key={field.id}
-                    checked={this.getConfigValue(field,value)}
+                    checked={this.getConfigValue(field, value)}
                     settings={settings}
                 />
-                
-            default : 
+
+            default:
                 return <DefaultField
                     label={field.name}
                     value={value}
@@ -272,18 +276,18 @@ export default class ElementCard extends Component {
         return this.state.element.fields.map((item) => {
             return this.renderElementField(item);
         });
-        
+
     }
 
     render() {
 
-        if(!this.state.template){
+        if (!this.state.template) {
             return (
                 <Grid
                     className="layout"
                     fluid={true}
                 >
-                    <Row style={{paddingTop:20}}>
+                    <Row style={{ paddingTop: 20 }}>
                         <Col sm={12} className="container-fields-default"></Col>
                     </Row>
                     <Row>
@@ -301,13 +305,13 @@ export default class ElementCard extends Component {
                     className="layout"
                     fluid={true}
                 >
-                    {this.state.layout != null && 
-                        <LayoutParser 
+                    {this.state.layout != null &&
+                        <LayoutParser
                             layout={this.state.layout}
                             fieldRender={this.fieldRender.bind(this)}
                         />
                     }
-                    {this.state.layout == null && 
+                    {this.state.layout == null &&
                         <div>Aucun modèle configuré</div>
                     }
                 </Grid>
@@ -319,12 +323,12 @@ export default class ElementCard extends Component {
 
 if (document.getElementById('element-card')) {
 
-    document.querySelectorAll('[id=element-card]').forEach(function(el){
+    document.querySelectorAll('[id=element-card]').forEach(function (el) {
         var field = el.getAttribute('field');
         var element = el.getAttribute('element');
         var model = el.getAttribute('model');
         var parameters = el.getAttribute('parameters');
- 
+
         ReactDOM.render(<ElementCard
             field={field}
             element={element}
@@ -332,4 +336,4 @@ if (document.getElementById('element-card')) {
             parameters={parameters}
         />, el);
     });
- }
+}
