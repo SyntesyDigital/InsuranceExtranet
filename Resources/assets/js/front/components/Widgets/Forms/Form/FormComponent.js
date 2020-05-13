@@ -7,18 +7,19 @@ import { Provider } from "react-redux";
 
 import configureStore from './configureStore'
 
-let store = configureStore();
+
 
 export default class FormComponent extends Component {
 
     constructor(props)
     {
         super(props);
+        this.store = configureStore();
     }
 
     render() {
         return (
-          <Provider store={this.props.store ? this.props.store : store}>
+          <Provider store={this.props.store ? this.props.store : this.store}>
             <FormRedux
               id={this.props.id ? this.props.id : 'form'}
               elementObject={this.props.elementObject}
