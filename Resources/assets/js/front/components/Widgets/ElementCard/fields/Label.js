@@ -11,7 +11,7 @@ export default class Label extends Component {
 
     const textStyle = {
       paddingBottom: '15px',
-      borderBottom: '1px solid #ccc',
+      // borderBottom: '1px solid #ccc',
       textTransform : 'uppercase'
     };
 
@@ -21,7 +21,7 @@ export default class Label extends Component {
 
       <div style={divStyle}>
         <div className={"row "+this.props.textAlign}>
-          <h3 style={textStyle}>
+          <h3 style={textStyle} className={!this.props.border ? 'non-bordered' : null}>
             {this.props.text}
           </h3>
         </div>
@@ -33,4 +33,5 @@ export default class Label extends Component {
 Label.propTypes = {
   text: PropTypes.string.isRequired,
   textAlign: PropTypes.string,
+  border: PropTypes.bool,
 };

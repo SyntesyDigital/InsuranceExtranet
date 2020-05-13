@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
   editItem,
@@ -23,19 +23,17 @@ import LocalizationField from './../ContentFields/LocalizationField';
 import FileField from './../ContentFields/FileField';
 import TranslatedFileField from './../ContentFields/TranslatedFileField';
 
-
 // WIDGETS LIST
 import CommonWidget from './../Widgets/CommonWidget';
 import ListWidget from './../Widgets/ListWidget';
 import TitleImageWidget from './../Widgets/TitleImageWidget';
 
-
+// SETTINGS LIST
 import InputSettingsField from './../Settings/InputSettingsField';
 import RadioSettingsField from './../Settings/RadioSettingsField';
 import SelectorSettingsField from './../Settings/SelectorSettingsField';
-
+import BooleanSettingsField from './../Settings/BooleanSettingsField';
 import InputTranslatedSettingsField from './../Settings/InputTranslatedSettingsField';
-
 import HiddenFilter from './Settings/HiddenFilter';
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 
@@ -43,21 +41,21 @@ import ModalEditListItem from './ModalEditListItem';
 
 class ModalEditItem extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.widgets = {
-        CommonWidget: CommonWidget,
-        TitleImageWidget: TitleImageWidget
+      CommonWidget: CommonWidget,
+      TitleImageWidget: TitleImageWidget
     };
 
     // //console.log(" ModalEditItem :: construct ",props);
 
     this.state = {
-        field : null,
-        displayListItemModal : false,
-        listItemInfo : null,
-        //parameters : null
+      field: null,
+      displayListItemModal: false,
+      listItemInfo: null,
+      //parameters : null
     };
 
     this.onModalClose = this.onModalClose.bind(this);
@@ -72,7 +70,7 @@ class ModalEditItem extends Component {
     //console.log("ModalEditItem :: field processProps ",props);
 
     var field = JSON.parse(JSON.stringify(props.modalEdit.item.data.field));
-    field.identifier = "temp_"+JSON.stringify(props.modalEdit.item.pathToIndex);
+    field.identifier = "temp_" + JSON.stringify(props.modalEdit.item.pathToIndex);
     field.value = props.modalEdit.item.data.field !== undefined &&
       props.modalEdit.item.data.field.value !== undefined ? props.modalEdit.item.data.field.value : null;
 
@@ -82,8 +80,8 @@ class ModalEditItem extends Component {
   }
 
   componentDidMount() {
-    if(this.props.modalEdit.displayModal){
-        this.modalOpen();
+    if (this.props.modalEdit.displayModal) {
+      this.modalOpen();
     }
 
     /*
@@ -93,23 +91,22 @@ class ModalEditItem extends Component {
     */
   }
 
-  componentWillReceiveProps(nextProps)
-  {
+  componentWillReceiveProps(nextProps) {
     var field = null;
 
-    if(nextProps.modalEdit.displayModal){
-        if(!this.isOpen){
-          this.isOpen = true;
+    if (nextProps.modalEdit.displayModal) {
+      if (!this.isOpen) {
+        this.isOpen = true;
 
-          this.modalOpen();
-        }
+        this.modalOpen();
+      }
 
-        field = this.processProps(nextProps);
-        //update widget settings
-        field = this.updateSettingsFromConfig(field);
+      field = this.processProps(nextProps);
+      //update widget settings
+      field = this.updateSettingsFromConfig(field);
 
     } else {
-      if(this.isOpen){
+      if (this.isOpen) {
         this.isOpen = false;
         this.modalClose();
       }
@@ -119,7 +116,7 @@ class ModalEditItem extends Component {
 
     //console.log("componentWillReceiveProps :: ");
     this.setState({
-      field : field
+      field: field
     });
 
   }
@@ -133,30 +130,30 @@ class ModalEditItem extends Component {
 
     var config = null;
 
-    if(field.type == "widget"){
-        config = WIDGETS[field.label];
+    if (field.type == "widget") {
+      config = WIDGETS[field.label];
     }
     else {
-        config = FIELDS[field.label];
+      config = FIELDS[field.label];
     }
 
-    if(config == null){
+    if (config == null) {
       return field;
     }
 
-    if(config.rules !== undefined ) {
-      for(var id in config.rules){
+    if (config.rules !== undefined) {
+      for (var id in config.rules) {
         var rule = config.rules[id];
-        if(field.rules[rule] === undefined){
+        if (field.rules[rule] === undefined) {
           field.rules[rule] = null;
         }
       }
     }
 
-    if(config.settings !== undefined ) {
-      for(var id in config.settings){
+    if (config.settings !== undefined) {
+      for (var id in config.settings) {
         var setting = config.settings[id];
-        if(field.settings[setting] === undefined){
+        if (field.settings[setting] === undefined) {
           field.settings[setting] = null;
         }
       }
@@ -167,29 +164,29 @@ class ModalEditItem extends Component {
     return field;
   }
 
-  
+
   getParamsMerged(settingsName, field, params) {
 
-      //if formElementsV2Preload take elements from formv2
-      var newParams = this.getElementParameters({
-        name : settingsName == "formElementsV2Preload" ? 
-          "formElementsV2" : settingsName,
-        value : field.settings[settingsName]
-      });
+    //if formElementsV2Preload take elements from formv2
+    var newParams = this.getElementParameters({
+      name: settingsName == "formElementsV2Preload" ?
+        "formElementsV2" : settingsName,
+      value: field.settings[settingsName]
+    });
 
-      //merge params with new Params
-      for(var key in newParams){
-        if(!this.paramExist(params,newParams[key].id)){
-          params.push(newParams[key]);
-        }
+    //merge params with new Params
+    for (var key in newParams) {
+      if (!this.paramExist(params, newParams[key].id)) {
+        params.push(newParams[key]);
       }
+    }
 
-      return params;
+    return params;
   }
 
-  paramExist(params,id){
-    for(var key in params){
-      if(params[key].id == id)
+  paramExist(params, id) {
+    for (var key in params) {
+      if (params[key].id == id)
         return true;
     }
     return false;
@@ -197,7 +194,7 @@ class ModalEditItem extends Component {
 
   getInitParameters(field) {
 
-    if(field == null || field.settings === undefined){
+    if (field == null || field.settings === undefined) {
       return null;
     }
 
@@ -209,51 +206,53 @@ class ModalEditItem extends Component {
    * @param {*} field 
    */
   getFieldParameters(field) {
-      var params = [];
+    var params = [];
 
-      console.log("getFieldParameters :: (field)",field);
+    console.log("getFieldParameters :: (field)", field);
 
-      if(field.settings['formElementsV2Preload'] !== undefined){
-        params = this.getParamsMerged('formElementsV2Preload',field,params);
-      }
+    if (field.settings['formElementsV2Preload'] !== undefined) {
+      params = this.getParamsMerged('formElementsV2Preload', field, params);
+    }
 
-      console.log("getFieldParameters :: formElementsV2Preload (params)",JSON.parse(JSON.stringify(params)));
+    console.log("getFieldParameters :: formElementsV2Preload (params)", JSON.parse(JSON.stringify(params)));
 
-      if(field.settings['fileElements'] !== undefined){
-        params = this.getParamsMerged('fileElements',field,params);
-      }
-      else if(field.settings['tableElements'] !== undefined){
-        params = this.getParamsMerged('tableElements',field,params);
-      }
-      else if(field.settings['formElements'] !== undefined){
-        params = this.getParamsMerged('formElements',field,params);
-      }
-      else if(field.settings['formElementsV2'] !== undefined){
-        params = this.getParamsMerged('formElementsV2',field,params);
-      }
-      else {
-        return null;
-      }
+    if (field.settings['fileElements'] !== undefined) {
+      params = this.getParamsMerged('fileElements', field, params);
+    }
+    else if (field.settings['tableElements'] !== undefined) {
+      params = this.getParamsMerged('tableElements', field, params);
+    }
+    else if (field.settings['formElements'] !== undefined) {
+      params = this.getParamsMerged('formElements', field, params);
+    }
+    else if (field.settings['formElementsV2'] !== undefined) {
+      params = this.getParamsMerged('formElementsV2', field, params);
+    }
+    else {
+      return null;
+    }
 
-      console.log("getFieldParameters :: result (params)",JSON.parse(JSON.stringify(params)));
+    console.log("getFieldParameters :: result (params)", JSON.parse(JSON.stringify(params)));
 
-      //console.log("getInitParameters :: params => ",params);
-      return params;
+    //console.log("getInitParameters :: params => ",params);
+    return params;
   }
 
-  onModalClose(e){
-      e.preventDefault();
-      this.props.cancelEditItem();
+  onModalClose(e) {
+    e.preventDefault();
+    this.props.cancelEditItem();
   }
 
   modalOpen() {
-    TweenMax.to($("#modal-edit-item"),0.5,{opacity:1,display:"block",ease:Power2.easeInOut});
+    TweenMax.to($("#modal-edit-item"), 0.5, { opacity: 1, display: "block", ease: Power2.easeInOut });
   }
 
   modalClose() {
-    var self =this;
-      TweenMax.to($("#modal-edit-item"),0.5,{display:"none",opacity:0,ease:Power2.easeInOut,onComplete:function(){
-      }});
+    var self = this;
+    TweenMax.to($("#modal-edit-item"), 0.5, {
+      display: "none", opacity: 0, ease: Power2.easeInOut, onComplete: function () {
+      }
+    });
   }
 
   onFieldChange(field) {
@@ -263,7 +262,7 @@ class ModalEditItem extends Component {
     var stateField = this.state.field;
     stateField.value = field.value;
     this.setState({
-        field : stateField
+      field: stateField
     });
 
     this.props.changePageField(
@@ -279,7 +278,7 @@ class ModalEditItem extends Component {
     var stateField = this.state.field;
     stateField.fields = field.fields;
     this.setState({
-        field : stateField
+      field: stateField
     });
 
     this.props.changePageField(
@@ -297,9 +296,9 @@ class ModalEditItem extends Component {
 
   renderField() {
 
-    console.log("ModalEditItem : renderField => ",this.state.field,FIELDS);
+    console.log("ModalEditItem : renderField => ", this.state.field, FIELDS);
 
-    switch(this.state.field.type) {
+    switch (this.state.field.type) {
       case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
         return (
           <TextField
@@ -316,112 +315,112 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-        case ELEMENT_TEMPLATE_FIELDS.IMAGE.type:
-          return (
-            <ImageField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case FIELDS.FILE.type:
-          return (
-            <FileField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.TRANSLATED_FILE.type:
-          return (
-            <TranslatedFileField
-                field={this.state.field}
-                hideTab={true}
-                onFileSelect={this.onTranslatedFileSelect.bind(this)}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.DATE.type:
-          return (
-            <DateField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.IMAGES.type:
-          return (
-            <ImagesField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-                onImageSelect={this.props.onImageSelect}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.CONTENTS.type:
-          return (
-            <ContentsField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-                onContentSelect={this.props.onContentSelect}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.BOOLEAN.type:
-          return (
-            <BooleanField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.LINK.type:
-          return (
-            <LinkField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-                onContentSelect={this.props.onContentSelect}
-            />
-          );
+      case ELEMENT_TEMPLATE_FIELDS.IMAGE.type:
+        return (
+          <ImageField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case FIELDS.FILE.type:
+        return (
+          <FileField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.TRANSLATED_FILE.type:
+        return (
+          <TranslatedFileField
+            field={this.state.field}
+            hideTab={true}
+            onFileSelect={this.onTranslatedFileSelect.bind(this)}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.DATE.type:
+        return (
+          <DateField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.IMAGES.type:
+        return (
+          <ImagesField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+            onImageSelect={this.props.onImageSelect}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.CONTENTS.type:
+        return (
+          <ContentsField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+            onContentSelect={this.props.onContentSelect}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.BOOLEAN.type:
+        return (
+          <BooleanField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.LINK.type:
+        return (
+          <LinkField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+            onContentSelect={this.props.onContentSelect}
+          />
+        );
 
-        case ELEMENT_TEMPLATE_FIELDS.VIDEO.type:
-          return (
-            <VideoField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
-        case ELEMENT_TEMPLATE_FIELDS.LOCALIZATION.type:
-          return (
-            <LocalizationField
-                field={this.state.field}
-                hideTab={true}
-                onFieldChange={this.onFieldChange}
-            />
-          );
+      case ELEMENT_TEMPLATE_FIELDS.VIDEO.type:
+        return (
+          <VideoField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
+      case ELEMENT_TEMPLATE_FIELDS.LOCALIZATION.type:
+        return (
+          <LocalizationField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        );
 
 
 
-        case "widget":
-            const Widget = this.widgets[this.state.field.component || 'CommonWidget'];
-            return <Widget
-                field={this.state.field}
-                hideTab={true}
-                onWidgetChange={this.onWidgetChange.bind(this)}
-            />
+      case "widget":
+        const Widget = this.widgets[this.state.field.component || 'CommonWidget'];
+        return <Widget
+          field={this.state.field}
+          hideTab={true}
+          onWidgetChange={this.onWidgetChange.bind(this)}
+        />
 
-        case "widget-list":
+      case "widget-list":
 
-          return (
-            <ListWidget
-              field={this.state.field}
-              hideTab={true}
-            />
-          );
+        return (
+          <ListWidget
+            field={this.state.field}
+            hideTab={true}
+          />
+        );
 
-      default :
+      default:
         return null;
     }
   }
@@ -443,8 +442,8 @@ class ModalEditItem extends Component {
     ////console.log("ModalEditItem :: handleListItemChange => ",stateField);
 
     this.setState({
-        field : stateField,
-        listItemInfo : listItemInfo
+      field: stateField,
+      listItemInfo: listItemInfo
     });
 
     this.props.changePageField(
@@ -458,46 +457,44 @@ class ModalEditItem extends Component {
 
   handleFieldSettingsChange(field) {
 
-      ////console.log("ModalEditItem :: handleFieldSettingsChange => ", field);
+    ////console.log("ModalEditItem :: handleFieldSettingsChange => ", field);
 
-      const stateField = this.state.field;
+    const stateField = this.state.field;
 
-      //update field settings to be same structure as field ( field.settings[name] = value )
-      stateField[field.source][field.name] = field.value;
+    //update field settings to be same structure as field ( field.settings[name] = value )
+    stateField[field.source][field.name] = field.value;
 
-      this.setState({
-          field : stateField
-      });
+    this.setState({
+      field: stateField
+    });
 
-      this.props.changePageField(
-        stateField,
-        this.props.modalEdit.item.pathToIndex,
-        this.props.app.layout
-      )
+    this.props.changePageField(
+      stateField,
+      this.props.modalEdit.item.pathToIndex,
+      this.props.app.layout
+    )
   }
 
   getCropsformats() {
-      var formats = [];
-      IMAGES_FORMATS.map(function(format, k){
-          formats.push({
-              name : format.name+" ("+format.width+"x"+format.height+")",
-              value : format.name
-          });
+    var formats = [];
+    IMAGES_FORMATS.map(function (format, k) {
+      formats.push({
+        name: format.name + " (" + format.width + "x" + format.height + ")",
+        value: format.name
       });
+    });
 
-      return formats;
+    return formats;
   }
 
   renderSettings() {
 
-    //console.log("ModalEditItem :: renderSettings!",this.state.field);
+    console.log("ModalEditItem :: renderSettings!", this.state.field);
+    const data = this.state.field != null ? this.state.field.data : null;
 
     return (
       <div>
-
         <h6>{Lang.get('modals.configuration')}</h6>
-
-
         <InputTranslatedSettingsField
           field={this.state.field}
           name="title"
@@ -507,7 +504,6 @@ class ModalEditItem extends Component {
           inputLabel={Lang.get('modals.indica_title')}
           translations={this.props.translations}
         />
-
 
         <InputSettingsField
           field={this.state.field}
@@ -527,7 +523,6 @@ class ModalEditItem extends Component {
           inputLabel={Lang.get('modals.indica_css')}
         />
 
-        
         <RadioSettingsField
           field={this.state.field}
           name="cropsAllowed"
@@ -545,7 +540,6 @@ class ModalEditItem extends Component {
           label={Lang.get('modals.height')}
           inputLabel={Lang.get('modals.indica_height')}
         />
-
 
         <HiddenFilter
           field={this.state.field}
@@ -573,34 +567,38 @@ class ModalEditItem extends Component {
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label={'Alignement du texte'}
           options={[
-              {
-                  value: "",
-                  name: 'gauche',
-              },
-              {
-                  value: "center",
-                  name: "centre",
-              },
-              {
-                value: "right",
-                name: "droite",
-              }
+            {
+              value: "",
+              name: 'gauche',
+            },
+            {
+              value: "center",
+              name: "centre",
+            },
+            {
+              value: "right",
+              name: "droite",
+            }
           ]}
         />
 
+        <BooleanSettingsField
+          field={this.state.field}
+          name="hideBorders"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Hide borders'}
+        />
+
       </div>
-
-
     );
-
-
   }
 
 
 
   render() {
 
-    ////console.log("ModalEditItem :: render field => ",this.state.field);
+    console.log("ModalEditItem :: render field => ", this.state.field);
 
     return (
       <div>
@@ -610,47 +608,47 @@ class ModalEditItem extends Component {
           zIndex={9500}
         />
 
-        <div className="custom-modal" id="modal-edit-item" style={{zIndex:this.props.zIndex}}>
+        <div className="custom-modal" id="modal-edit-item" style={{ zIndex: this.props.zIndex }}>
           <div className="modal-background"></div>
 
 
-            <div className="modal-container">
+          <div className="modal-container">
 
-              {this.state.field != null &&
-                <div className="modal-header">
+            {this.state.field != null &&
+              <div className="modal-header">
 
-                    <i className={"fa "+this.state.field.icon}></i>
-                    <h2>{this.state.field.name} | {Lang.get('modals.edition')}</h2>
+                <i className={"fa " + this.state.field.icon}></i>
+                <h2>{this.state.field.name} | {Lang.get('modals.edition')}</h2>
 
-                  <div className="modal-buttons">
-                    <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
-                      <i className="fa fa-times"></i>
-                    </a>
+                <div className="modal-buttons">
+                  <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
+                    <i className="fa fa-times"></i>
+                  </a>
+                </div>
+              </div>
+            }
+
+            <div className="modal-content">
+              <div className="container">
+                <div className="row">
+                  <div className="col-xs-7 field-col">
+
+                    {this.state.field != null &&
+                      this.renderField()}
+
+                  </div>
+                  <div className={"col-xs-5 settings-col "}>
+                    {this.renderSettings()}
                   </div>
                 </div>
-              }
+              </div>
 
-              <div className="modal-content">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-xs-7 field-col">
-
-                      {this.state.field != null &&
-                        this.renderField()}
-
-                    </div>
-                    <div className={"col-xs-5 settings-col "}>
-                      {this.renderSettings()}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="modal-footer">
-                  <a href="" className="btn btn-default" onClick={this.onModalClose}> {Lang.get('modals.cancel')} </a> &nbsp;
+              <div className="modal-footer">
+                <a href="" className="btn btn-default" onClick={this.onModalClose}> {Lang.get('modals.cancel')} </a> &nbsp;
                   <a href="" className="btn btn-primary" onClick={this.onSubmit.bind(this)}> {Lang.get('modals.accept')} </a> &nbsp;
                 </div>
 
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -661,39 +659,39 @@ class ModalEditItem extends Component {
 
 
 const mapStateToProps = state => {
-    return {
-        app: state.app,
-        modalEdit : state.modalEdit,
-        modalEditList : state.modalEditList
-    }
+  return {
+    app: state.app,
+    modalEdit: state.modalEdit,
+    modalEditList: state.modalEditList
+  }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        initEditItem : (payload) => {
-            return dispatch(initEditItem(payload));
-        },
-        editItem: (item) => {
-            return dispatch(editItem(item));
-        },
-        cancelEditItem: () => {
-            return dispatch(cancelEditItem());
-        },
-        changePageField: (field,pathToIndex,layout) => {
-            return dispatch(changePageField(field,pathToIndex,layout));
-        },
-        /*
-        loadCategories : () => {
-            return dispatch(loadCategories())
-        },
-        loadElements : () => {
-            return dispatch(loadElements())
-        },
-        loadParameters : () => {
-          return dispatch(loadParameters())
-        },
-        */
-    }
+  return {
+    initEditItem: (payload) => {
+      return dispatch(initEditItem(payload));
+    },
+    editItem: (item) => {
+      return dispatch(editItem(item));
+    },
+    cancelEditItem: () => {
+      return dispatch(cancelEditItem());
+    },
+    changePageField: (field, pathToIndex, layout) => {
+      return dispatch(changePageField(field, pathToIndex, layout));
+    },
+    /*
+    loadCategories : () => {
+        return dispatch(loadCategories())
+    },
+    loadElements : () => {
+        return dispatch(loadElements())
+    },
+    loadParameters : () => {
+      return dispatch(loadParameters())
+    },
+    */
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalEditItem);

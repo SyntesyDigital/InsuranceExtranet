@@ -18,7 +18,7 @@ export default class LayoutParser extends Component {
      * @param {} node 
      * @param {*} settings 
      */
-    mergeSettings(node,settings) {
+    mergeSettings(node, settings) {
         const newSettings = node.settings;
 
         return {
@@ -27,25 +27,28 @@ export default class LayoutParser extends Component {
         };
     }
 
-    parseNode(nodes,settings) {
+    parseNode(nodes, settings) {
 
 
-        
+
         return nodes.map((node, key) => {
 
-            const alignment = node.settings && node.settings.textAlign ? 
-                'text-'+node.settings.textAlign : '';
+            const alignment = node.settings && node.settings.textAlign ?
+                'text-' + node.settings.textAlign : '';
 
-            switch(node.type) {
+            const border = node.settings && node.settings.hideBorders ?
+                '' : 'border-right';
+
+            switch (node.type) {
                 case "row":
-                    console.log("parseNode :: row (node)",node);
+                    console.log("parseNode :: row (node)", node);
 
                     return (
                         <Row key={key} className={alignment}>
-                            {node.children != null && 
+                            {node.children != null &&
                                 this.parseNode(
                                     node.children,
-                                    this.mergeSettings(node,settings)
+                                    this.mergeSettings(node, settings)
                                 )
                             }
                         </Row>);
@@ -53,14 +56,14 @@ export default class LayoutParser extends Component {
 
                 case "col":
                     return (
-                        <div 
-                            key={key} 
-                            className={" container-fields-default border-right "+node.colClass+(" "+alignment)}
+                        <div
+                            key={key}
+                            className={" container-fields-default " + (border + " ") + node.colClass + (" " + alignment)}
                         >
-                            {node.children != null && 
+                            {node.children != null &&
                                 this.parseNode(
                                     node.children,
-                                    this.mergeSettings(node,settings)
+                                    this.mergeSettings(node, settings)
                                 )
                             }
                         </div>);
@@ -68,9 +71,9 @@ export default class LayoutParser extends Component {
 
                 default:
                     return this.props.fieldRender(
-                        node, 
-                        key, 
-                        this.mergeSettings(node,settings)
+                        node,
+                        key,
+                        this.mergeSettings(node, settings)
                     );
                     break;
             }
