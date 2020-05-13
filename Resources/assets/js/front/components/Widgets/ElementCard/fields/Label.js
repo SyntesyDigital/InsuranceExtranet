@@ -21,7 +21,7 @@ export default class Label extends Component {
 
       <div style={divStyle}>
         <div className={"row "+this.props.textAlign}>
-          <h3 style={textStyle} className={!this.props.border ? 'non-bordered' : null}>
+          <h3 style={textStyle} className={this.props.border ? 'non-bordered' : null}>
             {this.props.text}
           </h3>
         </div>
