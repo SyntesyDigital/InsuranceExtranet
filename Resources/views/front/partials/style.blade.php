@@ -142,6 +142,24 @@
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
 
+    //BOX-1
+    $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : $backgroundColorBox1;
+    $textColorBox1 = isset($storedStylesFront['textColorBox1']) ? $storedStylesFront['textColorBox1']->value : $textColorBox1;
+    $borderColorBox1 = isset($storedStylesFront['borderColorBox1']) ? $storedStylesFront['borderColorBox1']->value : $borderColorBox1;
+    $borderRadiusBox1 = isset($storedStylesFront['borderRadiusBox1']) ? $storedStylesFront['borderRadiusBox1']->value.'px' : '0';
+
+    //BOX-2
+    $backgroundColorBox2 = isset($storedStylesFront['backgroundColorBox2']) ? $storedStylesFront['backgroundColorBox2']->value : $backgroundColorBox2;
+    $textColorBox2 = isset($storedStylesFront['textColorBox2']) ? $storedStylesFront['textColorBox2']->value : $textColorBox2;
+    $borderColorBox2 = isset($storedStylesFront['borderColorBox2']) ? $storedStylesFront['borderColorBox2']->value : $borderColorBox2;
+    $borderRadiusBox2 = isset($storedStylesFront['borderRadiusBox2']) ? $storedStylesFront['borderRadiusBox2']->value.'px' : $borderRadiusBox2;
+
+    //BOX-3
+    $backgroundColorBox3 = isset($storedStylesFront['backgroundColorBox3']) ? $storedStylesFront['backgroundColorBox3']->value : $backgroundColorBox3;
+    $textColorBox3 = isset($storedStylesFront['textColorBox3']) ? $storedStylesFront['textColorBox3']->value : $textColorBox3;
+    $borderColorBox3 = isset($storedStylesFront['borderColorBox3']) ? $storedStylesFront['borderColorBox3']->value : $borderColorBox3;
+    $borderRadiusBox3 = isset($storedStylesFront['borderRadiusBox3']) ? $storedStylesFront['borderRadiusBox3']->value.'px' : $borderRadiusBox3;
+
 ?>
 
 <style type="text/css">

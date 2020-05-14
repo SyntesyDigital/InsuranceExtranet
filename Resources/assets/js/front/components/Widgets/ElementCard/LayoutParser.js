@@ -39,12 +39,16 @@ export default class LayoutParser extends Component {
             const border = node.settings && node.settings.hideBorders ?
                 '' : 'border-right';
 
+            const box = node.settings && node.settings.boxClass ?
+                node.settings.boxClass
+                : '' ;
+
             switch (node.type) {
                 case "row":
-                    console.log("parseNode :: row (node)", node);
+                    // console.log("parseNode :: row (node)", node);
 
                     return (
-                        <Row key={key} className={alignment}>
+                        <Row key={key} className={alignment + " " + box}>
                             {node.children != null &&
                                 this.parseNode(
                                     node.children,
@@ -55,10 +59,12 @@ export default class LayoutParser extends Component {
                     break;
 
                 case "col":
+                    // console.log("parseNode :: col (node)", node.settings.boxClass);
+
                     return (
                         <div
                             key={key}
-                            className={" container-fields-default " + (border + " ") + node.colClass + (" " + alignment)}
+                            className={"container-fields-default " + (border + " ") + node.colClass + (" " + alignment) + (" " + box)}
                         >
                             {node.children != null &&
                                 this.parseNode(

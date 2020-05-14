@@ -97,4 +97,50 @@
 .box-button-container.box-button-secondary:hover > .wrap-box-button .label-container{
   background-color: {{$buttonSecondaryBackgroundLabelHoverColor}}
 }
+
+/* .box-class-1 */
+body .page-builder .box-class-1 *{
+  color: {{$textColorBox1}};
+}
+body .page-builder .box-class-1{
+  background-color: {{$backgroundColorBox1}};
+  border-radius: {{$borderRadiusBox1}};
+  border: 1px solid {{$borderColorBox1}};
+} 
+body .page-builder .box-class-1.row{
+  background-color: {{$backgroundColorBox1}};
+  border-radius: {{$borderRadiusBox1}};
+  border: 1px solid {{$borderColorBox1}};
+}
+
+/* .box-class-2 */
+body .page-builder .box-class-2 *{
+  color: {{$textColorBox1}};
+}
+body .page-builder .box-class-2{
+  background-color: {{$backgroundColorBox2}};
+  border-radius: {{$borderRadiusBox2}};
+  border: 1px solid {{$borderColorBox2}};
+} 
+body .page-builder .box-class-2.row{
+  background-color: {{$backgroundColorBox2}};
+  border-radius: {{$borderRadiusBox2}};
+  border: 1px solid {{$borderColorBox2}};
+}
+
+
+/* .box-class-3 */
+body .page-builder .box-class-3 *{
+  color: {{$textColorBox1}};
+}
+body .page-builder .box-class-3{
+  background-color: {{$backgroundColorBox3}};
+  border-radius: {{$borderRadiusBox3}};
+  border: 1px solid {{$borderColorBox3}};
+} 
+body .page-builder .box-class-3.row{
+  background-color: {{$backgroundColorBox3}};
+  border-radius: {{$borderRadiusBox3}};
+  border: 1px solid {{$borderColorBox3}};
+}
 </style>
