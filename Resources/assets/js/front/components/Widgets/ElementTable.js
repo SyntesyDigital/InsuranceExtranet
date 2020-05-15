@@ -73,6 +73,7 @@ export default class ElementTable extends Component {
                 pagination={this.props.pagination}
                 itemsPerPage={this.props.itemsPerPage}
                 maxItems={this.props.maxItems}
+                hideEmptyRows={this.props.hideEmptyRows}
                 parameters={this.props.parameters}
                 onOpenModal={this.handleOpenModal.bind(this)}
                 exportBtn={this.props.exportBtn}
@@ -92,6 +93,7 @@ if (document.getElementById('elementTable')) {
        //var elementObject = element.getAttribute('elementObject');
        //var model = element.getAttribute('model');
        var maxItems = element.getAttribute('maxItems');
+       var hideEmptyRows = element.getAttribute('hideEmptyRows');
        var pagination = element.getAttribute('pagination');
        var itemsPerPage = element.getAttribute('itemsPerPage');
        var parameters = element.getAttribute('parameters');
@@ -110,6 +112,7 @@ if (document.getElementById('elementTable')) {
            parameters={parameters}
            exportBtn={exportBtn}
            downloadUrl={downloadUrl}
+           hideEmptyRows={hideEmptyRows}
          />, element);
    });
 }

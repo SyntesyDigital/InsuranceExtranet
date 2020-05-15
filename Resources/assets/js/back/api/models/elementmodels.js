@@ -113,6 +113,7 @@ export const GQL_GET_ALL_MODELS = gql`
         example
         def1
         def2
+        created_at
     }
   }
 `;

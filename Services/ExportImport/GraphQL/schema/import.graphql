@@ -1,0 +1,20 @@
+
+################################
+#   TYPES
+################################
+type Import {
+    payload: String
+}
+
+################################
+#   INPUT
+################################
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation {
+    import(payload: String! @spread): Import
+        @field(resolver: "Modules\\Extranet\\Services\\ExportImport\\GraphQL\\Mutations\\ImporterMutator")
+}
