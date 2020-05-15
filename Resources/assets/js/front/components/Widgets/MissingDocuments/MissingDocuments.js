@@ -317,23 +317,18 @@ export default class MissingDocuments extends Component {
       var infos = [];
       const {elementObject} = this.state;
 
-
+      //console.log("renderItem :: elementObject ",elementObject);
       //render missing document
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
 
-        if(elementObject.fields[key].settings.hasModal !== undefined){
-          if(elementObject.fields[key].settings.hasModal == null){
-            console.error("Missing Document has modal not defined. Has modal is necessary to define form to upload file.")
-          }
-          else {
-            //is the element info
-            //console.log("MissingDocument :: item info => (item,indentifier)",item,identifier);
-            element = {
-              field : elementObject.fields[key],
-              url : item[identifier.replace('.','')+"_url"]
-            }
+        if(elementObject.fields[key].settings.hasModal !== undefined && elementObject.fields[key].settings.hasModal != null){
+          //is the element info
+          //console.log("MissingDocument :: item info => (item,indentifier)",item,identifier);
+          element = {
+            field : elementObject.fields[key],
+            url : item[identifier.replace('.','')+"_url"]
           }
         }
         else if(elementObject.fields[key].type == 'text'){
