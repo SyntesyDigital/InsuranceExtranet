@@ -203,7 +203,6 @@ class SelectField extends Component {
   }
   
   render() {
-
     const { field } = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
@@ -254,12 +253,17 @@ class SelectField extends Component {
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
+            colors: {
+              ...theme.colors,
+                text: 'orangered',
+                primary25: STYLES.elementForm.color,
+                primary: STYLES.elementForm.color,
+              },
           })}
         />
       </div>
     );
   }
-
 }
 
 export default SelectField;

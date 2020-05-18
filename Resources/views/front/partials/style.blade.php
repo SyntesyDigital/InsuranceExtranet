@@ -183,7 +183,6 @@
 @if($frontFont)
   <style>
     @import url('https://fonts.googleapis.com/css?{{$fonts[$frontFont]['import']}}');
-
     body {
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
@@ -196,9 +195,25 @@
     .react-datepicker__current-month, .react-datepicker-time__header{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
-
     .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
   </style>
 @endif
+
+
+    <script>
+    var STYLES = {
+    elementForm: {
+        color : '{{$elementLinkHoverColor}}',
+        borderColor: '{{$elementLinkHoverColor}}'
+      }
+    };
+    console.log("styles :: " ,STYLES)
+    </script>
+
+
+
+
+
+
