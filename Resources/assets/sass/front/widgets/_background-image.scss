@@ -1,7 +1,9 @@
 .background-image-widget-container {
     height: 100%;
     #background-image-widget{
-        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
     }
 }
 .background-image-widget-row{

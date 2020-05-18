@@ -14,12 +14,14 @@
         if(isset($settings) && isset($settings['cropsAllowed']) && $settings['cropsAllowed'] != null){
             $crop = $settings['cropsAllowed'];
         }
-        /*$image = isset($field['fields'][0]['value']) && isset($field['fields'][0]['value']->getUrlsAttribute([$crop])) ? $field['fields'][0]['value']->getUrlsAttribute([$crop]) : null ) */
+
+        $image = isset($field['fields'][0]['value']) && $field['fields'][0]['value']->getUrlsAttribute()[$crop] != null ? $field['fields'][0]['value']->getUrlsAttribute()[$crop] : null;
+        $height = isset($settings['height'])  && $settings['height'] != null ? $settings['height'] : '200';
+        
     @endphp 
-   
+
     <div id="{{$field['settings']['htmlId'] or ''}}" class="background-image-widget-container {{$field['settings']['htmlClass'] or ''}}">
-        <div id="background-image-widget" class="background-image-widget" data-props="">
-        </div>
+        <div id="background-image-widget" class="background-image-widget" style="background-image: url('/{{ $image }}'); min-height: {{ $height }}px;"></div>
     </div>
 
     @push('javascripts')
@@ -30,3 +32,6 @@
     </script>
     @endpush
 @endif
+
+
+  
