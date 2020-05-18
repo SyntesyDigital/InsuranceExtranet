@@ -129,6 +129,23 @@ class ModalEditClass extends Component {
     ];
   }
 
+  getBoxClassOptions(){
+    return [
+      {
+        value: "box-class-1",
+        name: 'box-class-1',
+      },
+      {
+        value: "box-class-2",
+        name: "box-class-2",
+      },
+      {
+        value: "box-class-3",
+        name: "box-class-3",
+      }
+    ];
+  }
+
   renderSettings() {
 
     //console.log("renderSettings!",this.state.field);
@@ -210,13 +227,22 @@ class ModalEditClass extends Component {
             }
           ]}
         />
-        
+
         <BooleanSettingsField
           field={data}
           name="hideBorders"
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label={'Hide borders'}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="boxClass"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Box'}
+          options={this.getBoxClassOptions()}
         />
 
       </div>

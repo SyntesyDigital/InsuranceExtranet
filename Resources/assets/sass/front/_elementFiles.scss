@@ -20,11 +20,9 @@
     &.collapse{
       @include round(0);
     }
-
-
   }
   .non-bordered{
-    border-bottom: unset;
+    border-bottom: none;
   }
 }
 
