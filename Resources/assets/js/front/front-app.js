@@ -25,4 +25,5 @@ require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
 require('./components/Widgets/MissingDocuments/MissingDocuments');
+require('./components/Widgets/BackgroundImage');
  
