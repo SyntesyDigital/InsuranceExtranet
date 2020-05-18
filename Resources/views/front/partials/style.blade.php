@@ -137,10 +137,13 @@
     $loginButtonTextColor = isset($storedStylesFront['loginButtonTextColor']) ? $storedStylesFront['loginButtonTextColor']->value : $secondaryColor;
     $loginButtonHoverTextColor = isset($storedStylesFront['loginButtonHoverTextColor']) ? $storedStylesFront['loginButtonHoverTextColor']->value : $primaryColor;
 
-    //FORM
+    //FORM SETTINGS
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+    $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
+    $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : '#77a9f4';
+    $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : '#77a9f4';
 
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
@@ -173,7 +176,6 @@
 @include('extranet::front.partials.styles.element-form')
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
-@include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.total-box')
 @include('extranet::front.partials.styles.form-template')
 @include('extranet::front.partials.styles.stepper')
@@ -183,7 +185,6 @@
 @if($frontFont)
   <style>
     @import url('https://fonts.googleapis.com/css?{{$fonts[$frontFont]['import']}}');
-
     body {
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
@@ -196,9 +197,24 @@
     .react-datepicker__current-month, .react-datepicker-time__header{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
-
     .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
   </style>
 @endif
+
+<script>
+  var STYLES = {
+    elementForm: {
+      borderColorInput: '{{$borderColorInput}}',
+      borderRadiusInput: '{{$borderRadiusInput}}',
+      hoverColorInput: '{{$hoverColorInput}}',
+    }
+  };
+</script>
+
+
+
+
+
+
