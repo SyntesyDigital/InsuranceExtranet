@@ -201,7 +201,7 @@ class SelectField extends Component {
     }
     return null;
   }
-  
+
   render() {
     const { field } = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
@@ -223,13 +223,23 @@ class SelectField extends Component {
       textFieldClass.push('bordered');
     }
 
-    // required for react-select option and value
+    // required for react-select option, value and setting
     const options = this.state.data.map(
       item => ({
         label: item.name,
         value: item.value,
       }));
+
     var value = this.getOption(this.props.value);
+
+    const customStyles = {
+      control: base => ({
+        ...base,
+        height: 34,
+        minHeight: 34,
+        boxShadow: '1 !important',
+      })
+    };
     //
 
     return (
@@ -250,15 +260,16 @@ class SelectField extends Component {
           defaultValue={defaultValue}
           options={options}
           onChange={this.handleOnChange.bind(this)}
+          styles={customStyles}
           theme={(theme) => ({
             ...theme,
-            borderRadius: 0,
+            borderRadius: STYLES.elementForm.borderRadiusInput,
+            height: '34px',
             colors: {
               ...theme.colors,
-                text: 'orangered',
-                primary25: STYLES.elementForm.color,
-                primary: STYLES.elementForm.color,
-              },
+              primary25: STYLES.elementForm.hoverColorInput,
+              primary: STYLES.elementForm.borderColorInput,
+            },
           })}
         />
       </div>
