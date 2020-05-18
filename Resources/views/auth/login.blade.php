@@ -1,7 +1,9 @@
 @extends('extranet::front.layouts.auth')
 
 @php
-    $test = Request::has('debug') || old('env') != null  ? true : false;
+    //if env is local or contains dev
+    $testEnv = strpos(env('APP_ENV'), 'dev') !== false || strpos(env('APP_ENV'), 'local') !== false;
+    $test = Request::has('debug') || old('env') != null || $testEnv ? true : false;
 @endphp
 
 @section('form')
