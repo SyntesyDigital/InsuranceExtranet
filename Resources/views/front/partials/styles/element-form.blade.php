@@ -18,6 +18,7 @@
 }
 .element-form-container .element-form-container-head{
   background-color: {{$elementHeadBackground}};
+  color:{{$elementHeadColor}};
   border-bottom: 1px solid {{$elementBorder}};
   border-top-left-radius: {{$buttonRadius}};
   border-top-right-radius: {{$buttonRadius}};
