@@ -18,7 +18,6 @@
 }
 .element-form-container .element-form-container-head{
   background-color: {{$elementHeadBackground}};
-  color:{{$elementHeadColor}};
   border-bottom: 1px solid {{$elementBorder}};
   border-top-left-radius: {{$buttonRadius}};
   border-top-right-radius: {{$buttonRadius}};
@@ -68,9 +67,9 @@
 
 /* FORM LABELS AND FIELDS */
 body .element-form label  {
-  color: {{$labelColor}};
-  font-size: {{$labelFontSize}};
-  padding: {{$labelPadding}};
+  color: {{$labelInputColor}};
+  font-size: {{$labelInputFontSize}};
+  padding: {{$labelInputPadding}};
 }
 body .element-form input.form-control, body .element-form textarea.form-control{
   border-radius: {{$borderRadiusInput}};

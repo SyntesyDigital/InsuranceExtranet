@@ -141,6 +141,11 @@
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+
+    $labelInputColor = isset($storedStylesFront['labelInputColor']) ? $storedStylesFront['labelInputColor']->value : $primaryColor;
+    $labelInputFontSize = isset($storedStylesFront['labelInputFontSize']) ? $storedStylesFront['labelInputFontSize']->value.'px' : '14px';
+    $labelInputPadding = isset($storedStylesFront['labelInputPadding']) ? $storedStylesFront['labelInputPadding']->value.'px' : '10px';
+
     $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
     $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : '#77a9f4';
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : '#77a9f4';
@@ -177,6 +182,7 @@
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
 @include('extranet::front.partials.styles.total-box')
+@include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.form-template')
 @include('extranet::front.partials.styles.stepper')
 @include('extranet::front.partials.styles.document-table')
