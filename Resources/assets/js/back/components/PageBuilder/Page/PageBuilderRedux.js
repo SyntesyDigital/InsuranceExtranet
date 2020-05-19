@@ -19,7 +19,6 @@ import ModalEditClass from './ModalEditClass';
 import ModalEditItem from './ModalEditItem';
 import MediaSelectModal from './../../Medias/MediaSelectModal';
 import ContentSelectModal from './../ContentSelectModal';
-import DragAndDropTest from './DragAndDropTest/DragAndDropTest';
 
 class PageBuilderRedux extends Component {
 

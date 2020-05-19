@@ -587,7 +587,7 @@ class ModalEditItem extends Component {
           name="hideBorders"
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
-          label={'Hide borders'}
+          label={'Cacher les bords'}
         />
 
       </div>

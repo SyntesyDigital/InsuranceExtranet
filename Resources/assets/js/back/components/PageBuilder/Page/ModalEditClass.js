@@ -233,7 +233,7 @@ class ModalEditClass extends Component {
           name="hideBorders"
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
-          label={'Hide borders'}
+          label={'Cacher les bords'}
         />
 
         <SelectorSettingsField
@@ -241,7 +241,7 @@ class ModalEditClass extends Component {
           name="boxClass"
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
-          label={'Box'}
+          label={'Style conteneur'}
           options={this.getBoxClassOptions()}
         />
 
