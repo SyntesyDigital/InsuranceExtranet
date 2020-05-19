@@ -68,9 +68,9 @@
 
 /* FORM LABELS AND FIELDS */
 body .element-form label  {
-  color: {{$labelColor}};
-  font-size: {{$labelFontSize}};
-  padding: {{$labelPadding}};
+  color: {{$labelInputColor}};
+  font-size: {{$labelInputFontSize}};
+  padding: {{$labelInputPadding}};
 }
 body .element-form input.form-control, body .element-form textarea.form-control{
   border-radius: {{$borderRadiusInput}};
