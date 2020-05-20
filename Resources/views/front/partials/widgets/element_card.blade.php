@@ -18,13 +18,18 @@
         "icon" => "far fa-eye",
         "parameters" => $parameters
     ];
+
+    $collapsable = isset($field['settings']['collapsable']) && $field['settings']['collapsable']? true : false;
+    $title = isset($field['fields'][0]['value'][App::getLocale()]) ? $field['fields'][0]['value'][App::getLocale()] : null;
+    $url = get_field_url($field['fields'][1],$parameters);
+
 @endphp
 
 @if(check_visible($field['settings'], $parameters))
 
     <div
         id="{{$field['settings']['htmlId'] or ''}}" 
-        class="element-file-container {{$field['settings']['htmlClass'] or ''}}"
+        class="element-file-container {{$field['settings']['htmlClass'] or ''}} {{ $field['settings']['collapsable'] ? '' : 'static' }}"
     >
 
         <div 
@@ -35,8 +40,9 @@
                 aria-expanded="true" 
                 aria-controls="collapsefile-{{$htmlId}}"
             @endif
+            style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
         >
-            {{$field['fields'][0]['value'][App::getLocale()] or ''}}
+            {{$title}}
         </div>
 
         <div 

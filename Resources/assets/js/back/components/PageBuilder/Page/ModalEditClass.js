@@ -230,6 +230,14 @@ class ModalEditClass extends Component {
 
         <BooleanSettingsField
           field={data}
+          name="stripped"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Annuler ligne de couleur intercalé'}
+        />
+
+        <BooleanSettingsField
+          field={data}
           name="hideBorders"
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}

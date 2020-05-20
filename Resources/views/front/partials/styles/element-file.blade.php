@@ -8,7 +8,7 @@
   background-color: {{$elementHeadBackground}};
   color:{{$elementHeadColor}};
   font-size:{{$titlesFontSize}};
-  padding-bottom:20px;
+  padding-bottom:10px;
 }
 
 .element-file-container .element-collapsable.element-file-container-head{
@@ -21,7 +21,8 @@
 
 .element-file-container .element-file-container-body{
   background-color: {{$elementBackground}};
-  border: 1px solid {{$elementBorder}};
+  /*border: 1px solid {{$elementBorder}};*/
+  border:transparent;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
 .element-file-container .element-file-container-body .element-file-input-container{
@@ -51,6 +52,7 @@
   border: 1px solid {{$elementLinkHoverColor}};
 }
 
+/** Box into an Element */
 
 /* box-1 */
 body .element-file-container .box-class-1 *{
@@ -104,6 +106,48 @@ body .layout .box-class-3 .container-fields-default .stripped:nth-of-type(even){
 body .layout .box-class-3 .container-fields-default .stripped:nth-of-type(odd){
   background-color: {{$backgroundColorBox3}};
   border-radius: {{$borderRadiusBox3}};
+}
+
+
+/** Element into a Box */
+/* box-1 */
+body .box-class-1 .element-file-container {
+  /*border: 1.5px solid {{$borderColorBox1}};*/
+  border-radius: {{$borderRadiusBox1}};
+}
+
+body .box-class-1 .element-file-container *{
+  color: {{$textColorBox1}} !important;
+  background-color: {{$backgroundColorBox1}} !important;
+}
+
+/* box-2 */
+body .box-class-2 .element-file-container .element-file-container-body {
+  padding:0px;
+}
+
+body .box-class-2 .element-file-container *{
+  color: {{$textColorBox2}} !important;
+  background-color: {{$backgroundColorBox2}} !important;
+  border: transparent;
+}
+
+body .box-class-2 .element-file-container .element-collapsable:before {
+  color: {{$textColorBox2}} !important;
+}
+
+/* box-3 */
+body .box-class-3 .element-file-container .element-file-container-body {
+  padding:0px;
+}
+
+body .box-class-3 .element-file-container *{
+  color: {{$textColorBox3}} !important;
+  background-color: {{$backgroundColorBox3}} !important;
+}
+
+body .box-class-3 .element-file-container .element-collapsable:before {
+  color: {{$textColorBox3}} !important;
 }
 
 </style>
