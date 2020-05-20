@@ -168,6 +168,17 @@
     $borderColorBox3 = isset($storedStylesFront['borderColorBox3']) ? $storedStylesFront['borderColorBox3']->value : 'transparent';
     $borderRadiusBox3 = isset($storedStylesFront['borderRadiusBox3']) ? $storedStylesFront['borderRadiusBox3']->value.'px' : '0';
 
+    //IMAGE TEXT LINK
+    $titleFontSizeImgTxtLink = isset($storedStylesFront['titleFontSizeImgTxtLink']) ? $storedStylesFront['titleFontSizeImgTxtLink']->value.'px' : '24px';
+    $titleColorImgTxtLink = isset($storedStylesFront['titleColorImgTxtLink']) ? $storedStylesFront['titleColorImgTxtLink']->value : $inputColor;
+    $linkFontSizeImgTxtLink = isset($storedStylesFront['linkFontSizeImgTxtLink']) ? $storedStylesFront['linkFontSizeImgTxtLink']->value.'px' : '14px';
+    $linkColorImgTxtLink = isset($storedStylesFront['linkColorImgTxtLink']) ? $storedStylesFront['linkColorImgTxtLink']->value : $inputColor;
+    $dateFontSizeImgTxtLink = isset($storedStylesFront['dateFontSizeImgTxtLink']) ? $storedStylesFront['dateFontSizeImgTxtLink']->value.'px' : '16px';
+    $dateColorImgTxtLink = isset($storedStylesFront['dateColorImgTxtLink']) ? $storedStylesFront['dateColorImgTxtLink']->value : $secondaryColor;
+    $descFontSizeImgTxtLink = isset($storedStylesFront['descFontSizeImgTxtLink']) ? $storedStylesFront['descFontSizeImgTxtLink']->value.'px' : '14px';
+    $descColorImgTxtLink = isset($storedStylesFront['descColorImgTxtLink']) ? $storedStylesFront['descColorImgTxtLink']->value : $secondaryColor;
+    $borderRadiusImgTxtLink = isset($storedStylesFront['borderRadiusImgTxtLink']) ? $storedStylesFront['borderRadiusImgTxtLink']->value.'px' : '20px';
+
 ?>
 
 <style type="text/css">
@@ -187,6 +198,7 @@
 @include('extranet::front.partials.styles.stepper')
 @include('extranet::front.partials.styles.document-table')
 @include('extranet::front.partials.styles.missing-documents')
+@include('extranet::front.partials.styles.image-text-link')
 
 @if($frontFont)
   <style>
