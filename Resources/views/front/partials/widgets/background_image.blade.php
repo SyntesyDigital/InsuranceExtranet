@@ -16,7 +16,7 @@
         }
 
         $image = isset($field['fields'][0]['value']) && $field['fields'][0]['value']->getUrlsAttribute()[$crop] != null ? $field['fields'][0]['value']->getUrlsAttribute()[$crop] : null;
-        $height = isset($settings['height'])  && $settings['height'] != null ? $settings['height'] : '200';
+        $height = isset($settings['height'])  && $settings['height'] != null ? $settings['height'] : '125';
         
     @endphp 
 

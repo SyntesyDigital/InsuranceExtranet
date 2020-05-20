@@ -1,5 +1,5 @@
 @php
-  $height = isset($field['settings']['height']) ? intval($field['settings']['height']) : 30;
+  $height = isset($field['settings']['height']) ? intval($field['settings']['height']) : 20;
 @endphp
 
 <div id="{{$field['settings']['htmlId'] or ''}}"

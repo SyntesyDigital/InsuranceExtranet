@@ -24,6 +24,14 @@
   .non-bordered{
     border-bottom: none;
   }
+
+  /* Non collapsable */
+  &.static {
+    .element-file-container-body{
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
 }
 
 .file-component {
@@ -58,6 +66,7 @@
     }
   }
 }
+
 .element-collapsable{
   cursor: pointer;
   padding-left: 40px;
@@ -84,9 +93,12 @@
   }
 }
 
+
+
 .more-btn{
   text-align: right;
   padding:15px;
+  padding-bottom:10px;
   padding-right:0;
   background-color: #fff;
 
