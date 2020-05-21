@@ -29,6 +29,7 @@
 		<div class="right-part-header {{isset($isLogin) ? 'login-header' : ''}}">
 			@if(null !== Auth::user())
 				<div class="menu-container">
+			
 					<div class="menu">
 						<button id="sidebar-button" class="navbar-toggle" type="button">
 							<span class="sr-only">Menu</span>
@@ -36,17 +37,23 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
+						<!-- <div class="menu btn15" data-menu="15">
+        					<div class="icon"></div>
+      					</div> -->
+						
 					</div>
 					<div class="user-info">
 
-						<div class="button-header-container">
+						
+							<div class="button-header-container">
 								<a href="" class="btn btn-header" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-										<i class="fas fa-sign-out-alt"></i> <p class="button-text">Déconnecter</p>
+									<i class="fas fa-sign-out-alt"></i> <p class="button-text">Déconnecter</p>
 								</a>
 								<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
-								{{csrf_field()}}
+									{{csrf_field()}}
 								</form>
-						</div>
+							</div>
+						
 
 						@if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
 							<div class="button-header-container">
@@ -55,9 +62,13 @@
 								</a>
 							</div>
 						@endif
-						<p class="user-name">
-							@include('extranet::front.partials.session_select')
-						</p>
+
+					
+							<p class="user-name">
+								@include('extranet::front.partials.session_select')
+							</p>
+						
+						
 					</div>
 				</div>
 			@endif
@@ -71,10 +82,15 @@
 @push('javascripts')
 <script>
 	$(function(){
+		$('.menu').click (function(){
+			  $(this).toggleClass('open');
+			  console.log('dasdas')
+		});
 		$("#sidebar-button").click(function(e){
 			e.preventDefault();
 			if($('#sidebar').hasClass('initial')){
 				$('#sidebar').removeClass('initial');
+				$('[data-toggle="tooltip"]').tooltip();
 				if($('#sidebar').width() > 0){
 					$('#sidebar').addClass('collapsed');
 					$('.content-wrapper').addClass('collapsed');
@@ -83,6 +99,7 @@
 				}
 			}else{
 				if($('#sidebar').hasClass('collapsed')){
+					
 					$('#sidebar').removeClass('collapsed');
 					$('.content-wrapper').removeClass('collapsed');
 					$('.sidebar-text').fadeIn();
@@ -95,7 +112,7 @@
 				}
 			}
 
-		});
+		});	
 
 	});
 </script>

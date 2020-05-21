@@ -12,7 +12,7 @@
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}">
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" data-toggle="tooltip" data-placement="top" title="{{$link["name"]}}">
 			
 					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
 						@if(isset($link["icon"]))
