@@ -176,23 +176,19 @@ class SelectField extends Component {
     this.setState({
       addClassBordered: true
     });
-    console.log("handleBlur :: addClassBordered :: " , this.state.addClassBordered)
   }
 
   handleFocus(e) {
     this.setState({
       addClassBordered: false
     });
-    console.log("handleBlur :: addClassBordered :: " , this.state.addClassBordered)
   }
 
   handleOnChange(option) {
-   
     this.props.onFieldChange({
       name: this.props.field.identifier,
       value: option.value
     });
-    console.log("addClassBordered :: " , this.state.addClassBordered)
   }
 
   getOption(value) {
