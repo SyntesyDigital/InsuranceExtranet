@@ -174,21 +174,25 @@ class SelectField extends Component {
 
   handleBlur(e) {
     this.setState({
-      addClassBordered: false
+      addClassBordered: true
     });
+    console.log("handleBlur :: addClassBordered :: " , this.state.addClassBordered)
   }
 
   handleFocus(e) {
     this.setState({
-      addClassBordered: true
+      addClassBordered: false
     });
+    console.log("handleBlur :: addClassBordered :: " , this.state.addClassBordered)
   }
 
   handleOnChange(option) {
+   
     this.props.onFieldChange({
       name: this.props.field.identifier,
       value: option.value
     });
+    console.log("addClassBordered :: " , this.state.addClassBordered)
   }
 
   getOption(value) {
@@ -233,11 +237,12 @@ class SelectField extends Component {
     var value = this.getOption(this.props.value);
 
     const customStyles = {
-      control: base => ({
+      control: (base) => ({
         ...base,
         height: 34,
         minHeight: 34,
         boxShadow: '1 !important',
+        border: this.state.addClassBordered ? '1px solid ' + STYLES.elementForm.borderColorInput + '' : null
       })
     };
     //
@@ -261,6 +266,7 @@ class SelectField extends Component {
           options={options}
           onChange={this.handleOnChange.bind(this)}
           styles={customStyles}
+          placeholder='Sélectionner...'
           theme={(theme) => ({
             ...theme,
             borderRadius: STYLES.elementForm.borderRadiusInput,
