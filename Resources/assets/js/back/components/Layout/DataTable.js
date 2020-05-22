@@ -82,7 +82,7 @@ export default class DataTable extends Component {
 
     renderHeader() {
         return this.props.columns.map((item, index) =>
-            <th>{item.name}</th>
+            <th>{item.label}</th>
         );
     }
 

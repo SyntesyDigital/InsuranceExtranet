@@ -83,7 +83,8 @@ export default class ExportButton extends Component {
         return (
           <div className="excel-btn">
             <a href="#" onClick={this.handleExport.bind(this)} className={disabled ? "disabled" : ""}>
-              <i className="fas fa-download"></i>Exportation CSV
+              <i className="fas fa-download"></i>
+                {this.props.label == "" ? 'Exportation CSV' : this.props.label}
             </a>
           </div>
 

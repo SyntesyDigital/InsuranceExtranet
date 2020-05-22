@@ -201,7 +201,7 @@ export default class ElementCard extends Component {
                 return (
                     <IconField
                         key={key}
-                        icon={'fas fa-' + node.field.value}
+                        icon={node.field.value}
                         font={'40px'}
                         color={'#a2a8b3'}
                         circle={true}

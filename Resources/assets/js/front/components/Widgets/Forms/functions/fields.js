@@ -192,6 +192,9 @@ export function processObjectValue(object,values,formParameters) {
     else if(defaultValue == "_id_per_user"){
       return ID_PER_USER;
     }
+    else if(defaultValue == "_session_id"){
+      return SESSION_ID;
+    }
     else if(formParameters[defaultValue] !== undefined) {
       return formParameters[defaultValue];
     }
@@ -224,6 +227,12 @@ export function processObjectValue(object,values,formParameters) {
     }
     else if(defaultValue == "_id_per_user"){
       return ID_PER_USER;
+    }
+    else if(defaultValue == "_id_per_ass"){
+      return ID_PER_ASS;
+    }
+    else if(defaultValue == "_session_id"){
+      return SESSION_ID;
     }
     else if(defaultValue == "_contentType"){
       return values['_contentType'] ? values['_contentType'] : '';
