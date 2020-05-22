@@ -1,5 +1,44 @@
 @if(isset($menu))
-	<ul class="menu">
+
+	<div class="menu-container">
+		<div id="sidebar-button" class="menu btn15" data-menu="15">
+			<div class="icon"></div>
+		</div>
+	</div>
+
+	<div class="logo-container">
+		<a href="{{route('home')}}">
+			@if(isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value))
+				<img src="/{{$storedStylesFront['frontLogo']->value->urls['original']}}" alt="Logo" />
+			@else
+				<img src="{{asset('modules/architect/images/logo.png')}}" alt=""/>
+			@endif
+		</a>
+	</div>
+
+	<ul class="container-menu">
+
+		@if(Auth::user()->supervue)
+			@php
+			
+				$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
+					? Auth::user()->session_info->{'USEREXT.nom2_per'} 
+				: null;
+
+			@endphp
+
+			<li class="user-item">
+				<span class="sidebar-text">{{$current}}</span>
+				<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+					<i class="fas fa-power-off"></i>
+				</a>
+				<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+					{{csrf_field()}}
+				</form>
+			</li>
+			
+		@endif
+		
 		@foreach($menu as $index => $menuElement)
 
 		@php
@@ -7,13 +46,13 @@
 			$hasChildren = sizeof($menuElement["children"]) > 0 ? 1 : 0;
 
 			if(!allowed_link($link)){
-         continue;
-      }
+         		continue;
+      		}
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}">
-			
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" data-toggle="tooltip" data-placement="top" title="">
+					<span class="tooltiptext">{{$link["name"]}}</span>
 					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
