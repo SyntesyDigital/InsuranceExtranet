@@ -23,14 +23,10 @@ require('./components/Widgets/ElementFormPreload');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
-<<<<<<< HEAD
-require('./components/Widgets/MissingDocuments/MissingDocuments');
 require('./components/Widgets/ImageText/ImageTextLinkContainer');
 require('./components/Widgets/ImageText/ImageTextLinkList');
-=======
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');
 require('./components/Widgets/Lists/TableList/TableList');
->>>>>>> feature/theoreme-fixes
  
