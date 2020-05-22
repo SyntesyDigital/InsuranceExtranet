@@ -11,7 +11,38 @@ export default class TableList extends Component {
         super(props);
     }
 
-    renderField(value,field) {
+    getConditionalFormating(field,value) {
+
+      value = value.toLowerCase();
+      
+      if(field.settings.conditionalFormatting !== undefined && 
+        field.settings.conditionalFormatting != null) {
+        
+        for(var key in field.settings.conditionalFormatting.conditions){
+          var condition = field.settings.conditionalFormatting.conditions[key];
+          if(value.indexOf(condition.value.toLowerCase()) != -1) {
+            //if the string is contained in the string
+            return {
+              color : condition.color,
+              backgroundColor : condition.backgroundColor,
+            };
+          }
+        }
+      }
+
+      return {};
+    }
+
+    hasConditionalFormatting(conditionalFormatting) {
+      if(conditionalFormatting.color !== undefined){
+        return true;
+      }
+      return false;
+    }
+
+    renderField(item,identifier,field) {
+
+      var value = item[identifier];
 
       if(field.type == "date") {
           if(value !== undefined && value != "" && null !== value){
@@ -53,13 +84,25 @@ export default class TableList extends Component {
           }
       }
 
+      var style = {};
+      var hasColor = false;
+      
+      if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
+        style=this.getConditionalFormating(field,value);
+        hasColor = this.hasConditionalFormatting(style);
+      }
+
 
       if(field.type == "file"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }
+      else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
-      return value;
-
+        return <div dangerouslySetInnerHTML={{__html: item[identifier+"_url"]}} />
+      }
+      else {
+        return <div className={hasColor ? 'has-color' : ''} style={style} dangerouslySetInnerHTML={{__html: value}} />
+      }
 
     }
 
@@ -71,23 +114,27 @@ export default class TableList extends Component {
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
-        infos.push(
-            <div className="field-container" key={key}>
-                {this.renderField(item[identifier],elementObject.fields[key])}
-            </div>
-        );
+        if(elementObject.fields[key].type == 'file'){
+          file = this.renderField(item,identifier,elementObject.fields[key]);
+        } 
+        else { 
+          infos.push(
+              <div className="field-container" key={key}>
+                  {this.renderField(item,identifier,elementObject.fields[key])}
+              </div>
+          );
+        }
 
       }
 
       return (
           <div>
-            <div className="file-contianer">
-              {file}
-            </div>
-            <div className="file-infos-container">
-              <div className="file-icon">
-                <i className="far fa-file"></i>
-              </div>
+            <div className={"file-infos-container "+(file == null ? 'no-document' : '')}>
+              {file != null && 
+                <div className="file-icon">
+                  {file}
+                </div>
+              }
               <div className="file-infos">
                 {infos}
               </div>
@@ -100,6 +147,7 @@ export default class TableList extends Component {
         return (
             <div>
               <ListParser
+                customClass="table-list-container"
                 field={this.props.field}
                 elementObject={this.props.elementObject}
                 model={this.props.model}
