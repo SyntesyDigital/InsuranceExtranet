@@ -16,20 +16,9 @@
 <header>
 	<!-- CORPO i IDIOMES -->
 	<div class="row row-header">
-		<div class="logo-container">
-			<a href="{{route('home')}}">
-				@if(isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value))
-					<img src="/{{$storedStylesFront['frontLogo']->value->urls['original']}}" alt="Logo" />
-				@else
-					<img src="{{asset('modules/architect/images/logo.png')}}" alt=""/>
-				@endif
-			</a>
-		</div>
-
 		<div class="right-part-header {{isset($isLogin) ? 'login-header' : ''}}">
 			@if(null !== Auth::user())
 				<div class="menu-container">
-			
 					<div class="menu">
 						<button id="sidebar-button" class="navbar-toggle" type="button">
 							<span class="sr-only">Menu</span>
@@ -37,24 +26,8 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<!-- <div class="menu btn15" data-menu="15">
-        					<div class="icon"></div>
-      					</div> -->
-						
 					</div>
 					<div class="user-info">
-
-						
-							<div class="button-header-container">
-								<a href="" class="btn btn-header" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-									<i class="fas fa-sign-out-alt"></i> <p class="button-text">Déconnecter</p>
-								</a>
-								<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
-									{{csrf_field()}}
-								</form>
-							</div>
-						
-
 						@if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
 							<div class="button-header-container">
 								<a href="{{route('dashboard')}}" class="btn btn-header">
@@ -62,13 +35,9 @@
 								</a>
 							</div>
 						@endif
-
-					
-							<p class="user-name">
-								@include('extranet::front.partials.session_select')
-							</p>
-						
-						
+						<p class="user-name">
+							@include('extranet::front.partials.session_select')
+						</p>
 					</div>
 				</div>
 			@endif
@@ -82,12 +51,9 @@
 @push('javascripts')
 <script>
 	$(function(){
-		$('.menu').click (function(){
+		$('.menu').click (function(e){
 			  $(this).toggleClass('open');
-			  console.log('dasdas')
-		});
-		$("#sidebar-button").click(function(e){
-			e.preventDefault();
+			  e.preventDefault();
 			if($('#sidebar').hasClass('initial')){
 				$('#sidebar').removeClass('initial');
 				$('[data-toggle="tooltip"]').tooltip();
@@ -99,7 +65,6 @@
 				}
 			}else{
 				if($('#sidebar').hasClass('collapsed')){
-					
 					$('#sidebar').removeClass('collapsed');
 					$('.content-wrapper').removeClass('collapsed');
 					$('.sidebar-text').fadeIn();
@@ -111,9 +76,7 @@
 					$('.logo-container').addClass('collapsed');
 				}
 			}
-
-		});	
-
+		});
 	});
 </script>
 @endpush

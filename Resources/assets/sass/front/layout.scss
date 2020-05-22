@@ -1,455 +1,545 @@
 html {
-  height: 100%;
-  box-sizing: border-box;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 header {
-  border-bottom: none !important;
-
-  .session-changer {
-    margin-top: -8px;
-    background-color: transparent;
-    border: 1px solid #2a3649;
-    display: none;
-    width: 200px;
-
-    @include mq(tablet) {
-      display: inline-block;
+    border-bottom: none !important;
+    .session-changer {
+        margin-top: -8px;
+        background-color: transparent;
+        border: 1px solid #2a3649;
+        display: none;
+        width: 200px;
+        @include mq(tablet) {
+            display: inline-block;
+        }
     }
-  }
-
-  &:first-child {
-    .row {
-      &.row-header {
-        margin-bottom: 0;
-        .logo-container {
-          height: 62px;
-          @extend .animate;
-          background-color: $header-logo-background-color;
-          text-align: center;
-          padding: 0 25px;
-          img {
-            /*
+    &:first-child {
+        .row {
+            &.row-header {
+                margin-bottom: 0;
+                .logo-container {
+                    height: 62px;
+                    @extend .animate;
+                    background-color: $header-logo-background-color;
+                    text-align: center;
+                    padding: 0 25px;
+                    img {
+                        /*
               max-height: 100%;
               max-width: 100%;
               */
-            height: 60px;
-          }
-        }
-
-        .right-part-header {
-          padding: 15px 25px;
-          background-color: $header-right-part-background-color;
-          color: $header-right-part-text-color;
-          height: 62px;
-          position: fixed;
-          width: 100%;
-          z-index: 2;
-          .navbar {
-            border: none;
-          }
-
-          &.login-header {
-            background-color: $header-logo-background-color;
-          }
-
-          .menu {
-            width: 40px;
-            height: 40px;
-            float: left;
-            margin-left: 230px;
-          }
-          .user-info {
-            overflow: hidden;
-            .button-header-container {
-              float: right;
-              margin-left: 10px;
-              .btn-header {
-                border: 1px solid $header-right-part-text-color;
-                color: $header-right-part-text-color;
-                background-color: transparent;
-                text-transform: none;
-                @include round($button-radius);
-
-                &:hover {
-                  border: 1px solid $secondary-color;
-                  color: $secondary-color;
+                        height: 60px;
+                    }
                 }
-                i {
-                  display: inline;
-                  margin-right: 0px;
+                .right-part-header {
+                    padding: 15px 25px;
+                    background-color: $header-right-part-background-color;
+                    color: $header-right-part-text-color;
+                    height: 62px;
+                    position: fixed;
+                    width: 100%;
+                    z-index: 2;
+                    .navbar {
+                        border: none;
+                    }
+                    &.login-header {
+                        background-color: $header-logo-background-color;
+                    }
+                    .menu {
+                        width: 40px;
+                        height: 40px;
+                        float: left;
+                        margin-left: 230px;
+                    }
+                    .user-info {
+                        overflow: hidden;
+                        .button-header-container {
+                            float: right;
+                            margin-left: 10px;
+                            .btn-header {
+                                border: 1px solid $header-right-part-text-color;
+                                color: $header-right-part-text-color;
+                                background-color: transparent;
+                                text-transform: none;
+                                @include round($button-radius);
+                                &:hover {
+                                    border: 1px solid $secondary-color;
+                                    color: $secondary-color;
+                                }
+                                i {
+                                    display: inline;
+                                    margin-right: 0px;
+                                }
+                                .button-text {
+                                    margin-left: 10px;
+                                    display: none;
+                                }
+                            }
+                        }
+                        .user-name {
+                            float: right;
+                            margin-right: 10px;
+                            padding-top: 10px;
+                        }
+                    }
                 }
-                .button-text {
-                  margin-left: 10px;
-                  display: none;
-                }
-              }
             }
-            .user-name {
-              float: right;
-              margin-right: 10px;
-              padding-top: 10px;
-            }
-          }
         }
-      }
     }
-  }
-  .navbar-toggle {
-    display: block;
-    margin-right: 0;
-    margin-top: 0;
-    .icon-bar {
-      background: $header-right-part-text-color;
-    }
-  }
-
-
-  $dark: #212121;
-$light: #efefef;
-$color: #b3e5fc;
-
-  @mixin btn($left, $top) {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    top: $top;
-    left: $left;
-    transition-duration: 0.5s;
-  }
-
-  @mixin icon($height, $width) {
-    transition-duration: 0.5s;
-    position: absolute;
-    height: $height;
-    width: $width;
-    top: 30px;
-    background-color: $dark;
-  }
-  
-  @mixin icon-before($height, $width, $top) {
-    transition-duration: 0.5s;
-    position: absolute;
-    width: $width;
-    height: $height;
-    background-color: $dark;
-    content: "";
-    top: $top;
-  }
-  
-  @mixin icon-after($height, $width, $top) {
-    transition-duration: 0.5s;
-    position: absolute;
-    width: $width;
-    height: $height;
-    background-color: $dark;
-    content: "";
-    top: $top;
-  }
-  
-  .btn15{
-    @include btn(120px, -15px);
-    
-    .icon {
-      @include icon(4px, 30px);
-      border-radius: 4px;
-      left: 15px;
-      
-      &:before{
-        @include icon-before(4px, 30px, -10px);
-        border-radius: 4px;
-      }
-      
-      &:after{
-        @include icon-after(4px, 30px, 10px);
-        border-radius: 4px;
-      }
-    }
-    
-    &.open {
-      .icon {
-        transition-duration: 0.5s;
-        background: transparent;
-        
-        &:before{
-          transform: rotateZ(45deg) scaleX(1.25) translate(6.5px, 6.5px);
+    .navbar-toggle {
+        display: block;
+        margin-right: 0;
+        margin-top: 0;
+        .icon-bar {
+            background: $header-right-part-text-color;
         }
-  
-        &:after{
-          transform: rotateZ(-45deg) scaleX(1.25) translate(6px, -6px);
-        }
-      }
     }
-    &:hover {
-      background: #fff;
-      cursor: pointer;
-    }
-  }
 }
 
 footer {
-  height: 50px;
-  background-color: $footer-background-color;
-  text-align: center;
-  padding: 15px;
-  padding-right: 30px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border-top: 1px solid $separator-line-color;
-
-  .version {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    font-size: 12px;
-    opacity: 0.5;
-  }
-
-  p {
-    color: $footer-text-color;
+    height: 50px;
+    background-color: $footer-background-color;
     text-align: center;
-    @include font(16, 18, 400);
-    display: inline;
-  }
-  ul {
-    list-style-type: none;
-    text-align: right;
-    li {
-      display: inline;
-      color: $footer-text-color;
-      @include font(12, 18, 400);
-      a {
-        color: $footer-text-color;
-        @include font(12, 18, 400);
-        &:hover {
-          text-decoration: underline;
-          color: $footer-text-color;
-        }
-      }
+    padding: 15px;
+    padding-right: 30px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-top: 1px solid $separator-line-color;
+    .version {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        font-size: 12px;
+        opacity: 0.5;
     }
-  }
+    p {
+        color: $footer-text-color;
+        text-align: center;
+        @include font(16, 18, 400);
+        display: inline;
+    }
+    ul {
+        list-style-type: none;
+        text-align: right;
+        li {
+            display: inline;
+            color: $footer-text-color;
+            @include font(12, 18, 400);
+            a {
+                color: $footer-text-color;
+                @include font(12, 18, 400);
+                &:hover {
+                    text-decoration: underline;
+                    color: $footer-text-color;
+                }
+            }
+        }
+    }
 }
 
 .content-wrapper {
-  position: relative;
-  //  margin-left: 230px;
-  padding: 15px;
-  overflow: hidden;
-  @extend .animate;
-  &.collapsed {
-    margin-left: 0px;
-  }
+    position: relative;
+    padding: 15px;
+    overflow: hidden;
+    @extend .animate;
+    &.collapsed {
+        margin-left: 0px;
+    }
 }
+
 .sidebar {
-  width: 100%;
-  z-index: 100;
-  overflow: hidden;
-  background-color: $sidebar-background-color;
-  @include font(16, 21, 400);
-  padding: 8px 0px 8px;
-  height: 100%;
-  min-height: calc(100vh - 174px);
-  position: fixed;
-  top: 62px;
-  left: 0;
-  bottom: 0;
-  overflow: auto;
-  @extend .animate;
-  &.collapsed {
-    width: 0px;
+    width: 100%;
+    z-index: 100;
+    overflow: hidden;
+    background-color: $sidebar-background-color;
+    @include font(16, 21, 400);
+    height: 100%;
+    min-height: calc(100vh - 174px);
+    position: fixed;
+    top: 30px;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    @extend .animate;
+    &.collapsed {
+        width: 0px;
+        ul {
+            li {
+                padding-left: 30px;
+                &.user-item {
+                    padding-left: 12px;
+                    a {
+                        right: 35px;
+                        i {
+                            margin: 0;
+                        }
+                    }
+                }
+                &:hover,
+                &.active {
+                    padding-left: 26px;
+                }
+                i {
+                    @extend .animate;
+                    font-size: 21px;
+                    margin-left: 8px;
+                }
+                &.menu-item {
+                    &:hover {
+                        .tooltiptext {
+                            visibility: visible;
+                        }
+                    }
+                    a {
+                        position: absolute;
+                        top: 10px;
+                    }
+                }
+            }
+        }
+    }
+    &.initial {
+        width: 0px !important;
+        .logo-container {
+            width: 230px;
+            height: 80px;
+            text-align: center;
+            padding: 0 25px;
+        }
+    }
     ul {
-      li {
-        padding-left: 30px;
-        &:hover,
-        &.active {
-          padding-left: 26px;
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+        li {
+            padding-left: 19px;
+            &:hover,
+            &.active {
+                padding-left: 15px;
+                background-color: $sidebar-active-background-color;
+                border-left: 4px solid $secondary-color;
+                a {
+                    color: $secondary-color;
+                }
+            }
+            a {
+                color: $primary-color;
+                width: 100%;
+                cursor: pointer;
+                text-decoration: none;
+                &:hover {
+                    color: $secondary-color;
+                    text-decoration: none;
+                }
+                i {
+                    margin-right: 10px;
+                }
+            }
         }
-        i {
-          @extend .animate;
-          font-size: 21px;
-          margin-left: 8px;
+    }
+    .menu-item {
+        height: 50px;
+        overflow: hidden;
+        line-height: 45px;
+        .tooltiptext {
+            visibility: hidden;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            padding: 0 10px;
+            position: fixed;
+            z-index: 1;
+            left: 80px;
         }
-      }
-    }
-  }
-  &.initial {
-    width: 0px !important;
-    .logo-container {
-      width: 230px;
-      height: 62px;
-      text-align: center;
-      padding: 0 25px;
-    }
-  }
-  ul {
-    margin: 0px;
-    padding: 0px;
-    list-style-type: none;
-    li {
-      padding: 15px;
-      padding-left: 19px;
-      &:hover,
-      &.active {
-        padding-left: 15px;
-        background-color: $sidebar-active-background-color;
-        border-left: 4px solid $secondary-color;
         a {
-          color: $secondary-color;
+            display: table-cell;
+            vertical-align: middle;
+            .sidebar-text {
+                height: 50px;
+                white-space: no-wrap;
+                text-overflow: ellipsis;
+                width: calc(100% - 53px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
-      }
-      a {
-        color: $primary-color;
-        width: 100%;
-        cursor: pointer;
-        text-decoration: none;
-        &:hover {
-          color: $secondary-color;
-          text-decoration: none;
-        }
-        i {
-          margin-right: 10px;
-        }
-      }
     }
-  }
+    .user-item {
+        height: 50px;
+        overflow: hidden;
+        line-height: 45px;
+        text-align: center;
+        .sidebar-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 150px;
+            display: block;
+        }
+        a {
+            position: absolute;
+            top: 7px;
+            right: 37px;
+            width: 30px;
+            height: 30px;
+            i {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 20px;
+            }
+        }
+    }
 }
+
 .breadcrumb {
-  border-bottom: 1px solid $separator-line-color;
-  background-color: transparent;
-  .container {
-    padding-left: 0;
-    @include font(12, 16, 400);
-    color: $primary-color;
-    a {
-      @include font(12, 16, 400);
-      color: $primary-color;
-      margin: 0 5px;
-      &:hover {
-        color: $secondary-color;
-        text-decoration: none;
-      }
+    border-bottom: 1px solid $separator-line-color;
+    background-color: transparent;
+    .container {
+        padding-left: 0;
+        @include font(12, 16, 400);
+        color: $primary-color;
+        a {
+            @include font(12, 16, 400);
+            color: $primary-color;
+            margin: 0 5px;
+            &:hover {
+                color: $secondary-color;
+                text-decoration: none;
+            }
+        }
     }
-  }
 }
+
 body {
-  font-family: $brand-font-1;
-  background-color: $body-bg;
-  color: $primary-color;
-  position: relative;
-
-  /* 16px / 24px */
-  font-size: 14px;
-  line-height: 16px;
-
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  letter-spacing: 0px;
-
-  position: relative;
-  box-sizing: border-box;
-  margin: 0;
-  min-height: 100%;
-
-  &.is-test {
-    padding-top: 30px;
-  }
+    font-family: $brand-font-1;
+    background-color: $body-bg;
+    color: $primary-color;
+    position: relative;
+    /* 16px / 24px */
+    font-size: 14px;
+    line-height: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: 0px;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 100%;
+    &.is-test {
+        padding-top: 30px;
+    }
 }
 
 .row {
-  margin-right: 0px;
-  margin-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 @media (min-width: 768px) {
-  header {
-    &:first-child {
-      .row {
-        &.row-header {
-          .logo-container {
-            width: 230px;
-            height: 62px;
-            background-color: #fff;
-            text-align: center;
-            padding: 0 25px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 999;
-            &.collapsed {
-              width: 100px;
-              padding: 0 5px;
-            }
-          }
-          .right-part-header {
-            overflow: hidden;
-            .user-info {
-              .button-header-container {
-                .btn-header {
-                  .button-text {
-                    display: inline;
-                  }
+    header {
+        &:first-child {
+            .row {
+                &.row-header {
+                    .logo-container {
+                        width: 230px;
+                        height: 62px;
+                        background-color: #fff;
+                        text-align: center;
+                        padding: 0 25px;
+                        position: fixed;
+                        left: 0;
+                        top: 0;
+                        z-index: 999;
+                        &.collapsed {
+                            width: 100px;
+                            padding: 0 5px;
+                        }
+                    }
+                    .right-part-header {
+                        overflow: hidden;
+                        .menu {
+                            display: none;
+                        }
+                        .user-info {
+                            .button-header-container {
+                                .btn-header {
+                                    .button-text {
+                                        display: inline;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
+        .navbar-toggle {
+            display: block;
+        }
     }
-    .navbar-toggle {
-      display: block;
+    .content-wrapper {
+        position: relative;
+        margin-left: 230px;
+        padding-bottom: 80px;
+        top: 60px;
+        &.collapsed {
+            margin-left: 100px;
+        }
     }
-  }
-  .content-wrapper {
-    position: relative;
-    margin-left: 230px;
-    padding-bottom: 80px;
-    top: 60px;
-    &.collapsed {
-      margin-left: 100px;
+    .sidebar {
+        width: 230px;
+        height: 100%;
+        min-height: calc(100vh - 62px);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+        $dark: #ccc;
+        @mixin btn($left, $top) {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            transition-duration: 0.5s;
+            top: 3px;
+            right: 3px;
+        }
+        @mixin icon($height, $width) {
+            transition-duration: 0.5s;
+            position: absolute;
+            height: $height;
+            width: $width;
+            top: 30px;
+            background-color: $dark;
+        }
+        @mixin icon-before($height, $width, $top) {
+            transition-duration: 0.5s;
+            position: absolute;
+            width: $width;
+            height: $height;
+            background-color: $dark;
+            content: "";
+            top: $top;
+        }
+        @mixin icon-after($height, $width, $top) {
+            transition-duration: 0.5s;
+            position: absolute;
+            width: $width;
+            height: $height;
+            background-color: $dark;
+            content: "";
+            top: $top;
+        }
+        .btn15 {
+            @include btn(120px, -15px);
+            .icon {
+                @include icon(2px, 15px);
+                border-radius: 4px;
+                top: 13px;
+                right: 6px;
+                &:before {
+                    @include icon-before(2px, 15px, -7px);
+                    border-radius: 4px;
+                }
+                &:after {
+                    @include icon-after(2px, 15px, 6px);
+                    border-radius: 4px;
+                }
+            }
+            &.open {
+                .icon {
+                    transition-duration: 0.5s;
+                    background: transparent;
+                    &:before {
+                        transform: rotateZ(45deg) scaleX(1.25) translate(2.5px, 2.5px);
+                    }
+                    &:after {
+                        transform: rotateZ(-45deg) scaleX(1.25) translate(5px, -6px);
+                    }
+                }
+            }
+            &:hover {
+                background: #fff;
+                cursor: pointer;
+            }
+        }
+        &.collapsed {
+            width: 100px;
+            .btn15 {
+                position: relative;
+                margin: 0 auto;
+                right: 0px;
+            }
+        }
+        &.initial {
+            width: 230px !important;
+        }
     }
-  }
-  .sidebar {
-    width: 230px;
-    height: 100%;
-    min-height: calc(100vh - 62px);
-    &.collapsed {
-      width: 100px;
+    .menu-container {
+        height: 30px;
     }
-    &.initial {
-      width: 230px !important;
+    .logo-container {
+        text-align: center;
+        display: table;
+        width: 100%;
+        height: 80px;
+        a {
+            position: relative;
+            top: 10px;
+        }
     }
-  }
+    .container-user {
+        text-align: center;
+        height: 50px;
+        // display: table;
+        // width: 230px;
+        a {
+            display: contents;
+        }
+    }
 }
 
 .invalid-field {
-  color: #aa1818;
-  padding: 10px;
+    color: #aa1818;
+    padding: 10px;
 }
 
 .invalid-feedback {
-  padding: 10px;
-  font-weight: 400;
-  background-color: transparent;
-  color: #aa1818;
-  text-align: center;
+    padding: 10px;
+    font-weight: 400;
+    background-color: transparent;
+    color: #aa1818;
+    text-align: center;
 }
 
 article.page-builder {
-  padding: 0;
-
-  @include mq(wide) {
-    padding: 0 7%;
-  }
+    padding: 0;
+    @include mq(wide) {
+        padding: 0 7%;
+    }
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    top: 125px;
-    width: 100%;
-  }
-  header:first-child .row.row-header .right-part-header .menu {
-    margin-left: unset;
-  }
+    .sidebar {
+        top: 90px;
+        width: 100%;
+        .logo-container {
+            text-align: center;
+        }
+        .user-item {
+            padding-left: 0;
+            span {
+                width: 100% !important;
+            }
+        }
+    }
+    header:first-child .row.row-header .right-part-header .menu {
+        margin-left: unset;
+    }
+    .content-wrapper {
+        top: 55px;
+    }
 }
