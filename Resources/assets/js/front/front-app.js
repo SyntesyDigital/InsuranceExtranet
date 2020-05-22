@@ -20,9 +20,11 @@ require('./components/Widgets/ElementForm');
 require('./components/Widgets/ElementFormV2');
 require('./components/Widgets/ElementFormButton');
 require('./components/Widgets/ElementFormPreload');
-require('./components/Widgets/TableDocument');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
-require('./components/Widgets/MissingDocuments/MissingDocuments');
+//Lists
+require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
+require('./components/Widgets/Lists/TableDocument/TableDocument');
+require('./components/Widgets/Lists/TableList/TableList');
  

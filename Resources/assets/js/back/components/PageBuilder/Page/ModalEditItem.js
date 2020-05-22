@@ -22,6 +22,7 @@ import VideoField from './../ContentFields/VideoField';
 import LocalizationField from './../ContentFields/LocalizationField';
 import FileField from './../ContentFields/FileField';
 import TranslatedFileField from './../ContentFields/TranslatedFileField';
+import IconField from './../ContentFields/IconField';
 
 // WIDGETS LIST
 import CommonWidget from './../Widgets/CommonWidget';
@@ -323,7 +324,16 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-      case FIELDS.FILE.type:
+      case ELEMENT_TEMPLATE_FIELDS.ICON.type:
+        return (
+          <IconField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+          />
+        ); 
+
+      case ELEMENT_TEMPLATE_FIELDS.FILE.type:
         return (
           <FileField
             field={this.state.field}
@@ -400,9 +410,8 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-
-
-
+      
+      
       case "widget":
         const Widget = this.widgets[this.state.field.component || 'CommonWidget'];
         return <Widget

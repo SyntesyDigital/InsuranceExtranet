@@ -1,9 +1,9 @@
 @component('extranet::front.partials.components.table_container',[
     "field" => $field,
-    "class" => "table-document-container missing-documents-container",
+    "class" => "table-document-container",
     "reactContainerClass" => "table-document-container-body",
-    "reactId" => "missing-documents",
-    "reactClass" => "missing-documents",
+    "reactId" => "table-list",
+    "reactClass" => "tableDocument tableDocumentNoHeader",
     "iterator" => $iterator,
     "parameters" => $parameters,
     "models" => $models
