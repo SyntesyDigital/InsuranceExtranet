@@ -55,8 +55,6 @@ export default class ImageTextLink extends Component {
         const date = this.processDate(fields, 3);
         const dateProcess = moment(date).format('ll');
 
-        console.log("date : : " , date)
-
         return (
             <div className="container-image-text-link">
                 <div className="container-image">

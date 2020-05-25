@@ -21,7 +21,6 @@
 			[
 				'class' => 'form-control session-changer hidden',
 				'id' => 'session-changer',
-				'hidden' => 'hidden'
 			]
 		)
 	!!}
@@ -73,6 +72,6 @@
 			});
 		}
 	});
-	
+
 </script>
 @endpush
