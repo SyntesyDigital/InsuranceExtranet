@@ -185,9 +185,8 @@ export function processObjectValue(object,values,formParameters) {
   if(type == "INPUT"){
 
     //FIXME this not should be necessary
-    if(defaultValue == "_id_per_ass"){
-      //this needs to be changed to SYSTEM
-      return ID_PER_ASS;
+    if(formParameters[defaultValue] !== undefined) {
+      return formParameters[defaultValue];
     }
     else if(defaultValue == "_id_per_user"){
       return ID_PER_USER;
@@ -195,9 +194,7 @@ export function processObjectValue(object,values,formParameters) {
     else if(defaultValue == "_session_id"){
       return SESSION_ID;
     }
-    else if(formParameters[defaultValue] !== undefined) {
-      return formParameters[defaultValue];
-    }
+    
     else if(values[object.CHAMP] == HIDDEN_FIELD){
       //this field is hidden
       return  null;
@@ -217,27 +214,7 @@ export function processObjectValue(object,values,formParameters) {
 
   }
   else if(type == "SYSTEM") {
-    if(defaultValue == "_time"){
-      //_time
-      return moment().format("DD/MM/YYYY");
-    }
-    else if(defaultValue == "_timestamp"){
-      //_time
-      return moment().unix();
-    }
-    else if(defaultValue == "_id_per_user"){
-      return ID_PER_USER;
-    }
-    else if(defaultValue == "_id_per_ass"){
-      return ID_PER_ASS;
-    }
-    else if(defaultValue == "_session_id"){
-      return SESSION_ID;
-    }
-    else if(defaultValue == "_contentType"){
-      return values['_contentType'] ? values['_contentType'] : '';
-    }
-    else if(formParameters[defaultValue] !== undefined){
+    if(formParameters[defaultValue] !== undefined){
       //check parameters
 
       //if is a date, and the date comes with timestamp convert to date
@@ -249,6 +226,24 @@ export function processObjectValue(object,values,formParameters) {
         return formValue;
       }
     }
+    else if(defaultValue == "_time"){
+      //_time in format date
+      return moment().format("DD/MM/YYYY");
+    }
+    else if(defaultValue == "_timestamp"){
+      //_time in format unix timestamp
+      return moment().unix();
+    }
+    else if(defaultValue == "_id_per_user"){
+      return ID_PER_USER;
+    }
+    else if(defaultValue == "_session_id"){
+      return SESSION_ID;
+    }
+    else if(defaultValue == "_contentType"){
+      return values['_contentType'] ? values['_contentType'] : '';
+    }
+    
   }
   else if(type == "CTE") {
     return defaultValue;

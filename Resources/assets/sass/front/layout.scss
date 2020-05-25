@@ -253,7 +253,7 @@ footer {
             padding: 0 10px;
             position: fixed;
             z-index: 1;
-            left: 80px;
+            left: 76px;
         }
         a {
             display: table-cell;
@@ -480,9 +480,8 @@ body {
         &.collapsed {
             width: 75px;
             .btn-ham {
-                position: relative;
                 margin: 0 auto;
-                right: 0px;
+                right: 24px;
             }
         }
         &.initial {
