@@ -1,7 +1,7 @@
 @if(isset($menu))
 
 	<div class="menu-container">
-		<div id="sidebar-button" class="menu btn15" data-menu="15">
+		<div id="sidebar-button" class="menu btn-ham open">
 			<div class="icon"></div>
 		</div>
 	</div>

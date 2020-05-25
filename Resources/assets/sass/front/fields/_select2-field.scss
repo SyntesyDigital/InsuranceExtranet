@@ -1,0 +1,16 @@
+body{
+    .select2-container{
+        .select2-selection--single{
+            height: 36px;
+            .select2-selection__rendered{
+                padding-top: 2px;
+            }
+            .select2-selection__arrow{
+                top: 4px;
+            }
+        }
+    }
+    .select2-dropdown{
+        z-index: 9999;
+    }
+}

@@ -1,10 +1,18 @@
 .background-image-widget-container {
     height: 100%;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
     
     #background-image-widget{
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: calc(100% - 30px);
     }
 }
 .background-image-widget-row{

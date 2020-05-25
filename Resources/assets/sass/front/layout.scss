@@ -3,6 +3,7 @@ html {
     box-sizing: border-box;
 }
 
+// header
 header {
     border-bottom: none !important;
     .session-changer {
@@ -26,10 +27,6 @@ header {
                     text-align: center;
                     padding: 0 25px;
                     img {
-                        /*
-              max-height: 100%;
-              max-width: 100%;
-              */
                         height: 60px;
                     }
                 }
@@ -81,7 +78,6 @@ header {
                         .user-name {
                             float: right;
                             margin-right: 10px;
-                            padding-top: 10px;
                         }
                     }
                 }
@@ -97,7 +93,9 @@ header {
         }
     }
 }
+// End header
 
+// Footer
 footer {
     height: 50px;
     background-color: $footer-background-color;
@@ -140,7 +138,9 @@ footer {
         }
     }
 }
+// End Footer
 
+// Content
 .content-wrapper {
     position: relative;
     padding: 15px;
@@ -169,19 +169,14 @@ footer {
         width: 0px;
         ul {
             li {
-                padding-left: 30px;
                 &.user-item {
                     padding-left: 12px;
                     a {
-                        right: 35px;
+                        right: 23px;
                         i {
                             margin: 0;
                         }
                     }
-                }
-                &:hover,
-                &.active {
-                    padding-left: 26px;
                 }
                 i {
                     @extend .animate;
@@ -199,6 +194,11 @@ footer {
                         top: 10px;
                     }
                 }
+            }
+        }
+        .logo-container {
+            img{
+                width: 100%;
             }
         }
     }
@@ -278,7 +278,7 @@ footer {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 150px;
+            width: 142px;
             display: block;
         }
         a {
@@ -297,7 +297,9 @@ footer {
         }
     }
 }
+// End Content
 
+// Breadcrumbs
 .breadcrumb {
     border-bottom: 1px solid $separator-line-color;
     background-color: transparent;
@@ -316,6 +318,7 @@ footer {
         }
     }
 }
+// End Breadcrumbs
 
 body {
     font-family: $brand-font-1;
@@ -342,7 +345,15 @@ body {
     margin-left: 0px;
 }
 
+// Media queries 
 @media (min-width: 768px) {
+    body{
+        &:not(.is-test) {
+            .sidebar{
+                top: 0px;
+            }
+        }
+    }
     header {
         &:first-child {
             .row {
@@ -433,7 +444,7 @@ body {
             content: "";
             top: $top;
         }
-        .btn15 {
+        .btn-ham {
             @include btn(120px, -15px);
             .icon {
                 @include icon(2px, 15px);
@@ -441,7 +452,7 @@ body {
                 top: 13px;
                 right: 6px;
                 &:before {
-                    @include icon-before(2px, 15px, -7px);
+                    @include icon-before(2px, 15px, -6px);
                     border-radius: 4px;
                 }
                 &:after {
@@ -467,8 +478,8 @@ body {
             }
         }
         &.collapsed {
-            width: 100px;
-            .btn15 {
+            width: 75px;
+            .btn-ham {
                 position: relative;
                 margin: 0 auto;
                 right: 0px;
@@ -494,8 +505,6 @@ body {
     .container-user {
         text-align: center;
         height: 50px;
-        // display: table;
-        // width: 230px;
         a {
             display: contents;
         }
@@ -523,6 +532,13 @@ article.page-builder {
 }
 
 @media (max-width: 768px) {
+    body{
+        &:not(.is-test) {
+            .sidebar{
+                top: 60px;
+            }
+        }
+    }
     .sidebar {
         top: 90px;
         width: 100%;
@@ -543,3 +559,5 @@ article.page-builder {
         top: 55px;
     }
 }
+// End Media queries 
+

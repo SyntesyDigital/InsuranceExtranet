@@ -3,13 +3,13 @@
         background-color: {{$backgroundColorSidebarTooltip}};
         color: {{$colorSidebarTooltip}}
     }
-    body .sidebar .btn15 .icon:before{
+    body .sidebar .btn-ham .icon:before{
         background-color: {{$colorSidebarIconMenu}};
     }
-    body .sidebar .btn15 .icon:after{
+    body .sidebar .btn-ham .icon:after{
         background-color: {{$colorSidebarIconMenu}};
     }
-    body .sidebar .btn15 .icon{
+    body .sidebar .btn-ham .icon{
         background-color: {{$colorSidebarIconMenu}};
     }
     body header:first-child .menu-container #sidebar-button.navbar-toggle .icon-bar{

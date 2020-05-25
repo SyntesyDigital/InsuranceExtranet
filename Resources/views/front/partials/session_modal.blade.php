@@ -1,8 +1,7 @@
 @push('javascripts')
 <script>
-
+	
 	$(function(){
-
 		var sessions = {!!json_encode(Auth::user()->sessions)!!};
 		var options = [{
 				text: 'Sélectionner...',
@@ -49,6 +48,7 @@
 								//console.log(response);
 								//window.location.href = response.redirect;
 								window.location.href = '/';
+								
 
 					}).fail(function(jqXHR, textStatus) {
 								//el.find('.modal-footer .message').html(jqXHR.responseJSON.message);
@@ -61,7 +61,15 @@
 				}
 		    }
 		});
+		
 	});
+
+	$(document).ready(function() {
+    	$('.bootbox-body').find('.bootbox-input-select').select2({
+			width: '100%',
+		});
+	});
+	
 </script>
 
 @endpush

@@ -21,7 +21,7 @@
     @endphp 
 
     <div id="{{$field['settings']['htmlId'] or ''}}" class="background-image-widget-container {{$field['settings']['htmlClass'] or ''}}">
-        <div id="background-image-widget" class="background-image-widget" style="background-image: url('/{{ $image }}'); min-height: {{ $height }}px;"></div>
+        <div id="background-image-widget" class="background-image-widget" style="background-image: url('/{{ $image }}'); min-height: {{ $height }}px;height: {{ $height }}px;"></div>
     </div>
 
     @push('javascripts')
@@ -31,6 +31,7 @@
         });
     </script>
     @endpush
+    
 @endif
 
 

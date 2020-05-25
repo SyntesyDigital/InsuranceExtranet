@@ -13,7 +13,6 @@
         h3 {
           &.alignleft {
             position: absolute;
-            bottom: 0;
             margin: 0;
             width: 100%;
             padding-right: 150px;
@@ -23,7 +22,6 @@
         h4 {
           &.alignright {
             position: absolute;
-            bottom: 0;
             right: 25px;
             margin: 0;
           }
@@ -59,8 +57,8 @@
       line-height: 0;
       position: absolute;
       top: 50%;
-      width: 2.5vw;
-      height: 2.5vw;
+      width: 45px;
+    height: 45px;
       padding: 0;
       transform: translateY(-50%);
       border: none;
@@ -92,6 +90,8 @@
           content: "\f053";
           font-family: "FontAwesome";
           color: #b0b0b0;
+          right: 2px;
+          position: relative;
         }
       }
       &.slick-next {
@@ -100,8 +100,23 @@
           content: "\f054";
           font-family: "FontAwesome";
           color: #b0b0b0;
+          left: 2px;
+          position: relative;
         }
       }
     }
+  }
+}
+
+@media (max-width: 1298px) {
+  .image_text_link {
+      .container-image-text-link {
+          .container-title {
+              h3.alignleft{
+                  height: 40px;
+                  overflow: hidden;
+              }
+          }
+      }
   }
 }
