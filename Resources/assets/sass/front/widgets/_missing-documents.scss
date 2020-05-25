@@ -2,7 +2,11 @@
   background-color: #fff;
   color: #2a3649;
   border-radius: 12px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
+
+  .documents-container .item-container {
+    margin-bottom: 53px;
+  }
   
   .wrapper {
     display: grid;
@@ -70,12 +74,13 @@
         left: 0;
         right: 0;
         margin: auto;
-        bottom: -48px;
+        bottom: -45px;
         width: 100%;
         z-index:300;
         border:1px solid #4372bc;
-        background-color: transparent;
+        background-color: #fff;
         color : #4372bc;
+        z-index : 20;
       }
 
       .remove-btn {
