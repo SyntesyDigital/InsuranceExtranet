@@ -19,11 +19,13 @@
 			$options,
 			$current,
 			[
-				'class' => 'form-control session-changer',
-				'id' => 'session-changer'
+				'class' => 'form-control session-changer hidden',
+				'id' => 'session-changer',
+				'hidden' => 'hidden'
 			]
 		)
 	!!}
+
 @else
 	Bonjour, {{Auth::user()->firstname}}
 @endif
@@ -32,8 +34,14 @@
 @push('javascripts')
 <script>
 
-	$(function(){
+	$(document).ready(function() {
+		$('.user-name').find('select[name="sessions"]').select2({
+			width: '200px',
+		});		
+	});
 
+	$(function(){
+		
 		if($('#session-changer').length > 0){
 			$('#session-changer').change(function(e) {
 
@@ -65,6 +73,6 @@
 			});
 		}
 	});
+	
 </script>
-
 @endpush

@@ -29,9 +29,14 @@
         <meta property="og:description" content=""/>
         <meta property="og:type" content="website"/>
         
+        <!-- Bootstrap -->
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
+        <!-- Jquery -->
+        <script src="{{ asset('modules/architect/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
+         
         <link href="{{asset('modules/extranet/css/front-style.css')}}" rel="stylesheet" type="text/css" />
+        
         @include ('extranet::front.partials.style')
 
         <!-- Toastr -->
@@ -40,6 +45,10 @@
         <!-- Fonts -->
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">-->
         <link rel="stylesheet" media="all" href="{{ asset('/front/css/font-awesome.min.css')}}" />
+        
+        <!-- Select 2 -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+
 
         @stack('styles')
     </head>
@@ -102,8 +111,12 @@
         </script>
 
         <script type="text/javascript" src="{{asset('modules/extranet/js/front-app.js')}}" ></script>
+        
         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
         <script src="{{ asset('modules/architect/plugins/toastr/toastr.min.js') }}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js" type="text/javascript"></script>
+
         {{ Html::script('/modules/architect/plugins/bootbox/bootbox.min.js') }}
 
         @stack('javascripts')

@@ -26,12 +26,23 @@ header:first-child .row.row-header .right-part-header .user-info .button-header-
   color:{{$headerHoverColor}};
 }
 
-header .session-changer {
+/* select2 */
+body .select2-container--default .select2-selection--single{
   border:1px solid {{$headerButtonColor}};
   color:{{$headerButtonColor}};
   border-radius: {{$buttonRadius}};
   background-color: {{$headerRightPartBackgroundColor}};
 }
+body .select2-container--default .select2-selection--single .select2-selection__arrow b{
+  border-color: {{$headerButtonColor}} transparent transparent transparent;
+}
+body .select2-container--default .select2-selection--single .select2-selection__rendered{
+  color: {{$headerButtonColor}};
+}
+body .select2-container--default .select2-results__option--highlighted[aria-selected]{
+  background-color: {{$inputColor}};
+}
+/* end select2 */
 
 header:first-child .navbar-toggle .icon-bar{
   background: {{$headerRightPartTextColor}};
