@@ -4,7 +4,6 @@ namespace Modules\Extranet\Services\ExportImport\Importers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
-use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
 
 abstract class Importer
 {
@@ -147,7 +146,6 @@ abstract class Importer
         foreach ($node as $k => $n) {
             if (is_array($n)) {
                 $arr[$k] = $this->walkArrayAndRemoveDBFields($n);
-
                 continue;
             }
 
@@ -191,7 +189,7 @@ abstract class Importer
             // Build array from DB object
             $arr2 = $this->walkArrayAndRemoveDBFields($source->toArray());
 
-            if (md5(json_encode($arr1)) == md5(json_encode($arr2))) {
+            if (md5(json_encode($arr1, JSON_NUMERIC_CHECK)) == md5(json_encode($arr2, JSON_NUMERIC_CHECK))) {
                 return $source;
             }
         }
