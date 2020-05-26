@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Extranet\Services\ElementModelLibrary\Tests\Feature;
+namespace Modules\Extranet\Services\ExportImport\Tests\Feature;
 
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelField;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
-use Modules\Extranet\Services\ElementModelLibrary\Tests\TestCase;
 use Modules\Extranet\Services\ExportImport\Exporters\ElementModelExporter;
 use Modules\Extranet\Services\ExportImport\Importers\ElementModelImporter;
+use Modules\Extranet\Services\ExportImport\Tests\TestCase;
 
-class ExportTest extends TestCase
+class ElementModelImporterTest extends TestCase
 {
     public function createModels()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Extranet\Services\ElementModelLibrary\Tests;
+namespace Modules\Extranet\Services\ExportImport\Tests;
 
 use DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -42,6 +42,10 @@ abstract class TestCase extends BaseTestCase
 
         $this->artisan('migrate', [
             '--path' => 'Modules/Extranet/Services/ElementModelLibrary/Database/Migrations',
+        ]);
+
+        $this->artisan('migrate', [
+            '--path' => 'Modules/Extranet/Services/ElementTemplate/Database/Migrations',
         ]);
 
         (new \Modules\Architect\Database\Seeders\ArchitectTestDatabaseSeeder())->run();

@@ -165,7 +165,7 @@ abstract class Importer
      *
      * @return void
      */
-    private function checkIfObjectExist($relation, $object, $node)
+    public function checkIfObjectExist($relation, $object, $node)
     {
         $class = get_class($object);
 
