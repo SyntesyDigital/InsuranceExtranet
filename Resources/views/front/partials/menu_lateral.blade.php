@@ -52,13 +52,14 @@
 
 		@if(isset($link))
 			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" data-toggle="tooltip" data-placement="top" title="">
-					<span class="tooltiptext">{{$link["name"]}}</span>
+					
 					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
 						@endif
 						<span class="sidebar-text"> {{$link["name"]}}</span>
 					</a>
+					<span class="tooltiptext">{{$link["name"]}}</span>
 
 					@if(sizeof($menuElement["children"]) > 0 )
 						<ul class="menu-children">
