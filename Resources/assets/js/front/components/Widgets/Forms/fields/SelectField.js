@@ -239,8 +239,10 @@ class SelectField extends Component {
         minHeight: 34,
         boxShadow: '1 !important',
         border: this.state.addClassBordered ? '1px solid ' + STYLES.elementForm.borderColorInput + '' : null
-      })
+      }),
+      menu: provided => ({ ...provided, zIndex: 99999 })
     };
+
     //
 
     return (
@@ -263,6 +265,7 @@ class SelectField extends Component {
           onChange={this.handleOnChange.bind(this)}
           styles={customStyles}
           placeholder='Sélectionner...'
+          menuContainerStyle={{'zIndex': 999}}
           theme={(theme) => ({
             ...theme,
             borderRadius: STYLES.elementForm.borderRadiusInput,
