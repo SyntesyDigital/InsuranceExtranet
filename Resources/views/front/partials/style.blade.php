@@ -44,6 +44,9 @@
     $sidebarActiveBackgroundColor = isset($storedStylesFront['frontSidebarActiveBackgroundColor']) ? $storedStylesFront['frontSidebarActiveBackgroundColor']->value : $elementsBackgroundColor;
     $sidebarColor = isset($storedStylesFront['frontSidebarColor']) ? $storedStylesFront['frontSidebarColor']->value : $secondaryColor;
     $sidebarActiveColor = isset($storedStylesFront['frontSidebarActiveColor']) ? $storedStylesFront['frontSidebarActiveColor']->value : $primaryColor;
+    $colorSidebarIconMenu = isset($storedStylesFront['colorSidebarIconMenu']) ? $storedStylesFront['colorSidebarIconMenu']->value : $secondaryColor;
+    $backgroundColorSidebarTooltip = isset($storedStylesFront['backgroundColorSidebarTooltip']) ? $storedStylesFront['backgroundColorSidebarTooltip']->value : $sidebarBackgroundColor;
+    $colorSidebarTooltip = isset($storedStylesFront['colorSidebarTooltip']) ? $storedStylesFront['colorSidebarTooltip']->value : $secondaryColor;
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
@@ -137,10 +140,47 @@
     $loginButtonTextColor = isset($storedStylesFront['loginButtonTextColor']) ? $storedStylesFront['loginButtonTextColor']->value : $secondaryColor;
     $loginButtonHoverTextColor = isset($storedStylesFront['loginButtonHoverTextColor']) ? $storedStylesFront['loginButtonHoverTextColor']->value : $primaryColor;
 
-    //FORM
+    //FORM SETTINGS
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+
+    $labelInputColor = isset($storedStylesFront['labelInputColor']) ? $storedStylesFront['labelInputColor']->value : $primaryColor;
+    $labelInputFontSize = isset($storedStylesFront['labelInputFontSize']) ? $storedStylesFront['labelInputFontSize']->value.'px' : '14px';
+    $labelInputPadding = isset($storedStylesFront['labelInputPadding']) ? $storedStylesFront['labelInputPadding']->value.'px' : '0';
+
+    $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
+    $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : $inputColor;
+    $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
+
+    //BOX-1
+    $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
+    $textColorBox1 = isset($storedStylesFront['textColorBox1']) ? $storedStylesFront['textColorBox1']->value : $secondaryColor;
+    $borderColorBox1 = isset($storedStylesFront['borderColorBox1']) ? $storedStylesFront['borderColorBox1']->value : 'transparent';
+    $borderRadiusBox1 = isset($storedStylesFront['borderRadiusBox1']) ? $storedStylesFront['borderRadiusBox1']->value.'px' : '0';
+
+    //BOX-2
+    $backgroundColorBox2 = isset($storedStylesFront['backgroundColorBox2']) ? $storedStylesFront['backgroundColorBox2']->value : 'transparent';
+    $textColorBox2 = isset($storedStylesFront['textColorBox2']) ? $storedStylesFront['textColorBox2']->value : $secondaryColor;
+    $borderColorBox2 = isset($storedStylesFront['borderColorBox2']) ? $storedStylesFront['borderColorBox2']->value : 'transparent';
+    $borderRadiusBox2 = isset($storedStylesFront['borderRadiusBox2']) ? $storedStylesFront['borderRadiusBox2']->value.'px' : '0';
+
+    //BOX-3
+    $backgroundColorBox3 = isset($storedStylesFront['backgroundColorBox3']) ? $storedStylesFront['backgroundColorBox3']->value : 'transparent';
+    $textColorBox3 = isset($storedStylesFront['textColorBox3']) ? $storedStylesFront['textColorBox3']->value : $secondaryColor;
+    $borderColorBox3 = isset($storedStylesFront['borderColorBox3']) ? $storedStylesFront['borderColorBox3']->value : 'transparent';
+    $borderRadiusBox3 = isset($storedStylesFront['borderRadiusBox3']) ? $storedStylesFront['borderRadiusBox3']->value.'px' : '0';
+
+    //IMAGE TEXT LINK
+    $titleFontSizeImgTxtLink = isset($storedStylesFront['titleFontSizeImgTxtLink']) ? $storedStylesFront['titleFontSizeImgTxtLink']->value.'px' : '24px';
+    $titleColorImgTxtLink = isset($storedStylesFront['titleColorImgTxtLink']) ? $storedStylesFront['titleColorImgTxtLink']->value : $inputColor;
+    $linkFontSizeImgTxtLink = isset($storedStylesFront['linkFontSizeImgTxtLink']) ? $storedStylesFront['linkFontSizeImgTxtLink']->value.'px' : '14px';
+    $linkColorImgTxtLink = isset($storedStylesFront['linkColorImgTxtLink']) ? $storedStylesFront['linkColorImgTxtLink']->value : $inputColor;
+    $dateFontSizeImgTxtLink = isset($storedStylesFront['dateFontSizeImgTxtLink']) ? $storedStylesFront['dateFontSizeImgTxtLink']->value.'px' : '16px';
+    $dateColorImgTxtLink = isset($storedStylesFront['dateColorImgTxtLink']) ? $storedStylesFront['dateColorImgTxtLink']->value : $secondaryColor;
+    $descFontSizeImgTxtLink = isset($storedStylesFront['descFontSizeImgTxtLink']) ? $storedStylesFront['descFontSizeImgTxtLink']->value.'px' : '14px';
+    $descColorImgTxtLink = isset($storedStylesFront['descColorImgTxtLink']) ? $storedStylesFront['descColorImgTxtLink']->value : $secondaryColor;
+    $borderRadiusImgTxtLink = isset($storedStylesFront['borderRadiusImgTxtLink']) ? $storedStylesFront['borderRadiusImgTxtLink']->value.'px' : '20px';
 
 ?>
 
@@ -155,17 +195,18 @@
 @include('extranet::front.partials.styles.element-form')
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
-@include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.total-box')
+@include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.form-template')
 @include('extranet::front.partials.styles.stepper')
 @include('extranet::front.partials.styles.document-table')
 @include('extranet::front.partials.styles.missing-documents')
+@include('extranet::front.partials.styles.image-text-link')
+@include('extranet::front.partials.styles.sidebar')
 
 @if($frontFont)
   <style>
     @import url('https://fonts.googleapis.com/css?{{$fonts[$frontFont]['import']}}');
-
     body {
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
@@ -178,9 +219,24 @@
     .react-datepicker__current-month, .react-datepicker-time__header{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
-
     .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list{
       font-family: {{$fonts[$frontFont]['name']}} !important;
     }
   </style>
 @endif
+
+<script>
+  var STYLES = {
+    elementForm: {
+      borderColorInput: '{{$borderColorInput}}',
+      borderRadiusInput: '{{$borderRadiusInput}}',
+      hoverColorInput: '{{$hoverColorInput}}',
+    }
+  };
+</script>
+
+
+
+
+
+

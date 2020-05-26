@@ -28,9 +28,6 @@ $bootstrap-sass-asset-helper: true;
 @import 'form';
 @import 'datepicker';
 @import 'login';
-@import 'elementFiles';
-@import 'elementForms';
-@import 'elementTables';
 
 @import 'total-box';
 @import 'boxButton';
@@ -52,6 +49,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/file';
 @import 'fields/list-field';
 @import 'fields/immat';
+@import 'fields/select2-field';
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
@@ -60,6 +58,13 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/form-button';
 @import 'widgets/table-document';
 @import 'widgets/missing-documents';
+@import 'widgets/background-image';
+@import 'widgets/separator';
+@import 'widgets/element-files';
+@import 'widgets/element-forms';
+@import 'widgets/element-tables';
+@import 'widgets/image-text-link';
+@import 'widgets/table-list';
 
 @import 'env-bar';
 

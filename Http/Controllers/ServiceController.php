@@ -23,7 +23,6 @@ class ServiceController extends Controller
                 <a href="#" class="btn btn-link text-danger has-event" data-type="delete" data-payload="'.$item['id'].'" ><i class="fa fa-trash-alt"></i> '.Lang::get('architect::datatables.delete').'</a> &nbsp;
                 ';
             })
-            ->rawColumns(['default', 'action', 'icon'])
             ->make(true);
     }
 

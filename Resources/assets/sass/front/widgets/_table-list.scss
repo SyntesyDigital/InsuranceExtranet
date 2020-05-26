@@ -1,0 +1,21 @@
+.table-list-container {
+    .no-file {
+        .file-infos {
+            padding-left: 0px;
+        }
+    }
+    .file-icon {
+        z-index:10;
+        i {
+            font-size: 24px;
+        }
+    }
+
+    .has-color {
+        border-radius: 5px;
+        padding: 4px 8px;
+        margin-bottom: 0px;
+        max-width: 100%;
+        display: inline-block;
+    }
+}

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
   cancelSettings,
@@ -14,7 +14,7 @@ import SelectorSettingsField from './../Settings/SelectorSettingsField';
 
 class ModalEditClass extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     // //console.log(" ModalEditClass :: construct ",props);
@@ -22,7 +22,7 @@ class ModalEditClass extends Component {
     this.mounted = false;
 
     this.state = {
-      field : null
+      field: null
     };
 
     this.onModalClose = this.onModalClose.bind(this);
@@ -30,8 +30,8 @@ class ModalEditClass extends Component {
 
   componentDidMount() {
 
-    if(this.props.modalSettings.displayModal){
-        this.modalOpen();
+    if (this.props.modalSettings.displayModal) {
+      this.modalOpen();
     }
 
     this.mounted = true;
@@ -41,51 +41,51 @@ class ModalEditClass extends Component {
     this.mounted = false;
   }
 
-  componentWillReceiveProps(nextProps)
-  {
+  componentWillReceiveProps(nextProps) {
 
-    console.log(" ModalEditClass :: componentWillReceiveProps ",nextProps);
+    console.log(" ModalEditClass :: componentWillReceiveProps ", nextProps);
 
     var field = null;
 
-    if(nextProps.modalSettings.displayModal){
-        this.modalOpen();
-        field = nextProps.modalSettings.item;
+    if (nextProps.modalSettings.displayModal) {
+      this.modalOpen();
+      field = nextProps.modalSettings.item;
 
     } else {
-        this.modalClose();
+      this.modalClose();
     }
 
-     ////console.log("ModalEditClass :: componentWillReceiveProps :: =>",field);
+    ////console.log("ModalEditClass :: componentWillReceiveProps :: =>",field);
 
-    if(this.mounted){
+    if (this.mounted) {
       this.setState({
-        field : field
+        field: field
       });
     }
 
   }
 
-  onModalClose(e){
-      e.preventDefault();
-      this.props.cancelSettings();
+  onModalClose(e) {
+    e.preventDefault();
+    this.props.cancelSettings();
   }
 
-  modalOpen()
-  {
-    TweenMax.to($("#modal-edit-class"),0.5,{opacity:1,display:"block",ease:Power2.easeInOut});
+  modalOpen() {
+    TweenMax.to($("#modal-edit-class"), 0.5, { opacity: 1, display: "block", ease: Power2.easeInOut });
   }
 
   modalClose() {
 
-    var self =this;
-      TweenMax.to($("#modal-edit-class"),0.5,{display:"none",opacity:0,ease:Power2.easeInOut,onComplete:function(){
+    var self = this;
+    TweenMax.to($("#modal-edit-class"), 0.5, {
+      display: "none", opacity: 0, ease: Power2.easeInOut, onComplete: function () {
         /*
         self.setState({
           field : null
         });
         */
-      }});
+      }
+    });
   }
 
   onSubmit(e) {
@@ -93,7 +93,7 @@ class ModalEditClass extends Component {
 
     const field = this.state.field;
 
-    this.props.changeFieldSettings(field,this.props.app.layout);
+    this.props.changeFieldSettings(field, this.props.app.layout);
 
   }
 
@@ -101,32 +101,49 @@ class ModalEditClass extends Component {
 
   handleFieldSettingsChange(field) {
 
-      //console.log("ModalEditClass :: handleFieldSettingsChange => ", field);
+    //console.log("ModalEditClass :: handleFieldSettingsChange => ", field);
 
-      const stateField = this.state.field;
+    const stateField = this.state.field;
 
-      stateField.data[field.source][field.name] = field.value;
+    stateField.data[field.source][field.name] = field.value;
 
-      this.setState({
-          field : stateField
-      });
+    this.setState({
+      field: stateField
+    });
   }
 
   getAlignmentOptions() {
     return [
-          {
-              value: "",
-              name: 'gauche',
-          },
-          {
-              value: "center",
-              name: "centre",
-          },
-          {
-            value: "right",
-            name: "droite",
-          }
-      ];
+      {
+        value: "",
+        name: 'gauche',
+      },
+      {
+        value: "center",
+        name: "centre",
+      },
+      {
+        value: "right",
+        name: "droite",
+      }
+    ];
+  }
+
+  getBoxClassOptions(){
+    return [
+      {
+        value: "box-class-1",
+        name: 'box-class-1',
+      },
+      {
+        value: "box-class-2",
+        name: "box-class-2",
+      },
+      {
+        value: "box-class-3",
+        name: "box-class-3",
+      }
+    ];
   }
 
   renderSettings() {
@@ -175,16 +192,6 @@ class ModalEditClass extends Component {
           options={this.getAlignmentOptions()}
         />
 
-
-
-        <BooleanSettingsField
-          field={data}
-          name="stripped"
-          source="settings"
-          onFieldChange={this.handleFieldSettingsChange.bind(this)}
-          label={'Annuler ligne de couleur intercalé'}
-        />
-
         <SelectorSettingsField
           field={data}
           name="labelAlign"
@@ -211,21 +218,43 @@ class ModalEditClass extends Component {
           label={'Disposition'}
           options={[
             {
-                value: "",
-                name: 'Label/Valeur en ligne',
+              value: "",
+              name: 'Label/Valeur en ligne',
             },
             {
-                value: "block",
-                name: "Label/Valeur superposés",
+              value: "block",
+              name: "Label/Valeur superposés",
             }
           ]}
         />
 
+        <BooleanSettingsField
+          field={data}
+          name="stripped"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Annuler ligne de couleur intercalé'}
+        />
+
+        <BooleanSettingsField
+          field={data}
+          name="hideBorders"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Cacher les bords'}
+        />
+
+        <SelectorSettingsField
+          field={data}
+          name="boxClass"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Style conteneur'}
+          options={this.getBoxClassOptions()}
+        />
+
       </div>
-
     );
-
-
   }
 
   render() {
@@ -233,38 +262,38 @@ class ModalEditClass extends Component {
     return (
       <div>
 
-        <div className="custom-modal" id="modal-edit-class" style={{zIndex:this.props.zIndex}}>
+        <div className="custom-modal" id="modal-edit-class" style={{ zIndex: this.props.zIndex }}>
           <div className="modal-background"></div>
 
 
-            <div className="modal-container">
+          <div className="modal-container">
 
-              {this.state.field != null &&
-                <div className="modal-header">
-                    <h2>{this.state.field.data.type == 'row' ? 'Fila' : 'Columna'} | {Lang.get('modals.edition')}</h2>
-                  <div className="modal-buttons">
-                    <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
-                      <i className="fa fa-times"></i>
-                    </a>
+            {this.state.field != null &&
+              <div className="modal-header">
+                <h2>{this.state.field.data.type == 'row' ? 'Fila' : 'Columna'} | {Lang.get('modals.edition')}</h2>
+                <div className="modal-buttons">
+                  <a className="btn btn-default close-button-modal" onClick={this.onModalClose}>
+                    <i className="fa fa-times"></i>
+                  </a>
+                </div>
+              </div>
+            }
+
+            <div className="modal-content">
+              <div className="container">
+                <div className="row">
+                  <div className="col-xs-6 col-xs-offset-3">
+                    {this.renderSettings()}
                   </div>
                 </div>
-              }
+              </div>
 
-              <div className="modal-content">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-xs-6 col-xs-offset-3">
-                      {this.renderSettings()}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="modal-footer">
-                  <a href="" className="btn btn-default" onClick={this.onModalClose}> {Lang.get('modals.cancel')} </a> &nbsp;
+              <div className="modal-footer">
+                <a href="" className="btn btn-default" onClick={this.onModalClose}> {Lang.get('modals.cancel')} </a> &nbsp;
                   <a href="" className="btn btn-primary" onClick={this.onSubmit.bind(this)}> {Lang.get('modals.accept')} </a> &nbsp;
                 </div>
 
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -275,22 +304,22 @@ class ModalEditClass extends Component {
 
 
 const mapStateToProps = state => {
-    return {
-        app: state.app,
-        modalSettings : state.modalSettings
-    }
+  return {
+    app: state.app,
+    modalSettings: state.modalSettings
+  }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        cancelSettings: () => {
-            return dispatch(cancelSettings());
-        },
-        changeFieldSettings: (field,layout) => {
-            return dispatch(changeFieldSettings(field, layout));
-        }
-
+  return {
+    cancelSettings: () => {
+      return dispatch(cancelSettings());
+    },
+    changeFieldSettings: (field, layout) => {
+      return dispatch(changeFieldSettings(field, layout));
     }
+
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalEditClass);

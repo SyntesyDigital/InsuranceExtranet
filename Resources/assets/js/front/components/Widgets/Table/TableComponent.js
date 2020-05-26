@@ -18,7 +18,7 @@ export default class TableComponent extends Component {
         super(props);
 
         const defaultDataLoadStep = 1000;
-        //const field = props.field ? JSON.parse(atob(props.field)) : '';
+        const field = props.field ? JSON.parse(atob(props.field)) : '';
         const elementObject = props.elementObject;
         const model = props.model;
         const pagination =  props.pagination ? true : false;
@@ -33,10 +33,13 @@ export default class TableComponent extends Component {
 
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
+        //console.log("TableComponent :: field ",field);
+        var excelName = this.processText(field.fields,2);
+        console.log("excelName => ",field,excelName);
+
         this.state = {
             id : props.id,
-
-            //field : field,
+            field : field,
             elementObject : elementObject,
             data:[],
             columns:[],
@@ -61,8 +64,18 @@ export default class TableComponent extends Component {
             csvElements : 0,
             exportPage: 1,
             pageSize : 10,
-            hideEmptyRows: hideEmptyRows
+            hideEmptyRows: hideEmptyRows,
+            excelName : excelName
         };
+    }
+
+    processText(fields,fieldName){
+      return fields[fieldName] !== undefined 
+        && fields[fieldName].value != null 
+        && fields[fieldName].value[LOCALE] !== undefined 
+        && fields[fieldName].value[LOCALE] != null 
+        ? fields[fieldName].value[LOCALE] 
+        : '' ;
     }
 
     refreshTable() {
@@ -418,6 +431,7 @@ export default class TableComponent extends Component {
 
             <ExportButton
               disabled={loadingData}
+              label={this.state.excelName}
               downloadUrl={this.props.downloadUrl}
               elementObject={this.state.elementObject}
               totalPages={this.state.totalPages}

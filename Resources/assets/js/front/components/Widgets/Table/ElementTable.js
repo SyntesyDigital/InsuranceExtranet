@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import "react-table/react-table.css";
 
-import TableComponent from './Table/TableComponent';
-import ModalTable from './Table/ModalTable';
+import TableComponent from './TableComponent';
+import ModalTable from './ModalTable';
 
 import moment from 'moment';
 
@@ -67,7 +67,7 @@ export default class ElementTable extends Component {
               <TableComponent
                 id={this.state.id}
                 ref={this.tableRef}
-                //field={this.props.field}
+                field={this.props.field}
                 elementObject={this.props.elementObject}
                 model={this.props.model}
                 pagination={this.props.pagination}

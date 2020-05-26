@@ -1,15 +1,21 @@
-@php
-$identifier = str_replace(",","",$field['identifier']);
-$identifier = str_replace("[","",$identifier);
-$identifier = str_replace("]","",$identifier).'_'.$iterator;
+@component('extranet::front.partials.components.table_container',[
+    "field" => $field,
+    "class" => "table-document-container missing-documents-container",
+    "reactContainerClass" => "table-document-container-body",
+    "reactId" => "missing-documents",
+    "reactClass" => "missing-documents",
+    "iterator" => $iterator,
+    "parameters" => $parameters,
+    "models" => $models
+  ])
 
-$visible = check_visible($field['settings'],$parameters);
-@endphp
+  @slot('title')
+    {{$field['fields'][0]['value'][App::getLocale()] or ''}}
+  @endslot
 
-@if($visible)
-<div id="{{$field['settings']['htmlId'] or ''}}" class="missing-documents-container {{$field['settings']['htmlClass'] or ''}}">
+  @slot('options')
+    itemsPerPage="{{$field['settings']['itemsPerPage']}}"
+    columns="{{$field['settings']['bootstrapColumns']}}"
+  @endslot
 
-<div id="missing-documents" class="missing-documents"></div>
-
-</div>
-@endif
+@endcomponent

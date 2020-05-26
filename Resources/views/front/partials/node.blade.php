@@ -2,7 +2,7 @@
 @if($node['type'] == "row")
     <div 
         id="{{$node['settings']['htmlId'] or ''}}" 
-        class="row {{$node['settings']['htmlClass'] or ''}}"
+        class="row {{$node['settings']['htmlClass'] or ''}} {{$node['settings']['boxClass'] or ''}}"
     >
       @if($node['settings']['hasContainer'])
         <div class="container">
@@ -14,7 +14,7 @@
 @if($node['type'] == "col")
     <div 
         id="{{$node['settings']['htmlId'] or ''}}" 
-        class="{{$node['colClass']}} {{$node['settings']['htmlClass'] or ''}}"
+        class="{{$node['colClass']}} {{$node['settings']['htmlClass'] or ''}} {{$node['settings']['boxClass'] or ''}} "
     >
 @endif
 

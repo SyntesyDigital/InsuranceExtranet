@@ -15,11 +15,30 @@ export default class ServicesIndex extends Component {
     handleDatatableClick(type, payload, datatable) {
         switch (type) {
             case 'delete':
-                api.services.delete(payload)
-                    .then(function (payload) {
-                        datatable.ajax.reload();
-                        toastr.success('Service supprimé !');
-                    });
+
+                bootbox.confirm({
+                    message: "Êtes-vous sur de vouloir supprimer cette service?",
+                    buttons: {
+                        confirm: {
+                          label: 'Oui',
+                          className: 'btn-primary'
+                        },
+                        cancel: {
+                          label: 'Non',
+                          className: 'btn-default'
+                        }
+                    },
+                    callback: function (result) {
+                        if(result) {
+                            api.services.delete(payload)
+                                .then(function (payload) {
+                                    datatable.ajax.reload();
+                                    toastr.success('Service supprimé !');
+                                });
+                        }
+                    }
+                });
+
                 return;
             default:
                 return;
@@ -54,11 +73,11 @@ export default class ServicesIndex extends Component {
                     <DataTable
                         id={'services-datatable'}
                         columns={[
-                            { data: 'identifier', name: 'Identifiant' },
-                            { data: 'name', name: 'Nom' },
-                            { data: 'http_method', name: 'Methode' },
-                            { data: 'url', name: 'URL' },
-                            { data: 'action', name: '', orderable: false, searchable: false }
+                            { data: 'identifier', name: 'identifier', label : 'Identifiant' },
+                            { data: 'name', name: 'name', label : 'Nom' },
+                            { data: 'http_method', name: 'http_method',label : 'Methode'  },
+                            { data: 'url', name: 'url',label : 'URL'  },
+                            { data: 'action', name: '', orderable: false, searchable: false, label : '' }
                         ]}
                         init={true}
                         route={routes['extranet.services.datatable']}

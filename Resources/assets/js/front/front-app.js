@@ -15,14 +15,18 @@ require('./libs/tweenMax/tweenmax.js');
 //require('./components/Home');
 require('./components/Fields/MapField');
 require('./components/Widgets/ElementFile');
-require('./components/Widgets/ElementTable');
+require('./components/Widgets/Table/ElementTable');
 require('./components/Widgets/ElementForm');
 require('./components/Widgets/ElementFormV2');
 require('./components/Widgets/ElementFormButton');
 require('./components/Widgets/ElementFormPreload');
-require('./components/Widgets/TableDocument');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
-require('./components/Widgets/MissingDocuments');
+require('./components/Widgets/ImageText/ImageTextLinkContainer');
+require('./components/Widgets/ImageText/ImageTextLinkList');
+//Lists
+require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
+require('./components/Widgets/Lists/TableDocument/TableDocument');
+require('./components/Widgets/Lists/TableList/TableList');
  
