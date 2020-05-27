@@ -128,11 +128,10 @@ Route::group([
   'middleware' => ['web'],
   'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
-  Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
-  Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
-  Route::get('/change-password/{env?}', 'ResetPasswordController@changePassword')->name('change-password');
-  Route::post('/update-password', 'ResetPasswordController@updatePassword')->name('update-password');
-  
+    Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
+    Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
+    Route::get('/change-password/{env?}', 'ResetPasswordController@changePassword')->name('change-password');
+    Route::post('/update-password', 'ResetPasswordController@updatePassword')->name('update-password');
 });
 
 Route::group([
@@ -146,8 +145,13 @@ Route::group([
 
 Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
-  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+  'middleware' => [
+      'SignInWhenToken',
+      'web',
+      'auth:veos-ws',
+      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER',
+    ],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');
     Route::get(LaravelLocalization::transRoute('routes.tag.index'), 'TagController@index')->name('blog.tag.index');
