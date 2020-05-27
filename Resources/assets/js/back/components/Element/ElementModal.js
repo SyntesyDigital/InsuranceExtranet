@@ -335,6 +335,14 @@ class ElementModal extends Component {
                       />
                     }
                     
+                    <BooleanSettingsField
+                      field={field}
+                      name="hideCurrency"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Cacher la devise"
+                    />
+
                   </div>
                 </div>
               </div>
