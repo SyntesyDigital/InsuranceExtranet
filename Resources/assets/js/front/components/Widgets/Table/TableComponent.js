@@ -273,6 +273,59 @@ export default class TableComponent extends Component {
       return false;
     }
 
+
+    numberFormat (number, decimals, dec_point, thousands_sep) {
+      // Strip all characters but numerical ones.
+      number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+      var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function (n, prec) {
+              var k = Math.pow(10, prec);
+              return '' + Math.round(n * k) / k;
+          };
+      // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+      s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+      if (s[0].length > 3) {
+          s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+      }
+      if ((s[1] || '').length < prec) {
+          s[1] = s[1] || '';
+          s[1] += new Array(prec - s[1].length + 1).join('0');
+      }
+      return s.join(dec);
+    }
+
+    parseNumber(value,field) {
+
+      if(value !== undefined && value != ""){
+
+        var hideCurrency = field.settings.hideCurrency !== undefined 
+          ? field.settings.hideCurrency : false;
+
+        var currency = hideCurrency ? "" : "€";
+
+        if(field.settings !== undefined && field.settings.format !== undefined){
+          switch(field.settings.format) {
+            case 'price':
+              value = this.numberFormat(value, 0, ',', '.') + currency;
+              break;
+            case 'price_with_decimals':
+              value = this.numberFormat(value, 2, ',', '.') + currency;
+              break;
+            case 'price_with_decimals_2':
+              value = this.numberFormat(value, 2, '.', ' ') + currency;
+              break;
+          }
+        }
+      }
+      
+      return value;
+
+    }
+
     renderCell(field,identifier,row) {
 
       var value = row.original[identifier];
@@ -310,26 +363,23 @@ export default class TableComponent extends Component {
           }
       }
       if(field.type == "number") {
-          //console.log("renderCell => ",field,row);
+          console.log("renderCell :: number => ",field,row);
           if(row.original[identifier] !== undefined && row.original[identifier] != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-              switch(field.settings.format) {
-                case 'price':
-                  value = parseFloat(row.original[identifier]).toFixed(0) + '€';
-                case 'price_with_decimals':
-                  value = parseFloat(row.original[identifier]).toFixed(2) + '€';
-              }
-            }
+            value = this.parseNumber(row.original[identifier],field);
           }
       }
 
       var style = {};
       var hasColor = false;
+      var textAlign = "";
       
       if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
         style=this.getConditionalFormating(field,value);
         hasColor = this.hasConditionalFormatting(style);
+      }
+
+      if(field.settings.textAlign !== undefined && field.settings.textAlign != null) {
+        textAlign='text-'+field.settings.textAlign;
       }
 
       if(field.type == "file"){
@@ -346,7 +396,7 @@ export default class TableComponent extends Component {
         '</a>'}} />
       }
       else {
-        return <div className={hasColor ? 'has-color' : ''} style={style} dangerouslySetInnerHTML={{__html: value}} />
+        return <div className={(hasColor ? 'has-color' : '')+' '+textAlign} style={style} dangerouslySetInnerHTML={{__html: value}} />
       }
 
     }

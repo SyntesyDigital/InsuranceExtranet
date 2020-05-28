@@ -34,6 +34,12 @@
         }
       }
     }
+
+    .row div:last-child {
+      .item-container .file-infos {
+        border-bottom: none;
+      }
+    }
   }
 
   .item-container {
@@ -69,8 +75,28 @@
       .file-infos {
         padding-top: 7px;
         padding-left:35px;
-        height: 120px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
       }
+    }
+  }
+
+  .col-md-3,.col-md-4,.col-md-6 {
+    .item-container .file-infos {
+      height: 120px;
+      overflow: hidden;
+      border-bottom: none;
+      padding-bottom: 0px;
+    }
+  }
+
+  
+
+  .col-md-12 {
+    .item-container .file-infos {
+      height: auto;
+      border-bottom: none;
+      padding-bottom: 0px;
     }
   }
 

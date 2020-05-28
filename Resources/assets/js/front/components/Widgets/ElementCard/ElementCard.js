@@ -171,7 +171,7 @@ export default class ElementCard extends Component {
     // ----------------------------------------------- //
     fieldRender(node, key, settings) {
 
-        // console.log("fieldRender :: settings merged : (settings) ", settings);
+        console.log("fieldRender :: settings merged : (node, key, settings) ", node, key,settings);
 
         if (node.type == 'element_field') {
             return this.renderElementField(node.field, settings);
@@ -195,20 +195,18 @@ export default class ElementCard extends Component {
                         border={border}
                     />
                 );
-                break;
 
             case 'icon':
                 return (
                     <IconField
                         key={key}
                         icon={node.field.value}
-                        font={'40px'}
+                        font={'25px'}
                         color={'#a2a8b3'}
                         circle={true}
                         checked={true}
                     />
                 );
-                break;
             case 'image':
                 return (
                     <ImageField
