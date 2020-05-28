@@ -51,15 +51,14 @@
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" data-toggle="tooltip" data-placement="top" title="">
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" title="">
 					
-					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
+					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" data-toggle="tooltip" data-placement="right" title=" {{$link["name"]}}">
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
 						@endif
 						<span class="sidebar-text"> {{$link["name"]}}</span>
 					</a>
-					<span class="tooltiptext">{{$link["name"]}}</span>
 
 					@if(sizeof($menuElement["children"]) > 0 )
 						<ul class="menu-children">
@@ -85,4 +84,13 @@
 		@endif
 		@endforeach
 	</ul>
+
+	@push('javascripts')
+	<script>
+		$(document).ready(function() {
+			$("body").tooltip({ selector: '[data-toggle=tooltip]', placement: 'right' });
+		});
+	</script>
+	@endpush
+
 @endif
