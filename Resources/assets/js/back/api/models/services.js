@@ -51,6 +51,8 @@ export const GQL_GET_ALL_SERVICE = gql`
             response
             comment
             response_json
+            created_at
+            updated_at
         }
     }
 `;
