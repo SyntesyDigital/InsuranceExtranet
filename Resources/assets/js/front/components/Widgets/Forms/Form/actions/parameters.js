@@ -20,6 +20,8 @@ export function initParametersState(parameters) {
     formParameters['_'+key] = parameters[key];
   }
 
+  console.log("initParametersState :: (parameters)",formParameters);
+
   return {
     type: INIT_PARAMETERS_STATE,
     payload : {

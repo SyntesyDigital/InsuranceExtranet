@@ -26,7 +26,8 @@ return [
           'hasModal',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
+          'conditionalFormatting',
+          'textAlign'
         ]
       ],
       'number' => [
@@ -36,7 +37,8 @@ return [
         'icon' => 'fa fa-calculator',
         'formats' => [
           'price',
-          'price_with_decimals',
+          'price_with_decimals',  //1000.00 €
+          'price_with_decimals_2',  //1 000,00 €
         ],
         'rules' => [
           'required',
@@ -52,7 +54,9 @@ return [
           'hasModal',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
+          'conditionalFormatting',
+          'hideCurrency',
+          'textAlign'
         ]
       ],
       'date' => [
@@ -80,6 +84,7 @@ return [
         'settings' => [
           'format',
           'conditionalVisibility',
+          'textAlign'
           //'defaultValue'
         ]
       ],
@@ -178,7 +183,8 @@ return [
         ],
         'settings' => [
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
+          'textAlign'
         ]
       ],
       'list' => [

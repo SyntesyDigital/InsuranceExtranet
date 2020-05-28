@@ -20,7 +20,7 @@ const initialState =  {
 
 function parametersReducer(state = initialState, action) {
 
-    //console.log("parametersReducer :: ",action.type, action.payload);
+    console.log("parametersReducer :: ",action.type, action.payload);
 
     switch(action.type) {
         case INIT_PARAMETERS_STATE:

@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 
+String.prototype.replaceHtmlEntites = function() {
+  var s = this;
+  var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+  var translate = {"nbsp": " ","amp" : "&","quot": "\"","lt"  : "<","gt"  : ">"};
+  return ( s.replace(translate_re, function(match, entity) {
+    return translate[entity];
+  }) );
+  };
+
 export default class ListParser extends Component {
 
     constructor(props)
@@ -200,12 +209,17 @@ export default class ListParser extends Component {
 
             //if value has ';' that means it has a link
             //console.log("dataValue => ",dataValue);
-            if(typeof dataValue === 'string' && dataValue.indexOf(';') != -1){
-              //console.log("data => ",data[key],newSubkey,dataValue);
-              //dataValue =
-              var valueArray = dataValue.split(';');
-              data[key][newSubkey+'_url'] = valueArray[1];
-              dataValue = valueArray[0];
+            if(typeof dataValue === 'string'){
+
+              dataValue = dataValue.replaceHtmlEntites();
+              
+              if(dataValue.indexOf(';') != -1){
+                //console.log("data => ",data[key],newSubkey,dataValue);
+                //dataValue =
+                var valueArray = dataValue.split(';');
+                data[key][newSubkey+'_url'] = valueArray[1];
+                dataValue = valueArray[0];
+              }
             }
 
             data[key][newSubkey] = dataValue;
