@@ -65,8 +65,8 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
             $arr = $this->walkArrayAndRemoveDBFields($service->toArray());
 
             // Remove comment
-            array_forget($attributes, 'comment');
-            array_forget($arr, 'comment');
+            // array_forget($attributes, 'comment');
+            // array_forget($arr, 'comment');
 
             if ($this->getArrayChecksum($attributes) == $this->getArrayChecksum($arr)) {
                 return $service;
