@@ -214,19 +214,8 @@ export function processObjectValue(object,values,formParameters) {
 
   }
   else if(type == "SYSTEM") {
-    if(formParameters[defaultValue] !== undefined){
-      //check parameters
-
-      //if is a date, and the date comes with timestamp convert to date
-      var formValue = formParameters[defaultValue];
-      if(object['FORMAT'] == "date" && formValue.indexOf('/') == -1){
-        return moment.unix(formValue/1000).format("DD/MM/YYYY");
-      }
-      else {
-        return formValue;
-      }
-    }
-    else if(defaultValue == "_time"){
+    
+    if(defaultValue == "_time"){
       //_time in format date
       return moment().format("DD/MM/YYYY");
     }
@@ -242,6 +231,18 @@ export function processObjectValue(object,values,formParameters) {
     }
     else if(defaultValue == "_contentType"){
       return values['_contentType'] ? values['_contentType'] : '';
+    }
+    else if(formParameters[defaultValue] !== undefined){
+      //check parameters
+
+      //if is a date, and the date comes with timestamp convert to date
+      var formValue = formParameters[defaultValue];
+      if(object['FORMAT'] == "date" && formValue.indexOf('/') == -1){
+        return moment.unix(formValue/1000).format("DD/MM/YYYY");
+      }
+      else {
+        return formValue;
+      }
     }
     
   }

@@ -371,10 +371,15 @@ export default class TableComponent extends Component {
 
       var style = {};
       var hasColor = false;
+      var textAlign = "";
       
       if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
         style=this.getConditionalFormating(field,value);
         hasColor = this.hasConditionalFormatting(style);
+      }
+
+      if(field.settings.textAlign !== undefined && field.settings.textAlign != null) {
+        textAlign='text-'+field.settings.textAlign;
       }
 
       if(field.type == "file"){
@@ -391,7 +396,7 @@ export default class TableComponent extends Component {
         '</a>'}} />
       }
       else {
-        return <div className={hasColor ? 'has-color' : ''} style={style} dangerouslySetInnerHTML={{__html: value}} />
+        return <div className={(hasColor ? 'has-color' : '')+' '+textAlign} style={style} dangerouslySetInnerHTML={{__html: value}} />
       }
 
     }

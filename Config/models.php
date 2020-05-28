@@ -26,7 +26,8 @@ return [
           'hasModal',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
+          'conditionalFormatting',
+          'textAlign'
         ]
       ],
       'number' => [
@@ -54,7 +55,8 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
-          'hideCurrency'
+          'hideCurrency',
+          'textAlign'
         ]
       ],
       'date' => [
@@ -82,6 +84,7 @@ return [
         'settings' => [
           'format',
           'conditionalVisibility',
+          'textAlign'
           //'defaultValue'
         ]
       ],
@@ -180,7 +183,8 @@ return [
         ],
         'settings' => [
           'conditionalVisibility',
-          'defaultValue'
+          'defaultValue',
+          'textAlign'
         ]
       ],
       'list' => [

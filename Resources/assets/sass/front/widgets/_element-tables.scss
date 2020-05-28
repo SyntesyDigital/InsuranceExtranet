@@ -262,6 +262,10 @@
         width: 100%;  
       }
 
+      div {
+        width:100%;
+      }
+
     }
 
     .has-color {
@@ -269,6 +273,7 @@
       border-radius: 3px;
       overflow: hidden;
       font-size: 12px;
+      width:auto;
     }
   }
 

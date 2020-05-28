@@ -134,7 +134,6 @@ export default class TableList extends Component {
         hasColor = this.hasConditionalFormatting(style);
       }
 
-
       if(field.type == "file"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }

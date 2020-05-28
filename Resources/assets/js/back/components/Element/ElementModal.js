@@ -104,6 +104,23 @@ class ElementModal extends Component {
 
   }
 
+  getAlignmentOptions() {
+    return [
+      {
+        value: "",
+        name: 'gauche',
+      },
+      {
+        value: "center",
+        name: "centre",
+      },
+      {
+        value: "right",
+        name: "droite",
+      }
+    ];
+  }
+
   render() {
 
     const field = this.props.app.settingsField;
@@ -341,6 +358,15 @@ class ElementModal extends Component {
                       source="settings"
                       onFieldChange={this.handleFieldSettingsChange}
                       label="Cacher la devise"
+                    />
+
+                    <SelectorSettingsField
+                      field={field}
+                      name="textAlign"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label={'Alignement du texte'}
+                      options={this.getAlignmentOptions()}
                     />
 
                   </div>
