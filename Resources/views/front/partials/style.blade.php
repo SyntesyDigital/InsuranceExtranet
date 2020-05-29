@@ -87,6 +87,9 @@
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
 
+    $iconFontSizeElement = isset($storedStylesFront['iconFontSizeElement']) ? $storedStylesFront['iconFontSizeElement']->value.'px' : '25px';
+    $iconColorElement = isset($storedStylesFront['iconColorElement']) ? $storedStylesFront['iconColorElement']->value : '#a2a8b3';
+
     //ELEMENTS BUTTON
     //Button Primary
     $buttonPrimaryColor = isset($storedStylesFront['buttonPrimaryColor']) ? $storedStylesFront['buttonPrimaryColor']->value : $primaryColor;
@@ -231,6 +234,8 @@
       borderColorInput: '{{$borderColorInput}}',
       borderRadiusInput: '{{$borderRadiusInput}}',
       hoverColorInput: '{{$hoverColorInput}}',
+      iconFontSizeElement: '{{$iconFontSizeElement}}',
+      iconColorElement: '{{$iconColorElement}}',
     }
   };
 </script>

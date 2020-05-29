@@ -18,26 +18,24 @@
 
 	<ul class="container-menu">
 
-		@if(Auth::user()->supervue)
-			@php
-			
-				$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
-					? Auth::user()->session_info->{'USEREXT.nom2_per'} 
-				: null;
+		@php
 
-			@endphp
+			$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
+				? Auth::user()->session_info->{'USEREXT.nom2_per'} 
+			: null;
 
-			<li class="user-item">
-				<span class="sidebar-text">{{$current}}</span>
-				<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-					<i class="fas fa-power-off"></i>
-				</a>
-				<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
-					{{csrf_field()}}
-				</form>
-			</li>
+		@endphp
+
+		<li class="user-item">
+			<span class="sidebar-text">{{$current}}</span>
+			<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+				<i class="fas fa-power-off"></i>
+			</a>
+			<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+				{{csrf_field()}}
+			</form>
+		</li>
 			
-		@endif
 		
 		@foreach($menu as $index => $menuElement)
 

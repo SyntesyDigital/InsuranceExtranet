@@ -201,8 +201,8 @@ export default class ElementCard extends Component {
                     <IconField
                         key={key}
                         icon={node.field.value}
-                        font={'25px'}
-                        color={'#a2a8b3'}
+                        font={STYLES.elementForm.iconFontSizeElement}
+                        color={STYLES.elementForm.iconColorElement}
                         circle={true}
                         checked={true}
                     />
