@@ -53,7 +53,8 @@
 		@if(isset($link))
 			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" title="">
 					
-					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" data-toggle="tooltip" data-placement="right" title=" {{$link["name"]}}">
+					<!--<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" data-toggle="tooltip" data-placement="right" title=" {{$link["name"]}}"> -->
+					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" title=" {{$link["name"]}}">
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
 						@endif
@@ -87,9 +88,15 @@
 
 	@push('javascripts')
 	<script>
+		
+		/*
 		$(document).ready(function() {
-			// $("body").tooltip({ selector: '[data-toggle=tooltip]', placement: 'right' });
+			$(".sidebar.collapsed .menu-item a").tooltip({ 
+				selector: '[data-toggle=tooltip]', 
+				placement: 'right' 
+			});
 		});
+		*/
 	</script>
 	@endpush
 

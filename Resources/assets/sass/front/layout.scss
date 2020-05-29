@@ -260,8 +260,10 @@ footer {
         //     left: 80px;
         // }
         a {
-            display: table-cell;
-            vertical-align: middle; 
+            //display: table-cell;
+            //vertical-align: middle; 
+            display: inline-block;
+
             .sidebar-text {
                 height: 50px;
                 white-space: no-wrap;
