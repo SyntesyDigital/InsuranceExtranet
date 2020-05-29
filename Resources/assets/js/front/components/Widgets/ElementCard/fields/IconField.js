@@ -20,6 +20,8 @@ export default class IconField extends Component {
         const iconStyle = {
             color: color,
             fontSize: font,
+            position: 'relative',
+            top: 'calc(50% - 13px)'
         };
 
         const spanStyle = {
@@ -29,7 +31,9 @@ export default class IconField extends Component {
             paddingLeft: '20px',
             paddingRight: '20px',
             border: '1px solid',
-            borderColor: '#a2a8b3'  
+            borderColor: '#a2a8b3',
+            width: '70px',
+            height: '70px'
         };
 
         return (
