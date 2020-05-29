@@ -88,7 +88,7 @@
 	@push('javascripts')
 	<script>
 		$(document).ready(function() {
-			$("body").tooltip({ selector: '[data-toggle=tooltip]', placement: 'right' });
+			// $("body").tooltip({ selector: '[data-toggle=tooltip]', placement: 'right' });
 		});
 	</script>
 	@endpush
