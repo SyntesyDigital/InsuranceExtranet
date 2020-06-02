@@ -37,7 +37,7 @@ input UpdateElementTemplateFieldInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     elementTemplateFields: [ElementTemplateField!]!
         @all(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
 
@@ -49,7 +49,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createElementTemplateField(input: CreateElementTemplateFieldInput! @spread): ElementTemplateField
         @create(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplateField")
 

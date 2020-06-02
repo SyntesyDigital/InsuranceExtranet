@@ -67,7 +67,7 @@ extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
         @field(
             resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UpdateUserPermission"
         )
-
+ 
     userHasPermission(
         user_id: Int!
         permission_id: Int
