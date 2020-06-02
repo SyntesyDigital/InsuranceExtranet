@@ -15,12 +15,16 @@
     $model = $models[$elementObject->model_identifier];
   }
 
+  $icon = $field['fields'][2]['value'];
 @endphp
 
 @if($visible)
   <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
     <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-table-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsetable-{{$identifier}}" aria-expanded="true" aria-controls="collapsetable-{{$identifier}}"@endif>
+      @if(isset($icon))
+        <i class="{{$icon}}"></i>
+      @endif
       {{$field['fields'][0]['value'][App::getLocale()] or ''}}
     </div>
 

@@ -13,6 +13,10 @@
     {{$field['fields'][0]['value'][App::getLocale()] or ''}}
   @endslot
 
+  @slot('icon')
+    {{$field['fields'][1]['value'] or ''}}
+  @endslot
+
   @slot('options')
     itemsPerPage="{{$field['settings']['itemsPerPage']}}"
     columns="{{$field['settings']['bootstrapColumns']}}"

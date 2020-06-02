@@ -15,12 +15,19 @@
     $model = $models[$elementObject->model_identifier];
   }
 
+  $icon = $field['fields'][3]['value'];
+  
 @endphp
 
 <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
   <div class="title">
-    <h4>{{$field['fields'][0]['value'][App::getLocale()] or ''}}</h4>
+    <h4>
+      @if(isset($icon))
+        <i class="{{$icon}}"></i>
+      @endif
+      {{$field['fields'][0]['value'][App::getLocale()] or ''}}
+    </h4>
     <div class="title-btns">
       <div class="add-btn">
         @include('extranet::front.partials.fields.'.$field['fields'][1]['type'],
