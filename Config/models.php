@@ -27,7 +27,8 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
         ]
       ],
       'number' => [
@@ -56,7 +57,8 @@ return [
           'defaultValue',
           'conditionalFormatting',
           'hideCurrency',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
         ]
       ],
       'date' => [
@@ -84,7 +86,8 @@ return [
         'settings' => [
           'format',
           'conditionalVisibility',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
           //'defaultValue'
         ]
       ],
@@ -105,7 +108,7 @@ return [
           'ws',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
+          'conditionalFormatting',
         ]
       ],
       'radio' => [
@@ -163,7 +166,8 @@ return [
         ],
         'settings' => [
           'conditionalVisibility',
-          'preview'
+          'preview',
+          'columnWidth'
         ]
       ],
       'richtext' => [

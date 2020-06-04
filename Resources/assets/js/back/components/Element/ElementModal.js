@@ -196,6 +196,8 @@ class ElementModal extends Component {
                       />
                     }
 
+                    
+
                     <BooleanSettingsField
                       field={field}
                       name="searchable"
@@ -368,6 +370,17 @@ class ElementModal extends Component {
                       label={'Alignement du texte'}
                       options={this.getAlignmentOptions()}
                     />
+
+                    {field != null && field.settings != null && field.settings.columnWidth !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="columnWidth"
+                        source="settings"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Largeur de colonne"
+                        inputLabel="Indique le nombre"
+                      />
+                    }
 
                   </div>
                 </div>

@@ -8,6 +8,8 @@
   -webkit-line-clamp: $numLines;
   -webkit-box-orient: vertical;
   max-height: $numLines * $lineHeight + unquote('px');
+  word-break: break-word;
+  white-space: initial;
 }
 
 .element-table-container{
@@ -252,6 +254,7 @@
 
 
 
+
 .ReactTable {
   border: none !important;
 
@@ -301,15 +304,12 @@
     padding-bottom: 6px;
 
     .rt-th.-cursor-pointer {
-      //height: 44px;
+      height: 44px;
     }
 
     .rt-resizable-header-content{
       color:$table-header-color;
       text-transform: uppercase;
-
-      //@include line-clamp(2,20);
-      
     }
   }
 
@@ -365,4 +365,23 @@
     }
   }
 
+}
+
+
+.react-table-container.header-rows-2 {
+  .rt-resizable-header-content{
+    @include line-clamp(2,20);
+  }
+  .rt-th.-cursor-pointer {
+    height: 44px;
+  }
+}
+
+.react-table-container.header-rows-1 {
+  .rt-th.-cursor-pointer {
+    height: 26px;
+  }
+  .rt-resizable-header-content{
+    @include line-clamp(1,20);
+  }
 }
