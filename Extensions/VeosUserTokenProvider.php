@@ -2,10 +2,10 @@
 
 namespace Modules\Extranet\Extensions;
 
-use Modules\Extranet\Entities\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Modules\Extranet\Entities\Session as UserSession;
+use Modules\Extranet\Entities\User;
 
 class VeosUserTokenProvider implements UserProvider
 {

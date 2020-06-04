@@ -5,16 +5,19 @@ import { mutation, query } from '../client.js';
 //          PERMISSION
 //------------------------------------------------------------//
 export let permissions = {
+
+    getAll() {
+        return query(GQL_GET_ALL_PERMISSIONS);
+    },
+
     get(id) {
         return query(GQL_GET_PERMISSION, {
             id: id,
         });
     },
 
-    delete(id) {
-        return mutation(GQL_DELETE_PERMISSION, {
-            id: id,
-        });
+    create(params) {
+        return mutation(GQL_CREATE_PERMISSION, params);
     },
 
     update(id, params) {
@@ -24,14 +27,42 @@ export let permissions = {
         });
     },
 
-    create(params) {
-        return mutation(GQL_CREATE_PERMISSION, params);
+    delete(id) {
+        return mutation(GQL_DELETE_PERMISSION, {
+            id: id,
+        });
     }
+
 }
 
 //------------------------------------------------------------//
 //          GRAPHQL
 //------------------------------------------------------------//
+
+/*
+ *  GraphQL GET permissions
+ */
+export const GQL_GET_ALL_PERMISSIONS = gql`
+  {
+    permissions {
+        id
+        name
+        identifier
+        group {
+            id
+            name
+            identifier
+        }
+    }
+    permissionGroups {
+        id
+        name
+        identifier
+        order
+    }
+  }
+`;
+
 
 /*
  *  GraphQL GET permission
@@ -40,18 +71,30 @@ export let permissions = {
  */
 export const GQL_GET_PERMISSION = gql`
   query($id: ID!) {
-    permission(id:$id) {
+    permission(id:$id){
         id
         name
+        identifier
+        group {
+            id
+            name
+            identifier
+        }
         roles {
             id
             name
-        }
-        group {
-            name 
-            order
             identifier
         }
+    }
+    roles {
+        id
+        name
+        identifier
+    }
+    permissionGroups {
+        id
+        name
+        identifier
     }
   }
 `;
@@ -67,9 +110,9 @@ export const GQL_GET_PERMISSION = gql`
 export const GQL_CREATE_PERMISSION = gql`
     mutation createPermission(
             $name: String!
-            $identifier: String
+            $identifier: String!
             $description: String
-            $group_id: Int
+            $group_id: ID!
         ) {
             createPermission(
                 input: {
@@ -83,6 +126,7 @@ export const GQL_CREATE_PERMISSION = gql`
                 name
                 identifier
                 group {
+                    id
                     name 
                     order
                     identifier
@@ -104,9 +148,9 @@ export const GQL_UPDATE_PERMISSION = gql`
     mutation updatePermission(
             $id: ID!
             $name: String!
-            $identifier: String
+            $identifier: String!
             $description: String
-            $group_id: ID
+            $group_id: ID!
         ) {
             updatePermission(
                 input: {
@@ -125,6 +169,7 @@ export const GQL_UPDATE_PERMISSION = gql`
                     name
                 }
                 group {
+                    id
                     name 
                     order
                     identifier
@@ -146,6 +191,11 @@ export const GQL_DELETE_PERMISSION = gql`
             id: $id
         ) {
             id
+            name
+            identifier
+            group {
+                id
+            }
         }
   } 
 `;

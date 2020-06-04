@@ -8,8 +8,8 @@ type User {
     lastname: String
     email: String
     phone: String
-    roles: [Role!] @belongsToMany
-    permissions: [Permission!] @belongsToMany
+    roles: [Role!]
+    permissions: [Permission!]
 }
 
 type UsersList {
@@ -26,11 +26,13 @@ type UserHasPermission {
     has: Int
 }
 
+
+
 ################################
 #   INPUT
 ################################
 input UpdateUserInput {
-    id: Int!
+    id: ID!
     id_per: String
     firstname: String
     lastname: String
@@ -44,7 +46,8 @@ input UpdateUserInput {
 ################################
 extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
   users: UsersList
-  user(id: ID! @eq): User @find(model: "Modules\\Extranet\\Entities\\User")
+  user(id: ID! @eq): User
+   @field(resolver: "Modules\\Extranet\\GraphQL\\Queries\\UserQuery")
 }
 
 ################################
@@ -59,11 +62,10 @@ extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
         @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
 
     updateUserPermission(
-        user_id: Int!
-        permission_id: Int
-        identifier: String
+        user_id: ID!
+        permission_id: ID!
         enabled: Int!
-    ): User
+    ): [Permission]
         @field(
             resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\UpdateUserPermission"
         )

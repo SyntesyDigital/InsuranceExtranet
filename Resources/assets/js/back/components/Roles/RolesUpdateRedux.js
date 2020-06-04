@@ -35,17 +35,15 @@ class RolesUpdateRedux extends Component {
         super(props);
 
         this.state = {
-
             displayGroup: false,
             displayPermision: false
-
         };
 
         this.props.initState(this.props.roleId);
     }
 
-    componentDidUpdate(prevProps, prevState) { 
-        if(!prevProps.form.groupsReload && this.props.form.groupsReload) {
+    componentDidUpdate(prevProps, prevState) {
+        if (!prevProps.form.groupsReload && this.props.form.groupsReload) {
             this.props.reload(this.props.form.role.id);
         }
     }
@@ -74,8 +72,12 @@ class RolesUpdateRedux extends Component {
         this.props.openModalEditGroup(group);
     }
 
-    handleEditPermission(permission) {
-        this.props.openModalEditPermission(permission);
+    handleEditPermission(permission, group) {
+        if(group) {
+            this.props.openModalCreatePermission(group);
+        } else {
+            this.props.openModalEditPermission(permission);
+        }
     }
 
     handleModalClose() {
@@ -101,7 +103,6 @@ class RolesUpdateRedux extends Component {
     }
 
     handlePermissionChange(permission, group, e) {
-        console.log("handlePermissionChange :: (value,permission)", e.target.checked, permission);
         this.props.updatePermission(
             this.props.form.role,
             permission,
@@ -159,10 +160,11 @@ class RolesUpdateRedux extends Component {
             </CollapsableGroup>
         );
     }
-    
+
     renderPermissions(permissions, group) {
-        if (permissions === undefined)
+        if (permissions === undefined) {
             return null;
+        }
 
         return permissions.map((item, index) =>
             <div className="col-md-4">
@@ -263,13 +265,13 @@ class RolesUpdateRedux extends Component {
                         {this.renderGroups()}
 
                         <BoxAddGroup
-                            identifier='1'
-                            title='Add group'
+                            identifier=''
+                            title='Ajouter un groupe'
                             onClick={this.handleAddGroup.bind(this)}
                         />
 
-
                     </div>
+
                     <div className="sidebar">
 
                         <InputField
@@ -284,7 +286,6 @@ class RolesUpdateRedux extends Component {
                             value={this.props.form.role.identifier}
                             name={'identifier'}
                             onChange={this.props.updateField}
-
                         />
 
                         <IconField
@@ -300,6 +301,7 @@ class RolesUpdateRedux extends Component {
                             checked={this.props.form.role.default}
                             onChange={this.props.updateField}
                         />
+
                     </div>
                 </div>
             </div>
@@ -336,16 +338,16 @@ const mapDispatchToProps = dispatch => {
         openModalCreateGroup: () => {
             return dispatch(openModalCreateGroup());
         },
-        removeGroup : (group) => {
+        removeGroup: (group) => {
             return dispatch(removeGroup(group));
         },
-        updatePermission : (role,permission,value) => {
-            return dispatch(updatePermission(role,permission,value))
+        updatePermission: (role, permission, value) => {
+            return dispatch(updatePermission(role, permission, value))
         },
-        openModalCreatePermission : () => {
-            return dispatch(openModalCreatePermission())
+        openModalCreatePermission: (group) => {
+            return dispatch(openModalCreatePermission(group))
         },
-        openModalPermissionFromGroup : (group) => {
+        openModalPermissionFromGroup: (group) => {
             return dispatch(openModalPermissionFromGroup(group))
         }
     }

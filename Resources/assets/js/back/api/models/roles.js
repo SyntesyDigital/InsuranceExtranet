@@ -49,6 +49,12 @@ export const GQL_GET_ALL_ROLE = gql`
         roles {
             id
             name
+            identifier
+        }
+        permissionGroups {
+            id
+            name
+            identifier
         }
     }
 `;
@@ -65,8 +71,32 @@ export const GQL_GET_ROLE = gql`
         name
         identifier
         icon
-        default 
-        description
+        default
+        permissions {
+            id
+            name
+            identifier
+            group {
+                id
+                name
+            }
+        }
+    }
+    permissions {
+        id
+        name
+        identifier
+        group {
+            id
+            name
+            identifier
+        }
+    }
+    permissionGroups {
+        id
+        name
+        identifier
+        order
     }
   }
 `;
@@ -120,6 +150,7 @@ export const GQL_UPDATE_ROLE = gql`
     mutation updateRole(
             $id: ID!
             $name: String!
+            $icon: String
             $identifier: String
             $description: String
             $default: Boolean
@@ -128,6 +159,7 @@ export const GQL_UPDATE_ROLE = gql`
                 input: {
                     id: $id
                     name: $name
+                    icon: $icon
                     identifier: $identifier
                     description: $description
                     default: $default

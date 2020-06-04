@@ -38,19 +38,12 @@ class ModalEditGroup extends Component {
     componentDidUpdate(prevProps,prevState) {
         if(!prevProps.form.displayGroup && this.props.form.displayGroup) {
             //modal is showing 
-            if(this.props.group != null) {
-                //edit
-                this.setState(this.props.group);
-            }
-            else {
-                //create
-                this.setState({
-                    id : null,
-                    name : '',
-                    identifier : '',
-                    order : 0
-                })
-            }
+            this.setState(this.props.group != null ? this.props.group : {
+                id : null,
+                name : '',
+                identifier : '',
+                order : 0
+            });
         }
     }
 
@@ -103,18 +96,21 @@ class ModalEditGroup extends Component {
                 
                 <div className="row">
                     <div className="col-xs-12">
+
                         <InputField
                             label={'Name'}
                             name={'name'}
                             value={this.state.name}
                             onChange={this.handleFieldChange.bind(this)}
                         />
+
                         <InputField
                             label="Identifier"
                             name={'identifier'}
                             value={this.state.identifier}
                             onChange={this.handleFieldChange.bind(this)}
                         />
+                        
                     </div>
                 </div>
             </Modal>

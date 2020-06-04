@@ -5,8 +5,8 @@ type Role {
     id: ID!
     name: String!
     identifier: String!
-    icon: String!
-    default : Boolean!
+    icon: String
+    default: Boolean!
     description: String
     permissions: [Permission!]! @belongsToMany
     users: [User!]! @belongsToMany
@@ -18,7 +18,7 @@ type Role {
 input CreateRoleInput {
     name: String!
     identifier: String!
-    icon: String!
+    icon: String
     default: Boolean
     description: String
     permissions: PermissionsInput
