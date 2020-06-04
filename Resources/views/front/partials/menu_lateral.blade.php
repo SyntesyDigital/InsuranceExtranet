@@ -1,5 +1,19 @@
 @if(isset($menu))
 
+	@php
+	$storedStylesFront = \Cache::get('frontStyles');
+	@endphp
+
+	@if(!$storedStylesFront)
+		@php
+			$seconds = 24*3600;
+			$style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
+			$storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
+			\Cache::put('frontStyles', $storedStylesFront, $seconds);
+		@endphp
+	@endif
+
+
 	<div class="menu-container">
 		<div id="sidebar-button" class="menu btn-ham open">
 			<div class="icon"></div>

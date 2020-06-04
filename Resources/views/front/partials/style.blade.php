@@ -236,6 +236,7 @@
       hoverColorInput: '{{$hoverColorInput}}',
       iconFontSizeElement: '{{$iconFontSizeElement}}',
       iconColorElement: '{{$iconColorElement}}',
+      errorColor : '{{$errorColor}}'
     }
   };
 </script>

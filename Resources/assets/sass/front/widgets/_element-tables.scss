@@ -1,3 +1,15 @@
+@mixin line-clamp($numLines : 1, $lineHeight: 16) {
+  overflow: hidden;
+  text-overflow: -o-ellipsis-lastline;
+  text-overflow: ellipsis;
+  display: block;
+  /* autoprefixer: off */
+  display: -webkit-box;
+  -webkit-line-clamp: $numLines;
+  -webkit-box-orient: vertical;
+  max-height: $numLines * $lineHeight + unquote('px');
+}
+
 .element-table-container{
   .elementTable{
     .excel-btn{
@@ -99,8 +111,11 @@
       }
     }
     .react-table-container{
+
       background-color:white;
       overflow:hidden;
+      border: 1px solid rgba(0,0,0,0.1);
+
       &.m-top{
         margin-top:40px;
       }
@@ -230,6 +245,7 @@
   }
 }
 
+
 .ReactTable.-striped .rt-tr.-odd {
   background-color:$row-background !important;
 }
@@ -237,7 +253,8 @@
 
 
 .ReactTable {
-  border: none;
+  border: none !important;
+
 
   &.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
     background-color: $body-bg !important;
@@ -283,9 +300,16 @@
     padding-top: 6px;
     padding-bottom: 6px;
 
+    .rt-th.-cursor-pointer {
+      //height: 44px;
+    }
+
     .rt-resizable-header-content{
       color:$table-header-color;
       text-transform: uppercase;
+
+      //@include line-clamp(2,20);
+      
     }
   }
 

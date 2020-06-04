@@ -4,22 +4,27 @@
 .page-builder h1{
   color:{{$frontBodyH1Color}};
   font-size:{{$frontBodyH1FontSize}};
+  font-weight:500;
 }
 .page-builder h2{
   color:{{$frontBodyH2Color}};
   font-size:{{$frontBodyH2FontSize}};
+  font-weight:500;
 }
 .page-builder h3{
   color:{{$frontBodyH3Color}};
   font-size:{{$frontBodyH3FontSize}};
+  font-weight:500;
 }
 .page-builder h4{
   color:{{$frontBodyH4Color}};
   font-size:{{$frontBodyH4FontSize}};
+  font-weight:500;
 }
 .page-builder h5{
   color:{{$frontBodyH5Color}};
   font-size:{{$frontBodyH5FontSize}};
+  font-weight:500;
 }
 .total-box-container-a{
   color:{{$elementLinkColor}};
@@ -100,7 +105,7 @@
 
 /* .box-class-1 */
 body .page-builder .box-class-1 *{
-  color: {{$textColorBox1}};
+  /*color: {{$textColorBox1}};*/
 }
 body .page-builder .box-class-1{
   background-color: {{$backgroundColorBox1}};
