@@ -179,7 +179,7 @@ class BobyRepository
       ]);
 
         $result = json_decode($response->getBody());
-
+        
         if (isset($result->data[0])) {
             if ($result->data[0]->PERMIS == 'yes') {
                 return true;
