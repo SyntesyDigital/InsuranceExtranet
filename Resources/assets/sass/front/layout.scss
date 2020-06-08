@@ -113,6 +113,9 @@ footer {
         top: 0px;
         font-size: 12px;
         opacity: 0.5;
+        &.collapsed{
+            left: 85px;
+        }
     }
     p {
         color: $footer-text-color;
