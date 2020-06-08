@@ -172,7 +172,7 @@ class BobyRepository
 
     public function checkDocumentAvailable($id)
     {
-        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?id_doc='.$id, [
+        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?SES='.Auth::user()->session_id.'&id_doc='.$id, [
           'headers' => [
               'Authorization' => 'Bearer '.Auth::user()->token,
           ],
