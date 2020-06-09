@@ -102,10 +102,9 @@ export function removeForm(form) {
 
     return (dispatch) => {
         api.elementModel.delete(form.id)
-        .then(function(data) {
-
-            window.location.href = routes['extranet.elements-models.forms.index'];
-        });
+            .then(function(data) {
+                window.location.href = routes['extranet.elements-models.forms.index'];
+            });
     }
 };
 

@@ -196,19 +196,18 @@ class ElementImporterTest extends TestCase
 
         // Check if ElementModel not imported because already exist
         $this->assertTrue(ElementModel::count() == 1);
-        
+
         sleep(1);
 
         // Check if import ElementModel when modelProcedure change
         ModelProcedure::first()
             ->update([
-                'name' => 'Testing import'
+                'name' => 'Testing import',
             ]);
 
         $importer = new ElementImporter(json_encode($export, JSON_NUMERIC_CHECK));
         $importer->import();
 
         $this->assertTrue(ModelProcedure::count() == 2);
-
     }
 }

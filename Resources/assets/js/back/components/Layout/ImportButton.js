@@ -47,13 +47,10 @@ export default class ImportButton extends Component {
                 payload : json
             })
             .then(response => {
-                console.log("updateFile : response => ",response.data);
                 self.setState({
                     result : JSON.parse(response.data.import.payload),
                     display : true
                 });
-
-                //return JSON.parse(response.data.export.payload);
             });
 
     }
@@ -108,16 +105,20 @@ export default class ImportButton extends Component {
         for(var index in this.state.result) {
             var importItem = this.state.result[index];
             for(var key in importItem){
-                if(result[key] === undefined)
+                if(result[key] === undefined) {
                     result[key] = parseInt(importItem[key]);
-                    
-                result[key] += parseInt(importItem[key]); 
+                } else {
+                    result[key] += parseInt(importItem[key]); 
+                }
             }
         }
 
+        console.log('this.state.result', this.state.result);
+        
         var list = [];
         for(var key in result){
             var name = key.split("\\");
+            
             list.push(
                 <li> {name[name.length-1]} : {result[key]} </li>
             )

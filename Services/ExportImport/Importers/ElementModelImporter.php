@@ -22,6 +22,7 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
     public function import()
     {
         $nodes = json_decode($this->payload, true);
+
         $model = $this->createModel($nodes);
 
         foreach ($nodes['relations']['procedures'] as $node) {
@@ -36,6 +37,8 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
                 'model_id' => $model->id,
             ]));
 
+            $this->reportCreatedObject($procedure);
+
             // Save Procedure Fields
             if (isset($node['relations']['fields'])) {
                 $fields = collect($node['relations']['fields'])
@@ -43,9 +46,13 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
                         return new ModelField($field);
                     });
 
-                $fields->count() > 0
-                    ? $procedure->fields()->saveMany($fields)
-                    : null;
+                if ($fields->count() > 0) {
+                    $procedure->fields()->saveMany($fields);
+
+                    foreach ($fields as $field) {
+                        $this->reportCreatedObject($field);
+                    }
+                }
             }
         }
     }
@@ -64,19 +71,21 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
         if ($service) {
             $arr = $this->walkArrayAndRemoveDBFields($service->toArray());
 
-            // Remove comment
-            // array_forget($attributes, 'comment');
-            // array_forget($arr, 'comment');
-
             if ($this->getArrayChecksum($attributes) == $this->getArrayChecksum($arr)) {
                 return $service;
             } else {
                 $attributes['identifier'] .= '_'.date('Ymdhis');
-                $attributes['name'] .= ' '.Carbon::now();
+                //$attributes['name'] .= ' '.Carbon::now();
             }
         }
 
-        return Service::create($attributes);
+        // Create service
+        if ($object = Service::create($attributes)) {
+            // Report service
+            $this->reportCreatedObject($object);
+        }
+
+        return $object;
     }
 
     /**

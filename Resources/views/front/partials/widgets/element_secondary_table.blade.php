@@ -1,21 +1,23 @@
 @php
-  $identifier = str_replace(",","",$field['identifier']);
-  $identifier = str_replace("[","",$identifier);
-  $identifier = str_replace("]","",$identifier).'_'.$iterator;
+    $identifier = str_replace(",","",$field['identifier']);
+    $identifier = str_replace("[","",$identifier);
+    $identifier = str_replace("]","",$identifier).'_'.$iterator;
 
-  $visible = check_visible($field['settings'],$parameters);
+    $visible = check_visible($field['settings'],$parameters);
 
-  $elementObject = null;
-  if(isset($field['settings']['tableElements'])){
-    $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
-  }
+    $elementObject = null;
+    if(isset($field['settings']['tableElements'])){
+        $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
+    }
 
-  $model = null;
-  if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
-    $model = $models[$elementObject->model_identifier];
-  }
+    $model = null;
+    if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
+        $model = $models[$elementObject->model_identifier];
+    }
 
-  $icon = $field['fields'][2]['value'];
+    $icon = isset($field['fields'][2]['value']) 
+        ? $field['fields'][2]['value'] 
+        : null;
 @endphp
 
 @if($visible)
