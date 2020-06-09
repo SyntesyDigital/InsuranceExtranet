@@ -14,7 +14,7 @@ class RolesPermissionsService
     /**
      * getRolePermissions.
      *
-     * @param mixed $identifier
+     * @param string $identifier
      *
      * @return void
      */
@@ -37,18 +37,19 @@ class RolesPermissionsService
         switch ($roleId) {
             case ROLE_SUPERADMIN:
                 $identifier = 'superadmin';
+                break;
 
-                // no break
             case ROLE_SYSTEM:
                 $identifier = 'system';
+                break;
 
-                // no break
             case ROLE_ADMIN:
                 $identifier = 'admin';
+                break;
 
-                // no break
             case ROLE_USER:
                 $identifier = 'user';
+                break;
         }
 
         $role = $identifier

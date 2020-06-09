@@ -25,11 +25,9 @@ require('./components/Services/ServiceForm');
 require('./components/ElementTemplate/Template');
 
 import { 
-    default as AuthService 
-} from './services/AuthService';
+    default as UserSessionService 
+} from './../services/UserSessionService';
 
-const auth = new AuthService(CURRENT_USER);
-
-console.log(auth.getRole());
+const userSession = new UserSessionService(CURRENT_USER);
 
 

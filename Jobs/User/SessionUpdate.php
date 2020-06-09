@@ -99,10 +99,6 @@ class SessionUpdate
 
     private function processMainRole($userext)
     {
-        if (!isset($userext)) {
-            return ROLE_USER;
-        }
-
         if (in_array($userext->{'USEREXT.login_per'}, Config::get('admin'))) {
             return ROLE_SYSTEM;
         }

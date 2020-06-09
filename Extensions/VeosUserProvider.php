@@ -120,6 +120,9 @@ class VeosUserProvider implements UserProvider
             $result = json_decode($response->getBody());
             $user->token = $result->token;
 
+            $service = resolve('Services/RolesPermissions');
+            $user->permissions = $service->getPermissionsFromRoleId($user->role);
+
             if ($session) {
                 $payload = json_decode($session->payload);
                 $payload->token = $result->token;
@@ -145,9 +148,16 @@ class VeosUserProvider implements UserProvider
 
     public function session()
     {
-        return isset($this->user()->token)
+        $session = isset($this->user()->token)
             ? UserSession::where('token', $this->user()->token)->first()
             : false;
+
+        if ($session) {
+            $payload = $session->payload ? json_decode($session->payload) : null;
+            $session->permissions = $payload->permissions;
+        }
+
+        return $session;
     }
 
     public function attempt()

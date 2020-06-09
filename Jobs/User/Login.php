@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Session;
 
 class Login
 {
@@ -144,7 +145,7 @@ class Login
                         'session_info' => $sessionInfo,
                     ];
 
-                    \Session::put('user', json_encode($userData));
+                    Session::put('user', json_encode($userData));
 
                     return $this->createUserSession($userData);
                 }
@@ -266,10 +267,10 @@ class Login
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
         $result = $client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_OPTIONS_SESSION?SES='.$currentSession, [
-          'headers' => [
-              'Authorization' => 'Bearer '.$token,
-          ],
-      ]);
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
         $data = json_decode($result->getBody()->getContents());
 
