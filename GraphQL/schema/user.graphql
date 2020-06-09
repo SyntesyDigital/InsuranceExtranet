@@ -26,8 +26,6 @@ type UserHasPermission {
     has: Int
 }
 
-
-
 ################################
 #   INPUT
 ################################
@@ -58,7 +56,7 @@ extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     updateUser(input: UpdateUserInput @spread): User
         @update(model: "Modules\\Extranet\\Entities\\User")
 
-    importUser(id_per: Int!): User
+    importUser(id_per: ID!): User
         @field(resolver: "Modules\\Extranet\\GraphQL\\Mutations\\Users\\ImportUser")
 
     updateUserPermission(

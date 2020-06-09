@@ -49,7 +49,7 @@ export let users = {
  *       phone
  */
 export const GQL_IMPORT_USER = gql`
-    mutation importUser($idPer: Int!){
+    mutation importUser($idPer: ID!){
         importUser(id_per: $idPer) {
             id
             id_per

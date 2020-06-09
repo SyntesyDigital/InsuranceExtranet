@@ -3,10 +3,10 @@
 namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
-use Modules\Extranet\Entities\User;
 use Config;
 use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;
+use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
 
 class Login
@@ -16,7 +16,7 @@ class Login
     private $test;
 
     const MESSAGE_404 = "Nom d'utilisateur ou mot de passe incorrect";
-    const MESSAGE_500 = "Erreur de connexion. Veuillez réessayer après quelques minutes.";
+    const MESSAGE_500 = 'Erreur de connexion. Veuillez réessayer après quelques minutes.';
 
     public function __construct($login, $password, $env = null)
     {
@@ -120,6 +120,10 @@ class Login
                         $sessionInfo
                     );
 
+                    $role = $this->processMainRole($sessionInfo);
+
+                    $service = resolve('Services/RolesPermissions');
+
                     $userData = [
                         'id' => isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null,
                         'firstname' => isset($user->{'USEREXT.nom_per'}) ? $user->{'USEREXT.nom_per'} : '',
@@ -130,7 +134,8 @@ class Login
                         'token' => $loginResult->token,
                         'env' => $this->env,
                         'test' => $this->test,
-                        'role' => $this->processMainRole($sessionInfo),
+                        'role' => $role,
+                        'permissions' => $service->getPermissionsFromRoleId($role),
                         'pages' => $pages,
                         'allowed_pages' => $allowedPages,  //can be null if no session defined
                         'language' => 'fr',
@@ -138,7 +143,7 @@ class Login
                         'session_id' => $currentSession,
                         'session_info' => $sessionInfo,
                     ];
-                    
+
                     \Session::put('user', json_encode($userData));
 
                     return $this->createUserSession($userData);

@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
+use Modules\Extranet\Services\RolesPermissions\Services\RolesPermissionsService;
 
 class RolesPermissionsProvider extends ServiceProvider
 {
@@ -62,5 +63,17 @@ class RolesPermissionsProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    /**
+     * register.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('Services/RolesPermissions', function ($app) {
+            return new RolesPermissionsService($app);
+        });
     }
 }

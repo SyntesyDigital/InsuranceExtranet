@@ -50,8 +50,6 @@ input PermissionsInput {
     upsert: [UpdatePermissionInput!]
 }
 
-
-
 ################################
 #   QUERY
 ################################

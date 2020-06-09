@@ -23,3 +23,13 @@ require('./components/Services/ServicesIndex');
 require('./components/Services/ServiceForm');
 
 require('./components/ElementTemplate/Template');
+
+import { 
+    default as AuthService 
+} from './services/AuthService';
+
+const auth = new AuthService(CURRENT_USER);
+
+console.log(auth.getRole());
+
+

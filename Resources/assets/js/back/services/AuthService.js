@@ -1,14 +1,22 @@
-class AuthService {
-    constructor(user) {
-        this.user = user;
+export default class AuthService {
+
+    constructor(session) {
+        this.session = session;
     }
 
-    hasPermissions(identifiers) {
-        this.user.roles.map(function(role){
-            return role.permissions.map(function(permission) {
-            });
-        });
+    getRole() {
+        return this.session.role;
     }
+
+    hasPermission(identifier) {
+        
+    }
+    // hasPermissions(identifiers) {
+    //     this.user.roles.map(function(role){
+    //         return role.permissions.map(function(permission) {
+    //         });
+    //     });
+    // }
 }
 
 
