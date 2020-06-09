@@ -508,8 +508,11 @@ body {
         width: 100%;
         height: 80px;
         a {
-            position: relative;
-            top: 10px;
+            // position: relative;
+            // top: 10px;
+            img{
+                width: 90%;
+            }
         }
     }
     .container-user {
@@ -554,6 +557,9 @@ article.page-builder {
         width: 100%;
         .logo-container {
             text-align: center;
+            img{
+                width: 50%;
+            }
         }
         .user-item {
             padding-left: 0;
