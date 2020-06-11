@@ -27,10 +27,16 @@
     body .horizontal-banner:hover .text-static-banner h4 {
         color: {{$subtitleHoverColorHorizontalBanner}}
     }
+
     /* icon arrow */
-    body .horizontal-banner .text-static-banner i {
-        color: {{$iconArrowColorHorizontalBanner}}
+    /* body .horizontal-banner .text-static-banner object path.active-path {
+        fill: {{$iconArrowColorHorizontalBanner}} !important;
+    } */
+   
+    path#check {
+        fill: tomato !important;
     }
+
 </style>
 
 
