@@ -138,7 +138,6 @@ export function setParameterFromBoby(variable,key, formParameters) {
               var box = bootbox.prompt({
                   title: variable.MESSAGE,
                   inputType: 'select',
-                  inputClass: 'hiddendasdas',
                   closeButton : false,
                   className: 'modalSelectParameters',
                   buttons: {
