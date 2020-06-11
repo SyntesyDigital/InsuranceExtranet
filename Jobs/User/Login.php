@@ -242,10 +242,10 @@ class Login
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
         $result = $client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_PAGES?perPage=100', [
-          'headers' => [
-              'Authorization' => 'Bearer '.$token,
-          ],
-      ]);
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
         $data = json_decode($result->getBody()->getContents());
 
