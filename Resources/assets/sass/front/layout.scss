@@ -590,3 +590,10 @@ body{
         } 
     }
 }
+
+// modal parameters hide select
+.modalSelectParameters {
+    .bootbox-input-select{
+        opacity: 0;
+    }
+}
