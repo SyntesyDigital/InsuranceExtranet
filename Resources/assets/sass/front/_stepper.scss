@@ -1,6 +1,6 @@
 //Variables
-$active-color: #69a8ff;
-$unactive-color: #e0e0e0;
+$active-color: #e6e6e6;
+$unactive-color: #e6e6e6;
 
 .stepper {
   &-container {
@@ -10,30 +10,27 @@ $unactive-color: #e0e0e0;
     justify-content: center;
     align-items: center;
     padding: 35px;
-    border-bottom: 1px solid $unactive-color;
   }
   &-item {
     position: relative;
     cursor: pointer;
+    margin: 0 10px;
     &#stepper-item-completed {
       .stepper-item-outer {
         background-color: $active-color;
         border: 3px solid $active-color;
-      }
-      .stepper-title:not(.stepper-title-active) {
-        color: $active-color;
       }
     }
     .stepper-item-outer {
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       &.stepper-item-outer-active {
-        border: 3px solid $active-color;
+        background-color: #65c5db;
       }
       .stepper-item-inner-future {
-        color: #adadad !important;
+        color: #e6e6e6 !important;
+        background-color: #e6e6e6;
       }
     }
     .stepper-title {
@@ -42,12 +39,12 @@ $unactive-color: #e0e0e0;
       width: max-content;
       max-width: 225px;
       min-width: 225px;
-      transform: translate(-39%, 5px);
+      transform: translate(-40%, 5px);
       text-align: center;
       color: #adadad;
       font-size: 14px;
       font-weight: 900;
-      margin-top: 5px;
+      margin-top: 25px;
     }
     .stepper-title-active {
       color: $active-color;
@@ -55,12 +52,12 @@ $unactive-color: #e0e0e0;
   }
 }
 .stepper-item-outer:nth-of-type(odd) {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   .stepper-item-inner {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -73,15 +70,13 @@ $unactive-color: #e0e0e0;
   .stepper-item-inner.stepper-item-inner-active {
     width: 18px;
     height: 18px;
-    color: $active-color;
+    color: #fff;
   }
 }
 .stepper-item-outer:nth-of-type(even) {
-  height: 8px;
-  border-top: 0.5px solid $unactive-color;
-  border-bottom: 0.5px solid $unactive-color;
+  height: 2px;
   width: 15%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #e6e6e6;
 }
 
 .stepper-item-outer-inner {
@@ -97,5 +92,5 @@ $unactive-color: #e0e0e0;
 }
 div#stepper-item-completed + .stepper-item-outer .stepper-item-outer-inner {
   width: 100%;
-  height: 8px;
+  height: 2px;
 }

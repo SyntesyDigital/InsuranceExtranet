@@ -236,6 +236,7 @@
 @include('extranet::front.partials.styles.image-text-link')
 @include('extranet::front.partials.styles.banner-horizontal')
 @include('extranet::front.partials.styles.sidebar')
+@include('extranet::front.partials.styles.range-field')
 
 @if($frontFont)
   <style>
@@ -266,7 +267,8 @@
       hoverColorInput: '{{$hoverColorInput}}',
       iconFontSizeElement: '{{$iconFontSizeElement}}',
       iconColorElement: '{{$iconColorElement}}',
-      errorColor : '{{$errorColor}}'
+      errorColor : '{{$errorColor}}',
+      inputColor: '{{$inputColor}}'
     }
   };
 </script>
