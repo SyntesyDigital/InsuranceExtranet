@@ -102,7 +102,6 @@ Route::group([
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     //update user session
-    Route::post('/session', 'UserController@setUserSession')->name('session.update');
 
     Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
     Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
@@ -153,6 +152,8 @@ Route::group([
   'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
   'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
+    Route::post('/session', 'UserController@setUserSession')->name('session.update');
+
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');
     Route::get(LaravelLocalization::transRoute('routes.tag.index'), 'TagController@index')->name('blog.tag.index');
     Route::get(LaravelLocalization::transRoute('search'), 'ContentController@search')->name('front.search');
