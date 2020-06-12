@@ -1,6 +1,5 @@
 @php
     $visible = check_visible($field['settings'],$parameters);
-    $title = $field['fields'][0]['value'][App::getLocale()];
 @endphp
 
 @if($visible)
