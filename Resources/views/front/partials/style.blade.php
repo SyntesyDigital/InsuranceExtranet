@@ -213,6 +213,15 @@
     $fontSizeTitleActionButton = isset($storedStylesFront['fontSizeTitleActionButton']) ? $storedStylesFront['fontSizeTitleActionButton']->value.'px' : '18px';
     $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '0';
 
+    //TABS
+    $fontColorTab = isset($storedStylesFront['fontColorTab']) ? $storedStylesFront['fontColorTab']->value : $secondaryColor;
+    $backgroundColorTab = isset($storedStylesFront['backgroundColorTab']) ? $storedStylesFront['backgroundColorTab']->value : $primaryColor;
+    $backgroundColorActiveTab = isset($storedStylesFront['backgroundColorActiveTab']) ? $storedStylesFront['backgroundColorActiveTab']->value : '#fff';
+    $backgroundHoverColorTab = isset($storedStylesFront['backgroundHoverColorTab']) ? $storedStylesFront['backgroundHoverColorTab']->value : $primaryColor;
+    $backgroundColorContentTab = isset($storedStylesFront['backgroundColorContentTab']) ? $storedStylesFront['backgroundColorContentTab']->value : '#fff';
+    $fontSizeTab = isset($storedStylesFront['fontSizeTab']) ? $storedStylesFront['fontSizeTab']->value.'px' : '14px';
+    $borderRadiusTab = isset($storedStylesFront['borderRadiusTab']) ? $storedStylesFront['borderRadiusTab']->value.'px' : '10px';
+
 ?>
 
 <style type="text/css">
@@ -237,6 +246,7 @@
 @include('extranet::front.partials.styles.banner-horizontal')
 @include('extranet::front.partials.styles.sidebar')
 @include('extranet::front.partials.styles.range-field')
+@include('extranet::front.partials.styles.tabs')
 
 @if($frontFont)
   <style>

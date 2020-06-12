@@ -9,34 +9,30 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacityHorizontalBanner/100}});
     }
     body .horizontal-banner:hover{
-        background-color: {{$backgroundColorHoverHorizontalBanner}}
+        background-color: {{$backgroundColorHoverHorizontalBanner}};
     }
     /* title */
     body .horizontal-banner .text-static-banner p {
         font-size: {{$titleFontSizeHorizontalBanner}};
-        color: {{$titleColorHorizontalBanner}}
+        color: {{$titleColorHorizontalBanner}};
     }
     body .horizontal-banner:hover .text-static-banner p{
-        color: {{$titleHoverColorHorizontalBanner}}
+        color: {{$titleHoverColorHorizontalBanner}};
     }
     /* subtitle */
     body .horizontal-banner .text-static-banner h4 {
         font-size: {{$subtitleFontSizeHorizontalBanner}};
-        color: {{$subtitleColorHorizontalBanner}}
+        color: {{$subtitleColorHorizontalBanner}};
     }
     body .horizontal-banner:hover .text-static-banner h4 {
-        color: {{$subtitleHoverColorHorizontalBanner}}
+        color: {{$subtitleHoverColorHorizontalBanner}};
     }
 
     /* icon arrow */
     /* body .horizontal-banner .text-static-banner object path.active-path {
         fill: {{$iconArrowColorHorizontalBanner}} !important;
     } */
-   
-    path#check {
-        fill: tomato !important;
-    }
-
+ 
 </style>
 
 

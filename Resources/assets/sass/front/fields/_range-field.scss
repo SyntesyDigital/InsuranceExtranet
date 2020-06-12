@@ -5,7 +5,7 @@
         .container-label{
             height: 52px;
             p{
-                @include line-clamp(2,35);
+                @include line-clamp(2,16);
             }
         }
         .rangeslider-horizontal{
