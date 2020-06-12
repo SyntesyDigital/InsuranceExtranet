@@ -2,13 +2,12 @@
 
 namespace Modules\Extranet\Services\ExportImport\GraphQL\Mutations;
 
-use Modules\Extranet\Entities\Element;
-
 use GraphQL\Type\Definition\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Extranet\Services\ExportImport\Importers\ElementImporter;
+use Modules\Extranet\Entities\Element;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+use Modules\Extranet\Services\ExportImport\Importers\ElementImporter;
 use Modules\Extranet\Services\ExportImport\Importers\ElementModelImporter;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ImporterMutator
 {
@@ -24,19 +23,19 @@ class ImporterMutator
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $payload = json_decode($args["payload"]);
+        $payload = mb_convert_encoding($args['payload'], 'ISO-8859-1', 'UTF-8');
+        $payload = json_decode($payload);
         $payload = is_array($payload) ? $payload : [$payload];
-
         $result = [];
 
-        foreach($payload as $p) {
-            switch($p->model) {
-                case Element::class: 
+        foreach ($payload as $p) {
+            switch ($p->model) {
+                case Element::class:
                     $importer = new ElementImporter(json_encode($p));
                     $importer->import();
                     $result[] = $importer->getReport();
                     break;
-                case ElementModel::class: 
+                case ElementModel::class:
                     $importer = new ElementModelImporter(json_encode($p));
                     $importer->import();
                     $result[] = $importer->getReport();
@@ -44,6 +43,8 @@ class ImporterMutator
             }
         }
 
-        return ["payload" => json_encode($result)];
+        return [
+            'payload' => json_encode($result),
+        ];
     }
 }

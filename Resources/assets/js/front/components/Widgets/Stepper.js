@@ -30,8 +30,9 @@ export default class Stepper extends React.Component {
                                             : (index + 1) < activeStep ?
                                                 'stepper-item-inner-completed'
                                                 : 'stepper-item-inner-future'
-                                            }`}>
-                                            {showNumber && index + 1}
+                                            }`}
+                                        >
+                                            {(index + 1) < activeStep ? <i className="fas fa-check"></i> : showNumber && index + 1}
                                         </div>
                                     </div>
                                     <span className={`stepper-title ${activeStep === (index + 1)

@@ -39,7 +39,9 @@ class SelectField extends Component {
     const identifier = this.props.field.identifier;
     const { preloadData } = this.state;
 
-    /*
+    //console.log("SelectField :: (this.props.value,dataPosition,preloadData)",this.props.value,dataPosition,preloadData);
+
+    /*    
     console.log("SelectField :: componentDidUpdate : (currentValue, oldValue)",
       this.props.value,
       prevProps.value
@@ -48,7 +50,10 @@ class SelectField extends Component {
 
     if (this.props.value != prevProps.value) {
 
+      console.log("SelectField :: is diferent! (currentValue, oldValue,preloadData)", this.props.value,preloadData, prevProps.value);
+
       var dataPosition = preloadData.indexOf(this.props.value);
+      
       if (dataPosition != -1) {
 
         //console.log("SelectField :: update preload : (dataPosition,value)",dataPosition,this.state.data[dataPosition].value);
@@ -98,14 +103,21 @@ class SelectField extends Component {
    * @param {*} data 
    */
   processPreloadData(data) {
-    var result = [];
+    //first is always empty
+    var result = [""];
 
-    if (data.length == 0 || data[0].value_preload == null) {
+    if (data.length == 0) {
       return [];
     }
 
     for (var key in data) {
-      result.push(data[key].value_preload);
+      if(data[key].value_preload != null){
+        result.push(data[key].value_preload);
+      }
+      else {
+        result.push(data[key].value);
+      }
+      
     }
     return result;
   }
@@ -135,6 +147,13 @@ class SelectField extends Component {
           else {
             display = true;
           }
+
+          //add first item with empty result, necessary to remove value
+          response.data.data.unshift({
+            name : "Sélectionnez",
+            value : "",
+            value_preload : null
+          });
 
           self.setState({
             data: response.data.data,
@@ -174,17 +193,20 @@ class SelectField extends Component {
 
   handleBlur(e) {
     this.setState({
-      addClassBordered: true
+      addClassBordered: false
     });
   }
 
   handleFocus(e) {
     this.setState({
-      addClassBordered: false
+      addClassBordered: true
     });
   }
 
   handleOnChange(option) {
+
+    //console.log("SelectField :: handleOnChange :: option",(option));
+
     this.props.onFieldChange({
       name: this.props.field.identifier,
       value: option.value
@@ -197,16 +219,28 @@ class SelectField extends Component {
 
     for (var index in this.state.data) {
       if (this.state.data[index]['value'] == value)
-        return this.state.data[index]
+        return index;
     }
     return null;
+  }
+
+  getBorderColor() {
+    if(this.props.error) {
+      return '1px solid ' + STYLES.elementForm.errorColor;
+    }
+    else if(this.state.addClassBordered || this.props.value != ""){
+      return '1px solid ' + STYLES.elementForm.borderColorInput;
+    }
+    else {
+      return null;
+    }
   }
 
   render() {
     const { field } = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
-    const errors = this.props.error ? ' has-error' : '';
+    //const errors = this.props.error ? ' has-error' : '';
     const display = this.state.display;
 
     let isRequired = field.rules.required !== undefined ?
@@ -218,19 +252,14 @@ class SelectField extends Component {
       isRequired = field.required;
     }
 
-    let textFieldClass = ["text-field"];
-    if (this.state.addClassBordered || this.props.value != "") {
-      textFieldClass.push('bordered');
-    }
-
     // required for react-select option, value and setting
     const options = this.state.data.map(
       item => ({
         label: item.name,
         value: item.value,
-      }));
+      }));    
 
-    var value = this.getOption(this.props.value);
+    var optionIndex = this.getOption(this.props.value);
 
     const customStyles = {
       control: (base) => ({
@@ -238,16 +267,16 @@ class SelectField extends Component {
         height: 34,
         minHeight: 34,
         boxShadow: '1 !important',
-        border: this.state.addClassBordered ? '1px solid ' + STYLES.elementForm.borderColorInput + '' : null
+        border: this.getBorderColor()
       }),
       menu: provided => ({ ...provided, zIndex: 99999 })
     };
 
-    //
+    //console.log("SelectField :: value : (options,optionsIndex,this.props.value)",options,optionIndex,this.props.value);
 
     return (
 
-      <div className={"form-group bmd-form-group" + (errors)} style={{ display: display ? 'block' : 'none' }}>
+      <div className={"form-group bmd-form-group"} style={{ display: display ? 'block' : 'none' }}>
         <label className="bmd-label-floating">
           {field.name}
           {isRequired &&
@@ -255,16 +284,15 @@ class SelectField extends Component {
           }
         </label>
         <Select
-          className={textFieldClass.join(' ')}
           onBlur={this.handleBlur.bind(this)}
           onFocus={this.handleFocus.bind(this)}
-          value={options[value]}
+          value={options[optionIndex]}
           name={field.identifier}
-          defaultValue={defaultValue}
+          defaultValue={optionIndex != null ? options[optionIndex] : ''}
           options={options}
           onChange={this.handleOnChange.bind(this)}
           styles={customStyles}
-          placeholder='Sélectionner...'
+          placeholder={defaultValue}
           menuContainerStyle={{'zIndex': 999}}
           theme={(theme) => ({
             ...theme,

@@ -1,17 +1,3 @@
-
-@php
-  $storedStylesFront = \Cache::get('frontStyles');
-@endphp
-
-@if(!$storedStylesFront)
-  @php
-    $seconds = 24*3600;
-    $style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
-    $storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
-    \Cache::put('frontStyles', $storedStylesFront, $seconds);
-  @endphp
-@endif
-
 <!-- HEADER -->
 <header>
 	<!-- CORPO i IDIOMES -->
@@ -62,6 +48,7 @@
 					$('.content-wrapper').addClass('collapsed');
 					$('.sidebar-text').fadeOut("fast");
 					$('.logo-container').addClass('collapsed');
+					$('footer .version').addClass('collapsed');
 				}
 			}else{
 				if($('#sidebar').hasClass('collapsed')){
@@ -69,11 +56,14 @@
 					$('.content-wrapper').removeClass('collapsed');
 					$('.sidebar-text').fadeIn();
 					$('.logo-container').removeClass('collapsed');
+					$('footer .version').removeClass('collapsed');
 				}else{
 					$('#sidebar').addClass('collapsed');
 					$('.content-wrapper').addClass('collapsed');
 					$('.sidebar-text').fadeOut("fast");
 					$('.logo-container').addClass('collapsed');
+					$('footer .version').addClass('collapsed');
+					
 				}
 			}
 		});

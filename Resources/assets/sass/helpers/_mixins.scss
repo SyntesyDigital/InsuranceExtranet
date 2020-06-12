@@ -76,3 +76,17 @@
   -webkit-transform: rotate($degrees); /* Chrome, Safari, Opera */
   transform: rotate($degrees);
 }
+
+@mixin line-clamp($numLines : 1, $lineHeight: 16) {
+  overflow: hidden;
+  text-overflow: -o-ellipsis-lastline;
+  text-overflow: ellipsis;
+  display: block;
+  /* autoprefixer: off */
+  display: -webkit-box;
+  -webkit-line-clamp: $numLines;
+  -webkit-box-orient: vertical;
+  max-height: $numLines * $lineHeight + unquote('px');
+  word-break: break-word;
+  white-space: initial;
+}

@@ -41,9 +41,6 @@ export function saveProcedure(modelId,procedures,procedure) {
 };
 
 export function createProcedure(modelId,procedures,procedure) {
-
-    console.log("createProcedure (procedure)",procedure);
-
     return (dispatch) => {
         api.procedures.create({
             name : procedure.name,
@@ -174,9 +171,8 @@ export function updateSettings(procedure, name, value) {
 
 export function closeModalProcedure() {
     return {
-        type: CLOSE_MODAL_PROCEDURES, payload: {
-
-        }
+        type: CLOSE_MODAL_PROCEDURES, 
+        payload: {}
     };
 };
 

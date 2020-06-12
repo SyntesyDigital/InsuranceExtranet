@@ -7,22 +7,23 @@ import configureStore from './../configureStore';
 
 import FormButtonRedux from './FormButtonRedux';
 
-let store = configureStore();
-
 export default class FormButton extends Component {
 
     constructor(props)
     {
         super(props);
+        this.store = configureStore();
     }
 
     render() {
         return (
-          <Provider store={store}>
+          <Provider store={this.store}>
             <FormButtonRedux
               field={this.props.field}
               elementObject={this.props.elementObject}
               parametersObject={this.props.parameters}
+              finalRedirectUrl={this.props.finalRedirectUrl}
+              onFormFinished={this.props.onFormFinished}
             />
           </Provider>
         );

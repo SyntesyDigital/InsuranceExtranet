@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import {
   parameteres2Array,
+  getUrlParameters,
 } from './../../functions';
 
 import {
@@ -91,19 +92,20 @@ class FormButtonRedux extends Component {
       for(var key in parameters){
         if(key == "_redirectUrl") {
           window.location.href = parameters[key];
+          return;
         }
       }
 
-      /*
       if(this.props.finalRedirectUrl != ""){
         window.location.href = this.props.finalRedirectUrl+"?"+
-          getUrlParameters(this.props.parameters.formParameters);
+          getUrlParameters(
+            this.props.parameters.formParameters,
+            true
+          );
       }
       else {
-        this.props.onFormFinished();
+        this.props.onFormFinished(this.props.parameters.formParameters);
       }
-      */
-
     }
 
     render() {
@@ -111,7 +113,7 @@ class FormButtonRedux extends Component {
         const loaded = this.props.parameters.formParametersLoaded;
 
         const title = this.props.field.fields[0].value[LOCALE];
-        const icon = this.props.field.fields[1].value[LOCALE];
+        const icon = this.props.field.fields[2].value[LOCALE];
         const buttonClass = this.props.field.settings['buttonClass'];
 
         return (

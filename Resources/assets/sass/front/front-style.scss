@@ -34,6 +34,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'staticBanner';
 @import 'stepper';
 
+
 //@import 'customized';
 
 
@@ -46,6 +47,8 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/label';
 @import 'fields/richtext';
 @import 'fields/car-field';
+@import 'fields/range-field';
+@import 'fields/yes-no-field-switch';
 @import 'fields/file';
 @import 'fields/list-field';
 @import 'fields/immat';
@@ -65,6 +68,8 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/element-tables';
 @import 'widgets/image-text-link';
 @import 'widgets/table-list';
+@import 'widgets/banner-horizontal';
+@import 'widgets/action-button';
 
 @import 'env-bar';
 

@@ -7,6 +7,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ImageField from './../../ElementCard/fields/ImageField';
+import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 
 import LayoutParser from './../../ElementCard/LayoutParser';
@@ -306,6 +307,17 @@ class FormComponent extends Component {
                       textAlign={textAlign}
                   />
               );
+          case 'icon':
+            return (
+                <IconField
+                    key={key}
+                    icon={node.field.value}
+                    font={STYLES.elementForm.iconFontSizeElement}
+                    color={STYLES.elementForm.iconColorElement}
+                    circle={true}
+                    checked={true}
+                />
+            );
           case 'image':
               return (
                   <ImageField

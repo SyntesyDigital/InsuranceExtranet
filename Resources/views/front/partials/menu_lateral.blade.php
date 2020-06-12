@@ -1,5 +1,19 @@
 @if(isset($menu))
 
+	@php
+	$storedStylesFront = \Cache::get('frontStyles');
+	@endphp
+
+	@if(!$storedStylesFront)
+		@php
+			$seconds = 24*3600;
+			$style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
+			$storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
+			\Cache::put('frontStyles', $storedStylesFront, $seconds);
+		@endphp
+	@endif
+
+
 	<div class="menu-container">
 		<div id="sidebar-button" class="menu btn-ham open">
 			<div class="icon"></div>
@@ -18,26 +32,24 @@
 
 	<ul class="container-menu">
 
-		@if(Auth::user()->supervue)
-			@php
-			
-				$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
-					? Auth::user()->session_info->{'USEREXT.nom2_per'} 
-				: null;
+		@php
 
-			@endphp
+			$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
+				? Auth::user()->session_info->{'USEREXT.nom2_per'} 
+			: null;
 
-			<li class="user-item">
-				<span class="sidebar-text">{{$current}}</span>
-				<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-					<i class="fas fa-power-off"></i>
-				</a>
-				<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
-					{{csrf_field()}}
-				</form>
-			</li>
+		@endphp
+
+		<li class="user-item">
+			<span class="sidebar-text">{{$current}}</span>
+			<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+				<i class="fas fa-power-off"></i>
+			</a>
+			<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+				{{csrf_field()}}
+			</form>
+		</li>
 			
-		@endif
 		
 		@foreach($menu as $index => $menuElement)
 
@@ -51,15 +63,15 @@
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" data-toggle="tooltip" data-placement="top" title="">
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" title="">
 					
-					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
+					<!--<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" data-toggle="tooltip" data-placement="right" title=" {{$link["name"]}}"> -->
+					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" title=" {{$link["name"]}}">
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
 						@endif
 						<span class="sidebar-text"> {{$link["name"]}}</span>
 					</a>
-					<span class="tooltiptext">{{$link["name"]}}</span>
 
 					@if(sizeof($menuElement["children"]) > 0 )
 						<ul class="menu-children">
@@ -85,4 +97,19 @@
 		@endif
 		@endforeach
 	</ul>
+
+	@push('javascripts')
+	<script>
+		
+		/*
+		$(document).ready(function() {
+			$(".sidebar.collapsed .menu-item a").tooltip({ 
+				selector: '[data-toggle=tooltip]', 
+				placement: 'right' 
+			});
+		});
+		*/
+	</script>
+	@endpush
+
 @endif

@@ -21,6 +21,7 @@ export const SETTINGS_AVOID = {
   'hasModal' : ['form','file','form-v2'],
   'conditionalVisibility' : ['table','file'],
   'defaultValue' : ['table','file'],
+  'columnWidth' : ['form','file','form-v2']
   
 };
 

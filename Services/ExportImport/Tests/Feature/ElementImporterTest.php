@@ -142,6 +142,48 @@ class ElementImporterTest extends TestCase
             'template_id' => 1,
             'value' => 'test',
         ]);
+
+        $elementModel = ElementModel::create([
+            'identifier' => 'TBPOL2',
+            'name' => 'TBPOL2',
+            'description' => 'PHPunit test',
+            'icon' => 'fas fa-calculator',
+            'type' => 'form-v2',
+            'ws' => null,
+            'ws_format' => null,
+            'filtres' => null,
+            'example' => null,
+            'def1' => null,
+            'def2' => null,
+        ]);
+
+        $procedure = ModelProcedure::create([
+            'service_id' => $service->id,
+            'model_id' => $elementModel->id,
+            'name' => 'recup infos personne connectée',
+            'order' => 1,
+            'configurable' => 0,
+            'required' => 1,
+            'repeatable' => 0,
+            'repeatable_json' => null,
+            'repeatable_jsonpath' => '$.',
+            'preload' => 0,
+        ]);
+
+        ModelField::create([
+            'procedure_id' => $procedure->id,
+            'name' => 'Locataire 3 : statut',
+            'identifier' => "['INFOPOL.LOC3STATUT2']",
+            'type' => 'CTE',
+            'format' => 'text',
+            'default_value' => null,
+            'boby' => 'WS_EXT2_SEL_STATUTLOC',
+            'jsonpath' => null,
+            'example' => 'CDI',
+            'required' => 0,
+            'configurable' => 1,
+            'visible' => 1,
+        ]);
     }
 
     public function testExport()
@@ -195,20 +237,19 @@ class ElementImporterTest extends TestCase
         $this->assertTrue(Element::count() == 2);
 
         // Check if ElementModel not imported because already exist
-        $this->assertTrue(ElementModel::count() == 1);
-        
+        $this->assertTrue(ElementModel::count() == 2);
+
         sleep(1);
 
         // Check if import ElementModel when modelProcedure change
         ModelProcedure::first()
             ->update([
-                'name' => 'Testing import'
+                'name' => 'Testing import',
             ]);
 
         $importer = new ElementImporter(json_encode($export, JSON_NUMERIC_CHECK));
         $importer->import();
 
-        $this->assertTrue(ModelProcedure::count() == 2);
-
+        $this->assertTrue(ModelProcedure::count() == 3);
     }
 }

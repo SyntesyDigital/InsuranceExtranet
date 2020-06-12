@@ -1,8 +1,4 @@
 <style type="text/css">
-    body .sidebar .menu-item .tooltiptext {
-        background-color: {{$backgroundColorSidebarTooltip}};
-        color: {{$colorSidebarTooltip}}
-    }
     body .sidebar .btn-ham .icon:before{
         background-color: {{$colorSidebarIconMenu}};
     }
@@ -14,5 +10,9 @@
     }
     body header:first-child .menu-container #sidebar-button.navbar-toggle .icon-bar{
         background-color: {{$colorSidebarIconMenu}};
+    }
+    body .ui-tooltip {
+        background-color: {{$backgroundColorSidebarTooltip}};
+        color: {{$colorSidebarTooltip}}
     }
 </style>

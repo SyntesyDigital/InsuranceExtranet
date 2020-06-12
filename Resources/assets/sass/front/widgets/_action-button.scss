@@ -1,0 +1,44 @@
+.action-button-container {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  min-height: 85px;
+  display: flex;
+  margin-bottom: 15px;
+  -webkit-transition: 0.8s;
+  cursor: pointer;
+  .container {
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1px;
+      i{
+        font-size: 1.5vw;
+        position: absolute;
+        -webkit-transition: 0.8s;
+      }
+    }
+    &-number{
+        span{
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            right: 0;
+            font-size: 2.2vw;
+          }
+    }
+    &-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+      p{
+        margin-bottom: 0;
+        // height: 35px;
+        -webkit-transition: 0.8s;
+        overflow: hidden;
+        @include line-clamp(2,35);
+      }
+    }
+  }
+}

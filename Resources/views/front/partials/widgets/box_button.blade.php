@@ -21,52 +21,56 @@
       $target = "_blank";
       $link = isset($field['fields'][0]['value']['url'][App::getLocale()]) ? $field['fields'][0]['value']['url'][App::getLocale()] : '';
     }
+
+    $allowed = allowed_link(['request_url' => substr($link, 1)]); //remove first /
   @endphp
 
-@if(isset($link) && $link != "")
+@if($allowed)
+  @if(isset($link) && $link != "")
 
-  @if(isset($field['settings']['backgroundColor']))
-    <style>
-      .box-button-container-a .box-button-container > .wrap-box-button #identifier-{{$identifier}}{
-        background-color: {{$field['settings']['backgroundColor']}}
+    @if(isset($field['settings']['backgroundColor']))
+      <style>
+        .box-button-container-a .box-button-container > .wrap-box-button #identifier-{{$identifier}}{
+          background-color: {{$field['settings']['backgroundColor']}}
+        }
+        .box-button-container-a .box-button-container:hover > .wrap-box-button #identifier-{{$identifier}}{
+        background-color: {{$field['settings']['backgroundHoverColor']}}
       }
-      .box-button-container-a .box-button-container:hover > .wrap-box-button #identifier-{{$identifier}}{
-      background-color: {{$field['settings']['backgroundHoverColor']}}
-    }
-    </style>
-  @endif
+      </style>
+    @endif
 
-<a target="{{$target}}" href="{{$link}}?{{$parameters}}" class="box-button-container-a">
-  @endif
- 
-  <div id="{{$field['settings']['htmlId'] or ''}}" class="box-button-root box-button-container {{$field['settings']['htmlClass'] or ''}} {{$field['settings']['buttonClass'] or ''}}">
-    <div class="wrap-box-button">
-      <div class="image-container" id="identifier-{{$identifier}}">
-        @if(isset($icon))
-        <div class="wrap-icon"><i class="{{$icon}}"></i></div>
-        @else
-        <div class="wrap-image">
-          @include('extranet::front.partials.fields.image',
-            [
-              "field" => $field['fields'][3],
-              "settings" => $field['settings'],
-            ]
-          )
+  <a target="{{$target}}" href="{{$link}}?{{$parameters}}" class="box-button-container-a">
+    @endif
+  
+    <div id="{{$field['settings']['htmlId'] or ''}}" class="box-button-root box-button-container {{$field['settings']['htmlClass'] or ''}} {{$field['settings']['buttonClass'] or ''}}">
+      <div class="wrap-box-button">
+        <div class="image-container" id="identifier-{{$identifier}}">
+          @if(isset($icon))
+          <div class="wrap-icon"><i class="{{$icon}}"></i></div>
+          @else
+          <div class="wrap-image">
+            @include('extranet::front.partials.fields.image',
+              [
+                "field" => $field['fields'][3],
+                "settings" => $field['settings'],
+              ]
+            )
+          </div>
+          @endif
         </div>
-        @endif
-      </div>
-      <div class="label-container" id="identifier-{{$identifier}}">
-        <div>
-          <p>{{$title}}</p>
+        <div class="label-container" id="identifier-{{$identifier}}">
+          <div>
+            <p>{{$title}}</p>
+          </div>
         </div>
       </div>
+
     </div>
 
-  </div>
 
 
-
-  @if(isset($link) && $link != "")
-</a>
-@endif
+    @if(isset($link) && $link != "")
+  </a>
+  @endif
+  @endif
 @endif
