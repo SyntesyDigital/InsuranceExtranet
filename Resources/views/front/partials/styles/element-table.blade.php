@@ -51,4 +51,33 @@
   color: {{$elementColor}};
 }
 
+body .element-table-container .rt-thead.-header{
+  background-color: {{$headerBackgroundColorTable}};
+}
+body .element-table-container .ReactTable .rt-thead .rt-resizable-header-content{
+  color: {{$headerColorTable}}
+}
+body .element-table-container .ReactTable .rt-thead .rt-resizable-header-content{
+  color: {{$rowColorTable}}
+}
+body .element-table-container .elementTable{
+  color: {{$rowColorTable}}
+}
+body .element-table-container .rt-tr.-odd:hover, body .element-table-container .rt-tr.-even:hover {
+    background: {{$rowBackgroundHoverColorTable}}
+}
+body .element-table-container .rt-tr.-odd {
+    background: {{$rowOddBackgroundColorTable}}
+}
+body .element-table-container .rt-tr.-even {
+    background: {{$rowEvenBackgroundColorTable}}
+}
+body .element-table-container .rt-thead .rt-th.-cursor-pointer:before, body .element-table-container .rt-thead .rt-td.-cursor-pointer:before{
+    color: {{$iconColorHeaderTable}};
+    left: unset; 
+    right: 10px;
+}
+body .element-table-container .rt-thead.-filters input:focus{
+    border: 1px solid {{$inputColor}};
+}
 </style>

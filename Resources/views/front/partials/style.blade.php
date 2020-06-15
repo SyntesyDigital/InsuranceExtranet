@@ -222,6 +222,18 @@
     $fontSizeTab = isset($storedStylesFront['fontSizeTab']) ? $storedStylesFront['fontSizeTab']->value.'px' : '14px';
     $borderRadiusTab = isset($storedStylesFront['borderRadiusTab']) ? $storedStylesFront['borderRadiusTab']->value.'px' : '10px';
 
+    //ELEMENT TABLE
+    $headerColorTable = isset($storedStylesFront['headerColorTable']) ? $storedStylesFront['headerColorTable']->value : $primaryColor;
+    $headerBackgroundColorTable = isset($storedStylesFront['headerBackgroundColorTable']) ? $storedStylesFront['headerBackgroundColorTable']->value : $secondaryColor;
+    $rowColorTable = isset($storedStylesFront['rowColorTable']) ? $storedStylesFront['rowColorTable']->value : $primaryColor;
+    $rowHoverColorTable = isset($storedStylesFront['rowHoverColorTable']) ? $storedStylesFront['rowHoverColorTable']->value : $secondaryColor;
+    $rowBackgroundHoverColorTable = isset($storedStylesFront['rowBackgroundHoverColorTable']) ? $storedStylesFront['rowBackgroundHoverColorTable']->value : $secondaryColor;
+    $rowOddBackgroundColorTable = isset($storedStylesFront['rowOddBackgroundColorTable']) ? $storedStylesFront['rowOddBackgroundColorTable']->value : '#fff';
+    $rowEvenBackgroundColorTable = isset($storedStylesFront['rowEvenBackgroundColorTable']) ? $storedStylesFront['rowEvenBackgroundColorTable']->value : '#f7f9fa';
+    $fontSizeHeaderTable = isset($storedStylesFront['fontSizeHeaderTable']) ? $storedStylesFront['fontSizeHeaderTable']->value.'px' : '14px';
+    $fontSizeRowTable = isset($storedStylesFront['fontSizeRowTable']) ? $storedStylesFront['fontSizeRowTable']->value.'px' : '14px';
+    $iconColorHeaderTable = isset($storedStylesFront['iconColorHeaderTable']) ? $storedStylesFront['iconColorHeaderTable']->value : $primaryColor;
+
 ?>
 
 <style type="text/css">
