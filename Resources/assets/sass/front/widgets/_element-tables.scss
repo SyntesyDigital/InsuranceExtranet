@@ -201,8 +201,8 @@
   padding-left:22px;
   &:before {
     position:absolute;
-    content:'\e150';
-    font-family: Glyphicons Halflings;
+    content:'\f0dc';
+    font-family: FontAwesome;
     top:7px;
     left:5px;
     color: #d7d7d7;
@@ -371,3 +371,34 @@
     @include line-clamp(1,20);
   }
 }
+
+body {
+  .react-table-container {
+    .ReactTable {
+      .rt-thead {
+        display: flex;
+        order: 2;
+        padding-left: 15px;
+        padding-right: 15px;
+        &.-filters{
+          display: flex;
+          order: 1;
+        }
+        .rt-resizable-header-content{
+          text-transform: capitalize;
+        }
+      }
+      .rt-tbody {
+        display: flex;
+        order: 3;
+        padding: 0px 15px;
+        .rt-tr-group {
+          border-bottom: none;
+          .rt-td {
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}   
