@@ -233,6 +233,7 @@
     $fontSizeHeaderTable = isset($storedStylesFront['fontSizeHeaderTable']) ? $storedStylesFront['fontSizeHeaderTable']->value.'px' : '14px';
     $fontSizeRowTable = isset($storedStylesFront['fontSizeRowTable']) ? $storedStylesFront['fontSizeRowTable']->value.'px' : '14px';
     $iconColorHeaderTable = isset($storedStylesFront['iconColorHeaderTable']) ? $storedStylesFront['iconColorHeaderTable']->value : $primaryColor;
+    $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
 
 ?>
 

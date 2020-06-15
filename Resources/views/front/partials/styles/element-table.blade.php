@@ -53,24 +53,30 @@
 
 body .element-table-container .rt-thead.-header{
   background-color: {{$headerBackgroundColorTable}};
+  font-size: {{$fontSizeHeaderTable}};
 }
 body .element-table-container .ReactTable .rt-thead .rt-resizable-header-content{
-  color: {{$headerColorTable}}
+  color: {{$headerColorTable}};
 }
-body .element-table-container .ReactTable .rt-thead .rt-resizable-header-content{
-  color: {{$rowColorTable}}
-}
-body .element-table-container .elementTable{
-  color: {{$rowColorTable}}
+body .element-table-container .elementTable .rt-tbody{
+  color: {{$rowColorTable}};
+  font-size: {{$fontSizeRowTable}};
 }
 body .element-table-container .rt-tr.-odd:hover, body .element-table-container .rt-tr.-even:hover {
-    background: {{$rowBackgroundHoverColorTable}}
+    background: {{$rowBackgroundHoverColorTable}};
+    color: {{$rowHoverColorTable}};
+}
+body .element-table-container .rt-tr.-odd:hover a, body .element-table-container .rt-tr.-even:hover a{
+    color: {{$rowHoverColorTable}};
+}
+body .element-table-container .rt-tbody .rt-tr.-even, body .element-table-container .rt-tr.-odd{
+    border-radius: {{$borderRadiusRowTable}};
 }
 body .element-table-container .rt-tr.-odd {
-    background: {{$rowOddBackgroundColorTable}}
+    background: {{$rowOddBackgroundColorTable}};
 }
 body .element-table-container .rt-tr.-even {
-    background: {{$rowEvenBackgroundColorTable}}
+    background: {{$rowEvenBackgroundColorTable}};
 }
 body .element-table-container .rt-thead .rt-th.-cursor-pointer:before, body .element-table-container .rt-thead .rt-td.-cursor-pointer:before{
     color: {{$iconColorHeaderTable}};
@@ -80,4 +86,5 @@ body .element-table-container .rt-thead .rt-th.-cursor-pointer:before, body .ele
 body .element-table-container .rt-thead.-filters input:focus{
     border: 1px solid {{$inputColor}};
 }
+
 </style>
