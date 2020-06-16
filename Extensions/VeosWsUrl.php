@@ -54,9 +54,9 @@ class VeosWsUrl
     public static function getEnvironmentOptions()
     {
         return [
-          self::DEV,
-          self::REC,
-          self::PROD,
+            self::DEV,
+            self::REC,
+            self::PROD,
         ];
     }
 }

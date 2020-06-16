@@ -6,18 +6,17 @@ class TokenLoginConnectorHandler
 {
     public $connector;
 
-    public function __construct($token, $provider) 
+    public function __construct($token, $provider)
     {
-        $connector = isset(config('services:tokenlogin.providers')[$provider]) 
-                ? config('services:tokenlogin.providers')[$provider] 
+        $connector = isset(config('services:tokenlogin.providers')[$provider])
+                ? config('services:tokenlogin.providers')[$provider]
                 : null;
 
-        if(!$connector) {
+        if (!$connector) {
             return false;
         }
 
-        $this->connector = new $connector;
-        $this->connector->setToken($token);
+        $this->connector = new $connector($token);
     }
 
     public function handle()

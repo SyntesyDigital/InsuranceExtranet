@@ -7,11 +7,12 @@ use GuzzleHttp\Client;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
 
-class LoginByUID
+class LoginByEmail
 {
-    public function __construct($uid)
+    public function __construct($uid, $env = null)
     {
         $this->uid = $uid;
+        $this->env = $env != null ? $env : VeosWsUrl::PROD;
     }
 
     /**
