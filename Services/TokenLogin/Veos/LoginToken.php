@@ -17,11 +17,11 @@ class LoginToken
      *
      * @return void
      */
-    public function __construct($login, $iss, $key)
+    public function __construct($login, $iss = null, $key = null)
     {
         $this->login = $login;
-        $this->iss = $iss;
-        $this->key = $key;
+        $this->iss = $iss ?: env('VEOS_ISS');
+        $this->key = $key ?: env('VEOS_KEY');
         $this->client = new Client();
 
         $this->testMode = substr(strtolower($this->login), -4) == '-dev' ? true : false;

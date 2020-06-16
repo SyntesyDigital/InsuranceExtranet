@@ -21,13 +21,15 @@ class SignInWhenToken
         $provider = $request->get('j') ? 'april' : $request->get('provider');
 
         if ($token) {
-            $login = dispatch_now(new TokenLoginConnectorHandler($token, $provider ? $provider : 'april'))
-                ->getLogin();
+            // Handle SSO provider connector
+            $connector = dispatch_now(new TokenLoginConnectorHandler($token, $provider ? $provider : 'april'));
 
-            if ($login) {
-                $veosToken = dispatch_now(new LoginToken($login, 'extranet - veos2 - RECETTE - OLEA', 'Fp.423GKOr2[;9gR^x-S6mplKJUAb{Gb'));
+            // Open VEOS session and get token
+            $veosToken = dispatch_now(new LoginToken($connector->getLogin()));
 
-                dd($veosToken);
+            // Init user session if VEOS token exist
+            if ($veosToken) {
+                dispatch_now(new SessionCreate($veosToken));
             }
         }
 

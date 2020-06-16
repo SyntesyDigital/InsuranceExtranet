@@ -62,7 +62,7 @@ class Login
                     return false;
                 }
 
-                return (new CreateSession($loginResult->token, $this->env))->handle();
+                return (new SessionCreate($loginResult->token, $this->env))->handle();
             }
         } catch (\Exception $ex) {
             throw $ex;

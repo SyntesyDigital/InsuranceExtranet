@@ -9,7 +9,7 @@ class ResponseAdapter implements ResponseAdapterInterface
     public function __construct($payload)
     {
         $this->payload = $payload;
-        $this->login = $payload->IdentifiantUtilisateurConnexion;
+        $this->login = $payload->Email;
     }
 
     public function getLogin()

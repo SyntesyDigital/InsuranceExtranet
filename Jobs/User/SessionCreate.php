@@ -4,55 +4,26 @@ namespace Modules\Extranet\Jobs\User;
 
 use Config;
 use GuzzleHttp\Client;
+use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
 
-class LoginByEmail
+class SessionCreate
 {
-    public function __construct($uid, $env = null)
+    private $login;
+    private $password;
+    private $test;
+
+    public function __construct($veosToken, $env = null)
     {
-        $this->uid = $uid;
+        $this->veosToken = $veosToken;
         $this->env = $env != null ? $env : VeosWsUrl::PROD;
+        $this->client = new Client();
     }
 
-    /**
-     * handle.
-     *
-     * @return void
-     */
     public function handle()
     {
-        $client = new Client();
-
-        $this->testMode = substr(strtolower($this->uid), -4) == '-dev' ? true : false;
-        $this->recMode = substr(strtolower($this->uid), -4) == '-rec' ? true : false;
-        $this->devMode = substr(strtolower($this->uid), -5) == '-dev2' ? true : false;
-
-        if ($this->testMode || $this->recMode) {
-            $this->uid = substr($this->uid, 0, -4);
-        } elseif ($this->devMode) {
-            $this->uid = substr($this->uid, 0, -5);
-        }
-
-        // Get signin user to veos and get token
-        $result = $client->post($this->getWsUrl().'login/token', [
-            'json' => [
-                'token' => JWT::encode([
-                    'iss' => $provider->iss,
-                    'iat' => time(),
-                    'login' => $this->uid,
-                ], $provider->encrypt_key),
-            ],
-        ]);
-
-        $payload = json_decode($result->getBody()->getContents());
-        $token = isset($payload->token) ? $payload->token : null;
-
-        if (!$token) {
-            return false;
-        }
-
-        $user = $this->getUser($token);
+        $user = $this->getUser($this->veosToken);
         $user->env = $this->env;
 
         if (!$user) {
@@ -63,41 +34,43 @@ class LoginByEmail
         $isSupervue = isset($user->{'USEREXT.supervue'}) && $user->{'USEREXT.supervue'} == 'Y' ? true : false;
 
         //get user sessions available
-        $sessions = $this->getSessions($WsUrl, $loginResult->token);
+        $sessions = $this->getSessions($this->veosToken);
         $currentSession = null;
 
-        //if no sessions exti
+        //if no sessions exit
         if (sizeof($sessions) == 0) {
             return false;
         } elseif (sizeof($sessions) == 1) {
             //if only one session take this one
-            $currentSession = $sessions[0]->session;
+            $currentSession = isset($sessions[0]->session)
+                ? $sessions[0]->session
+                : null;
         }
         //else need a modal to select from all sessions
 
         //get new session info depending on the current session
-        $sessionInfo = $this->getSessionInfo($currentSession, $loginResult->token);
+        $sessionInfo = $this->getSessionInfo($currentSession, $this->veosToken);
 
         //Check pages rights
         //get all pages so store in cache and no need to process again
-        $pages = $this->getPages($loginResult->token);
+        $pages = $this->getPages($this->veosToken);
 
         //check if possible to get allowed pages
         $allowedPages = $this->getAllowedPages(
             $currentSession,
             $pages,
-            $loginResult->token,
+            $this->veosToken,
             $sessionInfo
         );
 
-        $userData = [
+        $sessionData = [
             'id' => isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null,
             'firstname' => isset($user->{'USEREXT.nom_per'}) ? $user->{'USEREXT.nom_per'} : '',
             'lastname' => isset($user->{'USEREXT.nom2_per'}) ? $user->{'USEREXT.nom2_per'} : '',
             'email' => isset($user->{'USEREXT.email_per'}) ? $user->{'USEREXT.email_per'} : '',
             'phone' => isset($user->{'USEREXT.telprinc_per'}) ? $user->{'USEREXT.telprinc_per'} : '',
             'supervue' => $isSupervue,
-            'token' => $loginResult->token,
+            'token' => $this->veosToken,
             'env' => $this->env,
             'test' => $this->test,
             'role' => $this->processMainRole($sessionInfo),
@@ -109,23 +82,73 @@ class LoginByEmail
             'session_info' => $sessionInfo,
         ];
 
-        \Session::put('user', json_encode($userData));
+        \Session::put('user', json_encode($sessionData));
 
-        return $this->createUserSession($userData);
+        return $this->createUserSession($sessionData);
     }
 
     /**
-     * getWsUrl.
+     * getSessions.
+     *
+     * @param mixed $WsUrl
+     * @param mixed $token
      *
      * @return void
      */
-    public function getWsUrl()
+    private function getSessions($token)
     {
-        return VeosWsUrl::getEnvironmentUrl($this->env);
+        $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
+
+        $query = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_SESSIONS?perPage=500', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+
+        $payload = json_decode($query->getBody());
+
+        return isset($payload->data) ? $payload->data : null;
     }
 
     /**
-     * getUser.
+     * createUserSession.
+     *
+     * @param mixed $userData
+     *
+     * @return void
+     */
+    public function createUserSession($userData)
+    {
+        // Create user if not exist
+        $user = User::where('id_per', $userData['id'])->first();
+
+        if (!$user) {
+            $user = User::create([
+                'id_per' => $userData['id'],
+                'firstname' => $userData['firstname'],
+                'lastname' => $userData['lastname'],
+                'email' => $userData['email'],
+                'phone' => $userData['phone'],
+            ]);
+        }
+
+        // Remove of user session
+        UserSession::where('user_id', $user->id)->delete();
+
+        // Return session or create
+        return UserSession::create([
+            'user_id' => $user->id,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->header('User-Agent'),
+            'token' => $userData['token'],
+            'env' => $this->env,
+            'language' => 'fr',
+            'payload' => json_encode($userData),
+        ]);
+    }
+
+    /**
+     * Call Veos WS and get User data.
      *
      * @param mixed $token
      *
@@ -133,30 +156,25 @@ class LoginByEmail
      */
     public function getUser($token)
     {
-        $client = new Client();
-        $result = $client->get($this->getWsUrl().'personne', [
+        $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
+
+        $query = $this->client->get($WsUrl.'personne', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        $payload = json_decode($query->getBody()->getContents());
 
-        $personneInfo = json_decode($result->getBody()->getContents());
-
-        //get user info
-        $result = $client->get($WsUrl.'boBy/v2/WS_EXT2_USE?id_per_user='.$personneInfo->id, [
+        $query = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_USE?id_per_user='.$payload->id, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        $payload = json_decode($query->getBody()->getContents());
 
-        $userFile = json_decode($result->getBody()->getContents());
-
-        $userInfo = null;
-        if ($userFile->total > 0 && isset($userFile->data[0])) {
-            $userInfo = $userFile->data[0];
-        }
-
-        return $userInfo;
+        return $payload->total > 0 && isset($payload->data[0])
+            ? $payload->data[0]
+            : null;
     }
 
     /**
@@ -194,23 +212,19 @@ class LoginByEmail
      */
     private function getPages($token)
     {
-        $client = new Client();
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
-        $result = $client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_PAGES?perPage=100', [
-          'headers' => [
-              'Authorization' => 'Bearer '.$token,
-          ],
-      ]);
+        $result = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_PAGES?perPage=100', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
-        $data = json_decode($result->getBody()->getContents());
+        $payload = json_decode($result->getBody()->getContents());
 
-        $pages = [];
-        if ($data->total > 0 && isset($data->data)) {
-            $pages = $data->data;
-        }
-
-        return $pages;
+        return $payload->total > 0 && isset($payload->data)
+            ? $payload->data
+            : [];
     }
 
     /**
@@ -227,26 +241,30 @@ class LoginByEmail
             return null;
         }
 
-        $client = new Client();
         $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
-        $result = $client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_OPTIONS_SESSION?SES='.$currentSession, [
+        $result = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_DEF_OPTIONS_SESSION?SES='.$currentSession, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        $data = json_decode($result->getBody()->getContents());
+        $payload = json_decode($result->getBody()->getContents());
 
-        if ($data->total > 0 && isset($data->data[0])) {
-            return $data->data[0];
-        }
-
-        return null;
+        return $payload->total > 0 && isset($payload->data[0])
+            ? $payload->data[0]
+            : null;
     }
 
     /**
-     *   Return allowed slugs for this user.
+     * getAllowedPages.
+     *
+     * @param mixed $currentSession
+     * @param mixed $pages
+     * @param mixed $token
+     * @param mixed $sessionInfo
+     *
+     * @return void
      */
     private function getAllowedPages($currentSession, $pages, $token, $sessionInfo)
     {
