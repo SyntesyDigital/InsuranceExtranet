@@ -152,7 +152,10 @@ function formReducer(state = initialState, action) {
             
             role = state.role;
             index = getGroupIndex(role, action.payload);
+            var oldPermissions = role.groups[index].permissions;
+
             role.groups[index] = action.payload;
+            role.groups[index].permissions = oldPermissions;
 
             return {
                 ...state,

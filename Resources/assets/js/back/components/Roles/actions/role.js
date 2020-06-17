@@ -39,10 +39,12 @@ export function createRole(role) {
             default: role.default,
             permissions: getRolePermission(role)
         }).then(function (data) {
-            dispatch({
-                type: CREATE_ROLE,
-                payload: processRoleAfterUpdate(data.data.createRole, _role)
-            });
+            toastr.success(Lang.get('fields.success'));
+            window.location.href = routes['extranet.roles.update'].replace(':id',data.data.createRole.id);
+
+        },function(error){
+            console.log("error",error);
+            toastr.error(error.message);
         });
     }
 }
@@ -52,7 +54,7 @@ export function updateRole(role) {
     return (dispatch) => {
 
         var _role = role;
-
+        
         api.roles.update(role.id, {
             name: role.name,
             identifier: role.identifier,
@@ -60,10 +62,16 @@ export function updateRole(role) {
             default: role.default,
             permissions: getRolePermission(role)
         }).then(function (data) {
+
+            toastr.success(Lang.get('fields.success'));
+
             dispatch({ 
                 type: UPDATE_ROLE, 
                 payload: processRoleAfterUpdate(data.data.updateRole, _role) 
             });
+        },function(error){
+            console.error("error",error);
+            toastr.error(error.message);
         });
     }
 }
@@ -77,7 +85,6 @@ export function updatePermission(role, permission, value) {
             }
         }
     }
-
     return updateRole(role);
 }
 

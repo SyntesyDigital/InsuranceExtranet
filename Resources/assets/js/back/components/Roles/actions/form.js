@@ -26,6 +26,7 @@ export function initState(roleId) {
  * Reload role information after permission group change.
  */
 export function reload(roleId) {
+    console.log("form.js reload :: (roleId) ",roleId)
     return (roleId === undefined || roleId == null || roleId == '') 
         ? reloadPermissionAndGroups() 
         : reloadRole(roleId);
@@ -93,7 +94,7 @@ export function reloadRole(id) {
                 );
 
                 dispatch({
-                    type: UPDATE_GROUP,
+                    type: UPDATE_GROUPS,
                     payload: role.groups
                 });
             });
@@ -109,4 +110,13 @@ export function updateField(name, value) {
             value: value 
         } 
     };
+}
+
+export function removeRole(id) {
+    return (dispatch) => {
+        api.roles.delete(id)
+            .then(function (response) {
+                window.location.href = routes['extranet.roles.index'];
+            });
+    }
 }

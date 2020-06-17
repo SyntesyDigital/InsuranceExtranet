@@ -102,12 +102,18 @@ export function updatePermission(permission) {
                 identifier: permission.identifier,
                 group_id: permission.group
             }).then(function (response) {
+
+                toastr.success(Lang.get('fields.success'));
+
                 dispatch({ 
                     type: UPDATE_PERMISSION,
                     permission: response.data.updatePermission !== undefined 
                         ? response.data.updatePermission 
                         : null
                 });
+            },function(error){
+                console.error("error",error);
+                toastr.error(error.message);
             });
     }
 }
@@ -117,10 +123,16 @@ export function removePermission(permission) {
         api.permissions
             .delete(permission.id)
             .then(function (data) {
+
+                toastr.success(Lang.get('fields.success'));
+
                 dispatch({ 
                     type: REMOVE_PERMISSION, 
                     payload: data.data.deletePermission 
                 });
+            },function(error){
+                console.error("error",error);
+                toastr.error(error.message);
             });
     }
 }

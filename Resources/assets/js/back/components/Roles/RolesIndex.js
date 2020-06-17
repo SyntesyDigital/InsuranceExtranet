@@ -4,6 +4,7 @@ import PageTitle from '../Layout/PageTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
 import DataTable from '../Layout/DataTable';
 import Separator from '../Layout/Separator';
+import api from "../../api/";
 
 /**
  * Acciones : 
@@ -11,8 +12,44 @@ import Separator from '../Layout/Separator';
  */
 export default class RolesIndex extends Component {
 
+    constructor(props){
+      super(props);
+      this.datatable = React.createRef();
+    }
+
     removeItem(id) {
       console.log("RolesIndex :: removeItem :: (id) ",id);
+      
+      var self = this;
+      
+      bootbox.confirm({
+          message: Lang.get('fields.sure'),
+          buttons: {
+              confirm: {
+                  label: Lang.get('fields.si'),
+                  className: 'btn-primary'
+              },
+              cancel: {
+                  label: Lang.get('fields.no'),
+                  className: 'btn-default'
+              }
+          },
+          callback: function (result) {
+            if(result){
+              api.roles.delete(id)
+                .then(function (response) {
+                  toastr.success('Suppression effectué avec succès', {timeOut: 10000});
+                  
+                  const node = self.datatable.current;
+                  node.refreshDatatable();
+                  
+                }, function(response) {
+                  toastr.error('Il y avait une erreur');
+                });
+            }
+          }
+      });
+
     }
 
     handleDatatableClick(type,payload) {
@@ -46,6 +83,7 @@ export default class RolesIndex extends Component {
                 />
 
                 <DataTable
+                    ref={this.datatable}
                     id={'roles-datatable'}
                     columns={[
                         {data: 'icon', name: 'Icon'},

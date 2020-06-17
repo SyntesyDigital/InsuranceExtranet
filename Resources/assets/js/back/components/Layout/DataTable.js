@@ -67,6 +67,10 @@ export default class DataTable extends Component {
         $(this.refs.main).DataTable().destroy();
     }
 
+    refreshDatatable() {
+        $(this.refs.main).DataTable().ajax.reload();
+    }
+
     addField() {
 
     }

@@ -35,10 +35,16 @@ export function createGroup(group) {
             name: group.name,
             identifier: group.identifier
         }).then(function (data) {
+
+            toastr.success(Lang.get('fields.success'));
+
             dispatch({ 
                 type: CREATE_GROUP,
                 payload: data.data.createPermissionGroup 
             });
+        },function(error){
+            console.error("error",error);
+            toastr.error(error.message);
         });
     }
 }
@@ -49,10 +55,16 @@ export function updateGroup(group) {
             name: group.name,
             identifier: group.identifier
         }).then(function (data) {
+
+            toastr.success(Lang.get('fields.success'));
+
             dispatch({
                 type: UPDATE_GROUP, 
                 payload: data.data.updatePermissionGroup 
             });
+        },function(error){
+            console.error("error",error);
+            toastr.error(error.message);
         });
     }
 }
@@ -68,10 +80,16 @@ export function removeGroup(group) {
     return (dispatch) => {
         api.groups.delete(group.id)
             .then(function (data) {
+
+                toastr.success(Lang.get('fields.success'));
+
                 dispatch({ 
                     type: REMOVE_GROUP, 
                     payload: data.data.deletePermissionGroup 
                 });
+            },function(error){
+                console.error("error",error);
+                toastr.error(error.message);
             });
     }
 }
