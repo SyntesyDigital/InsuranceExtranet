@@ -123,6 +123,8 @@ class Login
 
                     $role = $this->processMainRole($sessionInfo);
 
+                    dd($role);
+
                     $service = resolve('Services/RolesPermissions');
 
                     $userData = [
