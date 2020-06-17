@@ -13,12 +13,14 @@ return [
         'label' => Lang::get('extranet::settings.parameters'),
         'roles' => [ROLE_SYSTEM],
     ],
+    /*
     [
         'route' => 'extranet.users.index',
         'icon' => 'fas fa-users',
         'label' => Lang::get('extranet::settings.users'),
         'roles' => [ROLE_SYSTEM],
     ],
+    */
     [
         'route' => 'extranet.roles.index',
         'icon' => 'fas fa-user-shield',

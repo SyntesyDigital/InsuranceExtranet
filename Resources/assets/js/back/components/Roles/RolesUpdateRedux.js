@@ -25,7 +25,8 @@ import {
     updatePermission,
     openModalCreatePermission,
     openModalPermissionFromGroup,
-    reload
+    reload,
+    removeRole
 } from './actions'
 
 class RolesUpdateRedux extends Component {
@@ -89,12 +90,37 @@ class RolesUpdateRedux extends Component {
         });
     }
 
+    /*
     handleDuplicate() {
         console.log("handleDuplicate");
     }
+    */
 
     handleRemove() {
-        console.log("handleRemoveRole");
+        //console.log("handleRemoveRole");
+
+        var self = this;
+
+        bootbox.confirm({
+            message: Lang.get('fields.sure'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si'),
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+              if(result){
+                self.props.removeRole(self.props.form.role.id);
+              }
+            }
+        });
+
+        
     }
 
     handleSubmit() {
@@ -202,7 +228,7 @@ class RolesUpdateRedux extends Component {
                 <ModalEditGroup
                     id={'modal-edit-group'}
                     icon={'fas fa-bars'}
-                    size={'small'}
+                    size={'medium'}
                     title={'Group | Edit'}
                     group={this.props.form.currentGroup}
                     zIndex={10000}
@@ -224,31 +250,33 @@ class RolesUpdateRedux extends Component {
                     />
                     */}
 
-                    <ButtonDropdown
-                        label={'Actions'}
-                        list={[
-                            {
-                                label: 'Nouveau',
-                                icon: 'fa fa-plus-circle',
-                                route: routes['extranet.roles.create'],
-                                className: ''
-                            },
-                            /*
-                            {
-                                label: 'Dupliquer',
-                                icon: 'far fa-copy',
-                                onClick: this.handleDuplicate.bind(this),
-                                className: ''
-                            },
-                            */
-                            {
-                                label: 'Supprimer',
-                                icon: 'fa fa-trash-alt',
-                                onClick: this.handleRemove.bind(this),
-                                className: 'text-danger'
-                            }
-                        ]}
-                    />
+                    {this.props.form.role.id != null && 
+                        <ButtonDropdown
+                            label={'Actions'}
+                            list={[
+                                {
+                                    label: 'Nouveau',
+                                    icon: 'fa fa-plus-circle',
+                                    route: routes['extranet.roles.create'],
+                                    className: ''
+                                },
+                                /*
+                                {
+                                    label: 'Dupliquer',
+                                    icon: 'far fa-copy',
+                                    onClick: this.handleDuplicate.bind(this),
+                                    className: ''
+                                },
+                                */
+                                {
+                                    label: 'Supprimer',
+                                    icon: 'fa fa-trash-alt',
+                                    onClick: this.handleRemove.bind(this),
+                                    className: 'text-danger'
+                                }
+                            ]}
+                        />
+                    }
 
                     <ButtonPrimary
                         label={'Sauvegarder'}
@@ -349,6 +377,9 @@ const mapDispatchToProps = dispatch => {
         },
         openModalPermissionFromGroup: (group) => {
             return dispatch(openModalPermissionFromGroup(group))
+        },
+        removeRole : (id) => {
+            return dispatch(removeRole(id))
         }
     }
 }

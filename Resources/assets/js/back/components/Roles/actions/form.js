@@ -110,3 +110,12 @@ export function updateField(name, value) {
         } 
     };
 }
+
+export function removeRole(id) {
+    return (dispatch) => {
+        api.roles.delete(id)
+            .then(function (response) {
+                window.location.href = routes['extranet.roles.index'];
+            });
+    }
+}

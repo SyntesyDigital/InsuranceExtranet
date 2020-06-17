@@ -163,7 +163,7 @@ class ModalEditPermision extends Component {
                 onCancel={this.props.cancelEditPermission}
                 onRemove={this.handleRemove.bind(this)}
                 onSubmit={this.handleSubmit.bind(this)}
-                size={'small'}
+                size={'medium'}
             >
                 <div className="row">
                     {/*

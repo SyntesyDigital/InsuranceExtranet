@@ -113,10 +113,11 @@ export const GQL_GET_ROLE = gql`
 export const GQL_CREATE_ROLE = gql`
     mutation createRole(
             $name: String!
-            $identifier: String
+            $identifier: String!
             $icon: String
             $default: Boolean
             $description: String
+            $permissions: [String]
         ) {
             createRole(
                 input: {
@@ -125,6 +126,7 @@ export const GQL_CREATE_ROLE = gql`
                     description: $description
                     icon: $icon
                     default: $default
+                    permissions : $permissions
                 }
             ) {
                 id
@@ -133,6 +135,15 @@ export const GQL_CREATE_ROLE = gql`
                 icon 
                 description 
                 default
+                permissions {
+                    id
+                    name
+                    identifier
+                    group {
+                        id
+                        name
+                    }
+                }
             }
     } 
 `;
@@ -150,10 +161,11 @@ export const GQL_UPDATE_ROLE = gql`
     mutation updateRole(
             $id: ID!
             $name: String!
+            $identifier: String!
             $icon: String
-            $identifier: String
             $description: String
             $default: Boolean
+            $permissions: [String]
         ) {
             updateRole(
                 input: {
@@ -163,13 +175,19 @@ export const GQL_UPDATE_ROLE = gql`
                     identifier: $identifier
                     description: $description
                     default: $default
+                    permissions : $permissions
                 }
             ) {
                 id
                 name
                 identifier
+                icon
                 description
                 default
+                permissions {
+                    id
+                    name
+                }
             }
     } 
 `;
