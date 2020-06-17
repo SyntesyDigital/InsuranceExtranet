@@ -161,7 +161,7 @@ class RolesUpdateRedux extends Component {
         return this.props.form.role.groups.map((item, index) =>
             <CollapsableGroup
                 key={item.id}
-                identifier={item.identifier}
+                identifier={item.id}
                 title={item.name}
                 icon=''
                 editable={true}
@@ -197,7 +197,7 @@ class RolesUpdateRedux extends Component {
                 <div className="container-checkbox">
                     <Checkbox
                         key={item.id}
-                        title={item.name}
+                        title={item.identifier}
                         iconEdit={'far fa-edit'}
                         isEdit={true}
                         disabled={this.props.form.role.id == null}

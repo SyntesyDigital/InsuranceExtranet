@@ -70,7 +70,7 @@ export function updateRole(role) {
                 payload: processRoleAfterUpdate(data.data.updateRole, _role) 
             });
         },function(error){
-            console.log("error",error);
+            console.error("error",error);
             toastr.error(error.message);
         });
     }

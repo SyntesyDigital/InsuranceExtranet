@@ -165,7 +165,7 @@ export const GQL_UPDATE_ROLE = gql`
             $icon: String
             $description: String
             $default: Boolean
-            $permissions: [String]
+            $permissions: [ID!]
         ) {
             updateRole(
                 input: {
@@ -175,7 +175,9 @@ export const GQL_UPDATE_ROLE = gql`
                     identifier: $identifier
                     description: $description
                     default: $default
-                    permissions : $permissions
+                    permissions : { 
+                        sync : $permissions
+                    }
                 }
             ) {
                 id
@@ -187,6 +189,11 @@ export const GQL_UPDATE_ROLE = gql`
                 permissions {
                     id
                     name
+                    identifier
+                    group {
+                        id
+                        name
+                    }
                 }
             }
     } 
