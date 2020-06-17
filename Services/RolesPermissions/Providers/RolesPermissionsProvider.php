@@ -2,8 +2,10 @@
 
 namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
+use App\Http\Middleware\Roles;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
+use Modules\Extranet\Services\RolesPermissions\Middleware\Permissions;
 use Modules\Extranet\Services\RolesPermissions\Services\RolesPermissionsService;
 
 class RolesPermissionsProvider extends ServiceProvider
@@ -52,7 +54,9 @@ class RolesPermissionsProvider extends ServiceProvider
      */
     public function registerMiddlewares()
     {
-        $this->app['router']->aliasMiddleware('abilities', HasAbilitiesRoute::class);
+        $this->app['router']->aliasMiddleware('permissions', Permissions::class);
+        //$this->app['router']->aliasMiddleware('roles', Roles::class);
+        //$this->app['router']->aliasMiddleware('abilities', HasAbilitiesRoute::class);
     }
 
     /**
