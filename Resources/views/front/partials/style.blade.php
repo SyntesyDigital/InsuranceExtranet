@@ -68,6 +68,12 @@
     $frontBodyH4FontSize = isset($storedStylesFront['frontBodyH4FontSize']) ? $storedStylesFront['frontBodyH4FontSize']->value.'px' : '18px';
     $frontBodyH5FontSize = isset($storedStylesFront['frontBodyH5FontSize']) ? $storedStylesFront['frontBodyH5FontSize']->value.'px' : '14px';
 
+    $frontBodyH1FontWeight = isset($storedStylesFront['frontBodyH1FontWeight']) ? $storedStylesFront['frontBodyH1FontWeight']->value : '500';
+    $frontBodyH2FontWeight = isset($storedStylesFront['frontBodyH2FontWeight']) ? $storedStylesFront['frontBodyH2FontWeight']->value : '500';
+    $frontBodyH3FontWeight = isset($storedStylesFront['frontBodyH3FontWeight']) ? $storedStylesFront['frontBodyH3FontWeight']->value : '500';
+    $frontBodyH4FontWeight = isset($storedStylesFront['frontBodyH4FontWeight']) ? $storedStylesFront['frontBodyH4FontWeight']->value : '500';
+    $frontBodyH5FontWeight = isset($storedStylesFront['frontBodyH5FontWeight']) ? $storedStylesFront['frontBodyH5FontWeight']->value : '500';
+
   //ELEMENTS
     $elementBorder = isset($storedStylesFront['frontElementBorder']) ? $storedStylesFront['frontElementBorder']->value : $bodyBackgroundColor;
     $elementHeadBackground = isset($storedStylesFront['frontElementHeadBackground']) ? $storedStylesFront['frontElementHeadBackground']->value : $elementsBackgroundColor;
@@ -131,6 +137,20 @@
     $fontSizeNumbers = isset($storedStylesFront['fontSizeNumbers']) ? $storedStylesFront['fontSizeNumbers']->value.'px' : '40px';
     $fontSizeLabel = isset($storedStylesFront['fontSizeLabel']) ? $storedStylesFront['fontSizeLabel']->value.'px' : '16px';
 
+    //BOX TOTAL PRICE
+    $titleColorBoxPrice = isset($storedStylesFront['titleColorBoxPrice']) ? $storedStylesFront['titleColorBoxPrice']->value : $primaryColor;
+    $backgroundColorBoxPrice = isset($storedStylesFront['backgroundColorBoxPrice']) ? $storedStylesFront['backgroundColorBoxPrice']->value : $secondaryColor;
+    $backgroundHoverColorBoxPrice = isset($storedStylesFront['backgroundHoverColorBoxPrice']) ? $storedStylesFront['backgroundHoverColorBoxPrice']->value : $secondaryColor;
+    $subtitleColorBoxPrice = isset($storedStylesFront['subtitleColorBoxPrice']) ? $storedStylesFront['subtitleColorBoxPrice']->value : $primaryColor;
+    $subtitle2ColorBoxPrice = isset($storedStylesFront['subtitle2ColorBoxPrice']) ? $storedStylesFront['subtitle2ColorBoxPrice']->value : $primaryColor;
+    $elementNumberPriceColorBoxPrice = isset($storedStylesFront['elementNumberPriceColorBoxPrice']) ? $storedStylesFront['elementNumberPriceColorBoxPrice']->value : $primaryColor;
+    $fontSizeTitleBoxPrice = isset($storedStylesFront['fontSizeTitleBoxPrice']) ? $storedStylesFront['fontSizeTitleBoxPrice']->value.'px' : '16px';
+    $fontSizeSubTitleBoxPrice = isset($storedStylesFront['fontSizeSubTitleBoxPrice']) ? $storedStylesFront['fontSizeSubTitleBoxPrice']->value.'px' : '16px';
+    $fontSizeSubTitle2BoxPrice = isset($storedStylesFront['fontSizeSubTitle2BoxPrice']) ? $storedStylesFront['fontSizeSubTitle2BoxPrice']->value.'px' : '12px';
+    $fontSizeNumberBoxPrice = isset($storedStylesFront['fontSizeNumberBoxPrice']) ? $storedStylesFront['fontSizeNumberBoxPrice']->value.'px' : '30px';
+    $borderRadiusBoxPrice = isset($storedStylesFront['borderRadiusBoxPrice']) ? $storedStylesFront['borderRadiusBoxPrice']->value.'px' : $buttonRadius;
+    $boxShadowOpacityBoxPrice = isset($storedStylesFront['boxShadowOpacityBoxPrice']) ? $storedStylesFront['boxShadowOpacityBoxPrice']->value : '0';
+
     //LOGIN
 
    // $loginBackgroundColor = isset($storedStylesFront['loginBackgroundColor']) ? $storedStylesFront['loginBackgroundColor']->value : $bodyBackgroundColor;
@@ -184,6 +204,25 @@
     $descFontSizeImgTxtLink = isset($storedStylesFront['descFontSizeImgTxtLink']) ? $storedStylesFront['descFontSizeImgTxtLink']->value.'px' : '14px';
     $descColorImgTxtLink = isset($storedStylesFront['descColorImgTxtLink']) ? $storedStylesFront['descColorImgTxtLink']->value : $secondaryColor;
     $borderRadiusImgTxtLink = isset($storedStylesFront['borderRadiusImgTxtLink']) ? $storedStylesFront['borderRadiusImgTxtLink']->value.'px' : '20px';
+
+    //IMAGE TEXT TITLE DOCUMENTS
+    $titleColorImgTxtTitleDocuments = isset($storedStylesFront['titleColorImgTxtTitleDocuments']) ? $storedStylesFront['titleColorImgTxtTitleDocuments']->value : $primaryColor;
+    $buttonColorImgTxtTitleDocuments = isset($storedStylesFront['buttonColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonColorImgTxtTitleDocuments']->value : $primaryColor;
+    $buttonBackgroundColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']->value : $secondaryColor;
+    $buttonBackgroundHoverColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']->value : $primaryColor;
+    $buttonColorHoverImgTxtTitleDocuments = isset($storedStylesFront['buttonColorHoverImgTxtTitleDocuments']) ? $storedStylesFront['buttonColorHoverImgTxtTitleDocuments']->value : $secondaryColor;
+    $buttonBorderColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBorderColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBorderColorImgTxtTitleDocuments']->value : '#A8A8A8';
+    $button2ColorImgTxtTitleDocuments = isset($storedStylesFront['button2ColorImgTxtTitleDocuments']) ? $storedStylesFront['button2ColorImgTxtTitleDocuments']->value : $secondaryColor;
+    $button2BackgroundColorImgTxtTitleDocuments = isset($storedStylesFront['button2BackgroundColorImgTxtTitleDocuments']) ? $storedStylesFront['button2BackgroundColorImgTxtTitleDocuments']->value : $primaryColor;
+    $button2BackgroundHoverColorImgTxtTitleDocuments = isset($storedStylesFront['button2BackgroundHoverColorImgTxtTitleDocuments']) ? $storedStylesFront['button2BackgroundHoverColorImgTxtTitleDocuments']->value : $secondaryColor;
+    $button2ColorHoverImgTxtTitleDocuments = isset($storedStylesFront['button2ColorHoverImgTxtTitleDocuments']) ? $storedStylesFront['button2ColorHoverImgTxtTitleDocuments']->value : $primaryColor;
+    $button2BorderColorImgTxtTitleDocuments = isset($storedStylesFront['button2BorderColorImgTxtTitleDocuments']) ? $storedStylesFront['button2BorderColorImgTxtTitleDocuments']->value : $primaryColor;
+    $descColorImgTxtTitleDocuments = isset($storedStylesFront['descColorImgTxtTitleDocuments']) ? $storedStylesFront['descColorImgTxtTitleDocuments']->value : $primaryColor;
+    $titleFontSizeImgTitleDocuments = isset($storedStylesFront['titleFontSizeImgTitleDocuments']) ? $storedStylesFront['titleFontSizeImgTitleDocuments']->value.'px' : '20px';
+    $descFontSizeImgTxtTitleDocuments = isset($storedStylesFront['descFontSizeImgTxtTitleDocuments']) ? $storedStylesFront['descFontSizeImgTxtTitleDocuments']->value.'px' : '16px';
+    $borderRadiusButtonsImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']->value.'px' : '30px';
+    $borderRadiusImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusImgTxtTitleDocuments']->value.'px' : '20px';
+    $buttonsFontSizeImgTitleDocuments = isset($storedStylesFront['buttonsFontSizeImgTitleDocuments']) ? $storedStylesFront['buttonsFontSizeImgTitleDocuments']->value.'px' : '16px';
 
     //HORIZONTAL BANNER
     $titleColorHorizontalBanner = isset($storedStylesFront['titleColorHorizontalBanner']) ? $storedStylesFront['titleColorHorizontalBanner']->value : $primaryColor;
@@ -249,6 +288,7 @@
 @include('extranet::front.partials.styles.element-table')
 @include('extranet::front.partials.styles.modal-table')
 @include('extranet::front.partials.styles.total-box')
+@include('extranet::front.partials.styles.total-box-price')
 @include('extranet::front.partials.styles.form')
 @include('extranet::front.partials.styles.form-template')
 @include('extranet::front.partials.styles.stepper')
@@ -256,6 +296,7 @@
 @include('extranet::front.partials.styles.missing-documents')
 @include('extranet::front.partials.styles.action-button')
 @include('extranet::front.partials.styles.image-text-link')
+@include('extranet::front.partials.styles.image-text-title-documents')
 @include('extranet::front.partials.styles.banner-horizontal')
 @include('extranet::front.partials.styles.sidebar')
 @include('extranet::front.partials.styles.range-field')
