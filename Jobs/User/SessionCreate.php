@@ -14,9 +14,10 @@ class SessionCreate
     private $password;
     private $test;
 
-    public function __construct($veosToken, $env = null)
+    public function __construct($veosToken, $env = null, $params = [])
     {
         $this->veosToken = $veosToken;
+        $this->params = $params;
         $this->env = $env != null ? $env : VeosWsUrl::PROD;
         $this->client = new Client();
     }
@@ -82,6 +83,11 @@ class SessionCreate
             'session_id' => $currentSession,
             'session_info' => $sessionInfo,
         ];
+
+        // Merge constructor passed parameters to session
+        if ($this->params) {
+            $sessionData = array_merge($sessionData, $this->params);
+        }
 
         \Session::put('user', json_encode($sessionData));
 
