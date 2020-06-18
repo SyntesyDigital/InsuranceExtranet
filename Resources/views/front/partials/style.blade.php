@@ -230,17 +230,17 @@
     $subtitleColorHorizontalBanner = isset($storedStylesFront['subtitleColorHorizontalBanner']) ? $storedStylesFront['subtitleColorHorizontalBanner']->value : $secondaryColor;
     $subtitleHoverColorHorizontalBanner = isset($storedStylesFront['subtitleHoverColorHorizontalBanner']) ? $storedStylesFront['subtitleHoverColorHorizontalBanner']->value : $secondaryColor;
     $backgroundColorHorizontalBanner = isset($storedStylesFront['backgroundColorHorizontalBanner']) ? $storedStylesFront['backgroundColorHorizontalBanner']->value : '#fff';
-    $backgroundColorHoverHorizontalBanner = isset($storedStylesFront['backgroundColorHoverHorizontalBanner']) ? $storedStylesFront['backgroundColorHoverHorizontalBanner']->value : $secondaryColor;
+    $backgroundColorHoverHorizontalBanner = isset($storedStylesFront['backgroundColorHoverHorizontalBanner']) ? $storedStylesFront['backgroundColorHoverHorizontalBanner']->value : '#fff';
     $iconArrowColorHorizontalBanner = isset($storedStylesFront['iconArrowColorHorizontalBanner']) ? $storedStylesFront['iconArrowColorHorizontalBanner']->value : $primaryColor;
     $iconArrowHoverColorHorizontalBanner = isset($storedStylesFront['iconArrowHoverColorHorizontalBanner']) ? $storedStylesFront['iconArrowHoverColorHorizontalBanner']->value : $primaryColor;
     $titleFontSizeHorizontalBanner = isset($storedStylesFront['titleFontSizeHorizontalBanner']) ? $storedStylesFront['titleFontSizeHorizontalBanner']->value.'px' : '14px';
     $subtitleFontSizeHorizontalBanner = isset($storedStylesFront['subtitleFontSizeHorizontalBanner']) ? $storedStylesFront['subtitleFontSizeHorizontalBanner']->value.'px' : '18px';
     $borderRadiusHorizontalBanner = isset($storedStylesFront['borderRadiusHorizontalBanner']) ? $storedStylesFront['borderRadiusHorizontalBanner']->value.'px' : $buttonRadius;
-    $boxShadowOpacityHorizontalBanner = isset($storedStylesFront['boxShadowOpacityHorizontalBanner']) ? $storedStylesFront['boxShadowOpacityHorizontalBanner']->value : '0';
+    $boxShadowOpacityHorizontalBanner = isset($storedStylesFront['boxShadowOpacityHorizontalBanner']) ? $storedStylesFront['boxShadowOpacityHorizontalBanner']->value : '15';
 
     //ACTION BUTTON
-    $backgroundColorActionButton = isset($storedStylesFront['backgroundColorActionButton']) ? $storedStylesFront['backgroundColorActionButton']->value : $primaryColor;
-    $backgroundHoverColorActionButton = isset($storedStylesFront['backgroundHoverColorActionButton']) ? $storedStylesFront['backgroundHoverColorActionButton']->value : $primaryColor;
+    $backgroundColorActionButton = isset($storedStylesFront['backgroundColorActionButton']) ? $storedStylesFront['backgroundColorActionButton']->value : '#fff';
+    $backgroundHoverColorActionButton = isset($storedStylesFront['backgroundHoverColorActionButton']) ? $storedStylesFront['backgroundHoverColorActionButton']->value : '#fff';
     $iconColorActionButton = isset($storedStylesFront['iconColorActionButton']) ? $storedStylesFront['iconColorActionButton']->value : $secondaryColor;
     $iconHoverColorActionButton = isset($storedStylesFront['iconHoverColorActionButton']) ? $storedStylesFront['iconHoverColorActionButton']->value : $primaryColor;
     $titleColorActionButton = isset($storedStylesFront['titleColorActionButton']) ? $storedStylesFront['titleColorActionButton']->value : $primaryColor;
@@ -250,7 +250,7 @@
     $borderBottomRightActionButton = isset($storedStylesFront['borderBottomRightActionButton']) ? $storedStylesFront['borderBottomRightActionButton']->value : '0px';
     $borderBottomLeftActionButton = isset($storedStylesFront['borderBottomLeftActionButton']) ? $storedStylesFront['borderBottomLeftActionButton']->value : '0px';
     $fontSizeTitleActionButton = isset($storedStylesFront['fontSizeTitleActionButton']) ? $storedStylesFront['fontSizeTitleActionButton']->value.'px' : '18px';
-    $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '0';
+    $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '15';
 
     //TABS
     $fontColorTab = isset($storedStylesFront['fontColorTab']) ? $storedStylesFront['fontColorTab']->value : $secondaryColor;
