@@ -152,7 +152,7 @@ Route::group([
   'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
   'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
-    Route::post('/session', 'UserController@setUserSession')->name('session.update');
+    Route::post('/user/session/renew', 'UserController@setUserSession')->name('session.update');
 
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');
     Route::get(LaravelLocalization::transRoute('routes.tag.index'), 'TagController@index')->name('blog.tag.index');

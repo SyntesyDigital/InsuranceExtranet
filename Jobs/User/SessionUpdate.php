@@ -33,7 +33,6 @@ class SessionUpdate
 
         //get allowed pages rights
         $userData->session_id = $this->attributes['session_id'];
-
         $userData->allowed_pages = $this->getAllowedPages($sessionInfo, $userData->pages);
 
         //update role for session role
