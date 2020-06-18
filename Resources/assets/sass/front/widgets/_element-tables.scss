@@ -377,7 +377,6 @@ body {
     .ReactTable {
       .rt-thead {
         display: flex;
-        order: 1;
         padding-left: 15px;
         padding-right: 15px;
         &.-header{
@@ -386,7 +385,6 @@ body {
         }
         &.-filters{
           display: flex;
-          // order: 1;
         }
         .rt-resizable-header-content{
           text-transform: capitalize;
