@@ -6,9 +6,8 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use Modules\Extranet\Services\TokenLogin\Connectors\Interfaces\TokenLoginConnectorInterface;
 
-class Connector implements TokenLoginConnectorInterface
+class AprilControleJeton
 {
     /**
      * __construct.
@@ -22,6 +21,7 @@ class Connector implements TokenLoginConnectorInterface
     {
         $this->token = $token;
         $this->caller = $caller;
+        $this->client = new Client();
     }
 
     /**
@@ -31,18 +31,15 @@ class Connector implements TokenLoginConnectorInterface
      */
     public function handle()
     {
-        $client = new Client();
-
         try {
-            $response = $client->post('https://sso.rec.intrapril.fr/v4/ControleJeton.asmx', [
+            // Exec query
+            $response = $this->client->post(env('APRIL_WS_SSO', 'https://sso.rec.intrapril.fr/v4/ControleJeton.asmx'), [
                 'body' => $this->getSoapRequest(),
                 'headers' => [
                     'Content-Type' => 'application/soap+xml;charset=UTF-8',
                     'SOAPAction' => 'http://april-technologies.com/crt/service/controle-jeton/4/VerificationJeton',
                 ],
             ]);
-
-            return new ResponseAdapter($this->parseSoapResponse($response->getBody()->getContents()));
         } catch (ServerException $e) {
             abort(505, $e->getResponse()->getBody()->getContents());
         } catch (Exception $e) {
@@ -51,7 +48,8 @@ class Connector implements TokenLoginConnectorInterface
             abort(505, $e->getResponse()->getBody()->getContents());
         }
 
-        return null;
+        // Response Adapter
+        return new AprilResponseAdapter($this->parseSoapResponse($response->getBody()->getContents()));
     }
 
     /**

@@ -24,6 +24,7 @@ class SessionCreate
     public function handle()
     {
         $user = $this->getUser($this->veosToken);
+
         $user->env = $this->env;
 
         if (!$user) {

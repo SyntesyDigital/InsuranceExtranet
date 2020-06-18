@@ -4,7 +4,7 @@ namespace Modules\Extranet\Services\TokenLogin\Connectors\April;
 
 use Modules\Extranet\Services\TokenLogin\Connectors\Interfaces\ResponseAdapterInterface;
 
-class ResponseAdapter implements ResponseAdapterInterface
+class AprilResponseAdapter implements ResponseAdapterInterface
 {
     public function __construct($payload)
     {
