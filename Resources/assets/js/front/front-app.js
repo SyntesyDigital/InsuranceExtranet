@@ -33,4 +33,4 @@ require('./components/Widgets/Lists/TableList/TableList');
  
 import { default as UserSessionService } from './../services/UserSessionService';
 
-const userSession = new UserSessionService(SESSION !== undefined ? SESSION : {});
+window.userSession = new UserSessionService(SESSION !== undefined ? SESSION : {});

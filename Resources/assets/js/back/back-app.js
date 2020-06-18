@@ -28,6 +28,6 @@ import {
     default as UserSessionService 
 } from './../services/UserSessionService';
 
-const userSession = new UserSessionService(CURRENT_USER);
+window.userSession = new UserSessionService(CURRENT_USER);
 
 
