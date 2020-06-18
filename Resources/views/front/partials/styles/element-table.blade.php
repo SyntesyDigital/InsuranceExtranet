@@ -13,6 +13,10 @@
   padding-bottom:20px;
 }
 
+.element-table-container .element-table-container-head i{
+  color:{{$elementHeadIconColor}};
+}
+
 .element-table-container .element-collapsable.element-table-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};

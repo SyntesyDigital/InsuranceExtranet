@@ -11,6 +11,10 @@
   padding-bottom:10px;
 }
 
+.element-file-container .element-file-container-head i{
+  color:{{$elementHeadIconColor}};
+}
+
 .element-file-container .element-collapsable.element-file-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
