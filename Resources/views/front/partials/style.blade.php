@@ -273,6 +273,8 @@
     $fontSizeRowTable = isset($storedStylesFront['fontSizeRowTable']) ? $storedStylesFront['fontSizeRowTable']->value.'px' : '14px';
     $iconColorHeaderTable = isset($storedStylesFront['iconColorHeaderTable']) ? $storedStylesFront['iconColorHeaderTable']->value : $primaryColor;
     $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
+    $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
+    $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
 
 ?>
 
