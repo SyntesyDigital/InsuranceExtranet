@@ -203,6 +203,10 @@ class ModelValuesFormatTransformer extends Resource
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('m-Y');
                                         } elseif ($elementField->settings['format'] == 'year') {
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('Y');
+                                        } elseif ($elementField->settings['format'] == 'day_month_year_hour') {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d/m/Y H:i');
+                                        } elseif ($elementField->settings['format'] == 'hour') {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('H:i');
                                         }
                                     }
                                 } else {

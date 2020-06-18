@@ -198,7 +198,7 @@
 }
 
 .ReactTable .rt-thead .rt-th.-cursor-pointer, .ReactTable .rt-thead .rt-td.-cursor-pointer{
-  padding-left:22px;
+  padding-right:22px;
   &:before {
     position:absolute;
     content:'\f0dc';
@@ -377,7 +377,7 @@ body {
     .ReactTable {
       .rt-thead {
         display: flex;
-        order: 2;
+        order: 1;
         padding-left: 15px;
         padding-right: 15px;
         &.-filters{

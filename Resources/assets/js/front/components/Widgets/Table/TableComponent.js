@@ -9,6 +9,14 @@ import ExportButton from './ExportButton';
 
 import moment from 'moment';
 
+import {
+  parseNumber,
+  parseDate,
+  getConditionalFormating,
+  hasConditionalFormatting,
+  getTextAlign
+} from '../functions';
+
 //const selectors = Data.Selectors;
 
 export default class TableComponent extends Component {
@@ -250,144 +258,23 @@ export default class TableComponent extends Component {
 
     }
 
-    getConditionalFormating(field,value) {
-
-      value = value.toLowerCase();
-      
-      if(field.settings.conditionalFormatting !== undefined && 
-        field.settings.conditionalFormatting != null) {
-        
-        for(var key in field.settings.conditionalFormatting.conditions){
-          var condition = field.settings.conditionalFormatting.conditions[key];
-          if(value.indexOf(condition.value.toLowerCase()) != -1) {
-            //if the string is contained in the string
-            return {
-              color : condition.color,
-              backgroundColor : condition.backgroundColor,
-            };
-          }
-        }
-      }
-
-      return {};
-    }
-
-    hasConditionalFormatting(conditionalFormatting) {
-      if(conditionalFormatting.color !== undefined){
-        return true;
-      }
-      return false;
-    }
-
-
-    numberFormat (number, decimals, dec_point, thousands_sep) {
-      // Strip all characters but numerical ones.
-      number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-      var n = !isFinite(+number) ? 0 : +number,
-          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-          s = '',
-          toFixedFix = function (n, prec) {
-              var k = Math.pow(10, prec);
-              return '' + Math.round(n * k) / k;
-          };
-      // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-      s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-      if (s[0].length > 3) {
-          s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-      }
-      if ((s[1] || '').length < prec) {
-          s[1] = s[1] || '';
-          s[1] += new Array(prec - s[1].length + 1).join('0');
-      }
-      return s.join(dec);
-    }
-
-    parseNumber(value,field) {
-
-      if(value !== undefined && value != ""){
-
-        var hideCurrency = field.settings.hideCurrency !== undefined 
-          ? field.settings.hideCurrency : false;
-
-        var currency = hideCurrency ? "" : "€";
-
-        if(field.settings !== undefined && field.settings.format !== undefined){
-          switch(field.settings.format) {
-            case 'price':
-              value = this.numberFormat(value, 0, ',', '.') + currency;
-              break;
-            case 'price_with_decimals':
-              value = this.numberFormat(value, 2, ',', '.') + currency;
-              break;
-            case 'price_with_decimals_2':
-              value = this.numberFormat(value, 2, '.', ' ') + currency;
-              break;
-          }
-        }
-      }
-      
-      return value;
-
-    }
-
     renderCell(field,identifier,row) {
 
       var value = row.original[identifier];
 
       if(field.type == "date") {
           //console.log("renderCell => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != null && row.original[identifier] != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-             // console.log(field.settings.format)
-              switch(field.settings.format) {
-                case 'day_month':
-                  value = moment.unix(row.original[identifier]).format('DD/MM');
-                  break;
-                case 'day_month_year':
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-                  break;
-                case 'day_month_year_2':
-                  value = moment.unix(row.original[identifier]).format('DD-MM-YYYY');
-                  break;
-                case 'month_year':
-                  value = moment.unix(row.original[identifier]).format('MM/YYYY');
-                  break;
-                case 'year':
-                  value = moment.unix(row.original[identifier]).format('YYYY');
-                  break;
-                default  :
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-                  break;
-              }
-            }
-            else {
-              value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-            }
-          }
+          value = parseDate(value,field);
       }
       if(field.type == "number") {
-          console.log("renderCell :: number => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != ""){
-            value = this.parseNumber(row.original[identifier],field);
-          }
+          value = parseNumber(value,field);
       }
 
-      var style = {};
-      var hasColor = false;
-      var textAlign = "";
+      console.log("value => ",value);
+      var style = getConditionalFormating(field,value);
+      var hasColor = hasConditionalFormatting(style);
+      var textAlign = getTextAlign(field);
       
-      if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
-        style=this.getConditionalFormating(field,value);
-        hasColor = this.hasConditionalFormatting(style);
-      }
-
-      if(field.settings.textAlign !== undefined && field.settings.textAlign != null) {
-        textAlign='text-'+field.settings.textAlign;
-      }
-
       if(field.type == "file"){
         return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
