@@ -380,9 +380,13 @@ body {
         order: 1;
         padding-left: 15px;
         padding-right: 15px;
+        &.-header{
+          box-shadow: none !important;
+          border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
         &.-filters{
           display: flex;
-          order: 1;
+          // order: 1;
         }
         .rt-resizable-header-content{
           text-transform: capitalize;
