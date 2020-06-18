@@ -90,16 +90,23 @@ body .element-table-container .rt-thead .rt-th.-cursor-pointer:before, body .ele
 body .element-table-container .rt-thead.-filters input:focus{
     border: 1px solid {{$inputColor}};
 }
-
+@php
+@endphp
 @if (isset($alignFilterTable) && $alignFilterTable == 'top')
   body .react-table-container .ReactTable .rt-thead.-filters{
-    order: 1
+    order: 1;
+  }
+  body .react-table-container .ReactTable .rt-thead.-header{
+    order: 2;
   }
 @endif
 
 @if (isset($alignFilterTable) && $alignFilterTable == 'bottom')
   body .react-table-container .ReactTable .rt-thead.-filters{
-    order: 3;
+    order: 2;
+  }
+  body .react-table-container .ReactTable .rt-thead.-filters{
+    order: 1;
   }
 @endif
 
