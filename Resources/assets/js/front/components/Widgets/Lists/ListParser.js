@@ -236,7 +236,7 @@ export default class ListParser extends Component {
        // console.log("TypologyPaginated => ",items[key]);
 
         result.push(
-          <div className={this.state.columns} key={key}>
+          <div className={this.state.columns + ' ' + this.props.identifier ? this.props.identifier : null} key={key}>
             <div className="item-container">
                 {this.props.renderItem(data[key],this.state.elementObject,key)}
             </div>

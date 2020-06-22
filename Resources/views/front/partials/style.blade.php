@@ -274,6 +274,33 @@
     $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
     $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
 
+    //CHAT
+    $senderColorChat = isset($storedStylesFront['senderColorChat']) ? $storedStylesFront['senderColorChat']->value : $secondaryColor;
+    $senderBackgroundColorChat = isset($storedStylesFront['senderBackgroundColorChat']) ? $storedStylesFront['senderBackgroundColorChat']->value : $primaryColor;
+    $senderBorderColorChat = isset($storedStylesFront['senderBorderColorChat']) ? $storedStylesFront['senderBorderColorChat']->value : $primaryColor;
+    $senderMailColorChat = isset($storedStylesFront['senderMailColorChat']) ? $storedStylesFront['senderMailColorChat']->value : $secondaryColor;
+    $senderDateColorChat = isset($storedStylesFront['senderDateColorChat']) ? $storedStylesFront['senderDateColorChat']->value : $secondaryColor;
+    $senderBorderRadiusChat = isset($storedStylesFront['senderBorderRadiusChat']) ? $storedStylesFront['senderBorderRadiusChat']->value.'px' : $buttonRadius;
+    $recipientColorChat = isset($storedStylesFront['recipientColorChat']) ? $storedStylesFront['recipientColorChat']->value : $secondaryColor;
+    $recipientBackgroundColorChat = isset($storedStylesFront['recipientBackgroundColorChat']) ? $storedStylesFront['recipientBackgroundColorChat']->value : '#868d97';
+    $recipientBorderColorChat = isset($storedStylesFront['recipientBorderColorChat']) ? $storedStylesFront['recipientBorderColorChat']->value : '#868d97';
+    $recipientBorderRadiusChat = isset($storedStylesFront['recipientBorderRadiusChat']) ? $storedStylesFront['recipientBorderRadiusChat']->value.'px' : $buttonRadius;
+    $recipientDateColorChat = isset($storedStylesFront['recipientDateColorChat']) ? $storedStylesFront['recipientDateColorChat']->value.'px' : $secondaryColor;
+    $buttonColorChat = isset($storedStylesFront['buttonColorChat']) ? $storedStylesFront['buttonColorChat']->value : $primaryColor;
+    $buttonBackgroundColorChat = isset($storedStylesFront['buttonBackgroundColorChat']) ? $storedStylesFront['buttonBackgroundColorChat']->value : $secondaryColor;
+    $buttonBorderColorChat = isset($storedStylesFront['buttonBorderColorChat']) ? $storedStylesFront['buttonBorderColorChat']->value : $primaryColor;
+    $buttonBackgroundHoverColorChat = isset($storedStylesFront['buttonBackgroundHoverColorChat']) ? $storedStylesFront['buttonBackgroundHoverColorChat']->value : $primaryColor;
+    $buttonColorHoverChat = isset($storedStylesFront['buttonColorHoverChat']) ? $storedStylesFront['buttonColorHoverChat']->value : $secondaryColor;
+    $buttonborderHoverColorChat = isset($storedStylesFront['buttonborderHoverColorChat']) ? $storedStylesFront['buttonborderHoverColorChat']->value : $secondaryColor;
+    $buttonRadiusChat = isset($storedStylesFront['buttonRadiusChat']) ? $storedStylesFront['buttonRadiusChat']->value.'px' : $buttonRadius;
+    $senderFontSizeChat = isset($storedStylesFront['senderFontSizeChat']) ? $storedStylesFront['senderFontSizeChat']->value.'px' : '14px';
+    $senderDateFontSizeChat = isset($storedStylesFront['senderDateFontSizeChat']) ? $storedStylesFront['senderDateFontSizeChat']->value.'px' : '14px';
+    $senderMailFontSizeChat = isset($storedStylesFront['senderMailFontSizeChat']) ? $storedStylesFront['senderMailFontSizeChat']->value.'px' : '14px';
+    $recipientFontSizeChat = isset($storedStylesFront['recipientFontSizeChat']) ? $storedStylesFront['recipientFontSizeChat']->value.'px' : '14px';
+    $recipientDateFontSizeChat = isset($storedStylesFront['recipientDateFontSizeChat']) ? $storedStylesFront['recipientDateFontSizeChat']->value.'px' : '14px';
+    $fontSizeButtonChat = isset($storedStylesFront['fontSizeButtonChat']) ? $storedStylesFront['fontSizeButtonChat']->value.'px' : '14px';
+    $alignButtonChat = isset($storedStylesFront['alignButtonChat']) ? $storedStylesFront['alignButtonChat']->value : '1';
+
 ?>
 
 <style type="text/css">
@@ -294,6 +321,7 @@
 @include('extranet::front.partials.styles.stepper')
 @include('extranet::front.partials.styles.document-table')
 @include('extranet::front.partials.styles.missing-documents')
+@include('extranet::front.partials.styles.chat')
 @include('extranet::front.partials.styles.action-button')
 @include('extranet::front.partials.styles.image-text-link')
 @include('extranet::front.partials.styles.image-text-title-documents')
