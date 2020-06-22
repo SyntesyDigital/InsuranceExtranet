@@ -1,0 +1,49 @@
+.table-chat-container-body{
+    background-color: #fff;
+    .table-chat-container{
+        display: flex;
+        flex-direction: column;
+        .documents-container{
+            padding: 20px;
+            .chat-field{
+                margin-bottom: 20px;
+                width: 80%;
+                &.container-active{
+                    margin-left: auto;
+                    margin-bottom: 20px;
+                }
+            }
+            .item-container{
+                .file-infos-container{
+                    .file-infos{
+                        padding: 15px 30px 8px;
+                        display: flex;
+                        flex-direction: column;
+                        .field-container{
+                            order: 3;
+                            &.container-date{
+                                order: 1
+                            }
+                            &.container-mail{
+                                order: 2;
+                                margin-top: -21px;
+                                margin-left: 100px;
+                            }
+                        }
+                    }
+                }
+                .field-container{
+                    overflow: hidden;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+        .more-btn{
+            text-align: center;
+            a{
+                transition: 0.5s;
+            }
+        }
+    }
+}
+
