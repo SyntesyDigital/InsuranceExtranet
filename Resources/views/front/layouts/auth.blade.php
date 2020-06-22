@@ -13,7 +13,7 @@
 @endphp
 
 @section('content')
-<div class="container login-container">
+<div class="login-container" @if(isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))  style="background-image: url('{{$storedStylesFront['loginBackgroundImage']->value->urls['original']}}')" @endif>
     <div class="row justify-content-center">
         <div class="login-box-container">
           <div class="login-box">
