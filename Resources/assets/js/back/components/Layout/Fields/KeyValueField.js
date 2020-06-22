@@ -16,6 +16,7 @@ export default class KeyValueField extends Component {
             value : this.props.value
         };
 
+
         state[name] = value;
 
         this.props.onChange(this.props.name,state,this.props.index);
@@ -47,7 +48,14 @@ export default class KeyValueField extends Component {
     }
 
     render() {
-        const { label, error } = this.props;
+        let { label, error } = this.props;
+
+        if(this.props.keyPrefix !== undefined){
+            if(this.props.keyValue.lastIndexOf(this.props.keyPrefix, 0)){
+                error = true;
+            }
+        }
+
         return (
             <div className={"key-value-field" + (error ? ' has-error' : '')}>
                 <div className="row">

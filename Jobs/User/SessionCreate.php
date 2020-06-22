@@ -18,6 +18,7 @@ class SessionCreate
     {
         $this->veosToken = $veosToken;
         $this->params = $params;
+        $this->test = $env != null ? true : false;
         $this->env = $env != null ? $env : VeosWsUrl::PROD;
         $this->client = new Client();
     }
