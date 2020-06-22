@@ -2,10 +2,10 @@
 
 namespace Modules\Extranet\Services\RolesPermissions\Providers;
 
-use App\Http\Middleware\Roles;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
 use Modules\Extranet\Services\RolesPermissions\Middleware\Permissions;
+use Modules\Extranet\Services\RolesPermissions\Middleware\Roles;
 use Modules\Extranet\Services\RolesPermissions\Services\RolesPermissionsService;
 
 class RolesPermissionsProvider extends ServiceProvider
@@ -13,6 +13,8 @@ class RolesPermissionsProvider extends ServiceProvider
     protected $helpers = [
         'HasAbilitiesHelper',
         'HasNotAbilitiesHelper',
+        'HasPermission',
+        'HasRoles',
     ];
     /**
      * Indicates if loading of the provider is deferred.
@@ -40,9 +42,14 @@ class RolesPermissionsProvider extends ServiceProvider
 
             if (\File::isFile($helperPath)) {
                 $className = str_replace('.php', '', basename($helperPath));
+
                 require_once $helperPath;
+
                 $class = 'Modules\\Extranet\\Services\\RolesPermissions\\Helpers\\'.$className;
-                new $class();
+
+                if (class_exists($class)) {
+                    new $class();
+                }
             }
         }
     }
@@ -55,7 +62,7 @@ class RolesPermissionsProvider extends ServiceProvider
     public function registerMiddlewares()
     {
         $this->app['router']->aliasMiddleware('permissions', Permissions::class);
-        //$this->app['router']->aliasMiddleware('roles', Roles::class);
+        $this->app['router']->aliasMiddleware('roles', Roles::class);
         //$this->app['router']->aliasMiddleware('abilities', HasAbilitiesRoute::class);
     }
 
