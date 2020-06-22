@@ -56,6 +56,7 @@ $bootstrap-sass-asset-helper: true;
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
+@import 'widgets/chat';
 @import 'widgets/filter-bar';
 @import 'widgets/modal-table-component';
 @import 'widgets/form-button';
@@ -67,9 +68,12 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/element-forms';
 @import 'widgets/element-tables';
 @import 'widgets/image-text-link';
+@import 'widgets/image-text-title-documents';
 @import 'widgets/table-list';
 @import 'widgets/banner-horizontal';
 @import 'widgets/action-button';
+@import 'widgets/tabs';
+@import 'widgets/total-box-price';
 
 @import 'env-bar';
 

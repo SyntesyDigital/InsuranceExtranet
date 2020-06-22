@@ -2,10 +2,20 @@
     margin-top: 40px;
     .container-range{
         margin-bottom: 35px;
+        &.hidden-label-left{
+            li.rangeslider__label-item:nth-child(1){
+                display: none;
+            }
+        }
+        &.hidden-label-right{
+            li.rangeslider__label-item:nth-child(2){
+                display: none;
+            }
+        }
         .container-label{
             height: 52px;
             p{
-                @include line-clamp(2,35);
+                @include line-clamp(2,16);
             }
         }
         .rangeslider-horizontal{

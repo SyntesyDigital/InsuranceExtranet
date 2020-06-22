@@ -70,6 +70,7 @@ return [
           //'day_month_year_time',
           'day_month_year',
           'day_month_year_2',
+          'day_month_year_hour',
           'day_month',
           'month_year',
           'year',

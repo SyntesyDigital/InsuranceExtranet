@@ -16,7 +16,10 @@ class ServiceController extends Controller
 
     public function datatable(Request $request)
     {
-        return Datatables::of(Service::all())
+        return Datatables::of(Service::orderBy('created_at','DESC')->get())
+            ->addColumn('create_at',function($item) {
+                return $item->created_at->format('d, M, Y H:i');
+            })
             ->addColumn('action', function ($item) {
                 return '
                 <a href="'.route('extranet.services.update', ['id' => $item['id']]).'" class="btn btn-link" data-toogle="edit" ><i class="fa fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a> &nbsp;

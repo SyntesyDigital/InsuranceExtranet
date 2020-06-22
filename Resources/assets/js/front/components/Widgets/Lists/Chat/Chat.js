@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-import moment from 'moment';
 import ListParser from '../ListParser';
 
 import {
@@ -11,10 +9,9 @@ import {
   hasConditionalFormatting
 } from '../../functions';
 
-export default class TableList extends Component {
+export default class Chat extends Component {
 
     constructor(props) {
-
         super(props);
     }
 
@@ -25,20 +22,22 @@ export default class TableList extends Component {
       return false;
     }
 
-    
-
     renderField(item,identifier,field) {
 
       var value = item[identifier];
+      var email = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(value)
 
       if(field.type == "date") {
           value = parseDate(value,field);
+          return <div className={'has-date'} dangerouslySetInnerHTML={{__html: value}} />
       }
       else if(field.type == "number") {
-          //console.log("renderCell => ",field,row);
           value = parseNumber(value,field);
       }
-
+      else if(email == true) {
+          return <div className={'has-mail'} dangerouslySetInnerHTML={{__html: value}} />
+      } 
+      
       var style = getConditionalFormating(field,value);
       var hasColor = hasConditionalFormatting(style);
       
@@ -61,7 +60,6 @@ export default class TableList extends Component {
       var infos = [];
       
       for(var key in elementObject.fields){
-       // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
         if(elementObject.fields[key].type == 'file'){
           file = this.renderField(item,identifier,elementObject.fields[key]);
@@ -73,7 +71,7 @@ export default class TableList extends Component {
               </div>
           );
         }
-
+        console.log("infos :: ", infos);
       }
 
       return (
@@ -96,7 +94,7 @@ export default class TableList extends Component {
         return (
             <div>
               <ListParser
-                customClass="table-list-container"
+                customClass="table-chat-container"
                 field={this.props.field}
                 elementObject={this.props.elementObject}
                 model={this.props.model}
@@ -105,17 +103,17 @@ export default class TableList extends Component {
                 columns={this.props.columns}
                 parameters={this.props.parameters}
                 renderItem={this.renderItem.bind(this)}
+                identifier={'chat-field'}
               />
             </div>
 
         );
-
     }
 }
 
-if (document.getElementById('table-list')) {
+if (document.getElementById('chat-list')) {
 
-   document.querySelectorAll('[id=table-list]').forEach(function(element){
+   document.querySelectorAll('[id=chat-list]').forEach(function(element){
        var field = element.getAttribute('field');
        var elementObject = element.getAttribute('elementObject');
        var model = element.getAttribute('model');
@@ -123,7 +121,7 @@ if (document.getElementById('table-list')) {
        var parameters = element.getAttribute('parameters');
        var columns = element.getAttribute('columns');
 
-       ReactDOM.render(<TableList
+       ReactDOM.render(<Chat
            field={field}
            elementObject={elementObject}
            model={model}
