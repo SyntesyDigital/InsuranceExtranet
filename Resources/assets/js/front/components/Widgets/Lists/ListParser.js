@@ -244,6 +244,8 @@ export default class ListParser extends Component {
         );
       }
 
+      result.reverse();
+      
       return (
           <div className="row">
             {result}
