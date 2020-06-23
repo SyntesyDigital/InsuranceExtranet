@@ -285,7 +285,7 @@
     $recipientBackgroundColorChat = isset($storedStylesFront['recipientBackgroundColorChat']) ? $storedStylesFront['recipientBackgroundColorChat']->value : '#868d97';
     $recipientBorderColorChat = isset($storedStylesFront['recipientBorderColorChat']) ? $storedStylesFront['recipientBorderColorChat']->value : '#868d97';
     $recipientBorderRadiusChat = isset($storedStylesFront['recipientBorderRadiusChat']) ? $storedStylesFront['recipientBorderRadiusChat']->value.'px' : $buttonRadius;
-    $recipientDateColorChat = isset($storedStylesFront['recipientDateColorChat']) ? $storedStylesFront['recipientDateColorChat']->value.'px' : $secondaryColor;
+    $recipientDateColorChat = isset($storedStylesFront['recipientDateColorChat']) ? $storedStylesFront['recipientDateColorChat']->value : $secondaryColor;
     $buttonColorChat = isset($storedStylesFront['buttonColorChat']) ? $storedStylesFront['buttonColorChat']->value : $primaryColor;
     $buttonBackgroundColorChat = isset($storedStylesFront['buttonBackgroundColorChat']) ? $storedStylesFront['buttonBackgroundColorChat']->value : $secondaryColor;
     $buttonBorderColorChat = isset($storedStylesFront['buttonBorderColorChat']) ? $storedStylesFront['buttonBorderColorChat']->value : $primaryColor;
@@ -299,7 +299,6 @@
     $recipientFontSizeChat = isset($storedStylesFront['recipientFontSizeChat']) ? $storedStylesFront['recipientFontSizeChat']->value.'px' : '14px';
     $recipientDateFontSizeChat = isset($storedStylesFront['recipientDateFontSizeChat']) ? $storedStylesFront['recipientDateFontSizeChat']->value.'px' : '14px';
     $fontSizeButtonChat = isset($storedStylesFront['fontSizeButtonChat']) ? $storedStylesFront['fontSizeButtonChat']->value.'px' : '14px';
-    $alignButtonChat = isset($storedStylesFront['alignButtonChat']) ? $storedStylesFront['alignButtonChat']->value : '1';
 
 ?>
 

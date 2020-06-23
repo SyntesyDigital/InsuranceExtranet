@@ -244,6 +244,10 @@ export default class ListParser extends Component {
         );
       }
 
+      if(this.props.onReverse == true){
+        result.reverse();
+      }
+      
       return (
           <div className="row">
             {result}
@@ -260,7 +264,17 @@ export default class ListParser extends Component {
       var loaded = initiliased && !externalLoading;
 
       return (
+        
         <div className={this.props.customClass ? this.props.customClass : ''}>
+          {loaded && this.props.onReverse && currentPage <= totalPages &&
+            <div className="more-btn">
+              <a href="#" onClick={(e) => this.loadMore(e)}> 
+                <i className="far fa-arrow-alt-circle-down"></i>
+                &nbsp;
+                Voire plus 
+              </a>
+            </div>
+          }
           { !loaded &&
               <p className="message">Chargement...</p>
           }
@@ -275,8 +289,7 @@ export default class ListParser extends Component {
                   {this.renderItems(data)}
                 </div>
           }
-          {loaded && currentPage <= totalPages &&
-
+          {loaded && !this.props.onReverse && currentPage <= totalPages &&
             <div className="more-btn">
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
