@@ -7,6 +7,7 @@ use Modules\Extranet\Services\RolesPermissions\Middleware\HasAbilitiesRoute;
 use Modules\Extranet\Services\RolesPermissions\Middleware\Permissions;
 use Modules\Extranet\Services\RolesPermissions\Middleware\Roles;
 use Modules\Extranet\Services\RolesPermissions\Services\RolesPermissionsService;
+use Config;
 
 class RolesPermissionsProvider extends ServiceProvider
 {
@@ -33,6 +34,18 @@ class RolesPermissionsProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->registerMiddlewares();
         $this->loadBladeHelpers();
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/roles.php',
+            'roles'
+        );
+
+        // load roles
+        foreach(Config::get('roles') as $k => $v) {
+            if(!defined($k)) {
+                define($k, $v);
+            }
+        }
     }
 
     public function loadBladeHelpers()

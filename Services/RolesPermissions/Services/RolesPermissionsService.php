@@ -36,19 +36,19 @@ class RolesPermissionsService
     {
         switch ($roleId) {
             case ROLE_SUPERADMIN:
-                $identifier = 'super-admin';
+                $identifier = 'ROLE_SUPERADMIN';
                 break;
 
             case ROLE_SYSTEM:
-                $identifier = 'system';
+                $identifier = 'ROLE_SYSTEM';
                 break;
 
             case ROLE_ADMIN:
-                $identifier = 'admin';
+                $identifier = 'ROLE_ADMIN';
                 break;
 
             case ROLE_USER:
-                $identifier = 'client';
+                $identifier = 'ROLE_USER';
                 break;
         }
 

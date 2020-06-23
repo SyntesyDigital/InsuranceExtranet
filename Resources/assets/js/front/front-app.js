@@ -30,7 +30,3 @@ require('./components/Widgets/ImageText/ImageTextLinkList');
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');
 require('./components/Widgets/Lists/TableList/TableList');
- 
-import { default as UserSessionService } from './../services/UserSessionService';
-
-window.userSession = new UserSessionService(SESSION !== undefined ? SESSION : {});
