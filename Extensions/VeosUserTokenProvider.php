@@ -2,10 +2,10 @@
 
 namespace Modules\Extranet\Extensions;
 
-use Modules\Extranet\Entities\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Modules\Extranet\Entities\Session as UserSession;
+use Modules\Extranet\Entities\User;
 
 class VeosUserTokenProvider implements UserProvider
 {
@@ -46,7 +46,7 @@ class VeosUserTokenProvider implements UserProvider
     public function user()
     {
         $token = trim(str_replace('Bearer', '', request()->header('Authorization')));
-        $session = UserSession::where('token', $token)->first();
+        $session = UserSession::where('api_token', $token)->first();
 
         if (!$session) {
             abort(403);

@@ -12,6 +12,7 @@ class Session extends Model
         'ip_address',
         'user_agent',
         'token',
+        'api_token',
         'env',
         'language',
         'payload',
