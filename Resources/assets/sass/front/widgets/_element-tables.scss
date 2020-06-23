@@ -99,8 +99,11 @@
       }
     }
     .react-table-container{
+
       background-color:white;
       overflow:hidden;
+      border: 1px solid rgba(0,0,0,0.1);
+
       &.m-top{
         margin-top:40px;
       }
@@ -195,11 +198,11 @@
 }
 
 .ReactTable .rt-thead .rt-th.-cursor-pointer, .ReactTable .rt-thead .rt-td.-cursor-pointer{
-  padding-left:22px;
+  padding-right:22px;
   &:before {
     position:absolute;
-    content:'\e150';
-    font-family: Glyphicons Halflings;
+    content:'\f0dc';
+    font-family: FontAwesome;
     top:7px;
     left:5px;
     color: #d7d7d7;
@@ -230,14 +233,17 @@
   }
 }
 
+
 .ReactTable.-striped .rt-tr.-odd {
   background-color:$row-background !important;
 }
 
 
 
+
 .ReactTable {
-  border: none;
+  border: none !important;
+
 
   &.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
     background-color: $body-bg !important;
@@ -282,6 +288,10 @@
   .rt-thead {
     padding-top: 6px;
     padding-bottom: 6px;
+
+    .rt-th.-cursor-pointer {
+      height: 44px;
+    }
 
     .rt-resizable-header-content{
       color:$table-header-color;
@@ -342,3 +352,55 @@
   }
 
 }
+
+
+.react-table-container.header-rows-2 {
+  .rt-resizable-header-content{
+    @include line-clamp(2,20);
+  }
+  .rt-th.-cursor-pointer {
+    height: 44px;
+  }
+}
+
+.react-table-container.header-rows-1 {
+  .rt-th.-cursor-pointer {
+    height: 26px;
+  }
+  .rt-resizable-header-content{
+    @include line-clamp(1,20);
+  }
+}
+
+body {
+  .react-table-container {
+    .ReactTable {
+      .rt-thead {
+        display: flex;
+        padding-left: 15px;
+        padding-right: 15px;
+        &.-header{
+          box-shadow: none !important;
+          border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        &.-filters{
+          display: flex;
+        }
+        .rt-resizable-header-content{
+          text-transform: capitalize;
+        }
+      }
+      .rt-tbody {
+        display: flex;
+        order: 3;
+        padding: 0px 15px;
+        .rt-tr-group {
+          border-bottom: none;
+          .rt-td {
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}   

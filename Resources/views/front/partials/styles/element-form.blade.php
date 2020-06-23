@@ -25,6 +25,9 @@
   font-size:{{$titlesFontSize}};
   padding-bottom:20px;
 }
+.element-form-container .element-form-container-head i{
+  color:{{$elementHeadIconColor}};
+}
 .form-component .element-collapsable.element-form-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};

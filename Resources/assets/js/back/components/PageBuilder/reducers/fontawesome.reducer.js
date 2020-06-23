@@ -1,5 +1,6 @@
 
 const fontAwesomeIcons = {
+  'Sélectionner...' : '',
   'fas fa-address-book' : 'f2b9',
   'fas fa-address-card' : 'f2bb',
   'fas fa-adjust' : 'f042',

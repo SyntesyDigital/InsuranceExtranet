@@ -29,7 +29,7 @@ class ElementRepository extends BaseRepository
 
     public function getElementsByType($element_type)
     {
-        return Element::where('type', $element_type)->get();
+        return Element::where('type', $element_type)->orderBy('name','asc')->get();
     }
 
     /*

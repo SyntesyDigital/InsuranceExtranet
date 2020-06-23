@@ -73,10 +73,11 @@ export default class ServicesIndex extends Component {
                     <DataTable
                         id={'services-datatable'}
                         columns={[
-                            { data: 'identifier', name: 'identifier', label : 'Identifiant' },
+                            //{ data: 'identifier', name: 'identifier', label : 'Identifiant' },
                             { data: 'name', name: 'name', label : 'Nom' },
                             { data: 'http_method', name: 'http_method',label : 'Methode'  },
                             { data: 'url', name: 'url',label : 'URL'  },
+                            { data: 'create_at', name: 'create_at', label : 'Date' },
                             { data: 'action', name: '', orderable: false, searchable: false, label : '' }
                         ]}
                         init={true}

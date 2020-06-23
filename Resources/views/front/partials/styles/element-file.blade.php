@@ -11,6 +11,10 @@
   padding-bottom:10px;
 }
 
+.element-file-container .element-file-container-head i{
+  color:{{$elementHeadIconColor}};
+}
+
 .element-file-container .element-collapsable.element-file-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
@@ -56,7 +60,7 @@
 
 /* box-1 */
 body .element-file-container .box-class-1 *{
-  color: {{$textColorBox1}};
+  /*color: {{$textColorBox1}};*/
 }
 body .element-file-container .box-class-1{
   background-color: {{$backgroundColorBox1}};
@@ -64,12 +68,16 @@ body .element-file-container .box-class-1{
   border: 1.5px solid {{$borderColorBox1}};
 } 
 body .layout .box-class-1 .container-fields-default .stripped:nth-of-type(even){
+  /*
   background-color: {{$backgroundColorBox1}};
   border-radius: {{$borderRadiusBox1}};
+  */
 }
 body .layout .box-class-1 .container-fields-default .stripped:nth-of-type(odd){
+  /*
   background-color: {{$backgroundColorBox1}};
   border-radius: {{$borderRadiusBox1}};
+  */
 }
 
 /* box-2 */
@@ -113,12 +121,12 @@ body .layout .box-class-3 .container-fields-default .stripped:nth-of-type(odd){
 /* box-1 */
 body .box-class-1 .element-file-container {
   /*border: 1.5px solid {{$borderColorBox1}};*/
-  border-radius: {{$borderRadiusBox1}};
+  /*border-radius: {{$borderRadiusBox1}};*/
 }
 
 body .box-class-1 .element-file-container *{
-  color: {{$textColorBox1}} !important;
-  background-color: {{$backgroundColorBox1}} !important;
+  /*color: {{$textColorBox1}} !important;*/
+  /*background-color: {{$backgroundColorBox1}} !important;*/
 }
 
 /* box-2 */

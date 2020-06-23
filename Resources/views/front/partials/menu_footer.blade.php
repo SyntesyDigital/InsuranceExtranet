@@ -1,5 +1,5 @@
 @if(isset($menu))
-	<ul class="menu">
+	<ul class="container-menu">
 		@php $footerItems = 0; @endphp
 		@foreach($menu as $index => $menuElement)
 			<li class="menu-item">

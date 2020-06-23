@@ -201,8 +201,8 @@ export default class ElementCard extends Component {
                     <IconField
                         key={key}
                         icon={node.field.value}
-                        font={'25px'}
-                        color={'#a2a8b3'}
+                        font={STYLES.elementForm.iconFontSizeElement}
+                        color={STYLES.elementForm.iconColorElement}
                         circle={true}
                         checked={true}
                     />
@@ -281,10 +281,7 @@ export default class ElementCard extends Component {
 
         if (!this.state.template) {
             return (
-                <Grid
-                    className="layout"
-                    fluid={true}
-                >
+                <div className="layout">
                     <Row style={{ paddingTop: 20 }}>
                         <Col sm={12} className="container-fields-default"></Col>
                     </Row>
@@ -293,16 +290,13 @@ export default class ElementCard extends Component {
                             {this.renderDefault()}
                         </Col>
                     </Row>
-                </Grid>
+                </div>
             )
         }
 
         return (
             <div>
-                <Grid
-                    className="layout"
-                    fluid={true}
-                >
+                <div className="layout">
                     {this.state.layout != null &&
                         <LayoutParser
                             layout={this.state.layout}
@@ -312,7 +306,7 @@ export default class ElementCard extends Component {
                     {this.state.layout == null &&
                         <div>Aucun modèle configuré</div>
                     }
-                </Grid>
+                </div>
             </div>
         );
     }

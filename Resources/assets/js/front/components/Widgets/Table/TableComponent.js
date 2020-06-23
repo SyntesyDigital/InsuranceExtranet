@@ -9,6 +9,14 @@ import ExportButton from './ExportButton';
 
 import moment from 'moment';
 
+import {
+  parseNumber,
+  parseDate,
+  getConditionalFormating,
+  hasConditionalFormatting,
+  getTextAlign
+} from '../functions';
+
 //const selectors = Data.Selectors;
 
 export default class TableComponent extends Component {
@@ -37,6 +45,11 @@ export default class TableComponent extends Component {
         var excelName = this.processText(field.fields,2);
         console.log("excelName => ",field,excelName);
 
+        var headerRowsNumber = field.settings.headerRowsNumber !== undefined 
+          && field.settings.headerRowsNumber != null 
+          && field.settings.headerRowsNumber != "" ?
+          parseInt(field.settings.headerRowsNumber) : 1;
+
         this.state = {
             id : props.id,
             field : field,
@@ -47,7 +60,7 @@ export default class TableComponent extends Component {
             itemsPerPage : itemsPerPage,
             maxItems :  maxItems,
             filters : [],
-            currPage:1,
+            currPage:0,
             loading : true,
             loadingData : true,
             filterable : false,
@@ -65,7 +78,8 @@ export default class TableComponent extends Component {
             exportPage: 1,
             pageSize : 10,
             hideEmptyRows: hideEmptyRows,
-            excelName : excelName
+            excelName : excelName,
+            headerRowsNumber : headerRowsNumber
         };
     }
 
@@ -85,7 +99,7 @@ export default class TableComponent extends Component {
 
       this.setState({
         data:[],
-        currPage:1,
+        currPage:0,
         loading : true,
         loadingData : true,
         currentPage : 2,
@@ -244,144 +258,23 @@ export default class TableComponent extends Component {
 
     }
 
-    getConditionalFormating(field,value) {
-
-      value = value.toLowerCase();
-      
-      if(field.settings.conditionalFormatting !== undefined && 
-        field.settings.conditionalFormatting != null) {
-        
-        for(var key in field.settings.conditionalFormatting.conditions){
-          var condition = field.settings.conditionalFormatting.conditions[key];
-          if(value.indexOf(condition.value.toLowerCase()) != -1) {
-            //if the string is contained in the string
-            return {
-              color : condition.color,
-              backgroundColor : condition.backgroundColor,
-            };
-          }
-        }
-      }
-
-      return {};
-    }
-
-    hasConditionalFormatting(conditionalFormatting) {
-      if(conditionalFormatting.color !== undefined){
-        return true;
-      }
-      return false;
-    }
-
-
-    numberFormat (number, decimals, dec_point, thousands_sep) {
-      // Strip all characters but numerical ones.
-      number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-      var n = !isFinite(+number) ? 0 : +number,
-          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-          s = '',
-          toFixedFix = function (n, prec) {
-              var k = Math.pow(10, prec);
-              return '' + Math.round(n * k) / k;
-          };
-      // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-      s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-      if (s[0].length > 3) {
-          s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-      }
-      if ((s[1] || '').length < prec) {
-          s[1] = s[1] || '';
-          s[1] += new Array(prec - s[1].length + 1).join('0');
-      }
-      return s.join(dec);
-    }
-
-    parseNumber(value,field) {
-
-      if(value !== undefined && value != ""){
-
-        var hideCurrency = field.settings.hideCurrency !== undefined 
-          ? field.settings.hideCurrency : false;
-
-        var currency = hideCurrency ? "" : "€";
-
-        if(field.settings !== undefined && field.settings.format !== undefined){
-          switch(field.settings.format) {
-            case 'price':
-              value = this.numberFormat(value, 0, ',', '.') + currency;
-              break;
-            case 'price_with_decimals':
-              value = this.numberFormat(value, 2, ',', '.') + currency;
-              break;
-            case 'price_with_decimals_2':
-              value = this.numberFormat(value, 2, '.', ' ') + currency;
-              break;
-          }
-        }
-      }
-      
-      return value;
-
-    }
-
     renderCell(field,identifier,row) {
 
       var value = row.original[identifier];
 
       if(field.type == "date") {
           //console.log("renderCell => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != null && row.original[identifier] != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-             // console.log(field.settings.format)
-              switch(field.settings.format) {
-                case 'day_month':
-                  value = moment.unix(row.original[identifier]).format('DD/MM');
-                  break;
-                case 'day_month_year':
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-                  break;
-                case 'day_month_year_2':
-                  value = moment.unix(row.original[identifier]).format('DD-MM-YYYY');
-                  break;
-                case 'month_year':
-                  value = moment.unix(row.original[identifier]).format('MM/YYYY');
-                  break;
-                case 'year':
-                  value = moment.unix(row.original[identifier]).format('YYYY');
-                  break;
-                default  :
-                  value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-                  break;
-              }
-            }
-            else {
-              value = moment.unix(row.original[identifier]).format('DD/MM/YYYY');
-            }
-          }
+          value = parseDate(value,field);
       }
       if(field.type == "number") {
-          console.log("renderCell :: number => ",field,row);
-          if(row.original[identifier] !== undefined && row.original[identifier] != ""){
-            value = this.parseNumber(row.original[identifier],field);
-          }
+          value = parseNumber(value,field);
       }
 
-      var style = {};
-      var hasColor = false;
-      var textAlign = "";
+      console.log("value => ",value);
+      var style = getConditionalFormating(field,value);
+      var hasColor = hasConditionalFormatting(style);
+      var textAlign = getTextAlign(field);
       
-      if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
-        style=this.getConditionalFormating(field,value);
-        hasColor = this.hasConditionalFormatting(style);
-      }
-
-      if(field.settings.textAlign !== undefined && field.settings.textAlign != null) {
-        textAlign='text-'+field.settings.textAlign;
-      }
-
       if(field.type == "file"){
         return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
@@ -409,6 +302,8 @@ export default class TableComponent extends Component {
         var columns = [];
         var sortColumnName = null;
         var sortColumnType = null;
+        var columnWidth = null;
+        var definition = {};
 
         for(var index in elementObject.fields){
           if(elementObject.fields[index].rules.searchable && ! anySearchable){
@@ -421,15 +316,24 @@ export default class TableComponent extends Component {
                 sortColumnType = elementObject.fields[index].rules.sortableByDefault;
           }
 
-          columns.push({
+          definition = {
             accessor : identifier,
             Header: elementObject.fields[index].name,
             sortable: elementObject.fields[index].rules.sortable,
             filterable:  elementObject.fields[index].rules.searchable,
             filterMethod: this.filterMethod.bind(this,identifier),
             filterAll: true,
-            Cell: this.renderCell.bind(this,elementObject.fields[index],identifier)
-          });
+            Cell: this.renderCell.bind(this,elementObject.fields[index],identifier),
+          };
+
+          if(elementObject.fields[index].settings.columnWidth !== undefined &&
+            elementObject.fields[index].settings.columnWidth != null &&
+            elementObject.fields[index].settings.columnWidth != "" ){
+            
+            definition.width = parseInt(elementObject.fields[index].settings.columnWidth);
+          }
+          
+          columns.push(definition);
         }
 
         this.setState({
@@ -472,6 +376,19 @@ export default class TableComponent extends Component {
         });
     }
 
+    handlePageSizeChange(pageSize, pageIndex) {
+      this.setState({
+        pageSize : pageSize,
+        currPage:pageIndex,
+      });
+    }
+
+    handlePageChange(pageIndex) {
+      this.setState({
+        currPage:pageIndex,
+      });
+    }
+
     renderTable() {
       const {data, elementObject, itemsPerPage,maxItems, downloading, loadingData} = this.state;
       var originalPageSize = maxItems? parseInt(maxItems) : parseInt(this.state.itemsPerPage);
@@ -490,8 +407,10 @@ export default class TableComponent extends Component {
             />
           }
 
-          <div className={this.props.exportBtn? 'react-table-container m-top':'react-table-container'}>
+          <div className={(this.props.exportBtn? 'react-table-container m-top':'react-table-container')
+            +' '+('header-rows-'+this.state.headerRowsNumber)}>
             <ReactTable
+              page={this.state.currPage}
               data={this.state.data}
               columns={this.state.columns}
               showPagination={this.state.pagination}
@@ -514,6 +433,9 @@ export default class TableComponent extends Component {
               pageText={'Page'}
               ofText={'de'}
               rowsText={'lignes'}
+
+              onPageChange={this.handlePageChange.bind(this)}
+              onPageSizeChange={this.handlePageSizeChange.bind(this)}
             />
           </div>
           

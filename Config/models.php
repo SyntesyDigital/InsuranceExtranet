@@ -27,7 +27,8 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
         ]
       ],
       'number' => [
@@ -56,7 +57,8 @@ return [
           'defaultValue',
           'conditionalFormatting',
           'hideCurrency',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
         ]
       ],
       'date' => [
@@ -68,6 +70,7 @@ return [
           //'day_month_year_time',
           'day_month_year',
           'day_month_year_2',
+          'day_month_year_hour',
           'day_month',
           'month_year',
           'year',
@@ -84,7 +87,8 @@ return [
         'settings' => [
           'format',
           'conditionalVisibility',
-          'textAlign'
+          'textAlign',
+          'columnWidth'
           //'defaultValue'
         ]
       ],
@@ -105,7 +109,7 @@ return [
           'ws',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
+          'conditionalFormatting',
         ]
       ],
       'radio' => [
@@ -163,7 +167,8 @@ return [
         ],
         'settings' => [
           'conditionalVisibility',
-          'preview'
+          'preview',
+          'columnWidth'
         ]
       ],
       'richtext' => [

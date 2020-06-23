@@ -2,7 +2,6 @@
 
 namespace Modules\Extranet\Services\ExportImport\Importers;
 
-use Carbon\Carbon;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelField;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ModelProcedure;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
@@ -22,6 +21,7 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
     public function import()
     {
         $nodes = json_decode($this->payload, true);
+
         $model = $this->createModel($nodes);
 
         foreach ($nodes['relations']['procedures'] as $node) {
@@ -36,6 +36,8 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
                 'model_id' => $model->id,
             ]));
 
+            $this->reportCreatedObject($procedure);
+
             // Save Procedure Fields
             if (isset($node['relations']['fields'])) {
                 $fields = collect($node['relations']['fields'])
@@ -43,9 +45,13 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
                         return new ModelField($field);
                     });
 
-                $fields->count() > 0
-                    ? $procedure->fields()->saveMany($fields)
-                    : null;
+                if ($fields->count() > 0) {
+                    $procedure->fields()->saveMany($fields);
+
+                    foreach ($fields as $field) {
+                        $this->reportCreatedObject($field);
+                    }
+                }
             }
         }
     }
@@ -64,19 +70,38 @@ class ElementModelImporter extends Importer implements ModelImporterInterface
         if ($service) {
             $arr = $this->walkArrayAndRemoveDBFields($service->toArray());
 
-            // Remove comment
-            // array_forget($attributes, 'comment');
-            // array_forget($arr, 'comment');
-
             if ($this->getArrayChecksum($attributes) == $this->getArrayChecksum($arr)) {
                 return $service;
-            } else {
-                $attributes['identifier'] .= '_'.date('Ymdhis');
-                $attributes['name'] .= ' '.Carbon::now();
+            } else { // Check if exist service with this identifier and test if same with attributes
+                $services = Service::where('identifier', 'like', '%'.$attributes['identifier'].'%')->get();
+
+                if ($services) {
+                    foreach ($services as $service) {
+                        $serviceArray = $service->toArray();
+                        array_forget($serviceArray, 'identifier');
+
+                        $arr = $this->walkArrayAndRemoveDBFields($serviceArray);
+                        $attrs = $attributes;
+
+                        array_forget($attrs, 'identifier');
+
+                        if ($this->getArrayChecksum($attrs) == $this->getArrayChecksum($arr)) {
+                            return $service;
+                        }
+                    }
+                }
+
+                $attributes['identifier'] .= '_'.date('Ymd');
             }
         }
 
-        return Service::create($attributes);
+        // Create service
+        if ($object = Service::create($attributes)) {
+            // Report service
+            $this->reportCreatedObject($object);
+        }
+
+        return $object;
     }
 
     /**

@@ -37,11 +37,15 @@ class ElementImporter extends Importer implements ModelImporterInterface
         // Save fields
         foreach ($nodes['relations']['fields'] as $node) {
             $element->fields()->save(new ElementField($node));
+
+            $this->reportCreatedObject(new ElementField($node));
         }
 
         // Save attributes
         foreach ($nodes['relations']['attrs'] as $node) {
             $element->attrs()->save(new ElementAttribute($node));
+
+            $this->reportCreatedObject(new ElementAttribute($node));
         }
 
         // Save templates
@@ -50,8 +54,12 @@ class ElementImporter extends Importer implements ModelImporterInterface
                 'element_id' => $element->id,
             ]));
 
+            $this->reportCreatedObject($template);
+
             foreach ($node['relations']['fields'] as $field) {
                 $template->fields()->save(new ElementTemplateField($field));
+
+                $this->reportCreatedObject(new ElementTemplateField($field));
             }
         }
 
@@ -61,7 +69,7 @@ class ElementImporter extends Importer implements ModelImporterInterface
         $object = new $class($attributes);
 
         // Save element model if not exist
-        if(!$this->checkIfObjectExist(true, $object, $nodes['relations']['elementModel'])) {
+        if (!$this->checkIfObjectExist(true, $object, $nodes['relations']['elementModel'])) {
             $elementImporter = new ElementModelImporter(json_encode($nodes['relations']['elementModel'], JSON_NUMERIC_CHECK));
             $elementImporter->import();
         }

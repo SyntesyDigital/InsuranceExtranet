@@ -149,8 +149,13 @@ Route::group([
 
 Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
-  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+  'middleware' => [
+      'SignInWhenToken',
+      'web',
+      'auth:veos-ws',
+      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER',
+    ],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::post('/user/session/renew', 'UserController@setUserSession')->name('session.update');
 

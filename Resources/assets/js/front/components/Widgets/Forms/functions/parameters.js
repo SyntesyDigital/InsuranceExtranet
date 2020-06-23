@@ -17,7 +17,9 @@ export function getUrlParameters(formParameters, forceRemoveArrayParameters) {
   if(formParametersArray.length > 0){
 
     for(var i=0;i<formParametersArray.length;i++){
-      if(formParameters[formParametersArray[i]] != null){
+      var formParameterValue = formParameters[formParametersArray[i]];
+      //if value is null or is void '' don't add to array
+      if(formParameterValue != null && formParameterValue != ''){
         //concat new parameters
         var formParameterKey = formParametersArray[i];
         //if has _ remove first character

@@ -1,0 +1,24 @@
+.yesNoFieldSwitch{
+    .MuiSwitch-switchBase{
+        top: 2px;
+        left: 2px;
+    }
+    .MuiSwitch-thumb{
+        width: 20px;
+        height: 20px;
+    }
+    input.MuiSwitch-input{
+        margin: 0;
+    }
+    label{
+        cursor: pointer;
+    }
+}
+
+
+.container-radio-field.has-error{	
+    .MuiFormGroup-root .MuiFormControlLabel-root {
+        border: 1px solid #a94442;
+    }
+}
+

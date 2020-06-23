@@ -46,7 +46,7 @@ class VeosUserTokenProvider implements UserProvider
     public function user()
     {
         $token = trim(str_replace('Bearer', '', request()->header('Authorization')));
-        $session = UserSession::where('token', $token)->first();
+        $session = UserSession::where('api_token', $token)->first();
 
         if (!$session) {
             abort(403);

@@ -1,26 +1,32 @@
 @php
-  $identifier = str_replace(",","",$field['identifier']);
-  $identifier = str_replace("[","",$identifier);
-  $identifier = str_replace("]","",$identifier).'_'.$iterator;
+    $identifier = str_replace(",","",$field['identifier']);
+    $identifier = str_replace("[","",$identifier);
+    $identifier = str_replace("]","",$identifier).'_'.$iterator;
 
-  $visible = check_visible($field['settings'],$parameters);
+    $visible = check_visible($field['settings'],$parameters);
 
-  $elementObject = null;
-  if(isset($field['settings']['tableElements'])){
-    $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
-  }
+    $elementObject = null;
+    if(isset($field['settings']['tableElements'])){
+        $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
+    }
 
-  $model = null;
-  if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
-    $model = $models[$elementObject->model_identifier];
-  }
+    $model = null;
+    if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
+        $model = $models[$elementObject->model_identifier];
+    }
 
+    $icon = isset($field['fields'][2]['value']) 
+        ? $field['fields'][2]['value'] 
+        : null;
 @endphp
 
 @if($visible)
   <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
     <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-table-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsetable-{{$identifier}}" aria-expanded="true" aria-controls="collapsetable-{{$identifier}}"@endif>
+      @if(isset($icon))
+        <i class="{{$icon}}"></i>
+      @endif
       {{$field['fields'][0]['value'][App::getLocale()] or ''}}
     </div>
 

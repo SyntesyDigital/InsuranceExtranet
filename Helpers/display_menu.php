@@ -78,9 +78,9 @@ if (!function_exists('format_link')) {
 if (!function_exists('allowed_link')) {
 
     function allowed_link($link) {
-
       if(has_roles([ROLE_USER])){
         $pages = Auth::user()->allowed_pages;
+        
         if(!isset($pages))
           return false;
 

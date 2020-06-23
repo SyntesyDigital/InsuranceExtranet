@@ -24,7 +24,8 @@
 <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$class}} {{$field['settings']['htmlClass'] or ''}}">
 
     <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-table-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsetable-{{$identifier}}" aria-expanded="true" aria-controls="collapsetable-{{$identifier}}"@endif>
-        {{ $title }}
+      <i class="{{$icon}}"></i>
+      {{$title}}
     </div>
 
     <div id="collapsetable-{{$identifier}}" class=" {{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-table-container-body">      
@@ -42,5 +43,5 @@
         
     </div>
 </div>
-
 @endif
+

@@ -130,10 +130,16 @@ export function setParameterFromBoby(variable,key, formParameters) {
             }
             else {
               //ask for the result
-              bootbox.prompt({
+              const placeholder = [{
+                text: 'Sélectionner...',
+                value: ''
+              }]
+
+              var box = bootbox.prompt({
                   title: variable.MESSAGE,
                   inputType: 'select',
                   closeButton : false,
+                  className: 'modalSelectParameters',
                   buttons: {
                       confirm: {
                           label: 'Envoyer',
@@ -144,7 +150,7 @@ export function setParameterFromBoby(variable,key, formParameters) {
                           className: 'btn-default'
                       }
                   },
-                  inputOptions: response.data.data,
+                  inputOptions: placeholder.concat(response.data.data),
                   callback: function (result) {
                     if(result != null && result != ''){
                         //post sessions
@@ -162,8 +168,12 @@ export function setParameterFromBoby(variable,key, formParameters) {
                     }
                   }
               });
+              box.on("shown.bs.modal", function() {
+                $('.bootbox-body').find('.bootbox-input-select').select2({
+                  width: '100%',
+                });
+              });
             }
-
         }
       })
       .catch(function (error) {
