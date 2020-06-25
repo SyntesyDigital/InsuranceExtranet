@@ -25,6 +25,7 @@ export default class FormComponent extends Component {
               elementObject={this.props.elementObject}
               parametersObject={this.props.parameters}
               finalRedirectUrl={this.props.finalRedirectUrl}
+              finalRedirectParameters={this.props.finalRedirectParameters ? this.props.finalRedirectParameters : []}
               onFormFinished={this.props.onFormFinished}
               version={this.props.version}
               isFormPreload={this.props.isFormPreload}

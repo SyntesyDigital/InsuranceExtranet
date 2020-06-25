@@ -1,11 +1,17 @@
 /**
 *   Function to process form parameters to URL param=value&param2=value2
 *   from this.props.parameters.formParameters
+*   finalRedirectParameters :: array of redirect url parameters to filter redirect ej : ["id_pol","id_sin"]
 */
-export function getUrlParameters(formParameters, forceRemoveArrayParameters) {
+export function getUrlParameters(formParameters, forceRemoveArrayParameters, finalRedirectParameters) {
 
   //all parameters are initially added to formParameters so no need to add again
   //var parameters = this.props.parameters;
+
+  finalRedirectParameters = finalRedirectParameters !== undefined && finalRedirectParameters != null ? 
+    finalRedirectParameters : [];
+
+  var filterParameters = finalRedirectParameters.length > 0 ? true : false;
 
   var forceRemoveArrayParameters = forceRemoveArrayParameters !== undefined 
     ? forceRemoveArrayParameters 
@@ -25,6 +31,11 @@ export function getUrlParameters(formParameters, forceRemoveArrayParameters) {
         //if has _ remove first character
         if(formParameterKey.charAt(0) == "_"){
           formParameterKey = formParameterKey.substr(1);
+        }
+
+        //if filter parameters and parameter is not in the array or url parameters continue
+        if(filterParameters && finalRedirectParameters.indexOf(formParameterKey) == -1){
+          continue;
         }
         
         //if is an array remove  this parameter from url
@@ -107,4 +118,21 @@ export function processUrlParameters(url,formParameters) {
   console.log("processUrlParameters :: after (resultUrl)",resultUrl);
   
   return resultUrl;
+}
+
+
+/**
+ * Function that read content field, to extract parameters from field values. When field is url or link.
+ * @param {*} field 
+ */
+export function getParametersFromContentField(content) {
+  
+  if(content.routes_parameters !== undefined && content.routes_parameters != null && content.routes_parameters.length > 0){
+    var parameters = [];
+    for(var key in content.routes_parameters){    
+      parameters.push(content.routes_parameters[key].identifier);
+    }
+    return parameters;
+  }
+  return [];
 }

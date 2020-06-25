@@ -391,7 +391,8 @@ class FormComponent extends Component {
         window.location.href = this.props.finalRedirectUrl+"?"+
           getUrlParameters(
             this.props.parameters.formParameters,
-            true
+            true,
+            this.props.finalRedirectParameters
           );
       }
       else {
