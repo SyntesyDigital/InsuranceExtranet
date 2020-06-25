@@ -9,5 +9,10 @@
        <i class="fas fa-circle"></i> {{Auth::user()->env}}
     </span> |
     {{\Modules\Extranet\Extensions\VeosWsUrl::getEnvironmentUrl(Auth::user()->env)}}
+
+    <div class="pull-right actions">
+      <a href="{{route('contents.show',$content->id)}}" target="_blank"><i class="fa fa-pencil"></i> &nbsp;Modifier</a>
+    </div>
+
   </div>
 @endif
