@@ -52,7 +52,7 @@ input UpdatePermissionGroupInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     permissions: [Permission!]!
         @all(
             model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"
@@ -77,7 +77,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createPermission(input: CreatePermissionInput @spread): Permission
         @create(
             model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Permission"

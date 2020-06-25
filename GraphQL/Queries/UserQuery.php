@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Extranet\GraphQL\Mutations\Users;
+namespace Modules\Extranet\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Extranet\Entities\User;
-use Modules\Extranet\Services\RolesPermissions\Entities\Permission;
+use Modules\Extranet\Repositories\BobyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class UpdateUserPermission
+class UserQuery
 {
     /**
      * Return a value for the field.
@@ -21,25 +21,12 @@ class UpdateUserPermission
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user = User::find($args['user_id']);
+        $user = User::find($args['id']);
 
-        $permission = $args['permission_id']
-            ? Permission::find($args['permission_id'])
-            : null;
+  
 
-        if (isset($args['identifier'])) {
-            $permission = Permission::where('identifier', $args['identifier'])->first();
-        }
+        $user->permissions = $user->getPermissions();
 
-        if (!$user || !$permission) {
-            return false;
-        }
-
-        $user->savePermission(
-            $permission->identifier,
-            isset($args['enabled']) ? $args['enabled'] : true
-        );
-
-        return $user->getPermissions();
+        return $user;
     }
 }

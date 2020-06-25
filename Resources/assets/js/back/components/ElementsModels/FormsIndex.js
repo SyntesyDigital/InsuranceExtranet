@@ -148,36 +148,41 @@ export default class FormsIndex extends Component {
                         icon={'fas fa-cog'}
                         backRoute={routes['extranet.elements-models.index']}
                     >
-                        <ButtonPrimary
-                            label={'Ajouter'}
-                            icon={'fa fa-plus'}
-                            route={routes["extranet.elements-models.forms.create"]}
-                        />
 
-                        <ImportButton
-                            label={"IMPORTER"}
-                            icon={"fas fa-download"}
-                            onJsonUploaded={this.handleJsonUploaded.bind(this)}
-                        />
+                        {userSession.hasPermission('element_models.create') && 
+                            <React.Fragment>
+                                <ButtonPrimary
+                                    label={'Ajouter'}
+                                    icon={'fa fa-plus'}
+                                    route={routes["extranet.elements-models.forms.create"]}
+                                />
 
-                        <ButtonDropdown
-                            label={"EXPORTER"}
-                            icon={"fas fa-download"}
-                            list={[
-                                {
-                                    label: "Exporter Tous",
-                                    icon: "fas fa-file-export",
-                                    onClick: this.handleSelectAll.bind(this),
-                                    className: "",
-                                },
-                                {
-                                    label: "Sélectionner",
-                                    icon: "fas fa-file-export",
-                                    onClick: this.handleEnableSelection.bind(this),
-                                    className: "",
-                                },
-                            ]}
-                        />
+                                <ImportButton
+                                    label={"IMPORTER"}
+                                    icon={"fas fa-download"}
+                                    onJsonUploaded={this.handleJsonUploaded.bind(this)}
+                                />
+
+                                <ButtonDropdown
+                                    label={"EXPORTER"}
+                                    icon={"fas fa-download"}
+                                    list={[
+                                        {
+                                            label: "Exporter Tous",
+                                            icon: "fas fa-file-export",
+                                            onClick: this.handleSelectAll.bind(this),
+                                            className: "",
+                                        },
+                                        {
+                                            label: "Sélectionner",
+                                            icon: "fas fa-file-export",
+                                            onClick: this.handleEnableSelection.bind(this),
+                                            className: "",
+                                        },
+                                    ]}
+                                />
+                            </React.Fragment>
+                        }
 
                         {this.state.displaySubmit ?
                             <ButtonPrimary

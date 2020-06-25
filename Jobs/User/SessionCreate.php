@@ -66,6 +66,9 @@ class SessionCreate
             $sessionInfo
         );
 
+        $role = $this->processMainRole($sessionInfo);
+        $service = resolve('Services/RolesPermissions');
+
         $sessionData = [
             'id' => isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null,
             'firstname' => isset($user->{'USEREXT.nom_per'}) ? $user->{'USEREXT.nom_per'} : '',
@@ -77,13 +80,14 @@ class SessionCreate
             'api_token' => bin2hex(random_bytes(64)),
             'env' => $this->env,
             'test' => $this->test,
-            'role' => $this->processMainRole($sessionInfo),
             'pages' => $pages,
             'allowed_pages' => $allowedPages,  //can be null if no session defined
             'language' => 'fr',
             'sessions' => $sessions,
             'session_id' => $currentSession,
             'session_info' => $sessionInfo,
+            'role' => $role,
+            'permissions' => $service->getPermissionsFromRoleId($role),
         ];
 
         // Merge constructor passed parameters to session

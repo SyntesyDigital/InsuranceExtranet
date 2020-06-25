@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Datatables;
 use Illuminate\Support\Collection;
 use Lang;
+use Auth;
 
 use Modules\Extranet\Services\RolesPermissions\Entities\Role;
 
@@ -39,7 +40,8 @@ class RoleController extends Controller
                 ';
             })
             ->rawColumns(['default','action', 'icon'])
-            ->make(true);
+            ->make(true)
+            ->header('token', Auth::user()->token);
     }
 
     public function create(Request $request){

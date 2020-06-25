@@ -29,7 +29,6 @@ require('./components/Widgets/ImageText/ImageTextTitleDocuments');
 require('./components/Widgets/ImageText/ImageTextTitleDocumentsContainer');
 require('./components/Widgets/TotalBoxPrice');
 
-
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');

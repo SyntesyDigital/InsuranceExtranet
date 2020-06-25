@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     public function session()
     {
-        return $this->hasOne('Modules\Extranet\Entities\Session', 'user_id', 'id');
+        return $this->hasOne(Session::class, 'user_id', 'id');
     }
 
     public function __get($name)

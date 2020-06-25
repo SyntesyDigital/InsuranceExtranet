@@ -43,25 +43,32 @@ export default class DataTable extends Component {
         var _this = this;
         
         $(this.refs.main).DataTable({
-                language: {
-                    //url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/"+Lang.get('datatables.json')+".json"
-                },
-                processing: true,
-                serverSide: true,
-                order: [],
-                pageLength: 10,
-                ajax: route,
-                columns: this.props.columns,
-                initComplete: function (settings, json) {
-                    _this.initEvents();
-               
-                }
-            });
+            language: {
+                //url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/"+Lang.get('datatables.json')+".json"
+            },
+            processing: true,
+            serverSide: true,
+            order: [],
+            pageLength: 10,
+            ajax: route,
+            columns: this.props.columns,
+            initComplete: function (settings, json, xhr) {
+                _this.initEvents();
+            }
+        }).on('xhr.dt', function (e, settings, json, xhr) {
+            var token = xhr.getResponseHeader('token');
+            
+            SESSION.token = token ? token : SESSION.token;
+        });
 
     }
 
     destroyDatatable() {
         $(this.refs.main).DataTable().destroy();
+    }
+
+    refreshDatatable() {
+        $(this.refs.main).DataTable().ajax.reload();
     }
 
     addField() {

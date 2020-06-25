@@ -5,6 +5,7 @@ namespace Modules\Extranet\Jobs\User;
 use App\Http\Requests\LoginRequest;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Session;
 
 class Login
 {

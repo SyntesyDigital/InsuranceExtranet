@@ -59,18 +59,17 @@
 
         <!-- Sessions modal -->
         @if(isset(Auth::user()->id) && !isset(Auth::user()->session_id))
-          @include('extranet::front.partials.session_modal')
+            @include('extranet::front.partials.session_modal')
         @endif
 
         
         @if(null !== Auth::user())
-         @include ('extranet::front.partials.header')
+            @include ('extranet::front.partials.header')
         @endif
         
         @include ('extranet::front.partials.env_bar')
 
         <div>
-
           @if(null !== Auth::user())
             @include ('extranet::front.partials.sidebar')
             <div class="content-wrapper">
@@ -81,7 +80,6 @@
           @else
             @yield('content')
           @endif
-
         </div>
 
         <!-- Footer blade important to add JavasCript variables from Controller -->
@@ -90,7 +88,7 @@
           const WEBROOT = '{{route("home")}}';
           const ASSETS = '{{asset('')}}';
           const LOCALE = '{{App::getLocale()}}';
-          
+
           @if(isset(Auth::user()->id))
             const ID_PER_USER = '{{Auth::user()->id}}';
             const SESSION_ID = '{{isset(Auth::user()->session_id) ? Auth::user()->session_id : null}}';

@@ -1,5 +1,35 @@
 import { gql } from 'apollo-boost';
+import { mutation, query } from '../client.js';
 
+//------------------------------------------------------------//
+//          MODEL PROCEDURES 
+//------------------------------------------------------------//
+export let groups = {
+    getGroupsPermissions() {
+        return query(GQL_GET_GROUPS_PERMISSIONS);
+    },
+
+    update(id, params) {
+        return mutation(GQL_UPDATE_GROUP, {
+            id: id,
+            ...params
+        });
+    },
+
+    create(params) {
+        return mutation(GQL_CREATE_GROUP, params);
+    },
+
+    delete(id) {
+        return mutation(GQL_REMOVE_GROUP, {
+            id: id,
+        });
+    },
+}
+
+//------------------------------------------------------------//
+//          GRAPHQL
+//------------------------------------------------------------//
 export const GQL_GET_GROUPS_PERMISSIONS = gql`
   {
     permissions {

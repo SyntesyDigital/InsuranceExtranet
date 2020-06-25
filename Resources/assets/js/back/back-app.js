@@ -1,4 +1,4 @@
-require('./bootstrap');
+//require('./bootstrap');
 
 //Components
 require('./components/Element/ElementApp');
@@ -23,3 +23,7 @@ require('./components/Services/ServicesIndex');
 require('./components/Services/ServiceForm');
 
 require('./components/ElementTemplate/Template');
+
+
+
+
