@@ -7,20 +7,12 @@
 */
 
 Route::group([
+    'middleware' => ['web', 'auth:veos-ws','permissions:roles', 'DetectUserLocale'],
     'prefix' => 'architect',
     'namespace' => 'Modules\Extranet\Http\Controllers',
-    'middleware' => [
-        'web',
-        'auth:veos-ws',
-        'DetectUserLocale',
-        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN',
-    ],
-], function () {
-    // Templates
-    Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
-    Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
-
-    // Roles
+  ], function()
+  {
+      // Roles
     Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
     Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
     Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create');
@@ -34,6 +26,16 @@ Route::group([
     Route::get('/users/{id}/update/', 'UserController@update')->name('extranet.users.update');
     Route::get('/users/{id}/delete/', 'UserController@delete')->name('extranet.users.delete');
 
+  });
+
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws','permissions:services', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function()
+  {
+      
     // Services
     Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
     Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
@@ -41,6 +43,16 @@ Route::group([
     Route::get('/services/create', 'ServiceController@create')->name('extranet.services.create');
     Route::delete('/services/{service}/delete', 'ServiceController@delete')->name('extranet.services.delete');
 
+  });
+
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws','permissions:element_models', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function()
+  {
+      
     //Elements Models
     Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
     Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
@@ -49,6 +61,16 @@ Route::group([
     Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
     Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
 
+
+  });
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws','permissions:elements', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function()
+  {
+      
     // Models
     Route::get('/models', 'ModelController@index')->name('extranet.models.index');
     Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');
@@ -56,14 +78,6 @@ Route::group([
     Route::post('/models/store', 'ModelController@store')->name('extranet.models.store');
     Route::put('/models/{model}/update', 'ModelController@update')->name('extranet.models.update');
     Route::delete('/models/{model}/delete', 'ModelController@delete')->name('extranet.models.delete');
-
-    // Lists
-    Route::get('/sitelists', 'Admin\SiteListController@index')->name('extranet.admin.sitelists.index');
-    Route::get('/sitelists/create', 'Admin\SiteListController@create')->name('extranet.admin.sitelists.create');
-    Route::post('/sitelists/store', 'Admin\SiteListController@store')->name('extranet.admin.sitelists.store');
-    Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
-    Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
-    Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
 
     // Elements
     Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
@@ -82,6 +96,16 @@ Route::group([
     Route::get('/elements/{element}/template/{template}', 'ElementController@showTemplate')->name('extranet.elements.template.show');
     Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
 
+
+  });
+
+
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws','permissions:parameters', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+], function()
+{
     // Routes Parameters
     Route::get('/routes_parameters', 'RouteParameterController@index')->name('extranet.routes_parameters.index');
     Route::get('/routes_parameters/data', 'RouteParameterController@data')->name('extranet.routes_parameters.data');
@@ -90,13 +114,46 @@ Route::group([
     Route::post('/routes_parameters/store', 'RouteParameterController@store')->name('extranet.routes_parameters.store');
     Route::put('/routes_parameters/{route_parameter}/update', 'RouteParameterController@update')->name('extranet.routes_parameters.update');
     Route::delete('/routes_parameters/{route_parameter}/delete', 'RouteParameterController@delete')->name('extranet.routes_parameters.delete');
+
 });
+
+Route::group([
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+    'middleware' => [
+        'web',
+        'auth:veos-ws',
+        'DetectUserLocale',
+        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN',
+    ],
+], function () {
+    // Templates
+    Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
+    Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
+
+    
+
+    // Lists
+    Route::get('/sitelists', 'Admin\SiteListController@index')->name('extranet.admin.sitelists.index');
+    Route::get('/sitelists/create', 'Admin\SiteListController@create')->name('extranet.admin.sitelists.create');
+    Route::post('/sitelists/store', 'Admin\SiteListController@store')->name('extranet.admin.sitelists.store');
+    Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
+    Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
+    Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
+
+});
+
+/*
+|--------------------------------------------------------------------------
+|   FRONT
+|--------------------------------------------------------------------------
+*/
 
 Route::group([
     'middleware' => [
         'web',
         'auth:veos-ws',
-        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN',
+        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER',
     ],
     'prefix' => 'architect',
     'namespace' => 'Modules\Extranet\Http\Controllers',
@@ -122,12 +179,6 @@ Route::group([
     Route::post('/elements/form/process-service', 'ElementController@postService')->name('elements.postservice');
 });
 
-/*
-|--------------------------------------------------------------------------
-|   FRONT
-|--------------------------------------------------------------------------
-*/
-
 Route::group([
     'middleware' => ['web'],
     'namespace' => 'Modules\Extranet\Http\Controllers',
@@ -141,7 +192,7 @@ Route::group([
 Route::group([
     //'prefix' => LaravelLocalization::setLocale(),
     //'middleware' => ['web','auth:veos-ws','localeSessionRedirect', 'localeViewPath','localize'],
-    'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM'],
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:contents.create'],
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::get('/preview/{id}', 'ContentController@preview')->name('preview');
