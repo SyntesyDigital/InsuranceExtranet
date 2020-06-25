@@ -1,4 +1,4 @@
-require('./bootstrap');
+//require('./bootstrap');
 
 //Components
 require('./components/Element/ElementApp');
@@ -24,10 +24,6 @@ require('./components/Services/ServiceForm');
 
 require('./components/ElementTemplate/Template');
 
-import { 
-    default as UserSessionService 
-} from './../services/UserSessionService';
 
-window.userSession = new UserSessionService(CURRENT_USER);
 
 

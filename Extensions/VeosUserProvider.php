@@ -154,7 +154,7 @@ class VeosUserProvider implements UserProvider
 
         if ($session) {
             $payload = $session->payload ? json_decode($session->payload) : null;
-            $session->permissions = $payload->permissions;
+            $session->permissions = isset($payload->permissions) ? $payload->permissions : [];
         }
 
         return $session;
