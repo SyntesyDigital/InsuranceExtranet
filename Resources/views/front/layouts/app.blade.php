@@ -53,7 +53,7 @@
         @stack('styles')
     </head>
 
-    <body class="{{$mainClass or ''}} {{is_test_environment() ? 'is-test' : ''}}">
+    <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
 
         @stack('modal')
 

@@ -1,84 +1,110 @@
-.login-container{
-  padding:45px 20px 80px;
+.login-container {
+  padding: 45px 20px 80px;
   background-repeat: no-repeat;
   background-position: -35% 50%;
-  .icons{
+  z-index: 1;
+  .title-background{
+    position: absolute;
+    color: #fff;
+    bottom: -45px;
+    left: 170px;
+    text-align: center;
+    max-width: 300px;
+  }
+  .icons {
     padding: 30px 15px;
-    text-align:center;
+    text-align: center;
 
-    .icon-box{
-      padding:20px 20px;
-      margin-bottom:20px;
-      .icon{
-        i{
+    .icon-box {
+      padding: 20px 20px;
+      margin-bottom: 20px;
+      .icon {
+        i {
           font-size: 50px;
           line-height: 60px;
         }
       }
-      .title{
-        margin-top:5px;
+      .title {
+        margin-top: 5px;
         min-height: 56px;
-        @include font(24,28,600);
+        @include font(24, 28, 600);
       }
-      p{
+      p {
         padding: 0px;
-        @include font(16,21,400);
+        @include font(16, 21, 400);
       }
     }
-    p{
+    p {
       padding: 5px 15px;
-      @include font(16,21,400);
+      @include font(16, 21, 400);
     }
   }
 
-  .login-box-container{
+  .login-box-container {
     max-width: 430px;
     padding: 0 10px;
-    margin:0 auto;
-    .login-box{
-      padding: 30px 20px;
-      border: 1px solid #DBDBDB;
-     // border: 1px solid $login-border-color;
-    //  background-color:$login-background-color;
-
-      .logo-container{
-        text-align: center;
-      }
-
-      form{
-        border:none;
+    margin: 0 auto;
+    .logo-container {
+      text-align: center;
+      background-color: #ffffff;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border-top: 1px solid #dbdbdb;
+      border-right: 1px solid #dbdbdb;
+      border-left: 1px solid #dbdbdb;
+      padding: 20px;
+    }
+    .login-box {
+      padding: 0px 20px;
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #dbdbdb;
+      border-right: 1px solid #dbdbdb;
+      border-left: 1px solid #dbdbdb;
+      form {
+        border: none;
         padding: 0;
-        
-        h2{
+        h2 {
           text-align: center;
-          @include font(18,24,400);
+          @include font(18, 24, 400);
         }
-        .form-group{
+        .container-title{
+          text-align: center;
+          &+h2{
+            display: none;
+          }
+        }
+        .form-group {
           margin-top: 10px;
-          label{
-            @include font(14,19,400);
-            i{
+          label {
+            @include font(14, 19, 400);
+            i {
               margin-right: 5px;
             }
           }
-          .form-control{
-            border-color:#A8A8A8;
+          .form-control {
+            border-color: #a8a8a8;
           }
-          .buttons-group{
+          .buttons-group {
             text-align: center;
-            margin-top:15px;
-            .btn{
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            .btn {
               width: 100%;
-             /* border-radius:10px;*/
               font-size: 14px;
               text-transform: capitalize;
             }
           }
-          .forgot{
+          .accept{
+            input{
+              margin-right: 5px;
+            }
+          }
+          .forgot {
             margin: 20px;
-            a{
-              color:$primary-color;
-              @include font(14,19,400);
+            a {
+              color: $primary-color;
+              @include font(14, 19, 400);
               text-decoration: underline;
             }
           }
