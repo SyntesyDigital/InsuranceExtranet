@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { ButtonSecondary } from "architect-components-library";
-import iconSvg from './assets/img/ico_brochure.svg';
+import iconSvg from './assets/img/bulle-bleue.svg';
 
 export default class ImageTextTitleDocuments extends Component {
 
@@ -68,6 +68,9 @@ export default class ImageTextTitleDocuments extends Component {
             <div className="container-image-text-title-documents">
                 <div className="container-image">
                     {image ? <img src={'/' + image} width="100%" /> : null}
+                    <a href={link} className="btn btn-primary">
+                        {titleLink}
+                    </a>
                 </div>
                 <div className="container-title">
                     <h4 className="alignleft" href="#">
@@ -78,9 +81,6 @@ export default class ImageTextTitleDocuments extends Component {
                     {desc}
                 </div>
                 <div className="buttons-group text-center">
-                    <a href={link} className="btn btn-primary">
-                        <img src={iconSvg} />{titleLink}
-                    </a>
                     <ButtonSecondary
                         label={titleLink2}
                         route={link2}

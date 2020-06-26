@@ -213,6 +213,8 @@
 
     //IMAGE TEXT TITLE DOCUMENTS
     $titleColorImgTxtTitleDocuments = isset($storedStylesFront['titleColorImgTxtTitleDocuments']) ? $storedStylesFront['titleColorImgTxtTitleDocuments']->value : $primaryColor;
+    $descColorImgTxtTitleDocuments = isset($storedStylesFront['descColorImgTxtTitleDocuments']) ? $storedStylesFront['descColorImgTxtTitleDocuments']->value : $primaryColor;
+    $borderTitleColorImgTxtTitleDocuments = isset($storedStylesFront['borderTitleColorImgTxtTitleDocuments']) ? $storedStylesFront['borderTitleColorImgTxtTitleDocuments']->value : $primaryColor;
     $buttonColorImgTxtTitleDocuments = isset($storedStylesFront['buttonColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonColorImgTxtTitleDocuments']->value : $primaryColor;
     $buttonBackgroundColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']->value : $secondaryColor;
     $buttonBackgroundHoverColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']->value : $primaryColor;
@@ -225,10 +227,13 @@
     $button2BorderColorImgTxtTitleDocuments = isset($storedStylesFront['button2BorderColorImgTxtTitleDocuments']) ? $storedStylesFront['button2BorderColorImgTxtTitleDocuments']->value : $primaryColor;
     $descColorImgTxtTitleDocuments = isset($storedStylesFront['descColorImgTxtTitleDocuments']) ? $storedStylesFront['descColorImgTxtTitleDocuments']->value : $primaryColor;
     $titleFontSizeImgTitleDocuments = isset($storedStylesFront['titleFontSizeImgTitleDocuments']) ? $storedStylesFront['titleFontSizeImgTitleDocuments']->value.'px' : '20px';
+    $titleFontWeightImgTitleDocuments = isset($storedStylesFront['titleFontWeightImgTitleDocuments']) ? $storedStylesFront['titleFontWeightImgTitleDocuments']->value : '400';
     $descFontSizeImgTxtTitleDocuments = isset($storedStylesFront['descFontSizeImgTxtTitleDocuments']) ? $storedStylesFront['descFontSizeImgTxtTitleDocuments']->value.'px' : '16px';
-    $borderRadiusButtonsImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']->value.'px' : '30px';
+    $borderRadiusButtons1ImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtons1ImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtons1ImgTxtTitleDocuments']->value.'px' : '0';
+    $borderRadiusButtons2ImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtons2ImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtons2ImgTxtTitleDocuments']->value.'px' : '30px';
     $borderRadiusImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusImgTxtTitleDocuments']->value.'px' : '20px';
-    $buttonsFontSizeImgTitleDocuments = isset($storedStylesFront['buttonsFontSizeImgTitleDocuments']) ? $storedStylesFront['buttonsFontSizeImgTitleDocuments']->value.'px' : '16px';
+    $button1FontSizeImgTitleDocuments = isset($storedStylesFront['button1FontSizeImgTitleDocuments']) ? $storedStylesFront['button1FontSizeImgTitleDocuments']->value.'px' : '16px';
+    $button2FontSizeImgTitleDocuments = isset($storedStylesFront['button2FontSizeImgTitleDocuments']) ? $storedStylesFront['button2FontSizeImgTitleDocuments']->value.'px' : '16px';
 
     //HORIZONTAL BANNER
     $titleColorHorizontalBanner = isset($storedStylesFront['titleColorHorizontalBanner']) ? $storedStylesFront['titleColorHorizontalBanner']->value : $primaryColor;
