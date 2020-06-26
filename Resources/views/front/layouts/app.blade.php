@@ -63,7 +63,7 @@
         @endif
 
         
-        @if(null !== Auth::user())
+        @if(null !== Auth::user() && !is_jailed())
          @include ('extranet::front.partials.header')
         @endif
         
@@ -72,8 +72,12 @@
         <div>
 
           @if(null !== Auth::user())
-            @include ('extranet::front.partials.sidebar')
-            <div class="content-wrapper">
+
+            @if(!is_jailed())
+              @include ('extranet::front.partials.sidebar')
+            @endif
+
+            <div class="content-wrapper @if(is_jailed()) jailed @endif">
               @if(isset(Auth::user()->id) && isset(Auth::user()->session_id))
                 @yield('content')
               @endif
@@ -85,7 +89,9 @@
         </div>
 
         <!-- Footer blade important to add JavasCript variables from Controller -->
-        @include ('extranet::front.partials.footer')
+        @if(!is_jailed())
+          @include ('extranet::front.partials.footer')
+        @endif
         <script>
           const WEBROOT = '{{route("home")}}';
           const ASSETS = '{{asset('')}}';
