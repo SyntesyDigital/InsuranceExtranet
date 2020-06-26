@@ -158,7 +158,7 @@
     $loginContainerTitleColor = isset($storedStylesFront['loginContainerTitleColor']) ? $storedStylesFront['loginContainerTitleColor']->value : $secondaryColor;
     $lowerUpperCaseButtonLogin = isset($storedStylesFront['lowerUpperCaseButtonLogin']) ? $storedStylesFront['lowerUpperCaseButtonLogin']->value : 'capitalize';
     $loginBorderColorFooter = isset($storedStylesFront['loginBorderColorFooter']) ? $storedStylesFront['loginBorderColorFooter']->value : $secondaryColor;
-    $loginContainerBorderColor = isset($storedStylesFront['loginContainerBorderColor']) ? $storedStylesFront['loginContainerBorderColor']->value : $secondaryColor;
+    $loginContainerBorderColor = isset($storedStylesFront['loginContainerBorderColor']) ? $storedStylesFront['loginContainerBorderColor']->value : '#e4e4e4';
     $alignMotDePasseLogin = isset($storedStylesFront['alignMotDePasseLogin']) ? $storedStylesFront['alignMotDePasseLogin']->value : '0';
     $alignHorizontalMotDePasseLogin = isset($storedStylesFront['alignHorizontalMotDePasseLogin']) ? $storedStylesFront['alignHorizontalMotDePasseLogin']->value : '0';
     $alignFooterLogin = isset($storedStylesFront['alignFooterLogin']) ? $storedStylesFront['alignFooterLogin']->value : 'right';
