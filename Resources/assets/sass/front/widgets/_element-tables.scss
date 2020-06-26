@@ -375,6 +375,10 @@
 body {
   .react-table-container {
     .ReactTable {
+      .rt-noData{
+        top: 75% !important;
+        background-color: transparent !important;
+      }
       .rt-thead {
         display: flex;
         padding-left: 15px;
