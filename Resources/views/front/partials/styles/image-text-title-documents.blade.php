@@ -46,13 +46,19 @@
     }
 
     @if(isset($storedStylesFront['buttonTransparentImgTxtTitleDocuments']) && $storedStylesFront['buttonTransparentImgTxtTitleDocuments']->value == true)
-    body .ImageTextTitleDocuments .container-image-text-title-documents .container-image a{
-        background-color: {{$buttonBackgroundColorImgTxtTitleDocuments}}80;
-        border-color: transparent;
-    }
-    body .ImageTextTitleDocuments .container-image-text-title-documents .container-image a:hover{
-        background-color: {{$buttonBackgroundColorImgTxtTitleDocuments}}80;
-        border-color: transparent;
-    }
+        body .ImageTextTitleDocuments .container-image-text-title-documents .container-image a{
+            background-color: {{$buttonBackgroundColorImgTxtTitleDocuments}}80;
+            border-color: transparent;
+        }
+        body .ImageTextTitleDocuments .container-image-text-title-documents .container-image a:hover{
+            background-color: {{$buttonBackgroundColorImgTxtTitleDocuments}}80;
+            border-color: transparent;
+        }
+    @endif
+
+    @if(isset($storedStylesFront['iconButton1ImgTitleDocuments']) && isset($storedStylesFront['iconButton1ImgTitleDocuments']->value))
+        body .ImageTextTitleDocuments .container-image-text-title-documents .container-image a:before{
+            background-image: url('/{{ $storedStylesFront['iconButton1ImgTitleDocuments']->value->urls['original'] }}');
+        } 
     @endif
 </style>
