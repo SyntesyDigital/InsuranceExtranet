@@ -86,13 +86,13 @@
           }
           .buttons-group {
             text-align: center;
-            margin-top: 15px;
             display: flex;
             flex-direction: column;
             .btn {
               width: 100%;
               font-size: 14px;
               text-transform: capitalize;
+              margin-bottom: 20px;
             }
           }
           .accept{

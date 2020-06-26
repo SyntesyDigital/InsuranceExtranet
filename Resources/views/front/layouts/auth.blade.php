@@ -55,7 +55,7 @@
 @if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
   <style>
     .login-box-container{
-      transform: translate(25%, 5%);
+      transform: translate(50%, 5%)
     }
     .login-container:after{
       content: " ";

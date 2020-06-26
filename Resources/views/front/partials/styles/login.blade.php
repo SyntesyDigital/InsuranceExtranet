@@ -90,7 +90,7 @@
   @if(isset($storedStylesFront['alignFooterLogin']) && isset($storedStylesFront['alignFooterLogin']->value))
     body.template-login footer ul{
       text-align: {{$alignFooterLogin}};
-      transform: translate(5%, 0%);
+      transform: translate(11%, 0%);
     }
     body.template-login footer .version{
       display: none;
