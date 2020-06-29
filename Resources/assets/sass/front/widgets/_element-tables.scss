@@ -378,6 +378,8 @@ body {
       .rt-noData{
         top: 75% !important;
         background-color: transparent !important;
+        position: relative;
+        transform: translate(-8%,-5%);
       }
       .rt-thead {
         display: flex;

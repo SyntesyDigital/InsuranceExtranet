@@ -13,16 +13,16 @@
     max-height: {{$loginMaxHeightLogo}} !important;
   }
   @if(isset($storedStylesFront['boxBackgroundLogoLogin']) && $storedStylesFront['boxBackgroundLogoLogin']->value == true)
-    body.template-login .login-container .login-box-container .logo-container{
+    body .login-container .login-box-container .logo-container{
       background: transparent;
       border: none;
     }
-    body.template-login .login-container .login-box-container .login-box{
+    body .login-container .login-box-container .login-box{
       border-top-left-radius: {{$loginContainerBorderRadius}};
       border-top-right-radius: {{$loginContainerBorderRadius}};
       border-top: 1.5px solid {{$loginContainerBorderColor}} !important;
     }
-    body.template-login .login-box-container:before{
+    body .login-box-container:before{
       right: -105px;
       top: 155px;
       width: 45%;
@@ -30,7 +30,7 @@
   @endif
 
   /* box */
-  body.template-login .login-container .login-box-container .login-box {
+  body .login-container .login-box-container .login-box {
     background-color: {{$loginContainerBackgroundColor}};
     @if(isset($storedStylesFront['loginContainerBackgroundColor']) && isset($storedStylesFront['displayIconsLogin']->value))
       border-top: 1px solid {{$loginContainerBackgroundColor}};
@@ -61,10 +61,14 @@
   body .login-container .login-box-container .login-box form .form-group .form-control:focus{
     border: 1px solid {{$inputColor}};
   }
+  body .login-container .login-box-container .login-box form .form-group .form-control{
+    border: 1px solid {{$borderColorInput}};
+  }
   
   /* title */
   .login-container .login-box-container .login-box form h2, .login-container .login-box-container .login-box form h1, .login-container .login-box-container .login-box form h3, .login-container .login-box-container .login-box form h4{
     color: {{$loginContainerTitleColor}};
+    letter-spacing: {{$letterSpacingTitleLogin}};
   }
 
   /* mot de passe */
@@ -88,16 +92,16 @@
 
   /* footer */
   @if(isset($storedStylesFront['alignFooterLogin']) && isset($storedStylesFront['alignFooterLogin']->value))
-    body.template-login footer ul{
+    body.template-login footer ul, body.template-reset-password footer ul{
       text-align: {{$alignFooterLogin}};
       transform: translate(11%, 0%);
     }
-    body.template-login footer .version{
+    body.template-login footer .version, body.template-reset-password footer .version{
       display: none;
     } 
   @endif
   @if(isset($storedStylesFront['loginBorderColorFooter']) && isset($storedStylesFront['loginBorderColorFooter']->value))
-    body.template-login footer{
+    body.template-login footer, body.template-reset-password footer{
       border-top: 1px solid {{$loginBorderColorFooter}} !important;
     }
   @endif

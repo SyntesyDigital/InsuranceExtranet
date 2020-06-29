@@ -18,23 +18,23 @@
 @if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
     @if($test)
         <style>
-            body.template-login .login-container:after{
+            body .login-container:after{
                 top: -100px;
             }
-            body.template-login .login-container .title-background{
+            body .login-container .title-background{
                 bottom: 100px;
             }
-            body.template-login .login-box-container:after{
+            body .login-box-container:after{
                 top: 500px;
             }
         </style>
     @else
         <style>
-            body.template-login .login-container:after{
+            body .login-container:after{
                 top: 0px;
             }
-            body.template-login .login-box-container:after{
-                top: 380px;;
+            body .login-box-container:after{
+                top: 380px;
             }
         </style> 
     @endif

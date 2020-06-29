@@ -38,11 +38,10 @@
     }
     body .ImageTextTitleDocuments .container-image-text-title-documents .btn-primary:hover{
         color: {{$buttonColorHoverImgTxtTitleDocuments}};
-        background-color: {{$button2BackgroundHoverColorImgTxtTitleDocuments}};
     }
     body .ImageTextTitleDocuments .container-image-text-title-documents .btn-default:hover{
         color: {{$button2ColorHoverImgTxtTitleDocuments}};
-        background-color: {{$buttonBackgroundHoverColorImgTxtTitleDocuments}};
+        background-color: {{$button2BackgroundHoverColorImgTxtTitleDocuments}};
     }
 
     @if(isset($storedStylesFront['buttonTransparentImgTxtTitleDocuments']) && $storedStylesFront['buttonTransparentImgTxtTitleDocuments']->value == true)
