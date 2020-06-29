@@ -1,5 +1,46 @@
 @extends('extranet::front.layouts.auth')
 
+@php
+    //if env is local or contains dev
+    $testEnv = strpos(env('APP_ENV'), 'dev') !== false || strpos(env('APP_ENV'), 'local') !== false;
+    $testEnv = $testEnv || env('APP_DEBUG');
+    $test = Request::has('debug') || old('env') != null || $testEnv ? true : false;
+
+    if(!isset($storedStylesFront)){
+        $seconds = 24*3600;
+        $style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
+        $storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
+        \Cache::put('frontStyles', $storedStylesFront, $seconds);
+    }
+
+@endphp
+
+@if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
+    @if($test)
+        <style>
+            body.template-reset-password  .login-container:after{
+                top: 0;
+                height: 151%;
+            }
+            body.template-reset-password .title-background{
+                bottom: -85px;
+            }
+            body.template-reset-password .login-box-container:after{
+                top: 300px;
+            }
+        </style>
+    @else
+        <style>
+            body.template-reset-password .login-container:after{
+                top: -100px;
+            }
+            body.template-reset-password .login-box-container:after{
+                top: 380px;
+            }
+        </style> 
+    @endif
+@endif
+
 @section('form')
   <form method="POST" action="{{ route('send-reset-password') }}">
     @csrf

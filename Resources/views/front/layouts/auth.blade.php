@@ -69,7 +69,7 @@
       z-index: -9;
       background-position: left;
     }
-    body.template-login{
+    body.template-login, body.template-reset-password{
       overflow: hidden;
     }
     @media (max-width: 930px) {

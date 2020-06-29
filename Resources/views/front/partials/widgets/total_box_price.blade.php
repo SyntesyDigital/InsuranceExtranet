@@ -32,7 +32,7 @@
 
 @if(isset($field['settings']['backgroundHoverColor']))
   <style>
-    body .total-box-container-a .total-box-price-container.identifier-{{$identifier}}:hover{
+    body .total-box-price-container.identifier-{{$identifier}}:hover{
       background-color: {{$field['settings']['backgroundHoverColor']}} !important;
     } 
   </style>
@@ -40,8 +40,8 @@
 
 @if(isset($field['settings']['backgroundColor']))
   <style>
-    body .total-box-container-a .total-box-price-container.identifier-{{$identifier}}{
-      background-color: {{$field['settings']['backgroundColor']}};
+    body .total-box-price-container.identifier-{{$identifier}}{
+      background-color: {{$field['settings']['backgroundColor']}} !important;
     }
   </style>
 @endif

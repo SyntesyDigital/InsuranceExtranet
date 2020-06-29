@@ -168,6 +168,7 @@
     $loginButtonBorderRadius = isset($storedStylesFront['loginButtonBorderRadius']) ? $storedStylesFront['loginButtonBorderRadius']->value.'px' : $buttonRadius;
     $loginButtonTextColor = isset($storedStylesFront['loginButtonTextColor']) ? $storedStylesFront['loginButtonTextColor']->value : $secondaryColor;
     $loginButtonHoverTextColor = isset($storedStylesFront['loginButtonHoverTextColor']) ? $storedStylesFront['loginButtonHoverTextColor']->value : $primaryColor;
+    $letterSpacingTitleLogin = isset($storedStylesFront['letterSpacingTitleLogin']) ? $storedStylesFront['letterSpacingTitleLogin']->value.'px' : '3px';
 
     //FORM SETTINGS
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
@@ -266,6 +267,7 @@
     //TABS
     $fontColorTab = isset($storedStylesFront['fontColorTab']) ? $storedStylesFront['fontColorTab']->value : $secondaryColor;
     $backgroundColorTab = isset($storedStylesFront['backgroundColorTab']) ? $storedStylesFront['backgroundColorTab']->value : $primaryColor;
+    $fontColorActiveTab = isset($storedStylesFront['fontColorActiveTab']) ? $storedStylesFront['fontColorActiveTab']->value : $secondaryColor;
     $backgroundColorActiveTab = isset($storedStylesFront['backgroundColorActiveTab']) ? $storedStylesFront['backgroundColorActiveTab']->value : '#fff';
     $backgroundHoverColorTab = isset($storedStylesFront['backgroundHoverColorTab']) ? $storedStylesFront['backgroundHoverColorTab']->value : $primaryColor;
     $backgroundColorContentTab = isset($storedStylesFront['backgroundColorContentTab']) ? $storedStylesFront['backgroundColorContentTab']->value : '#fff';
