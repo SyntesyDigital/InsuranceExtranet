@@ -8,11 +8,9 @@ export function getUrlParameters(formParameters, forceRemoveArrayParameters, fin
   //all parameters are initially added to formParameters so no need to add again
   //var parameters = this.props.parameters;
 
+  var filterParameters = finalRedirectParameters !== undefined && finalRedirectParameters != null ? true : false;
   finalRedirectParameters = finalRedirectParameters !== undefined && finalRedirectParameters != null ? 
     finalRedirectParameters : [];
-
-  //var filterParameters = finalRedirectParameters.length > 0 ? true : false;
-  var filterParameters = true;
 
   var forceRemoveArrayParameters = forceRemoveArrayParameters !== undefined 
     ? forceRemoveArrayParameters 
