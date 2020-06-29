@@ -11,7 +11,8 @@ export function getUrlParameters(formParameters, forceRemoveArrayParameters, fin
   finalRedirectParameters = finalRedirectParameters !== undefined && finalRedirectParameters != null ? 
     finalRedirectParameters : [];
 
-  var filterParameters = finalRedirectParameters.length > 0 ? true : false;
+  //var filterParameters = finalRedirectParameters.length > 0 ? true : false;
+  var filterParameters = true;
 
   var forceRemoveArrayParameters = forceRemoveArrayParameters !== undefined 
     ? forceRemoveArrayParameters 
