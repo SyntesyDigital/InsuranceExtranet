@@ -4,22 +4,27 @@
 .page-builder h1{
   color:{{$frontBodyH1Color}};
   font-size:{{$frontBodyH1FontSize}};
+  font-weight:{{$frontBodyH1FontWeight}};
 }
 .page-builder h2{
   color:{{$frontBodyH2Color}};
   font-size:{{$frontBodyH2FontSize}};
+  font-weight:{{$frontBodyH2FontWeight}};
 }
 .page-builder h3{
   color:{{$frontBodyH3Color}};
   font-size:{{$frontBodyH3FontSize}};
+  font-weight:{{$frontBodyH3FontWeight}};
 }
 .page-builder h4{
   color:{{$frontBodyH4Color}};
   font-size:{{$frontBodyH4FontSize}};
+  font-weight:{{$frontBodyH4FontWeight}};
 }
 .page-builder h5{
   color:{{$frontBodyH5Color}};
   font-size:{{$frontBodyH5FontSize}};
+  font-weight:{{$frontBodyH5FontWeight}};
 }
 .total-box-container-a{
   color:{{$elementLinkColor}};
@@ -96,5 +101,51 @@
 }
 .box-button-container.box-button-secondary:hover > .wrap-box-button .label-container{
   background-color: {{$buttonSecondaryBackgroundLabelHoverColor}}
+}
+
+/* .box-class-1 */
+body .page-builder .box-class-1 *{
+  /*color: {{$textColorBox1}};*/
+}
+body .page-builder .box-class-1{
+  background-color: {{$backgroundColorBox1}};
+  border-radius: {{$borderRadiusBox1}};
+  border: 1px solid {{$borderColorBox1}};
+} 
+body .page-builder .box-class-1.row{
+  background-color: {{$backgroundColorBox1}};
+  border-radius: {{$borderRadiusBox1}};
+  border: 1px solid {{$borderColorBox1}};
+}
+
+/* .box-class-2 */
+body .page-builder .box-class-2 *{
+  color: {{$textColorBox1}};
+}
+body .page-builder .box-class-2{
+  background-color: {{$backgroundColorBox2}};
+  border-radius: {{$borderRadiusBox2}};
+  border: 1px solid {{$borderColorBox2}};
+} 
+body .page-builder .box-class-2.row{
+  background-color: {{$backgroundColorBox2}};
+  border-radius: {{$borderRadiusBox2}};
+  border: 1px solid {{$borderColorBox2}};
+}
+
+
+/* .box-class-3 */
+body .page-builder .box-class-3 *{
+  color: {{$textColorBox1}};
+}
+body .page-builder .box-class-3{
+  background-color: {{$backgroundColorBox3}};
+  border-radius: {{$borderRadiusBox3}};
+  border: 1px solid {{$borderColorBox3}};
+} 
+body .page-builder .box-class-3.row{
+  background-color: {{$backgroundColorBox3}};
+  border-radius: {{$borderRadiusBox3}};
+  border: 1px solid {{$borderColorBox3}};
 }
 </style>

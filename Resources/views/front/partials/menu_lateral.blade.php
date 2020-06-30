@@ -1,5 +1,56 @@
 @if(isset($menu))
-	<ul class="menu">
+
+	@php
+	$storedStylesFront = \Cache::get('frontStyles');
+	@endphp
+
+	@if(!$storedStylesFront)
+		@php
+			$seconds = 24*3600;
+			$style = \Modules\Architect\Entities\Style::where('identifier','front')->first();
+			$storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
+			\Cache::put('frontStyles', $storedStylesFront, $seconds);
+		@endphp
+	@endif
+
+
+	<div class="menu-container">
+		<div id="sidebar-button" class="menu btn-ham open">
+			<div class="icon"></div>
+		</div>
+	</div>
+
+	<div class="logo-container">
+		<a href="{{route('home')}}">
+			@if(isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value))
+				<img src="/{{$storedStylesFront['frontLogo']->value->urls['original']}}" alt="Logo" />
+			@else
+				<img src="{{asset('modules/architect/images/logo.png')}}" alt=""/>
+			@endif
+		</a>
+	</div>
+
+	<ul class="container-menu">
+
+		@php
+
+			$current = isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) 
+				? Auth::user()->session_info->{'USEREXT.nom2_per'} 
+			: null;
+
+		@endphp
+
+		<li class="user-item">
+			<span class="sidebar-text">{{$current}}</span>
+			<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+				<i class="fas fa-power-off"></i>
+			</a>
+			<form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+				{{csrf_field()}}
+			</form>
+		</li>
+			
+		
 		@foreach($menu as $index => $menuElement)
 
 		@php
@@ -7,14 +58,15 @@
 			$hasChildren = sizeof($menuElement["children"]) > 0 ? 1 : 0;
 
 			if(!allowed_link($link)){
-         continue;
-      }
+         		continue;
+      		}
 		@endphp
 
 		@if(isset($link))
-			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}">
-			
-					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
+			<li class="menu-item {{ Request::is($link['request_url']) ? 'active' : '' }}" title="">
+					
+					<!--<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" data-toggle="tooltip" data-placement="right" title=" {{$link["name"]}}"> -->
+					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}} tooltip-link" title=" {{$link["name"]}}">
 						@if(isset($link["icon"]))
 							<i class="{{$link['icon']}}"></i>
 						@endif
@@ -45,4 +97,19 @@
 		@endif
 		@endforeach
 	</ul>
+
+	@push('javascripts')
+	<script>
+		
+		/*
+		$(document).ready(function() {
+			$(".sidebar.collapsed .menu-item a").tooltip({ 
+				selector: '[data-toggle=tooltip]', 
+				placement: 'right' 
+			});
+		});
+		*/
+	</script>
+	@endpush
+
 @endif

@@ -18,25 +18,36 @@
         "icon" => "far fa-eye",
         "parameters" => $parameters
     ];
+
+    $collapsable = isset($field['settings']['collapsable']) && $field['settings']['collapsable']? true : false;
+    $title = isset($field['fields'][0]['value'][App::getLocale()]) ? $field['fields'][0]['value'][App::getLocale()] : null;
+    $url = get_field_url($field['fields'][1],$parameters);
+
+    $icon = $field['fields'][2]['value'];
+
 @endphp
 
 @if(check_visible($field['settings'], $parameters))
 
     <div
         id="{{$field['settings']['htmlId'] or ''}}" 
-        class="element-file-container {{$field['settings']['htmlClass'] or ''}}"
+        class="element-file-container {{$field['settings']['htmlClass'] or ''}} {{ $field['settings']['collapsable'] ? '' : 'static' }}"
     >
 
         <div 
-            class="{{ $field['settings']['collapsable'] ? 'element-collapsable' :'' }} element-file-container-head {{ $field['settings']['collapsed'] ? 'collapsed' : '' }}" 
+            class="{{ $field['settings']['collapsable'] ? 'element-collapsable' : '' }} element-file-container-head {{ $field['settings']['collapsed'] ? 'collapsed' : '' }}" 
             @if($field['settings']['collapsable']) 
                 data-toggle="collapse" 
                 data-target="#collapsefile-{{$htmlId}}" 
                 aria-expanded="true" 
                 aria-controls="collapsefile-{{$htmlId}}"
             @endif
+            style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
         >
-            {{$field['fields'][0]['value'][App::getLocale()] or ''}}
+            @if(isset($icon))
+                <i class="{{$icon}}"></i>
+            @endif
+            {{$title}}
         </div>
 
         <div 
@@ -55,11 +66,13 @@
             >
             </div>
             
+            
             <div>
                 <div class="more-btn">
                 @include($view, $params)
                 </div>
             </div>
+            
             
         </div>
     </div>

@@ -66,7 +66,7 @@ class ImmatField extends Component
 
   getValueFromRegex(index,value) {
     var result = "";
-    if(index == 0 || index == 1 || index == 4){
+    if(index == 0 || index == 1){
       //revert numbers and remove spaces
       var valueArray = value.split(" ");
       result = valueArray[2]+valueArray[1]+valueArray[0];
@@ -79,6 +79,30 @@ class ImmatField extends Component
     else if(index == 3){
       //remove spaces
       return value.split(" ").join("");
+    }
+    else if(index == 10){
+      //remove spaces
+      var valueArray = value.split(" ");
+      result = valueArray[2]+valueArray[1]+valueArray[0];
+      return result;
+    }
+    else if(index == 4){
+      //remove spaces
+      var valueArray = value.split(" ");
+      result = valueArray[2]+valueArray[1]+'0'+valueArray[0];
+      return result;
+    }
+    else if(index == 11){
+      //remove spaces
+      var valueArray = value.split(" ");
+      result = valueArray[2]+valueArray[1]+'00'+valueArray[0];
+      return result;
+    }
+    else if(index == 12){
+      //remove spaces
+      var valueArray = value.split(" ");
+      result = valueArray[2]+valueArray[1]+'000'+valueArray[0];
+      return result;
     }
     else if(index > 4){
       return value;
@@ -100,18 +124,26 @@ class ImmatField extends Component
       //AA999AA
       //AA999A
       //99AAA999
+      //new formats 29-6-2020
+      //9999 AAA 11 => 11AAA9999  //10
+      //999 AAA 11 => 11AAA0999 //add 0 //4
+      //99 AA 11 =>  11AA0099 //add 00  //11
+      //9 AA 11 => 11AA0009 // add 000  //12
 
     var formats = [
-      /^[0-9]{4} [A-Z]{3} [0-9]{3}$/g, //0
-      /^[0-9]{4} [A-Z]{2} [0-9]{2}$/g, 
-      /^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/g, 
-      /^[A-Z]{2} [0-9]{3} [A-Z]{1}$/g, 
-      /^[0-9]{3} [A-Z]{3} [0-9]{2}$/g, //4
-      /^[0-9]{3}[A-Z]{3}[0-9]{4}$/g, //5
-      /^[0-9]{2}[A-Z]{2}[0-9]{4}$/g, 
-      /^[A-Z]{2}[0-9]{3}[A-Z]{2}$/g, 
-      /^[A-Z]{2}[0-9]{3}[A-Z]{1}$/g, 
-      /^[0-9]{2}[A-Z]{3}[0-9]{3}$/g, 
+      /^[0-9]{4} [A-z]{3} [0-9]{3}$/g, //0
+      /^[0-9]{4} [A-z]{2} [0-9]{2}$/g, //1
+      /^[A-z]{2}-[0-9]{3}-[A-z]{2}$/g, //2
+      /^[A-z]{2} [0-9]{3} [A-z]{1}$/g, //3
+      /^[0-9]{3} [A-z]{3} [0-9]{2}$/g, //4
+      /^[0-9]{3}[A-z]{3}[0-9]{4}$/g, //5
+      /^[0-9]{2}[A-z]{2}[0-9]{4}$/g, //6
+      /^[A-z]{2}[0-9]{3}[A-z]{2}$/g, //7
+      /^[A-z]{2}[0-9]{3}[A-z]{1}$/g, //8
+      /^[0-9]{2}[A-z]{3}[0-9]{3}$/g, //9
+      /^[0-9]{4} [A-z]{3} [0-9]{2}$/g, //10
+      /^[0-9]{2} [A-z]{2} [0-9]{2}$/g, //11
+      /^[0-9]{1} [A-z]{2} [0-9]{2}$/g, //12
     ];
 
     var regex = "";

@@ -21,6 +21,8 @@ export default class ElementForm extends Component {
             field={this.props.field}
             elementObject={this.props.elementObject}
             parameters={this.props.parameters}
+            finalRedirectUrl={this.props.finalRedirectUrl}
+            onFormFinished={this.handleFormFinished.bind(this)}
           />
         );
     }
@@ -32,6 +34,7 @@ if (document.getElementById('element-form-button')) {
        var field = JSON.parse(atob(element.getAttribute('field')));
        var elementObject = JSON.parse(atob(element.getAttribute('elementObject')));
        var parameters = element.getAttribute('parameters');
+       var finalRedirectUrl = "";
 
        if(field.fields[1].value !== undefined && field.fields[1].value != null &&
          field.fields[1].value.content !== undefined &&
@@ -43,6 +46,7 @@ if (document.getElementById('element-form-button')) {
            field={field}
            elementObject={elementObject}
            parameters={parameters}
+           finalRedirectUrl={finalRedirectUrl}
          />, element);
    });
 }

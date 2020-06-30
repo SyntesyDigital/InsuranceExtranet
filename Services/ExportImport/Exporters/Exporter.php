@@ -59,6 +59,9 @@ abstract class Exporter
 
         return collect($model)
             ->only($attrs->toArray())
+            ->map(function ($v) {
+                return $v;
+            })
             ->toArray();
     }
 

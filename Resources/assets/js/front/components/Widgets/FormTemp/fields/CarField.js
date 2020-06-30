@@ -291,7 +291,7 @@ export default class CarField extends Component {
                         Précisez le dommage (Rayé, cassé, enfoncé...)
                     </label>
                     <div className="row">
-                        <table class="table">
+                        <table className="table">
                             <tbody>
                                 {
                                     this.state.keyGen.map((item, index) => {

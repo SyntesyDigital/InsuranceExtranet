@@ -10,7 +10,7 @@
 
 		&nbsp;&nbsp;&nbsp;
 		<div class="version" style="">
-			Architect v1.14.0 v1.14.2
+			Architect v1.17.0@rel v1.17.3@rel
 		</div>
   </div>
 	<!-- end Col 2 -->

@@ -5,13 +5,17 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import Label from './fields/Label';
 import RadioField from './fields/RadioField';
 import YesNoField from './fields/YesNoField';
+import YesNoFieldSwitch from '../Forms/fields/YesNoFieldSwitch';
 import CheckField from '../ElementCard/fields/CheckField'; // FIXME
 import ListField from './fields/ListField';
 import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
 import Stepper from '../Stepper';
+import RangeField from '../Forms/fields/RangeField';
+import { Separator } from "architect-components-library";
 
-const steps = [{ title: 'Profil 1' }, { title: 'Profil 2' }, { title: 'Profil 3' }, { title: 'Profil 4' }]
+
+const steps = [{ title: 'Adresse / Surface' }, { title: 'Détail du risque' }, { title: 'Antécedent' }, { title: 'Projet' }, { title: 'Souscripteur' }, { title: 'Validation' }]
 
 export default class FormComponentTemp extends Component {
 
@@ -19,7 +23,7 @@ export default class FormComponentTemp extends Component {
         super(props);
 
         this.state = {
-            activeStep: 3,
+            activeStep: 2,
             items: [
                 {
                     name: 'field01',
@@ -65,7 +69,13 @@ export default class FormComponentTemp extends Component {
 
             optionsBooleanButton: 'Oui',
 
-            displayAddDocument: false
+            displayAddDocument: false,
+
+            rangeField: 50,
+
+            rangeField2: 500,
+
+            rangeField3: 1500
         };
     }
 
@@ -391,6 +401,41 @@ export default class FormComponentTemp extends Component {
 
                 >
                     <Row>
+                        <Col md={3}>
+                            <YesNoFieldSwitch
+                                label1={'Non'}
+                                label2={'Oui'}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'checkedA'}
+                                identifier={'checkedA'}
+                            />
+                        </Col>
+                        <Col md={3}>
+                            <YesNoFieldSwitch
+                                label1={'Non'}
+                                label2={'Oui'}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'checkedB'}
+                                identifier={'checkedB'}
+                            />
+                        </Col>
+                        <Col md={3}>
+                            <YesNoFieldSwitch
+                                label1={'Non'}
+                                label2={'Oui'}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'checkedC'}
+                                identifier={'checkedC'}
+                            />
+                        </Col>
+                    </Row>
+                </Grid>
+                <Grid
+                    className="layout"
+                    fluid={true}
+
+                >
+                    <Row>
                         <Col md={12}>
                             <Label
                                 text={'DOMMAGES'}
@@ -404,6 +449,10 @@ export default class FormComponentTemp extends Component {
                     </Row>
                     <Row>
                         <Col md={12}>
+                            <Label
+                                text={'Etapes'}
+                                textAlign={'left'}
+                            />
                             <Stepper
                                 steps={steps}
                                 activeStep={this.state.activeStep}
@@ -411,6 +460,40 @@ export default class FormComponentTemp extends Component {
                             />
                         </Col>
                     </Row>
+                    <Separator height={50} />
+                    <Row>
+                        <Col md={12}>
+                            <Label
+                                text={'Jauges'}
+                                textAlign={'left'}
+                            />
+                            <RangeField
+                                label={'Lorem Ipsum is simply dummy text of the printin'}
+                                minValue={10}
+                                maxValue={500}
+                                value={this.state.rangeField}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'rangeField'}
+                            />
+                             <RangeField
+                                label={'Lorem Ipsum is simply dummy '}
+                                minValue={10}
+                                maxValue={1000}
+                                value={this.state.rangeField2}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'rangeField2'}
+                            />
+                             <RangeField
+                                label={'Lorem ip'}
+                                minValue={10}
+                                maxValue={1000}
+                                value={this.state.rangeField3}
+                                onChange={this.handleFieldChange.bind(this)}
+                                name={'rangeField3'}
+                            />
+                        </Col>
+                    </Row>
+                    <Separator height={50} />
                 </Grid>
 
 

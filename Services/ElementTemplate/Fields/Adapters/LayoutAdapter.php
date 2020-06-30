@@ -102,17 +102,16 @@ class LayoutAdapter
                         return Media::find($field->value);
                     })
                     ->toArray();
-            break;
+                break;
 
-            /*
-            default:
+            
+            case 'icon':
                 $fields = ElementTemplateField::where('name', $fieldName)
                     ->where('template_id', $this->elementTemplate->id)
                     ->first();
 
                 return $fields ? $fields->value : null;
-            break;
-            */
+                break;
         }
 
         return null;

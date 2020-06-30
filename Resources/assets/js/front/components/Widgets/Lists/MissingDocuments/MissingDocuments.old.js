@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 
 import moment from 'moment';
 
+import FormDropZone from './../../Forms/Form/FormDropZone/FormDropZone';
 
-export default class TableDocument extends Component {
+export default class MissingDocuments extends Component {
 
     constructor(props)
     {
@@ -42,7 +43,11 @@ export default class TableDocument extends Component {
             pageLimit : pageLimit,
             currentPage : 1,  //load more starts at 2
             totalPages : 0,
-            dataProcessing : []
+            dataProcessing : [],
+
+            firstLoad : true,
+            loadingForm: true,
+            formModel: null
         };
     }
 
@@ -91,15 +96,18 @@ export default class TableDocument extends Component {
 
                 var dataProcessed = self.processData(response.data.modelValues);
 
+                if(self.state.firstLoad){
+                  self.loadElement(dataProcessed);
+                }
+
                 self.setState({
                     data : [...self.state.data, ...dataProcessed ],
                     totalPages : response.data.totalPage,
                     currentPage : currentPage + 1,
                     loading : false,
-                    initiliased : true
+                    initiliased : true,
+                    firstLoad : false
                 });
-
-
               }
 
           }).catch(function (error) {
@@ -188,6 +196,48 @@ export default class TableDocument extends Component {
       );
     }
 
+    loadElement(data) {
+
+      if(data.length == 0)
+        return;
+
+      var url = null;
+      for(var key in data[0]){
+        if(key.indexOf("_url") != -1){
+          //is url
+          url = data[0][key];
+        }
+      }
+
+      if(url == null || url == ""){
+        console.error("MissingDocuments :: url not defined in element");
+        return;
+      }
+
+      var modelId = url.split("?");
+      modelId = modelId[0];
+
+      var self = this;
+
+      axios.get(ASSETS+'/architect/extranet/element-modal/'+modelId)
+        .then(function(response) {
+            if(response.status == 200
+                && response.data !== undefined)
+            {
+              console.log("ModalTable :: data => ",response.data);
+
+              self.setState({
+                formModel : response.data.model,
+                formElement : response.data.element,
+                loadingForm : false
+              });
+
+            }
+        }).catch(function (error) {
+           console.log(error);
+         });
+    }
+
     processData(data){
 
         for(var key in data){
@@ -256,54 +306,65 @@ export default class TableDocument extends Component {
           }
       }
 
-
-      if(field.type == "file"){
-        return <div dangerouslySetInnerHTML={{__html: value}} />
-      }
-
       return value;
-
-
+      
     }
 
-    renderItem(item) {
+    renderItem(item,key) {
 
-      var file = null;
+      var element = null;
       var infos = [];
       const {elementObject} = this.state;
+
+      //console.log("renderItem :: elementObject ",elementObject);
+      //render missing document
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
-        if(elementObject.fields[key].type == 'file'){
 
-          file = this.renderField(item[identifier],elementObject.fields[key]);
-          
-        }else{
-          infos.push(
-              <div className="field-container" key={key}>
-                  {this.renderField(item[identifier],elementObject.fields[key])}
-              </div>
-          );
+        if(elementObject.fields[key].settings.hasModal !== undefined && elementObject.fields[key].settings.hasModal != null){
+          //is the element info
+          //console.log("MissingDocument :: item info => (item,indentifier)",item,identifier);
+          element = {
+            field : elementObject.fields[key],
+            url : item[identifier.replace('.','')+"_url"]
+          }
         }
-
+        else if(elementObject.fields[key].type == 'text'){
+          infos.push(
+              <p key={key}>
+                {this.renderField(item[identifier],elementObject.fields[key])}
+              </p>
+            );
+        }
+        
       }
 
-      return (
-          <div>
-            <div className="file-contianer">
-              {file}
-            </div>
-            <div className="file-infos-container">
-              <div className="file-icon">
-                <i class="far fa-file"></i>
-              </div>
-              <div className="file-infos">
-                {infos}
-              </div>
-            </div>
-          </div>
-        );
+      if(element == null){
+        console.error("MissingDocuments :: element field not defined.")
+        return null;
       }
+
+      var elementUrlArray = element.url.split('?');
+      var modelId = elementUrlArray[0];
+      var parametersObject = elementUrlArray[1].split(':');
+      parametersObject = parametersObject[0];
+
+      return <FormDropZone 
+          label={infos}
+          elementObject={this.state.formElement}
+          modelId={this.state.formModel.ID}
+          parametersObject={parametersObject}
+          field={element.field}
+          id={key}
+          onFormFinished={this.handleFormFinished.bind(this,item)}
+        />
+
+    }
+
+    handleFormFinished(item) {
+      console.log("MissingDocuments :: handleFormFinished ",item);
+    }
 
     renderItems() {
 
@@ -316,7 +377,7 @@ export default class TableDocument extends Component {
           <div className={this.state.columns}>
 
             <div className="item-container"  key={key}>
-                {this.renderItem(data[key])}
+                {this.renderItem(data[key],key)}
             </div>
           </div>
         );
@@ -331,19 +392,19 @@ export default class TableDocument extends Component {
 
 
     renderTable() {
-      const {data, currentPage, totalPages,initiliased} = this.state;
+      const {data, currentPage, totalPages,initiliased,loadingForm} = this.state;
 
       return (
-        <div>
-          { !initiliased &&
+        <div class="missing-documents-component">
+          { (!initiliased && loadingForm) &&
               <p className="message">Chargement...</p>
           }
 
-          {initiliased && data != null && data.length == 0 &&
+          {initiliased && !loadingForm && data != null && data.length == 0 &&
               <p className="message">Aucune donnée trouvée</p>
           }
 
-          {data != null && data.length > 0 &&
+          {!loadingForm && data != null && data.length > 0 &&
 
                 <div className="documents-container">
                   {this.renderItems()}
@@ -376,9 +437,9 @@ export default class TableDocument extends Component {
     }
 }
 
-if (document.getElementById('tableDocument')) {
+if (document.getElementById('missing-documents')) {
 
-   document.querySelectorAll('[id=tableDocument]').forEach(function(element){
+   document.querySelectorAll('[id=missing-documents]').forEach(function(element){
        var field = element.getAttribute('field');
        var elementObject = element.getAttribute('elementObject');
        var model = element.getAttribute('model');
@@ -386,7 +447,7 @@ if (document.getElementById('tableDocument')) {
        var parameters = element.getAttribute('parameters');
        var columns = element.getAttribute('columns');
 
-       ReactDOM.render(<TableDocument
+       ReactDOM.render(<MissingDocuments
            field={field}
            elementObject={elementObject}
            model={model}

@@ -104,6 +104,23 @@ class ElementModal extends Component {
 
   }
 
+  getAlignmentOptions() {
+    return [
+      {
+        value: "",
+        name: 'gauche',
+      },
+      {
+        value: "center",
+        name: "centre",
+      },
+      {
+        value: "right",
+        name: "droite",
+      }
+    ];
+  }
+
   render() {
 
     const field = this.props.app.settingsField;
@@ -178,6 +195,8 @@ class ElementModal extends Component {
                         inputLabel="Indique le nombre maximum de caractères"
                       />
                     }
+
+                    
 
                     <BooleanSettingsField
                       field={field}
@@ -335,6 +354,34 @@ class ElementModal extends Component {
                       />
                     }
                     
+                    <BooleanSettingsField
+                      field={field}
+                      name="hideCurrency"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label="Cacher la devise"
+                    />
+
+                    <SelectorSettingsField
+                      field={field}
+                      name="textAlign"
+                      source="settings"
+                      onFieldChange={this.handleFieldSettingsChange}
+                      label={'Alignement du texte'}
+                      options={this.getAlignmentOptions()}
+                    />
+
+                    {field != null && field.settings != null && field.settings.columnWidth !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="columnWidth"
+                        source="settings"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Largeur de colonne"
+                        inputLabel="Indique le nombre"
+                      />
+                    }
+
                   </div>
                 </div>
               </div>

@@ -8,7 +8,7 @@ use Modules\Extranet\Services\ElementTemplate\Fields\FieldInterface;
 class Icon extends Field implements FieldInterface
 {
     public $type = 'icon';
-    public $icon = 'fa-font';
+    public $icon = 'fas fa-icons';
     public $name = 'ICON';
 
     public $rules = [
