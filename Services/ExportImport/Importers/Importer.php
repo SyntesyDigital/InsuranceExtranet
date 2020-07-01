@@ -4,7 +4,6 @@ namespace Modules\Extranet\Services\ExportImport\Importers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
-use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
 
 abstract class Importer
 {
@@ -147,7 +146,6 @@ abstract class Importer
         foreach ($node as $k => $n) {
             if (is_array($n)) {
                 $arr[$k] = $this->walkArrayAndRemoveDBFields($n);
-
                 continue;
             }
 
@@ -167,7 +165,7 @@ abstract class Importer
      *
      * @return void
      */
-    private function checkIfObjectExist($relation, $object, $node)
+    public function checkIfObjectExist($relation, $object, $node)
     {
         $class = get_class($object);
 
@@ -175,21 +173,25 @@ abstract class Importer
             ? $this->duplicateIfNotExists[$class]['field']
             : $this->duplicateIfNotExists[$class];
 
-        $source = $class::where($field, $object->$field)->first();
+        $sources = $class::where($field, $object->$field)->get();
 
-        if ($source) {
+        foreach ($sources as $source) {
             // Load relations
             if (isset($this->duplicateIfNotExists[$class]['relations'])) {
                 $source->load($this->duplicateIfNotExists[$class]['relations']);
             }
 
             // Build array from imported JSON
-            $arr1 = isset($node['relations']) ? $this->buildArrayObjectWithRelations($node) : $node;
+            $arr1 = isset($node['relations'])
+                ? $this->buildArrayObjectWithRelations($node)
+                : $node;
 
             // Build array from DB object
             $arr2 = $this->walkArrayAndRemoveDBFields($source->toArray());
 
-            return md5(json_encode($arr1)) == md5(json_encode($arr2)) ? $source : false;
+            if (md5(json_encode($arr1, JSON_NUMERIC_CHECK)) == md5(json_encode($arr2, JSON_NUMERIC_CHECK))) {
+                return $source;
+            }
         }
 
         return false;

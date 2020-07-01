@@ -59,6 +59,7 @@ class ElementModelLibraryTest extends TestCase
             'configurable' => 1,
             'required' => 1,
             'repeatable' => 0,
+            'order' => 1,
             'repeatable_json' => '',
         ]);
 

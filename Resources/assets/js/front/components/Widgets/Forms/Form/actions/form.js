@@ -138,7 +138,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         procedure.SERVICE.METHODE == "PUT" && !jsonGetDone){
         
         //if version 2 check if preload, if version 1 or indefined always go ahead
-        if((version == "2" && procedure.PRELOAD == "Y") || (version == "1" || versin === undefined)) {
+        if((version == "2" && procedure.PRELOAD == "Y") || (version == "1" || version === undefined)) {
           //set the jsonResult with a get
           return dispatch(getJsonResultBeforePut(procedure,formParameters));
         }

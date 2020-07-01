@@ -25,6 +25,10 @@ require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
 require('./components/Widgets/ImageText/ImageTextLinkContainer');
 require('./components/Widgets/ImageText/ImageTextLinkList');
+require('./components/Widgets/ImageText/ImageTextTitleDocuments');
+require('./components/Widgets/ImageText/ImageTextTitleDocumentsContainer');
+
+require('./components/Widgets/TotalBoxPrice');
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');

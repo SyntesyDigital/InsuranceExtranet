@@ -81,6 +81,10 @@ class YesNoField extends Component
   getConfigValue(value) {
     var config = this.getConfig();
 
+    if(value === undefined || value == "" || value == null){
+      return null;
+    }
+
     if(config.checked == value){
       return true;
     }
@@ -89,7 +93,10 @@ class YesNoField extends Component
     }
   }
 
-  renderOption(label,value,checked) {
+  renderOption(label,value,currentValue) {
+      console.log("renderOption (label,value,currentValue) ",label,value,currentValue);
+
+      var checked = currentValue == value ? true : false;
       const bordered = checked ? 'bordered' : '';
 
       return (
@@ -114,7 +121,7 @@ class YesNoField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? 'is-invalid' : '';
+    const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
@@ -125,20 +132,23 @@ class YesNoField extends Component
       field.required !== undefined){
       isRequired = field.required;
     }
-    const value = this.getConfigValue(this.props.value);
+    //const value = this.getConfigValue(this.props.value);
     //console.log("YesNoField :: getConfigValue()",value);
 
     return (
       <ThemeProvider theme={theme}>
-            <div className="col-md-12 container-radio-field yes-no-field">
+            <div className={"col-md-12 container-radio-field yes-no-field" + (errors)}>
                 <div className="container-text">
                     {field.name}
+                    {isRequired &&
+                      <span className="required">&nbsp; *</span>
+                    }
                 </div>
                 <div className="container-fields-yes-no">
                     <FormControl component="fieldset">
                         <RadioGroup aria-label="position" name="position">
-                            {this.renderOption("Oui",this.getFieldValue(true),value)}
-                            {this.renderOption("Non",this.getFieldValue(false),!value)}
+                            {this.renderOption("Oui",this.getFieldValue(true),this.props.value)}
+                            {this.renderOption("Non",this.getFieldValue(false),this.props.value)}
                         </RadioGroup>
                     </FormControl>
                 </div>

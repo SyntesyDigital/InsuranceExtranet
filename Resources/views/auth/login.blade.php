@@ -3,6 +3,7 @@
 @php
     //if env is local or contains dev
     $testEnv = strpos(env('APP_ENV'), 'dev') !== false || strpos(env('APP_ENV'), 'local') !== false;
+    $testEnv = $testEnv || env('APP_DEBUG');
     $test = Request::has('debug') || old('env') != null || $testEnv ? true : false;
 @endphp
 

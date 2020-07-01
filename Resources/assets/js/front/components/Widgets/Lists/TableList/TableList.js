@@ -4,33 +4,18 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import ListParser from '../ListParser';
 
+import {
+  parseNumber,
+  parseDate,
+  getConditionalFormating,
+  hasConditionalFormatting
+} from '../../functions';
+
 export default class TableList extends Component {
 
     constructor(props) {
 
         super(props);
-    }
-
-    getConditionalFormating(field,value) {
-
-      value = value.toLowerCase();
-      
-      if(field.settings.conditionalFormatting !== undefined && 
-        field.settings.conditionalFormatting != null) {
-        
-        for(var key in field.settings.conditionalFormatting.conditions){
-          var condition = field.settings.conditionalFormatting.conditions[key];
-          if(value.indexOf(condition.value.toLowerCase()) != -1) {
-            //if the string is contained in the string
-            return {
-              color : condition.color,
-              backgroundColor : condition.backgroundColor,
-            };
-          }
-        }
-      }
-
-      return {};
     }
 
     hasConditionalFormatting(conditionalFormatting) {
@@ -40,59 +25,23 @@ export default class TableList extends Component {
       return false;
     }
 
+    
+
     renderField(item,identifier,field) {
 
       var value = item[identifier];
 
       if(field.type == "date") {
-          if(value !== undefined && value != "" && null !== value){
-
-            if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
-              switch(field.settings.format) {
-                case 'day_month_year':
-                  value = moment.unix(value).format('DD/MM/YYYY');
-                  break;
-                case 'day_month_year_2':
-                  value = moment.unix(value).format('DD-MM-YYYY');
-                  break;
-                case 'month_year':
-                  value = moment.unix(value).format('MM/YYYY');
-                  break;
-                case 'year':
-                  value = moment.unix(value).format('YYYY');
-                  break;
-              }
-            }else{
-              value = moment.unix(value).format('DD/MM/YYYY')
-            }
-          }else{
-            value = '';
-          }
+          value = parseDate(value,field);
       }
-      if(field.type == "number") {
+      else if(field.type == "number") {
           //console.log("renderCell => ",field,row);
-          if(value !== undefined && value != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-              switch(field.settings.format) {
-                case 'price':
-                  value = parseFloat(value).toFixed(0) + '€';
-                case 'price_with_decimals':
-                  value = parseFloat(value).toFixed(2) + '€';
-              }
-            }
-          }
+          value = parseNumber(value,field);
       }
 
-      var style = {};
-      var hasColor = false;
+      var style = getConditionalFormating(field,value);
+      var hasColor = hasConditionalFormatting(style);
       
-      if(field.settings.conditionalFormatting !== undefined && field.settings.conditionalFormatting != null) {
-        style=this.getConditionalFormating(field,value);
-        hasColor = this.hasConditionalFormatting(style);
-      }
-
-
       if(field.type == "file"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }

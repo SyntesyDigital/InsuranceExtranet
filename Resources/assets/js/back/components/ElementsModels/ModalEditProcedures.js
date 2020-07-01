@@ -23,6 +23,8 @@ import {
 
 } from './actions';
 
+import {sortBy} from 'lodash.sortBy';
+
 import api from '../../api/index.js';
 
 
@@ -56,14 +58,17 @@ class ModalEditProcedures extends Component {
         var _this = this;
         api.services.getAll()
             .then(function(data){
-                //console.log("loadServices (data)",data);
-
                 var services = data.data.services.map((item) => {
                     return {
-                        name : item.name,
+                        name : item.name + ' - ' + item.created_at + '',
                         value : item.id
                     }
+                }).sort(function(a, b){
+                    if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+                    if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+                    return 0;
                 });
+
                 services.unshift({
                     name : '---',
                     value : ''

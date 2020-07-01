@@ -158,11 +158,16 @@ class ModelValuesFormatTransformer extends Resource
                         switch ($elementField->type) {
                             case 'number':
 
+                                $hideCurrency = isset($elementField->settings['hideCurrency']) ? $elementField->settings['hideCurrency'] : false; 
+                                $currency = $hideCurrency ? '' : ' €';
+
                                 if (!$this->isTable) {
                                     if ($elementField->settings['format'] == 'price') {
-                                        $result[$i][$elementField->identifier] = number_format($originalValue, 0, ',', '.').' €';
+                                        $result[$i][$elementField->identifier] = number_format($originalValue, 0, ',', '.').$currency;
                                     } elseif ($elementField->settings['format'] == 'price_with_decimals') {
-                                        $result[$i][$elementField->identifier] = number_format($originalValue, 2, ',', '.').' €';
+                                        $result[$i][$elementField->identifier] = number_format($originalValue, 2, ',', '.').$currency;
+                                    } elseif ($elementField->settings['format'] == 'price_with_decimals_2') {
+                                        $result[$i][$elementField->identifier] = number_format($originalValue, 2, '.', ' ').$currency;
                                     } else {
                                         $result[$i][$elementField->identifier] = $originalValue !== null ? $originalValue : '';
                                     }
@@ -198,6 +203,10 @@ class ModelValuesFormatTransformer extends Resource
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('m-Y');
                                         } elseif ($elementField->settings['format'] == 'year') {
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('Y');
+                                        } elseif ($elementField->settings['format'] == 'day_month_year_hour') {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d/m/Y H:i');
+                                        } elseif ($elementField->settings['format'] == 'hour') {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('H:i');
                                         }
                                     }
                                 } else {

@@ -4,6 +4,11 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import ListParser from '../ListParser';
 
+import {
+  parseNumber,
+  parseDate
+} from '../../functions';
+
 
 export default class TableDocument extends Component {
 
@@ -12,57 +17,20 @@ export default class TableDocument extends Component {
         super(props);
     }
 
-
     renderField(value,field) {
 
       if(field.type == "date") {
-          if(value !== undefined && value != "" && null !== value){
-
-            if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
-              switch(field.settings.format) {
-                case 'day_month_year':
-                  value = moment.unix(value).format('DD/MM/YYYY');
-                  break;
-                case 'day_month_year_2':
-                  value = moment.unix(value).format('DD-MM-YYYY');
-                  break;
-                case 'month_year':
-                  value = moment.unix(value).format('MM/YYYY');
-                  break;
-                case 'year':
-                  value = moment.unix(value).format('YYYY');
-                  break;
-              }
-            }else{
-              value = moment.unix(value).format('DD/MM/YYYY')
-            }
-          }else{
-            value = '';
-          }
+          value = parseDate(value,field);
       }
-      if(field.type == "number") {
+      else if(field.type == "number") {
           //console.log("renderCell => ",field,row);
-          if(value !== undefined && value != ""){
-
-            if(field.settings !== undefined && field.settings.format !== undefined){
-              switch(field.settings.format) {
-                case 'price':
-                  value = parseFloat(value).toFixed(0) + '€';
-                case 'price_with_decimals':
-                  value = parseFloat(value).toFixed(2) + '€';
-              }
-            }
-          }
+          value = parseNumber(value,field);
       }
-
-
-      if(field.type == "file"){
+      else if(field.type == "file"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }
 
       return value;
-
-
     }
 
     renderItem(item,elementObject) {
