@@ -27,7 +27,7 @@
       right: -110px;
       top: -45px;
       width: 50%;
-      height: 100%;
+      height: 132px;
       background-image: url('{{$storedStylesFront['loginImageBorderTopRightContainer']->value->urls['original']}}');
       background-repeat: no-repeat;
       background-size: contain;
@@ -40,10 +40,10 @@
   .login-box-container:after{
       content: " ";
       position: absolute;
-      left: -60px;
+      right: 110px;
       top: 335px;
-      width: 90%;
-      height: 100%;
+      width: 395px;
+      height: 260px;
       background-image: url('{{$storedStylesFront['loginImageBorderBottomLeftContainer']->value->urls['original']}}');
       background-repeat: no-repeat;
       background-size: contain;
@@ -55,26 +55,17 @@
 @if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
   <style>
     .login-box-container{
-      transform: translate(50%, 5%)
+      transform: translate(70%, 5%);
+      max-width: 430px;
+      margin: 0 auto;
     }
-    .login-container:after{
-      content: " ";
-      position: absolute;
-      left: -320px;
-      top: -100px;
-      width: 100%;
-      height: 142%;
+    .login-container{
       background-image: url('{{$storedStylesFront['loginBackgroundImage']->value->urls['original']}}');
-      background-repeat: no-repeat;
-      z-index: -9;
-      background-position: left;
-    }
-    body.template-login, body.template-reset-password{
-      overflow: hidden;
+
     }
     @media (max-width: 930px) {
-      .login-container:after{
-        content: unset;
+      .login-container{
+        background-image: unset;
       }
       .login-container .title-background{
         display: none;
@@ -141,9 +132,20 @@
               @else
                 <img style="max-height: 75px;" src="{{asset('modules/architect/images/logo.png')}}" alt=""/>
               @endif
-            </div>
+          </div>
           <div class="login-box">
             @yield('form')
+          </div>
+          <div class="footer-auth">
+            <div class="row">
+              @include ('extranet::front.partials.menu_footer',
+                ["menu" => get_menu('footer')]
+              )
+              <div class="version">Architect v1.18.0@dev v1.18.7@dev</div>
+            </div>
+            <div class="row">
+              
+            </div>
           </div>
         </div>
     </div>
