@@ -399,7 +399,8 @@ body {
       .rt-tbody {
         display: flex;
         order: 3;
-        padding: 0px 15px;
+        margin: 0 15px;
+        overflow: unset;
         .rt-tr-group {
           border-bottom: none;
           .rt-td {

@@ -276,15 +276,15 @@ export default class TableComponent extends Component {
       var textAlign = getTextAlign(field);
       
       if(field.type == "file"){
-        return <div className="file-container" dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
+        return <div  className={"file-container"+' '+textAlign} dangerouslySetInnerHTML={{__html: row.original[identifier]}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
 
-        return <div dangerouslySetInnerHTML={{__html: row.original[identifier+"_url"]}} />
+        return <div className={textAlign} dangerouslySetInnerHTML={{__html: row.original[identifier+"_url"]}} />
       }
       else if(field.settings.hasModal !== undefined && field.settings.hasModal != null){
 
-        return <div dangerouslySetInnerHTML={{__html: '<a href="" class="modal-link" data-modal="'+(row.original[identifier+"_url"])+'">'+
+        return <div className={textAlign} dangerouslySetInnerHTML={{__html: '<a href="" class="modal-link" data-modal="'+(row.original[identifier+"_url"])+'">'+
           row.original[identifier]+
         '</a>'}} />
       }

@@ -22,4 +22,3 @@
 		<!-- end Col 2 -->
 	</footer><!-- END FOOTER -->
 @endif
-

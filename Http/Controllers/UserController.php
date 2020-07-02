@@ -12,6 +12,9 @@ use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Jobs\User\SessionUpdate;
 use Modules\Extranet\Repositories\UserRepository;
 
+use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
+use Modules\Extranet\Jobs\User\PasswordUpdate;
+
 class UserController extends Controller
 {
     public function __construct(UserRepository $users)
@@ -88,5 +91,26 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         return true;
+    }
+
+    public function updatePassword(SavePasswordRequest $request)
+    {
+        $success = false;
+        $message = Lang::get('extranet::form.modal-password.messages.errors.default');
+
+        try {
+            if ($this->dispatchNow(PasswordUpdate::fromRequest($request))) {
+                $success = true;
+                $message = Lang::get('extranet::form.modal-password.messages.success');
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $request->session()->flash('error_message', $message);
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 }

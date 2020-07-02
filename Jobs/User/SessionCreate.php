@@ -26,7 +26,6 @@ class SessionCreate
     public function handle()
     {
         $user = $this->getUser($this->veosToken);
-
         $user->env = $this->env;
 
         if (!$user) {
@@ -75,6 +74,7 @@ class SessionCreate
             'lastname' => isset($user->{'USEREXT.nom2_per'}) ? $user->{'USEREXT.nom2_per'} : '',
             'email' => isset($user->{'USEREXT.email_per'}) ? $user->{'USEREXT.email_per'} : '',
             'phone' => isset($user->{'USEREXT.telprinc_per'}) ? $user->{'USEREXT.telprinc_per'} : '',
+            'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == "1" ? true : false,
             'supervue' => $isSupervue,
             'token' => $this->veosToken,
             'api_token' => bin2hex(random_bytes(64)),
@@ -178,6 +178,7 @@ class SessionCreate
             ],
         ]);
         $payload = json_decode($query->getBody()->getContents());
+        
 
         $query = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_USE?id_per_user='.$payload->id, [
             'headers' => [
