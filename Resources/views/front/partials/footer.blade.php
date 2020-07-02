@@ -10,7 +10,11 @@
 
 		&nbsp;&nbsp;&nbsp;
 		<div class="version" style="">
+<<<<<<< HEAD
 			Architect v1.18.0@dev v1.18.7@dev
+=======
+			Architect v1.17.0 v1.17.5
+>>>>>>> master
 		</div>
   </div>
 	<!-- end Col 2 -->

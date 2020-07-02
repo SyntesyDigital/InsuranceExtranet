@@ -39,8 +39,6 @@ class SelectField extends Component {
     const identifier = this.props.field.identifier;
     const { preloadData } = this.state;
 
-    //console.log("SelectField :: (this.props.value,dataPosition,preloadData)",this.props.value,dataPosition,preloadData);
-
     /*    
     console.log("SelectField :: componentDidUpdate : (currentValue, oldValue)",
       this.props.value,
@@ -48,14 +46,18 @@ class SelectField extends Component {
     );
     */
 
+   //console.log("SelectField :: (identifier,currentValue, oldValue,preloadData)", identifier,this.props.value,preloadData, prevProps.value);
+
     if (this.props.value != prevProps.value) {
 
-      console.log("SelectField :: is diferent! (currentValue, oldValue,preloadData)", this.props.value,preloadData, prevProps.value);
-
       var dataPosition = preloadData.indexOf(this.props.value);
+      //console.log("SelectField :: (dataPosition,this.props.value)", dataPosition,this.props.value);      
+
+      //console.log("SelectField :: (identifier,currentValue, oldValue,preloadData,dataPosition)", identifier,this.props.value,preloadData, prevProps.value,dataPosition);      
       
       if (dataPosition != -1) {
 
+        //console.log("SelectField :: is different, update (value)",this.state.data[dataPosition].value);
         //console.log("SelectField :: update preload : (dataPosition,value)",dataPosition,this.state.data[dataPosition].value);
         //if exist the value into preload data, change to veos valu
         this.props.onFieldChange({
@@ -214,12 +216,14 @@ class SelectField extends Component {
   }
 
   getOption(value) {
+    //console.log("SelectField :: getOption (value)",value);
     if (value === undefined || value == null)
       return null;
 
     for (var index in this.state.data) {
-      if (this.state.data[index]['value'] == value)
+      if (this.state.data[index]['value'] === value){
         return index;
+      }
     }
     return null;
   }
@@ -260,6 +264,7 @@ class SelectField extends Component {
       }));    
 
     var optionIndex = this.getOption(this.props.value);
+    //console.log("SelectField :: getOption (optionIndex)",optionIndex);
 
     const customStyles = {
       control: (base) => ({
