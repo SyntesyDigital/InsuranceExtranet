@@ -18,7 +18,7 @@
         color: {{$dateColorImgTxtLink}}
     }
     /* desc */
-    body .imageTextLink .container-description p, body .imageTextLinkList .container-description p{
+    body .imageTextLink .container-description, body .imageTextLinkList .container-description{
         font-size: {{$descFontSizeImgTxtLink}};
         color: {{$descColorImgTxtLink}}
     }
@@ -27,6 +27,11 @@
         font-size: {{$linkFontSizeImgTxtLink}};
         color: {{$linkColorImgTxtLink}}
     }
+
+
+    @php
+    /*dd($descColorImgTxtLink)/*
+    @endphp
 </style>
 
 
