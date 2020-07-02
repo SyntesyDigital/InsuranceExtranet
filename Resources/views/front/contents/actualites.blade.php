@@ -6,7 +6,6 @@
   $first = true;
   foreach(Request::all() as $key => $value) {
     $parameters.= (!$first?"&":"").$key."=".$value;
-
     $first = false;
   }
 @endphp
@@ -17,26 +16,12 @@
 ])
 
 @section('content')
-  @if(isset($content) && $content->parent_id != null)
-  <div class="single">
-    <div class="breadcrumb">
-    <div class="container">
-      <div class="row">
-        {!! breadcrumb($content,$parameters) !!}
-      </div>
-    </div>
-    </div>
-  </div>
-  @endif
-
-  <!-- ARTICLE -->
   <article class="page-builder">
     <div class="rightbar-page">
       <div class="col-md-9 tipology-container">
         <h5>{{$content->typology->name}}</h5>
         <h1>{{$content->getFieldValue('title')}}</h1>
-        {{$content->getFieldValue('date')}}
-        <p>{{null !== $content->fields[4]->value ? date('d-m-Y', $content->fields[4]->value) : "" }}</p>
+        <p>{{null !== $content->fields[4]->value ? date('d M Y', $content->fields[4]->value) : "" }}</p>
         <div class="col-md-4 col-xs-12 no-padding-left">
           @if (isset($fields['image']['value']))
             <img src="{{ isset($fields['image']['value']['urls']['original']) ? asset($fields['image']['value']['urls']['original']) : null }}" style="width: 100%;"/>
@@ -57,7 +42,5 @@
         </div>
       </div>
     </div>
-    
-  </article>
-  <!-- END ARTICLE --> 
+</article>
 @endsection

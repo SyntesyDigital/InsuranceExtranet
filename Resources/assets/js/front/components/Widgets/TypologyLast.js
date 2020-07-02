@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 import ListItem from './../Common/ListItem';
 
 export default class TypologyLast extends Component {
@@ -41,8 +40,7 @@ export default class TypologyLast extends Component {
     renderContents() {
 
       var result = [];
-
-      const {contents} = this.state;
+      const { contents } = this.state;
 
       for(var key in contents){
         result.push(
@@ -53,12 +51,11 @@ export default class TypologyLast extends Component {
           </li>
         );
       }
-
       return result;
+
     }
 
     render() {
-
         return (
             <div>
               {window.localization['MENU_FOOTER_1']}
@@ -67,19 +64,16 @@ export default class TypologyLast extends Component {
                   {/*Carregant dades...*/}
                 </p>
               }
-
               {this.state.contents != null && this.state.contents.length == 0 &&
                 <p>
                   {window.localization['GENERAL_WIDGET_LAST_TYPOLOGY_EMPTY']}
                 </p>
               }
-
               {this.state.contents != null && this.state.contents.length > 0 &&
                 <ul>
                   {this.renderContents()}
                 </ul>
               }
-
             </div>
         );
     }
