@@ -22,7 +22,7 @@
   color: {{$elementHeadCollapsableColor}};
   font-size: {{$titleCollapsableFontSize}};
   padding-bottom:10px;
-  padding-left: 35px;
+  padding-left: 45px;
 }
 
 .element-table-container .element-collapsable.element-table-container-head{
