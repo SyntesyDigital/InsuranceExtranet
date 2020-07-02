@@ -77,22 +77,24 @@
 
   &.collapsed{
     &:before{
-      content: "\25B8";
+      content: "\f107";
+      font-family: FontAwesome;
       margin-right: 0px;
       position: absolute;
-      top: 9px;
-      left: 15px;
-      font-size: 22px;
+      top: 10px;
+    left: 15px;
+      font-size: 30px;
       color: $primary-color;
     }
   }
   &:before{
-    content: "\25BE";
+    content: "\f105";
+    font-family: FontAwesome;
     margin-right: 0px;
     position: absolute;
-    top: 9px;
+    top: 10px;
     left: 15px;
-    font-size: 22px;
+    font-size: 30px;
     color: $primary-color;
   }
 }

@@ -35,12 +35,13 @@
 
 .element-collapsable{
   cursor: pointer;
+  text-transform: {{$elementHeadTextTransform}} !important;
 }
 .element-collapsable.collapsed:before{
-  color:{{$elementHeadColor}};
+  color:{{$elementHeadIconColor}};
 }
 .element-collapsable:before{
-  color:{{$elementHeadColor}};
+  color:{{$elementHeadIconColor}};
 }
 
 .more-btn{
