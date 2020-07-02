@@ -23,9 +23,8 @@
       border-top: 1.5px solid {{$loginContainerBorderColor}} !important;
     }
     body .login-box-container:before{
-      right: -105px;
+      right: -135px;
       top: 155px;
-      width: 45%;
     }
   @endif
 

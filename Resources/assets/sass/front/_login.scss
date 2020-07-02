@@ -1,12 +1,21 @@
+body{
+  &.template-login{
+    &.expansion-alids-init{
+      footer{
+        display: none;
+      }
+    }
+  }
+} 
 .login-container {
   padding: 45px 20px 80px;
   background-repeat: no-repeat;
-  background-position: -35% 50%;
+  background-position: -320px 50%;
   z-index: 1;
   .title-background{
     position: absolute;
     color: #fff;
-    bottom: -45px;
+    bottom: 145px;
     left: 170px;
     text-align: center;
     max-width: 300px;
@@ -41,9 +50,6 @@
   }
 
   .login-box-container {
-    max-width: 430px;
-    padding: 0 10px;
-    margin: 0 auto;
     .logo-container {
       text-align: center;
       background-color: #ffffff;
@@ -53,6 +59,8 @@
       border-right: 1px solid #dbdbdb;
       border-left: 1px solid #dbdbdb;
       padding: 20px;
+      max-width: 430px;
+      margin: 0 auto;
     }
     .login-box {
       padding: 0px 20px;
@@ -60,6 +68,8 @@
       border-bottom: 1px solid #dbdbdb;
       border-right: 1px solid #dbdbdb;
       border-left: 1px solid #dbdbdb;
+      max-width: 430px;
+      margin: 0 auto;
       form {
         border: none;
         padding: 0;
@@ -111,5 +121,31 @@
         }
       }
     }
+  }
+}
+
+.footer-auth{
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  max-width: 430px;
+    margin: 0 auto;
+    margin-top: 100px;
+  ul{
+    list-style-type: none;
+    padding-left: 0;
+    li{
+      display: inline;
+      color: #2A3649;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 400;
+    }
+  }
+  .version{
+    text-align: center;
+    font-size: 12px;
   }
 }
