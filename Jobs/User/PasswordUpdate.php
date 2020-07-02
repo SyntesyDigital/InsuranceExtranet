@@ -56,13 +56,12 @@ class PasswordUpdate
         // Update Person Obj data
         $obj->pass = $this->attributes['password'];
         foreach($obj->listInfos as $i => $info) {
-            if($info->key == 'INFOPER.RESETPWD') {
+            if($info->key == 'INFOPER.RESETMDP') {
                 $obj->listInfos[$i]->value = 0;
             }
         }
 
         if($repository->update($user->id, $obj)){
-
             $user->must_reset_password = 0;
 
             Session::put('user', json_encode($user));
