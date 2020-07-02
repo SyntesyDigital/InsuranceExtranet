@@ -76,6 +76,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/total-box-price';
 @import 'widgets/simple-button';
 @import 'widgets/action-list';
+@import 'widgets/typology-last';
 
 @import 'env-bar';
 
@@ -88,6 +89,10 @@ $bootstrap-sass-asset-helper: true;
 @import 'text-field';
 @import 'yes-no-field';
 @import 'modal-add-document';
+
+// Contents
+@import 'contents/actualites';
+
 
 
 

@@ -14,7 +14,7 @@ class ListItem extends Component {
     renderItem() {
 
       switch(this.props.field.typology.identifier){
-        case 'news' :
+        case 'actualites' :
           return (
               <News
                 field={this.props.field}
