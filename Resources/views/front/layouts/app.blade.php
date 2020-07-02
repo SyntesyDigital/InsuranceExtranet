@@ -57,9 +57,12 @@
 
         @stack('modal')
 
-        <!-- Sessions modal -->
-        @if(isset(Auth::user()->id) && !isset(Auth::user()->session_id))
-            @include('extranet::front.partials.session_modal')
+        @if(false || (isset(Auth::user()->must_reset_password) && Auth::user()->must_reset_password))
+            <!-- Reset password modal -->        
+            @include('extranet::front.partials.modals.password')
+        @elseif(false || (isset(Auth::user()->id) && !isset(Auth::user()->session_id)))
+            <!-- Sessions modal -->        
+            @include('extranet::front.partials.modals.session')
         @endif
 
         @if(null !== Auth::user() && !is_jailed())

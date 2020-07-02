@@ -18,11 +18,8 @@
 @if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
     @if($test)
         <style>
-            body .login-container:after{
-                top: -100px;
-            }
             body .login-container .title-background{
-                bottom: 100px;
+                bottom: 230px;
             }
             body .login-box-container:after{
                 top: 500px;
@@ -30,11 +27,14 @@
         </style>
     @else
         <style>
-            body .login-container:after{
-                top: 0px;
-            }
             body .login-box-container:after{
                 top: 380px;
+            }
+            body.template-login .footer-auth{
+                margin-top: 230px;
+            }
+            body.template-login .login-container .title-background{
+                bottom: 200px;
             }
         </style> 
     @endif

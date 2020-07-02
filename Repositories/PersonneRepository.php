@@ -5,6 +5,7 @@ namespace Modules\Extranet\Repositories;
 use Auth;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Session;
 
 class PersonneRepository
 {
@@ -47,9 +48,11 @@ class PersonneRepository
     */
     public function find($id)
     {
+        $userData = json_decode(Session::get('user'));
+        
         $response = $this->client->get(VeosWsUrl::get().'personne/'.$id, [
             'headers' => [
-                'Authorization' => 'Bearer '.Auth::user()->token,
+                'Authorization' => 'Bearer '.$userData->token,
             ],
         ]);
 
