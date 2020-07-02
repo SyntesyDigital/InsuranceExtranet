@@ -16,10 +16,9 @@
   $testEnv = $testEnv || env('APP_DEBUG');
   $test = Request::has('debug') || old('env') != null || $testEnv ? true : false;
   $textBackgroundImage= isset($storedStylesFront['loginBackgroundImageText']) ? $storedStylesFront['loginBackgroundImageText']->value  : '' ;
-
 @endphp
 
-@if (isset($storedStylesFront['loginImageBorderTopRightContainer']))
+@if (isset($storedStylesFront['loginImageBorderTopRightContainer']) && isset($storedStylesFront['loginImageBorderTopRightContainer']->value))
   <style>
     .login-box-container:before{
       content: " ";
@@ -35,7 +34,7 @@
   </style>
 @endif
 
-@if (isset($storedStylesFront['loginImageBorderBottomLeftContainer']))
+@if (isset($storedStylesFront['loginImageBorderBottomLeftContainer']) && isset($storedStylesFront['loginImageBorderBottomLeftContainer']->value))
   <style>
   .login-box-container:after{
       content: " ";
