@@ -61,7 +61,7 @@
     border: 1px solid {{$inputColor}};
   }
   body .login-container .login-box-container .login-box form .form-group .form-control{
-    border: 1px solid {{$borderColorInput}};
+    border: 1px solid {{$loginInputBorderColor}};
   }
   
   /* title */

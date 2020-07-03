@@ -179,6 +179,7 @@
 
     //LOGIN
 
+    $loginInputBorderColor = isset($storedStylesFront['loginInputBorderColor']) ? $storedStylesFront['loginInputBorderColor']->value : $borderColorInput;
     $loginContainerBackgroundColor = isset($storedStylesFront['loginContainerBackgroundColor']) ? $storedStylesFront['loginContainerBackgroundColor']->value : $elementsBackgroundColor;
     $loginContainerBorderRadius = isset($storedStylesFront['loginContainerBorderRadius']) ? $storedStylesFront['loginContainerBorderRadius']->value.'px' : $buttonRadius;
     $loginContainerLabelColor = isset($storedStylesFront['loginContainerLabelColor']) ? $storedStylesFront['loginContainerLabelColor']->value : $secondaryColor;
