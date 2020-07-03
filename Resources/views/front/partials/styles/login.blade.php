@@ -87,6 +87,7 @@
     background-color: {{$loginButtonHoverBackgroundColor}};
     border-color: {{$loginButtonHoverBackgroundColor}};
     color:{{$loginButtonHoverTextColor}};
+    border: 1px solid {{$loginButtonHoverBorderColor}};
   }
 
   /* footer */
@@ -104,4 +105,12 @@
       border-top: 1px solid {{$loginBorderColorFooter}} !important;
     }
   @endif
+
+  body.template-login .footer-auth ul li a{
+    color: {{$footerTextColor}};
+  }
+
+  body.template-login .footer-auth .version{
+    color: {{$footerVersionColor}};
+  }
 </style>

@@ -6,7 +6,13 @@
 @endphp
 
 @if($visible)
-    <div id="{{$field['settings']['htmlId'] or ''}}" class="widget action-list-widget {{$field['settings']['htmlClass'] or ''}}">
+    <div 
+        id="{{$field['settings']['htmlId'] or ''}}" 
+        class="widget action-list-widget {{$field['settings']['htmlClass'] or ''}}" 
+        @if (isset($field['settings']['alignContent']))
+            style="float: {{$field['settings']['alignContent']}}" 
+        @endif
+        >
         <div 
             id="actionList" 
             class="actionList" 

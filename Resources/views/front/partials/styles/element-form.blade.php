@@ -61,7 +61,7 @@
   color:{{$elementLinkHoverColor}};
 }
 .form-component .element-form-row .buttons .btn-back{
-  border:1px solid {{$elementColor}};
+  border: 1px solid {{$elementColor}};
 }
 .form-component .element-form-row .buttons .btn-back:hover{
   background-color: {{$elementBackground}};
@@ -79,10 +79,10 @@ body .element-form input.form-control, body .element-form textarea.form-control{
   border-radius: {{$borderRadiusInput}};
 }
 body .element-form input.form-control.bordered, body .element-form textarea.form-control.bordered{
-  border: 1px solid {{$borderColorInput}};
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
 }
 body .element-form input.form-control:focus, body .element-form textarea.form-control:focus{
-  border-color: {{$borderColorInput}};
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -90,6 +90,9 @@ body .element-form .container-radio-field .MuiFormGroup-root .MuiFormControlLabe
   color: {{$borderColorInput}};
 }
 body .element-form .container-radio-field .bordered{
-  border: 1px solid {{$borderColorInput}} !important;
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}} !important;
+}
+body .element-form .container-radio-field .MuiFormControlLabel-root{
+  border-radius: {{$borderRadiusInput}};
 }
 </style>

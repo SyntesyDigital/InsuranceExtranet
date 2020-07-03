@@ -136,103 +136,7 @@ export default class FormComponentTemp extends Component {
                     <Row>
                         <Col md={12}>
                             <Label
-                                text={'CALCUL AGRÉMENT'}
-                                textAlign={'left'}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={4}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={4}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={4}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={3}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'FICHE AGRÉMENT'}
+                                text={'Fiche agrément'}
                                 textAlign={'left'}
                             />
                         </Col>
@@ -295,22 +199,14 @@ export default class FormComponentTemp extends Component {
                                 label={'Prénom du bailleur *'}
                                 value={this.props.value}
                                 name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12}>
-                            <CheckField
-                                text={'Je confirme que ce candidat locataire n’a pas le statut de diplomate, n’est pas une association, et justifie de revenus versés et déclarés à l’étranger'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
                         </Col>
                     </Row>
                     <Row>
                         <div className="col-md-12 buttons-group text-center">
-                            <button type="submit" className="btn btn-primary btn-rounded">
-                                <i className="fas fa-sign-in-alt"></i> Valider
+                            <button type="submit" className="btn btn-primary btn-rounded btn-1">
+                                Valider
                             </button>
                         </div>
                     </Row>
@@ -323,7 +219,7 @@ export default class FormComponentTemp extends Component {
                     <Row>
                         <Col md={12}>
                             <Label
-                                text={'CALCUL AGRÉMENT'}
+                                text={'Calcul agrément'}
                                 textAlign={'left'}
                             />
                         </Col>
@@ -385,6 +281,7 @@ export default class FormComponentTemp extends Component {
                     </Row>
                     <Row>
                         <Col md={6}>
+                            <label class="bmd-label-floating" style={{position: "relative", top: "30px"}}>Radio buttons yes/no</label>
                             <YesNoField
                                 arrayOfOptions={this.state.optionsBoolean}
                                 name={'optionsBooleanButton'}
@@ -401,17 +298,17 @@ export default class FormComponentTemp extends Component {
 
                 >
                     <Row>
-                        <Col md={3}>
+                        <Col md={6}>
                             <YesNoFieldSwitch
+                                label={'Protection juridique'}
                                 label1={'Non'}
                                 label2={'Oui'}
                                 onChange={this.handleFieldChange.bind(this)}
                                 name={'checkedA'}
                                 identifier={'checkedA'}
                             />
-                        </Col>
-                        <Col md={3}>
                             <YesNoFieldSwitch
+                                label={'Autres dommages non dénommés'}
                                 label1={'Non'}
                                 label2={'Oui'}
                                 onChange={this.handleFieldChange.bind(this)}
@@ -419,14 +316,8 @@ export default class FormComponentTemp extends Component {
                                 identifier={'checkedB'}
                             />
                         </Col>
-                        <Col md={3}>
-                            <YesNoFieldSwitch
-                                label1={'Non'}
-                                label2={'Oui'}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'checkedC'}
-                                identifier={'checkedC'}
-                            />
+                        <Col md={6}>
+                            
                         </Col>
                     </Row>
                 </Grid>
@@ -435,18 +326,6 @@ export default class FormComponentTemp extends Component {
                     fluid={true}
 
                 >
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'DOMMAGES'}
-                                textAlign={'left'}
-                            />
-                            <CarField
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'carfield'}
-                            />
-                        </Col>
-                    </Row>
                     <Row>
                         <Col md={12}>
                             <Label
@@ -501,24 +380,6 @@ export default class FormComponentTemp extends Component {
                     className="layout"
                     fluid={true}
                 >
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'DOCUMENTS'}
-                                textAlign={'left'}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <ListField
-                            identifier={'box-add-document'}
-                            icon={'fa fa-file'}
-                            arrayOfFields={this.state.items}
-                            onEdit={this.handleEditFields.bind(this)}
-                            onRemove={this.handleRemoveFields.bind(this)}
-                            onAdd={this.handleAddGroup.bind(this)}
-                        />
-                    </Row>
                 </Grid>
             </div >
         );
