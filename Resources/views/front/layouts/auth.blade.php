@@ -140,7 +140,7 @@
               @include ('extranet::front.partials.menu_footer',
                 ["menu" => get_menu('footer')]
               )
-              <div class="version">Architect v1.18.0@dev v1.18.9@dev</div>
+              <div class="version">Architect v1.18.0@dev v1.18.11@dev</div>
             </div>
             <div class="row">
               

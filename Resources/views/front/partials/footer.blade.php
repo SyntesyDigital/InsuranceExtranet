@@ -16,7 +16,7 @@
 
 			&nbsp;&nbsp;&nbsp;
 			<div class="version" style="">
-				Architect v1.18.0@dev v1.18.10@dev
+				Architect v1.18.0@dev v1.18.11@dev
 			</div>
 	</div>
 		<!-- end Col 2 -->
