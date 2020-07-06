@@ -7,6 +7,12 @@
         line-height: 25px;
         display: flex;
         align-items: center;
+        a{
+          font-size: 16px;
+        }
+        p{
+          font-size: 16px;
+        }
       }
       &-image {
         flex: 1;
