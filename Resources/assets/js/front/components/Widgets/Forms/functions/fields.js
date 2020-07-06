@@ -232,6 +232,9 @@ export function processObjectValue(object,values,formParameters) {
     else if(defaultValue == "_contentType"){
       return values['_contentType'] ? values['_contentType'] : '';
     }
+    else if(defaultValue == "_docName"){
+      return values['_docName'] ? values['_docName'] : '';
+    }
     else if(formParameters[defaultValue] !== undefined){
       //check parameters
 
