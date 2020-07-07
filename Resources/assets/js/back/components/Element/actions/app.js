@@ -53,7 +53,7 @@ export function createElement(data,onSuccess) {
   console.log('CREATE::',data);
 
   return (dispatch) => {
-
+    
     axios.post('/architect/elements/store', data)
        .then((response) => {
 

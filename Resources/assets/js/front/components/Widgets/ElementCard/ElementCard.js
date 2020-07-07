@@ -9,6 +9,11 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../back/api';
 import LayoutParser from './LayoutParser';
 
+import {
+    parameteres2Array,
+    isVisible
+  } from '../Forms/functions';
+
 export default class ElementCard extends Component {
 
     // ----------------------------------------------- //
@@ -28,7 +33,8 @@ export default class ElementCard extends Component {
             layout: [],
             template: template,
             dataLoaded: false,
-            templateLoaded: template ? false : true
+            templateLoaded: template ? false : true,
+            parameters : parameteres2Array(props.parameters)
         };
     }
 
@@ -165,13 +171,30 @@ export default class ElementCard extends Component {
     }
 
 
+    /**
+     * Function to check if item is visible or not depending on the values and the parameters
+     * @param {*} settings 
+     */
+    checkVisibility(field) {
+
+        var visibility = isVisible(
+            field,
+            this.state.parameters,
+            this.state.modelValues[0]
+        );
+
+        //console.log("checkVisibility :: (field,parameters,values,return)",field,this.state.parameters,this.state.modelValues[0],visibility)
+
+        return visibility;
+    }
+
 
     // ----------------------------------------------- //
     //      RENDERS
     // ----------------------------------------------- //
     fieldRender(node, key, settings) {
 
-        console.log("fieldRender :: settings merged : (node, key, settings) ", node, key,settings);
+        //console.log("fieldRender :: settings merged : (node, key, settings) ", node, key,settings);
 
         if (node.type == 'element_field') {
             return this.renderElementField(node.field, settings);
@@ -301,6 +324,7 @@ export default class ElementCard extends Component {
                         <LayoutParser
                             layout={this.state.layout}
                             fieldRender={this.fieldRender.bind(this)}
+                            checkVisibility={this.checkVisibility.bind(this)}
                         />
                     }
                     {this.state.layout == null &&

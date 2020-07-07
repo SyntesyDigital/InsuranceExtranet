@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Row from './../RowTypes/Row';
 import EmptyItem from './../EmptyItem';
 import PageItem from './../PageItem';
+import SettingsPreview from './../Previews/SettingsPreview';
 
 import {
   selectItem,
@@ -158,6 +159,10 @@ class Col extends Component {
               <a href="" className="btn btn-link" onClick={this.onEditClass.bind(this)}>
                 <i className="fa fa-pencil-alt"></i>
               </a>
+              &nbsp;&nbsp;
+              <SettingsPreview
+                  field={this.props.data}
+                />
             </div>
           }
           {architect.currentUserHasRole(ROLES['ROLE_ADMIN']) &&

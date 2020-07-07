@@ -25,5 +25,6 @@ class Text extends Field implements FieldInterface
         'textAlign',
         'hideBorders',
         'boxClass',
+        'conditionalVisibility'
     ];
 }

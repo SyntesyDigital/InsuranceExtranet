@@ -15,7 +15,8 @@ import {
     submitForm,
     updateField,
     loadTemplate,
-    deleteTemplate
+    deleteTemplate,
+    loadElementParameters
 } from './actions';
 
 import PageBuilder from '../PageBuilder/PageBuilder';
@@ -31,6 +32,7 @@ class TemplateRedux extends Component {
 
         if(this.props.templateId) {
             this.props.loadTemplate(this.props.templateId);
+            this.props.loadElementParameters();
         }
     }
 
@@ -160,6 +162,7 @@ class TemplateRedux extends Component {
                         {initLayout != null && 
                             <PageBuilder 
                                 fields={this.props.template.fields}
+                                parameters={this.props.template.parameters}
                                 initLayout={initLayout}
                                 enableWidgets={false}
                                 nonAllowedFields={[
@@ -226,6 +229,9 @@ const mapDispatchToProps = dispatch => {
         submitForm: (payload, onSuccess) => {
             return dispatch(submitForm(payload, onSuccess));
         },
+        loadElementParameters: () => {
+            return dispatch(loadElementParameters());
+        }
     }
 }
 
