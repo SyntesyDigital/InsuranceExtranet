@@ -33,8 +33,7 @@
           width: 100%;
           text-transform: unset;
           transition: 0.5s;
-          position: absolute;
-         
+          @include line-clamp(1, 38);         
           position: absolute;
           bottom: 0;
           &:before{
@@ -44,12 +43,11 @@
             left: 5%;
             top: 8px;
             height: 22px;
-            // background-image: url(/images/bulle-bleue.svg?a3bcabb…);
             background-repeat: no-repeat;
             background-size: contain;
           }
           &.btn-primary {
-            padding: 10px 12px;
+            padding: 10px 12px 10px 40px;
             h5{
               margin: 0;
                @include line-clamp(1, 38);
