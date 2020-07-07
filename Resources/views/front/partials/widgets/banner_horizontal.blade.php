@@ -5,7 +5,7 @@
 
 @if($visible)
   @php
-    $crop = "medium";
+    $crop = "original";
     $link = "";
     $target = "";
     $title = $field['fields'][1]['value'][App::getLocale()];
