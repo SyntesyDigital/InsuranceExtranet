@@ -29,8 +29,6 @@ export default class LayoutParser extends Component {
 
     parseNode(nodes, settings) {
 
-
-
         return nodes.map((node, key) => {
 
             const alignment = node.settings && node.settings.textAlign ?
@@ -47,6 +45,9 @@ export default class LayoutParser extends Component {
                 case "row":
                     // console.log("parseNode :: row (node)", node);
 
+                    if(!this.props.checkVisibility(node))
+                        return null;
+
                     return (
                         <Row key={key} className={alignment + " " + box}>
                             {node.children != null &&
@@ -60,6 +61,9 @@ export default class LayoutParser extends Component {
 
                 case "col":
                     // console.log("parseNode :: col (node)", node.settings.boxClass);
+
+                    if(!this.props.checkVisibility(node))
+                        return null;
 
                     return (
                         <div
@@ -76,6 +80,10 @@ export default class LayoutParser extends Component {
                     break;
 
                 default:
+                    
+                    if(!this.props.checkVisibility(node.field))
+                        return null;
+
                     return this.props.fieldRender(
                         node,
                         key,

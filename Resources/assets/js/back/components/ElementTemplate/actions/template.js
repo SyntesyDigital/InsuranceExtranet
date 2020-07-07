@@ -5,7 +5,8 @@ import {
     UPDATE_FIELD,
     LOAD_TEMPLATE,
     UPDATE_LAYOUT,
-    DELETE_TEMPLATE
+    DELETE_TEMPLATE,
+    LOAD_ELEMENT_PARAMETERS
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -49,6 +50,21 @@ export function loadTemplate(id) {
                 });
             })
             .catch(function(error) {
+                toastr.error(error.message);
+            });
+    }
+}
+
+export function loadElementParameters(){
+    return (dispatch) => {
+        axios.get(routes['extranet.element.parameters'])
+            .then((response) => {
+                dispatch({
+                    type: LOAD_ELEMENT_PARAMETERS, 
+                    payload: response.data.parameters
+                });
+            })
+            .catch((error) => {
                 toastr.error(error.message);
             });
     }

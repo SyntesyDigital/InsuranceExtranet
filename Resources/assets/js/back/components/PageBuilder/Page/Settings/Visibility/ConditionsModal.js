@@ -5,8 +5,9 @@ import { render } from 'react-dom';
 import {
   OPERATOR_EQUAL,
   OPERATOR_DIFFERENT,
-  CONDITION_FIELD_TYPE_PARAMETER
-} from './../../../constants/';
+  CONDITION_FIELD_TYPE_PARAMETER,
+  CONDITION_FIELD_TYPE_CONFIGURABLE
+} from './../../../constants';
 
 class ConditionsModal extends Component {
 
@@ -37,6 +38,10 @@ class ConditionsModal extends Component {
       {
         name : "Paramètre",
         value : CONDITION_FIELD_TYPE_PARAMETER
+      },
+      {
+        name : "Champ configurable",
+        value : CONDITION_FIELD_TYPE_CONFIGURABLE
       }
     ];
 
@@ -121,13 +126,18 @@ class ConditionsModal extends Component {
 
   renderParameters() {
 
-    var parameters = this.props.parameters;
+    const condition = this.props.conditions[this.props.conditionIndex];
 
-    //console.log("Object(parameters).keys => ",parameters,Object.keys(parameters));
-
-    return Object.keys(parameters).map((key,index) =>
-      <option key={index} value={parameters[key].identifier}> {parameters[key].name}</option>
-    );
+    if(condition.type == CONDITION_FIELD_TYPE_CONFIGURABLE) {
+      return this.props.fields.map((item,index) =>
+        <option key={index} value={item.identifier}> {item.name}</option>
+      );
+    }
+    else {
+      return this.props.parameters.map((item,index) =>
+        <option key={index} value={item.identifier}> {item.name}</option>
+      );
+    }
   }
 
   render() {

@@ -529,11 +529,15 @@ function checkConditionAccepted(condition,formParameters,values) {
     //it is a parameter
 
     //condition parameter don't exist in form
-    if(formParameters['_'+condition.name] === undefined){
+    if(formParameters['_'+condition.name] !== undefined){
+      formValue = formParameters['_'+condition.name];
+    }
+    else if(formParameters[condition.name] !== undefined){
+      formValue = formParameters[condition.name];
+    }
+    else {
       return false;
     }
-
-    formValue = formParameters['_'+condition.name];
   }
 
   if(formValue == null)
