@@ -53,27 +53,32 @@
         @stack('styles')
     </head>
 
-    <body class="{{$mainClass or ''}} {{is_test_environment() ? 'is-test' : ''}}">
+    <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
 
         @stack('modal')
 
-        <!-- Sessions modal -->
-        @if(isset(Auth::user()->id) && !isset(Auth::user()->session_id))
-          @include('extranet::front.partials.session_modal')
+        @if(false || (isset(Auth::user()->must_reset_password) && Auth::user()->must_reset_password))
+            <!-- Reset password modal -->        
+            @include('extranet::front.partials.modals.password')
+        @elseif(false || (isset(Auth::user()->id) && !isset(Auth::user()->session_id)))
+            <!-- Sessions modal -->        
+            @include('extranet::front.partials.modals.session')
         @endif
 
-        
-        @if(null !== Auth::user())
+        @if(null !== Auth::user() && !is_jailed())
          @include ('extranet::front.partials.header')
         @endif
         
         @include ('extranet::front.partials.env_bar')
 
         <div>
-
           @if(null !== Auth::user())
-            @include ('extranet::front.partials.sidebar')
-            <div class="content-wrapper">
+
+            @if(!is_jailed())
+              @include ('extranet::front.partials.sidebar')
+            @endif
+
+            <div class="content-wrapper @if(is_jailed()) jailed @endif">
               @if(isset(Auth::user()->id) && isset(Auth::user()->session_id))
                 @yield('content')
               @endif
@@ -81,16 +86,17 @@
           @else
             @yield('content')
           @endif
-
         </div>
 
         <!-- Footer blade important to add JavasCript variables from Controller -->
-        @include ('extranet::front.partials.footer')
+        @if(!is_jailed())
+          @include ('extranet::front.partials.footer')
+        @endif
         <script>
           const WEBROOT = '{{route("home")}}';
           const ASSETS = '{{asset('')}}';
           const LOCALE = '{{App::getLocale()}}';
-          
+
           @if(isset(Auth::user()->id))
             const ID_PER_USER = '{{Auth::user()->id}}';
             const SESSION_ID = '{{isset(Auth::user()->session_id) ? Auth::user()->session_id : null}}';

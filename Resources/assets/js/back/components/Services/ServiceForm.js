@@ -305,6 +305,9 @@ export default class ServiceForm extends Component {
 
                         <KeyValuesField
                             label={'Response paramètres'}
+                            keyLabel={'Identifier (avec _)'}
+                            keyPrefix={'_'}
+                            valueLabel={'JSON Path (ej. $.value)'}
                             value={this.state.service.response ? this.state.service.response : ''}
                             name={'response'}
                             onChange={this.handleFieldChange.bind(this)}

@@ -1,78 +1,56 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
-
 import ImageField from './../Fields/ImageField';
 
 class News extends Component {
 
-    constructor(props)
-    {
-        super(props);
-        moment.locale(LOCALE);
+  constructor(props) {
+    super(props);
+    moment.locale(LOCALE);
+  }
+
+  processText(fields, fieldName) {
+    return fields[fieldName].values != null && fields[fieldName].values[LOCALE] !== undefined ?
+      fields[fieldName].values[LOCALE] : '';
+  }
+
+  render() {
+
+    const fields = this.props.field.fields;
+    var date = fields.date.values != null ? fields.date.values : null;
+
+    if (date != null) {
+      date = moment(date).format('L');
     }
 
-    componentDidMount() {
-
-    }
-
-    processText(fields,fieldName){
-      return fields[fieldName].values != null && fields[fieldName].values[LOCALE] !== undefined ?
-        fields[fieldName].values[LOCALE] : '' ;
-    }
-
-    render() {
-
-      const fields = this.props.field.fields;
-      console.log("News => ",this.props.field);
-
-      const category = this.props.field.category != null ? this.props.field.category.name : null;
-      const description = this.processText(fields,'descripcio');
-
-      var data = fields.data.values != null ? fields.data.values : null;
-      if(data != null){
-        data = moment(data).format('L');
-      }
-
-      return (
-        <div className="news">
-          <p className="image">
-            {fields.imatge &&
+    return (
+      <div className="news">
+        <div className="container-image">
+          {fields.image &&
             <ImageField
-              field={fields.imatge}
+              field={fields.image}
+              width={50}
+              height={50}
             />
-            }
-          </p>
-          <p className="text">
-
-              {data != null &&
+          }
+        </div>
+        <div className="container-title">
+          <div className="wrapper">
+            <a href={this.props.field.url}>{fields.title.values[LOCALE] !== undefined ?
+              fields.title.values[LOCALE] : ''}
+            </a>
+            <p className="text">
+              {date != null &&
                 <span className="data">
-                  {data}
+                  {date}
                 </span>
               }
-
-            {category != null && data != null ? '|' : ''}
-
-            {category != null &&
-              <span className="categoria">{category} </span>
-            }
-
-          </p>
-
-          <a href={this.props.field.url}>{fields.title.values[LOCALE] !== undefined ?
-            fields.title.values[LOCALE] : '' }
-          </a>
-
-          {this.props.extended &&
-            <div className="intro"
-              dangerouslySetInnerHTML={{__html: description}}
-            >
-            </div>
-          }
-
+            </p>
+          </div>
         </div>
-      );
+      </div>
+    );
 
-    }
+  }
 }
 export default News;

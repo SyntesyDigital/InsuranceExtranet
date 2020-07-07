@@ -7,7 +7,7 @@ use Auth;
 class VeosWsUrl
 {
     const PROD = 'prod';
-    const DEV = 'dev';
+    const DEV = 'preprod';
     const REC = 'rec';
 
     public static function get()
@@ -54,9 +54,9 @@ class VeosWsUrl
     public static function getEnvironmentOptions()
     {
         return [
-          self::DEV,
-          self::REC,
-          self::PROD,
+            self::DEV,
+            self::REC,
+            self::PROD,
         ];
     }
 }

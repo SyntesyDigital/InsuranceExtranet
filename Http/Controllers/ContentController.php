@@ -5,30 +5,20 @@ namespace Modules\Extranet\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-
 use Modules\Architect\Entities\Content;
 use Modules\Architect\Entities\Url;
 use Modules\Extranet\Adapters\PageBuilderAdapter;
 use Modules\Extranet\Adapters\FieldsAdapter;
-use Modules\Extranet\Entities\RouteParameter;
-
 use Modules\Architect\Repositories\ContentRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\DocumentRepository;
-
 use File;
-use Config;
-use Session;
-use Carbon\Carbon;
-
-use App;
 use Auth;
 use Imagick;
 
 class ContentController extends Controller
 {
-
     public function __construct(ElementRepository $elements,
       BobyRepository $boby,
       DocumentRepository $document,
@@ -42,135 +32,139 @@ class ContentController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index(Request $request)
     {
+        $homeSlug = 'accueil';
 
-      $homeSlug = 'accueil';
+        $content = Content::whereField('slug', $homeSlug)->first();
 
-      $content = Content::whereField('slug',$homeSlug)->first();
+        if (!$this->isPageAllowed($homeSlug)) {
+            abort(404, 'Page not allowed');
+        }
 
-      if(!$this->isPageAllowed($homeSlug))
-        abort(404,'Page not allowed');
+        if ($content == null) {
+            abort(404);
+        }
 
-      if($content == null){
-        abort(404);
-      }
+        $content->load('fields', 'page');
 
-      $content->load('fields', 'page');
+        //check parameters exist
 
-      //check parameters exist
+        if (!$this->checkNecessaryParameters($request, $content)) {
+            abort(404, 'Insuficient parameters');
+        }
 
-      if(!$this->checkNecessaryParameters($request,$content)){
-          abort(404,'Insuficient parameters');
-      }
+        $pageBuilderAdapter = new PageBuilderAdapter($content);
 
-      $pageBuilderAdapter = new PageBuilderAdapter($content);
-
-      if($request->has('debug')){
-        dd(
+        if ($request->has('debug')) {
+            dd(
           $pageBuilderAdapter->get(),
           $this->elements->getModelsByIdentifier()
         );
-      }
+        }
 
-      return view('extranet::front.contents.page',[
+        return view('extranet::front.contents.page', [
         'content' => $content,
         'page' => $pageBuilderAdapter->get(),
         'models' => $this->elements->getModelsByIdentifier(),
-        'contentSettings' => $content->getSettings()
+        'contentSettings' => $content->getSettings(),
       ]);
     }
 
     public function search(Request $request)
     {
-      $content = Content::whereField('slug','search')->first();
+        $content = Content::whereField('slug', 'search')->first();
 
-      if($content == null){
-        abort(404);
-      }
+        if ($content == null) {
+            abort(404);
+        }
 
-      $content->load('fields', 'page');
+        $content->load('fields', 'page');
 
-      $pageBuilderAdapter = new PageBuilderAdapter($content);
+        $pageBuilderAdapter = new PageBuilderAdapter($content);
 
-      if($request->has('debug'))
-        dd($pageBuilderAdapter->get());
+        if ($request->has('debug')) {
+            dd($pageBuilderAdapter->get());
+        }
 
-      return view('extranet::front.contents.page',[
+        return view('extranet::front.contents.page', [
         'content' => $content,
         'page' => $pageBuilderAdapter->get(),
         'models' => $this->elements->getModelsByIdentifier(),
-        'contentSettings' => $content->getSettings()
+        'contentSettings' => $content->getSettings(),
       ]);
     }
 
-    private function checkNecessaryParameters($request, $content) {
+    private function checkNecessaryParameters($request, $content)
+    {
         $parameters = $content->getRouteParametersWithSettings();
 
-        if(isset($parameters)){
-
-          foreach($parameters as $identifier => $parameter){
-            if( $parameter['required'] && !$request->has($identifier)){
-              return false;
+        if (isset($parameters)) {
+            foreach ($parameters as $identifier => $parameter) {
+                if ($parameter['required'] && !$request->has($identifier)) {
+                    return false;
+                }
             }
-          }
         }
 
         return true;
     }
 
-    private function renderPage($request,$content) {
-
+    private function renderPage($request, $content)
+    {
         $pageBuilderAdapter = new PageBuilderAdapter($content);
 
         //check parameters exist
-        if(!$this->checkNecessaryParameters($request,$content)){
-            abort(404,'Insuficient parameters');
+        if (!$this->checkNecessaryParameters($request, $content)) {
+            abort(404, 'Insuficient parameters');
         }
 
-        if($request->has('debug')){
-          dd(
+        if ($request->has('debug')) {
+            dd(
             $pageBuilderAdapter->get(),
             $this->elements->getModelsByIdentifier()
           );
         }
 
-        return view('extranet::front.contents.page',[
+        return view('extranet::front.contents.page', [
             'content' => $content,
             'page' => $pageBuilderAdapter->get(),
             'models' => $this->elements->getModelsByIdentifier(),
-            'contentSettings' => $content->getSettings()
+            'contentSettings' => $content->getSettings(),
         ]);
     }
 
-    private function renderTypology($request,$content) {
-
+    private function renderTypology($request, $content)
+    {
         $data = [
           'content' => $content,
           'fields' => (new FieldsAdapter($content))->get()->toArray(),
-          'contentSettings' => $content->getSettings()
+          'contentSettings' => $content->getSettings(),
         ];
 
-        if($request->has('debug'))
-          dd($data);
+        if ($request->has('debug')) {
+            dd($data);
+        }
 
-        return view('extranet::front.contents.'.strtolower($content->typology->name),$data);
+        return view('extranet::front.contents.'.strtolower($content->typology->identifier), $data);
     }
 
     private function isPageAllowed($slug)
     {
-        if(Auth::user()->role == ROLE_USER){
-          $pages = Auth::user()->allowed_pages;
-          if(!isset($pages))
-            return false;
+        if (Auth::user()->role == ROLE_USER) {
+            $pages = Auth::user()->allowed_pages;
+            if (!isset($pages)) {
+                return false;
+            }
 
-          if(isset($pages->{$slug})){
-            return $pages->{$slug};
-          }
-          //if not in allowed pages then not necessary to filter
-          return true;
+            if (isset($pages->{$slug})) {
+                return $pages->{$slug};
+            }
+            //if not in allowed pages then not necessary to filter
+            return true;
         }
 
         return true;
@@ -178,74 +172,70 @@ class ContentController extends Controller
 
     public function show(Request $request, $slug)
     {
-      //$slug = $request->segment(count($request->segments()));
-      if(!$this->isPageAllowed($slug))
-        abort(404,'Page not allowed');
+        //$slug = $request->segment(count($request->segments()));
+        if (!$this->isPageAllowed($slug)) {
+            abort(404, 'Page not allowed');
+        }
 
-      $slug = '/'.$slug;
+        $slug = '/'.$slug;
 
-      $url = Url::where('url', $slug)
-        ->where('entity_type','Modules\Architect\Entities\Content')
+        $url = Url::where('url', $slug)
+        ->where('entity_type', 'Modules\Architect\Entities\Content')
         ->first();
 
-      if($url == null){
+        if ($url == null) {
+            abort(404);
+        }
+
+        $content = Content::find($url->entity_id);
+
+        if ($content == null) {
+            abort(404);
+        }
+
+        if ($content->is_page) {
+            return $this->renderPage($request, $content);
+        } elseif (isset($content->typology) && $content->typology->has_slug) {
+            return $this->renderTypology($request, $content);
+        }
+
         abort(404);
-      }
-
-      $content = Content::find($url->entity_id);
-
-      if($content == null){
-        abort(404);
-      }
-
-      if($content->is_page){
-        return $this->renderPage($request,$content);
-      }
-      else if(isset($content->typology) && $content->typology->has_slug){
-        return $this->renderTypology($request,$content);
-      }
-
-      abort(404);
     }
 
     public function preview(Request $request, $id)
     {
+        $content = Content::find($id);
 
-      $content = Content::find($id);
+        $pageBuilderAdapter = new PageBuilderAdapter($content);
 
-      $pageBuilderAdapter = new PageBuilderAdapter($content);
+        if ($request->has('debug')) {
+            dd($pageBuilderAdapter->get());
+        }
 
-      if($request->has('debug'))
-        dd($pageBuilderAdapter->get());
+        //check parameters exist
+        if (!$this->checkNecessaryParameters($request, $content)) {
+            abort(404, 'Insuficient parameters');
+        }
 
-      //check parameters exist
-      if(!$this->checkNecessaryParameters($request,$content)){
-          abort(404,'Insuficient parameters');
-      }
-
-
-      if($content->is_page){
-         return view('extranet::front.contents.page',[
+        if ($content->is_page) {
+            return view('extranet::front.contents.page', [
             'content' => $content,
             'page' => $pageBuilderAdapter->get(),
             'models' => $this->elements->getModelsByIdentifier(),
-            'contentSettings' => $content->getSettings()
+            'contentSettings' => $content->getSettings(),
           ]);
-      }
-      else if(isset($content->typology) && $content->typology->has_slug){
-        return $this->renderTypology($request,$content);
-      }
+        } elseif (isset($content->typology) && $content->typology->has_slug) {
+            return $this->renderTypology($request, $content);
+        }
 
-      abort(404);
-
+        abort(404);
     }
 
     public function showDocument($id)
     {
-
         $authorized = $this->boby->checkDocumentAvailable($id);
 
-        if(!$authorized) {
+        if (!$authorized) {
             abort(500);
         }
 
@@ -254,29 +244,30 @@ class ContentController extends Controller
         $content = base64_decode($result->datas);
 
         $contentType = $result->contentType;
-        
+
         //if content type not defined setup dinamically
-        if(!isset($contentType)){
-          $extension = explode(".",$result->name);
-          $extension = $extension[sizeof($extension)-1];
-          
-          switch($extension){
-            case "msg":
+        if (!isset($contentType)) {
+            $extension = explode('.', $result->name);
+            $extension = $extension[sizeof($extension) - 1];
+
+            switch ($extension) {
+            case 'msg':
               $contentType = 'application/msg';
-            default : 
+              // no break
+            default:
               $contentType = 'application/'.$extension;
           }
         }
 
         return response($content, 200)
-          ->header('Content-Type' , $contentType)
-          ->header('Content-Disposition','attachment; filename="'.$result->name.'"');
+          ->header('Content-Type', $contentType)
+          ->header('Content-Disposition', 'attachment; filename="'.$result->name.'"');
     }
 
     public function showDocumentPreview($id)
     {
         $authorized = $this->boby->checkDocumentAvailable($id);
-        if(!$authorized) {
+        if (!$authorized) {
             abort(500);
         }
         $result = $this->document->find($id);
@@ -284,18 +275,19 @@ class ContentController extends Controller
         $contentType = explode(';', $result->contentType);
         $contentType = $contentType[0];
 
-        switch($contentType) {
+        switch ($contentType) {
           case 'image/png':
           case 'image/jpeg':
           case 'image/gif':
               $content = base64_decode($result->datas);
+
               return response($content, 200)->header('Content-Type', $result->contentType);
             break;
-            
+
           case 'application/pdf':
             $im = new Imagick();
-            $im->setResolution(120, 120); 
-            
+            $im->setResolution(120, 120);
+
             $im->readimageblob(base64_decode($result->datas));
             $im->setiteratorindex(0);
             $im->setImageFormat('jpg');
@@ -303,12 +295,13 @@ class ContentController extends Controller
             $im->setImageCompressionQuality(30);
 
             return response($im, 200)->header('Content-Type', 'image/jpeg');
-          
+
             break;
 
             default:
               $content = File::get(public_path('modules/extranet/plugins/images/fa-download.png'));
               $mime = File::mimeType(public_path('modules/extranet/plugins/images/fa-download.png'));
+
               return response($content, 200)->header('Content-Type', $mime);
             break;
         }
@@ -316,14 +309,13 @@ class ContentController extends Controller
 
     public function languageNotFound(Request $request)
     {
-      abort(404);
+        abort(404);
     }
 
-    public function getContentParameters(Content $content,Request $request)
+    public function getContentParameters(Content $content, Request $request)
     {
         $content->load('routesParameters');
 
         return response()->json($content);
     }
-
 }

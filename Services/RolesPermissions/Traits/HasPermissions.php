@@ -19,6 +19,38 @@ trait HasPermissions
     }
 
     /**
+     * getPermissions.
+     *
+     * @return void
+     */
+    public function getPermissions()
+    {
+        $permissions = collect();
+
+        foreach ($this->roles()->get() as $role) {
+            foreach ($role->permissions as $permission) {
+                $permissions->push($permission);
+            }
+        }
+
+        foreach ($this->permissions()->get() as $permission) {
+            if ($permission->pivot->enabled) {
+                if (!$permissions->contains('id', $permission->id)) {
+                    $permissions->push($permission);
+                }
+            } else {
+                if ($permissions->contains('id', $permission->id)) {
+                    $permissions = $permissions->reject(function ($item, $key) use ($permission) {
+                        return $item->id == $permission->id;
+                    });
+                }
+            }
+        }
+
+        return $permissions;
+    }
+
+    /**
      * Check if user has permission
      * Disabled/Enabled permission are prioritary.
      *

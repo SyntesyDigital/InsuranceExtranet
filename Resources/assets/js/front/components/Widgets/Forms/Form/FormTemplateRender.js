@@ -1,27 +1,12 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Grid, Row, Col } from 'react-bootstrap';
-import api from './../../../../../back/api';
-
-
-import LayoutParser from './../../ElementCard/LayoutParser';
 
 import {
   getFieldComponent,
-  validateField,
   parameteres2Array,
   isVisible,
   getUrlParameters,
-  getValueFromObject
 } from '../functions';
 
-import {
-  initParametersState,
-  checkParameters,
-  loadProcedures,
-  initProceduresIteration,
-  updateParametersFromParent
-} from './actions'
 
 class FormTemplateRender extends Component {
 

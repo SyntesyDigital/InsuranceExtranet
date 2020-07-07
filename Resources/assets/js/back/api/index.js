@@ -6,6 +6,10 @@ import {fields} from './models/modelFields';
 import {elementTemplates} from './models/elementTemplates';
 import {elementTemplatesFields} from './models/elementTemplatesFields';
 import {exportImport} from './services/exportImport';
+import {users} from './models/users';
+import {groups} from './models/groups';
+import {permissions} from './models/permissions';
+import {roles} from './models/roles';
 
 let api = {
     services : services,
@@ -14,7 +18,11 @@ let api = {
     fields : fields,
     elementTemplates : elementTemplates,
     elementTemplatesFields : elementTemplatesFields,
-    exportImport: exportImport
+    exportImport : exportImport,
+    permissions : permissions,
+    roles : roles,
+    users : users,
+    groups: groups
 };
 
 export default api;

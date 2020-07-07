@@ -9,7 +9,7 @@ type Export {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     export(id: ID! @eq, class: String! @eq): Export
         @field(resolver: "Modules\\Extranet\\Services\\ExportImport\\GraphQL\\Queries\\ExportQuery")
 }

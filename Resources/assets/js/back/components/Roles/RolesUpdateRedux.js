@@ -25,7 +25,8 @@ import {
     updatePermission,
     openModalCreatePermission,
     openModalPermissionFromGroup,
-    reload
+    reload,
+    removeRole
 } from './actions'
 
 class RolesUpdateRedux extends Component {
@@ -35,17 +36,15 @@ class RolesUpdateRedux extends Component {
         super(props);
 
         this.state = {
-
             displayGroup: false,
             displayPermision: false
-
         };
 
         this.props.initState(this.props.roleId);
     }
 
-    componentDidUpdate(prevProps, prevState) { 
-        if(!prevProps.form.groupsReload && this.props.form.groupsReload) {
+    componentDidUpdate(prevProps, prevState) {
+        if (!prevProps.form.groupsReload && this.props.form.groupsReload) {
             this.props.reload(this.props.form.role.id);
         }
     }
@@ -74,8 +73,12 @@ class RolesUpdateRedux extends Component {
         this.props.openModalEditGroup(group);
     }
 
-    handleEditPermission(permission) {
-        this.props.openModalEditPermission(permission);
+    handleEditPermission(permission, group) {
+        if(group) {
+            this.props.openModalCreatePermission(group);
+        } else {
+            this.props.openModalEditPermission(permission);
+        }
     }
 
     handleModalClose() {
@@ -87,12 +90,37 @@ class RolesUpdateRedux extends Component {
         });
     }
 
+    /*
     handleDuplicate() {
         console.log("handleDuplicate");
     }
+    */
 
     handleRemove() {
-        console.log("handleRemoveRole");
+        //console.log("handleRemoveRole");
+
+        var self = this;
+
+        bootbox.confirm({
+            message: Lang.get('fields.sure'),
+            buttons: {
+                confirm: {
+                    label: Lang.get('fields.si'),
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: Lang.get('fields.no'),
+                    className: 'btn-default'
+                }
+            },
+            callback: function (result) {
+              if(result){
+                self.props.removeRole(self.props.form.role.id);
+              }
+            }
+        });
+
+        
     }
 
     handleSubmit() {
@@ -101,7 +129,6 @@ class RolesUpdateRedux extends Component {
     }
 
     handlePermissionChange(permission, group, e) {
-        console.log("handlePermissionChange :: (value,permission)", e.target.checked, permission);
         this.props.updatePermission(
             this.props.form.role,
             permission,
@@ -134,7 +161,7 @@ class RolesUpdateRedux extends Component {
         return this.props.form.role.groups.map((item, index) =>
             <CollapsableGroup
                 key={item.id}
-                identifier={item.identifier}
+                identifier={item.id}
                 title={item.name}
                 icon=''
                 editable={true}
@@ -159,17 +186,18 @@ class RolesUpdateRedux extends Component {
             </CollapsableGroup>
         );
     }
-    
+
     renderPermissions(permissions, group) {
-        if (permissions === undefined)
+        if (permissions === undefined) {
             return null;
+        }
 
         return permissions.map((item, index) =>
             <div className="col-md-4">
                 <div className="container-checkbox">
                     <Checkbox
                         key={item.id}
-                        title={item.name}
+                        title={item.identifier}
                         iconEdit={'far fa-edit'}
                         isEdit={true}
                         disabled={this.props.form.role.id == null}
@@ -200,7 +228,7 @@ class RolesUpdateRedux extends Component {
                 <ModalEditGroup
                     id={'modal-edit-group'}
                     icon={'fas fa-bars'}
-                    size={'small'}
+                    size={'medium'}
                     title={'Group | Edit'}
                     group={this.props.form.currentGroup}
                     zIndex={10000}
@@ -222,31 +250,33 @@ class RolesUpdateRedux extends Component {
                     />
                     */}
 
-                    <ButtonDropdown
-                        label={'Actions'}
-                        list={[
-                            {
-                                label: 'Nouveau',
-                                icon: 'fa fa-plus-circle',
-                                route: routes['extranet.roles.create'],
-                                className: ''
-                            },
-                            /*
-                            {
-                                label: 'Dupliquer',
-                                icon: 'far fa-copy',
-                                onClick: this.handleDuplicate.bind(this),
-                                className: ''
-                            },
-                            */
-                            {
-                                label: 'Supprimer',
-                                icon: 'fa fa-trash-alt',
-                                onClick: this.handleRemove.bind(this),
-                                className: 'text-danger'
-                            }
-                        ]}
-                    />
+                    {this.props.form.role.id != null && 
+                        <ButtonDropdown
+                            label={'Actions'}
+                            list={[
+                                {
+                                    label: 'Nouveau',
+                                    icon: 'fa fa-plus-circle',
+                                    route: routes['extranet.roles.create'],
+                                    className: ''
+                                },
+                                /*
+                                {
+                                    label: 'Dupliquer',
+                                    icon: 'far fa-copy',
+                                    onClick: this.handleDuplicate.bind(this),
+                                    className: ''
+                                },
+                                */
+                                {
+                                    label: 'Supprimer',
+                                    icon: 'fa fa-trash-alt',
+                                    onClick: this.handleRemove.bind(this),
+                                    className: 'text-danger'
+                                }
+                            ]}
+                        />
+                    }
 
                     <ButtonPrimary
                         label={'Sauvegarder'}
@@ -263,13 +293,13 @@ class RolesUpdateRedux extends Component {
                         {this.renderGroups()}
 
                         <BoxAddGroup
-                            identifier='1'
-                            title='Add group'
+                            identifier=''
+                            title='Ajouter un groupe'
                             onClick={this.handleAddGroup.bind(this)}
                         />
 
-
                     </div>
+
                     <div className="sidebar">
 
                         <InputField
@@ -284,7 +314,6 @@ class RolesUpdateRedux extends Component {
                             value={this.props.form.role.identifier}
                             name={'identifier'}
                             onChange={this.props.updateField}
-
                         />
 
                         <IconField
@@ -300,6 +329,7 @@ class RolesUpdateRedux extends Component {
                             checked={this.props.form.role.default}
                             onChange={this.props.updateField}
                         />
+
                     </div>
                 </div>
             </div>
@@ -336,17 +366,20 @@ const mapDispatchToProps = dispatch => {
         openModalCreateGroup: () => {
             return dispatch(openModalCreateGroup());
         },
-        removeGroup : (group) => {
+        removeGroup: (group) => {
             return dispatch(removeGroup(group));
         },
-        updatePermission : (role,permission,value) => {
-            return dispatch(updatePermission(role,permission,value))
+        updatePermission: (role, permission, value) => {
+            return dispatch(updatePermission(role, permission, value))
         },
-        openModalCreatePermission : () => {
-            return dispatch(openModalCreatePermission())
+        openModalCreatePermission: (group) => {
+            return dispatch(openModalCreatePermission(group))
         },
-        openModalPermissionFromGroup : (group) => {
+        openModalPermissionFromGroup: (group) => {
             return dispatch(openModalPermissionFromGroup(group))
+        },
+        removeRole : (id) => {
+            return dispatch(removeRole(id))
         }
     }
 }

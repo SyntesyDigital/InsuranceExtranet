@@ -52,6 +52,7 @@
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
     $footerHoverTextColor = isset($storedStylesFront['frontFooterHoverTextColor']) ? $storedStylesFront['frontFooterHoverTextColor']->value : $primaryColor;
     $footerTextColor = isset($storedStylesFront['frontFooterTextColor']) ? $storedStylesFront['frontFooterTextColor']->value : $secondaryColor;
+    $footerVersionColor = isset($storedStylesFront['frontFooterVersionColor']) ? $storedStylesFront['frontFooterVersionColor']->value : $secondaryColor;
 
   //BODY
     $bodyTextColor = isset($storedStylesFront['frontBodyTextColor']) ? $storedStylesFront['frontBodyTextColor']->value : $secondaryColor;
@@ -78,17 +79,16 @@
     $elementBorder = isset($storedStylesFront['frontElementBorder']) ? $storedStylesFront['frontElementBorder']->value : $bodyBackgroundColor;
     $elementHeadBackground = isset($storedStylesFront['frontElementHeadBackground']) ? $storedStylesFront['frontElementHeadBackground']->value : $elementsBackgroundColor;
     $frontElementHeadCollapsableBackground = isset($storedStylesFront['frontElementHeadCollapsableBackground']) ? $storedStylesFront['frontElementHeadCollapsableBackground']->value : $elementsBackgroundColor;
-
     $elementHeadColor = isset($storedStylesFront['frontElementHeadColor']) ? $storedStylesFront['frontElementHeadColor']->value : $secondaryColor;
+    $elementHeadIconColor = isset($storedStylesFront['frontElementHeadIconColor']) ? $storedStylesFront['frontElementHeadIconColor']->value : $secondaryColor;
     $elementHeadCollapsableColor = isset($storedStylesFront['elementHeadCollapsableColor']) ? $storedStylesFront['elementHeadCollapsableColor']->value : $elementHeadColor;
-
     $elementBackground = isset($storedStylesFront['frontElementBackground']) ? $storedStylesFront['frontElementBackground']->value : $elementsBackgroundColor;
-
     $elementColor = isset($storedStylesFront['frontElementColor']) ? $storedStylesFront['frontElementColor']->value : $secondaryColor;
     $elementLinkColor = isset($storedStylesFront['frontElementLinkColor']) ? $storedStylesFront['frontElementLinkColor']->value : $secondaryColor;
     $elementLinkHoverColor = isset($storedStylesFront['frontElementLinkHoverColor']) ? $storedStylesFront['frontElementLinkHoverColor']->value : $primaryColor;
     $elementButtonColor = isset($storedStylesFront['frontElementButtonColor']) ? $storedStylesFront['frontElementButtonColor']->value : $primaryColor;
     $elementButtonHoverColor = isset($storedStylesFront['frontElementButtonHoverColor']) ? $storedStylesFront['frontElementButtonHoverColor']->value : $secondaryColor;
+    $elementHeadTextTransform = isset($storedStylesFront['elementHeadTextTransform']) ? $storedStylesFront['elementHeadTextTransform']->value : 'uppercase';
 
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
@@ -101,10 +101,8 @@
     $buttonPrimaryColor = isset($storedStylesFront['buttonPrimaryColor']) ? $storedStylesFront['buttonPrimaryColor']->value : $primaryColor;
     $buttonPrimaryHoverColor = isset($storedStylesFront['buttonPrimaryHoverColor']) ? $storedStylesFront['buttonPrimaryHoverColor']->value : $secondaryColor;
     $buttonPrimaryBorderRadius = isset($storedStylesFront['buttonPrimaryBorderRadius']) ? $storedStylesFront['buttonPrimaryBorderRadius']->value.'px' : $buttonRadius;
-
     $buttonPrimaryBackgroundIconHoverColor = isset($storedStylesFront['buttonPrimaryBackgroundIconHoverColor']) ? $storedStylesFront['buttonPrimaryBackgroundIconHoverColor']->value : '#eef0f4';
     $buttonPrimaryBackgroundLabelHoverColor = isset($storedStylesFront['buttonPrimaryBackgroundLabelHoverColor']) ? $storedStylesFront['buttonPrimaryBackgroundLabelHoverColor']->value : '#eef0f4';
-
     $buttonPrimaryBackgroundImageColor = isset($storedStylesFront['buttonPrimaryBackgroundImageColor']) ? $storedStylesFront['buttonPrimaryBackgroundImageColor']->value : '#fff';
     $buttonPrimaryBackgroundBottomColor = isset($storedStylesFront['buttonPrimaryBackgroundBottomColor']) ? $storedStylesFront['buttonPrimaryBackgroundBottomColor']->value : '#eef0f4';
     $buttonPrimaryIconColor = isset($storedStylesFront['buttonPrimaryIconColor']) ? $storedStylesFront['buttonPrimaryIconColor']->value : '#a2a8b0';
@@ -114,10 +112,8 @@
     $buttonSecondaryColor = isset($storedStylesFront['buttonSecondaryColor']) ? $storedStylesFront['buttonSecondaryColor']->value : $secondaryColor;
     $buttonSecondaryHoverColor = isset($storedStylesFront['buttonSecondaryHoverColor']) ? $storedStylesFront['buttonSecondaryHoverColor']->value : $primaryColor;
     $buttonSecondaryBorderRadius = isset($storedStylesFront['buttonSecondaryBorderRadius']) ? $storedStylesFront['buttonSecondaryBorderRadius']->value.'px' : $buttonRadius;
-
     $buttonSecondaryBackgroundLabelHoverColor = isset($storedStylesFront['buttonSecondaryBackgroundLabelHoverColor']) ? $storedStylesFront['buttonSecondaryBackgroundLabelHoverColor']->value : '#eef0f4';
     $buttonSecondaryBackgroundIconHoverColor = isset($storedStylesFront['buttonSecondaryBackgroundIconHoverColor']) ? $storedStylesFront['buttonSecondaryBackgroundIconHoverColor']->value : '#eef0f4';
-
     $buttonSecondaryBackgroundImageColor = isset($storedStylesFront['buttonSecondaryBackgroundImageColor']) ? $storedStylesFront['buttonSecondaryBackgroundImageColor']->value : '#fff';
     $buttonSecondaryBackgroundBottomColor = isset($storedStylesFront['buttonSecondaryBackgroundBottomColor']) ? $storedStylesFront['buttonSecondaryBackgroundBottomColor']->value : '#eef0f4';
     $buttonSecondaryIconColor = isset($storedStylesFront['buttonSecondaryIconColor']) ? $storedStylesFront['buttonSecondaryIconColor']->value : '#a2a8b0';
@@ -125,6 +121,37 @@
 
     $elementFileInputBorder = isset($storedStylesFront['elementFileInputBorder']) ? $storedStylesFront['elementFileInputBorder']->value : $elementsBackgroundColor;
     $fonts = config('fonts');
+
+    //Simple Button
+    // btn-1
+    $btn1Color = isset($storedStylesFront['btn1Color']) ? $storedStylesFront['btn1Color']->value : $secondaryColor;
+    $btn1BackgroundColor = isset($storedStylesFront['btn1BackgroundColor']) ? $storedStylesFront['btn1BackgroundColor']->value : $primaryColor;
+    $btn1BorderColor = isset($storedStylesFront['btn1BorderColor']) ? $storedStylesFront['btn1BorderColor']->value : $secondaryColor;
+    $btn1BackgroundHoverColor = isset($storedStylesFront['btn1BackgroundHoverColor']) ? $storedStylesFront['btn1BackgroundHoverColor']->value : $secondaryColor;
+    $btn1HoverColor = isset($storedStylesFront['btn1HoverColor']) ? $storedStylesFront['btn1HoverColor']->value : $primaryColor;
+    $btn1HoverBorderColor = isset($storedStylesFront['btn1HoverBorderColor']) ? $storedStylesFront['btn1HoverBorderColor']->value : $primaryColor;
+    $btn1FontSize = isset($storedStylesFront['btn1FontSize']) ? $storedStylesFront['btn1FontSize']->value.'px' : '14px';
+    $btn1BorderRadius = isset($storedStylesFront['btn1BorderRadius']) ? $storedStylesFront['btn1BorderRadius']->value.'px' : '24px';
+
+    // btn-2
+    $btn2Color = isset($storedStylesFront['btn2Color']) ? $storedStylesFront['btn2Color']->value : $secondaryColor;
+    $btn2BackgroundColor = isset($storedStylesFront['btn2BackgroundColor']) ? $storedStylesFront['btn2BackgroundColor']->value : $primaryColor;
+    $btn2BorderColor = isset($storedStylesFront['btn2BorderColor']) ? $storedStylesFront['btn2BorderColor']->value : $secondaryColor;
+    $btn2BackgroundHoverColor = isset($storedStylesFront['btn2BackgroundHoverColor']) ? $storedStylesFront['btn2BackgroundHoverColor']->value : $secondaryColor;
+    $btn2HoverColor = isset($storedStylesFront['btn2HoverColor']) ? $storedStylesFront['btn2HoverColor']->value : $primaryColor;
+    $btn2BorderHoverColor = isset($storedStylesFront['btn2BorderHoverColor']) ? $storedStylesFront['btn2BorderHoverColor']->value : $primaryColor;
+    $btn2FontSize = isset($storedStylesFront['btn2FontSize']) ? $storedStylesFront['btn2FontSize']->value.'px' : '14px';
+    $btn2BorderRadius = isset($storedStylesFront['btn2BorderRadius']) ? $storedStylesFront['btn2BorderRadius']->value.'px' : '24px';
+
+    // btn-3
+    $btn3Color = isset($storedStylesFront['btn3Color']) ? $storedStylesFront['btn3Color']->value : $secondaryColor;
+    $btn3BackgroundColor = isset($storedStylesFront['btn3BackgroundColor']) ? $storedStylesFront['btn3BackgroundColor']->value : $primaryColor;
+    $btn3BorderColor = isset($storedStylesFront['btn3BorderColor']) ? $storedStylesFront['btn3BorderColor']->value : $secondaryColor;
+    $btn3BackgroundHoverColor = isset($storedStylesFront['btn3BackgroundHoverColor']) ? $storedStylesFront['btn3BackgroundHoverColor']->value : $secondaryColor;
+    $btn3HoverColor = isset($storedStylesFront['btn3HoverColor']) ? $storedStylesFront['btn3HoverColor']->value : $primaryColor;
+    $btn3BorderHoverColor = isset($storedStylesFront['btn3BorderHoverColor']) ? $storedStylesFront['btn3BorderHoverColor']->value : $primaryColor;
+    $btn3FontSize = isset($storedStylesFront['btn3FontSize']) ? $storedStylesFront['btn3FontSize']->value.'px' : '14px';
+    $btn3BorderRadius = isset($storedStylesFront['btn3BorderRadius']) ? $storedStylesFront['btn3BorderRadius']->value.'px' : '24px';
 
     //BOX TOTAL
     $elementNumberColor = isset($storedStylesFront['elementNumberColor']) ? $storedStylesFront['elementNumberColor']->value : '#2A3649';
@@ -153,15 +180,26 @@
 
     //LOGIN
 
-   // $loginBackgroundColor = isset($storedStylesFront['loginBackgroundColor']) ? $storedStylesFront['loginBackgroundColor']->value : $bodyBackgroundColor;
+    $loginInputBorderColor = isset($storedStylesFront['loginInputBorderColor']) ? $storedStylesFront['loginInputBorderColor']->value : '#E6E6E6';
     $loginContainerBackgroundColor = isset($storedStylesFront['loginContainerBackgroundColor']) ? $storedStylesFront['loginContainerBackgroundColor']->value : $elementsBackgroundColor;
     $loginContainerBorderRadius = isset($storedStylesFront['loginContainerBorderRadius']) ? $storedStylesFront['loginContainerBorderRadius']->value.'px' : $buttonRadius;
-    $loginContainerTextColor = isset($storedStylesFront['loginContainerTextColor']) ? $storedStylesFront['loginContainerTextColor']->value : $secondaryColor;
+    $loginContainerLabelColor = isset($storedStylesFront['loginContainerLabelColor']) ? $storedStylesFront['loginContainerLabelColor']->value : $secondaryColor;
+    $loginContainerMotPasseColor = isset($storedStylesFront['loginContainerMotPasseColor']) ? $storedStylesFront['loginContainerMotPasseColor']->value : $secondaryColor;
+    $loginContainerTitleColor = isset($storedStylesFront['loginContainerTitleColor']) ? $storedStylesFront['loginContainerTitleColor']->value : $secondaryColor;
+    $lowerUpperCaseButtonLogin = isset($storedStylesFront['lowerUpperCaseButtonLogin']) ? $storedStylesFront['lowerUpperCaseButtonLogin']->value : 'capitalize';
+    $loginBorderColorFooter = isset($storedStylesFront['loginBorderColorFooter']) ? $storedStylesFront['loginBorderColorFooter']->value : $secondaryColor;
+    $loginContainerBorderColor = isset($storedStylesFront['loginContainerBorderColor']) ? $storedStylesFront['loginContainerBorderColor']->value : '#e4e4e4';
+    $alignMotDePasseLogin = isset($storedStylesFront['alignMotDePasseLogin']) ? $storedStylesFront['alignMotDePasseLogin']->value : '0';
+    $alignHorizontalMotDePasseLogin = isset($storedStylesFront['alignHorizontalMotDePasseLogin']) ? $storedStylesFront['alignHorizontalMotDePasseLogin']->value : '0';
+    $alignFooterLogin = isset($storedStylesFront['alignFooterLogin']) ? $storedStylesFront['alignFooterLogin']->value : 'right';
+    $loginMaxHeightLogo = isset($storedStylesFront['loginMaxHeightLogo']) ? $storedStylesFront['loginMaxHeightLogo']->value.'px' : '75';
     $loginButtonBackgroundColor = isset($storedStylesFront['loginButtonBackgroundColor']) ? $storedStylesFront['loginButtonBackgroundColor']->value : $primaryColor;
     $loginButtonHoverBackgroundColor = isset($storedStylesFront['loginButtonHoverBackgroundColor']) ? $storedStylesFront['loginButtonHoverBackgroundColor']->value : $secondaryColor;
     $loginButtonBorderRadius = isset($storedStylesFront['loginButtonBorderRadius']) ? $storedStylesFront['loginButtonBorderRadius']->value.'px' : $buttonRadius;
     $loginButtonTextColor = isset($storedStylesFront['loginButtonTextColor']) ? $storedStylesFront['loginButtonTextColor']->value : $secondaryColor;
     $loginButtonHoverTextColor = isset($storedStylesFront['loginButtonHoverTextColor']) ? $storedStylesFront['loginButtonHoverTextColor']->value : $primaryColor;
+    $letterSpacingTitleLogin = isset($storedStylesFront['letterSpacingTitleLogin']) ? $storedStylesFront['letterSpacingTitleLogin']->value.'px' : '3px';
+    $loginButtonHoverBorderColor = isset($storedStylesFront['loginButtonHoverBorderColor']) ? $storedStylesFront['loginButtonHoverBorderColor']->value : $primaryColor;
 
     //FORM SETTINGS
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
@@ -171,6 +209,7 @@
     $labelInputColor = isset($storedStylesFront['labelInputColor']) ? $storedStylesFront['labelInputColor']->value : $primaryColor;
     $labelInputFontSize = isset($storedStylesFront['labelInputFontSize']) ? $storedStylesFront['labelInputFontSize']->value.'px' : '14px';
     $labelInputPadding = isset($storedStylesFront['labelInputPadding']) ? $storedStylesFront['labelInputPadding']->value.'px' : '0';
+    $borderPxInputForm = isset($storedStylesFront['borderPxInputForm']) ? $storedStylesFront['borderPxInputForm']->value.'px' : '1px';
 
     $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
     $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : $inputColor;
@@ -207,6 +246,8 @@
 
     //IMAGE TEXT TITLE DOCUMENTS
     $titleColorImgTxtTitleDocuments = isset($storedStylesFront['titleColorImgTxtTitleDocuments']) ? $storedStylesFront['titleColorImgTxtTitleDocuments']->value : $primaryColor;
+    $descColorImgTxtTitleDocuments = isset($storedStylesFront['descColorImgTxtTitleDocuments']) ? $storedStylesFront['descColorImgTxtTitleDocuments']->value : $primaryColor;
+    $borderTitleColorImgTxtTitleDocuments = isset($storedStylesFront['borderTitleColorImgTxtTitleDocuments']) ? $storedStylesFront['borderTitleColorImgTxtTitleDocuments']->value : $primaryColor;
     $buttonColorImgTxtTitleDocuments = isset($storedStylesFront['buttonColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonColorImgTxtTitleDocuments']->value : $primaryColor;
     $buttonBackgroundColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundColorImgTxtTitleDocuments']->value : $secondaryColor;
     $buttonBackgroundHoverColorImgTxtTitleDocuments = isset($storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']) ? $storedStylesFront['buttonBackgroundHoverColorImgTxtTitleDocuments']->value : $primaryColor;
@@ -219,10 +260,13 @@
     $button2BorderColorImgTxtTitleDocuments = isset($storedStylesFront['button2BorderColorImgTxtTitleDocuments']) ? $storedStylesFront['button2BorderColorImgTxtTitleDocuments']->value : $primaryColor;
     $descColorImgTxtTitleDocuments = isset($storedStylesFront['descColorImgTxtTitleDocuments']) ? $storedStylesFront['descColorImgTxtTitleDocuments']->value : $primaryColor;
     $titleFontSizeImgTitleDocuments = isset($storedStylesFront['titleFontSizeImgTitleDocuments']) ? $storedStylesFront['titleFontSizeImgTitleDocuments']->value.'px' : '20px';
+    $titleFontWeightImgTitleDocuments = isset($storedStylesFront['titleFontWeightImgTitleDocuments']) ? $storedStylesFront['titleFontWeightImgTitleDocuments']->value : '400';
     $descFontSizeImgTxtTitleDocuments = isset($storedStylesFront['descFontSizeImgTxtTitleDocuments']) ? $storedStylesFront['descFontSizeImgTxtTitleDocuments']->value.'px' : '16px';
-    $borderRadiusButtonsImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtonsImgTxtTitleDocuments']->value.'px' : '30px';
+    $borderRadiusButtons1ImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtons1ImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtons1ImgTxtTitleDocuments']->value.'px' : '0';
+    $borderRadiusButtons2ImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusButtons2ImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusButtons2ImgTxtTitleDocuments']->value.'px' : '30px';
     $borderRadiusImgTxtTitleDocuments = isset($storedStylesFront['borderRadiusImgTxtTitleDocuments']) ? $storedStylesFront['borderRadiusImgTxtTitleDocuments']->value.'px' : '20px';
-    $buttonsFontSizeImgTitleDocuments = isset($storedStylesFront['buttonsFontSizeImgTitleDocuments']) ? $storedStylesFront['buttonsFontSizeImgTitleDocuments']->value.'px' : '16px';
+    $button1FontSizeImgTitleDocuments = isset($storedStylesFront['button1FontSizeImgTitleDocuments']) ? $storedStylesFront['button1FontSizeImgTitleDocuments']->value.'px' : '16px';
+    $button2FontSizeImgTitleDocuments = isset($storedStylesFront['button2FontSizeImgTitleDocuments']) ? $storedStylesFront['button2FontSizeImgTitleDocuments']->value.'px' : '16px';
 
     //HORIZONTAL BANNER
     $titleColorHorizontalBanner = isset($storedStylesFront['titleColorHorizontalBanner']) ? $storedStylesFront['titleColorHorizontalBanner']->value : $primaryColor;
@@ -230,17 +274,17 @@
     $subtitleColorHorizontalBanner = isset($storedStylesFront['subtitleColorHorizontalBanner']) ? $storedStylesFront['subtitleColorHorizontalBanner']->value : $secondaryColor;
     $subtitleHoverColorHorizontalBanner = isset($storedStylesFront['subtitleHoverColorHorizontalBanner']) ? $storedStylesFront['subtitleHoverColorHorizontalBanner']->value : $secondaryColor;
     $backgroundColorHorizontalBanner = isset($storedStylesFront['backgroundColorHorizontalBanner']) ? $storedStylesFront['backgroundColorHorizontalBanner']->value : '#fff';
-    $backgroundColorHoverHorizontalBanner = isset($storedStylesFront['backgroundColorHoverHorizontalBanner']) ? $storedStylesFront['backgroundColorHoverHorizontalBanner']->value : $secondaryColor;
+    $backgroundColorHoverHorizontalBanner = isset($storedStylesFront['backgroundColorHoverHorizontalBanner']) ? $storedStylesFront['backgroundColorHoverHorizontalBanner']->value : '#fff';
     $iconArrowColorHorizontalBanner = isset($storedStylesFront['iconArrowColorHorizontalBanner']) ? $storedStylesFront['iconArrowColorHorizontalBanner']->value : $primaryColor;
     $iconArrowHoverColorHorizontalBanner = isset($storedStylesFront['iconArrowHoverColorHorizontalBanner']) ? $storedStylesFront['iconArrowHoverColorHorizontalBanner']->value : $primaryColor;
     $titleFontSizeHorizontalBanner = isset($storedStylesFront['titleFontSizeHorizontalBanner']) ? $storedStylesFront['titleFontSizeHorizontalBanner']->value.'px' : '14px';
     $subtitleFontSizeHorizontalBanner = isset($storedStylesFront['subtitleFontSizeHorizontalBanner']) ? $storedStylesFront['subtitleFontSizeHorizontalBanner']->value.'px' : '18px';
     $borderRadiusHorizontalBanner = isset($storedStylesFront['borderRadiusHorizontalBanner']) ? $storedStylesFront['borderRadiusHorizontalBanner']->value.'px' : $buttonRadius;
-    $boxShadowOpacityHorizontalBanner = isset($storedStylesFront['boxShadowOpacityHorizontalBanner']) ? $storedStylesFront['boxShadowOpacityHorizontalBanner']->value : '0';
+    $boxShadowOpacityHorizontalBanner = isset($storedStylesFront['boxShadowOpacityHorizontalBanner']) ? $storedStylesFront['boxShadowOpacityHorizontalBanner']->value : '15';
 
     //ACTION BUTTON
-    $backgroundColorActionButton = isset($storedStylesFront['backgroundColorActionButton']) ? $storedStylesFront['backgroundColorActionButton']->value : $primaryColor;
-    $backgroundHoverColorActionButton = isset($storedStylesFront['backgroundHoverColorActionButton']) ? $storedStylesFront['backgroundHoverColorActionButton']->value : $primaryColor;
+    $backgroundColorActionButton = isset($storedStylesFront['backgroundColorActionButton']) ? $storedStylesFront['backgroundColorActionButton']->value : '#fff';
+    $backgroundHoverColorActionButton = isset($storedStylesFront['backgroundHoverColorActionButton']) ? $storedStylesFront['backgroundHoverColorActionButton']->value : '#fff';
     $iconColorActionButton = isset($storedStylesFront['iconColorActionButton']) ? $storedStylesFront['iconColorActionButton']->value : $secondaryColor;
     $iconHoverColorActionButton = isset($storedStylesFront['iconHoverColorActionButton']) ? $storedStylesFront['iconHoverColorActionButton']->value : $primaryColor;
     $titleColorActionButton = isset($storedStylesFront['titleColorActionButton']) ? $storedStylesFront['titleColorActionButton']->value : $primaryColor;
@@ -250,11 +294,28 @@
     $borderBottomRightActionButton = isset($storedStylesFront['borderBottomRightActionButton']) ? $storedStylesFront['borderBottomRightActionButton']->value : '0px';
     $borderBottomLeftActionButton = isset($storedStylesFront['borderBottomLeftActionButton']) ? $storedStylesFront['borderBottomLeftActionButton']->value : '0px';
     $fontSizeTitleActionButton = isset($storedStylesFront['fontSizeTitleActionButton']) ? $storedStylesFront['fontSizeTitleActionButton']->value.'px' : '18px';
-    $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '0';
+    $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '15';
+
+    //ACTION LIST
+
+    $labelActionListFontSize = isset($storedStylesFront['labelActionListFontSize']) ? $storedStylesFront['labelActionListFontSize']->value.'px' : '14px';
+    $labelActionListColor = isset($storedStylesFront['labelActionListColor']) ? $storedStylesFront['labelActionListColor']->value : $primaryColor;
+    $actionListButtonBackgroundColor = isset($storedStylesFront['actionListButtonBackgroundColor']) ? $storedStylesFront['actionListButtonBackgroundColor']->value : $secondaryColor;
+    $actionListButtonBackgroundHoverColor = isset($storedStylesFront['actionListButtonBackgroundHoverColor']) ? $storedStylesFront['actionListButtonBackgroundHoverColor']->value : $primaryColor;
+    $actionListButtonBorderColor = isset($storedStylesFront['actionListButtonBorderColor']) ? $storedStylesFront['actionListButtonBorderColor']->value : $primaryColor;
+    $actionListButtonBorderHoverColor = isset($storedStylesFront['actionListButtonBorderHoverColor']) ? $storedStylesFront['actionListButtonBorderHoverColor']->value : $secondaryColor;
+    $actionListButtonColorIcon = isset($storedStylesFront['actionListButtonColorIcon']) ? $storedStylesFront['actionListButtonColorIcon']->value : $primaryColor;
+    $actionListButtonHoverColorIcon = isset($storedStylesFront['actionListButtonHoverColorIcon']) ? $storedStylesFront['actionListButtonHoverColorIcon']->value : $secondaryColor;
+    $actionListDropdownBackgroundColor = isset($storedStylesFront['actionListDropdownBackgroundColor']) ? $storedStylesFront['actionListDropdownBackgroundColor']->value : '#fffffff';
+    $actionListDropdownColor = isset($storedStylesFront['actionListDropdownColor']) ? $storedStylesFront['actionListDropdownColor']->value : $primaryColor;
+    $actionListDropdownTextFontSize = isset($storedStylesFront['actionListDropdownTextFontSize']) ? $storedStylesFront['actionListDropdownTextFontSize']->value.'px' : '14px';
+    $actionListDropdownHoverColor = isset($storedStylesFront['actionListDropdownHoverColor']) ? $storedStylesFront['actionListDropdownHoverColor']->value : $primaryColor;
+    $actionListDropdownBorderRadius = isset($storedStylesFront['actionListDropdownBorderRadius']) ? $storedStylesFront['actionListDropdownBorderRadius']->value.'px' : '8px';
 
     //TABS
     $fontColorTab = isset($storedStylesFront['fontColorTab']) ? $storedStylesFront['fontColorTab']->value : $secondaryColor;
     $backgroundColorTab = isset($storedStylesFront['backgroundColorTab']) ? $storedStylesFront['backgroundColorTab']->value : $primaryColor;
+    $fontColorActiveTab = isset($storedStylesFront['fontColorActiveTab']) ? $storedStylesFront['fontColorActiveTab']->value : $secondaryColor;
     $backgroundColorActiveTab = isset($storedStylesFront['backgroundColorActiveTab']) ? $storedStylesFront['backgroundColorActiveTab']->value : '#fff';
     $backgroundHoverColorTab = isset($storedStylesFront['backgroundHoverColorTab']) ? $storedStylesFront['backgroundHoverColorTab']->value : $primaryColor;
     $backgroundColorContentTab = isset($storedStylesFront['backgroundColorContentTab']) ? $storedStylesFront['backgroundColorContentTab']->value : '#fff';
@@ -273,6 +334,34 @@
     $fontSizeRowTable = isset($storedStylesFront['fontSizeRowTable']) ? $storedStylesFront['fontSizeRowTable']->value.'px' : '14px';
     $iconColorHeaderTable = isset($storedStylesFront['iconColorHeaderTable']) ? $storedStylesFront['iconColorHeaderTable']->value : '#d7d7d7';
     $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
+    $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
+    $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
+
+    //CHAT
+    $senderColorChat = isset($storedStylesFront['senderColorChat']) ? $storedStylesFront['senderColorChat']->value : $secondaryColor;
+    $senderBackgroundColorChat = isset($storedStylesFront['senderBackgroundColorChat']) ? $storedStylesFront['senderBackgroundColorChat']->value : $primaryColor;
+    $senderBorderColorChat = isset($storedStylesFront['senderBorderColorChat']) ? $storedStylesFront['senderBorderColorChat']->value : $primaryColor;
+    $senderMailColorChat = isset($storedStylesFront['senderMailColorChat']) ? $storedStylesFront['senderMailColorChat']->value : $secondaryColor;
+    $senderDateColorChat = isset($storedStylesFront['senderDateColorChat']) ? $storedStylesFront['senderDateColorChat']->value : $secondaryColor;
+    $senderBorderRadiusChat = isset($storedStylesFront['senderBorderRadiusChat']) ? $storedStylesFront['senderBorderRadiusChat']->value.'px' : $buttonRadius;
+    $recipientColorChat = isset($storedStylesFront['recipientColorChat']) ? $storedStylesFront['recipientColorChat']->value : $secondaryColor;
+    $recipientBackgroundColorChat = isset($storedStylesFront['recipientBackgroundColorChat']) ? $storedStylesFront['recipientBackgroundColorChat']->value : '#868d97';
+    $recipientBorderColorChat = isset($storedStylesFront['recipientBorderColorChat']) ? $storedStylesFront['recipientBorderColorChat']->value : '#868d97';
+    $recipientBorderRadiusChat = isset($storedStylesFront['recipientBorderRadiusChat']) ? $storedStylesFront['recipientBorderRadiusChat']->value.'px' : $buttonRadius;
+    $recipientDateColorChat = isset($storedStylesFront['recipientDateColorChat']) ? $storedStylesFront['recipientDateColorChat']->value : $secondaryColor;
+    $buttonColorChat = isset($storedStylesFront['buttonColorChat']) ? $storedStylesFront['buttonColorChat']->value : $primaryColor;
+    $buttonBackgroundColorChat = isset($storedStylesFront['buttonBackgroundColorChat']) ? $storedStylesFront['buttonBackgroundColorChat']->value : $secondaryColor;
+    $buttonBorderColorChat = isset($storedStylesFront['buttonBorderColorChat']) ? $storedStylesFront['buttonBorderColorChat']->value : $primaryColor;
+    $buttonBackgroundHoverColorChat = isset($storedStylesFront['buttonBackgroundHoverColorChat']) ? $storedStylesFront['buttonBackgroundHoverColorChat']->value : $primaryColor;
+    $buttonColorHoverChat = isset($storedStylesFront['buttonColorHoverChat']) ? $storedStylesFront['buttonColorHoverChat']->value : $secondaryColor;
+    $buttonborderHoverColorChat = isset($storedStylesFront['buttonborderHoverColorChat']) ? $storedStylesFront['buttonborderHoverColorChat']->value : $secondaryColor;
+    $buttonRadiusChat = isset($storedStylesFront['buttonRadiusChat']) ? $storedStylesFront['buttonRadiusChat']->value.'px' : $buttonRadius;
+    $senderFontSizeChat = isset($storedStylesFront['senderFontSizeChat']) ? $storedStylesFront['senderFontSizeChat']->value.'px' : '14px';
+    $senderDateFontSizeChat = isset($storedStylesFront['senderDateFontSizeChat']) ? $storedStylesFront['senderDateFontSizeChat']->value.'px' : '14px';
+    $senderMailFontSizeChat = isset($storedStylesFront['senderMailFontSizeChat']) ? $storedStylesFront['senderMailFontSizeChat']->value.'px' : '14px';
+    $recipientFontSizeChat = isset($storedStylesFront['recipientFontSizeChat']) ? $storedStylesFront['recipientFontSizeChat']->value.'px' : '14px';
+    $recipientDateFontSizeChat = isset($storedStylesFront['recipientDateFontSizeChat']) ? $storedStylesFront['recipientDateFontSizeChat']->value.'px' : '14px';
+    $fontSizeButtonChat = isset($storedStylesFront['fontSizeButtonChat']) ? $storedStylesFront['fontSizeButtonChat']->value.'px' : '14px';
 
 ?>
 
@@ -294,6 +383,7 @@
 @include('extranet::front.partials.styles.stepper')
 @include('extranet::front.partials.styles.document-table')
 @include('extranet::front.partials.styles.missing-documents')
+@include('extranet::front.partials.styles.chat')
 @include('extranet::front.partials.styles.action-button')
 @include('extranet::front.partials.styles.image-text-link')
 @include('extranet::front.partials.styles.image-text-title-documents')
@@ -301,6 +391,8 @@
 @include('extranet::front.partials.styles.sidebar')
 @include('extranet::front.partials.styles.range-field')
 @include('extranet::front.partials.styles.tabs')
+@include('extranet::front.partials.styles.simple-button')
+@include('extranet::front.partials.styles.action-list')
 
 @if($frontFont)
   <style>

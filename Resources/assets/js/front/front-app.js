@@ -27,10 +27,14 @@ require('./components/Widgets/ImageText/ImageTextLinkContainer');
 require('./components/Widgets/ImageText/ImageTextLinkList');
 require('./components/Widgets/ImageText/ImageTextTitleDocuments');
 require('./components/Widgets/ImageText/ImageTextTitleDocumentsContainer');
-
 require('./components/Widgets/TotalBoxPrice');
+require('./components/Widgets/Action/ActionContainer');
+require('./components/Widgets/Action/ActionList');
+require('./components/Widgets/SimpleButton');
+
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');
 require('./components/Widgets/Lists/TableList/TableList');
- 
+require('./components/Widgets/Lists/Chat/Chat');
+require('./components/Widgets/TypologyLast');

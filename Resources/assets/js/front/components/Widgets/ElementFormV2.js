@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 
 import FormComponent from './Forms/Form/FormComponent';
 
+import {
+  getParametersFromContentField
+} from './Forms/functions';
+
 export default class ElementForm extends Component {
 
     constructor(props){
@@ -31,6 +35,7 @@ export default class ElementForm extends Component {
             finalRedirectUrl={this.props.finalRedirectUrl}
             onFormFinished={this.handleFormFinished.bind(this)}
             version={"2"}
+            finalRedirectParameters={this.props.finalRedirectParameters ? this.props.finalRedirectParameters : []}
             template={this.state.template}
           />
         );
@@ -44,11 +49,15 @@ if (document.getElementById('element-form-v2')) {
        var elementObject = JSON.parse(atob(element.getAttribute('elementObject')));
        var parameters = element.getAttribute('parameters');
        var finalRedirectUrl = "";
+       var finalRedirectParameters = [];
 
        if(field.fields[1].value !== undefined && field.fields[1].value != null &&
          field.fields[1].value.content !== undefined &&
          field.fields[1].value.content.url !== undefined){
            finalRedirectUrl = field.fields[1].value.content.url;
+
+           //get parameters form url
+          finalRedirectParameters = getParametersFromContentField(field.fields[1].value.content)
        }
 
        ReactDOM.render(<ElementForm
@@ -56,6 +65,7 @@ if (document.getElementById('element-form-v2')) {
            elementObject={elementObject}
            parameters={parameters}
            finalRedirectUrl={finalRedirectUrl}
+           finalRedirectParameters={finalRedirectParameters}
          />, element);
    });
 }

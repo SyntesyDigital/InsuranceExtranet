@@ -4,6 +4,7 @@
     }
     body #tabsWidget .nav-pills > li.active a{
         background-color: {{$backgroundColorActiveTab}};
+        color: {{$fontColorActiveTab}};
     }
     body #tabsWidget .nav-pills > li:not(.active) a:hover{
         background-color: {{$backgroundHoverColorTab}};

@@ -52,7 +52,7 @@ input UpdateModelProcedureInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     modelProcedures: [ModelProcedure!]!
         @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
 
@@ -65,7 +65,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createModelProcedure(input: CreateModelProcedureInput! @spread): ModelProcedure
         @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelProcedure")
 

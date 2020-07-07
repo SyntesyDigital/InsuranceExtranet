@@ -52,7 +52,7 @@ input UpdateServiceInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     services: [Service!]!
         @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\Service")
 
@@ -63,7 +63,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createService(input: CreateServiceInput! @spread): Service
         @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\Service")
 

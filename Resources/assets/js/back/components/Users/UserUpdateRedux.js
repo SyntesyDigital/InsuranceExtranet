@@ -36,26 +36,22 @@ class UserUpdateRedux extends Component {
 
         super(props);
 
-        this.state = {
-            
-        };
+        this.state = {};
 
         this.props.loadUser(this.props.userId);
     }
 
-    
+
     // ==============================
     // OnEvents
     // ==============================
 
     onRoleUpdate(role, value) {
-        console.log("onRoleUpdate :: ", role, value);
-        this.props.updateRole(role, value);
+        //this.props.updateRole(this.props.userId, role, value);
     }
 
     onPermissionUpdate(permission, e) {
-        console.log("onPermissionUpdate :: ", permission, e.target.checked);
-        this.props.updateUserPermission(permission, e.target.checked);
+        this.props.updateUserPermission(this.props.userId, permission, e.target.checked);
     }
 
     // ==============================
@@ -63,16 +59,21 @@ class UserUpdateRedux extends Component {
     // ==============================
 
     handlePermissionInfo(permission) {
-        console.log("handlePermissionInfo :: ", permission);
     }
 
     handleRoleChange(role, index, name, value) {
-        this.props.updateRole(role, value, index);
-        console.log("handleRoleChange :: (role, name, value)", role, name, value);
+        let roles = this.props.form.user.roles.map(role => role.id);
+
+        if(value) {
+            roles.push(role.id);
+        } else {
+            roles.splice(roles.indexOf(role.id));
+        }
+        
+        this.props.updateRole(this.props.userId, roles, value);
     }
 
     handlePermissionChange(permission, e) {
-        console.log("handlePermissionChange :: (value,permission)", e.target.checked, permission);
     }
 
     renderGroups() {
@@ -87,33 +88,32 @@ class UserUpdateRedux extends Component {
         );
     }
 
-    renderPermissions(permissions) {
-        if (permissions === undefined)
-            return null;
-
-        return permissions.map((item, index) =>
-            <div className="col-md-4">
-                <div className="container-checkbox">
-                    <Checkbox
-                        key={item.id}
-                        title={item.name}
-                        iconEdit={'far fa-question-circle'}
-                        isEdit={true}
-                        value={item.value}
-                        onClick={this.handlePermissionInfo.bind(this, item)}
-                        onChange={this.onPermissionUpdate.bind(this, item)}
-                    />
+    renderPermissions(permissions) {        
+        return permissions === undefined 
+            ? null : 
+            permissions.map((item, index) =>
+                <div className="col-md-4">
+                    <div className="container-checkbox">
+                        <Checkbox
+                            key={item.id}
+                            title={item.name}
+                            iconEdit={'far fa-question-circle'}
+                            isEdit={true}
+                            value={item.value}
+                            onClick={this.handlePermissionInfo.bind(this, item)}
+                            onChange={this.onPermissionUpdate.bind(this, item)}
+                        />
+                    </div>
                 </div>
-            </div>
-        );
+            );
     }
 
-    renderRoles() {
+    renderRoles() {         
         return this.props.form.roles.map((item, index) =>
             <ToggleField
                 key={item.id}
                 label={item.name}
-                checked={item.value}
+                checked={this.props.form.user.roles.filter(role => role.id == item.id).length > 0 ? true : false}
                 name={item.identifier}
                 onChange={this.handleRoleChange.bind(this, item, index)}
             />
@@ -128,19 +128,15 @@ class UserUpdateRedux extends Component {
                     title={this.props.form.user.lastname}
                     backRoute={routes['extranet.users.index']}
                 >
-            
                 </BarTitle>
+
                 <div className="container rightbar-page">
                     <div className="col-md-9 page-content form-fields">
-
                         {this.renderGroups()}
-
                     </div>
 
                     <div className="sidebar">
-
                         {this.renderRoles()}
-
                     </div>
                 </div>
             </div>
@@ -162,11 +158,11 @@ const mapDispatchToProps = dispatch => {
         loadUser: (userId) => {
             return dispatch(loadUser(userId));
         },
-        updateUserPermission: (permission, value) => {
-            return dispatch(updateUserPermission(permission, value));
+        updateUserPermission: (userId, permission, value) => {
+            return dispatch(updateUserPermission(userId, permission, value));
         },
-        updateRole: (role, value, index) => {
-            return dispatch(updateRole(role, value, index));
+        updateRole: (userId, role, enabled) => {
+            return dispatch(updateRole(userId, role, enabled));
         },
     }
 }

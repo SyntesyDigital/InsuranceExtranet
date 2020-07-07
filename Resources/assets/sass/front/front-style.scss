@@ -56,6 +56,7 @@ $bootstrap-sass-asset-helper: true;
 
 @import 'widgets/paginator';
 @import 'widgets/lists';
+@import 'widgets/chat';
 @import 'widgets/filter-bar';
 @import 'widgets/modal-table-component';
 @import 'widgets/form-button';
@@ -73,6 +74,9 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/action-button';
 @import 'widgets/tabs';
 @import 'widgets/total-box-price';
+@import 'widgets/simple-button';
+@import 'widgets/action-list';
+@import 'widgets/typology-last';
 
 @import 'env-bar';
 
@@ -85,6 +89,10 @@ $bootstrap-sass-asset-helper: true;
 @import 'text-field';
 @import 'yes-no-field';
 @import 'modal-add-document';
+
+// Contents
+@import 'contents/actualites';
+
 
 
 

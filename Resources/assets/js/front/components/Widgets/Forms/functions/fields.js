@@ -232,6 +232,9 @@ export function processObjectValue(object,values,formParameters) {
     else if(defaultValue == "_contentType"){
       return values['_contentType'] ? values['_contentType'] : '';
     }
+    else if(defaultValue == "_docName"){
+      return values['_docName'] ? values['_docName'] : '';
+    }
     else if(formParameters[defaultValue] !== undefined){
       //check parameters
 
@@ -526,11 +529,15 @@ function checkConditionAccepted(condition,formParameters,values) {
     //it is a parameter
 
     //condition parameter don't exist in form
-    if(formParameters['_'+condition.name] === undefined){
+    if(formParameters['_'+condition.name] !== undefined){
+      formValue = formParameters['_'+condition.name];
+    }
+    else if(formParameters[condition.name] !== undefined){
+      formValue = formParameters[condition.name];
+    }
+    else {
       return false;
     }
-
-    formValue = formParameters['_'+condition.name];
   }
 
   if(formValue == null)

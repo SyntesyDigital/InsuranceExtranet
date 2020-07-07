@@ -1,0 +1,47 @@
+body {
+  .action-list-widget {
+    #actionList {
+      .action-list-container {
+        display: flex;
+        justify-content: center;
+        &.open {
+          .btn-action {
+            background: transparent;
+            border: unset;
+          }
+        }
+        label {
+          margin-top: 15px;
+          cursor: pointer;
+        }
+        .btn-action {
+          border-radius: 50%;
+          width: 47px;
+          height: 47px;
+          background: #ffffff 0% 0% no-repeat padding-box;
+          border: 1px solid #004161;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 25px;
+          text-decoration: none !important;
+          i {
+            font-size: 18px;
+          }
+        }
+        ul {
+          box-shadow: none;
+          left: unset;
+          .simple-button-container{
+            text-align: left;
+          }
+          a {
+            &.btn {
+              background: transparent;
+            }
+          }
+        }
+      }
+    }
+  }
+}

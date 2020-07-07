@@ -5,26 +5,54 @@
     .container {
       &-title {
         clear: both;
-        min-height: 60px;
-        @include line-clamp(2,45);
-        padding: 0px 25px;
         margin-bottom: 20px;
         margin-top: 25px;
-        h4{
+        margin-right: 25px;
+        margin-left: 25px;
+        border-bottom: 1.5px solid #C9D200;
+        h4 {
           font-weight: 400;
+          @include line-clamp(2, 45);
         }
       }
       &-description {
         padding: 0px 25px;
         line-height: 25px;
         min-height: 50px;
-        @include line-clamp(2,35);
+        @include line-clamp(2, 35);
         margin-bottom: 20px;
       }
-      &-image{
-        img{
+      &-image {
+        position: relative;
+        img {
           border-top-left-radius: 20px;
           border-top-right-radius: 20px;
+        }
+        a {
+          width: 100%;
+          text-transform: unset;
+          transition: 0.5s;
+          position: absolute;
+          @include line-clamp(1, 38);
+          position: absolute;
+          bottom: 0;
+          &:before{
+            content: " ";
+            position: absolute;
+            width: 30px;
+            left: 5%;
+            top: 8px;
+            height: 22px;
+            // background-image: url(/images/bulle-bleue.svg?a3bcabb…);
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+          &.btn-primary {
+            padding: 10px 12px;
+            img {
+              width: 35px;
+            }
+          }
         }
       }
     }
@@ -36,16 +64,10 @@
       margin-bottom: 20px;
       text-transform: unset;
       transition: 0.5s;
-      @include line-clamp(1,38);
-      &.btn-primary{
-        padding: 0px 12px;
-        img{
-          width: 35px;
-        }
-      }
-      &.btn-default{
+      @include line-clamp(1, 38);
+      &.btn-default {
         padding: 10px 12px;
-        i{
+        i {
           display: none;
         }
       }

@@ -221,7 +221,7 @@ class PageItem extends Component {
 
   renderPreview() {
 
-    console.log("renderPreview :: ",this.props.data.field);
+    //console.log("renderPreview :: ",this.props.data.field);
 
     switch (this.props.data.field.type) {
       

@@ -2,18 +2,20 @@ type Mutation
 type Query
 
 #import user.graphql 
-#import permission.graphql 
-#import role.graphql 
 #import auth.graphql 
 #import language.graphql 
 
-## Element Model Library 
+# PERMISIONS / ROLES
+#import ../../Services/RolesPermissions/GraphQL/schema/role.graphql 
+#import ../../Services/RolesPermissions/GraphQL/schema/permission.graphql 
+
+## ELEMENT MODEL LIBRARY
 #import ../../Services/ElementModelLibrary/GraphQL/schema/service.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/modelprocedure.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/modelfield.graphql 
 #import ../../Services/ElementModelLibrary/GraphQL/schema/elementmodel.graphql 
 
-# Element Template 
+# ELEMENT TEMPLATE
 #import ../../Services/ElementTemplate/GraphQL/schema/elementtemplate.graphql 
 #import ../../Services/ElementTemplate/GraphQL/schema/elementtemplatefield.graphql 
 

@@ -13,12 +13,16 @@
   padding-bottom:20px;
 }
 
+.element-table-container .element-table-container-head i{
+  color:{{$elementHeadIconColor}};
+}
+
 .element-table-container .element-collapsable.element-table-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
   font-size: {{$titleCollapsableFontSize}};
   padding-bottom:10px;
-  padding-left: 35px;
+  padding-left: 45px;
 }
 
 .element-table-container .element-collapsable.element-table-container-head{
@@ -86,5 +90,30 @@ body .element-table-container .rt-thead .rt-th.-cursor-pointer:before, body .ele
 body .element-table-container .rt-thead.-filters input:focus{
     border: 1px solid {{$inputColor}};
 }
+@php
+@endphp
+@if (isset($alignFilterTable) && $alignFilterTable == 'top')
+  body .react-table-container .ReactTable .rt-thead.-filters{
+    order: 1;
+  }
+  body .react-table-container .ReactTable .rt-thead.-header{
+    order: 2;
+  }
+@endif
+
+@if (isset($alignFilterTable) && $alignFilterTable == 'bottom')
+  body .react-table-container .ReactTable .rt-thead.-filters{
+    order: 2;
+  }
+  body .react-table-container .ReactTable .rt-thead.-filters{
+    order: 1;
+  }
+@endif
+
+@if (isset($lowerUpperCaseHeaderTable))
+  body .react-table-container .ReactTable .rt-thead .rt-resizable-header-content{
+    text-transform: {{$lowerUpperCaseHeaderTable}}
+  }
+@endif
 
 </style>

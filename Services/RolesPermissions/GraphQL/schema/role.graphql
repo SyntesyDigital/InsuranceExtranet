@@ -5,8 +5,8 @@ type Role {
     id: ID!
     name: String!
     identifier: String!
-    icon: String!
-    default : Boolean!
+    icon: String
+    default: Boolean!
     description: String
     permissions: [Permission!]! @belongsToMany
     users: [User!]! @belongsToMany
@@ -18,8 +18,8 @@ type Role {
 input CreateRoleInput {
     name: String!
     identifier: String!
-    icon: String!
-    default : Boolean!
+    icon: String
+    default: Boolean
     description: String
     permissions: PermissionsInput
 }
@@ -29,7 +29,7 @@ input UpdateRoleInput {
     name: String
     identifier: String
     icon: String
-    default : Boolean
+    default: Boolean
     description: String
     permissions: PermissionsInput
 }
@@ -50,12 +50,10 @@ input PermissionsInput {
     upsert: [UpdatePermissionInput!]
 }
 
-
-
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     roles: [Role!]!
         @all(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 
@@ -66,7 +64,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createRole(input: CreateRoleInput! @spread): Role
         @create(model: "Modules\\Extranet\\Services\\RolesPermissions\\Entities\\Role")
 

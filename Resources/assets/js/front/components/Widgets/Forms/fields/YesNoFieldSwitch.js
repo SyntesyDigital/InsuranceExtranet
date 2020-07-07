@@ -84,6 +84,7 @@ export default class YesNoFieldSwitch extends Component {
         return (
             <FormGroup className="yesNoFieldSwitch">
                 <Typography component="div">
+                    {this.props.label ? <label class="bmd-label-floating label-question" style={{minWidth: '260px'}}>{this.props.label}</label> : null}
                     <label className="bmd-label-floating" htmlFor={this.props.identifier}>{this.props.label1}</label>
                     <Grid item style={styles}>
                         <SwitchYesNo id={this.props.identifier} checked={this.props.checked} onChange={this.handleChange.bind(this)} name={this.props.name} />
@@ -97,6 +98,7 @@ export default class YesNoFieldSwitch extends Component {
 
 YesNoFieldSwitch.propTypes = {
     identifier: PropTypes.string.isRequired,
+    label: PropTypes.string,
     label1: PropTypes.string,
     label2: PropTypes.string,
     onChange: PropTypes.func,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 import ListItem from './../Common/ListItem';
 
 export default class TypologyLast extends Component {
@@ -10,34 +9,25 @@ export default class TypologyLast extends Component {
         super(props);
 
         this.state = {
-            field : props.field ? JSON.parse(atob(props.field)) : '',
-            items : null
+            typology_id : this.props.typology_id ? this.props.typology_id : null,
+            size: this.props.size ? this.props.size : null,
+            contents: null,
         };
     }
 
     componentDidMount() {
 
-      var self = this;
-      const field = this.state.field;
-
-      const typology = field.settings.typology;
-      const category = field.settings.category;
-      const size = parseInt(field.settings.maxItems);
-
-      const categoryQuery = category != null ? "&category_id="+category : '';
-      const sizeQuery = size != null && !isNaN(size) ? "&size="+size : '';
-
-      axios.get(ASSETS+'api/contents?typology_id='+typology+categoryQuery+sizeQuery)
+      axios.get(ASSETS+'api/contents?accept_lang='+LOCALE+'&order=date,desc&typology_id='+this.state.typology_id)
         .then(response => {
-          var items = [];
+          var contents = [];
 
           if(response.status == 200 && response.data.data !== undefined
             && response.data.data.length > 0){
-                items = response.data.data;
+              contents = response.data.data;
           }
 
-          self.setState({
-            items : items
+          this.setState({
+            contents : contents
           });
 
         })
@@ -47,50 +37,43 @@ export default class TypologyLast extends Component {
 
     }
 
-    renderItems() {
+    renderContents() {
 
       var result = [];
+      const { contents } = this.state;
 
-      const {items} = this.state;
-
-      for(var key in items){
-        console.log("TypologyLast => ",items[key]);
-
+      for(var key in contents){
         result.push(
           <li key={key}>
             <ListItem
-              field={items[key]}
+              field={contents[key]}
             />
           </li>
         );
       }
-
       return result;
+
     }
 
     render() {
-
         return (
             <div>
               {window.localization['MENU_FOOTER_1']}
-              {this.state.items == null &&
+              {this.state.contents == null &&
                 <p>
                   {/*Carregant dades...*/}
                 </p>
               }
-
-              {this.state.items != null && this.state.items.length == 0 &&
+              {this.state.contents != null && this.state.contents.length == 0 &&
                 <p>
                   {window.localization['GENERAL_WIDGET_LAST_TYPOLOGY_EMPTY']}
                 </p>
               }
-
-              {this.state.items != null && this.state.items.length > 0 &&
+              {this.state.contents != null && this.state.contents.length > 0 &&
                 <ul>
-                  {this.renderItems()}
+                  {this.renderContents()}
                 </ul>
               }
-
             </div>
         );
     }
@@ -98,12 +81,16 @@ export default class TypologyLast extends Component {
 
 if (document.getElementById('typology-last')) {
 
-    document.querySelectorAll('[id=typology-last]').forEach( element => {
+    var typologyLast = document.querySelectorAll('[id=typology-last]');
+    typologyLast = [].slice.call(typologyLast);
+    typologyLast.forEach( element => {
 
-      var field = element.getAttribute('field');
+      var size = element.getAttribute('size');
+      var typology_id = element.getAttribute('typology_id');
 
       ReactDOM.render(<TypologyLast
-          field={field}
+          size={size}
+          tipology_id={typology_id}
         />, element);
     });
 }

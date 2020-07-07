@@ -38,6 +38,10 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+import { default as UserSessionService } from './../services/UserSessionService';
+
+window.userSession = new UserSessionService(typeof SESSION !== 'undefined' ? SESSION : {});
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

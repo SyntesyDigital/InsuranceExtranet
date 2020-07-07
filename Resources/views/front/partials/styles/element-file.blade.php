@@ -11,6 +11,10 @@
   padding-bottom:10px;
 }
 
+.element-file-container .element-file-container-head i{
+  color:{{$elementHeadIconColor}};
+}
+
 .element-file-container .element-collapsable.element-file-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
@@ -31,12 +35,13 @@
 
 .element-collapsable{
   cursor: pointer;
+  text-transform: {{$elementHeadTextTransform}} !important;
 }
 .element-collapsable.collapsed:before{
-  color:{{$elementHeadColor}};
+  color:{{$elementHeadIconColor}};
 }
 .element-collapsable:before{
-  color:{{$elementHeadColor}};
+  color:{{$elementHeadIconColor}};
 }
 
 .more-btn{

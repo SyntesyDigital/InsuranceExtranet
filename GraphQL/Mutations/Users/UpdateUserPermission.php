@@ -22,7 +22,10 @@ class UpdateUserPermission
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $user = User::find($args['user_id']);
-        $permission = $args['permission_id'] ? Permission::find($args['permission_id']) : null;
+
+        $permission = $args['permission_id']
+            ? Permission::find($args['permission_id'])
+            : null;
 
         if (isset($args['identifier'])) {
             $permission = Permission::where('identifier', $args['identifier'])->first();
@@ -37,6 +40,6 @@ class UpdateUserPermission
             isset($args['enabled']) ? $args['enabled'] : true
         );
 
-        return $user;
+        return $user->getPermissions();
     }
 }

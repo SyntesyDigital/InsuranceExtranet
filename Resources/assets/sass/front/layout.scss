@@ -413,6 +413,11 @@ body {
         &.collapsed {
             margin-left: 100px;
         }
+        &.jailed {
+            margin-left: 0px;
+            margin-top: 0px;
+            padding-bottom: 10px;
+        }
     }
     .sidebar {
         width: 230px;

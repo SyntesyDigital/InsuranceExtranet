@@ -17,7 +17,6 @@
     <div class="row justify-content-center">
         <div class="login-box-container">
           <div class="login-box">
-
             <div class="logo-container">
               @if(isset($storedStylesFront['loginLogo']) && isset($storedStylesFront['loginLogo']->value))
                 <img style="max-height: 75px;" src="/{{$storedStylesFront['loginLogo']->value->urls['original']}}" alt="Logo" />
@@ -27,12 +26,9 @@
                 <img style="max-height: 75px;" src="{{asset('modules/architect/images/logo.png')}}" alt=""/>
               @endif
             </div>
-
             @section('form')
-
           </div>
         </div>
-
     </div>
 </div>
 @endsection

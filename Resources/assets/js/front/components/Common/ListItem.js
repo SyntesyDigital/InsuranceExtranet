@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
 import News from './../Typologies/News';
 
 class ListItem extends Component {
@@ -8,13 +6,12 @@ class ListItem extends Component {
     constructor(props)
     {
         super(props);
-
     }
 
     renderItem() {
 
       switch(this.props.field.typology.identifier){
-        case 'news' :
+        case 'actualites' :
           return (
               <News
                 field={this.props.field}

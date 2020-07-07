@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { render } from 'react-dom';
 import {connect} from 'react-redux';
 
+import SettingsPreview from '../Previews/SettingsPreview';
+
 import {
   selectItem,
   deleteRow,
@@ -301,6 +303,10 @@ class Row extends Component {
                 <a href="" className="btn btn-link" onClick={this.toggleColumns}>
                   <i className="fa fa-columns"></i>
                 </a>
+
+                <SettingsPreview
+                  field={this.props.data}
+                />
               </div>
             }
 

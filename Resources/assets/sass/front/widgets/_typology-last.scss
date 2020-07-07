@@ -1,0 +1,33 @@
+.typology-last {
+  .news {
+    display: inline-flex;
+    .container {
+      &-title {
+        flex: 2;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+        a{
+          font-size: 16px;
+        }
+        p{
+          font-size: 16px;
+        }
+      }
+      &-image {
+        flex: 1;
+        margin: auto;
+        text-align: center;
+        img{
+            border-radius: 8px;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width: 992px){
+    .sidebar-last-posts{
+        display: none;
+    }
+}

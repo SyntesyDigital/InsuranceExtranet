@@ -225,3 +225,17 @@
     @include round($button-radius);
   }
 }
+
+.bootstrap-modal {
+  &.modal {
+    z-index:1100;
+
+    label {
+      display:block;
+    }
+  }
+
+  button {
+    border-radius: 20px;
+  }
+}

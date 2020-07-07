@@ -328,6 +328,24 @@ class FormComponent extends Component {
         }
     }
 
+    /**
+     * Function to check if item is visible or not depending on the values and the parameters
+     * @param {*} settings 
+     */
+    checkVisibility(field) {
+
+      //parameters update after submit and process forms
+      var visibility = isVisible(
+          field,
+          this.props.parameters.formParameters,
+          this.state.values
+      );
+
+      //console.log("checkVisibility :: (field,parameters,values,return)",field,this.props.parameters.formParameters,this.state.values,visibility);
+
+      return visibility;
+    }
+
     renderTemplate() {
 
       return (
@@ -338,6 +356,7 @@ class FormComponent extends Component {
             {this.state.layout != null && 
                 <LayoutParser 
                     layout={this.state.layout}
+                    checkVisibility={this.checkVisibility.bind(this)}
                     fieldRender={this.fieldRender.bind(this)}
                 />
             }
@@ -391,7 +410,8 @@ class FormComponent extends Component {
         window.location.href = this.props.finalRedirectUrl+"?"+
           getUrlParameters(
             this.props.parameters.formParameters,
-            true
+            true,
+            this.props.finalRedirectParameters
           );
       }
       else {

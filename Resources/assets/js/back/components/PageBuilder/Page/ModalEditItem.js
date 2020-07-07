@@ -104,6 +104,7 @@ class ModalEditItem extends Component {
 
       field = this.processProps(nextProps);
       //update widget settings
+      console.log("updateSettingsFromConfig :: start (field)",field);
       field = this.updateSettingsFromConfig(field);
 
     } else {
@@ -131,14 +132,9 @@ class ModalEditItem extends Component {
 
     var config = null;
 
-    if (field.type == "widget") {
-      config = WIDGETS[field.label];
-    }
-    else {
-      config = FIELDS[field.label];
-    }
+    config = ELEMENT_TEMPLATE_FIELDS[field.type.toUpperCase()];
 
-    if (config == null) {
+    if (config == null || config === undefined) {
       return field;
     }
 
@@ -159,8 +155,6 @@ class ModalEditItem extends Component {
         }
       }
     }
-
-    //console.log("updateSettingsFromConfig :: ",widgetConfig,field);
 
     return field;
   }
@@ -498,7 +492,7 @@ class ModalEditItem extends Component {
 
   renderSettings() {
 
-    console.log("ModalEditItem :: renderSettings!", this.state.field);
+    //console.log("ModalEditItem :: renderSettings!", this.state.field);
     const data = this.state.field != null ? this.state.field.data : null;
 
     return (
@@ -566,7 +560,8 @@ class ModalEditItem extends Component {
           inputLabel="Définir l'état par défaut."
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label="Afficher selon conditions"
-          parameters={this.props.app.parametersList}
+          parameters={this.props.parameters}
+          fields={this.props.fields}
         />
 
         <SelectorSettingsField

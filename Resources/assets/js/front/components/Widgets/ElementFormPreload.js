@@ -8,6 +8,10 @@ import configureStore from './Forms/Form/configureStore';
 let store1 = configureStore();
 let store2 = configureStore();
 
+import {
+  getParametersFromContentField
+} from './Forms/functions';
+
 export default class ElementFormPreload extends Component {
 
     constructor(props)
@@ -70,6 +74,7 @@ export default class ElementFormPreload extends Component {
               elementObject={this.props.elementObject}
               parameters={this.props.parameters}
               finalRedirectUrl={this.props.finalRedirectUrl}
+              finalRedirectParameters={this.props.finalRedirectParameters ? this.props.finalRedirectParameters : []}
               onFormFinished={this.handleFormFinished.bind(this)}
               version={"2"}
               store={store2}
@@ -92,11 +97,15 @@ if (document.getElementById('element-form-preload')) {
 
        var parameters = element.getAttribute('parameters');
        var finalRedirectUrl = "";
+       var finalRedirectParameters = [];
 
        if(field.fields[1].value !== undefined && field.fields[1].value != null &&
          field.fields[1].value.content !== undefined &&
          field.fields[1].value.content.url !== undefined){
            finalRedirectUrl = field.fields[1].value.content.url;
+
+           //get parameters form url
+          finalRedirectParameters = getParametersFromContentField(field.fields[1].value.content)
        }
 
        ReactDOM.render(<ElementFormPreload
@@ -105,6 +114,7 @@ if (document.getElementById('element-form-preload')) {
            elementPreloadObject={elementPreloadObject}
            parameters={parameters}
            finalRedirectUrl={finalRedirectUrl}
+           finalRedirectParameters={finalRedirectParameters}
          />, element);
    });
 }
