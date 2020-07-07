@@ -64,12 +64,11 @@
               model="{{base64_encode(json_encode($model))}}"
               parameters="{{$parameters}}"
             >
-              XXXX €
             </div>
           </div>
           <div class="col-md-8 nopadding container-subtitle">
             @if(isset($subTitle) && $subTitle != "") 
-              <p><span class="subtitle"> {{$subTitle}} XXX €</span></p>
+              <p><span class="subtitle"> {{$subTitle}} 500 €</span></p>
             @endif
           </div>
         </div>
