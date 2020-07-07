@@ -205,6 +205,7 @@
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+    $labelRadioFieldFontSize = isset($storedStylesFront['labelRadioFieldFontSize']) ? $storedStylesFront['labelRadioFieldFontSize']->value.'px' : '14px';
 
     $labelInputColor = isset($storedStylesFront['labelInputColor']) ? $storedStylesFront['labelInputColor']->value : $primaryColor;
     $labelInputFontSize = isset($storedStylesFront['labelInputFontSize']) ? $storedStylesFront['labelInputFontSize']->value.'px' : '14px';
