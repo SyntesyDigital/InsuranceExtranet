@@ -18,20 +18,21 @@
         color: {{$descColorImgTxtTitleDocuments}};
     }
     body .ImageTextTitleDocuments .container-image-text-title-documents .btn-primary{
-        color: {{$buttonColorImgTxtTitleDocuments}};
         background-color: {{$buttonBackgroundColorImgTxtTitleDocuments}};
         border: 1px solid {{$buttonBorderColorImgTxtTitleDocuments}};
         border-radius: {{$borderRadiusButtons1ImgTxtTitleDocuments}};
+    }
+    body .ImageTextTitleDocuments .container-image-text-title-documents .btn-primary h5{
+        font-size: {{$button1FontSizeImgTitleDocuments}};
+        color: {{$buttonColorImgTxtTitleDocuments}};
         font-weight: {{$titleFontWeightImgTitleDocuments}};
     }
-    body .ImageTextTitleDocuments .container-image-text-title-documents .btn-primary{
-        font-size: {{$button1FontSizeImgTitleDocuments}};
-    }
-    body .ImageTextTitleDocuments .container-image-text-title-documents .btn-default{
+    body .ImageTextTitleDocuments .container-image-text-title-documents .btn-default h5{
         font-size: {{$button2FontSizeImgTitleDocuments}};
+        color: {{$button2ColorImgTxtTitleDocuments}};
+
     }
     body .ImageTextTitleDocuments .container-image-text-title-documents .btn-default{
-        color: {{$button2ColorImgTxtTitleDocuments}};
         background-color: {{$button2BackgroundColorImgTxtTitleDocuments}};
         border: 1px solid {{$button2BorderColorImgTxtTitleDocuments}};
         border-radius: {{$borderRadiusButtons2ImgTxtTitleDocuments}};
