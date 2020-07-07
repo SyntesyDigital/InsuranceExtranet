@@ -95,4 +95,7 @@ body .element-form .container-radio-field .bordered{
 body .element-form .container-radio-field .MuiFormControlLabel-root{
   border-radius: {{$borderRadiusInput}};
 }
+body .element-form .container-radio-field .MuiFormControlLabel-root span.MuiFormControlLabel-label{
+  font-size: {{$labelRadioFieldFontSize}};
+}
 </style>
