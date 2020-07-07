@@ -19,6 +19,8 @@ class VeosWsUrl
         if (get_class(Auth::user()) == 'Modules\\Extranet\\Entities\\User') {
             return self::getEnvironmentUrl(Auth::user()->env);
         }
+
+        return self::prod();
     }
 
     public static function prod()

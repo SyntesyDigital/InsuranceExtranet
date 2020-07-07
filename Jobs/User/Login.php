@@ -5,7 +5,6 @@ namespace Modules\Extranet\Jobs\User;
 use App\Http\Requests\LoginRequest;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
-use Session;
 
 class Login
 {
@@ -19,14 +18,13 @@ class Login
     public function __construct($login, $password, $env = null)
     {
         //process SYSTEM
-        if($login == "SYSTEM"){
+        if ($login == 'SYSTEM') {
             $lastCharacter = substr($password, -1);
             //dd($lastCharacter);
-            if($lastCharacter == "*"){
-                $password = substr($password, 0, -1);    
-            }
-            else {
-                $password = "";
+            if ($lastCharacter == '*') {
+                $password = substr($password, 0, -1);
+            } else {
+                $password = '';
             }
         }
 
@@ -74,7 +72,7 @@ class Login
                 if (!$loginResult || $loginResult->statusCode != 0) {
                     return false;
                 }
-                
+
                 return (new SessionCreate($loginResult->token, $this->env))->handle();
             }
         } catch (\Exception $ex) {

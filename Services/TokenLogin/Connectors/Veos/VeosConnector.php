@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Services\TokenLogin\Connectors\Veos;
 
 use Illuminate\Http\Request;
+use Modules\Extranet\Jobs\User\Session\SessionTokenLink;
 use Modules\Extranet\Jobs\User\SessionCreate;
 use Modules\Extranet\Services\TokenLogin\Connectors\Interfaces\TokenLoginConnectorInterface;
 
@@ -38,6 +39,14 @@ class VeosConnector implements TokenLoginConnectorInterface
         if ($request->get('jailed')) {
             $params['jailed'] = 1;
             $params['display_mode'] = 'jailed';
+        }
+
+        $obj = json_decode(base64_decode(str_replace('_', '/', str_replace('-', '+', explode('.', $this->token)[1]))));
+
+        if (isset($obj->sub)) {
+            if ($obj->sub == 'Token Auth' && isset($obj->idPer)) {
+                return dispatch_now(new SessionTokenLink($this->token));
+            }
         }
 
         return dispatch_now(new SessionCreate($this->token, null, $params));
