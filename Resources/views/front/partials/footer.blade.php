@@ -2,6 +2,7 @@
 
 @php
 	$template = collect(\Request::segments())->implode('-');
+	$storedStylesFront = \Cache::get('frontStyles');
 @endphp
 
 @if($template != "login")
@@ -10,13 +11,15 @@
 
 	<div>
 		<div class="row">
-		@include ('extranet::front.partials.menu_footer',
-				["menu" => get_menu('footer')]
-			)
-
+			@if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true)
+				@else
+				@include ('extranet::front.partials.menu_footer',
+					["menu" => get_menu('footer')]
+				)
+			@endif
 			&nbsp;&nbsp;&nbsp;
 			<div class="version" style="">
-				Architect v1.19.0@dev v1.19.17@dev
+				Architect v1.19.0@dev v1.19.18@dev
 				
 			</div>
 	</div>

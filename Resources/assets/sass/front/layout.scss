@@ -503,6 +503,21 @@ body {
         &.initial {
             width: 230px !important;
         }
+        .footer-menu-sidebar{
+            position: absolute;
+            bottom: 30px;
+            ul{
+                display: -webkit-inline-box;
+            }
+            .menu-item{
+                height: unset;
+                line-height: unset;
+                &:hover{
+                    border-left: unset;
+                    padding-left: unset;
+                }
+            }
+        }
     }
     .menu-container {
         height: 30px;
