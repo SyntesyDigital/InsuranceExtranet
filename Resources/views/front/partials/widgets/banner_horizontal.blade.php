@@ -35,14 +35,18 @@
         @endif
       </div>
       <div class="col-sm-9 text-static-banner">
-        @if(isset($subtitle))
-          <p>{{$subtitle}}</p>
-        @endif
-        @if(isset($title))
-          <h4>{{$title}}</h4>
-        @endif
-          <object type="image/svg+xml" data="{{asset('modules/architect/images/next.svg')}}"></object>
+        <div class="wrapper-banner">
+          @if(isset($subtitle))
+            <p>{{$subtitle}}</p>
+          @endif
+          @if(isset($title))
+            <h4>{{$title}}</h4>
+          @endif
+        </div>
+        
+        <object type="image/svg+xml" data="{{asset('img/architect/images/next.svg')}}"></object>
       </div>
+      <div class="wrapper-arrow"></div>
     </div>
     @if(isset($link) && $link != "")
 </a>
