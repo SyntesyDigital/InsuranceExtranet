@@ -37,6 +37,8 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+
+
 import { 
     default as UserSessionService 
 } from './../services/UserSessionService';

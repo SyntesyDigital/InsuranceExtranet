@@ -7,7 +7,7 @@
 @push('javascripts')
 <script>
 var routes = {
-    'extranet.elements-models.forms.index' : "{{route('extranet.elements-models.forms.index')}}",
+    'extranet.elements-models.index' : "{{route('extranet.elements-models.index.type', ':type')}}",
     'settings' : "{{route('settings')}}"
 };
 </script>

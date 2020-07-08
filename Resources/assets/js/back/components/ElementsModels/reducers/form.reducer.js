@@ -165,13 +165,22 @@ function formReducer(state = initialState, action) {
     switch (action.type) {
 
         case INIT_CREATE : 
+            form.type = action.payload.type;
             return {
-                ...state
+                ...state,
+                form: form
             }
+
         case INIT_STATE:
 
-            //console.log("INIT_STATE from Elements Models=> ", action.data);
-
+            if(action.payload.type == "table") {
+                return {
+                    ...state,
+                    form: action.payload,
+                    currentProcedure: action.payload.procedures[0]
+                }
+            }
+            
             return {
                 ...state,
                 form : action.payload

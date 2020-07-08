@@ -93,7 +93,7 @@ class ModalEditObject extends Component {
 
         this.props.saveProcedureObject(
             this.props.form.form.procedures,
-            this.props.form.form.procedures[index],
+            this.props.form.form.procedures[0],
             this.state.object
         );
 

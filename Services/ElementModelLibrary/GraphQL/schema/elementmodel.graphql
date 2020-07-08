@@ -55,7 +55,7 @@ input UpdateElementModelInput {
 #   QUERY
 ################################
 extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
-    elementModels: [ElementModel!]!
+    elementModels(type: String @eq): [ElementModel!]!
         @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ElementModel")
 
     elementModel(id: ID! @eq): ElementModel

@@ -6,11 +6,14 @@ import ButtonDropdown from '../Layout/ButtonDropdown';
 import FieldList from '../Layout/FieldList';
 import FieldListItem from '../Layout/FieldListItem';
 import InputField from '../Layout/Fields/InputField';
+import SelectField from '../Layout/Fields/SelectField';
 import ModalTestForm from './ModalTestForm';
 import ModalEditProcedures from './ModalEditProcedures';
+import ModalEditObject from './ModalEditObject';
 import BoxAddLarge from '../Layout/BoxAddLarge';
 import IconField from '../Layout/Fields/IconField';
 import { connect } from 'react-redux';
+import api from '../../api/index.js';
 
 import {
     initState,
@@ -21,27 +24,79 @@ import {
     removeProcedure,
     openModalCreateProcedure,
     openModalEditProcedure,
-    
+    openModalEditObject,
+    openModalCreateObject,
+    removeProcedureObject
 } from './actions'
 
-
-
-class FormsUpdateRedux extends Component {
+class ElementsModelsFormRedux extends Component {
 
     constructor(props) {
 
         super(props);
 
         this.state = {
-
+            services: [
+                {
+                    name: 'chargement...',
+                    value: ''
+                }
+            ]
         };
 
-        this.props.initState(this.props.modelId);
+        this.props.initState(this.props.modelId, this.props.type);        
+    }
+
+    componentDidMount() {
+        this.loadServices();
+    }
+
+    // ==============================
+    // Loaders
+    // ==============================
+    loadServices() {
+        var _this = this;
+        api.services.getAll()
+            .then(function(data){
+                var services = data.data.services.map((item) => {
+                    return {
+                        name : item.name + ' - ' + item.created_at + '',
+                        value : item.id
+                    }
+                }).sort(function(a, b){
+                    if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+                    if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+                    return 0;
+                });
+
+                services.unshift({
+                    name : '---',
+                    value : ''
+                });
+
+                _this.setState({
+                    services : services
+                })
+            });
     }
 
     // ==============================
     // Handlers
     // ==============================
+
+    // FIELDS
+    handleRemoveObject(procedure, object){
+        this.props.removeProcedureObject(
+            this.props.form.form.procedures,
+            procedure, 
+            object
+        );
+    }
+
+    handleEditObject(procedure, object){
+        this.props.openModalEditObject(procedure, JSON.parse(JSON.stringify(object)));
+    }
+    //
     
     handleEditProcedure(procedure){
         console.log("handleEditProcedure", procedure);
@@ -52,9 +107,21 @@ class FormsUpdateRedux extends Component {
         this.props.openModalEditProcedure(procedure);
     }
 
+    handleModalCloseEditObject() {
+        this.setState({
+            displayEditObject: false,
+            displayEditProcedures: true,
+        });
+    }
+
+
     handleCreateProcedure(){
         console.log("handleCreateProcedure");
         this.props.openModalCreateProcedure(this.props.form.form.procedures);
+    }
+
+    handleCreateProcedureObject(){
+        this.props.openModalCreateObject();
     }
 
     handleRemoveProcedure(procedure){
@@ -95,6 +162,24 @@ class FormsUpdateRedux extends Component {
               }
             });
     }
+
+    handleServiceChange(name,value) {
+
+        var service = null;
+        for(var key in this.state.services){
+            if(this.state.services[key].value == value){
+                service = this.state.services[key];
+                service.id = value;
+            }
+        }
+
+        const {procedure} = this.state;
+        procedure[name] = service;
+        this.setState({
+            procedure : procedure
+        });
+    }
+
 
     handleSubmit() {
         console.log("handleSubmit");
@@ -153,6 +238,44 @@ class FormsUpdateRedux extends Component {
     // ==============================
     // Renderers
     // ==============================
+    getTypeIcon(type) {
+        switch(type) {
+            case "INPUT" : 
+                return 'far fa-user'
+            case "SYSTEM" : 
+                return 'fas fa-database'
+            case "CTE" : 
+                return 'fas fa-lock'
+        }
+        return '';
+    }
+
+    renderFields() {
+        let procedure = this.props.form.form.procedures[0];
+
+        const displayObjects = procedure.fields.map((object, index) =>
+            <div key={object.identifier + index} className={object.identifier + index}>
+                <FieldListItem
+                    key={index}
+                    identifier={object.identifier}
+                    index={index}
+                    icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                    icons={[this.getTypeIcon(object.type)]}
+                    label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
+                    labelField={object.name}
+                    isField={true}
+                    onEdit={this.handleEditObject.bind(this, procedure, object)}
+                    onRemove={this.handleRemoveObject.bind(this, procedure, object)}
+                />
+            </div>
+        );
+
+        return (
+            <div>
+                {displayObjects}
+            </div>
+        )
+    }
 
     renderProcedures() {
         
@@ -214,8 +337,21 @@ class FormsUpdateRedux extends Component {
                     display={this.props.form.displayEditProcedures}
                     procedure={this.props.form.currentProcedure}
                     zIndex={10000}
-                    
                 />
+
+                {this.props.form.form.type == "table" && 
+                    <ModalEditObject
+                        id={'modal-edit-object'}
+                        icon={'fas fa-bars'}
+                        size={'medium'}
+                        title={'Object | Configuration'}
+                        display={this.props.form.displayEditObject}
+                        object={this.props.form.currentObject}
+                        procedure={this.props.form.form.procedures[0]}
+                        zIndex={10000}
+                        onModalClose={this.handleModalCloseEditObject.bind(this)}
+                    />
+                }
 
                 <BarTitle
                     icon={this.props.form.form.icon}
@@ -270,12 +406,27 @@ class FormsUpdateRedux extends Component {
 
                         <FieldList>
 
-                            {this.renderProcedures()}
+                            {this.props.form.form.type == "form-v2" && 
+                                this.renderProcedures()
+                            }
 
-                            <BoxAddLarge
-                                title='Ajouter'
-                                onClick={this.handleCreateProcedure.bind(this)}
-                            />
+                            {this.props.form.form.type == "form-v2" && 
+                                <BoxAddLarge
+                                    title='Ajouter'
+                                    onClick={this.handleCreateProcedure.bind(this)}
+                                />
+                            }
+
+                            {this.props.form.form.type == "table" && 
+                                this.renderFields()
+                            }
+
+                            {this.props.form.form.type == "table" && 
+                                <BoxAddLarge
+                                    title='Ajouter un champ'
+                                    onClick={this.handleCreateProcedureObject.bind(this)}
+                                />
+                            }
 
                         </FieldList>
 
@@ -311,6 +462,18 @@ class FormsUpdateRedux extends Component {
                             onChange={this.props.updateField}
                         />
 
+
+                        {this.props.form.form.type == "table" && 
+                            <SelectField
+                                label={'Service'}
+                                value={1}
+                                name={'service'}
+                                arrayOfOptions={this.state.services}
+                                onChange={this.handleServiceChange.bind(this)}
+                                // onChange={this.handleFieldChange.bind(this)}
+                            />
+                        }
+
                     </div>
                 </div>
             </div>
@@ -332,8 +495,8 @@ const mapDispatchToProps = dispatch => {
         // Initial State
         // ==============================
 
-        initState: (modelId) => {
-            return dispatch(initState(modelId));
+        initState: (modelId, type) => {
+            return dispatch(initState(modelId, type));
         },
 
         // ==============================
@@ -376,7 +539,24 @@ const mapDispatchToProps = dispatch => {
             return dispatch(openModalEditProcedure(procedure));
         },
 
+
+        // ==============================
+        // Procedures FIELDS
+        // ==============================
+
+        removeProcedureObject: (procedures, procedure, object) => {
+            return dispatch(removeProcedureObject(procedures, procedure, object));
+        },
+
+        openModalCreateObject: () => {
+            return dispatch(openModalCreateObject());
+        },
+
+        openModalEditObject: (procedure, object) => {
+            return dispatch(openModalEditObject(procedure, object));
+        },
+
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormsUpdateRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(ElementsModelsFormRedux);

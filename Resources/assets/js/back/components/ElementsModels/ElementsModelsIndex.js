@@ -26,7 +26,13 @@ export default class ElementsModelsIndex extends Component {
                         <BoxWithIcon
                             icon={'fas fa-list-ul'}
                             name={'Formulaire'}
-                            route={routes['extranet.elements-models.forms.index']}
+                            route={routes['extranet.elements-models.index'].replace(':type', 'form-v2')}
+                        />
+
+                        <BoxWithIcon
+                            icon={'fas fa-table'}
+                            name={'Tableau'}
+                            route={routes['extranet.elements-models.index'].replace(':type', 'table')}
                         />
                     </BoxList>
 

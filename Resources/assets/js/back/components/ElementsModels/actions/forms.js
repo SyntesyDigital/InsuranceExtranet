@@ -18,18 +18,24 @@ function transformElementModel(model) {
 }
 
 
-export function initState(modelId) {
-
+export function initState(modelId, type) {
     if(modelId === undefined || modelId == null || modelId == '')
-        return { type: INIT_CREATE };
+        return { 
+            type: INIT_CREATE,
+            payload: {
+                type: type
+            }
+        };
 
     return (dispatch) => {
         api.elementModel.get(modelId)
             .then(function(data) {
-                //console.log("initState :: (data) ",data);
+                var payload = transformElementModel(data.data.elementModel);
+                payload.type = type;
+                
                 dispatch({ 
                     type: INIT_STATE, 
-                    payload : transformElementModel(data.data.elementModel) 
+                    payload : payload,
                 });
             });
     }
@@ -45,14 +51,9 @@ export function updateField(name, value) {
 }
 
 export function saveForm(form) {
-
-    if (form.id == null) {
-        return createForm(form);
-    }
-    else {
-        //else update
-        return updateForm(form);
-    }
+    return form.id === null 
+        ? createForm(form) 
+        : updateForm(form);
 }
 
 export function createForm(form) {

@@ -39,19 +39,19 @@ Route::group([
       Route::delete('/services/{service}/delete', 'ServiceController@delete')->name('extranet.services.delete');
   });
 
-  Route::group([
+Route::group([
     'middleware' => ['web', 'auth:veos-ws', 'permissions:element_models', 'DetectUserLocale'],
     'prefix' => 'architect',
     'namespace' => 'Modules\Extranet\Http\Controllers',
-  ], function () {
-      //Elements Models
-      Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
-      Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
-      Route::get('/elements-models/forms/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
-      Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
-      Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
-      Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
-  });
+], function () {
+    //Elements Models
+    Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
+    Route::get('/elements-models/{type}', 'ElementModelController@show')->name('extranet.elements-models.index.type');
+    Route::get('/elements-models/{type}/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.update');
+    Route::get('/elements-models/{type}/create', 'ElementModelController@create')->name('extranet.elements-models.create');
+    Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
+    Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
+});
 
   Route::group([
     'middleware' => ['web', 'auth:veos-ws', 'permissions:elements', 'DetectUserLocale'],

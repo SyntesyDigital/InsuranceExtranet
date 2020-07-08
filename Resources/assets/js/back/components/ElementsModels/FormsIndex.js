@@ -13,6 +13,8 @@ export default class FormsIndex extends Component {
     constructor(props) {
         super(props);
 
+        console.log(':::: TYPE ::::', this.props.type);
+
         this.state = {
             models: [],
             selecting: false,
@@ -35,11 +37,8 @@ export default class FormsIndex extends Component {
     componentDidMount() {
         var _this = this;
 
-        api.elementModel.getAll()
+        api.elementModel.getAll(this.props.type)
             .then(function (payload) {
-
-
-
                 _this.setState({
                     models: payload.data.elementModels.sort(_this.compare)
                 })
@@ -101,11 +100,6 @@ export default class FormsIndex extends Component {
     handleSelectAll(e) {
         e.preventDefault();
         this.export(this.state.models, EXPORT_MODELS.ElementModel);
-        // this.setState({
-        //     selected: [],
-        //     displaySubmit: !this.state.displaySubmit,
-        //     selecting: !this.state.selecting,
-        // })
     }
 
     handleSubmit(items) {
@@ -125,14 +119,14 @@ export default class FormsIndex extends Component {
         }
     }
 
-    renderModels() {
+    renderModels() {        
         return this.state.models.map((item, index) =>
             <BoxWithIcon
                 icon={item.icon}
                 name={item.name}
                 subtitle={moment(item.created_at).format('D/M/YY HH:mm')}
                 onSelect={(e) => this.updateSelectedList(e, item)}
-                route={routes['extranet.elements-models.forms.update'].replace(':id', item.id)}
+                route={routes['extranet.elements-models.update'].replace(':id', item.id).replace(':type', item.type)}
                 selectable={this.state.selecting}
                 id={item.identifier}
             />
@@ -144,7 +138,7 @@ export default class FormsIndex extends Component {
             <div className="container grid-page elements-models-page">
                 <div className="col-xs-offset-1 col-xs-10 page-content">
                     <PageTitle
-                        title={'Formulaires'}
+                        title={ this.props.type[0].toUpperCase() + this.props.type.slice(1) }
                         icon={'fas fa-cog'}
                         backRoute={routes['extranet.elements-models.index']}
                     >
@@ -191,9 +185,6 @@ export default class FormsIndex extends Component {
                                 onClick={this.handleSubmit.bind(this, this.state.selected)}
                             />
                             : null}
-
-                        
-
                     </PageTitle>
 
                     <BoxList
@@ -203,21 +194,20 @@ export default class FormsIndex extends Component {
 
                         <BoxAdd
                             label={'Ajouter'}
-                            route={routes["extranet.elements-models.forms.create"]}
+                            route={routes["extranet.elements-models.create"].replace(':type', this.props.type)}
                         />
 
-
-
                     </BoxList>
-
-
                 </div>
-
             </div>
         );
     }
 }
 
-if (document.getElementById('elements-models-forms-index')) {
-    ReactDOM.render(<FormsIndex />, document.getElementById('elements-models-forms-index'));
+var element = document.getElementById('elements-models-forms-index');
+
+if (element) {
+    ReactDOM.render(<FormsIndex 
+        type={element.getAttribute('type')}
+    />, element);
 }
