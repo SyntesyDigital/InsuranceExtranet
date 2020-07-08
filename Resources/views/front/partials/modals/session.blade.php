@@ -61,14 +61,18 @@
 				}
 		    }
 		});
+
+		$(document).ready(function() {
+			$('.bootbox-body').find('.bootbox-input-select').select2({
+				width: '100%',
+				minimumInputLength : options.length > 500 ? 3 : 0,
+                language: 'fr'
+			});
+		});
 		
 	});
 
-	$(document).ready(function() {
-    	$('.bootbox-body').find('.bootbox-input-select').select2({
-			width: '100%',
-		});
-	});
+	
 	
 </script>
 

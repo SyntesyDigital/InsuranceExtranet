@@ -60,7 +60,7 @@ class ElementParametersButton extends Component {
     const element =  this.props.elements.element;
     console.log("ParameterButton element => ",element);
     const hasRedirect = element !== undefined && element != null && 
-      element.type !== undefined && element.type == 'form';
+      element.type !== undefined && ( element.type == 'form' || element.type == 'form-v2');
 
     return (
       <div style={{minWidth : 300}}>

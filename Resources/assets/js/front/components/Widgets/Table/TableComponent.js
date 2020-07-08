@@ -26,7 +26,7 @@ export default class TableComponent extends Component {
         super(props);
 
         const defaultDataLoadStep = 1000;
-        const field = props.field ? JSON.parse(atob(props.field)) : '';
+        const field = props.field ? JSON.parse(atob(props.field)) : null;
         const elementObject = props.elementObject;
         const model = props.model;
         const pagination =  props.pagination ? true : false;
@@ -42,10 +42,11 @@ export default class TableComponent extends Component {
         var pageLimit = maxItems && maxItems < defaultDataLoadStep? maxItems : defaultDataLoadStep;
 
         //console.log("TableComponent :: field ",field);
-        var excelName = this.processText(field.fields,2);
+        var excelName = field != null ? this.processText(field.fields,2) : '';
         console.log("excelName => ",field,excelName);
 
-        var headerRowsNumber = field.settings.headerRowsNumber !== undefined 
+        var headerRowsNumber = field != null
+          && field.settings.headerRowsNumber !== undefined 
           && field.settings.headerRowsNumber != null 
           && field.settings.headerRowsNumber != "" ?
           parseInt(field.settings.headerRowsNumber) : 1;
@@ -84,7 +85,9 @@ export default class TableComponent extends Component {
     }
 
     processText(fields,fieldName){
-      return fields[fieldName] !== undefined 
+      return 
+        fields !== undefined
+        && fields[fieldName] !== undefined 
         && fields[fieldName].value != null 
         && fields[fieldName].value[LOCALE] !== undefined 
         && fields[fieldName].value[LOCALE] != null 
