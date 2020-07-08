@@ -23,6 +23,7 @@ export default class FormButton extends Component {
               elementObject={this.props.elementObject}
               parametersObject={this.props.parameters}
               finalRedirectUrl={this.props.finalRedirectUrl}
+              finalRedirectParameters={this.props.finalRedirectParameters ? this.props.finalRedirectParameters : []}
               onFormFinished={this.props.onFormFinished}
             />
           </Provider>
