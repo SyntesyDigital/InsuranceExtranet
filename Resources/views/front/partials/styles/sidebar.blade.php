@@ -15,4 +15,7 @@
         background-color: {{$backgroundColorSidebarTooltip}};
         color: {{$colorSidebarTooltip}}
     }
+    body .sidebar {
+        border-bottom-right-radius: {{$sidebarBorderRadiusBottomRight}}
+    }
 </style>

@@ -85,6 +85,15 @@ footer ul li a{
 footer ul li a:hover{
   color:{{$footerHoverTextColor}};
 }
+body .sidebar .footer-menu-sidebar ul .menu-item a{
+  color: {{$footerTextColor}};
+}
+body .sidebar .contact-sidebar .wrapper-content .text{
+  color: {{$footerTextContactColor}};
+}
+body .sidebar .contact-sidebar .wrapper-content .number a, body .sidebar .contact-sidebar .wrapper-content .number p{
+  color: {{$footerTextNumberColor}};
+}
 
 /*FOOTER */
 body {

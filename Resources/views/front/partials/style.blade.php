@@ -47,12 +47,15 @@
     $colorSidebarIconMenu = isset($storedStylesFront['colorSidebarIconMenu']) ? $storedStylesFront['colorSidebarIconMenu']->value : $secondaryColor;
     $backgroundColorSidebarTooltip = isset($storedStylesFront['backgroundColorSidebarTooltip']) ? $storedStylesFront['backgroundColorSidebarTooltip']->value : $sidebarBackgroundColor;
     $colorSidebarTooltip = isset($storedStylesFront['colorSidebarTooltip']) ? $storedStylesFront['colorSidebarTooltip']->value : $secondaryColor;
+    $sidebarBorderRadiusBottomRight = isset($storedStylesFront['frontSidebarBorderRadiusBottomRight']) ? $storedStylesFront['frontSidebarBorderRadiusBottomRight']->value.'px' : '0';
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
     $footerHoverTextColor = isset($storedStylesFront['frontFooterHoverTextColor']) ? $storedStylesFront['frontFooterHoverTextColor']->value : $primaryColor;
     $footerTextColor = isset($storedStylesFront['frontFooterTextColor']) ? $storedStylesFront['frontFooterTextColor']->value : $secondaryColor;
     $footerVersionColor = isset($storedStylesFront['frontFooterVersionColor']) ? $storedStylesFront['frontFooterVersionColor']->value : $secondaryColor;
+    $footerTextContactColor = isset($storedStylesFront['frontFooterTextContactColor']) ? $storedStylesFront['frontFooterTextContactColor']->value : $secondaryColor;
+    $footerTextNumberColor = isset($storedStylesFront['frontFooterTextNumberColor']) ? $storedStylesFront['frontFooterTextNumberColor']->value : $primaryColor;
 
   //BODY
     $bodyTextColor = isset($storedStylesFront['frontBodyTextColor']) ? $storedStylesFront['frontBodyTextColor']->value : $secondaryColor;
