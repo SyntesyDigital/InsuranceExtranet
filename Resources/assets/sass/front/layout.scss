@@ -473,7 +473,7 @@ body {
             top: $top;
         }
         .contact-sidebar{
-            position: fixed;
+            position: absolute;
             bottom: 120px;
             width: 250px;
             .wrapper-content{
@@ -544,7 +544,7 @@ body {
         }
         .footer-menu-sidebar{
             position: absolute;
-            bottom: 30px;
+            bottom: 45px;
             width: 100%;
             ul{
                 display: -webkit-inline-box;
@@ -560,6 +560,7 @@ body {
                     a{
                         color: #A8A8A8;
                         font-size: 14px;
+                        width: unset;
                     }
                     p{
                         color: #A8A8A8;
