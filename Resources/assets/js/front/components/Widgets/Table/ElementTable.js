@@ -33,7 +33,7 @@ export default class ElementTable extends Component {
         redirectUrl : redirectUrl
       });
 
-
+      
     }
 
     handleModalClose(){
@@ -56,7 +56,6 @@ export default class ElementTable extends Component {
             <div>
 
               <ModalTable
-                field={this.props.field}
                 display={this.state.displayModal}
                 id={"modal-table-component-"+this.state.id}
                 zIndex={1000}
