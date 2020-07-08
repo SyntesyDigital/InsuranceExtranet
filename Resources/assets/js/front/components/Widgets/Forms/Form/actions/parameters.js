@@ -171,6 +171,8 @@ export function setParameterFromBoby(variable,key, formParameters) {
               box.on("shown.bs.modal", function() {
                 $('.bootbox-body').find('.bootbox-input-select').select2({
                   width: '100%',
+                  minimumInputLength : response.data.data.length > 500 ? 3 : 0,
+                  language: 'fr'
                 });
               });
             }

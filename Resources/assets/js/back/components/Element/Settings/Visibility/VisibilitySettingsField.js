@@ -401,3 +401,69 @@ class VisibilitySettingsField extends Component {
 
 }
 export default VisibilitySettingsField;
+
+
+/*
+{
+  'initialValue' : 'denied',
+  'conditions' : [
+    {
+      'action' : 'allowed' //opposite by default
+      'join' : 'and/or' //por ahora solo usamos or, si se cumple cualquiera de las condiciones funciona.
+      'type' : 'link',  //role, right o link
+      'name' : '',
+      'operator : '=,!=', //igual o diferente
+      'values' : "" //valor a cumplir, tipo string-
+    },
+  ]
+}
+
+
+{
+  'initialValue' : 'denied',
+  'conditions' : [
+    {
+      'action' : 'allowed' 
+      'join' : 'or' 
+      'type' : 'role',
+      'name' : 'hospital',
+      'operator : '=',
+      'values' : "1" 
+    },
+    {
+      'action' : 'allowed' 
+      'join' : 'or' 
+      'type' : 'right',
+      'name' : 'contents.edit',
+      'operator : '=',
+      'values' : "1" 
+    },
+    {
+      'action' : 'allowed' 
+      'join' : 'or' 
+      'type' : 'right',
+      'name' : 'contents.remove',
+      'operator : '=',
+      'values' : "1" 
+    },
+  ]
+}
+
+{
+  'initialValue' : 'denied',
+  'conditions' : [
+    {
+      'action' : 'allowed' 
+      'join' : 'or' 
+      'type' : 'link',
+      'name' : '',  
+      'operator : '',
+      'values' : ''
+    }
+  ]
+}
+
+
+
+
+ */
