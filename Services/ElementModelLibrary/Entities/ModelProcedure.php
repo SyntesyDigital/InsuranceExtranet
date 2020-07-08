@@ -79,8 +79,9 @@ class ModelProcedure extends Model
     {
 
         $fields = [];
+        $prefix = $this->service->identifier;
         foreach($this->fields as $field){
-            $fieldObject = $field->getConfig();
+            $fieldObject = $field->getConfig($prefix);
             if(isset($fieldObject)){
                 $fields[] = $fieldObject;
             }

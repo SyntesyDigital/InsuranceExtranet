@@ -44,11 +44,13 @@ class ModelField extends Model
         return $this->hasOne(ModelProcedure::class, 'id', 'procedure_id');
     }
 
-    public function getConfig() 
+    public function getConfig($prefix = '') 
     {
         if($this->configurable) {
 
             $fieldConfig = $this->getFieldType();
+
+            //add the prefix if needed, example when two services same key
 
             return [
                 'type' => $fieldConfig['identifier'],
@@ -63,8 +65,11 @@ class ModelField extends Model
                 'formats' => $fieldConfig['formats'],
                 'rules' => $fieldConfig['rules'],
                 'settings' => array_diff($fieldConfig['settings'],['hasRoute'])
+                //'prefix' => $prefix // service identifier added if difference with same keys
               ];
         }
+
+        
 
         return null;
     }
