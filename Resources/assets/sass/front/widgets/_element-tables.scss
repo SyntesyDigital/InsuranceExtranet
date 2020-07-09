@@ -39,7 +39,7 @@
   overflow: hidden;
 
   .element-table-container-body{
-    @include round($elements-radius);
+    // @include round($elements-radius);
     overflow: hidden;
 
     &.collapse{

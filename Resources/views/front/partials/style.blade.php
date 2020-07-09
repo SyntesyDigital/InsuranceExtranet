@@ -92,6 +92,7 @@
     $elementButtonColor = isset($storedStylesFront['frontElementButtonColor']) ? $storedStylesFront['frontElementButtonColor']->value : $primaryColor;
     $elementButtonHoverColor = isset($storedStylesFront['frontElementButtonHoverColor']) ? $storedStylesFront['frontElementButtonHoverColor']->value : $secondaryColor;
     $elementHeadTextTransform = isset($storedStylesFront['elementHeadTextTransform']) ? $storedStylesFront['elementHeadTextTransform']->value : 'uppercase';
+    $elementHeadTransparent = isset($storedStylesFront['frontElementHeadTransparent']) ? $storedStylesFront['elementHeadTextTransform']->value : false;
 
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
