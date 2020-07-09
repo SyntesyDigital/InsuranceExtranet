@@ -473,8 +473,8 @@ body {
             top: $top;
         }
         .contact-sidebar{
-            position: absolute;
-            bottom: 120px;
+            margin-bottom: 80px;
+            margin-top: 50px;
             width: 250px;
             .wrapper-content{
                 font-size: 14px;
@@ -543,9 +543,8 @@ body {
             width: 250px !important;
         }
         .footer-menu-sidebar{
-            position: absolute;
-            bottom: 45px;
             width: 100%;
+            margin-bottom: 30px;
             ul{
                 display: -webkit-inline-box;
                 padding-left: 19px;
