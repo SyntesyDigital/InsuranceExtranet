@@ -182,9 +182,9 @@ Route::group([
   'middleware' => [
       'SignInWhenToken',
       'web',
-      'auth:veos-ws',
       'auth:veos-link',
-      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_ANONYMOUS',
+      'auth:veos-ws',
+      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS',
     ],
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {

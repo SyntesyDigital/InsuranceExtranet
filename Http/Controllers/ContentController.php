@@ -2,20 +2,20 @@
 
 namespace Modules\Extranet\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Auth;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
+use Imagick;
 use Modules\Architect\Entities\Content;
 use Modules\Architect\Entities\Url;
-use Modules\Extranet\Adapters\PageBuilderAdapter;
-use Modules\Extranet\Adapters\FieldsAdapter;
 use Modules\Architect\Repositories\ContentRepository;
-use Modules\Extranet\Repositories\ElementRepository;
+use Modules\Extranet\Adapters\FieldsAdapter;
+use Modules\Extranet\Adapters\PageBuilderAdapter;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\DocumentRepository;
-use File;
-use Auth;
-use Imagick;
+use Modules\Extranet\Repositories\ElementRepository;
 
 class ContentController extends Controller
 {
@@ -123,10 +123,7 @@ class ContentController extends Controller
         }
 
         if ($request->has('debug')) {
-            dd(
-            $pageBuilderAdapter->get(),
-            $this->elements->getModelsByIdentifier()
-          );
+            dd($pageBuilderAdapter->get(), $this->elements->getModelsByIdentifier());
         }
 
         return view('extranet::front.contents.page', [
@@ -140,9 +137,9 @@ class ContentController extends Controller
     private function renderTypology($request, $content)
     {
         $data = [
-          'content' => $content,
-          'fields' => (new FieldsAdapter($content))->get()->toArray(),
-          'contentSettings' => $content->getSettings(),
+            'content' => $content,
+            'fields' => (new FieldsAdapter($content))->get()->toArray(),
+            'contentSettings' => $content->getSettings(),
         ];
 
         if ($request->has('debug')) {
@@ -180,14 +177,21 @@ class ContentController extends Controller
         $slug = '/'.$slug;
 
         $url = Url::where('url', $slug)
-        ->where('entity_type', 'Modules\Architect\Entities\Content')
-        ->first();
+            ->where('entity_type', 'Modules\Architect\Entities\Content')
+            ->first();
 
         if ($url == null) {
             abort(404);
         }
 
         $content = Content::find($url->entity_id);
+
+        if (Auth::user()->role == ROLE_ANONYMOUS) {
+            $settings = $content->getSettings();
+            if (!isset($settings['accessByLink']) && $settings['accessByLink'] !== true) {
+                abort(401);
+            }
+        }
 
         if ($content == null) {
             abort(404);

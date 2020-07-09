@@ -2,10 +2,10 @@
 
 namespace Modules\Extranet\Extensions;
 
-use Session;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Modules\Extranet\Entities\User;
+use Session;
 
 class VeosUserLinkProvider implements UserProvider
 {
@@ -48,6 +48,11 @@ class VeosUserLinkProvider implements UserProvider
         $user = Session::get('user');
 
         return $user ? json_decode(Session::get('user')) : null;
+    }
+
+    public function session()
+    {
+        return $this->user();
     }
 
     public function attempt()
