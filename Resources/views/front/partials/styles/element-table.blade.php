@@ -2,7 +2,11 @@
 
 /*TABLES*/
 
-.element-table-container .element-table-container-body{
+/* .element-table-container .element-table-container-body{
+  border-radius: {{$buttonRadius}};
+} */
+
+.element-table-container{
   border-radius: {{$buttonRadius}};
 }
 .element-table-container .element-table-container-head{
@@ -113,6 +117,16 @@ body .element-table-container .rt-thead.-filters input:focus{
 @if (isset($lowerUpperCaseHeaderTable))
   body .react-table-container .ReactTable .rt-thead .rt-resizable-header-content{
     text-transform: {{$lowerUpperCaseHeaderTable}}
+  }
+@endif
+
+@if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)
+  body .page-builder .element-table-container .element-table-container-head  {
+    background-color: transparent;
+  }
+  body .page-builder .element-table-container .element-table-container-body{
+    border-top-left-radius: {{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
   }
 @endif
 

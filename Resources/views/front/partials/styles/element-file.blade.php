@@ -1,9 +1,10 @@
 <style type="text/css">
-/*FILES*/
 
+/*FILES*/
 .element-file-container{
   border-radius: {{$buttonRadius}};
 }
+
 .element-file-container .element-file-container-head{
   background-color: {{$elementHeadBackground}};
   color:{{$elementHeadColor}};
@@ -11,24 +12,24 @@
   padding-bottom:10px;
 }
 
-.element-file-container .element-file-container-head i{
-  color:{{$elementHeadIconColor}};
-}
-
 .element-file-container .element-collapsable.element-file-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
   font-size: {{$titleCollapsableFontSize}};
   padding-bottom:10px;
-  padding-left: 35px;
+  padding-left: 50px;
+}
+
+.element-file-container .element-file-container-head i{
+  color:{{$elementHeadIconColor}};
 }
 
 .element-file-container .element-file-container-body{
   background-color: {{$elementBackground}};
-  /*border: 1px solid {{$elementBorder}};*/
   border:transparent;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
+
 .element-file-container .element-file-container-body .element-file-input-container{
   border-bottom: 1px solid {{$elementFileInputBorder}};
 }
@@ -37,9 +38,11 @@
   cursor: pointer;
   text-transform: {{$elementHeadTextTransform}} !important;
 }
+
 .element-collapsable.collapsed:before{
   color:{{$elementHeadIconColor}};
 }
+
 .element-collapsable:before{
   color:{{$elementHeadIconColor}};
 }
@@ -47,11 +50,13 @@
 .more-btn{
   background-color:{{$elementBackground}};
 }
+
 .more-btn  a {
   border-radius: {{$buttonRadius}};
   color:{{$elementLinkColor}};
   border: 1px solid {{$elementLinkColor}};
 }
+
 .more-btn  a:hover{
   color:{{$elementLinkHoverColor}};
   border: 1px solid {{$elementLinkHoverColor}};
@@ -158,5 +163,15 @@ body .box-class-3 .element-file-container *{
 body .box-class-3 .element-file-container .element-collapsable:before {
   color: {{$textColorBox3}} !important;
 }
+
+@if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)
+  body .element-file-container .element-file-container-head, body .element-file-container .element-collapsable.element-file-container-head{
+    background-color: transparent;
+  }
+  body .page-builder .element-file-container .element-file-container-body{
+    border-top-left-radius: {{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
+  }
+@endif
 
 </style>

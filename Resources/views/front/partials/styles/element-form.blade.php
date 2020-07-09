@@ -35,9 +35,8 @@
   padding-bottom:10px;
   padding-left: 35px;
 }
-.form-component .element-form-container-head.collapsed{
-  border-bottom-left-radius: {{$buttonRadius}};
-  border-bottom-right-radius: {{$buttonRadius}};
+body .element-form-container .element-form-container-head.collapsed{
+  border-radius: {{$buttonRadius}};
 }
 .form-component .element-collapsable.element-form-container-head.collapsed {
   background-color: {{$frontElementHeadCollapsableBackground}};
@@ -98,4 +97,15 @@ body .element-form .container-radio-field .MuiFormControlLabel-root{
 body .element-form .container-radio-field .MuiFormControlLabel-root span.MuiFormControlLabel-label{
   font-size: {{$labelRadioFieldFontSize}};
 }
+
+@if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)
+  body .page-builder .element-form-container .element-form-container-head {
+    background-color: transparent;
+  }
+  body .page-builder .element-form-container .element-form-container-body{
+    border-top-left-radius: {{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
+  }
+@endif
+
 </style>
