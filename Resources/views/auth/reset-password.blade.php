@@ -22,8 +22,11 @@
                 top: 0;
                 height: 151%;
             }
+            body.template-reset-password  .login-container{
+                height: 100%;
+            }
             body.template-reset-password .title-background{
-                bottom: -85px;
+                bottom: 170px;
             }
             body.template-reset-password .login-box-container:after{
                 top: 300px;
