@@ -66,6 +66,7 @@ export const GQL_GET_MODEL = gql`
             repeatable
             repeatable_json
             repeatable_jsonpath
+            prefixed
             order
             preload
             service {
