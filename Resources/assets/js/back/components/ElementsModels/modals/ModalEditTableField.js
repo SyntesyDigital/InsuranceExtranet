@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../Layout/Modal';
-import InputField from '../Layout/Fields/InputField';
-import ToggleField from '../Layout/Fields/ToggleField';
-import SelectField from '../Layout/Fields/SelectField';
+import Modal from '../../Layout/Modal';
+import InputField from '../../Layout/Fields/InputField';
+import SelectField from '../../Layout/Fields/SelectField';
 import { connect } from 'react-redux';
-
 import {
-
     removeProcedureObject,
     closeModalProcedureObject,
     saveProcedureObject
+} from '../actions';
 
-} from './actions';
-
-
-class ModalEditObject extends Component {
+class ModalEditTableField extends Component {
 
     constructor(props) {
 
@@ -51,7 +46,6 @@ class ModalEditObject extends Component {
 
     componentDidUpdate(prevProps,prevState) {
         if(!prevProps.display && this.props.display) {
-            //modal is showing 
             this.setState({
                 object : this.props.object
             });
@@ -96,13 +90,9 @@ class ModalEditObject extends Component {
             this.props.form.form.procedures[0],
             this.state.object
         );
-
-        //this.props.closeModalProcedureObject();
     }
 
     handleRemove() {
-        console.log("ModalEditObject :: handleRemove");
-        //this.props.removeGroup(this.state);
         var index = this.getProcedureIndex(
             this.props.form.form.procedures,
             this.props.form.currentProcedure,
@@ -148,7 +138,6 @@ class ModalEditObject extends Component {
                 onCancel={this.props.closeModalProcedureObject}
                 onSubmit={this.handleSubmit.bind(this)}
                 onRemove={this.handleRemove.bind(this)}
-               
             >
                 {currentObject != null &&
 
@@ -157,83 +146,24 @@ class ModalEditObject extends Component {
                         <div className="col-xs-12 field-col">
 
                             <InputField
-                                label={'Name (lib)'}
-                                value={currentObject.name}
-                                name={'name'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <InputField
                                 label={'Identifier (champ)'}
                                 value={currentObject.identifier}
                                 name={'identifier'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            <SelectField
-                                label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.type}
-                                name={'type'}
-                                arrayOfOptions={this.state.typeNature}
+                            <InputField
+                                label={'Name (lib)'}
+                                value={currentObject.name}
+                                name={'name'}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
-
+                            
                             <SelectField
                                 label={'Format (Text, num, etc)'}
                                 value={currentObject.format}
                                 name={'format'}
                                 arrayOfOptions={this.state.formats}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <InputField
-                                label={'Default value ( System variables avec _ ex : _idPol)'}
-                                name={'default_value'}
-                                value={currentObject.default_value}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            {(currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' ) && 
-                                <InputField
-                                    label={'Boby'}
-                                    name={'boby'}
-                                    value={currentObject.boby}
-                                    onChange={this.handleFieldChange.bind(this)}
-                                />
-                            }
-
-                            <InputField
-                                label={'JSON path (résultat : '+currentJsonpath+' ) '}
-                                name={'jsonpath'}
-                                value={currentObject.jsonpath}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <InputField
-                                label={'Example'}
-                                name={'example'}
-                                value={currentObject.example}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <ToggleField
-                                label={'Configurable'}
-                                name={'configurable'}
-                                checked={currentObject.configurable == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <ToggleField
-                                label={'Visible'}
-                                name={'visible'}
-                                checked={currentObject.visible == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-
-                            <ToggleField
-                                label={'Obligatoire'}
-                                name={'required'}
-                                checked={currentObject.required == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -274,10 +204,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEditObject);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditTableField);
 
 
-ModalEditObject.propTypes = {
+ModalEditTableField.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,

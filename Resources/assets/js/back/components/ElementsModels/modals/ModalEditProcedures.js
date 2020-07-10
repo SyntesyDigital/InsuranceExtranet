@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../Layout/Modal';
-import InputField from '../Layout/Fields/InputField';
-import SelectField from '../Layout/Fields/SelectField';
-import ToggleField from '../Layout/Fields/ToggleField';
-import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
-import FieldList from '../Layout/FieldList';
-import FieldListItem from '../Layout/FieldListItem';
-import BoxAddLarge from '../Layout/BoxAddLarge';
+import Modal from '../../Layout/Modal';
+import InputField from '../../Layout/Fields/InputField';
+import SelectField from '../../Layout/Fields/SelectField';
+import ToggleField from '../../Layout/Fields/ToggleField';
+import InputFieldJsonEdit from '../../Layout/Fields/InputFieldJsonEdit';
+import FieldList from '../../Layout/FieldList';
+import FieldListItem from '../../Layout/FieldListItem';
+import BoxAddLarge from '../../Layout/BoxAddLarge';
 import ModalEditObject from './ModalEditObject';
 import { connect } from 'react-redux';
 
@@ -20,18 +20,14 @@ import {
     openModalCreateObject,
     removeProcedureObject,
     updateSettings
+} from '../actions';
 
-} from './actions';
-
-import {sortBy} from 'lodash.sortBy';
-
-import api from '../../api/index.js';
+import api from '../../../api/index.js';
 
 
 class ModalEditProcedures extends Component {
 
     constructor(props) {
-
         super(props);
 
         this.state = {
@@ -47,7 +43,6 @@ class ModalEditProcedures extends Component {
         };
 
         this.handleChangeRepeatable = this.handleChangeRepeatable.bind(this);
-
     }
 
     componentDidMount() {

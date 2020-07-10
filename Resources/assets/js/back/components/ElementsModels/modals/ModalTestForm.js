@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../Layout/Modal';
-import CollapsableGroup from '../Layout/CollapsableGroup';
-import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
+import Modal from '../../Layout/Modal';
+import CollapsableGroup from '../../Layout/CollapsableGroup';
+import InputFieldJsonEdit from '../../Layout/Fields/InputFieldJsonEdit';
 import { connect } from 'react-redux';
 
 import {
     closeTest
-} from './actions';
+} from '../actions';
 
 let jp = require('jsonpath');
 

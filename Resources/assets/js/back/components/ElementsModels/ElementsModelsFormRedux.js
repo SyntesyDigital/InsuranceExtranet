@@ -7,13 +7,15 @@ import FieldList from '../Layout/FieldList';
 import FieldListItem from '../Layout/FieldListItem';
 import InputField from '../Layout/Fields/InputField';
 import SelectField from '../Layout/Fields/SelectField';
-import ModalTestForm from './ModalTestForm';
-import ModalEditProcedures from './ModalEditProcedures';
-import ModalEditObject from './ModalEditObject';
 import BoxAddLarge from '../Layout/BoxAddLarge';
 import IconField from '../Layout/Fields/IconField';
 import { connect } from 'react-redux';
 import api from '../../api/index.js';
+
+import ModalTestForm from './modals/ModalTestForm';
+import ModalEditProcedures from './modals/ModalEditProcedures';
+import ModalEditObject from './modals/ModalEditObject';
+import ModalEditTableField from './modals/ModalEditTableField';
 
 import {
     initState,
@@ -340,7 +342,7 @@ class ElementsModelsFormRedux extends Component {
                 />
 
                 {this.props.form.form.type == "table" && 
-                    <ModalEditObject
+                    <ModalEditTableField
                         id={'modal-edit-object'}
                         icon={'fas fa-bars'}
                         size={'medium'}
