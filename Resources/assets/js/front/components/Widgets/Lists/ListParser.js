@@ -271,7 +271,7 @@ export default class ListParser extends Component {
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }
@@ -294,7 +294,7 @@ export default class ListParser extends Component {
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }

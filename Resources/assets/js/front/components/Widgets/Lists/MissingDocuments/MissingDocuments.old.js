@@ -417,7 +417,7 @@ export default class MissingDocuments extends Component {
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }
