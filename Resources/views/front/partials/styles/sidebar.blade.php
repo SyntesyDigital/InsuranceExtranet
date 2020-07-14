@@ -18,4 +18,8 @@
     body .sidebar {
         border-bottom-right-radius: {{$sidebarBorderRadiusBottomRight}}
     }
+    body .sidebar .menu-sidebar-container .menu-item, body .sidebar .menu-sidebar-container .logo-container, body .sidebar .menu-sidebar-container .user-item, body .sidebar .menu-sidebar-container .menu-child{
+        border-bottom: 1px solid {{$sidebarBorderColor}}
+    }
+
 </style>
