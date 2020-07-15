@@ -49,6 +49,7 @@
     $colorSidebarTooltip = isset($storedStylesFront['colorSidebarTooltip']) ? $storedStylesFront['colorSidebarTooltip']->value : $secondaryColor;
     $sidebarBorderRadiusBottomRight = isset($storedStylesFront['frontSidebarBorderRadiusBottomRight']) ? $storedStylesFront['frontSidebarBorderRadiusBottomRight']->value.'px' : '0';
     $sidebarBorderColor = isset($storedStylesFront['frontSidebarBorderColor']) ? $storedStylesFront['frontSidebarBorderColor']->value : $sidebarBackgroundColor;
+    $sidebarHeightUser = isset($storedStylesFront['frontSidebarHeightUser']) ? $storedStylesFront['frontSidebarHeightUser']->value : '50';
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
