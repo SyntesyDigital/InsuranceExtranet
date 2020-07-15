@@ -66,6 +66,9 @@ header:first-child .navbar-toggle .icon-bar{
 .sidebar ul li a{
   color:{{$sidebarColor}};
 }
+.sub-menu-sidebar-container{
+  background-color: {{$sidebarBackgroundColor}};
+}
 .sub-menu-sidebar-container ul li a{
   color:{{$sidebarColor}};
 }
