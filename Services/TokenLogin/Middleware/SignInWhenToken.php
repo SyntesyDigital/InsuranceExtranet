@@ -26,7 +26,15 @@ class SignInWhenToken
 
         if ($token) {
             // Handle SSO provider connector
-            $connector = dispatch_now(new TokenLoginConnectorHandler($token, $provider));
+            try {
+                $connector = dispatch_now(new TokenLoginConnectorHandler($token, $provider));
+            } catch (\Exception $ex) {
+                switch ($ex->getCode()) {
+                    case 800: // Expired token
+                        return redirect(route('error.expired-token'));
+                    break;
+                }
+            }
         }
 
         return $next($request);

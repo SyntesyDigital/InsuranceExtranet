@@ -46,8 +46,16 @@ class VeosUserLinkProvider implements UserProvider
     public function user()
     {
         $user = Session::get('user');
+        $user = $user ? json_decode(Session::get('user')) : null;
 
-        return $user ? json_decode(Session::get('user')) : null;
+        if ($user) {
+            if ($user->exp < time()) {
+                header('Location: '.route('error.expired-token'));
+                exit();
+            }
+        }
+
+        return $user;
     }
 
     public function session()

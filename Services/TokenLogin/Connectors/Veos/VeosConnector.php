@@ -2,6 +2,7 @@
 
 namespace Modules\Extranet\Services\TokenLogin\Connectors\Veos;
 
+use Exception;
 use Illuminate\Http\Request;
 use Modules\Extranet\Jobs\User\Session\SessionTokenLink;
 use Modules\Extranet\Jobs\User\SessionCreate;
@@ -45,7 +46,11 @@ class VeosConnector implements TokenLoginConnectorInterface
 
         if (isset($obj->sub)) {
             if ($obj->sub == 'Token Auth' && isset($obj->idPer)) {
-                return dispatch_now(new SessionTokenLink($this->token));
+                if ($obj->exp < time()) {
+                    throw new Exception('Token expired', 800);
+                }
+
+                return dispatch_now(new SessionTokenLink($this->token, $params));
             }
         }
 
