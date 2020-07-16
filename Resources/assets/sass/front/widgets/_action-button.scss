@@ -34,7 +34,7 @@
       padding: 0;
       p{
         margin-bottom: 0;
-        // height: 35px;
+        line-height: 20px;
         -webkit-transition: 0.8s;
         overflow: hidden;
         @include line-clamp(2,35);

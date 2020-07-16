@@ -180,6 +180,10 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
+  const champIdentifier = object.PREFIX != "" 
+    ? object.PREFIX+"."+object.CHAMP 
+    : object.CHAMP;
+
   console.log("processObjectValue :: ",object,values, formParameters);
 
   if(type == "INPUT"){
@@ -195,20 +199,24 @@ export function processObjectValue(object,values,formParameters) {
       return SESSION_ID;
     }
     
-    else if(values[object.CHAMP] == HIDDEN_FIELD){
+    else if(values[champIdentifier] == HIDDEN_FIELD){
       //this field is hidden
       return  null;
     }
     else {
+
+        //if champ is prefixed add prefix with identifier
+        
+
         //get value
-        if(values[object.CHAMP] === undefined){
+        if(values[champIdentifier] === undefined){
           if(isRequired){
-            console.error("Field is required : "+object.CHAMP);
+            console.error("Field is required : "+champIdentifier);
             //TODO dispatch error
           }
         }
         else {
-          return values[object.CHAMP];
+          return values[champIdentifier];
         }
     }
 

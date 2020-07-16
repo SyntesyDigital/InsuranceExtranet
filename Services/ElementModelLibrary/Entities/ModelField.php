@@ -54,7 +54,7 @@ class ModelField extends Model
 
             return [
                 'type' => $fieldConfig['identifier'],
-                'identifier' => $this->identifier,
+                'identifier' => $prefix != '' ? $prefix.'.'.$this->identifier : $this->identifier,  //if prefix added alwyas added to elements
                 'name' => $this->name,
                 'icon' => $fieldConfig['icon'],
                 'help' => '',
@@ -64,8 +64,8 @@ class ModelField extends Model
                 'required' => $this->required == 1,
                 'formats' => $fieldConfig['formats'],
                 'rules' => $fieldConfig['rules'],
-                'settings' => array_diff($fieldConfig['settings'],['hasRoute'])
-                //'prefix' => $prefix // service identifier added if difference with same keys
+                'settings' => array_diff($fieldConfig['settings'],['hasRoute']),
+                'prefix' => $prefix // service identifier added if difference with same keys
               ];
         }
 
@@ -85,7 +85,7 @@ class ModelField extends Model
      * Transform field from entity to object
      * needed to compute form.
      */
-    public function getObject()
+    public function getObject($prefix = '')
     {
         return (object) [
             "ID" => $this->id,
@@ -100,7 +100,7 @@ class ModelField extends Model
             "VIS" => $this->attributes['visible'] ? 'Y' : 'N',
             "CONF" => $this->configurable ? 'Y' : 'N',
             "EXEMPLE" => $this->example,
-
+            'PREFIX' => $prefix
         ];
     }
 
