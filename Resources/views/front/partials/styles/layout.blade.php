@@ -53,15 +53,28 @@ header:first-child .navbar-toggle .icon-bar{
   background-color: {{$sidebarBackgroundColor}};
   color:{{$sidebarColor}};
 }
-.sidebar ul li:hover, .sidebar ul li.active{
+.sidebar .menu-sidebar-container ul li:hover, .sidebar .menu-sidebar-container ul li.active{
   background-color: {{$sidebarActiveBackgroundColor}};
   border-left: 4px solid {{$sidebarActiveColor}};
+}
+.sidebar ul li.menu-child.parent{
+  background-color: {{$sidebarActiveBackgroundColor}};
 }
 .sidebar ul li:hover a, .sidebar ul li.active a{
   color:{{$sidebarActiveColor}};
 }
 .sidebar ul li a{
   color:{{$sidebarColor}};
+}
+.sub-menu-sidebar-container{
+  background-color: {{$sidebarBackgroundColor}};
+}
+.sub-menu-sidebar-container ul li a{
+  color:{{$sidebarColor}};
+}
+.sub-menu-sidebar-container ul li:hover, .sub-menu-sidebar-container ul li.active{
+  background-color: {{$sidebarActiveBackgroundColor}};
+  border-left: 4px solid {{$sidebarActiveColor}};
 }
 .sidebar ul li a:hover{
   color:{{$sidebarActiveColor}};

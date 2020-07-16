@@ -48,8 +48,6 @@ body .element-form-container .element-form-container-head.collapsed{
   color:{{$elementColor}};
   border-bottom-left-radius: {{$buttonRadius}};
   border-bottom-right-radius: {{$buttonRadius}};
-  border-top-left-radius: {{$buttonRadius}};
-  border-top-right-radius: {{$buttonRadius}};
 
 }
 .element-form-container .element-form-container-body.collapse .element-form{
@@ -100,12 +98,16 @@ body .element-form .container-radio-field .MuiFormControlLabel-root span.MuiForm
 
 @if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)
   body .page-builder .element-form-container .element-form-container-head {
-    background-color: transparent;
+    background-color: transparent !important;
   }
-  body .page-builder .element-form-container .element-form-container-body{
+  body .page-builder .element-form-container .element-form{
     border-top-left-radius: {{$buttonRadius}};
     border-top-right-radius: {{$buttonRadius}};
   }
+  body .page-builder .element-form-container .element-form-container-body.collapse .element-form{
+    border-top-left-radius: {{$buttonRadius}};
+    border-top-right-radius: {{$buttonRadius}};
+}
 @endif
 
 </style>

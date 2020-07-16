@@ -1,20 +1,20 @@
 <?php
 
 if (!function_exists('get_menu')) {
-
     function get_menu($key)
     {
-        $cacheKey = sprintf("menu_%s", $key);
+        $cacheKey = sprintf('menu_%s', $key);
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
         }
 
         $menu = Modules\Architect\Entities\Menu::hasName($key)->first();
-        if(!isset($menu))
-          return null;
+        if (!isset($menu)) {
+            return null;
+        }
 
-        if(!$menu) {
+        if (!$menu) {
             return null;
         }
 
@@ -30,69 +30,70 @@ if (!function_exists('get_menu')) {
 }
 
 if (!function_exists('format_link')) {
+    function format_link($menuElement)
+    {
+        if (!isset($menuElement['name'][App::getLocale()]) ||
+        $menuElement['name'][App::getLocale()] == '') {
+            return null;
+        }
 
-    function format_link($menuElement) {
+        $target = null;
+        $url = '';
+        $icon = null;
+        if (isset($menuElement['link']['url']) &&
+        isset($menuElement['link']['url'][App::getLocale()])) {
+            $url = $menuElement['link']['url'][App::getLocale()];
+            $target = '_blank';
+        } elseif (isset($menuElement['link']['content'])) {
+            $url = $menuElement['link']['content']->url;
+        } else {
+            return null;
+        }
 
-      if(!isset($menuElement["name"][App::getLocale()]) ||
-        $menuElement["name"][App::getLocale()] == '')
-        return null;
+        if (isset($menuElement['settings']['icon'])) {
+            $icon = $menuElement['settings']['icon'];
+        }
 
+        foreach ($menuElement['children'] as $index => $child) {
+            $menuElement['children'][$index] = format_link($child);
+        }
 
-      $target = null;
-      $url = "";
-      $icon = null;
-      if(isset($menuElement["link"]["url"]) &&
-        isset($menuElement["link"]["url"][App::getLocale()])){
-
-        $url = $menuElement["link"]["url"][App::getLocale()];
-        $target = "_blank";
-      }
-      else if(isset($menuElement["link"]["content"])){
-        $url = $menuElement["link"]["content"]->url;
-      }
-      else {
-        return null;
-      }
-
-      if(isset($menuElement["settings"]["icon"])){
-        $icon = $menuElement["settings"]["icon"];
-      }
-
-      $result = [
-        "url" => $url,
-        "request_url" => substr($url,1),
-        "name" => $menuElement["name"][App::getLocale()],
-        "class" => isset($menuElement["settings"]["htmlClass"]) ?
-          $menuElement["settings"]["htmlClass"] : '',
-        "id" => isset($menuElement["settings"]["htmlId"]) ?
-          $menuElement["settings"]["htmlId"] : '',
-        "target" => $target,
-        "icon" => $icon
+        $result = [
+        'url' => $url,
+        'request_url' => substr($url, 1),
+        'name' => $menuElement['name'][App::getLocale()],
+        'class' => isset($menuElement['settings']['htmlClass']) ?
+          $menuElement['settings']['htmlClass'] : '',
+        'id' => isset($menuElement['settings']['htmlId']) ?
+          $menuElement['settings']['htmlId'] : '',
+        'target' => $target,
+        'icon' => $icon,
+        'children' => $menuElement['children'],
+        'active' => Request::is(substr($url, 1)) ? true : false,
       ];
 
-      return $result;
+        return $result;
     }
 }
 
-
 if (!function_exists('allowed_link')) {
+    function allowed_link($link)
+    {
+        if (has_roles([ROLE_USER])) {
+            $pages = Auth::user()->allowed_pages;
 
-    function allowed_link($link) {
-      if(has_roles([ROLE_USER])){
-        $pages = Auth::user()->allowed_pages;
-        
-        if(!isset($pages))
-          return false;
+            if (!isset($pages)) {
+                return false;
+            }
 
-        if(isset($pages->{$link['request_url']})){
-          return $pages->{$link['request_url']};
+            if (isset($pages->{$link['request_url']})) {
+                return $pages->{$link['request_url']};
+            }
+
+            return true;
+        } else {
+            //all allowed
+            return true;
         }
-
-        return true;
-      }
-      else {
-        //all allowed
-        return true;
-      }
     }
 }
