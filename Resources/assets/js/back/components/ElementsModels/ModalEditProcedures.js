@@ -23,8 +23,6 @@ import {
 
 } from './actions';
 
-import {sortBy} from 'lodash.sortBy';
-
 import api from '../../api/index.js';
 
 
@@ -380,6 +378,13 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
+                            <ToggleField
+                                label={'Concaténer avec l\'ID de service'}
+                                name={'prefixed'}
+                                checked={currentProcedure.prefixed == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
 
                             <ToggleField
                                 label={'Sub JSON'}
@@ -398,6 +403,7 @@ class ModalEditProcedures extends Component {
                                 /> 
                             }
 
+                            
 
 
                             
