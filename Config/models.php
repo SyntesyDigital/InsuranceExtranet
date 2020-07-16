@@ -192,6 +192,25 @@ return [
           'textAlign'
         ]
       ],
+      'html' => [
+        'mapping' => 'html',
+        'identifier' => 'html',
+        'label' => 'Html',
+        'icon' => 'fas fa-code',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault'
+        ],
+        'settings' => [
+          'conditionalVisibility',
+          'defaultValue',
+          'textAlign'
+        ]
+      ],
       'list' => [
         'mapping' => 'list',
         'identifier' => 'list',

@@ -19,10 +19,7 @@
 					)
 				@endif
 				&nbsp;&nbsp;&nbsp;
-				<div class="version" style="">
-					Architect v1.19.0@dev v1.19.21@dev
-					
-				</div>
+				@include ('extranet::front.layouts.version')
 		</div>
 			<!-- end Col 2 -->
 		</footer><!-- END FOOTER -->
