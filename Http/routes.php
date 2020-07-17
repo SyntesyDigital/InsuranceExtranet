@@ -7,6 +7,7 @@
 */
 
 Route::group([
+    'middleware' => ['web'],
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::get('/expired-token', 'ErrorController@expiredToken')->name('error.expired-token');
