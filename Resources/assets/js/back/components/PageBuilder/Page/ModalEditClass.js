@@ -10,6 +10,7 @@ import {
 import InputSettingsField from './../Settings/InputSettingsField';
 import BooleanSettingsField from './../Settings/BooleanSettingsField';
 import SelectorSettingsField from './../Settings/SelectorSettingsField';
+import VisibilitySettingsField from './../Page/Settings/Visibility/VisibilitySettingsField';
 
 
 class ModalEditClass extends Component {
@@ -41,6 +42,39 @@ class ModalEditClass extends Component {
     this.mounted = false;
   }
 
+  /**
+  *   Widget configuration can be changed because some settings or $rule
+  *   added directly to PHP. It's necessary to update the json stored in BBDD
+  *   to update the avialabe settings, and modifiy if necessary
+  */
+ updateSettingsFromConfig(field) {
+
+  var config = null;
+
+  if(field.data.type == "row"){
+    config = ROW_SETTINGS;
+  }
+  else if(field.data.type == "col"){
+    config = COL_SETTINGS;
+  }
+  else {
+    return field;
+  }
+
+  console.log("ModalEditClass :: updateSettingsFromConfig (config) ",config);
+
+  if (config !== undefined) {
+    for (var id in config) {
+      var setting = config[id];
+      if (field.data.settings[setting] === undefined) {
+        field.data.settings[setting] = null;
+      }
+    }
+  }
+
+  return field;
+}
+
   componentWillReceiveProps(nextProps) {
 
     console.log(" ModalEditClass :: componentWillReceiveProps ", nextProps);
@@ -50,6 +84,8 @@ class ModalEditClass extends Component {
     if (nextProps.modalSettings.displayModal) {
       this.modalOpen();
       field = nextProps.modalSettings.item;
+
+      field = this.updateSettingsFromConfig(field);
 
     } else {
       this.modalClose();
@@ -253,6 +289,17 @@ class ModalEditClass extends Component {
           options={this.getBoxClassOptions()}
         />
 
+        <VisibilitySettingsField
+          field={data}
+          name="conditionalVisibility"
+          source="settings"
+          inputLabel="Définir l'état par défaut."
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Afficher selon conditions"
+          parameters={this.props.parameters}
+          fields={this.props.fields}
+        />
+        
       </div>
     );
   }

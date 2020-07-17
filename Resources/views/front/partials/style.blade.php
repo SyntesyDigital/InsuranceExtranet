@@ -47,12 +47,17 @@
     $colorSidebarIconMenu = isset($storedStylesFront['colorSidebarIconMenu']) ? $storedStylesFront['colorSidebarIconMenu']->value : $secondaryColor;
     $backgroundColorSidebarTooltip = isset($storedStylesFront['backgroundColorSidebarTooltip']) ? $storedStylesFront['backgroundColorSidebarTooltip']->value : $sidebarBackgroundColor;
     $colorSidebarTooltip = isset($storedStylesFront['colorSidebarTooltip']) ? $storedStylesFront['colorSidebarTooltip']->value : $secondaryColor;
+    $sidebarBorderRadiusBottomRight = isset($storedStylesFront['frontSidebarBorderRadiusBottomRight']) ? $storedStylesFront['frontSidebarBorderRadiusBottomRight']->value.'px' : '0';
+    $sidebarBorderColor = isset($storedStylesFront['frontSidebarBorderColor']) ? $storedStylesFront['frontSidebarBorderColor']->value : $sidebarBackgroundColor;
+    $sidebarHeightUser = isset($storedStylesFront['frontSidebarHeightUser']) ? $storedStylesFront['frontSidebarHeightUser']->value : '50';
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
     $footerHoverTextColor = isset($storedStylesFront['frontFooterHoverTextColor']) ? $storedStylesFront['frontFooterHoverTextColor']->value : $primaryColor;
     $footerTextColor = isset($storedStylesFront['frontFooterTextColor']) ? $storedStylesFront['frontFooterTextColor']->value : $secondaryColor;
     $footerVersionColor = isset($storedStylesFront['frontFooterVersionColor']) ? $storedStylesFront['frontFooterVersionColor']->value : $secondaryColor;
+    $footerTextContactColor = isset($storedStylesFront['frontFooterTextContactColor']) ? $storedStylesFront['frontFooterTextContactColor']->value : $secondaryColor;
+    $footerTextNumberColor = isset($storedStylesFront['frontFooterTextNumberColor']) ? $storedStylesFront['frontFooterTextNumberColor']->value : $primaryColor;
 
   //BODY
     $bodyTextColor = isset($storedStylesFront['frontBodyTextColor']) ? $storedStylesFront['frontBodyTextColor']->value : $secondaryColor;
@@ -89,6 +94,7 @@
     $elementButtonColor = isset($storedStylesFront['frontElementButtonColor']) ? $storedStylesFront['frontElementButtonColor']->value : $primaryColor;
     $elementButtonHoverColor = isset($storedStylesFront['frontElementButtonHoverColor']) ? $storedStylesFront['frontElementButtonHoverColor']->value : $secondaryColor;
     $elementHeadTextTransform = isset($storedStylesFront['elementHeadTextTransform']) ? $storedStylesFront['elementHeadTextTransform']->value : 'uppercase';
+    $elementHeadTransparent = isset($storedStylesFront['frontElementHeadTransparent']) ? $storedStylesFront['frontElementHeadTransparent']->value : false;
 
     $titlesFontSize = isset($storedStylesFront['titleFontSize']) ? $storedStylesFront['titleFontSize']->value.'px' : '20px';
     $titleCollapsableFontSize = isset($storedStylesFront['titleCollapsableFontSize']) ? $storedStylesFront['titleCollapsableFontSize']->value.'px' : $titlesFontSize;
@@ -205,6 +211,7 @@
     $labelColor = isset($storedStylesFront['labelColor']) ? $storedStylesFront['labelColor']->value : $primaryColor;
     $labelFontSize = isset($storedStylesFront['labelFontSize']) ? $storedStylesFront['labelFontSize']->value.'px' : '18px';
     $labelPadding = isset($storedStylesFront['labelPadding']) ? $storedStylesFront['labelPadding']->value.'px' : '10px';
+    $labelRadioFieldFontSize = isset($storedStylesFront['labelRadioFieldFontSize']) ? $storedStylesFront['labelRadioFieldFontSize']->value.'px' : '14px';
 
     $labelInputColor = isset($storedStylesFront['labelInputColor']) ? $storedStylesFront['labelInputColor']->value : $primaryColor;
     $labelInputFontSize = isset($storedStylesFront['labelInputFontSize']) ? $storedStylesFront['labelInputFontSize']->value.'px' : '14px';

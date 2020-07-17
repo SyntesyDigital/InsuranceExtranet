@@ -222,8 +222,3 @@ Route::group([
       ->where('slug', '([A-Za-z0-9\-\/]+)')
       ->name('content.show');
 });
-
-// Get name views for add class body tag
-View::composer('*', function ($view) {
-    View::share('viewName', $view->getName());
-});

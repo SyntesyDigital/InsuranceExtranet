@@ -106,7 +106,7 @@
     }
   @endif
 
-  body.template-login .footer-auth ul li a{
+  body.template-login .footer-auth ul li a, body.template-reset-password .footer-auth ul li a{
     color: {{$footerTextColor}};
   }
 

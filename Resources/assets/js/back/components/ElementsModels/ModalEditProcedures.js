@@ -23,8 +23,6 @@ import {
 
 } from './actions';
 
-import {sortBy} from 'lodash.sortBy';
-
 import api from '../../api/index.js';
 
 
@@ -235,22 +233,36 @@ class ModalEditProcedures extends Component {
 
         //console.log("renderObjects :: (currentProcedure)",currentProcedure);
 
-        const displayObjects = currentProcedure.fields.map((object, index) =>
-            <div key={object.identifier + index} className={object.identifier + index}>
-                <FieldListItem
-                    key={index}
-                    identifier={object.identifier}
-                    index={index}
-                    icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
-                    icons={[this.getTypeIcon(object.type)]}
-                    label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                    labelField={object.name + ' ( '+currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier+' ) '}
-                    isField={true}
-                    onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
-                    onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
-                    
-                />
-            </div>
+        const displayObjects = currentProcedure.fields.map((object, index) => {
+
+                var jsonpath = "";
+                if(this.state.subJsonEnabled){
+                    jsonpath = '[subJSON] $.'+(object.jsonpath != null ? object.jsonpath : '')+object.identifier;
+                }
+                else {
+                    jsonpath = currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier
+                }
+                
+
+                return (
+                    <div key={object.identifier + index} className={object.identifier + index}> 
+                        <FieldListItem
+                            key={index}
+                            identifier={object.identifier}
+                            index={index}
+                            icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                            icons={[this.getTypeIcon(object.type)]}
+                            label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
+                            labelField={object.name + ' ( '+jsonpath+' ) '}
+                            isField={true}
+                            onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
+                            onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
+                            
+                        />
+                    </div>
+                );
+            }
+            
         )
         return (
             <div>
@@ -380,6 +392,13 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
+                            <ToggleField
+                                label={'Concaténer avec l\'ID de service'}
+                                name={'prefixed'}
+                                checked={currentProcedure.prefixed == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
 
                             <ToggleField
                                 label={'Sub JSON'}
@@ -398,6 +417,7 @@ class ModalEditProcedures extends Component {
                                 /> 
                             }
 
+                            
 
 
                             

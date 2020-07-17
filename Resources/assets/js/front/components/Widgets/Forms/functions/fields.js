@@ -14,6 +14,7 @@ import YesNoField from './../fields/YesNoField';
 import RadioField from './../fields/RadioField';
 import ImmatField from './../fields/ImmatField';
 import RadioMultiOptionField from './../fields/RadioMultiOptionField';
+import HtmlField from './../fields/HtmlField';
 
 import {
   HIDDEN_FIELD,
@@ -40,7 +41,8 @@ const fieldComponents = {
     yesno : YesNoField,
     radio : RadioField,
     multi : RadioMultiOptionField,
-    immat : ImmatField
+    immat : ImmatField,
+    html : HtmlField
 };
 
 export function getFieldComponent(type) {
@@ -180,6 +182,10 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
+  const champIdentifier = object.PREFIX != "" 
+    ? object.PREFIX+"."+object.CHAMP 
+    : object.CHAMP;
+
   console.log("processObjectValue :: ",object,values, formParameters);
 
   if(type == "INPUT"){
@@ -195,20 +201,24 @@ export function processObjectValue(object,values,formParameters) {
       return SESSION_ID;
     }
     
-    else if(values[object.CHAMP] == HIDDEN_FIELD){
+    else if(values[champIdentifier] == HIDDEN_FIELD){
       //this field is hidden
       return  null;
     }
     else {
+
+        //if champ is prefixed add prefix with identifier
+        
+
         //get value
-        if(values[object.CHAMP] === undefined){
+        if(values[champIdentifier] === undefined){
           if(isRequired){
-            console.error("Field is required : "+object.CHAMP);
+            console.error("Field is required : "+champIdentifier);
             //TODO dispatch error
           }
         }
         else {
-          return values[object.CHAMP];
+          return values[champIdentifier];
         }
     }
 
@@ -231,6 +241,9 @@ export function processObjectValue(object,values,formParameters) {
     }
     else if(defaultValue == "_contentType"){
       return values['_contentType'] ? values['_contentType'] : '';
+    }
+    else if(defaultValue == "_docName"){
+      return values['_docName'] ? values['_docName'] : '';
     }
     else if(formParameters[defaultValue] !== undefined){
       //check parameters
@@ -526,11 +539,15 @@ function checkConditionAccepted(condition,formParameters,values) {
     //it is a parameter
 
     //condition parameter don't exist in form
-    if(formParameters['_'+condition.name] === undefined){
+    if(formParameters['_'+condition.name] !== undefined){
+      formValue = formParameters['_'+condition.name];
+    }
+    else if(formParameters[condition.name] !== undefined){
+      formValue = formParameters[condition.name];
+    }
+    else {
       return false;
     }
-
-    formValue = formParameters['_'+condition.name];
   }
 
   if(formValue == null)

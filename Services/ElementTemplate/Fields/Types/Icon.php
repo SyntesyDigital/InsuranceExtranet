@@ -21,5 +21,6 @@ class Icon extends Field implements FieldInterface
     public $settings = [
         'htmlId',
         'htmlClass',
+        'conditionalVisibility'
     ];
 }

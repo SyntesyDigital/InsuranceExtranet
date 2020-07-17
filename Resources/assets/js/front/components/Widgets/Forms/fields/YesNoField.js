@@ -49,8 +49,8 @@ class YesNoField extends Component
 
   getConfig() {
     var config = {
-      checked : 1,
-      unchecked : 0
+      checked : '1',
+      unchecked : '0'
     };
 
     var field = this.props.field;
@@ -81,7 +81,7 @@ class YesNoField extends Component
   getConfigValue(value) {
     var config = this.getConfig();
 
-    if(value === undefined || value == "" || value == null){
+    if(value === undefined || value === "" || value === null){
       return null;
     }
 
@@ -94,10 +94,10 @@ class YesNoField extends Component
   }
 
   renderOption(label,value,currentValue) {
-      console.log("renderOption (label,value,currentValue) ",label,value,currentValue);
-
-      var checked = currentValue == value ? true : false;
+      
+      var checked = currentValue === value ? true : false;
       const bordered = checked ? 'bordered' : '';
+      //console.log("renderOption (label,value,currentValue,checked) ",label,value,currentValue,checked);
 
       return (
           <FormControlLabel

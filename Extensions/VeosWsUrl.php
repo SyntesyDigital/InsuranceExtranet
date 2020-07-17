@@ -7,7 +7,7 @@ use Auth;
 class VeosWsUrl
 {
     const PROD = 'prod';
-    const DEV = 'dev';
+    const DEV = 'preprod';
     const REC = 'rec';
 
     public static function get()

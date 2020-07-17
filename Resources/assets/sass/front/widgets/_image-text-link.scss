@@ -35,7 +35,8 @@
       &-description {
         padding: 0px 25px;
         line-height: 25px;
-        min-height: 80px;
+        // min-height: 80px;
+        @include line-clamp(2, 45);
       }
       &-link {
         min-height: 45px;
@@ -49,6 +50,9 @@
 #imageTextLinkList{
   margin-bottom: 30px;
   .slick-slider{
+    .slick-slide{
+      height: 430px;
+    }
     button {
       z-index: 1;
       text-decoration: none;
@@ -58,7 +62,7 @@
       position: absolute;
       top: 50%;
       width: 45px;
-    height: 45px;
+      height: 45px;
       padding: 0;
       transform: translateY(-50%);
       border: none;

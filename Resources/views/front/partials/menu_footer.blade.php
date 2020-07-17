@@ -9,7 +9,7 @@
 				@endphp
 				@if(isset($link))
 					@if($footerItems > 0)
-						<span class="footer-separator"> - </span>
+						<span class="footer-separator"> | </span>
 					@endif
 					<a href="{{$link["url"]}}" id="{{$link["id"]}}" class="{{$link["class"]}}" >
 
@@ -21,7 +21,7 @@
 				@else
 					<p>
 						@if($footerItems > 0)
-							<span class="footer-separator"> - </span>
+							<span class="footer-separator"> | </span>
 						@endif
 						{{$menuElement["name"]['fr']}}
 					</p>

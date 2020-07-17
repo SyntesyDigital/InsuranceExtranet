@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { mutation, query } from '../client.js';
 
 //------------------------------------------------------------//
-//          MODEL PROCEDURES 
+//          MODEL GROUPS 
 //------------------------------------------------------------//
 export let groups = {
     getGroupsPermissions() {

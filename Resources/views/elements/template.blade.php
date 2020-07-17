@@ -53,6 +53,7 @@ var routes = {
     'settings' : "{{ route('settings') }}",
     'template' : "{{ isset($element) ? route('extranet.elements.template.show', ['element' => $element, 'template' => ':id']) : null }}",
     'template.create' : "{{ isset($element) ? route('extranet.elements.template.create', $element) : null }}",
+    'extranet.element.parameters' : "{{isset($element) ? route('extranet.element.parameters',$element) : null }}",
 };
 </script>
 @endpush

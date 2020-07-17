@@ -2,6 +2,7 @@
 
 namespace Modules\Extranet\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Extranet\Services\TokenLogin\Providers\TokenLoginProvider;
@@ -20,8 +21,6 @@ class ExtranetServiceProvider extends ServiceProvider
 
     /**
      * Boot the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -36,15 +35,18 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->app->register(ElementTemplateProvider::class);
         $this->app->register(TokenLoginProvider::class);
 
-        if(config('app.env') == 'production') {
+        if (config('app.env') == 'production') {
             \URL::forceScheme('https');
         }
+
+        // Get name views for add class body tag
+        View::composer('*', function ($view) {
+            View::share('viewName', $view->getName());
+        });
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -60,8 +62,6 @@ class ExtranetServiceProvider extends ServiceProvider
 
     /**
      * Register config.
-     *
-     * @return void
      */
     protected function registerConfig()
     {
@@ -97,8 +97,6 @@ class ExtranetServiceProvider extends ServiceProvider
 
     /**
      * Register views.
-     *
-     * @return void
      */
     public function registerViews()
     {
@@ -117,8 +115,6 @@ class ExtranetServiceProvider extends ServiceProvider
 
     /**
      * Register translations.
-     *
-     * @return void
      */
     public function registerTranslations()
     {
@@ -133,8 +129,6 @@ class ExtranetServiceProvider extends ServiceProvider
 
     /**
      * Register an additional directory of factories.
-     *
-     * @return void
      */
     public function registerFactories()
     {

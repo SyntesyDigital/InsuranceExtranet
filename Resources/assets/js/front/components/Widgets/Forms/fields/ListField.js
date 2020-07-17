@@ -203,6 +203,7 @@ class ListField extends Component
           zIndex={1000}
           fields={this.props.field.settings.fields}
           onAjouter={this.handleModalSubmit.bind(this)}
+          parameters={this.props.parameters}
         />
 
 

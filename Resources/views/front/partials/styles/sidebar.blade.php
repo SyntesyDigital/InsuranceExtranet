@@ -15,4 +15,24 @@
         background-color: {{$backgroundColorSidebarTooltip}};
         color: {{$colorSidebarTooltip}}
     }
+    body .sidebar {
+        border-bottom-right-radius: {{$sidebarBorderRadiusBottomRight}}
+    }
+    body .sidebar .menu-sidebar-container .menu-item, body .sidebar .menu-sidebar-container .logo-container, body .sidebar .menu-sidebar-container .user-item, body .sidebar .menu-sidebar-container .menu-child{
+        border-bottom: 1px solid {{$sidebarBorderColor}}
+    }
+    body .sidebar .sub-menu-sidebar-container .menu-child a{
+        color: {{$sidebarActiveColor}};
+    }
+    body .sidebar .sub-menu-sidebar-container .menu-child a:hover {
+        color: {{$sidebarColor}};
+    }
+    body .sidebar .user-item{
+        height: {{$sidebarHeightUser}}px;
+        line-height: {{$sidebarHeightUser}}px;
+    }
+    body .sub-menu-sidebar-container {
+        top: {{$sidebarHeightUser}}px;
+    }
+
 </style>

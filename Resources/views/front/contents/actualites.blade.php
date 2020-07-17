@@ -19,9 +19,9 @@
   <article class="page-builder">
     <div class="rightbar-page">
       <div class="col-md-9 tipology-container">
-        <h5>{{$content->typology->name}}</h5>
+        <h4>{{$content->typology->name}}</h4>
         <h1>{{$content->getFieldValue('title')}}</h1>
-        <p>{{null !== $content->fields[4]->value ? date('d M Y', $content->fields[4]->value) : "" }}</p>
+        <h5>{{null !== $content->fields[4]->value ? date('d M Y', $content->fields[4]->value) : "" }}</h5>
         <div class="col-md-4 col-xs-12 no-padding-left">
           @if (isset($fields['image']['value']))
             <img src="{{ isset($fields['image']['value']['urls']['original']) ? asset($fields['image']['value']['urls']['original']) : null }}" style="width: 100%;"/>
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="sidebar-last-posts">
-        <h4>Denières actualités</h4>
+        <h3>Denières actualités</h3>
         <div 
           id="typology-last" 
           class="typology-last" 

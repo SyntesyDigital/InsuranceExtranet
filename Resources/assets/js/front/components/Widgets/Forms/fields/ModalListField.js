@@ -179,6 +179,7 @@ class ModalListField extends Component {
           value={this.state.values[field.identifier]}
           error={this.state.errors[field.identifier] !== undefined ? true : false}
           onFieldChange={this.handleOnChange}
+          parameters={this.props.parameters}
           values={this.state.values}
           isModal={true}
         />);

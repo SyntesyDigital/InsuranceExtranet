@@ -50,7 +50,7 @@ class FileField extends Component
       value : this.state.type
     });
     this.props.onFieldChange({
-      name : 'docName',
+      name : '_docName',
       value : this.state.name
     });
 
@@ -104,7 +104,7 @@ class FileField extends Component
       value : null
     });
     this.props.onFieldChange({
-      name : 'docName',
+      name : '_docName',
       value : null
     });
 
@@ -155,7 +155,7 @@ class FileField extends Component
           {this.props.value != null && this.props.value != '' &&
             <div className="row uploaded-file">
               <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
-                {this.props.values['docName']}
+                {this.props.values['_docName']}
               </div>
               <div className="col-xs-2">
                 <a href="" className="btn btn-link btn-danger"

@@ -4,6 +4,7 @@ body {
       .action-list-container {
         display: flex;
         justify-content: center;
+        border-left: 1px solid #E6E6E6;
         &.open {
           .btn-action {
             background: transparent;

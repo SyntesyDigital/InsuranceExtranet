@@ -1,7 +1,7 @@
 .action-button-container {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   background-color: #fff;
-  min-height: 85px;
+  min-height: 68px;
   display: flex;
   margin-bottom: 15px;
   -webkit-transition: 0.8s;
@@ -13,7 +13,7 @@
       justify-content: center;
       margin-left: 1px;
       i{
-        font-size: 1.5vw;
+        font-size: 20px;
         position: absolute;
         -webkit-transition: 0.8s;
       }
@@ -34,7 +34,7 @@
       padding: 0;
       p{
         margin-bottom: 0;
-        // height: 35px;
+        line-height: 20px;
         -webkit-transition: 0.8s;
         overflow: hidden;
         @include line-clamp(2,35);

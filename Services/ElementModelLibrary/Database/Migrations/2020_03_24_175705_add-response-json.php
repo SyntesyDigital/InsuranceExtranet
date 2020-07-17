@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddResponseJson extends Migration
 {
@@ -15,7 +15,7 @@ class AddResponseJson extends Migration
     {
         Schema::table('services', function (Blueprint $table) {
             $table->text('response_json')->nullable();
-          });
+        });
     }
 
     /**
@@ -27,6 +27,6 @@ class AddResponseJson extends Migration
     {
         Schema::table('services', function (Blueprint $table) {
             $table->dropColumn('response_json');
-          });
+        });
     }
 }

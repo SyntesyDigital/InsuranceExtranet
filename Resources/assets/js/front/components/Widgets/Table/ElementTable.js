@@ -32,6 +32,8 @@ export default class ElementTable extends Component {
         modalUrl : elementUrl,
         redirectUrl : redirectUrl
       });
+
+      
     }
 
     handleModalClose(){
