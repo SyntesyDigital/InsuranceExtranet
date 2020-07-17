@@ -45,7 +45,7 @@ export default class MenuSidebar extends Component {
     const items = this.state.menu;
 
     return (items.map((item, i) => (
-      <li key={i} className={'menu-item ' + (item.active ? 'active' : '')}>
+      <li key={i} className={'menu-item ' + (item.active !== undefined && item.active ? 'active' : '')}>
         {item.children.length > 0 ?
           <a
             onClick={this.handleSubmenuOpen.bind(this, item)}
