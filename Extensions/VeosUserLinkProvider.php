@@ -49,7 +49,7 @@ class VeosUserLinkProvider implements UserProvider
         $user = $user ? json_decode(Session::get('user')) : null;
 
         if ($user) {
-            if ($user->exp < time()) {
+            if (isset($user->exp) && $user->exp < time()) {
                 header('Location: '.route('error.expired-token'));
                 exit();
             }
