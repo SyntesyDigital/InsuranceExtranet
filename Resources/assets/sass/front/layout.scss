@@ -635,6 +635,27 @@ body {
         &.collapsed {
             width: 75px;
             // overflow-y: scroll;
+            ul{
+                li{
+                    a{
+                        text-overflow: unset;
+                        i{
+                            &.fas{
+                                &.fa-minus{
+                                    &:before{
+                                        content: '\f053';
+                                    }   
+                                }
+                            }
+                        }
+                        span{
+                            &.arrowLeft{
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
             .btn-ham {
                 margin: 0 auto;
                 right: 24px;
@@ -683,6 +704,7 @@ body {
         display: table;
         width: 100%;
         height: 80px;
+        padding-bottom: 30px;
         a {
             // position: relative;
             // top: 10px;
@@ -692,6 +714,8 @@ body {
         }
         &.collapsed{
             height: unset;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
     }
     .container-user {
