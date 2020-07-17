@@ -50,6 +50,8 @@
     $sidebarBorderRadiusBottomRight = isset($storedStylesFront['frontSidebarBorderRadiusBottomRight']) ? $storedStylesFront['frontSidebarBorderRadiusBottomRight']->value.'px' : '0';
     $sidebarBorderColor = isset($storedStylesFront['frontSidebarBorderColor']) ? $storedStylesFront['frontSidebarBorderColor']->value : $sidebarBackgroundColor;
     $sidebarHeightUser = isset($storedStylesFront['frontSidebarHeightUser']) ? $storedStylesFront['frontSidebarHeightUser']->value : '50';
+    $sidebarFontSizeItems = isset($storedStylesFront['frontSidebarFontSizeItems']) ? $storedStylesFront['frontSidebarFontSizeItems']->value.'px' : '16px';
+    $sidebarWidth = isset($storedStylesFront['frontSidebarWidth']) ? $storedStylesFront['frontSidebarWidth']->value.'px' : '250px';
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
@@ -432,6 +434,9 @@
       iconColorElement: '{{$iconColorElement}}',
       errorColor : '{{$errorColor}}',
       inputColor: '{{$inputColor}}'
+    },
+    sidebarMenu: {
+      sidebarWidth: '{{$sidebarWidth}}'
     }
   };
 </script>

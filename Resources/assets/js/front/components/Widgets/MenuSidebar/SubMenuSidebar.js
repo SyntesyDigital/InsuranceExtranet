@@ -8,14 +8,14 @@ export default class SubMenuSidebar extends Component {
 
   constructor(props) {
     super(props);
-  }
+  };
 
-  handleSubmenuOpen() {
+  handleSubmenuClose() {
     TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
       display: "block",
       left: "0px"
     }, {
-      left: (isMobile ? "100%" : "250px"),
+      left: (isMobile ? "100%" : STYLES.sidebarMenu.sidebarWidth),
       ease: Power2.easeInOut,
       onComplete: function () { }
     })
@@ -24,7 +24,7 @@ export default class SubMenuSidebar extends Component {
   renderMenuItem() {
     const items = this.props.children;
     return (items.map((item, i) => (
-      <li key={i} className={"menu-child"}>
+      <li key={i} className={"menu-child " + (item.active ? 'active' : '')}>
         <a
           href={item.url}
           id={item.id}
@@ -45,7 +45,7 @@ export default class SubMenuSidebar extends Component {
       <div className="container-submenu">
         <ul className="menu-children">
           <li className="menu-child parent">
-            <a href="#" onClick={this.handleSubmenuOpen.bind(this)}>
+            <a href="#" onClick={this.handleSubmenuClose.bind(this)}>
               <i className="fas fa-minus"></i>
               <span className="sidebar-text">{this.props.itemCurrent}</span>
               <span className="arrowLeft"><img src={arrowLeft} /></span>

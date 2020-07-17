@@ -13,7 +13,8 @@ export default class MenuSidebar extends Component {
       asideOpen: false,
       children: [],
       itemCurrent: null,
-      form: null
+      form: null,
+      active: false
     }
   }
 
@@ -36,8 +37,42 @@ export default class MenuSidebar extends Component {
       left: "0px",
       ease: Power2.easeInOut,
       onComplete: function () { }
-    })
+    });
 
+  }
+
+  componentDidMount() {
+
+    var children = [];
+    var active = false;
+    var itemCurrent = null;
+
+    this.state.menu.map(function (item, i) {
+      item.children.map(function (child, i) {
+        if(child.active == true){
+          children = item.children;
+          active = true;
+          itemCurrent = item.name
+        }
+      });
+    });
+    
+    this.setState({
+      children: children,
+      active: active,
+      itemCurrent: itemCurrent
+    });
+    
+    if(active){
+      TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
+        display: "block",
+        left: "100%"
+      }, {
+        left: "0px",
+        ease: Power2.easeInOut,
+        onComplete: function () { }
+      });
+    };
   }
 
   renderMenuItem() {

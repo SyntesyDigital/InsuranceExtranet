@@ -273,7 +273,7 @@ export default class TableComponent extends Component {
           value = parseNumber(value,field);
       }
 
-      console.log("value => ",value);
+      // console.log("value => ",value);
       var style = getConditionalFormating(field,value);
       var hasColor = hasConditionalFormatting(style);
       var textAlign = getTextAlign(field);
