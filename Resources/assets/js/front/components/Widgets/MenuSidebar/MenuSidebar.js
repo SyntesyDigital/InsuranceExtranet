@@ -79,29 +79,58 @@ export default class MenuSidebar extends Component {
 
     const items = this.state.menu;
 
-    return (items.map((item, i) => (
-      <li key={i} className={'menu-item ' + (item.active ? 'active' : '')}>
-        {item.children.length > 0 ?
-          <a
-            onClick={this.handleSubmenuOpen.bind(this, item)}
-            id={item.id} className={item.class + ' tooltip-link'}
-            title={item.name ? item.name : null}>
-            <i className={item.icon ? item.icon : null}></i>
-            <span className="sidebar-text">{item.name ? item.name : null}</span>
-            <span className="arrowright"><img src={arrowRight} /></span>
-          </a>
-          :
-          <a
-            href={item.url}
-            id={item.id}
-            className={item.class + ' tooltip-link'}
-            title={item.name ? item.name : null}>
-            <i className={item.icon ? item.icon : null}></i>
-            <span className="sidebar-text">{item.name ? item.name : null}</span>
-          </a>
+    return items.map((item, i) => {
+        if(item) {
+            return (
+                <li key={i} className={'menu-item ' + (item.active !== undefined && item.active ? 'active' : '')}>
+                    {item.children && item.children.length > 0 ?
+                    <a
+                        onClick={this.handleSubmenuOpen.bind(this, item)}
+                        id={item.id} className={item.class + ' tooltip-link'}
+                        title={item.name ? item.name : null}>
+                        <i className={item.icon ? item.icon : null}></i>
+                        <span className="sidebar-text">{item.name ? item.name : null}</span>
+                        <span className="arrowright"><img src={arrowRight} /></span>
+                    </a>
+                    :
+                    <a
+                        href={item.url}
+                        id={item.id}
+                        className={item.class + ' tooltip-link'}
+                        title={item.name ? item.name : null}>
+                        <i className={item.icon ? item.icon : null}></i>
+                        <span className="sidebar-text">{item.name ? item.name : null}</span>
+                    </a>
+                    }
+                </li>
+            )
         }
-      </li>
-    )));
+
+    });
+
+    // return (items.map((item, i) => (
+    //   <li key={i} className={'menu-item ' + (item !== null && item.active !== undefined && item.active ? 'active' : '')}>
+    //     {item && item.children && item.children.length > 0 ?
+    //       <a
+    //         onClick={this.handleSubmenuOpen.bind(this, item)}
+    //         id={item.id} className={item.class + ' tooltip-link'}
+    //         title={item.name ? item.name : null}>
+    //         <i className={item.icon ? item.icon : null}></i>
+    //         <span className="sidebar-text">{item.name ? item.name : null}</span>
+    //         <span className="arrowright"><img src={arrowRight} /></span>
+    //       </a>
+    //       :
+    //       <a
+    //         href={item.url}
+    //         id={item.id}
+    //         className={item.class + ' tooltip-link'}
+    //         title={item.name ? item.name : null}>
+    //         <i className={item.icon ? item.icon : null}></i>
+    //         <span className="sidebar-text">{item.name ? item.name : null}</span>
+    //       </a>
+    //     }
+    //   </li>
+    // )));
   }
 
   render() {
@@ -121,7 +150,7 @@ export default class MenuSidebar extends Component {
           <div className="wrapper-menu">
             <div className="sub-menu-sidebar-container">
               <SubMenuSidebar
-                children={this.state.children}
+                children={this.state.children ? this.state.children : []}
                 itemCurrent={this.state.itemCurrent}
               />
             </div>

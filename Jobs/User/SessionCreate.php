@@ -32,14 +32,14 @@ class SessionCreate
             return false;
         }
 
-        //check if has multiple sessions
+        // check if has multiple sessions
         $isSupervue = isset($user->{'USEREXT.supervue'}) && $user->{'USEREXT.supervue'} == 'Y' ? true : false;
 
-        //get user sessions available
+        // get user sessions available
         $sessions = $this->getSessions($this->veosToken);
         $currentSession = null;
 
-        //if no sessions exit
+        // if no sessions exit
         if (sizeof($sessions) == 0) {
             return false;
         } elseif (sizeof($sessions) == 1) {
@@ -48,16 +48,16 @@ class SessionCreate
                 ? $sessions[0]->session
                 : null;
         }
-        //else need a modal to select from all sessions
+        // else need a modal to select from all sessions
 
-        //get new session info depending on the current session
+        // get new session info depending on the current session
         $sessionInfo = $this->getSessionInfo($currentSession, $this->veosToken);
 
-        //Check pages rights
-        //get all pages so store in cache and no need to process again
+        // Check pages rights
+        // get all pages so store in cache and no need to process again
         $pages = $this->getPages($this->veosToken);
 
-        //check if possible to get allowed pages
+        // check if possible to get allowed pages
         $allowedPages = $this->getAllowedPages(
             $currentSession,
             $pages,
@@ -74,7 +74,7 @@ class SessionCreate
             'lastname' => isset($user->{'USEREXT.nom2_per'}) ? $user->{'USEREXT.nom2_per'} : '',
             'email' => isset($user->{'USEREXT.email_per'}) ? $user->{'USEREXT.email_per'} : '',
             'phone' => isset($user->{'USEREXT.telprinc_per'}) ? $user->{'USEREXT.telprinc_per'} : '',
-            'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == "1" ? true : false,
+            'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == '1' ? true : false,
             'supervue' => $isSupervue,
             'token' => $this->veosToken,
             'api_token' => bin2hex(random_bytes(64)),
@@ -178,7 +178,6 @@ class SessionCreate
             ],
         ]);
         $payload = json_decode($query->getBody()->getContents());
-        
 
         $query = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_USE?id_per_user='.$payload->id, [
             'headers' => [

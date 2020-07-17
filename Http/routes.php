@@ -2,6 +2,19 @@
 
 /*
 |--------------------------------------------------------------------------
+|   ERROR
+|--------------------------------------------------------------------------
+*/
+
+Route::group([
+    'middleware' => ['web'],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+    Route::get('/expired-token', 'ErrorController@expiredToken')->name('error.expired-token');
+});
+
+/*
+|--------------------------------------------------------------------------
 | ADMIN
 |--------------------------------------------------------------------------
 */
@@ -182,8 +195,9 @@ Route::group([
   'middleware' => [
       'SignInWhenToken',
       'web',
+      'auth:veos-link',
       'auth:veos-ws',
-      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER',
+      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS',
     ],
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {

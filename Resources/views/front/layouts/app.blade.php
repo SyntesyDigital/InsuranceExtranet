@@ -66,7 +66,7 @@
         @endif
 
         @if(null !== Auth::user() && !is_jailed())
-         @include ('extranet::front.partials.header')
+            @include ('extranet::front.partials.header')
         @endif
         
         @include ('extranet::front.partials.env_bar')
@@ -75,13 +75,15 @@
           @if(null !== Auth::user())
 
             @if(!is_jailed())
-              @include ('extranet::front.partials.sidebar')
+                @include ('extranet::front.partials.sidebar')
             @endif
 
             <div class="content-wrapper @if(is_jailed()) jailed @endif">
-              @if(isset(Auth::user()->id) && isset(Auth::user()->session_id))
-                @yield('content')
-              @endif
+                @if(isset(Auth::user()->id) && isset(Auth::user()->session_id))
+                    @yield('content')
+                @elseif(Auth::user() && Auth::user()->role == ROLE_ANONYMOUS)
+                    @yield('content')
+                @endif
             </div>
           @else
             @yield('content')

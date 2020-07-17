@@ -14,6 +14,7 @@ import YesNoField from './../fields/YesNoField';
 import RadioField from './../fields/RadioField';
 import ImmatField from './../fields/ImmatField';
 import RadioMultiOptionField from './../fields/RadioMultiOptionField';
+import HtmlField from './../fields/HtmlField';
 
 import {
   HIDDEN_FIELD,
@@ -40,7 +41,8 @@ const fieldComponents = {
     yesno : YesNoField,
     radio : RadioField,
     multi : RadioMultiOptionField,
-    immat : ImmatField
+    immat : ImmatField,
+    html : HtmlField
 };
 
 export function getFieldComponent(type) {

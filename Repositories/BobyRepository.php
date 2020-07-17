@@ -101,7 +101,7 @@ class BobyRepository
     {
         if ($isArray) {
             //is array ( example documents ) process every item
-            foreach($url as $currentUrl){
+            foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
                     $result = $this->processMethod($method, $currentUrl, $item);
                 }
@@ -109,11 +109,12 @@ class BobyRepository
 
             //FIXME get a response that represents all items
             return $result;
-        } else if(is_array($url)){
+        } elseif (is_array($url)) {
             //process every post of array
-            foreach($url as $currentUrl){
+            foreach ($url as $currentUrl) {
                 $result = $this->processMethod($method, $currentUrl, $data);
             }
+
             return $result;
         } else {
             return $this->processMethod($method, $url, $data);
@@ -126,7 +127,7 @@ class BobyRepository
           'json' => $data,
           'headers' => [
               'Authorization' => 'Bearer '.Auth::user()->token,
-          ]
+          ],
         ];
 
         switch ($method) {
@@ -139,34 +140,35 @@ class BobyRepository
                 $response = $this->client->put(VeosWsUrl::get().$url, $params);
             break;
             case 'GET':
-                $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url,$params['json']), $params);
+                $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url, $params['json']), $params);
             break;
             case 'DELETE':
                 $response = $this->client->delete(VeosWsUrl::get().$url, $params);
+                // no break
             default:
                 return null;
         }
 
-        
-
         return json_decode($response->getBody());
     }
 
-    private function params2url($baseUrl, $params){
-
+    private function params2url($baseUrl, $params)
+    {
         //if base url already contains ? continue url with &
-        $firstChar = strpos($baseUrl, "?") === false ? "?" : "&";
+        $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
         $first = true;
-        $url = "";
-        if(!isset($params))
+        $url = '';
+        if (!isset($params)) {
             return $url;
-            
-        foreach($params as $key => $value){
-            if($value != "" && $value != null){
-                $url .= ($first? $firstChar :'&').$key."=".$value;
+        }
+
+        foreach ($params as $key => $value) {
+            if ($value != '' && $value != null) {
+                $url .= ($first ? $firstChar : '&').$key.'='.$value;
                 $first = false;
             }
         }
+
         return $url;
     }
 
@@ -179,7 +181,7 @@ class BobyRepository
       ]);
 
         $result = json_decode($response->getBody());
-        
+
         if (isset($result->data[0])) {
             if ($result->data[0]->PERMIS == 'yes') {
                 return true;
