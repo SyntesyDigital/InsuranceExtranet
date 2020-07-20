@@ -1,4 +1,5 @@
 @php
+    $link = "";
     $identifier = str_replace(",","",$field['identifier']);
     $identifier = str_replace("[","",$identifier);
     $identifier = str_replace("]","",$identifier).'_'.$iterator;
@@ -42,19 +43,22 @@
           parameters="{{$parameters}}"
         >
         </div>
-        <div>
-          <div class="more-btn">
-            @include('extranet::front.partials.fields.'.$field['fields'][1]['type'],
-              [
-                "field" => $field['fields'][1],
-                "settings" => $field['settings'],
-                "div" => false,
-                "icon" => "far fa-eye",
-                "parameters" => $parameters
-              ]
-            )
+      
+        @if (isset($field['fields'][1]['value']['content']) || isset($field['fields'][1]['value']['url'][App::getLocale()]))
+          <div>
+            <div class="more-btn">
+              @include('extranet::front.partials.fields.'.$field['fields'][1]['type'],
+                [
+                  "field" => $field['fields'][1],
+                  "settings" => $field['settings'],
+                  "div" => false,
+                  "icon" => "far fa-eye",
+                  "parameters" => $parameters
+                ]
+              )
+            </div>
           </div>
-        </div>
+        @endif
     </div>
   </div>
 @endif
