@@ -48,22 +48,26 @@ export default class MenuSidebar extends Component {
     var itemCurrent = null;
 
     this.state.menu.map(function (item, i) {
-      item.children.map(function (child, i) {
-        if(child.active == true){
-          children = item.children;
-          active = true;
-          itemCurrent = item.name
-        }
-      });
+      if (item) {
+        item.children.map(function (child, i) {
+          if (item.children.length > 0) {
+            if (child.active == true) {
+              children = item.children;
+              active = true;
+              itemCurrent = item.name
+            }
+          }
+        });
+      }
     });
-    
+
     this.setState({
       children: children,
       active: active,
       itemCurrent: itemCurrent
     });
-    
-    if(active){
+
+    if (active) {
       TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
         display: "block",
         left: "100%"
@@ -80,57 +84,36 @@ export default class MenuSidebar extends Component {
     const items = this.state.menu;
 
     return items.map((item, i) => {
-        if(item) {
-            return (
-                <li key={i} className={'menu-item ' + (item.active !== undefined && item.active ? 'active' : '')}>
-                    {item.children && item.children.length > 0 ?
-                    <a
-                        onClick={this.handleSubmenuOpen.bind(this, item)}
-                        id={item.id} className={item.class + ' tooltip-link'}
-                        title={item.name ? item.name : null}>
-                        <i className={item.icon ? item.icon : null}></i>
-                        <span className="sidebar-text">{item.name ? item.name : null}</span>
-                        <span className="arrowright"><img src={arrowRight} /></span>
-                    </a>
-                    :
-                    <a
-                        href={item.url}
-                        id={item.id}
-                        className={item.class + ' tooltip-link'}
-                        title={item.name ? item.name : null}>
-                        <i className={item.icon ? item.icon : null}></i>
-                        <span className="sidebar-text">{item.name ? item.name : null}</span>
-                    </a>
-                    }
-                </li>
-            )
-        }
 
+      if (item) {
+        var className = item.class !== undefined ? item.class : null;
+        var id = item.id !== undefined ? item.id : null;
+        var name = item.name !== undefined ? item.name : null;
+        var icon = item.icon !== undefined ? item.icon : null;
+        var url = item.url !== undefined ? item.url : null;
+        var active = item.active !== undefined ? item.active : null;
+        var children = item.children !== undefined && item.children.length > 0 ? item.children : null;
+
+        return (
+          <li key={i} className={'menu-item ' + (active ? 'active' : '')}>
+              <a
+                onClick={children ? this.handleSubmenuOpen.bind(this, item) : null}
+                href={!children ? url : null}
+                id={id} 
+                className={className + ' tooltip-link'}
+                title={name}
+              >
+                  <i className={icon}></i>
+                  <span className="sidebar-text">{name}</span>
+                {children &&
+                  <span className="arrowright"><img src={arrowRight} /></span>
+                }
+              </a>
+          </li>
+        )
+      }
+      
     });
-
-    // return (items.map((item, i) => (
-    //   <li key={i} className={'menu-item ' + (item !== null && item.active !== undefined && item.active ? 'active' : '')}>
-    //     {item && item.children && item.children.length > 0 ?
-    //       <a
-    //         onClick={this.handleSubmenuOpen.bind(this, item)}
-    //         id={item.id} className={item.class + ' tooltip-link'}
-    //         title={item.name ? item.name : null}>
-    //         <i className={item.icon ? item.icon : null}></i>
-    //         <span className="sidebar-text">{item.name ? item.name : null}</span>
-    //         <span className="arrowright"><img src={arrowRight} /></span>
-    //       </a>
-    //       :
-    //       <a
-    //         href={item.url}
-    //         id={item.id}
-    //         className={item.class + ' tooltip-link'}
-    //         title={item.name ? item.name : null}>
-    //         <i className={item.icon ? item.icon : null}></i>
-    //         <span className="sidebar-text">{item.name ? item.name : null}</span>
-    //       </a>
-    //     }
-    //   </li>
-    // )));
   }
 
   render() {
