@@ -18,7 +18,7 @@ class ProcessService
           'method',
           'url',
           'data',
-          'is_array'
+          'is_array',
           'is_old_url',
       ]);
     }
