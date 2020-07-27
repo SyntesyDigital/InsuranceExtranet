@@ -97,13 +97,13 @@ class BobyRepository
         return $beans;
     }
 
-    public function processService($method, $url, $data, $isArray)
+    public function processService($method, $url, $data, $isArray, $isOldUrl = null)
     {
         if ($isArray) {
             //is array ( example documents ) process every item
             foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl);
                 }
             }
 
@@ -112,39 +112,49 @@ class BobyRepository
         } elseif (is_array($url)) {
             //process every post of array
             foreach ($url as $currentUrl) {
-                $result = $this->processMethod($method, $currentUrl, $data);
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl);
             }
 
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data);
+            return $this->processMethod($method, $url, $data, $isOldUrl);
         }
     }
 
-    private function processMethod($method, $url, $data)
+    private function processMethod($method, $url, $data, $isOldUrl = null)
     {
         $params = [
-          'json' => $data,
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
+            'json' => $data,
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ];
+
+        $wsUrl = VeosWsUrl::get();
+
+        if ($isOldUrl) {
+            $wsUrl = str_replace('/rsExtranet2/', '/', $wsUrl);
+        }
 
         switch ($method) {
             case 'POST':
-                $response = $this->client->post(VeosWsUrl::get().$url, $params);
+                $response = $this->client->post($wsUrl.$url, $params);
                 break;
+
             case 'PUT':
             case 'PUT*':  //FIXME to delete when not used
             case 'PUT_2':
-                $response = $this->client->put(VeosWsUrl::get().$url, $params);
-            break;
+                $response = $this->client->put($wsUrl.$url, $params);
+                break;
+
             case 'GET':
-                $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url, $params['json']), $params);
-            break;
+                $response = $this->client->get($wsUrl.$url.$this->params2url($url, $params['json']), $params);
+                break;
+
             case 'DELETE':
-                $response = $this->client->delete(VeosWsUrl::get().$url, $params);
-                // no break
+                $response = $this->client->delete($wsUrl.$url, $params);
+                break;
+
             default:
                 return null;
         }

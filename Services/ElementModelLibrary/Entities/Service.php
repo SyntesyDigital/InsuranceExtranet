@@ -35,7 +35,8 @@ class Service extends Model
         'json',
         'response',
         'comment',
-        'response_json'
+        'response_json',
+        'is_old_url_ws',
     ];
 
     public function procedures(): HasMany
@@ -43,18 +44,20 @@ class Service extends Model
         return $this->hasMany(ModelProcedure::class, 'id', 'service_id');
     }
 
-    public function getObject() {
-        return (object)[
-            "ID"=> $this->id,
-            "SERVICE"=> $this->name,
-            "METHODE"=> $this->http_method,
-            "URL"=> $this->url,
-            "REPONSE"=> $this->response,
-            "REPONSE_JSON"=> $this->response_json,
-            "COMMENTAIRE"=> $this->comment,
-            "P1"=> null,
-            "P2"=> null,
-            "JSON" => $this->json,
+    public function getObject()
+    {
+        return (object) [
+            'ID' => $this->id,
+            'SERVICE' => $this->name,
+            'METHODE' => $this->http_method,
+            'URL' => $this->url,
+            'IS_OLD_URL' => $this->is_old_url_ws,
+            'REPONSE' => $this->response,
+            'REPONSE_JSON' => $this->response_json,
+            'COMMENTAIRE' => $this->comment,
+            'P1' => null,
+            'P2' => null,
+            'JSON' => $this->json,
         ];
     }
 }

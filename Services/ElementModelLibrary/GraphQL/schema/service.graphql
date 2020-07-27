@@ -12,6 +12,7 @@ type Service {
     response: String 
     comment: String
     response_json: String
+    is_old_url_ws: Boolean
     procedures: [ModelProcedure!] @hasMany
     created_at: String
     updated_at: String
@@ -32,6 +33,7 @@ input CreateServiceInput {
     response: String 
     comment: String
     response_json: String
+    is_old_url_ws: Boolean
 }
 
 input UpdateServiceInput {
@@ -45,6 +47,7 @@ input UpdateServiceInput {
     response: String 
     comment: String
     response_json: String
+    is_old_url_ws: Boolean
 }
 
 
