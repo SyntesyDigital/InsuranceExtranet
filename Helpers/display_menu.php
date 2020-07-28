@@ -86,8 +86,14 @@ if (!function_exists('allowed_link')) {
                 return false;
             }
 
-            if (isset($pages->{$link['request_url']})) {
-                return $pages->{$link['request_url']};
+            $content = isset($link['link']['content'])
+                ? $link['link']['content']
+                : null;
+
+            if ($content) {
+                return isset($pages->{$content->url})
+                    ? $pages->{$content->url}
+                    : true;
             }
 
             return true;

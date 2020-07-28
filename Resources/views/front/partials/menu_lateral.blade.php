@@ -15,7 +15,13 @@
 
 	@php
 		foreach($menu as $index => $menuElement){
-			$menu[$index] = format_link($menuElement);
+            $link = format_link($menuElement);
+
+            if(!allowed_link($menu[$index])){
+                 continue;
+            }
+
+            $menu[$index] = $link;
 		}
 	@endphp
 
