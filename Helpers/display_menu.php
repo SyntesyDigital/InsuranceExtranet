@@ -10,6 +10,7 @@ if (!function_exists('get_menu')) {
         }
 
         $menu = Modules\Architect\Entities\Menu::hasName($key)->first();
+
         if (!isset($menu)) {
             return null;
         }
@@ -97,7 +98,7 @@ if (!function_exists('allowed_link')) {
                 return false;
             }
 
-            return false;
+            return true;
         } else {
             //all allowed
             return true;
