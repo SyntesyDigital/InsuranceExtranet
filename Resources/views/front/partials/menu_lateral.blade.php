@@ -13,18 +13,24 @@
 		@endphp
 	@endif
 
-	@php
+    @php
+        $filteredMenu = [];
 		foreach($menu as $index => $menuElement){
-			$menu[$index] = format_link($menuElement);
-		}
-	@endphp
+            $link = format_link($menuElement);
+            
+            if(allowed_link($menu[$index])){
+                $filteredMenu[] = $link;
+            }
+        }
+    @endphp
+    
 
 	<div class="menu-sidebar-container">
 		<div id="menuSidebar" class="menuSidebar"
 			logo="{{ isset($storedStylesFront['frontLogo']) && isset($storedStylesFront['frontLogo']->value) ? $storedStylesFront['frontLogo']->value->urls['original'] : asset('modules/architect/images/logo.png') }}"
 			routeHome="{{route('home')}}"
 			currentUser="{{ isset(Auth::user()->session_info->{'USEREXT.nom2_per'}) ? Auth::user()->session_info->{'USEREXT.nom2_per'} : null }}"
-			menu="{{ isset($menu) ? base64_encode(json_encode($menu)) : null }}"
+			menu="{{ base64_encode(json_encode($filteredMenu)) }}"
 			routeLogout="{{route('logout')}}"
 		>
 		</div>

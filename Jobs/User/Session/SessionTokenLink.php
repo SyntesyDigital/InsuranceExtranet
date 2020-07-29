@@ -15,8 +15,8 @@ class SessionTokenLink
     {
         $this->token = $token;
         $this->params = $params;
-        $this->test = $env != null ? true : false;
-        $this->env = $env != null ? $env : VeosWsUrl::PROD;
+        $this->test = isset($params['test']) && $params['test'] == 1 ? true : false;
+        $this->env = isset($params['env']) ? $params['env'] : VeosWsUrl::PROD;
     }
 
     public function handle()

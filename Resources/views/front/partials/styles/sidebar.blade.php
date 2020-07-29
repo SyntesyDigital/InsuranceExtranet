@@ -30,6 +30,9 @@
         body .sidebar .sub-menu-sidebar-container{
             width: {{$sidebarWidth}};
         }
+        body .content-wrapper {
+            margin-left: {{$sidebarWidth}};
+        }
     }
     body .sidebar .sub-menu-sidebar-container .sidebar-text{
         font-size: {{$sidebarFontSizeItems}};

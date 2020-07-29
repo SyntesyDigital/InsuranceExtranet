@@ -188,8 +188,8 @@ class ContentController extends Controller
 
         if (Auth::user()->role == ROLE_ANONYMOUS) {
             $settings = $content->getSettings();
-            if (!isset($settings['accessByLink']) && $settings['accessByLink'] !== true) {
-                abort(401);
+            if (!isset($settings['accessByLink']) || $settings['accessByLink'] !== true) {
+                abort(403, 'Forbidden');
             }
         }
 

@@ -14,14 +14,14 @@
     if(isset($field['fields'][0]['value']['content'])){
       //is internal
       $content = $field['fields'][0]['value']['content'];
-      $link = $content->url;
-    }
-    else {
+      $link = get_page_link($content->url, $parameters);
+    } else {
       //is external
       $target = "_blank";
       $link = isset($field['fields'][0]['value']['url'][App::getLocale()]) ? $field['fields'][0]['value']['url'][App::getLocale()] : '';
+      $link = get_page_link($link, $parameters);
     }
-
+    
     $allowed = allowed_link(['request_url' => substr($link, 1)]); //remove first /
   @endphp
 
@@ -39,24 +39,25 @@
       </style>
     @endif
 
-  <a target="{{$target}}" href="{{$link}}?{{$parameters}}" class="box-button-container-a">
+  <a target="{{$target}}" href="{{$link}}" class="box-button-container-a">
     @endif
   
-    <div id="{{$field['settings']['htmlId'] or ''}}" class="box-button-root box-button-container {{$field['settings']['htmlClass'] or ''}} {{$field['settings']['buttonClass'] or ''}}">
+    <div 
+        id="{{$field['settings']['htmlId'] or ''}}" 
+        class="box-button-root box-button-container {{$field['settings']['htmlClass'] or ''}} {{$field['settings']['buttonClass'] or ''}}"
+    >
       <div class="wrap-box-button">
         <div class="image-container" id="identifier-{{$identifier}}">
-          @if(isset($icon))
-          <div class="wrap-icon"><i class="{{$icon}}"></i></div>
-          @else
-          <div class="wrap-image">
-            @include('extranet::front.partials.fields.image',
-              [
-                "field" => $field['fields'][3],
-                "settings" => $field['settings'],
-              ]
-            )
-          </div>
-          @endif
+            @if(isset($icon))
+                <div class="wrap-icon"><i class="{{$icon}}"></i></div>
+            @else
+                <div class="wrap-image">
+                    @include('extranet::front.partials.fields.image', [
+                        "field" => $field['fields'][3],
+                        "settings" => $field['settings'],
+                    ])
+                </div>
+            @endif
         </div>
         <div class="label-container" id="identifier-{{$identifier}}">
           <div>

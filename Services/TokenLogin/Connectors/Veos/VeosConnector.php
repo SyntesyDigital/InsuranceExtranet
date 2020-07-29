@@ -42,6 +42,8 @@ class VeosConnector implements TokenLoginConnectorInterface
             $params['display_mode'] = 'jailed';
         }
 
+        $params['env'] = $request->get('env') ? $request->get('env') : null;
+
         $obj = json_decode(base64_decode(str_replace('_', '/', str_replace('-', '+', explode('.', $this->token)[1]))));
 
         if (isset($obj->sub)) {

@@ -69,7 +69,6 @@ export function getJsonResultBeforePut(procedure,formParameters) {
     ////console.log("getJsonResultBeforePut :: ",procedure);
 
     if(procedure.SERVICE === undefined){
-      console.error("procedure not defined => ",procedure);
       return dispatch({type : UPDATE_JSON_RESULT_GET_ERROR});
     }
 
@@ -77,10 +76,13 @@ export function getJsonResultBeforePut(procedure,formParameters) {
     var url = processUrlParameters(procedure.SERVICE.URL,formParameters);
 
     var params = {
-      method : "GET",
-      url : url,
-      data : "",
-      is_array : false
+        method : "GET",
+        url : url,
+        data : "",
+        is_array : false,
+        is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
+            ? procedure.SERVICE.IS_OLD_URL 
+            : null
     };
 
     self = this;
@@ -379,7 +381,10 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       method : procedure.SERVICE.METHODE,
       url : url,
       data : jsonResult,
-      is_array : procedureIsArray(procedure)
+      is_array : procedureIsArray(procedure),
+      is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
+            ? procedure.SERVICE.IS_OLD_URL 
+            : null
     };
 
     axios.post(ASSETS+'architect/elements/form/process-service',params)

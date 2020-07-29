@@ -10,6 +10,7 @@ if (!function_exists('get_menu')) {
         }
 
         $menu = Modules\Architect\Entities\Menu::hasName($key)->first();
+
         if (!isset($menu)) {
             return null;
         }
@@ -21,8 +22,6 @@ if (!function_exists('get_menu')) {
         $menuRepository = App::make('Modules\Architect\Repositories\MenuRepository');
         $menuTree = $menuRepository->getDisplayTree($menu);
 
-        //dd($menuTree);
-
         Cache::forever($cacheKey, $menuTree);
 
         return $menuTree;
@@ -32,16 +31,15 @@ if (!function_exists('get_menu')) {
 if (!function_exists('format_link')) {
     function format_link($menuElement)
     {
-        if (!isset($menuElement['name'][App::getLocale()]) ||
-        $menuElement['name'][App::getLocale()] == '') {
+        if (!isset($menuElement['name'][App::getLocale()]) || $menuElement['name'][App::getLocale()] == '') {
             return null;
         }
 
         $target = null;
         $url = '';
         $icon = null;
-        if (isset($menuElement['link']['url']) &&
-        isset($menuElement['link']['url'][App::getLocale()])) {
+
+        if (isset($menuElement['link']['url']) && isset($menuElement['link']['url'][App::getLocale()])) {
             $url = $menuElement['link']['url'][App::getLocale()];
             $target = '_blank';
         } elseif (isset($menuElement['link']['content'])) {
@@ -58,21 +56,17 @@ if (!function_exists('format_link')) {
             $menuElement['children'][$index] = format_link($child);
         }
 
-        $result = [
-        'url' => $url,
-        'request_url' => substr($url, 1),
-        'name' => $menuElement['name'][App::getLocale()],
-        'class' => isset($menuElement['settings']['htmlClass']) ?
-          $menuElement['settings']['htmlClass'] : '',
-        'id' => isset($menuElement['settings']['htmlId']) ?
-          $menuElement['settings']['htmlId'] : '',
-        'target' => $target,
-        'icon' => $icon,
-        'children' => $menuElement['children'],
-        'active' => Request::is(substr($url, 1)) ? true : false,
-      ];
-
-        return $result;
+        return [
+            'url' => $url,
+            'request_url' => substr($url, 1),
+            'name' => $menuElement['name'][App::getLocale()],
+            'class' => isset($menuElement['settings']['htmlClass']) ? $menuElement['settings']['htmlClass'] : '',
+            'id' => isset($menuElement['settings']['htmlId']) ? $menuElement['settings']['htmlId'] : '',
+            'target' => $target,
+            'icon' => $icon,
+            'children' => $menuElement['children'],
+            'active' => Request::is(substr($url, 1)) ? true : false,
+        ];
     }
 }
 
@@ -86,8 +80,22 @@ if (!function_exists('allowed_link')) {
                 return false;
             }
 
-            if (isset($pages->{$link['request_url']})) {
-                return $pages->{$link['request_url']};
+            $content = isset($link['link']['content'])
+                ? $link['link']['content']
+                : null;
+
+            if ($content) {
+                $slug = $content->getField('slug');
+
+                if (isset($pages->{$slug})) {
+                    return $pages->{$slug};
+                }
+
+                if (isset($pages->{$content->url})) {
+                    return $pages->{$content->url};
+                }
+
+                return false;
             }
 
             return true;
