@@ -54,7 +54,9 @@ class FormComponent extends Component {
 
             template : props.template ? props.template : null,
             layout : null,
-            templateLoaded : props.template ? false : true
+            templateLoaded : props.template ? false : true,
+            sendingPreload : false,
+            preloadFinish : false
         };
 
         this.props.initParametersState(parametersObject);
@@ -129,6 +131,19 @@ class FormComponent extends Component {
         )
 
         this.props.onPreloadUpdated();
+      }
+
+      //if is already loaded and has no fields, and is form of type preload, and is not yet send
+      if(this.isLoaded() && this.hasNoFields() && this.props.isFormPreload && !this.state.sendingPreload){
+        //send form automatically
+        console.log("FormRedux :: submit automatically form");
+        /*
+        this.setState({
+          sendingPreload : true
+        },function(){
+          this.handleSubmit(this.props.id);
+        });
+        */
       }
 
     }
@@ -369,7 +384,9 @@ class FormComponent extends Component {
     }
 
     handleSubmit(formId,e) {
-      e.preventDefault();
+      if(e !== undefined){
+        e.preventDefault();
+      }
 
       console.log("handleSubmit :: formId",formId);
 
@@ -404,6 +421,12 @@ class FormComponent extends Component {
 
       if(!this.props.isFormPreload) {
         toastr.success('Formulaire traité avec succès');
+      }
+      else {
+        //set preload finish to hide the button
+        this.setState({
+          preloadFinish : true
+        });
       }
 
       if(this.props.finalRedirectUrl != ""){
@@ -528,13 +551,27 @@ class FormComponent extends Component {
 
     }
 
+    hasNoFields() {
+      return this.state.elementObject.fields.length == 0;
+    }
+
+    /**
+     * To know if form is already loaded o no
+     */
+    isLoaded() {
+      return this.props.preload.done && this.state.templateLoaded
+    }
+
     render() {
 
-        const loaded = this.props.preload.done && this.state.templateLoaded;
+        const loaded = this.isLoaded();
         const version = this.props.version;
 
         return (
-          <div className={"form-component element-form-wrapper row "+(this.props.form.loading == true ? 'loading' : '')}>
+          <div 
+            className={"form-component element-form-wrapper row "+(this.props.form.loading == true ? 'loading' : '')}
+            style={{display : (this.hasNoFields() ? "none" : "block")}}
+          >
             
             <FormPreload 
               onPreloadDone={this.handlePreload.bind(this)}
