@@ -19,7 +19,6 @@
       //is external
       $target = "_blank";
       $link = isset($field['fields'][0]['value']['url'][App::getLocale()]) ? $field['fields'][0]['value']['url'][App::getLocale()] : '';
-      $link = get_page_link($link, $parameters);
     }
     
     $allowed = allowed_link(['request_url' => substr($link, 1)]); //remove first /
