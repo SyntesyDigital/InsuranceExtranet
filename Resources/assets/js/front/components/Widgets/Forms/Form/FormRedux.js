@@ -137,13 +137,12 @@ class FormComponent extends Component {
       if(this.isLoaded() && this.hasNoFields() && this.props.isFormPreload && !this.state.sendingPreload){
         //send form automatically
         console.log("FormRedux :: submit automatically form");
-        /*
+        
         this.setState({
           sendingPreload : true
         },function(){
           this.handleSubmit(this.props.id);
         });
-        */
       }
 
     }
