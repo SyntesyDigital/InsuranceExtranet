@@ -34,7 +34,7 @@
             margin-left: {{$sidebarWidth}};
         }
     }
-    body .sidebar .sub-menu-sidebar-container .sidebar-text{
+    body .sidebar .wrapper-menu .sub-menu-sidebar-container .sidebar-text{
         font-size: {{$sidebarFontSizeItems}};
     }
     body .sidebar .menu-sidebar-container .menu-item, body .sidebar .menu-sidebar-container .logo-container, body .sidebar .menu-sidebar-container .user-item, body .sidebar .menu-sidebar-container .menu-child{
@@ -50,7 +50,7 @@
         height: {{$sidebarHeightUser}}px;
         line-height: {{$sidebarHeightUser}}px;
     }
-    body .sub-menu-sidebar-container {
+    body .wrapper-menu .sub-menu-sidebar-container {
         top: {{$sidebarHeightUser}}px;
     }
 </style>
