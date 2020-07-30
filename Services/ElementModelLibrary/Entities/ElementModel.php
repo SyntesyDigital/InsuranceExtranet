@@ -168,6 +168,18 @@ class ElementModel extends Model
                         $variables[$variableId] = $variable;
                     }
                 }
+
+                //if variable exist in the url with format ?variable=_variable
+                $urlArray = explode('?', $procedureServices->URL);
+                if (sizeof($urlArray) > 1) {
+                    $urlArray = self::parameters2Array($urlArray[1]);
+                    
+                    foreach ($urlArray as $key => $urlVariable) {
+                        if ($urlVariable == $variableSlashes) {
+                            $variables[$variableId] = $variable;
+                        }
+                    }
+                }
             }
 
             //if variable exist in an object WS
