@@ -25,7 +25,10 @@
                             @if($footerItems > 0)
                                 <span class="footer-separator"> | </span>
                             @endif
-                            {{ $menuElement["name"] or '' }}
+
+                            @if(!is_array($menuElement["name"]))
+                                {{ $menuElement["name"] or '' }}
+                            @endif 
                         </p>
                     @endif
                 </li>
