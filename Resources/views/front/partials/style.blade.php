@@ -223,6 +223,7 @@
     $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
     $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : $inputColor;
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
+    $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
 
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
@@ -433,7 +434,8 @@
       iconFontSizeElement: '{{$iconFontSizeElement}}',
       iconColorElement: '{{$iconColorElement}}',
       errorColor : '{{$errorColor}}',
-      inputColor: '{{$inputColor}}'
+      inputColor: '{{$inputColor}}',
+      textBtnAddFileForm: '{{$textBtnAddFileForm}}'
     },
     sidebarMenu: {
       sidebarWidth: '{{$sidebarWidth}}'

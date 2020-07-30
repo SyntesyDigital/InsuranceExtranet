@@ -147,7 +147,7 @@ class FileField extends Component
               onError={this.handleError.bind(this)}
             >
               <button className="btn btn-default" href="#" type="button">
-                <i className="fas fa-paperclip"></i> télécharger le fichier
+                <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
               </button>
             </FilePicker>
           }
