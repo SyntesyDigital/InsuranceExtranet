@@ -482,6 +482,8 @@ type_pol = [true,false,]
 export function isVisible(file,formParameters,values) {
 
   ////console.log("isVisible :: ",file,formParameters,values);
+  if(values === undefined)
+    return false;
 
   //if no has settings return visible
   if(file.settings === undefined || file.settings.conditionalVisibility === undefined || file.settings.conditionalVisibility == null){
