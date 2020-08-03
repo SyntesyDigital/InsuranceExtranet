@@ -54,6 +54,7 @@ export function createProcedure(modelId,procedures,procedure) {
             order : procedure.order,
             preload : procedure.preload,
             prefixed : procedure.prefixed,
+            duplicate : procedure.duplicate,
         })
         .then(function(data) {
 
@@ -88,6 +89,7 @@ export function updateProcedure(modelId,procedures,procedure) {
             order : procedure.order,
             preload : procedure.preload,
             prefixed : procedure.prefixed,
+            duplicate : procedure.duplicate,
         })
         .then(function(data) {
 

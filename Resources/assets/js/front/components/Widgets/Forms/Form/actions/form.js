@@ -146,6 +146,15 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         }
       }
 
+      //process POST with duplicate
+      if(!stepsToProcess && procedure.SERVICE !== undefined &&
+        procedure.SERVICE.METHODE == "POST" && !jsonGetDone){
+        //if version 2 check if duplicate
+        if(version == "2" && procedure.DUPLICATE == "Y") {
+          //set the jsonResult with a get
+          return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        }
+      }
 
       const isRequired = procedure.OBL == "Y" ? true : false;
       const isConfigurable = procedure.CONF == "Y" ? true : false;
@@ -324,6 +333,24 @@ export function submitStandardProcedure(currentProcedureIndex,procedure,
 
 }
 
+
+/**
+ * Function used to remove the last id of the PUT url to duplicate with 
+ * same JSON. Ejample PUT url : flotte/adherent/[_id_adh].
+ * Result : POST url to duplicate : flotte/adherent/
+ * @param {*} url 
+ */
+export function removePutId(url) {
+  for(var key in url) {
+    var currentUrl = url[key];
+    var urlArray = currentUrl.split('/');
+    urlArray.pop();
+    url[key] = urlArray.join('/');
+  }
+  
+  return url;
+}
+
 /**
 * Process the procedure, with the service and the json
 * Returns info for next Step
@@ -358,6 +385,12 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       procedure.SERVICE.URL,
       formParameters
     );
+
+    //if it is a procedure to duplicate and it is a post
+    if(procedure.DUPLICATE && procedure.SERVICE.METHODE == "POST") {
+      //remove last parameter of url
+      url = removePutId(url);
+    }
 
     console.log("submitProcedure (url,procedure.SERVICE.URL) => ",url,procedure.SERVICE.URL);
 
