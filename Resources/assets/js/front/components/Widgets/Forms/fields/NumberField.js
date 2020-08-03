@@ -12,6 +12,11 @@ class NumberField extends Component
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState){
+    // string.match(/\[(.*?)\]/);
+    // HAY UNA PROPIEDAD VALUES QUE TIENE TODA LA INF DEL FORM!! ENOTNCES PUEDO ACCEDER AL VALOR DE LOS OTROS CAMPOS
+    // THIS:PROPS:FIELDS AQUI TIENE LA CONFIG Y COJO LA FORMULA
+  }
 
   // ==============================
   // Handlers

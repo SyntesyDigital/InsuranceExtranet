@@ -58,7 +58,9 @@ return [
           'conditionalFormatting',
           'hideCurrency',
           'textAlign',
-          'columnWidth'
+          'columnWidth',
+          'operation',
+          'active'
         ]
       ],
       'date' => [
