@@ -13,9 +13,40 @@ class NumberField extends Component
   }
 
   componentDidUpdate(prevProps, prevState){
-    // string.match(/\[(.*?)\]/);
-    // HAY UNA PROPIEDAD VALUES QUE TIENE TODA LA INF DEL FORM!! ENOTNCES PUEDO ACCEDER AL VALOR DE LOS OTROS CAMPOS
-    // THIS:PROPS:FIELDS AQUI TIENE LA CONFIG Y COJO LA FORMULA
+    if(this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''){
+
+      var formule = this.props.field.settings.operation;
+      var params = formule.match(/[^[\]]+(?=])/g);
+      for(var key in params){
+        var id = params[key];
+        var value = this.props.values[id] !== undefined  && this.props.values[id] !== null && this.props.values[id] !== ''?this.props.values[id]:'0'; 
+        formule = formule.replace('['+id+']',value);
+      }
+      var result = eval(formule);
+
+
+      if(this.props.value != result){
+        
+        var max = parseInt(this.getNumberFromRules('maxNumber'));
+        var min = parseInt(this.getNumberFromRules('minNumber'));
+  
+        min = min === 0 || (min && min != "" )? min : '';
+        max = max && max != "" ? max : ''; 
+
+        if((min !== '' && result < min) || (max !== '' && result > max)){
+          // alert('numMax/min execeded');
+          
+        }else{
+
+          this.props.onFieldChange({
+            name : this.props.field.identifier,
+            value :result
+          });
+        }
+      }
+
+    }
+
   }
 
   // ==============================
@@ -53,10 +84,10 @@ class NumberField extends Component
     var max = parseInt(this.getNumberFromRules('maxNumber'));
     var min = parseInt(this.getNumberFromRules('minNumber'));
 
-    min = min && min != "" ? min : -Number.MAX_VALUE;
-    max = max && max != "" ? max : Number.MAX_VALUE;
+    min = min === 0 || (min && min !== "")? min : -Number.MAX_VALUE;
+    max = max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
 
-    console.log("Number Field :: handleOnChange (value,max,min)",value,max,min);
+    console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
 
     if(isNaN(value)){
       this.props.onFieldChange({
@@ -66,10 +97,10 @@ class NumberField extends Component
       return;
     }
 
-    if(min != '' && value < min){
+    if(min !== '' && value < min){
       return;
     }
-    if(max != '' && value > max){
+    if(max !== '' && value > max){
       return;
     }
 
@@ -135,16 +166,35 @@ class NumberField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
-        <input type="number" name={field.identifier}
-          className={"form-control " + (textFieldClass.join(' '))}
-          value={this.props.value}
-          max={this.getNumberFromRules('maxNumber')}
-          min={this.getNumberFromRules('minNumber')}
-          onChange={this.handleOnChange.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
-          onFocus={this.handleFocus.bind(this)}
-          placeholder={this.getPlaceholder()}
-        />
+        {!this.props.field.settings.active &&
+            <input type="number" name={field.identifier}
+            className={"form-control " + (textFieldClass.join(' '))}
+            value={this.props.value}
+            max={this.getNumberFromRules('maxNumber')}
+            min={this.getNumberFromRules('minNumber')}
+            onChange={this.handleOnChange.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            placeholder={this.getPlaceholder()}
+          />
+        }
+
+
+      {this.props.field.settings.active &&
+         <input type="number" name={field.identifier}
+         className={"form-control " + (textFieldClass.join(' '))}
+         value={this.props.value}
+         max={this.getNumberFromRules('maxNumber')}
+         min={this.getNumberFromRules('minNumber')}
+         onChange={this.handleOnChange.bind(this)}
+         onBlur={this.handleBlur.bind(this)}
+         onFocus={this.handleFocus.bind(this)}
+         placeholder={this.getPlaceholder()}
+         readonly="readonly"
+       />
+      }
+
+       
       </div>
     );
   }
