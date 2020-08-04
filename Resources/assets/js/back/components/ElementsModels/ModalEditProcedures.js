@@ -277,6 +277,9 @@ class ModalEditProcedures extends Component {
 
         const currentProcedure = this.state.procedure;
         const saved = currentProcedure != null ? currentProcedure.id != null : false;
+        const serviceUrl = currentProcedure != null && currentProcedure.service != ''   
+            ? routes['extranet.services.update'].replace(':id',currentProcedure.service.id)
+            : null;
 
         return (
 
@@ -342,13 +345,17 @@ class ModalEditProcedures extends Component {
 
                      
                             <SelectField
-                                label={'Service'}
+                                label={serviceUrl != null 
+                                    ? <a href={serviceUrl} target="_blank"><i className="fas fa-external-link-alt"></i>&nbsp; Service</a>
+                                    : 'Service'
+                                }
                                 value={currentProcedure.service.id}
                                 name={'service'}
                                 arrayOfOptions={this.state.services}
                                 onChange={this.handleServiceChange.bind(this)}
                                 // onChange={this.handleFieldChange.bind(this)}
                             />
+                            
                             
                             <InputField
                                 label={'Ordre'}
@@ -386,7 +393,7 @@ class ModalEditProcedures extends Component {
                             />
 
                             <ToggleField
-                                label={'précharge (PUT uniquement)'}
+                                label={'précharge (PUT ou POST dupliquer)'}
                                 name={'preload'}
                                 checked={currentProcedure.preload == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
@@ -396,6 +403,13 @@ class ModalEditProcedures extends Component {
                                 label={'Concaténer avec l\'ID de service'}
                                 name={'prefixed'}
                                 checked={currentProcedure.prefixed == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Dupliquer (POST uniquement'}
+                                name={'duplicate'}
+                                checked={currentProcedure.duplicate == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 

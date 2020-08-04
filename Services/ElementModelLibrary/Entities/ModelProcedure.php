@@ -40,6 +40,7 @@ class ModelProcedure extends Model
         'order',
         'preload',
         'prefixed',
+        'duplicate'
     ];
 
     public function service(): BelongsTo
@@ -73,6 +74,7 @@ class ModelProcedure extends Model
             'JSON' => $this->repeatable_json,
             'OBJID' => $this->id,
             'PREFIXED' => $this->prefixed ? 'Y' : 'N',
+            'DUPLICATE' => $this->duplicate ? 'Y' : 'N',
         ];
     }
 
