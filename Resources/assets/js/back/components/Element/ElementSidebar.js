@@ -6,6 +6,7 @@ import {inputChange, deleteElement} from './actions/';
 import ParameterManager from "./ParameterManager";
 
 import Select from 'react-select';
+import ButtonSecondary from '../Layout/ButtonSecondary';
 
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
@@ -99,6 +100,26 @@ class ElementSidebar extends Component {
 
     return (
       <div className="sidebar">
+
+        <h3>Model</h3>
+
+        <ButtonSecondary 
+          label={this.props.app.model.TITRE}
+          icon={this.props.app.model.ICONE}
+          onClick={(e) => {
+            if(this.props.app.elementType == "form-v2"){
+              window.open(
+                routes['extranet.elements-models.forms.update'],
+                '_blank'
+              );
+            }
+          }}
+        />
+
+        <hr/>
+
+
+
         <div className={"form-group bmd-form-group " + (this.props.app.errors.name ? 'has-error' : '')}>
            <label htmlFor="name" className="bmd-label-floating">{ Lang.get('fields.name')}</label>
            <input type="text" className="form-control" id="name" name="name" value={this.props.app.inputs.name} onChange={this.handleChange} />

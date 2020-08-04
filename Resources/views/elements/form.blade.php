@@ -15,6 +15,7 @@
                     ])
             ];
         }
+
     @endphp 
 
     <div id="element-form"
@@ -59,6 +60,7 @@
         'extranet.elements.template' : "{{ route('extranet.elements.template.create', $element) }}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
         'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
+        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.forms.update',['id'=>$model->ID])}}",
     };
 @else 
     var routes = {
@@ -69,6 +71,7 @@
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
         'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
+        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.forms.update',['id'=>$model->ID])}}",
     };
 @endif
 </script>
