@@ -387,7 +387,7 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
     );
 
     //if it is a procedure to duplicate and it is a post
-    if(procedure.DUPLICATE && procedure.SERVICE.METHODE == "POST") {
+    if(procedure.DUPLICATE == "Y" && procedure.SERVICE.METHODE == "POST") {
       //remove last parameter of url
       url = removePutId(url);
     }
