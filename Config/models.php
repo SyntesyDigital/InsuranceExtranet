@@ -60,7 +60,7 @@ return [
           'textAlign',
           'columnWidth',
           'operation',
-          'active'
+          'readonly'
         ]
       ],
       'date' => [

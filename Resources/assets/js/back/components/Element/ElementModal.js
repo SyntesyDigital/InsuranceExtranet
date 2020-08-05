@@ -321,14 +321,14 @@ class ElementModal extends Component {
                     } 
 
 
-                    {field != null && field.settings != null && field.settings.active !== undefined && 
+                    {field != null && field.settings != null && field.settings.readonly !== undefined && 
 
                       <BooleanSettingsField
                         field={field}
-                        name="active"
+                        name="readonly"
                         source="settings"
                         onFieldChange={this.handleFieldSettingsChange}
-                        label="Active"
+                        label="Readonly"
                       />
                     }
 

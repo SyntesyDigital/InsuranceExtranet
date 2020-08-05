@@ -23,7 +23,7 @@ export const SETTINGS_AVOID = {
   'defaultValue' : ['table','file'],
   'columnWidth' : ['form','file','form-v2'],
   'operation' : ['table','file'],
-  'active' : ['table','file'],
+  'readonly' : ['table','file'],
 };
 
 /*

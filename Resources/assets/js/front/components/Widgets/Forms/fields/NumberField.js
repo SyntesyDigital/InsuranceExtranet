@@ -13,39 +13,81 @@ class NumberField extends Component
   }
 
   componentDidUpdate(prevProps, prevState){
+    //si es campo operacion
     if(this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''){
+      var max = this.getMaxValue();
+      var min = this.getMinValue();
+      console.log('VALOR ACTUAL', this.props.value );
+      console.log('VALOR ANTIGUO', prevProps.value );
+      //si ha cambiado el mismo campo operacion (caso ediciona mano)
+      if(this.props.value !== prevProps.value){
+      //miro si no es minimo o maximo i compruebo si para dejar el minimo o maximo
+        if(result < min || result > max){
+          if(result < min){
+            console.log('es menor que el minimo');
+            /* this.props.onFieldChange({
+              name : this.props.field.identifier,
+              value :min
+            });*/
+          }else{
+            console.log('es mayor que el maximo');
 
-      var formule = this.props.field.settings.operation;
-      var params = formule.match(/[^[\]]+(?=])/g);
-      for(var key in params){
-        var id = params[key];
-        var value = this.props.values[id] !== undefined  && this.props.values[id] !== null && this.props.values[id] !== ''?this.props.values[id]:'0'; 
-        formule = formule.replace('['+id+']',value);
-      }
-      var result = eval(formule);
+            /* this.props.onFieldChange({
+              name : this.props.field.identifier,
+              value :max
+            });*/
+          }
+        }
+      }else{
+        //si ha cambiado alguna otra cosa del props, otro campo
+        var formule = this.props.field.settings.operation;
+        var params = formule.match(/[^[\]]+(?=])/g);
+        for(var key in params){
+          var id = params[key];
+          var value = this.props.values[id] !== undefined  && this.props.values[id] !== null && this.props.values[id] !== ''?this.props.values[id]:'0'; 
+          formule = formule.replace('['+id+']',value);
+        }
+        var result = eval(formule);
 
+        console.log('RESULT FORMULA',result);
+        //si el valor actal del campo formula no coincide con la formula calculada
+        if(this.props.value != result){
+          //check si sobrepasa al maximo o minimo
+          if(result < min || result > max){
+            console.log('RESULT ES MENOR QUE MIN',result < min);
+            console.log('VALOR ACTUAL NO ES MIN YA',this.props.value !== min);
 
-      if(this.props.value != result){
-        
-        var max = parseInt(this.getNumberFromRules('maxNumber'));
-        var min = parseInt(this.getNumberFromRules('minNumber'));
-  
-        min = min === 0 || (min && min != "" )? min : '';
-        max = max && max != "" ? max : ''; 
+            if(result < min ){
+              console.log('modifico el valor por min',min);
+              if(this.props.value !== min){
+                this.props.onFieldChange({
+                  name : this.props.field.identifier,
+                  value :min
+                });
+              } 
+            }else{
+              if(this.props.value !== max){
+                console.log('modifico el valor por max',max);
 
-        if((min !== '' && result < min) || (max !== '' && result > max)){
-          // alert('numMax/min execeded');
-          
-        }else{
+                this.props.onFieldChange({
+                  name : this.props.field.identifier,
+                  value :max
+                });
+              }  
+            }
+          }else{
+            console.log('modifico el valor por result',result);
 
-          this.props.onFieldChange({
-            name : this.props.field.identifier,
-            value :result
-          });
+            this.props.onFieldChange({
+              name : this.props.field.identifier,
+              value :result
+            });
+          }
         }
       }
 
     }
+    
 
   }
 
@@ -81,11 +123,8 @@ class NumberField extends Component
   {
 
     var value = parseInt(event.target.value);
-    var max = parseInt(this.getNumberFromRules('maxNumber'));
-    var min = parseInt(this.getNumberFromRules('minNumber'));
-
-    min = min === 0 || (min && min !== "")? min : -Number.MAX_VALUE;
-    max = max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
+    var max = this.getMaxValue();
+    var min = this.getMinValue();
 
     console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
 
@@ -119,6 +158,16 @@ class NumberField extends Component
     }
 
     return '';
+  }
+
+  getMinValue(){
+    var min = parseInt(this.getNumberFromRules('minNumber'));
+    return min === 0 || (min && min !== "")? min : -Number.MAX_VALUE;
+  }
+
+  getMaxValue(){
+    var max = parseInt(this.getNumberFromRules('maxNumber'));
+    return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
   }
 
   getPlaceholder() {
@@ -166,7 +215,7 @@ class NumberField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
-        {!this.props.field.settings.active &&
+        {!this.props.field.settings.readonly &&
             <input type="number" name={field.identifier}
             className={"form-control " + (textFieldClass.join(' '))}
             value={this.props.value}
@@ -180,7 +229,7 @@ class NumberField extends Component
         }
 
 
-      {this.props.field.settings.active &&
+      {this.props.field.settings.readonly &&
          <input type="number" name={field.identifier}
          className={"form-control " + (textFieldClass.join(' '))}
          value={this.props.value}
