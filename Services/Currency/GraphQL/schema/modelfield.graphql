@@ -1,0 +1,80 @@
+################################
+#   TYPE
+################################
+type ModelField {
+    id: ID!
+    name: String
+    identifier: String
+    type: String
+    format: String 
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+    required: String
+}
+
+################################
+#   INPUT
+################################
+input CreateModelFieldInput {
+    procedure_id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String !
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+    required: String
+}
+
+input UpdateModelFieldInput {
+    id: ID!
+    procedure_id: ID!
+    name: String!
+    identifier: String!
+    type: String!
+    format: String !
+    default_value: String 
+    boby: String
+    jsonpath: String 
+    example: String 
+    configurable: String 
+    visible: String
+    required: String
+}
+
+
+################################
+#   QUERY
+################################
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
+    modelFields: [ModelField!]!
+        @all(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    modelField(id: ID! @eq): ModelField
+        @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+}
+
+
+################################
+#   MUTATOR
+################################
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+    createModelField(input: CreateModelFieldInput! @spread): ModelField
+        @create(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    updateModelField(input: UpdateModelFieldInput! @spread): ModelField
+        @update(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+
+    deleteModelField(
+        id: ID!
+    ): ModelField
+        @delete(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\ModelField")
+}
