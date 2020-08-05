@@ -14,32 +14,12 @@ class NumberField extends Component
 
   componentDidUpdate(prevProps, prevState){
     //si es campo operacion
+
     if(this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''){
       var max = this.getMaxValue();
       var min = this.getMinValue();
-      console.log('VALOR ACTUAL', this.props.value );
-      console.log('VALOR ANTIGUO', prevProps.value );
-      //si ha cambiado el mismo campo operacion (caso ediciona mano)
       if(this.props.value !== prevProps.value){
-      //miro si no es minimo o maximo i compruebo si para dejar el minimo o maximo
-        if(result < min || result > max){
-          if(result < min){
-            console.log('es menor que el minimo');
-            /* this.props.onFieldChange({
-              name : this.props.field.identifier,
-              value :min
-            });*/
-          }else{
-            console.log('es mayor que el maximo');
-
-            /* this.props.onFieldChange({
-              name : this.props.field.identifier,
-              value :max
-            });*/
-          }
-        }
       }else{
-        //si ha cambiado alguna otra cosa del props, otro campo
         var formule = this.props.field.settings.operation;
         var params = formule.match(/[^[\]]+(?=])/g);
         for(var key in params){
@@ -48,17 +28,9 @@ class NumberField extends Component
           formule = formule.replace('['+id+']',value);
         }
         var result = eval(formule);
-
-        console.log('RESULT FORMULA',result);
-        //si el valor actal del campo formula no coincide con la formula calculada
         if(this.props.value != result){
-          //check si sobrepasa al maximo o minimo
           if(result < min || result > max){
-            console.log('RESULT ES MENOR QUE MIN',result < min);
-            console.log('VALOR ACTUAL NO ES MIN YA',this.props.value !== min);
-
             if(result < min ){
-              console.log('modifico el valor por min',min);
               if(this.props.value !== min){
                 this.props.onFieldChange({
                   name : this.props.field.identifier,
@@ -67,8 +39,6 @@ class NumberField extends Component
               } 
             }else{
               if(this.props.value !== max){
-                console.log('modifico el valor por max',max);
-
                 this.props.onFieldChange({
                   name : this.props.field.identifier,
                   value :max
@@ -76,8 +46,6 @@ class NumberField extends Component
               }  
             }
           }else{
-            console.log('modifico el valor por result',result);
-
             this.props.onFieldChange({
               name : this.props.field.identifier,
               value :result
@@ -215,7 +183,6 @@ class NumberField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
-        {!this.props.field.settings.readonly &&
             <input type="number" name={field.identifier}
             className={"form-control " + (textFieldClass.join(' '))}
             value={this.props.value}
@@ -225,23 +192,12 @@ class NumberField extends Component
             onBlur={this.handleBlur.bind(this)}
             onFocus={this.handleFocus.bind(this)}
             placeholder={this.getPlaceholder()}
+            readonly={this.props.field.settings.readonly || (this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '')?'readonly':null}
+
           />
-        }
 
 
-      {this.props.field.settings.readonly &&
-         <input type="number" name={field.identifier}
-         className={"form-control " + (textFieldClass.join(' '))}
-         value={this.props.value}
-         max={this.getNumberFromRules('maxNumber')}
-         min={this.getNumberFromRules('minNumber')}
-         onChange={this.handleOnChange.bind(this)}
-         onBlur={this.handleBlur.bind(this)}
-         onFocus={this.handleFocus.bind(this)}
-         placeholder={this.getPlaceholder()}
-         readonly="readonly"
-       />
-      }
+  
 
        
       </div>
