@@ -362,6 +362,7 @@ footer {
 //Submenu 
 .wrapper-menu{
     overflow: hidden; 
+    margin-bottom: 100px;
     .sub-menu-sidebar-container{
         display: none;
         color: black;
@@ -766,6 +767,7 @@ article.page-builder {
             text-align: center;
             img{
                 width: 50%;
+                margin-bottom: 10px;
             }
         }
         .sub-menu-sidebar-container{

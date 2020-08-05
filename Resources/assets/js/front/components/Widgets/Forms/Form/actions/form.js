@@ -82,7 +82,8 @@ export function getJsonResultBeforePut(procedure,formParameters) {
         is_array : false,
         is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
             ? procedure.SERVICE.IS_OLD_URL 
-            : null
+            : null,
+        body : 'json'
     };
 
     self = this;
@@ -417,7 +418,8 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       is_array : procedureIsArray(procedure),
       is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
             ? procedure.SERVICE.IS_OLD_URL 
-            : null
+            : null,
+      body : procedure.SERVICE.BODY
     };
 
     axios.post(ASSETS+'architect/elements/form/process-service',params)

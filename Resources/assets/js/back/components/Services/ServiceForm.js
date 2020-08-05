@@ -52,6 +52,17 @@ export default class ServiceForm extends Component {
                 }
             ],
 
+            bodyTypes: [
+                {
+                    name: 'Json',
+                    value: 'json'
+                },
+                {
+                    name: 'Multipart',
+                    value: 'multipart'
+                },
+            ],
+
             json : {},
             response_json : {}
         };
@@ -266,6 +277,17 @@ export default class ServiceForm extends Component {
                                 value={this.state.service.http_method ? this.state.service.http_method : ''}
                                 name={'http_method'}
                                 arrayOfOptions={this.state.methodes}
+                                onChange={this.handleFieldChange.bind(this)}
+                                error={this.state.errors.http_method ? true : false}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <SelectField
+                                label={'Body'}
+                                value={this.state.service.body ? this.state.service.body : ''}
+                                name={'body'}
+                                arrayOfOptions={this.state.bodyTypes}
                                 onChange={this.handleFieldChange.bind(this)}
                                 error={this.state.errors.http_method ? true : false}
                             />

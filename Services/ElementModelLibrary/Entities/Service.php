@@ -37,6 +37,7 @@ class Service extends Model
         'comment',
         'response_json',
         'is_old_url_ws',
+        'body'
     ];
 
     public function procedures(): HasMany
@@ -58,6 +59,7 @@ class Service extends Model
             'P1' => null,
             'P2' => null,
             'JSON' => $this->json,
+            'BODY' => $this->body
         ];
     }
 }
