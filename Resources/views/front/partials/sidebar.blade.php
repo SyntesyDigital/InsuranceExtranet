@@ -10,7 +10,12 @@
 			["menu" => get_menu('sidebar')]
 		)
 	@endif
-	@if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true)
+    @if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true)
+        <style>
+            body .wrapper-menu{
+                margin-bottom: unset;
+            }
+        </style>
 		<div class="contact-sidebar">
 			<div class="icon"></div>
 			<div class="wrapper-content">

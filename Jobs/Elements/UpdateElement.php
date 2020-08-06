@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Extranet\Jobs\Element;
+namespace Modules\Extranet\Jobs\Elements  ;
 
 use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 

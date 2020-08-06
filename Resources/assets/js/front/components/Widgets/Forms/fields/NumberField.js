@@ -12,6 +12,52 @@ class NumberField extends Component
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState){
+    //si es campo operacion
+
+    if(this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''){
+      var max = this.getMaxValue();
+      var min = this.getMinValue();
+      if(this.props.value !== prevProps.value){
+      }else{
+        var formule = this.props.field.settings.operation;
+        var params = formule.match(/[^[\]]+(?=])/g);
+        for(var key in params){
+          var id = params[key];
+          var value = this.props.values[id] !== undefined  && this.props.values[id] !== null && this.props.values[id] !== ''?this.props.values[id]:'0'; 
+          formule = formule.replace('['+id+']',value);
+        }
+        var result = eval(formule);
+        if(this.props.value != result){
+          if(result < min || result > max){
+            if(result < min ){
+              if(this.props.value !== min){
+                this.props.onFieldChange({
+                  name : this.props.field.identifier,
+                  value :min
+                });
+              } 
+            }else{
+              if(this.props.value !== max){
+                this.props.onFieldChange({
+                  name : this.props.field.identifier,
+                  value :max
+                });
+              }  
+            }
+          }else{
+            this.props.onFieldChange({
+              name : this.props.field.identifier,
+              value :result
+            });
+          }
+        }
+      }
+
+    }
+    
+
+  }
 
   // ==============================
   // Handlers
@@ -45,13 +91,10 @@ class NumberField extends Component
   {
 
     var value = parseInt(event.target.value);
-    var max = parseInt(this.getNumberFromRules('maxNumber'));
-    var min = parseInt(this.getNumberFromRules('minNumber'));
+    var max = this.getMaxValue();
+    var min = this.getMinValue();
 
-    min = min && min != "" ? min : -Number.MAX_VALUE;
-    max = max && max != "" ? max : Number.MAX_VALUE;
-
-    console.log("Number Field :: handleOnChange (value,max,min)",value,max,min);
+    console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
 
     if(isNaN(value)){
       this.props.onFieldChange({
@@ -61,10 +104,10 @@ class NumberField extends Component
       return;
     }
 
-    if(min != '' && value < min){
+    if(min !== '' && value < min){
       return;
     }
-    if(max != '' && value > max){
+    if(max !== '' && value > max){
       return;
     }
 
@@ -83,6 +126,16 @@ class NumberField extends Component
     }
 
     return '';
+  }
+
+  getMinValue(){
+    var min = parseInt(this.getNumberFromRules('minNumber'));
+    return min === 0 || (min && min !== "")? min : -Number.MAX_VALUE;
+  }
+
+  getMaxValue(){
+    var max = parseInt(this.getNumberFromRules('maxNumber'));
+    return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
   }
 
   getPlaceholder() {
@@ -130,16 +183,23 @@ class NumberField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
-        <input type="number" name={field.identifier}
-          className={"form-control " + (textFieldClass.join(' '))}
-          value={this.props.value}
-          max={this.getNumberFromRules('maxNumber')}
-          min={this.getNumberFromRules('minNumber')}
-          onChange={this.handleOnChange.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
-          onFocus={this.handleFocus.bind(this)}
-          placeholder={this.getPlaceholder()}
-        />
+            <input type="number" name={field.identifier}
+            className={"form-control " + (textFieldClass.join(' '))}
+            value={this.props.value}
+            max={this.getNumberFromRules('maxNumber')}
+            min={this.getNumberFromRules('minNumber')}
+            onChange={this.handleOnChange.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            placeholder={this.getPlaceholder()}
+            readonly={this.props.field.settings.readonly || (this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '')?'readonly':null}
+
+          />
+
+
+  
+
+       
       </div>
     );
   }

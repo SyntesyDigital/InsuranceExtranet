@@ -308,6 +308,30 @@ class ElementModal extends Component {
                       />
                     }
 
+                    {field != null && field.settings != null && field.settings.operation !== undefined && 
+                      <InputSettingsField
+                        field={field}
+                        name="operation"
+                        source="settings"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Operation"
+                        inputLabel="Indique la opération"
+                      />
+  
+                    } 
+
+
+                    {field != null && field.settings != null && field.settings.readonly !== undefined && 
+
+                      <BooleanSettingsField
+                        field={field}
+                        name="readonly"
+                        source="settings"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Readonly"
+                      />
+                    }
+
                     {field != null && field.rules != null && field.rules.maxDate !== undefined && 
                       <MaxDateSettingsField
                         field={field}
@@ -381,6 +405,8 @@ class ElementModal extends Component {
                         inputLabel="Indique le nombre"
                       />
                     }
+
+                    
 
                   </div>
                 </div>

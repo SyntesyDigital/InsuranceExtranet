@@ -97,13 +97,13 @@ class BobyRepository
         return $beans;
     }
 
-    public function processService($method, $url, $data, $isArray, $isOldUrl = null)
+    public function processService($method, $url, $data, $isArray, $isOldUrl = null, $body = 'json')
     {
         if ($isArray) {
             //is array ( example documents ) process every item
             foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl,$body);
                 }
             }
 
@@ -112,19 +112,19 @@ class BobyRepository
         } elseif (is_array($url)) {
             //process every post of array
             foreach ($url as $currentUrl) {
-                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl);
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl,$body);
             }
 
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data, $isOldUrl);
+            return $this->processMethod($method, $url, $data, $isOldUrl,$body);
         }
     }
 
-    private function processMethod($method, $url, $data, $isOldUrl = null)
+    private function processMethod($method, $url, $data, $isOldUrl = null,$body = 'json')
     {
         $params = [
-            'json' => $data,
+            $body => $data,
             'headers' => [
                 'Authorization' => 'Bearer '.Auth::user()->token,
             ],
