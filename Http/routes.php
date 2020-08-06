@@ -135,7 +135,6 @@ Route::group([
     Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
 });
 
-
 Route::group([
     'middleware' => ['web', 'auth:veos-ws', 'permissions:currencies', 'DetectUserLocale'],
     'prefix' => 'architect',
@@ -149,6 +148,7 @@ Route::group([
     Route::post('/currencies/store', 'CurrencyController@store')->name('extranet.currencies.store');
     Route::put('/currencies/{currency}/update', 'CurrencyController@update')->name('extranet.currencies.update');
     Route::delete('/currencies/{currency}/delete', 'CurrencyController@delete')->name('extranet.currencies.delete');
+    Route::get('/currencies/datatable', 'CurrencyController@datatable')->name('extranet.currencies.datatable');
 });
 
 /*
