@@ -56,12 +56,7 @@ class CurrencyController extends Controller
         return view('extranet::currencies.form');
     }
 
-    /*   public function data(Request $request)
-       {
-           return $this->currencies->getDatatable();
-       }
-*/
-    public function show(Currencies $currency, Request $request)
+    public function show(Currency $currency, Request $request)
     {
         return view('extranet::currencies.form', [
             'currency' => $currency,
@@ -71,7 +66,7 @@ class CurrencyController extends Controller
     public function store(Request $request)
     {
         /* try {
-             $currency = dispatch_now(CreateCurrencies::fromRequest($request));
+             $currency = dispatch_now(CreateCurrency::fromRequest($request));
 
              if(!$currency) {
                  throw new \Exception(Lang::get("extranet::fields.error"));
@@ -86,10 +81,10 @@ class CurrencyController extends Controller
         return view('extranet::currencies.form');
     }
 
-    public function update(Currencies $currency, UpdateCurrenciesRequest $request)
+    public function update(Currency $currency, UpdateCurrencyRequest $request)
     {
         /*try {
-            $currency = dispatch_now(UpdateCurrencies::fromRequest($currency, $request));
+            $currency = dispatch_now(UpdateCurrency::fromRequest($currency, $request));
 
             if(!$currency) {
                 throw new \Exception(Lang::get("extranet::fields.error"));
@@ -105,9 +100,9 @@ class CurrencyController extends Controller
         return view('extranet::currencies.form');
     }
 
-    public function delete(Currencies $currency, DeleteCurrenciesRequest $request)
+    public function delete(Currency $currency, DeleteCurrencyRequest $request)
     {
-        /*   return dispatch_now(DeleteCurrencies::fromRequest($currency, $request)) ? response()->json([
+        /*   return dispatch_now(DeleteCurrency::fromRequest($currency, $request)) ? response()->json([
                'success' => true
            ]) : response()->json([
                'success' => false

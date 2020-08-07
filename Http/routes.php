@@ -142,7 +142,6 @@ Route::group([
 ], function () {
     // Routes Parameters
     Route::get('/currencies', 'CurrencyController@index')->name('extranet.currencies.index');
-    //Route::get('/currencies/data', 'CurrencyController@data')->name('extranet.currencies.data');
     Route::get('/currencies/create', 'CurrencyController@create')->name('extranet.currencies.create');
     Route::get('/currencies/{currency}/show', 'CurrencyController@show')->name('extranet.currencies.show');
     Route::post('/currencies/store', 'CurrencyController@store')->name('extranet.currencies.store');
