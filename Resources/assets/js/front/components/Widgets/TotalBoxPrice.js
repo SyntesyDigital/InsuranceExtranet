@@ -53,7 +53,7 @@ export default class TotalBoxPrice extends Component {
 
                     self.setState({
                         val1: response.data.modelValues !== undefined ? response.data.modelValues[0].val1 : 0,
-                        val2: esponse.data.modelValues !== undefined ? response.data.modelValues[0].val2 : 0
+                        val2: response.data.modelValues !== undefined ? response.data.modelValues[0].val2 : 0
                     });
                 }
 
