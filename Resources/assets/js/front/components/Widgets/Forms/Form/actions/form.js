@@ -44,6 +44,7 @@ export function loadProcedures(modelIdentifier) {
           dispatch({ type: PROCEDURES_LOADED, payload : {
             procedures : response.data.data.procedures,
             variables : response.data.data.variables,
+            validationWS : response.data.data.validation_ws
           }});
 
         }

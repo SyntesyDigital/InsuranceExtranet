@@ -126,6 +126,14 @@
 
         {{ Html::script('/modules/architect/plugins/bootbox/bootbox.min.js') }}
 
+        <script>
+          toastr.options = {
+            "closeButton": true,
+            "timeOut": 0,
+            "extendedTimeOut": 0
+          };
+        </script>
+
         @stack('javascripts')
     </body>
 </html>
