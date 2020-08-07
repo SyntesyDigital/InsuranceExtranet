@@ -142,7 +142,7 @@ class FileField extends Component
           {(this.props.value == null || this.props.value == '') &&
 
             <FilePicker
-              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx']}
+              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
               onChange={this.handleOnChange.bind(this)}
               onError={this.handleError.bind(this)}
             >

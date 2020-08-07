@@ -18,7 +18,6 @@ import {
   parameteres2Array,
   isVisible,
   getUrlParameters,
-  getValueFromObject
 } from '../functions';
 
 import {
@@ -26,11 +25,13 @@ import {
   checkParameters,
   loadProcedures,
   initProceduresIteration,
-  updateParametersFromParent
+  updateParametersFromParent,
+  startValidation
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
 import FormProceduresIterator from './FormProceduresIterator';
+import FormValidator from './FormValidator';
 import FormPreload from './FormPreload';
 
 var jp = require('jsonpath');
@@ -404,7 +405,8 @@ class FormComponent extends Component {
         //start processing
         var self = this;
 
-        this.props.initProceduresIteration();
+        this.props.startValidation();
+        //this.props.initProceduresIteration();
 
       }
       else {
@@ -583,6 +585,9 @@ class FormComponent extends Component {
               onFinish={this.handleFinish.bind(this)}
               version={this.props.version}
             />
+            <FormValidator
+              values={this.state.values}
+            />
 
             {
               !loaded &&
@@ -634,6 +639,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+      startValidation : () => {
+          return dispatch(startValidation());
+      },
       initProceduresIteration : () => {
           return dispatch(initProceduresIteration());
       },

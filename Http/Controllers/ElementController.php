@@ -361,16 +361,26 @@ class ElementController extends Controller
     public function getFormProcedures($modelId, Request $request)
     {
         try {
+            $validationWs = null;
+
             if (intval($modelId) != 0) {
                 //ElementModel Form V2
                 $elementModel = ElementModel::where('id', $modelId)->first();
                 $data = $elementModel->getProcedures(
                     $this->elements->getVariables()
                 );
+                //if validation ws is defined add to array
+                $validationWs = $elementModel->validation_ws;
             } else {
                 //$modelId is an string, so Form V1
                 $data = $this->computeFormProcedures($modelId);
             }
+
+            $data = [
+                'procedures' => $data['procedures'],
+                'variables' => $data['variables'],
+                'validation_ws' => $validationWs
+            ];
 
             if ($request->has('debug')) {
                 dd($data);
@@ -378,10 +388,7 @@ class ElementController extends Controller
 
             return response()->json([
                       'success' => true,
-                      'data' => [
-                          'procedures' => $data['procedures'],
-                          'variables' => $data['variables'],
-                        ],
+                      'data' => $data,
                   ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -486,7 +493,7 @@ class ElementController extends Controller
 
         return [
           'variables' => $variables,
-          'procedures' => $procedures,
+          'procedures' => $procedures
         ];
     }
 
