@@ -243,6 +243,13 @@
     $borderColorBox3 = isset($storedStylesFront['borderColorBox3']) ? $storedStylesFront['borderColorBox3']->value : 'transparent';
     $borderRadiusBox3 = isset($storedStylesFront['borderRadiusBox3']) ? $storedStylesFront['borderRadiusBox3']->value.'px' : '0';
 
+    //REDUCED
+    $fontSizeReduced = isset($storedStylesFront['fontSizeReduced']) ? $storedStylesFront['fontSizeReduced']->value.'px' : '14px';
+    $paddingBottomTopReduced = isset($storedStylesFront['paddingBottomTopReduced']) ? $storedStylesFront['paddingBottomTopReduced']->value.'px' : '10px';
+    $paddingRightLeftReduced = isset($storedStylesFront['paddingRightLeftReduced']) ? $storedStylesFront['paddingRightLeftReduced']->value.'px' : '15px';
+    $lineHeightReduced = isset($storedStylesFront['lineHeightReduced']) ? $storedStylesFront['lineHeightReduced']->value.'px' : '20px';
+    $marginBetweenReduced = isset($storedStylesFront['marginBetweenReduced']) ? $storedStylesFront['marginBetweenReduced']->value.'px' : '20px';
+
     //IMAGE TEXT LINK
     $titleFontSizeImgTxtLink = isset($storedStylesFront['titleFontSizeImgTxtLink']) ? $storedStylesFront['titleFontSizeImgTxtLink']->value.'px' : '24px';
     $titleColorImgTxtLink = isset($storedStylesFront['titleColorImgTxtLink']) ? $storedStylesFront['titleColorImgTxtLink']->value : $inputColor;

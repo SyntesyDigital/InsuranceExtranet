@@ -23,7 +23,17 @@
     $title = isset($field['fields'][0]['value'][App::getLocale()]) ? $field['fields'][0]['value'][App::getLocale()] : null;
     $url = get_field_url($field['fields'][1],$parameters);
     $icon = $field['fields'][2]['value'];
+
+
 @endphp
+
+@if (isset($field['settings']['backgroundTransparent']))
+    <style>
+        body .element-file-container .element-file-container-head, body .element-file-container, body .element-file-container .element-file-container-body *,  body .element-file-container .element-file-container-body{
+            background: transparent !important;
+        }
+    </style>
+@endif
 
 @if(check_visible($field['settings'], $parameters))
 

@@ -1,49 +1,47 @@
 .total-box-price-container {
-  color: #2a3649;
-  background-color: #fff;
-  text-align: left;
-  min-height: 125px;
-  flex-direction: row;
-  margin-bottom: 15px;
-  .title-container {
-    height: 50%;
-    @include line-clamp(1, 60);
+    color: #2a3649;
+    background-color: #fff;
+    text-align: left;
+    min-height: 125px;
+    flex-direction: row;
+    margin-bottom: 15px;
+    .title-container {
+        height: 50%;
+        @include line-clamp(1, 60);
+        .title {
+            line-height: 60px;
+            @include line-clamp(1, 60);
+        }
+    }
+    .container-parameters {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .totalBoxPrice {
+        font-size: 30px;
+    }
     .title {
-      line-height: 60px;
-      @include line-clamp(1, 60);
+        font-size: 16px;
+        font-weight: 400;
     }
-  }
-  .container-parameters {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .totalBoxPrice {
-    font-size: 30px;
-    font-weight: 800;
-  }
-  .title {
-    font-size: 16px;
-    font-weight: 400;
-  }
-  .number-container {
-    height: 50%;
-    .container-subtitle{
-      text-align: right;
-      p{
-        @include line-clamp(1, 40);
-      }
+    .number-container {
+        height: 50%;
+        .container-subtitle {
+            text-align: right;
+            p {
+                @include line-clamp(1, 40);
+            }
+        }
     }
-  }
-  .container-subtitle2{
-    text-align: right;
-    p{
-      @include line-clamp(1, 40);
+    .container-subtitle2 {
+        text-align: right;
+        p {
+            @include line-clamp(1, 40);
+        }
     }
-   
-  }
-  .nopadding {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
+    .nopadding {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 }
