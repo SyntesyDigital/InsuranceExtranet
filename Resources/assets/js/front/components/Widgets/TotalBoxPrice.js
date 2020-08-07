@@ -55,7 +55,7 @@ export default class TotalBoxPrice extends Component {
                         val1: response.data.modelValues !== undefined ? response.data.modelValues[0].val1 : 0,
                         val2: response.data.modelValues !== undefined ? response.data.modelValues[0].val2 : 0
                     });
-                }
+                } 
 
             }).catch(function (error) {
                 console.log(error);

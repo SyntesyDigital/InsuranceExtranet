@@ -167,6 +167,7 @@ body .box-class-3 .element-file-container .element-collapsable:before {
 /* class reduced */
 body .reduced div{
     padding: 0;
+    margin: 0;
 }
 body .reduced .element-file-container .element-file-container-body{
     padding: 0;
