@@ -1,3 +1,3 @@
 <div class="version">
-    Architect v1.20.0@dev v1.20.9@dev
+    Architect v1.20.0@dev v1.20.11@dev
 </div>
