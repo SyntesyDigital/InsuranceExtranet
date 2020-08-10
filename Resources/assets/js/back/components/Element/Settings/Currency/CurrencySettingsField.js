@@ -35,8 +35,6 @@ class CurrencySettingsField extends Component {
 
     var fieldValue = this.props.field[this.props.source][this.props.name];
 
-    fieldValue = value;
-
     var field = {
       name : this.props.name,
       source : this.props.source,
@@ -59,16 +57,16 @@ class CurrencySettingsField extends Component {
 
   getDefaultValue() {
     return {
-      type : "",
+      type : CONDITION_FIELD_TYPE_PARAMETER,
       identifier : ""
     }
   }
 
   renderParameters() {
 
-    const condition = this.props.conditions[this.props.conditionIndex];
+    var fieldValue = this.props.field[this.props.source][this.props.name];
 
-    if(condition.type == CONDITION_FIELD_TYPE_CONFIGURABLE) {
+    if(fieldValue.type == CONDITION_FIELD_TYPE_CONFIGURABLE) {
       return this.props.fields.map((item,index) =>
         <option key={index} value={item.identifier}> {item.name}</option>
       );
@@ -90,25 +88,28 @@ class CurrencySettingsField extends Component {
     /**
     *   Render the custom configuration for this field.
     */
-  renderInputs() {
+  renderInputs(value) {
+    
     return (
-      <div className="form-group bmd-form-group">
-          <label htmlFor="type" className="bmd-label-floating">
-            Type of field
-          </label>
-          <select className="form-control" name="type" value={condition.type} onChange={this.handleInputChange} >
-            {this.renderTypes()}
-          </select>
-      </div>
+      <div>
+        <div className="form-group bmd-form-group">
+            <label htmlFor="type" className="bmd-label-floating">
+              Type of field
+            </label>
+            <select className="form-control" name="type" value={value.type} onChange={this.handleInputChange} >
+              {this.renderTypes()}
+            </select>
+        </div>
 
-      <div className="form-group bmd-form-group">
+        <div className="form-group bmd-form-group">
           <label htmlFor="identifier" className="bmd-label-floating">
             Field
           </label>
-          <select type="text" className="form-control" name="identifier" value={condition.identifier} onChange={this.handleInputChange} >
+          <select type="text" className="form-control" name="identifier" value={value.identifier} onChange={this.handleInputChange} >
             <option key={-1} value=""> Sélectionner </option>
             {this.renderParameters()}
           </select>
+      </div>
       </div>
     );
   }
@@ -117,7 +118,6 @@ class CurrencySettingsField extends Component {
 
     const value = this.props.field[this.props.source][this.props.name];
     //value is null, when setting field is disabled
-
     return (
       <SettingsField
         field={this.props.field}
@@ -127,8 +127,10 @@ class CurrencySettingsField extends Component {
         source={this.props.source}
         defaultValue={this.getDefaultValue()}
       >
+        {value &&
+            this.renderInputs(value)
 
-        {this.renderInputs()}
+        }
 
       </SettingsField>
     );

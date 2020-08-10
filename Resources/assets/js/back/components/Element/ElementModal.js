@@ -16,6 +16,7 @@ import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 import BooleanValuesSettingsField from './Settings/BooleanValues/BooleanValuesSettingsField';
 import ConditionalFormattingSettingsField from './Settings/ConditionalFormatting/ConditionalFormattingSettingsField';
 import MaxDateSettingsField from './Settings/MaxDate/MaxDateSettingsField';
+import CurrencySettingsField from './Settings/Currency/CurrencySettingsField';
 
 import {
   closeModalSettings,
@@ -316,6 +317,19 @@ class ElementModal extends Component {
                         onFieldChange={this.handleFieldSettingsChange}
                         label="Operation"
                         inputLabel="Indique la opération"
+                      />
+  
+                    } 
+
+                    {field != null && field.settings != null && field.settings.currency !== undefined && 
+                      <CurrencySettingsField
+                        field={field}
+                        name="currency"
+                        source="settings"
+                        onFieldChange={this.handleFieldSettingsChange}
+                        label="Divise"
+                        parameters={this.props.app.parameters}
+                        fields={this.props.app.fields}
                       />
   
                     } 
