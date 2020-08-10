@@ -75,9 +75,10 @@ export default class TotalBoxPrice extends Component {
                     <div className="col-md-12 col-sm-12 col-xs-12 number-container">
                         <div className="col-md-4 nopadding">
                             <NumberFormat
-                                value={this.state.val1}
+                                value={this.state.val2}
                                 displayType={'text'}
                                 thousandSeparator={true}
+                                renderText={value => <div>{value.replace(',', '.')}</div>}
                             />
                         </div>
                         <div className="col-md-8 nopadding container-subtitle">
@@ -85,7 +86,7 @@ export default class TotalBoxPrice extends Component {
                                 <span className="subtitle">
                                     {this.props.subTitle ? this.props.subTitle : null}{" "}
                                     <NumberFormat
-                                        value={this.state.val2}
+                                        value={this.state.val1}
                                         displayType={'text'}
                                         thousandSeparator={true}
                                     />
