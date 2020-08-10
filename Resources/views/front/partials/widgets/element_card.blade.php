@@ -1,4 +1,9 @@
 @php
+
+    $identifier = str_replace(",","",$field['identifier']);
+    $identifier = str_replace("[","",$identifier);
+    $identifier = str_replace("]","",$identifier).'_'.$iterator;
+
     $htmlId = uniqid();
 
     $element = isset($field['settings']['fileElements']) 
@@ -27,59 +32,61 @@
 
 @endphp
 
-@if (isset($field['settings']['backgroundTransparent']))
+@if ( isset($field['settings']['backgroundTransparent']) && $field['settings']['backgroundTransparent'])
     <style>
-        body .element-file-container .element-file-container-head, body .element-file-container, body .element-file-container .element-file-container-body *,  body .element-file-container .element-file-container-body{
+        body .identifier-{{$identifier}} .element-file-container .element-file-container-head, 
+        body .identifier-{{$identifier}} .element-file-container, 
+        body .identifier-{{$identifier}} .element-file-container .element-file-container-body *,  
+        body .identifier-{{$identifier}} .element-file-container .element-file-container-body{
             background: transparent !important;
         }
     </style>
 @endif
 
 @if(check_visible($field['settings'], $parameters))
-
-    <div
-        id="{{$field['settings']['htmlId'] or ''}}" 
-        class="element-file-container {{$field['settings']['htmlClass'] or ''}} {{ $field['settings']['collapsable'] ? '' : 'static' }}"
+    <div 
+        class="identifier-{{$identifier}}"
     >
-
-        <div 
-            class="{{ $field['settings']['collapsable'] ? 'element-collapsable' :'' }} element-file-container-head {{ $field['settings']['collapsed'] ? 'collapsed' : '' }}" 
-            @if($field['settings']['collapsable']) 
-                data-toggle="collapse" 
-                data-target="#collapsefile-{{$htmlId}}" 
-                aria-expanded="true" 
-                aria-controls="collapsefile-{{$htmlId}}"
-            @endif
-            style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
-        >
-            @if(isset($icon))
-                <i class="{{$icon}}"></i>
-            @endif
-            {{$title}}
-        </div>
-
-        <div 
-            id="collapsefile-{{$htmlId}}" 
-            class="{{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-file-container-body"
+        <div
+            id="{{$field['settings']['htmlId'] or ''}}" 
+            class="element-file-container {{$field['settings']['htmlClass'] or ''}} {{ $field['settings']['collapsable'] ? '' : 'static' }}"
         >
 
             <div 
-                id="element-card" 
-                class="elementFile"
-                field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
-                element="{{ base64_encode(json_encode($element)) }}"
-                model="{{ base64_encode(json_encode($model)) }}"
-                parameters="{{ $parameters }}"
+                class="{{ $field['settings']['collapsable'] ? 'element-collapsable' :'' }} element-file-container-head {{ $field['settings']['collapsed'] ? 'collapsed' : '' }}" 
+                @if($field['settings']['collapsable']) 
+                    data-toggle="collapse" 
+                    data-target="#collapsefile-{{$htmlId}}" 
+                    aria-expanded="true" 
+                    aria-controls="collapsefile-{{$htmlId}}"
+                @endif
+                style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
             >
+                @if(isset($icon))
+                    <i class="{{$icon}}"></i>
+                @endif
+                {{$title}}
             </div>
-            
-            <div>
-                <div class="more-btn">
-                @include($view, $params)
+
+            <div 
+                id="collapsefile-{{$htmlId}}" 
+                class="{{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-file-container-body"
+            >
+                <div 
+                    id="element-card" 
+                    class="elementFile"
+                    field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
+                    element="{{ base64_encode(json_encode($element)) }}"
+                    model="{{ base64_encode(json_encode($model)) }}"
+                    parameters="{{ $parameters }}"
+                >
+                </div>
+                <div>
+                    <div class="more-btn">
+                        @include($view, $params)
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
-
 @endif
