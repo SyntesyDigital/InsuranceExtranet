@@ -4,17 +4,20 @@ import { ButtonPrimary, PageTitle } from "architect-components-library";
 import DataTable from '../../Layout/DataTable';
 import Separator from '../../Layout/Separator';
 import ModalEditCurrencies from '../components/ModalEditCurrencies';
+import api from '../../../api/index.js';
 
 export default class CurrenciesIndex extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            display: false
+            display: false,
+            currencyId:null
         }
         this.datatable = React.createRef();
     }
 
+   
     // ==============================
     // Remove item
     // ==============================
@@ -38,38 +41,51 @@ export default class CurrenciesIndex extends Component {
             },
             callback: function (result) {
                 if (result) {
-                    // api.currencies.delete(id)
-                    //     .then(function (response) {
-                    //         toastr.success('Suppression effectué avec succès', { timeOut: 10000 });
+                     api.currencies.delete(id)
+                         .then(function (response) {
+                             toastr.success('Suppression effectué avec succès', { timeOut: 10000 });
 
-                    //         const node = self.datatable.current;
-                    //         node.refreshDatatable();
+                             const node = self.datatable.current;
+                             node.refreshDatatable();
 
-                    //     }, function (response) {
-                    //         toastr.error('Il y avait une erreur');
-                    //     });
+                         }, function (response) {
+                             toastr.error('Il y avait une erreur');
+                         });
                 }
             }
         });
 
     }
 
+
+    
+
+
     // ==============================
     // Handlers
     // ==============================
 
-    handleEditCurrency() {
+    handleCreateCurrency() {
         this.setState({
-            display: true
+            display: true,
+            currencyId: null
         });
     }
 
     handleCancelCurrency() {
         this.setState({
-            display: false
+            display: false,
+            currencyId:null
         });
     }
 
+    handleCreatedUpdatedItem() {
+        this.setState({
+            display: false,
+            currencyId:null
+        });
+        this.datatable.current.refreshDatatable();
+    }
 
     handleDatatableClick(type, payload, datatable) {
         console.log("handleDatatableClick :: " ,type, payload, datatable);
@@ -78,8 +94,10 @@ export default class CurrenciesIndex extends Component {
                 this.removeItem(payload);
                 return;
             case 'update':
+
                 this.setState({
-                    display: true
+                    display: true,
+                    currencyId:payload
                 });
                 console.log("update", payload)
                 return;
@@ -103,9 +121,12 @@ export default class CurrenciesIndex extends Component {
                         title={'Edit | Currency'}
                         display={this.state.display}
                         currency={{}}
+                        currencyId={this.state.currencyId}
                         zIndex={10000}
                         onModalClose={this.handleCancelCurrency.bind(this)}
                         onCancel={this.handleCancelCurrency.bind(this)}
+                        onSaveUpdate={this.handleCreatedUpdatedItem.bind(this)}
+                       // onRemove={this.removeItem(this)}
                     />
                     <PageTitle
                         title={'Currencies'}
@@ -114,7 +135,7 @@ export default class CurrenciesIndex extends Component {
                         <ButtonPrimary
                             label={'Ajouter'}
                             icon={'fa fa-plus'}
-                            onClick={this.handleEditCurrency.bind(this)}
+                            onClick={this.handleCreateCurrency.bind(this)}
                         />
                     </PageTitle>
                     <Separator

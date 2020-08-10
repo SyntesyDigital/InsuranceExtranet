@@ -5,6 +5,7 @@ import ToggleField from '../../Layout/Fields/ToggleField';
 import InputField from '../../Layout/Fields/InputField';
 import SelectField from '../../Layout/Fields/SelectField';
 
+import api from '../../../api/index.js';
 
 // import { connect } from 'react-redux';
 // import {
@@ -45,16 +46,95 @@ export default class ModalEditCurrencies extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('antes de if prop prevProps.currencyId -  this.props.currencyID', prevProps.currencyId,this.props.currencyId);
+
+        if (prevProps.currencyId !== this.props.currencyId) {
+            console.log('entro al didupdate con cambio en currencyId');
+            if(this.props.currencyId !== null){
+                console.log('Voy al load');
+
+                this.load();
+            }else{
+                console.log('Es null');
+
+                this.setState({
+                    currency: {
+                        id: null,
+                        code: '',
+                        label: '',
+                        symbole: '',
+                        symbole_position: '',
+                        decimals: 0,
+                        decimals_separator: '',
+                        thousands_separator: '',
+                        default: false,
+                    }
+                });
+            }
+        }
+        
+    }
+
+    // ==============================
+    // Actions
+    // ==============================
+    load() {
+        api.currencies.get(this.props.currencyId)
+            .then(payload => this.setState({
+                'currency': payload.data.currency ? payload.data.currency : null
+            }));
+    }
+
+    create() {
+        api.currencies.create(this.state.currency)
+            .then(payload => this.handleSaveSuccess(payload.data.createService))
+            .catch(error => this.handleSaveError(error));
+    }
+
+    update() {
+        api.currencies.update(this.state.currency.id, this.state.currency)
+            .then(payload => this.handleSaveSuccess(payload.data.updateService))
+            .catch(error => this.handleSaveError(error));
+    }
+
+    save() {
+        return this.state.currency.id !== undefined && this.state.currency.id !== null
+            ? this.update()
+            : this.create();
+    }
+
+
     // ==============================
     // Handlers
     // ==============================
 
-    handleCancel() {
-        console.log("handleCancel Currency");
+    handleSaveSuccess(service) {
+        this.setState({
+            service: service,
+            errors: {}
+        });
+        toastr.success('Divise enregistré');
+        this.props.onSaveUpdate();
     }
 
-    handleRemove() {
-        console.log("handleRemove Currency");
+    handleSaveError(error) {
+        toastr.error('Une erreur est survenue lors de l\'enregistrement du divise');
+        
+        error.graphQLErrors.map(({ extensions }, i) => {
+            Object.keys(extensions.validation).map((k) => {
+                // FIXME: better way to do this ?
+                var errors = this.state.errors;
+                errors[k.split('.')[1]] = true;
+                this.setState({
+                    errors : errors
+                });
+            }, this);
+        }, this);
+    }
+
+    handleCancel() {
+        console.log("handleCancel Currency");
     }
 
     handleChange(item, e) {
@@ -73,6 +153,7 @@ export default class ModalEditCurrencies extends Component {
 
     handleSubmit() {
         console.log("handleSubmit Currency :: ");
+        this.save();
     }
 
     // ==============================
@@ -103,9 +184,9 @@ export default class ModalEditCurrencies extends Component {
                 zIndex={10000}
                 onModalClose={this.props.onModalClose}
                 onCancel={this.props.onCancel}
-                onRemove={this.handleRemove.bind(this)}
                 onSubmit={this.handleSubmit.bind(this)}
                 size={'medium'}
+                deleteButton={false}
             >
                 <div className="row">
                     <div className="col-xs-12 field-col">
@@ -165,32 +246,6 @@ export default class ModalEditCurrencies extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         form: state.form,
-//         modal: state.modalPermission
-//     }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         cancelEditCurrency: () => {
-//             return dispatch(cancelEditCurrency());
-//         },
-//         removeCurrency: (currency) => {
-//             return dispatch(removeCurrency(currency));
-//         },
-//         loadCurrency: (currency) => {
-//             return dispatch(loadCurrency(currency));
-//         },
-//         saveCurrency: (currency) => {
-//             return dispatch(saveCurrency(currency));
-//         }
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ModalEditCurrencies);
-
 
 ModalEditCurrencies.propTypes = {
     id: PropTypes.string.isRequired,
@@ -201,8 +256,10 @@ ModalEditCurrencies.propTypes = {
     size: PropTypes.string.isRequired,
     currencies: PropTypes.array.isRequired,
     currency: PropTypes.object,
+    currencyId : PropTypes.number,
     onSubmit: PropTypes.func,
     onRemove: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    onSaveUpdate: PropTypes.func
 };
 

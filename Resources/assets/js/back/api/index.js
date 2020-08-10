@@ -10,6 +10,7 @@ import {users} from './models/users';
 import {groups} from './models/groups';
 import {permissions} from './models/permissions';
 import {roles} from './models/roles';
+import {currencies} from './models/currencies';
 
 let api = {
     services : services,
@@ -22,7 +23,8 @@ let api = {
     permissions : permissions,
     roles : roles,
     users : users,
-    groups: groups
+    groups: groups,
+    currencies:currencies
 };
 
 export default api;
