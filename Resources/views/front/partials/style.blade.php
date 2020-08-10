@@ -248,7 +248,7 @@
     $paddingBottomTopReduced = isset($storedStylesFront['paddingBottomTopReduced']) ? $storedStylesFront['paddingBottomTopReduced']->value.'px' : '10px';
     $paddingRightLeftReduced = isset($storedStylesFront['paddingRightLeftReduced']) ? $storedStylesFront['paddingRightLeftReduced']->value.'px' : '15px';
     $lineHeightReduced = isset($storedStylesFront['lineHeightReduced']) ? $storedStylesFront['lineHeightReduced']->value.'px' : '20px';
-    $marginBetweenReduced = isset($storedStylesFront['marginBetweenReduced']) ? $storedStylesFront['marginBetweenReduced']->value.'px' : '20px';
+    $marginBetweenReduced = isset($storedStylesFront['marginBetweenReduced']) ? $storedStylesFront['marginBetweenReduced']->value.'px' : '0px';
 
     //IMAGE TEXT LINK
     $titleFontSizeImgTxtLink = isset($storedStylesFront['titleFontSizeImgTxtLink']) ? $storedStylesFront['titleFontSizeImgTxtLink']->value.'px' : '24px';

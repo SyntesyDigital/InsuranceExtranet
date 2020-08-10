@@ -175,6 +175,12 @@ body .reduced .element-file-container .element-file-container-body{
     font-size: {{$fontSizeReduced}};
     line-height: {{$lineHeightReduced}};
 }
+body .reduced .element-file-container .element-file-container-body .container-fields-default div{
+    margin: {{$marginBetweenReduced}} 0px;
+}
+body .reduced .container-fields-default div{
+    background: transparent !important; 
+}
 body .reduced .element-file-container .element-file-container-body .container-fields-default div .row div:not(:first-child){
     text-align: right;
 }

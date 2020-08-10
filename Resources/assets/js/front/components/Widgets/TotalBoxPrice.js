@@ -73,7 +73,7 @@ export default class TotalBoxPrice extends Component {
                         <div className="title">{this.props.title ? this.props.title : null}</div>
                     </div>
                     <div className="col-md-12 col-sm-12 col-xs-12 number-container">
-                        <div className="col-md-4 nopadding">
+                        <div className="col-md-4 nopadding val2">
                             <NumberFormat
                                 value={this.state.val2}
                                 displayType={'text'}

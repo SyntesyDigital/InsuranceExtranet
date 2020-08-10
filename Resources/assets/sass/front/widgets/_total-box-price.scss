@@ -5,6 +5,9 @@
     min-height: 125px;
     flex-direction: row;
     margin-bottom: 15px;
+    .val2{
+        font-weight: 800;
+    }
     .title-container {
         height: 50%;
         @include line-clamp(1, 60);
