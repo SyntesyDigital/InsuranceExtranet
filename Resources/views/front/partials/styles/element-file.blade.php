@@ -181,7 +181,7 @@ body .reduced .element-file-container .element-file-container-body .container-fi
 body .reduced .container-fields-default div{
     background: transparent !important; 
 }
-body .reduced .element-file-container .element-file-container-body .container-fields-default div .row div:not(:first-child){
+body .reduced .element-file-container .element-file-container-body .container-fields-default div:not(.stripped) .row div:not(:first-child){
     text-align: right;
 }
 
