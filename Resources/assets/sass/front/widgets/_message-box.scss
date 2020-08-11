@@ -1,0 +1,15 @@
+body {
+    .messageBox {
+        .alert-dismissable {
+            .close {
+                margin-right: 15px;
+                font-size: 34px;
+                right: 0;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
+ 

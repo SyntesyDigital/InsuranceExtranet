@@ -380,6 +380,43 @@
     $recipientDateFontSizeChat = isset($storedStylesFront['recipientDateFontSizeChat']) ? $storedStylesFront['recipientDateFontSizeChat']->value.'px' : '14px';
     $fontSizeButtonChat = isset($storedStylesFront['fontSizeButtonChat']) ? $storedStylesFront['fontSizeButtonChat']->value.'px' : '14px';
 
+    //MESSAGE-BOX
+    // info
+    $colorInfoMessageBox = isset($storedStylesFront['colorInfoMessageBox']) ? $storedStylesFront['colorInfoMessageBox']->value : '#0c5460';
+    $backgroundColorInfoMessageBox = isset($storedStylesFront['backgroundColorInfoMessageBox']) ? $storedStylesFront['backgroundColorInfoMessageBox']->value : '#d1ecf1';
+    $borderColorInfoMessageBox = isset($storedStylesFront['borderColorInfoMessageBox']) ? $storedStylesFront['borderColorInfoMessageBox']->value : '#bee5eb';
+    $fontSizeInfoMessageBox = isset($storedStylesFront['fontSizeInfoMessageBox']) ? $storedStylesFront['fontSizeInfoMessageBox']->value.'px' : '16px';
+    $paddingInfoMessageBox = isset($storedStylesFront['paddingInfoMessageBox']) ? $storedStylesFront['paddingInfoMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconInfoMessageBox = isset($storedStylesFront['fontSizeIconInfoMessageBox']) ? $storedStylesFront['fontSizeIconInfoMessageBox']->value.'px' : '25px';
+    $iconInfoMessageBox = isset($storedStylesFront['iconInfoMessageBox']) ? $storedStylesFront['iconInfoMessageBox']->value : '';
+
+    // succes
+    $colorSuccessMessageBox = isset($storedStylesFront['colorSuccessMessageBox']) ? $storedStylesFront['colorSuccessMessageBox']->value : '#155724';
+    $backgroundColorSuccessMessageBox = isset($storedStylesFront['backgroundColorSuccessMessageBox']) ? $storedStylesFront['backgroundColorSuccessMessageBox']->value : '#d4edda';
+    $borderColorSuccessMessageBox = isset($storedStylesFront['borderColorSuccessMessageBox']) ? $storedStylesFront['borderColorSuccessMessageBox']->value : '#c3e6cb';
+    $fontSizeSuccessMessageBox = isset($storedStylesFront['fontSizeSuccessMessageBox']) ? $storedStylesFront['fontSizeSuccessMessageBox']->value.'px' : '16px';
+    $paddingSuccessMessageBox = isset($storedStylesFront['paddingSuccessMessageBox']) ? $storedStylesFront['paddingSuccessMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconSuccessMessageBox = isset($storedStylesFront['fontSizeIconSuccessMessageBox']) ? $storedStylesFront['fontSizeIconSuccessMessageBox']->value.'px' : '25px';
+    $iconSuccessMessageBox = isset($storedStylesFront['iconSuccessMessageBox']) ? $storedStylesFront['iconSuccessMessageBox']->value : '';
+
+    // error
+    $colorErrorMessageBox = isset($storedStylesFront['colorErrorMessageBox']) ? $storedStylesFront['colorErrorMessageBox']->value : '#721c24';
+    $backgroundColorErrorMessageBox = isset($storedStylesFront['backgroundColorErrorMessageBox']) ? $storedStylesFront['backgroundColorErrorMessageBox']->value : '#f8d7da';
+    $borderColorErrorMessageBox = isset($storedStylesFront['borderColorErrorMessageBox']) ? $storedStylesFront['borderColorErrorMessageBox']->value : '#f5c6cb';
+    $fontSizeErrorMessageBox = isset($storedStylesFront['fontSizeErrorMessageBox']) ? $storedStylesFront['fontSizeErrorMessageBox']->value.'px' : '16px';
+    $paddingErrorMessageBox = isset($storedStylesFront['paddingErrorMessageBox']) ? $storedStylesFront['paddingErrorMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconErrorMessageBox = isset($storedStylesFront['fontSizeIconErrorMessageBox']) ? $storedStylesFront['fontSizeIconErrorMessageBox']->value.'px' : '25px';
+    $iconErrorMessageBox = isset($storedStylesFront['iconErrorMessageBox']) ? $storedStylesFront['iconErrorMessageBox']->value : '';
+
+    // warning
+    $colorWarningMessageBox = isset($storedStylesFront['colorWarningMessageBox']) ? $storedStylesFront['colorWarningMessageBox']->value : '#856404';
+    $backgroundColorWarningMessageBox = isset($storedStylesFront['backgroundColorWarningMessageBox']) ? $storedStylesFront['backgroundColorWarningMessageBox']->value : '#fff3cd';
+    $borderColorWarningMessageBox = isset($storedStylesFront['borderColorWarningMessageBox']) ? $storedStylesFront['borderColorWarningMessageBox']->value : '#ffeeba';
+    $fontSizeWarningMessageBox = isset($storedStylesFront['fontSizeWarningMessageBox']) ? $storedStylesFront['fontSizeWarningMessageBox']->value.'px' : '16px';
+    $paddingWarningMessageBox = isset($storedStylesFront['paddingWarningMessageBox']) ? $storedStylesFront['paddingWarningMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconWarningMessageBox = isset($storedStylesFront['fontSizeIconWarningMessageBox']) ? $storedStylesFront['fontSizeIconWarningMessageBox']->value.'px' : '25px';
+    $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
+
 ?>
 
 <style type="text/css">
@@ -410,6 +447,7 @@
 @include('extranet::front.partials.styles.tabs')
 @include('extranet::front.partials.styles.simple-button')
 @include('extranet::front.partials.styles.action-list')
+@include('extranet::front.partials.styles.message-box')
 
 @if($frontFont)
   <style>
