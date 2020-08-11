@@ -7,6 +7,17 @@ if (!function_exists('check_visible')) {
             return true;
         }
 
+        $conditionalVisibility = check_conditional_visibility($settings,$parameters);
+        $visibilityByWS = check_visibility_by_ws($settings,$parameters);
+
+        //if one is visible the other is not
+        $visible = $conditionalVisibility && $visibilityByWS;
+
+        return $visible;
+    }
+
+    function check_conditional_visibility($settings,$parameters) 
+    {
         if (!isset($settings) || !isset($settings['conditionalVisibility'])
         || $settings['conditionalVisibility'] == '') {
             return true;
@@ -29,6 +40,16 @@ if (!function_exists('check_visible')) {
         }
 
         return $visible;
+    }
+
+    function check_visibility_by_ws($settings,$parameters) {
+
+        if (!isset($settings) || !isset($settings['wsVisibility'])
+        || $settings['wsVisibility'] == '') {
+            return true;
+        }
+
+        $settings = $settings['wsVisibility'];
     }
 
     function check_condition_accepted($condition, $parameters)
