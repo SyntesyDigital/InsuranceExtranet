@@ -95,23 +95,23 @@
     }
     
     @if (isset($storedStylesFront['iconWarningMessageBox']))
-        body div:not(.reduced) .message-box-container .alert-warning i{
-            display: none
+        body .reduced .message-box-container .alert-warning i{
+            display: block;
         }
     @endif
     @if (isset($storedStylesFront['iconErrorMessageBox']))
-        body div:not(.reduced) .message-box-container .alert-danger i{
-            display: none
+        body .reduced .message-box-container .alert-danger i{
+            display: block;
         }
     @endif
     @if (isset($storedStylesFront['iconSuccessMessageBox']))
-        body div:not(.reduced) .message-box-container .alert-success i{
-            display: none
+        body .reduced .message-box-container .alert-success i{
+            display: block;
         }
     @endif
     @if (isset($storedStylesFront['iconInfoMessageBox']))
-        body div:not(.reduced) .message-box-container .alert-info i{
-            display: none
+        body .reduced .message-box-container .alert-info i{
+            display: block;
         }
     @endif
 
