@@ -169,6 +169,15 @@ body .reduced div{
     padding: 0;
     margin: 0;
 }
+body .reduced .element-file-container h1, 
+body .reduced .element-file-container h2, 
+body .reduced .element-file-container h3, 
+body .reduced .element-file-container h4, 
+body .reduced .element-file-container h5{
+    margin: 0;
+    padding: 8px;
+    padding-bottom: 5px;
+}
 body .reduced .element-file-container .element-file-container-body{
     padding: 0;
     padding: {{$paddingBottomTopReduced}} {{$paddingRightLeftReduced}};
