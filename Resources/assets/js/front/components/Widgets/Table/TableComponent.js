@@ -275,7 +275,7 @@ export default class TableComponent extends Component {
         var hasColor = hasConditionalFormatting(style);
         var textAlign = getTextAlign(field);
 
-        if (field.type == "file") {
+        if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div className={"file-container" + ' ' + textAlign} dangerouslySetInnerHTML={{ __html: row.original[identifier] }} />
         }
         else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {

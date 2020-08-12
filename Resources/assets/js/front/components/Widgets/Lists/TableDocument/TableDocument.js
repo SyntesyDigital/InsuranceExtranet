@@ -26,7 +26,7 @@ export default class TableDocument extends Component {
           //console.log("renderCell => ",field,row);
           value = parseNumber(value,field);
       }
-      else if(field.type == "file"){
+      else if(field.type == "file" || field.type == "file_ws_fusion"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }
 
@@ -41,7 +41,7 @@ export default class TableDocument extends Component {
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
-        if(elementObject.fields[key].type == 'file'){
+        if(elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion"){
 
           file = this.renderField(item[identifier],elementObject.fields[key]);
           

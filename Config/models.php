@@ -173,6 +173,25 @@ return [
           'columnWidth'
         ]
       ],
+      'file_ws_fusion' => [
+        'mapping' => 'doc2',
+        'identifier' => 'file_ws_fusion',
+        'label' => 'File fusion',
+        'icon' => 'far fa-file-word',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault'
+        ],
+        'settings' => [
+          'conditionalVisibility',
+          'preview',
+          'columnWidth'
+        ]
+      ],
       'richtext' => [
         'mapping' => 'richtext',
         'identifier' => 'richtext',

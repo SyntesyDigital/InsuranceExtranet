@@ -42,7 +42,7 @@ export default class TableList extends Component {
       var style = getConditionalFormating(field,value);
       var hasColor = hasConditionalFormatting(style);
       
-      if(field.type == "file"){
+      if(field.type == "file" || field.type == "file_ws_fusion"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
       }
       else if(field.settings.hasRoute !== undefined && field.settings.hasRoute != null){
@@ -63,7 +63,7 @@ export default class TableList extends Component {
       for(var key in elementObject.fields){
        // console.log("TypologyPaginated => ",items[key]);
         var identifier =  elementObject.fields[key].identifier
-        if(elementObject.fields[key].type == 'file'){
+        if(elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion"){
           file = this.renderField(item,identifier,elementObject.fields[key]);
         } 
         else { 
