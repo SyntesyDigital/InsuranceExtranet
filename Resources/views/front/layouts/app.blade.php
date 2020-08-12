@@ -51,6 +51,8 @@
 
 
         @stack('styles')
+
+        @include ('extranet::front.partials.google-analytics')
     </head>
 
     <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
