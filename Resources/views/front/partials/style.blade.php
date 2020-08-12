@@ -387,7 +387,7 @@
     $borderColorInfoMessageBox = isset($storedStylesFront['borderColorInfoMessageBox']) ? $storedStylesFront['borderColorInfoMessageBox']->value : '#bee5eb';
     $fontSizeInfoMessageBox = isset($storedStylesFront['fontSizeInfoMessageBox']) ? $storedStylesFront['fontSizeInfoMessageBox']->value.'px' : '16px';
     $paddingInfoMessageBox = isset($storedStylesFront['paddingInfoMessageBox']) ? $storedStylesFront['paddingInfoMessageBox']->value.'px' : '12px 20px';
-    $fontSizeIconInfoMessageBox = isset($storedStylesFront['fontSizeIconInfoMessageBox']) ? $storedStylesFront['fontSizeIconInfoMessageBox']->value.'px' : '45px';
+    $fontSizeIconInfoMessageBox = isset($storedStylesFront['fontSizeIconInfoMessageBox']) ? $storedStylesFront['fontSizeIconInfoMessageBox']->value : '45';
     $iconInfoMessageBox = isset($storedStylesFront['iconInfoMessageBox']) ? $storedStylesFront['iconInfoMessageBox']->value : '';
     $fontSizeIconRemoveInfoMessageBox = isset($storedStylesFront['fontSizeIconRemoveInfoMessageBox']) ? $storedStylesFront['fontSizeIconRemoveInfoMessageBox']->value.'px' : '25px';
 
@@ -397,7 +397,7 @@
     $borderColorSuccessMessageBox = isset($storedStylesFront['borderColorSuccessMessageBox']) ? $storedStylesFront['borderColorSuccessMessageBox']->value : '#c3e6cb';
     $fontSizeSuccessMessageBox = isset($storedStylesFront['fontSizeSuccessMessageBox']) ? $storedStylesFront['fontSizeSuccessMessageBox']->value.'px' : '16px';
     $paddingSuccessMessageBox = isset($storedStylesFront['paddingSuccessMessageBox']) ? $storedStylesFront['paddingSuccessMessageBox']->value.'px' : '12px 20px';
-    $fontSizeIconSuccessMessageBox = isset($storedStylesFront['fontSizeIconSuccessMessageBox']) ? $storedStylesFront['fontSizeIconSuccessMessageBox']->value.'px' : '45px';
+    $fontSizeIconSuccessMessageBox = isset($storedStylesFront['fontSizeIconSuccessMessageBox']) ? $storedStylesFront['fontSizeIconSuccessMessageBox']->value : '45';
     $iconSuccessMessageBox = isset($storedStylesFront['iconSuccessMessageBox']) ? $storedStylesFront['iconSuccessMessageBox']->value : '';
     $fontSizeIconRemoveSuccessMessageBox = isset($storedStylesFront['fontSizeIconRemoveSuccessMessageBox']) ? $storedStylesFront['fontSizeIconRemoveSuccessMessageBox']->value.'px' : '25px';
 
@@ -407,7 +407,7 @@
     $borderColorErrorMessageBox = isset($storedStylesFront['borderColorErrorMessageBox']) ? $storedStylesFront['borderColorErrorMessageBox']->value : '#f5c6cb';
     $fontSizeErrorMessageBox = isset($storedStylesFront['fontSizeErrorMessageBox']) ? $storedStylesFront['fontSizeErrorMessageBox']->value.'px' : '16px';
     $paddingErrorMessageBox = isset($storedStylesFront['paddingErrorMessageBox']) ? $storedStylesFront['paddingErrorMessageBox']->value.'px' : '12px 20px';
-    $fontSizeIconErrorMessageBox = isset($storedStylesFront['fontSizeIconErrorMessageBox']) ? $storedStylesFront['fontSizeIconErrorMessageBox']->value.'px' : '45px';
+    $fontSizeIconErrorMessageBox = isset($storedStylesFront['fontSizeIconErrorMessageBox']) ? $storedStylesFront['fontSizeIconErrorMessageBox']->value : '45';
     $iconErrorMessageBox = isset($storedStylesFront['iconErrorMessageBox']) ? $storedStylesFront['iconErrorMessageBox']->value : '';
     $fontSizeIconRemoveErrorMessageBox = isset($storedStylesFront['fontSizeIconRemoveErrorMessageBox']) ? $storedStylesFront['fontSizeIconRemoveErrorMessageBox']->value.'px' : '25px';
 
@@ -417,7 +417,7 @@
     $borderColorWarningMessageBox = isset($storedStylesFront['borderColorWarningMessageBox']) ? $storedStylesFront['borderColorWarningMessageBox']->value : '#ffeeba';
     $fontSizeWarningMessageBox = isset($storedStylesFront['fontSizeWarningMessageBox']) ? $storedStylesFront['fontSizeWarningMessageBox']->value.'px' : '16px';
     $paddingWarningMessageBox = isset($storedStylesFront['paddingWarningMessageBox']) ? $storedStylesFront['paddingWarningMessageBox']->value.'px' : '12px 20px';
-    $fontSizeIconWarningMessageBox = isset($storedStylesFront['fontSizeIconWarningMessageBox']) ? $storedStylesFront['fontSizeIconWarningMessageBox']->value.'px' : '45px';
+    $fontSizeIconWarningMessageBox = isset($storedStylesFront['fontSizeIconWarningMessageBox']) ? $storedStylesFront['fontSizeIconWarningMessageBox']->value : '45';
     $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
     $fontSizeIconRemoveWarningMessageBox = isset($storedStylesFront['fontSizeIconRemoveWarningMessageBox']) ? $storedStylesFront['fontSizeIconRemoveWarningMessageBox']->value.'px' : '25px';
 
