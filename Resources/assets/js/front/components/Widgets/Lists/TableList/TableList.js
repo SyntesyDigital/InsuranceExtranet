@@ -30,13 +30,13 @@ export default class TableList extends Component {
     renderField(item,identifier,field) {
 
       var value = item[identifier];
+      console.log("ITEM ON LIST => ",item);
 
       if(field.type == "date") {
           value = parseDate(value,field);
       }
       else if(field.type == "number") {
-          //console.log("renderCell => ",field,row);
-          value = parseNumber(value,field);
+          value = parseNumber(value,field,item, this.props.parameters);
       }
 
       var style = getConditionalFormating(field,value);

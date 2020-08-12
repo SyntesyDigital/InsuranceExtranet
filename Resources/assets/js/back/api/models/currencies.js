@@ -30,6 +30,7 @@ export let currencies = {
     },
 
     create(params) {
+        console.log('INSIDE CURRENCIES API',params);
         return mutation(GQL_CREATE_CURRENCY, params);
     }
 }

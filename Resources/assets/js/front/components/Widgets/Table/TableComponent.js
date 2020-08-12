@@ -262,6 +262,7 @@ export default class TableComponent extends Component {
     }
 
     renderCell(field,identifier,row) {
+      const {elementObject} = this.state;
 
       var value = row.original[identifier];
 
@@ -270,7 +271,7 @@ export default class TableComponent extends Component {
           value = parseDate(value,field);
       }
       if(field.type == "number") {
-          value = parseNumber(value,field);
+          value = parseNumber(value,field,row.original, this.props.parameters);
       }
 
       // console.log("value => ",value);

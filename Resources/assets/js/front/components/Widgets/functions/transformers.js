@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+import {
+  CONDITION_FIELD_TYPE_PARAMETER,
+  CONDITION_FIELD_TYPE_CONFIGURABLE
+} from './../../../../back/components/Element/constants';
 
 /**
  * Same funciont as php number_format. Process number decimals.
@@ -39,8 +43,11 @@ export function numberFormat (number, decimals, dec_point, thousands_sep) {
  * @param {*} value 
  * @param {*} field 
  */
-export function parseNumber(value,field) {
-
+export function parseNumber(value,field, values = null, parameters = null) {
+  
+  console.log('VALUES',values);
+  console.log('PARAMETERS',parameters)
+  
   if(value !== undefined && value != ""){
 
     var hideCurrency = field.settings.hideCurrency !== undefined 
@@ -48,21 +55,58 @@ export function parseNumber(value,field) {
 
     var currency = hideCurrency ? "" : "€";
 
-    if(field.settings !== undefined && field.settings.format !== undefined){
-      switch(field.settings.format) {
-        case 'price':
-          value = numberFormat(value, 0, ',', '.') + currency;
-          break;
-        case 'price_with_decimals':
-          value = numberFormat(value, 2, ',', '.') + currency;
-          break;
-        case 'price_with_decimals_2':
-          value = numberFormat(value, 2, '.', ' ') + currency;
-          break;
+    if(field.settings !== undefined && field.settings.currency !== undefined && field.settings.currency !== null && field.settings.format !== undefined  &&  (field.settings.currency.type == CONDITION_FIELD_TYPE_PARAMETER || field.settings.currency.type == CONDITION_FIELD_TYPE_CONFIGURABLE) && (values != null || parameters != null)){
+      if(field.settings.currency.type == CONDITION_FIELD_TYPE_PARAMETER){
+        var parametersObject = {};
+        parameters.split("&").forEach(function(part) {
+          var item = part.split("=");
+          parametersObject[item[0]] = decodeURIComponent(item[1]);
+        });
+        var currencyIso = parametersObject[field.settings.currency.identifier]
+      }else{
+        var currencyIso = values[field.settings.currency.identifier]
       }
-    }
+      //currencyIso = 'eur';
+      var currencyInfo = null !== CURRENCIES[currencyIso]?CURRENCIES[currencyIso]:null;
+
+      if(currencyInfo){
+        currencyInfo.decimals_separator = currencyInfo.decimals_separator.replace("' '"," ");
+        currencyInfo.thousands_separator = currencyInfo.thousands_separator.replace("' '"," ");
+
+        console.log('SEPARATOR',currencyInfo.thousands_separator);
+        value = numberFormat(value, currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0,currencyInfo.decimals_separator?currencyInfo.decimals_separator:'', currencyInfo.thousands_separator?currencyInfo.thousands_separator:'');
+        currency = currencyInfo.symbole.replace("' '"," ");
+        if(currencyInfo.symbole_position == 'L'){
+          value = currency + value;
+        }else{
+          value = value + currency ;
+        }
+      }else{
+        value = numberFormat(value, 0, '', '') + currency;
+      }
+    }else{
+
+      if(field.settings !== undefined && field.settings.format !== undefined){
+        switch(field.settings.format) {
+          case 'price':
+            value = numberFormat(value, 0, ',', '.') + currency;
+            break;
+          case 'price_with_decimals':
+            value = numberFormat(value, 2, ',', '.') + currency;
+            break;
+          case 'price_with_decimals_2':
+            value = numberFormat(value, 2, '.', ' ') + currency;
+            break;
+        }
+      }
+   }
+
+    
   }
   
+
+
+
   return value;
 
 }

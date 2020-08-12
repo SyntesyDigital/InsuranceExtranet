@@ -94,17 +94,9 @@
         @if(!is_jailed())
           @include ('extranet::front.partials.footer')
         @endif
-        <script>
-          const WEBROOT = '{{route("home")}}';
-          const ASSETS = '{{asset('')}}';
-          const LOCALE = '{{App::getLocale()}}';
+        @include ('extranet::front.layouts.jsconst')
 
-          @if(isset(Auth::user()->id))
-            const ID_PER_USER = '{{Auth::user()->id}}';
-            const SESSION_ID = '{{isset(Auth::user()->session_id) ? Auth::user()->session_id : null}}';
-            const SESSION = {!! Auth::session() ? json_encode(Auth::session()->toArray(), JSON_PRETTY_PRINT) : null !!};
-          @endif
-        </script>
+       
         
         {{-- <script type="text/javascript" src="{{route('messages', App::getLocale())}}" ></script> --}}
         <script type="text/javascript" src="{{route('localization.js', App::getLocale())}}" ></script>

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import CheckField from './fields/CheckField';
 import DefaultField from './fields/DefaultField';
-
+import {
+    parseNumber
+  } from '../functions';
 export default class FileComponent extends Component {
 
     constructor(props) {
@@ -163,6 +165,13 @@ export default class FileComponent extends Component {
                     field={field}
                     name={name}
                     value={value}
+                />
+            case 'number':
+
+                return <DefaultField
+                    field={field}
+                    name={name}
+                    value={parseNumber(value,field,this.state.modelValues[0], this.props.parameters)}
                 />
             default:
                 return <DefaultField

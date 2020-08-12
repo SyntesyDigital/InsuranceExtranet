@@ -8,7 +8,9 @@ import ImageField from './fields/ImageField';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../back/api';
 import LayoutParser from './LayoutParser';
-
+import {
+    parseNumber
+  } from '../functions';
 import {
     parameteres2Array,
     isVisible
@@ -273,6 +275,21 @@ export default class ElementCard extends Component {
                     stripped={stripped}
                     key={field.id}
                     checked={this.getConfigValue(field, value)}
+                    settings={settings}
+                />
+
+            case 'number':
+
+                return <DefaultField
+                    label={field.name}
+                    value={parseNumber(value,field,this.state.modelValues[0], this.props.parameters)}
+                    stripped={stripped}
+                    labelAlign={labelAlign}
+                    valueAlign={valueAlign}
+                    inline={inline}
+                    key={field.id}
+                    valueColor={color}
+                    valueBackgroundColor={backgroundColor}
                     settings={settings}
                 />
 

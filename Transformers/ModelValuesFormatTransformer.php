@@ -161,7 +161,7 @@ class ModelValuesFormatTransformer extends Resource
                                 $hideCurrency = isset($elementField->settings['hideCurrency']) ? $elementField->settings['hideCurrency'] : false; 
                                 $currency = $hideCurrency ? '' : ' €';
 
-                                if (!$this->isTable) {
+                              /*  if (!$this->isTable) {
                                     if ($elementField->settings['format'] == 'price') {
                                         $result[$i][$elementField->identifier] = number_format($originalValue, 0, ',', '.').$currency;
                                     } elseif ($elementField->settings['format'] == 'price_with_decimals') {
@@ -173,7 +173,8 @@ class ModelValuesFormatTransformer extends Resource
                                     }
                                 } else {
                                     $result[$i][$elementField->identifier] = $originalValue != '' ? intval($originalValue) : 0;
-                                }
+                                }*/
+                                $result[$i][$elementField->identifier] = $originalValue;
 
                                 break;
                             case 'text':

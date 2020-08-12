@@ -203,7 +203,7 @@ export default class ModalEditCurrencies extends Component {
                             onChange={this.handleFieldChange.bind(this)}
                         />
                         <InputField
-                            label={'Symbol'}
+                            label={'Symbol (utiliser  \' \' pour espaces blancs)'}
                             value={this.state.currency.symbole}
                             name={'symbole'}
                             onChange={this.handleFieldChange.bind(this)}
@@ -222,13 +222,13 @@ export default class ModalEditCurrencies extends Component {
                             onChange={this.handleFieldChange.bind(this)}
                         />
                         <InputField
-                            label={'Separateur décimales'}
+                            label={'Separateur décimales (utiliser  \' \' pour espaces blancs)'}
                             value={this.state.currency.decimals_separator}
                             name={'decimals_separator'}
                             onChange={this.handleFieldChange.bind(this)}
                         />
                         <InputField
-                            label={'Separateur milliers'}
+                            label={'Separateur milliers (utiliser  \' \' pour espaces blancs)'}
                             value={this.state.currency.thousands_separator}
                             name={'thousands_separator'}
                             onChange={this.handleFieldChange.bind(this)}

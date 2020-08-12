@@ -24,7 +24,7 @@ export default class TableDocument extends Component {
       }
       else if(field.type == "number") {
           //console.log("renderCell => ",field,row);
-          value = parseNumber(value,field);
+          value = parseNumber(value,field,this.props.elementObject.fields, this.props.parameters);
       }
       else if(field.type == "file"){
         return <div dangerouslySetInnerHTML={{__html: value}} />
