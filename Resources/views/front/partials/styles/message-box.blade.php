@@ -93,6 +93,27 @@
         top: 50%;
         transform: translateY(-50%);
     }
+    
+    @if (isset($storedStylesFront['iconWarningMessageBox']))
+        body div:not(.reduced) .message-box-container .alert-warning i{
+            display: none
+        }
+    @endif
+    @if (isset($storedStylesFront['iconErrorMessageBox']))
+        body div:not(.reduced) .message-box-container .alert-danger i{
+            display: none
+        }
+    @endif
+    @if (isset($storedStylesFront['iconSuccessMessageBox']))
+        body div:not(.reduced) .message-box-container .alert-success i{
+            display: none
+        }
+    @endif
+    @if (isset($storedStylesFront['iconInfoMessageBox']))
+        body div:not(.reduced) .message-box-container .alert-info i{
+            display: none
+        }
+    @endif
 
 </style>
 
