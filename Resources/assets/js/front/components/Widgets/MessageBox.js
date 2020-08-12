@@ -14,9 +14,10 @@ export default class MessageBox extends Component {
         this.state = {
             elementObject: elementObject,
             model: model,
-            type: 'success',
-            message: 'Este es el mensaje'
+            type: 'danger',
+            message: 'Este es el mensaje de error del state'
         };
+        // console.log("ICONS.messageBox.success" , ICONS.messageBox.success);
     }
 
     componentDidMount() {
@@ -70,6 +71,7 @@ export default class MessageBox extends Component {
                 <div
                     className={`alert alert-${this.state.type} alert-dismissable`}
                     role="alert">
+                    <i class={ICONS.messageBox[this.state.type]}></i>
                     {this.state.message ? this.state.message : ''}
                     <button
                         type="button"

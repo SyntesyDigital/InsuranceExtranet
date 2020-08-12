@@ -17,7 +17,6 @@
   }
 
   $visible = check_visible($field['settings'],$parameters);
-
 @endphp
 
 @if($visible)

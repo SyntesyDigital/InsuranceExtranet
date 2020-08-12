@@ -8,6 +8,9 @@
         padding: {{$paddingInfoMessageBox}} 20px;
     }
     body .messageBox .alert-info .close{
+        font-size: {{$fontSizeIconRemoveInfoMessageBox}};
+    }
+    body .messageBox .alert-info i{
         font-size: {{$fontSizeIconInfoMessageBox}};
     }
     /* error */
@@ -19,6 +22,9 @@
         padding: {{$paddingErrorMessageBox}} 20px;
     }
     body .messageBox .alert-danger .close{
+        font-size: {{$fontSizeIconRemoveErrorMessageBox}};
+    }
+    body .messageBox .alert-danger i{
         font-size: {{$fontSizeIconErrorMessageBox}};
     }
     /* success */
@@ -30,6 +36,9 @@
         padding: {{$paddingSuccessMessageBox}} 20px;
     }
     body .messageBox .alert-success .close{
+        font-size: {{$fontSizeIconRemoveSuccessMessageBox}};
+    }
+    body .messageBox .alert-success i{
         font-size: {{$fontSizeIconSuccessMessageBox}};
     }
     /* warning */
@@ -41,7 +50,25 @@
         padding: {{$paddingWarningMessageBox}} 20px;
     }
     body .messageBox .alert-warning .close{
+        font-size: {{$fontSizeIconRemoveWarningMessageBox}};
+    }
+    body .messageBox .alert-warning i{
         font-size: {{$fontSizeIconWarningMessageBox}};
+    }
+    /* reduced */
+    body .reduced .messageBox .alert{
+        padding: 10px 20px 10px 65px;
+        background: #FFFFFF;
+        border: none;
+    }
+    body .reduced .messageBox .alert button span{
+        display: none;
+    }
+    body .reduced .messageBox .alert i{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -5px;
     }
 </style>
 
