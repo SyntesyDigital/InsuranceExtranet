@@ -30,6 +30,7 @@ let jp = require('jsonpath');
 const fieldComponents = {
     text: TextField,
     date: DateField,
+    password: TextField,
     number: NumberField,
     select:SelectField,
     file:FileField,

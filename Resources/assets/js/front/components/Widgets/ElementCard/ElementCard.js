@@ -12,7 +12,7 @@ import LayoutParser from './LayoutParser';
 import {
     parameteres2Array,
     isVisible
-  } from '../Forms/functions';
+} from '../Forms/functions';
 
 export default class ElementCard extends Component {
 
@@ -34,7 +34,7 @@ export default class ElementCard extends Component {
             template: template,
             dataLoaded: false,
             templateLoaded: template ? false : true,
-            parameters : parameteres2Array(props.parameters)
+            parameters: parameteres2Array(props.parameters)
         };
     }
 
@@ -194,7 +194,7 @@ export default class ElementCard extends Component {
     // ----------------------------------------------- //
     fieldRender(node, key, settings) {
 
-        //console.log("fieldRender :: settings merged : (node, key, settings) ", node, key,settings);
+        console.log("fieldRender :: settings merged : (node, key, settings) ", node, key, settings);
 
         if (node.type == 'element_field') {
             return this.renderElementField(node.field, settings);
@@ -209,7 +209,7 @@ export default class ElementCard extends Component {
 
                 const border = node.field && node.field.settings && node.field.settings.hideBorders ?
                     true : false;
-                    
+
                 return (
                     <Label
                         key={key}
@@ -275,7 +275,21 @@ export default class ElementCard extends Component {
                     checked={this.getConfigValue(field, value)}
                     settings={settings}
                 />
-
+            case 'text':
+                if (field.settings.format == "password") {
+                    return <DefaultField
+                        label={field.name}
+                        value={'******'}
+                        stripped={stripped}
+                        labelAlign={labelAlign}
+                        valueAlign={valueAlign}
+                        inline={inline}
+                        key={field.id}
+                        valueColor={color}
+                        valueBackgroundColor={backgroundColor}
+                        settings={settings}
+                    />
+                }
             default:
                 return <DefaultField
                     label={field.name}
