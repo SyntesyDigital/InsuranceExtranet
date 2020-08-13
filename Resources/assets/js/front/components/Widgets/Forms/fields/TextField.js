@@ -69,7 +69,7 @@ class TextField extends Component
     if (this.state.addClassBordered || this.props.value != "") {
         textFieldClass.push('bordered');
     }
-
+    console.log("field" ,field)
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
@@ -81,7 +81,7 @@ class TextField extends Component
         </label>
 
         <input
-            type="text"
+            type={field.settings.format == "password" ? "password" : "text"}
             className={"form-control " + (textFieldClass.join(' '))}
             name={field.identifier}
             value={this.props.value}

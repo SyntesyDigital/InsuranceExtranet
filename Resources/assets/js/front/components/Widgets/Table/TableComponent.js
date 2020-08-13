@@ -269,6 +269,13 @@ export default class TableComponent extends Component {
         if (field.type == "number") {
             value = parseNumber(value, field);
         }
+        if (field.type == "text") {
+            switch (field.settings.format) {
+                case 'password':
+                    value = '******';
+                    break;
+            }
+        }
 
         // console.log("value => ",value);
         var style = getConditionalFormating(field, value);
