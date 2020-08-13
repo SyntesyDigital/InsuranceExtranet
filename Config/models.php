@@ -28,6 +28,7 @@ return [
           'conditionalFormatting',
           'textAlign',
           'columnWidth',
+          'readonly',
         ],
       ],
       'number' => [
@@ -90,6 +91,7 @@ return [
           'conditionalVisibility',
           'textAlign',
           'columnWidth',
+          'readonly',
           //'defaultValue'
         ],
       ],
