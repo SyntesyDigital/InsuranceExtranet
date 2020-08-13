@@ -153,11 +153,7 @@ class DateField extends Component {
 
     }
 
-    // ==============================
-    // Processers
-    // ==============================
-
-    processReadOnly() {
+    isReadOnly() {
         const field = this.props.field;
         const operation = field.settings.operation;
         return field.settings.readonly || (operation !== undefined && operation !== null && operation !== '') ?
@@ -213,7 +209,7 @@ class DateField extends Component {
                     timeFormat="HH:mm"
                     maxDate={maxDate}
                     minDate={minDate}
-                    disabled={this.processReadOnly()}
+                    disabled={this.isReadOnly()}
                 />
             </div>
         );

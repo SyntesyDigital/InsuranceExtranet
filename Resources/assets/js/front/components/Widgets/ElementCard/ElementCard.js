@@ -5,6 +5,7 @@ import CheckField from './fields/CheckField';
 import IconField from './fields/IconField';
 import DefaultField from './fields/DefaultField';
 import ImageField from './fields/ImageField';
+import RichTextField from './fields/RichTextField';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../back/api';
 import LayoutParser from './LayoutParser';
@@ -230,9 +231,18 @@ export default class ElementCard extends Component {
                         checked={true}
                     />
                 );
+
             case 'image':
                 return (
                     <ImageField
+                        key={key}
+                        field={node.field}
+                    />
+                );
+
+            case 'richtext':
+                return (
+                    <RichTextField
                         key={key}
                         field={node.field}
                     />
