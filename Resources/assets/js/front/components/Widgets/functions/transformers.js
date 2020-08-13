@@ -44,30 +44,27 @@ export function numberFormat (number, decimals, dec_point, thousands_sep) {
  * @param {*} field 
  */
 export function parseNumber(value,field, values = null, parameters = null) {
-  
-  if(value !== undefined && value != ""){
 
-    var hideCurrency = field.settings.hideCurrency !== undefined ? field.settings.hideCurrency : false;
-    var currency = hideCurrency ? "" : "€";
-    var currencyInfo = '';
-    if(currencyInfo = fieldHasCurrencySettings(field,values,parameters)){
-      value = parseCurrency(value,currencyInfo,hideCurrency);
-    }else{
-      if(field.settings !== undefined && field.settings.format !== undefined){
-        switch(field.settings.format) {
-          case 'price':
-            value = numberFormat(value, 0, ',', '.') + currency;
-            break;
-          case 'price_with_decimals':
-            value = numberFormat(value, 2, ',', '.') + currency;
-            break;
-          case 'price_with_decimals_2':
-            value = numberFormat(value, 2, '.', ' ') + currency;
-            break;
-        }
+  var hideCurrency = field.settings.hideCurrency !== undefined ? field.settings.hideCurrency : false;
+  var currency = hideCurrency ? "" : "€";
+  var currencyInfo = '';
+
+  if(currencyInfo = fieldHasCurrencySettings(field,values,parameters)){      
+    value = parseCurrency(value,currencyInfo,hideCurrency);
+  }else{
+    if(field.settings !== undefined && field.settings.format !== undefined){
+      switch(field.settings.format) {
+        case 'price':
+          value = numberFormat(value, 0, ',', '.') + currency;
+          break;
+        case 'price_with_decimals':
+          value = numberFormat(value, 2, ',', '.') + currency;
+          break;
+        case 'price_with_decimals_2':
+          value = numberFormat(value, 2, '.', ' ') + currency;
+          break;
       }
-   }
-
+    }
   }
 
   return value;
