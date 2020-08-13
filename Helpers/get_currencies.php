@@ -10,6 +10,8 @@ if (!function_exists('get_currencies')) {
         }*/
 
         $currencies = Modules\Extranet\Services\Currency\Entities\Currency::all()->keyBy('code')->toArray();
+        //we add on key default the default currency to use it on js components
+        $currencies['default']= Modules\Extranet\Services\Currency\Entities\Currency::where('default',1)->first();
         if (!isset($currencies) || !$currencies) {
             return null;
         }

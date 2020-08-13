@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
+import NumberFormat from 'react-number-format';
+import {
+  CONDITION_FIELD_TYPE_PARAMETER,
+  CONDITION_FIELD_TYPE_CONFIGURABLE
+} from './../../../../../back/components/Element/constants';
 
 class NumberField extends Component
 {
@@ -15,11 +20,50 @@ class NumberField extends Component
   componentDidUpdate(prevProps, prevState){
     //si es campo operacion
 
-    if(this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''){
+    if(this.fieldHasOperationSettingsEnable()){
+      this.processOperation(prevProps);
+    }
+    
+
+  }
+  fieldHasOperationSettingsEnable(){
+    return this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''?true :false;
+  } 
+  fieldHasCurrencySettings(){
+      var currencySettings = this.props.field.settings !== undefined && this.props.field.settings.currency !== undefined && this.props.field.settings.currency !== null?this.props.field.settings.currency:null
+      var hideCurrency = this.props.field.settings.hideCurrency !== undefined ? this.props.field.settings.hideCurrency : false;
+      if(currencySettings){
+        //Caso por parametro
+        if(currencySettings.type == CONDITION_FIELD_TYPE_PARAMETER){
+          var parametersObject = {};
+          this.props.parameters.split("&").forEach(function(part) {
+            var item = part.split("=");
+            parametersObject[item[0]] = decodeURIComponent(item[1]);
+          });
+          var currencyIso = parametersObject[currencySettings.identifier]
+        }else{
+          var currencyIso = this.props.values[currencySettings.identifier]
+        }
+        var currencyInfo = CURRENCIES[currencyIso] !== undefined?CURRENCIES[currencyIso]:CURRENCIES['default'];
+        console.log('CURRENCY INFO',currencyInfo);
+        //We prepare values with a trick to be able to use whitespaces comming from back as ' '
+        if(currencyInfo){          
+          currencyInfo.decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
+          currencyInfo.decimals_separator = currencyInfo.decimals_separator?currencyInfo.decimals_separator.replace("' '"," "):'';
+          currencyInfo.thousands_separator = currencyInfo.thousands_separator?currencyInfo.thousands_separator.replace("' '"," "):'';
+          currencyInfo.symbole = !hideCurrency && currencyInfo.symbole? currencyInfo.symbole.replace("' '"," "):'';
+          return currencyInfo
+        }
+      }
+
+      return null;
+  }
+
+  processOperation(prevProps){
       var max = this.getMaxValue();
       var min = this.getMinValue();
-      if(this.props.value !== prevProps.value){
-      }else{
+      //miramos si ha cambiado un campo diferente al campo con formula para recalcular
+      if(this.props.value === prevProps.value){ 
         var formule = this.props.field.settings.operation;
         var params = formule.match(/[^[\]]+(?=])/g);
         for(var key in params){
@@ -28,37 +72,27 @@ class NumberField extends Component
           formule = formule.replace('['+id+']',value);
         }
         var result = eval(formule);
+        //miramos si el nuevo resultado esta dentro del rango max y minimo definido para cambiar por el resultado y sino por el valor maximo o minimo
+        if(result < min ){
+          result = min
+        }
+        if(result > max ){
+          result = max;
+        }
+        //miramos si ha cambiado o no el resultado de la formula para updatear el campo
         if(this.props.value != result){
-          if(result < min || result > max){
-            if(result < min ){
-              if(this.props.value !== min){
-                this.props.onFieldChange({
-                  name : this.props.field.identifier,
-                  value :min
-                });
-              } 
-            }else{
-              if(this.props.value !== max){
-                this.props.onFieldChange({
-                  name : this.props.field.identifier,
-                  value :max
-                });
-              }  
-            }
-          }else{
-            this.props.onFieldChange({
-              name : this.props.field.identifier,
-              value :result
-            });
-          }
+          this.props.onFieldChange({
+            name : this.props.field.identifier,
+            value :result
+          });
         }
       }
 
-    }
-    
-
   }
 
+  isReadOnly(){
+    return this.props.field.settings.readonly || (this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '')?'readonly':null;
+  }
   // ==============================
   // Handlers
   // ==============================
@@ -163,6 +197,9 @@ class NumberField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    const currency =  this.fieldHasCurrencySettings();
+
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -183,6 +220,7 @@ class NumberField extends Component
               <span className="required">&nbsp; *</span>
             }
         </label>
+          {!currency &&
             <input type="number" name={field.identifier}
             className={"form-control " + (textFieldClass.join(' '))}
             value={this.props.value}
@@ -192,13 +230,28 @@ class NumberField extends Component
             onBlur={this.handleBlur.bind(this)}
             onFocus={this.handleFocus.bind(this)}
             placeholder={this.getPlaceholder()}
-            readonly={this.props.field.settings.readonly || (this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '')?'readonly':null}
-
+            readOnly={this.isReadOnly()}
           />
+          }        
+          {currency &&
+            <NumberFormat 
+            value={this.props.value} 
+            name={field.identifier}
+            className={"form-control " + (textFieldClass.join(' '))}
+            max={this.getNumberFromRules('maxNumber')}
+            min={this.getNumberFromRules('minNumber')}
+           // onChange={this.handleOnChange.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+            placeholder={this.getPlaceholder()}
+            readOnly={this.isReadOnly()}
+         
+            decimalScale={currency.decimals}
+            decimalSeparator={currency.decimals_separator}
+            thousandSeparator={currency.thousands_separator} 
+            prefix={currency.symbole_position == 'L'?currency.symbole:''} 
+            suffix={currency.symbole_position == 'R'?currency.symbole:''} />
 
-
-  
-
+          }
        
       </div>
     );

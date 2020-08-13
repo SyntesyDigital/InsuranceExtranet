@@ -45,47 +45,14 @@ export function numberFormat (number, decimals, dec_point, thousands_sep) {
  */
 export function parseNumber(value,field, values = null, parameters = null) {
   
-  console.log('VALUES',values);
-  console.log('PARAMETERS',parameters)
-  
   if(value !== undefined && value != ""){
 
-    var hideCurrency = field.settings.hideCurrency !== undefined 
-      ? field.settings.hideCurrency : false;
-
+    var hideCurrency = field.settings.hideCurrency !== undefined ? field.settings.hideCurrency : false;
     var currency = hideCurrency ? "" : "€";
-
-    if(field.settings !== undefined && field.settings.currency !== undefined && field.settings.currency !== null && field.settings.format !== undefined  &&  (field.settings.currency.type == CONDITION_FIELD_TYPE_PARAMETER || field.settings.currency.type == CONDITION_FIELD_TYPE_CONFIGURABLE) && (values != null || parameters != null)){
-      if(field.settings.currency.type == CONDITION_FIELD_TYPE_PARAMETER){
-        var parametersObject = {};
-        parameters.split("&").forEach(function(part) {
-          var item = part.split("=");
-          parametersObject[item[0]] = decodeURIComponent(item[1]);
-        });
-        var currencyIso = parametersObject[field.settings.currency.identifier]
-      }else{
-        var currencyIso = values[field.settings.currency.identifier]
-      }
-      //currencyIso = 'eur';
-      var currencyInfo = null !== CURRENCIES[currencyIso]?CURRENCIES[currencyIso]:null;
-
-      if(currencyInfo){
-        currencyInfo.decimals_separator = currencyInfo.decimals_separator.replace("' '"," ");
-        currencyInfo.thousands_separator = currencyInfo.thousands_separator.replace("' '"," ");
-
-        console.log('SEPARATOR',currencyInfo.thousands_separator);
-        value = numberFormat(value, currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0,currencyInfo.decimals_separator?currencyInfo.decimals_separator:'', currencyInfo.thousands_separator?currencyInfo.thousands_separator:'');
-        currency = currencyInfo.symbole.replace("' '"," ");
-        if(currencyInfo.symbole_position == 'L'){
-          value = currency + value;
-        }else{
-          value = value + currency ;
-        }
-      }else{
-        value = numberFormat(value, 0, '', '') + currency;
-      }
+    var currencyInfo = '';
+    if(currencyInfo = fieldHasCurrencySettings(field,values,parameters)){
+      value = parseCurrency(value,currencyInfo,hideCurrency);
     }else{
-
       if(field.settings !== undefined && field.settings.format !== undefined){
         switch(field.settings.format) {
           case 'price':
@@ -101,16 +68,61 @@ export function parseNumber(value,field, values = null, parameters = null) {
       }
    }
 
-    
   }
-  
-
-
 
   return value;
 
 }
 
+export function fieldHasCurrencySettings(field,values = null,parameters = null) {
+  //check settings exists and currency exists
+  if(field.settings == undefined )
+    return false;
+  var currencySetting = field.settings.currency !== undefined && field.settings.currency ? field.settings.currency:null;
+  if(!currencySetting)
+    return false;
+
+  if(currencySetting.type != CONDITION_FIELD_TYPE_PARAMETER && currencySetting.type != CONDITION_FIELD_TYPE_CONFIGURABLE)
+    return false;
+
+  if(values == null && parameters == null)
+    return false;
+  
+  if(currencySetting.type == CONDITION_FIELD_TYPE_PARAMETER){
+    var parametersObject = {};
+    parameters.split("&").forEach(function(part) {
+      var item = part.split("=");
+      parametersObject[item[0]] = decodeURIComponent(item[1]);
+    });
+    var currencyIso = parametersObject[currencySetting.identifier]
+  }else{
+    var currencyIso = values[currencySetting.identifier]
+  }
+  
+  //currency or default currency
+  return CURRENCIES[currencyIso] !== undefined?CURRENCIES[currencyIso]:CURRENCIES['default'];
+
+}
+
+
+export function parseCurrency(value,currencyInfo,hideCurrency) {
+  if(currencyInfo){
+    currencyInfo.decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
+    currencyInfo.decimals_separator = currencyInfo.decimals_separator?currencyInfo.decimals_separator.replace("' '"," "):'';
+    currencyInfo.thousands_separator = currencyInfo.thousands_separator? currencyInfo.thousands_separator.replace("' '"," "):'';
+    currencyInfo.symbole = currencyInfo.symbole && !hideCurrency?currencyInfo.symbole.replace("' '"," "):'';
+
+    value = numberFormat(value,currencyInfo.decimals ,currencyInfo.decimals_separator , currencyInfo.thousands_separator);
+
+    if(currencyInfo.symbole_position == 'L'){
+      return currencyInfo.symbole  + value;
+    }else{
+      return value + currencyInfo.symbole  ;
+    }
+  }else{
+    return numberFormat(value, 0, '', '');
+  }
+}
 
 
 /**
