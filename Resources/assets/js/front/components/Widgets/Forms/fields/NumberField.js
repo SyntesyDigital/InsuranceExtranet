@@ -72,18 +72,20 @@ class NumberField extends Component
           formule = formule.replace('['+id+']',value);
         }
         var result = eval(formule);
+        console.log("Number Field :: eval result => ",result);
         //miramos si el nuevo resultado esta dentro del rango max y minimo definido para cambiar por el resultado y sino por el valor maximo o minimo
-        if(result < min ){
+        if(min !== '' && result < min ){
           result = min
         }
-        if(result > max ){
+        if(max !== '' && result > max ){
           result = max;
         }
+
         //miramos si ha cambiado o no el resultado de la formula para updatear el campo
         if(this.props.value != result){
           this.props.onFieldChange({
             name : this.props.field.identifier,
-            value :result
+            value : result
           });
         }
       }
@@ -124,7 +126,7 @@ class NumberField extends Component
   handleOnChange(event)
   {
 
-    var value = parseInt(event.target.value);
+    var value = parseFloat(event.target.value);
     var max = this.getMaxValue();
     var min = this.getMinValue();
 
@@ -147,9 +149,38 @@ class NumberField extends Component
 
     this.props.onFieldChange({
       name : event.target.name,
-      value : event.target.value
+      value : value
     });
 
+  }
+
+  handleNumberFormatChange(value) {
+
+    var value = value.floatValue;
+    var max = this.getMaxValue();
+    var min = this.getMinValue();
+
+    console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
+
+    if(isNaN(value)){
+      this.props.onFieldChange({
+        name : event.target.name,
+        value : ''
+      });
+      return;
+    }
+
+    if(min !== '' && value < min){
+      return;
+    }
+    if(max !== '' && value > max){
+      return;
+    }
+
+    this.props.onFieldChange({
+      name : event.target.name,
+      value : value
+    });
   }
 
   getNumberFromRules(key) {
@@ -222,34 +253,34 @@ class NumberField extends Component
         </label>
           {!currency &&
             <input type="number" name={field.identifier}
-            className={"form-control " + (textFieldClass.join(' '))}
-            value={this.props.value}
-            max={this.getNumberFromRules('maxNumber')}
-            min={this.getNumberFromRules('minNumber')}
-            onChange={this.handleOnChange.bind(this)}
-            onBlur={this.handleBlur.bind(this)}
-            onFocus={this.handleFocus.bind(this)}
-            placeholder={this.getPlaceholder()}
-            readOnly={this.isReadOnly()}
-          />
+              className={"form-control " + (textFieldClass.join(' '))}
+              value={this.props.value}
+              max={this.getNumberFromRules('maxNumber')}
+              min={this.getNumberFromRules('minNumber')}
+              onChange={this.handleOnChange.bind(this)}
+              onBlur={this.handleBlur.bind(this)}
+              onFocus={this.handleFocus.bind(this)}
+              placeholder={this.getPlaceholder()}
+              readOnly={this.isReadOnly()}
+            />
           }        
           {currency &&
             <NumberFormat 
-            value={this.props.value} 
-            name={field.identifier}
-            className={"form-control " + (textFieldClass.join(' '))}
-            max={this.getNumberFromRules('maxNumber')}
-            min={this.getNumberFromRules('minNumber')}
-           // onChange={this.handleOnChange.bind(this)}
-            onBlur={this.handleBlur.bind(this)}
-            placeholder={this.getPlaceholder()}
-            readOnly={this.isReadOnly()}
-         
-            decimalScale={currency.decimals}
-            decimalSeparator={currency.decimals_separator}
-            thousandSeparator={currency.thousands_separator} 
-            prefix={currency.symbole_position == 'L'?currency.symbole:''} 
-            suffix={currency.symbole_position == 'R'?currency.symbole:''} />
+                value={this.props.value} 
+                name={field.identifier}
+                className={"form-control " + (textFieldClass.join(' '))}
+                max={this.getNumberFromRules('maxNumber')}
+                min={this.getNumberFromRules('minNumber')}
+                onValueChange={this.handleNumberFormatChange.bind(this)}
+                onBlur={this.handleBlur.bind(this)}
+                placeholder={this.getPlaceholder()}
+                readOnly={this.isReadOnly()}
+                decimalScale={currency.decimals}
+                decimalSeparator={currency.decimals_separator}
+                thousandSeparator={currency.thousands_separator} 
+                prefix={currency.symbole_position == 'L'?currency.symbole:''} 
+                suffix={currency.symbole_position == 'R'?currency.symbole:''} 
+              />
 
           }
        

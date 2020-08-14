@@ -104,17 +104,17 @@ export function fieldHasCurrencySettings(field,values = null,parameters = null) 
 
 export function parseCurrency(value,currencyInfo,hideCurrency) {
   if(currencyInfo){
-    currencyInfo.decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
-    currencyInfo.decimals_separator = currencyInfo.decimals_separator?currencyInfo.decimals_separator.replace("' '"," "):'';
-    currencyInfo.thousands_separator = currencyInfo.thousands_separator? currencyInfo.thousands_separator.replace("' '"," "):'';
-    currencyInfo.symbole = currencyInfo.symbole && !hideCurrency?currencyInfo.symbole.replace("' '"," "):'';
+    var decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
+    var decimalsSeparators = currencyInfo.decimals_separator?currencyInfo.decimals_separator.replace("' '"," "):'';
+    var thousandSeparators = currencyInfo.thousands_separator? currencyInfo.thousands_separator.replace("' '"," "):'';
+    var symbole = currencyInfo.symbole && !hideCurrency?currencyInfo.symbole.replace("' '"," "):'';
 
-    value = numberFormat(value,currencyInfo.decimals ,currencyInfo.decimals_separator , currencyInfo.thousands_separator);
+    value = numberFormat(value,decimals ,decimalsSeparators , thousandSeparators);
 
     if(currencyInfo.symbole_position == 'L'){
-      return currencyInfo.symbole  + value;
+      return symbole  + value;
     }else{
-      return value + currencyInfo.symbole  ;
+      return value + symbole  ;
     }
   }else{
     return numberFormat(value, 0, '', '');
