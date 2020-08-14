@@ -61,12 +61,8 @@ return [
           'columnWidth',
           'operation',
           'readonly',
-<<<<<<< HEAD
           'currency'
         ]
-=======
-        ],
->>>>>>> dev
       ],
       'date' => [
         'mapping' => 'date',
