@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Repositories\UserRepository;
 
 class SessionCreate
 {
@@ -66,6 +67,11 @@ class SessionCreate
         );
 
         $role = $this->processMainRole($sessionInfo);
+
+        //get veos roles
+        $userRepository = new UserRepository();
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions($this->veosToken);
+        
         $service = resolve('Services/RolesPermissions');
 
         $sessionData = [
@@ -88,6 +94,8 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
+            'veosRole' => $veosRoleAndPermissions['role'],
+            'veosPermissions' => $veosRoleAndPermissions['permissions'],
         ];
 
         // Merge constructor passed parameters to session

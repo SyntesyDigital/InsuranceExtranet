@@ -51,4 +51,39 @@ class UserRepository
 
         return $beans;
     }
+
+    /**
+     * Function to return all user permissions.
+     */
+    public function getRoleAndPermissions($token)
+    {
+        $name = "WS2_DEF_PERMIS";
+        $roleAndPermissions = [
+            'role' => null,
+            'permissions' => []
+        ];
+
+        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+
+        $result = json_decode($response->getBody());
+        $beans = $result->data;
+        if(sizeof($beans) > 0){
+
+            $permissions = $beans[0];
+
+            if(isset($permissions->role))
+                $roleAndPermissions['role'] = $permissions->role;
+
+            unset($permissions->role);
+
+            $roleAndPermissions['permissions'] = $permissions;
+        }
+
+        return $roleAndPermissions;
+
+    }
 }
