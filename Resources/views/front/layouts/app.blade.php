@@ -51,6 +51,8 @@
 
 
         @stack('styles')
+
+        @include ('extranet::front.partials.google-analytics')
     </head>
 
     <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
@@ -117,6 +119,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js" type="text/javascript"></script>
 
         {{ Html::script('/modules/architect/plugins/bootbox/bootbox.min.js') }}
+
+        <script>
+          toastr.options = {
+            "closeButton": true,
+            "timeOut": 0,
+            "extendedTimeOut": 0
+          };
+        </script>
 
         @stack('javascripts')
     </body>

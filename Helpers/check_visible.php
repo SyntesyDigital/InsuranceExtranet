@@ -7,6 +7,17 @@ if (!function_exists('check_visible')) {
             return true;
         }
 
+        $conditionalVisibility = check_conditional_visibility($settings,$parameters);
+        $visibilityByWS = check_visibility_by_ws($settings,$parameters);
+
+        //if one is visible the other is not
+        $visible = $conditionalVisibility && $visibilityByWS;
+
+        return $visible;
+    }
+
+    function check_conditional_visibility($settings,$parameters) 
+    {
         if (!isset($settings) || !isset($settings['conditionalVisibility'])
         || $settings['conditionalVisibility'] == '') {
             return true;
@@ -28,7 +39,48 @@ if (!function_exists('check_visible')) {
             $visible = !$visible;
         }
 
+        
+
         return $visible;
+    }
+
+    function check_visibility_by_ws($settings,$parameters) {
+
+        if (!isset($settings) || !isset($settings['wsVisibility'])
+        || $settings['wsVisibility'] == '') {
+            return true;
+        }
+
+        $settings = $settings['wsVisibility'];
+
+        //query the WS 
+        return get_visibility_ws($settings,$parameters);
+    }
+
+    function get_visibility_ws($wsName,$parameters) 
+    {
+        $params = '?SES='.Auth::user()->session_id.''
+            .($parameters != "" ? '&'.$parameters : '');
+
+        $boby = new Modules\Extranet\Repositories\BobyRepository();
+
+        try {
+            $data = $boby->getModelValuesQuery(
+              $wsName.$params
+            )['modelValues'];
+
+            //if there is values and the value visible exist and it is Y
+            if(sizeof($data) > 0){
+                if(isset($data[0]->visible) && $data[0]->visible == "Y"){
+                    return true;
+                }
+            }
+            
+            return false;
+
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     function check_condition_accepted($condition, $parameters)

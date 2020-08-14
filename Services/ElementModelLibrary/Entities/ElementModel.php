@@ -37,7 +37,8 @@ class ElementModel extends Model
         'filtres',
         'example',
         'def1',
-        'def2'
+        'def2',
+        'validation_ws'
     ];
 
     public function procedures(): HasMany
@@ -51,7 +52,8 @@ class ElementModel extends Model
             'ID' => $this->id,
             'TITRE' => $this->name,
             'COMMENTAIRE' => $this->description,
-            'ICONE' => $this->icon
+            'ICONE' => $this->icon,
+            'VALIDATION_WS' => $this->validation_ws
         ];
     }
 

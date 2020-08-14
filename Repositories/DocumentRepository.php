@@ -75,6 +75,17 @@ class DocumentRepository
         return json_decode($response->getBody());
     }
 
+    public function findWSFusion($id)
+    {
+        $response = $this->client->get(VeosWsUrl::get() . 'fusion?showData=YES&id=' . $id, [
+            'headers' => [
+                'Authorization' => "Bearer " . Auth::user()->token
+            ]
+        ]);
+
+        return json_decode($response->getBody());
+    }
+
 
 
     /*

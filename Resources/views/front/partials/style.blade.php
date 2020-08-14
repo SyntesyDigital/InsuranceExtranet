@@ -243,6 +243,13 @@
     $borderColorBox3 = isset($storedStylesFront['borderColorBox3']) ? $storedStylesFront['borderColorBox3']->value : 'transparent';
     $borderRadiusBox3 = isset($storedStylesFront['borderRadiusBox3']) ? $storedStylesFront['borderRadiusBox3']->value.'px' : '0';
 
+    //REDUCED
+    $fontSizeReduced = isset($storedStylesFront['fontSizeReduced']) ? $storedStylesFront['fontSizeReduced']->value.'px' : '14px';
+    $paddingBottomTopReduced = isset($storedStylesFront['paddingBottomTopReduced']) ? $storedStylesFront['paddingBottomTopReduced']->value.'px' : '10px';
+    $paddingRightLeftReduced = isset($storedStylesFront['paddingRightLeftReduced']) ? $storedStylesFront['paddingRightLeftReduced']->value.'px' : '15px';
+    $lineHeightReduced = isset($storedStylesFront['lineHeightReduced']) ? $storedStylesFront['lineHeightReduced']->value.'px' : '20px';
+    $marginBetweenReduced = isset($storedStylesFront['marginBetweenReduced']) ? $storedStylesFront['marginBetweenReduced']->value.'px' : '0px';
+
     //IMAGE TEXT LINK
     $titleFontSizeImgTxtLink = isset($storedStylesFront['titleFontSizeImgTxtLink']) ? $storedStylesFront['titleFontSizeImgTxtLink']->value.'px' : '24px';
     $titleColorImgTxtLink = isset($storedStylesFront['titleColorImgTxtLink']) ? $storedStylesFront['titleColorImgTxtLink']->value : $inputColor;
@@ -373,6 +380,47 @@
     $recipientDateFontSizeChat = isset($storedStylesFront['recipientDateFontSizeChat']) ? $storedStylesFront['recipientDateFontSizeChat']->value.'px' : '14px';
     $fontSizeButtonChat = isset($storedStylesFront['fontSizeButtonChat']) ? $storedStylesFront['fontSizeButtonChat']->value.'px' : '14px';
 
+    //MESSAGE-BOX
+    // info
+    $colorInfoMessageBox = isset($storedStylesFront['colorInfoMessageBox']) ? $storedStylesFront['colorInfoMessageBox']->value : '#0c5460';
+    $backgroundColorInfoMessageBox = isset($storedStylesFront['backgroundColorInfoMessageBox']) ? $storedStylesFront['backgroundColorInfoMessageBox']->value : '#d1ecf1';
+    $borderColorInfoMessageBox = isset($storedStylesFront['borderColorInfoMessageBox']) ? $storedStylesFront['borderColorInfoMessageBox']->value : '#bee5eb';
+    $fontSizeInfoMessageBox = isset($storedStylesFront['fontSizeInfoMessageBox']) ? $storedStylesFront['fontSizeInfoMessageBox']->value.'px' : '16px';
+    $paddingInfoMessageBox = isset($storedStylesFront['paddingInfoMessageBox']) ? $storedStylesFront['paddingInfoMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconInfoMessageBox = isset($storedStylesFront['fontSizeIconInfoMessageBox']) ? $storedStylesFront['fontSizeIconInfoMessageBox']->value : '45';
+    $iconInfoMessageBox = isset($storedStylesFront['iconInfoMessageBox']) ? $storedStylesFront['iconInfoMessageBox']->value : '';
+    $fontSizeIconRemoveInfoMessageBox = isset($storedStylesFront['fontSizeIconRemoveInfoMessageBox']) ? $storedStylesFront['fontSizeIconRemoveInfoMessageBox']->value.'px' : '25px';
+
+    // succes
+    $colorSuccessMessageBox = isset($storedStylesFront['colorSuccessMessageBox']) ? $storedStylesFront['colorSuccessMessageBox']->value : '#155724';
+    $backgroundColorSuccessMessageBox = isset($storedStylesFront['backgroundColorSuccessMessageBox']) ? $storedStylesFront['backgroundColorSuccessMessageBox']->value : '#d4edda';
+    $borderColorSuccessMessageBox = isset($storedStylesFront['borderColorSuccessMessageBox']) ? $storedStylesFront['borderColorSuccessMessageBox']->value : '#c3e6cb';
+    $fontSizeSuccessMessageBox = isset($storedStylesFront['fontSizeSuccessMessageBox']) ? $storedStylesFront['fontSizeSuccessMessageBox']->value.'px' : '16px';
+    $paddingSuccessMessageBox = isset($storedStylesFront['paddingSuccessMessageBox']) ? $storedStylesFront['paddingSuccessMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconSuccessMessageBox = isset($storedStylesFront['fontSizeIconSuccessMessageBox']) ? $storedStylesFront['fontSizeIconSuccessMessageBox']->value : '45';
+    $iconSuccessMessageBox = isset($storedStylesFront['iconSuccessMessageBox']) ? $storedStylesFront['iconSuccessMessageBox']->value : '';
+    $fontSizeIconRemoveSuccessMessageBox = isset($storedStylesFront['fontSizeIconRemoveSuccessMessageBox']) ? $storedStylesFront['fontSizeIconRemoveSuccessMessageBox']->value.'px' : '25px';
+
+    // error
+    $colorErrorMessageBox = isset($storedStylesFront['colorErrorMessageBox']) ? $storedStylesFront['colorErrorMessageBox']->value : '#721c24';
+    $backgroundColorErrorMessageBox = isset($storedStylesFront['backgroundColorErrorMessageBox']) ? $storedStylesFront['backgroundColorErrorMessageBox']->value : '#f8d7da';
+    $borderColorErrorMessageBox = isset($storedStylesFront['borderColorErrorMessageBox']) ? $storedStylesFront['borderColorErrorMessageBox']->value : '#f5c6cb';
+    $fontSizeErrorMessageBox = isset($storedStylesFront['fontSizeErrorMessageBox']) ? $storedStylesFront['fontSizeErrorMessageBox']->value.'px' : '16px';
+    $paddingErrorMessageBox = isset($storedStylesFront['paddingErrorMessageBox']) ? $storedStylesFront['paddingErrorMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconErrorMessageBox = isset($storedStylesFront['fontSizeIconErrorMessageBox']) ? $storedStylesFront['fontSizeIconErrorMessageBox']->value : '45';
+    $iconErrorMessageBox = isset($storedStylesFront['iconErrorMessageBox']) ? $storedStylesFront['iconErrorMessageBox']->value : '';
+    $fontSizeIconRemoveErrorMessageBox = isset($storedStylesFront['fontSizeIconRemoveErrorMessageBox']) ? $storedStylesFront['fontSizeIconRemoveErrorMessageBox']->value.'px' : '25px';
+
+    // warning
+    $colorWarningMessageBox = isset($storedStylesFront['colorWarningMessageBox']) ? $storedStylesFront['colorWarningMessageBox']->value : '#856404';
+    $backgroundColorWarningMessageBox = isset($storedStylesFront['backgroundColorWarningMessageBox']) ? $storedStylesFront['backgroundColorWarningMessageBox']->value : '#fff3cd';
+    $borderColorWarningMessageBox = isset($storedStylesFront['borderColorWarningMessageBox']) ? $storedStylesFront['borderColorWarningMessageBox']->value : '#ffeeba';
+    $fontSizeWarningMessageBox = isset($storedStylesFront['fontSizeWarningMessageBox']) ? $storedStylesFront['fontSizeWarningMessageBox']->value.'px' : '16px';
+    $paddingWarningMessageBox = isset($storedStylesFront['paddingWarningMessageBox']) ? $storedStylesFront['paddingWarningMessageBox']->value.'px' : '12px 20px';
+    $fontSizeIconWarningMessageBox = isset($storedStylesFront['fontSizeIconWarningMessageBox']) ? $storedStylesFront['fontSizeIconWarningMessageBox']->value : '45';
+    $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
+    $fontSizeIconRemoveWarningMessageBox = isset($storedStylesFront['fontSizeIconRemoveWarningMessageBox']) ? $storedStylesFront['fontSizeIconRemoveWarningMessageBox']->value.'px' : '25px';
+
 ?>
 
 <style type="text/css">
@@ -403,6 +451,7 @@
 @include('extranet::front.partials.styles.tabs')
 @include('extranet::front.partials.styles.simple-button')
 @include('extranet::front.partials.styles.action-list')
+@include('extranet::front.partials.styles.message-box')
 
 @if($frontFont)
   <style>
@@ -426,21 +475,31 @@
 @endif
 
 <script>
-  var STYLES = {
-    elementForm: {
-      borderColorInput: '{{$borderColorInput}}',
-      borderRadiusInput: '{{$borderRadiusInput}}',
-      hoverColorInput: '{{$hoverColorInput}}',
-      iconFontSizeElement: '{{$iconFontSizeElement}}',
-      iconColorElement: '{{$iconColorElement}}',
-      errorColor : '{{$errorColor}}',
-      inputColor: '{{$inputColor}}',
-      textBtnAddFileForm: '{{$textBtnAddFileForm}}'
-    },
-    sidebarMenu: {
-      sidebarWidth: '{{$sidebarWidth}}'
+    var STYLES = {
+        elementForm: {
+            borderColorInput: '{{$borderColorInput}}',
+            borderRadiusInput: '{{$borderRadiusInput}}',
+            hoverColorInput: '{{$hoverColorInput}}',
+            iconFontSizeElement: '{{$iconFontSizeElement}}',
+            iconColorElement: '{{$iconColorElement}}',
+            errorColor : '{{$errorColor}}',
+            inputColor: '{{$inputColor}}',
+            textBtnAddFileForm: '{{$textBtnAddFileForm}}'
+        },
+        sidebarMenu: {
+            sidebarWidth: '{{$sidebarWidth}}'
+        }
+    };
+
+    var ICONS = {
+        messageBox: {
+            success: '{{$iconSuccessMessageBox}}',
+            danger: '{{$iconErrorMessageBox}}',
+            warning: '{{$iconWarningMessageBox}}',
+            info: '{{$iconWarningMessageBox}}'
+        }
     }
-  };
+
 </script>
 
 
