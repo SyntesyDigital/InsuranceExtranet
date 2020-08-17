@@ -20,7 +20,12 @@ class RichTextField extends Component {
 
         if (value != null) {
             return (
-                <div dangerouslySetInnerHTML={{ __html: value }} />
+                <div
+                    className="row"
+                    dangerouslySetInnerHTML={{
+                        __html: '<div class="col-md-12">' + value + '</div>'
+                    }}
+                />
             );
         }
     }
