@@ -29,6 +29,9 @@
         $first = false;
     }
 
+    setlocale(LC_TIME, 'fr_FR');
+    $dateProcessed = strftime("%d %B %Y",strtotime(date('d M Y', $date)))
+
 @endphp
 
 @extends('extranet::front.layouts.app',[
@@ -42,14 +45,14 @@
       <div class="col-md-9 tipology-container">
         <h4>{{$typologyName}}</h4>
         <h1>{{$title}}</h1>
-        <h5>{{null !== $date ? date('d M Y', $date) : "" }}</h5>
+        <h5>{{null !== $date ? $dateProcessed : "" }}</h5>
         <div class="col-md-4 col-xs-12 no-padding-left">
           @if($image)
             <img src="{{ isset($image['urls']['original']) ? asset($image['urls']['original']) : null }}" style="width: 100%;"/>
           @endif
         </div>
         <div class="col-md-7 col-xs-12">
-          <div>{!!$description!!}</div>
+          <div class="quill-desc">{!!$description!!}</div>
         </div>
       </div>
       <div class="sidebar-last-posts">
