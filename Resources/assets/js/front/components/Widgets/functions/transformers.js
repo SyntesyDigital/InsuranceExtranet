@@ -130,7 +130,7 @@ export function parseCurrency(value,currencyInfo,hideCurrency) {
  */
 export function parseDate(value,field) {
   if(value !== undefined && value != "" && null !== value){
-
+    
     if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
       switch(field.settings.format) {
         case 'day_month_year':
