@@ -62,7 +62,8 @@ export function createForm(form) {
             identifier : form.identifier,
             description : form.description,
             icon : form.icon,
-            type : form.type
+            type : form.type,
+            validation_ws : form.validation_ws
         })
         .then(function(data) {
 
@@ -84,7 +85,8 @@ export function updateForm(form) {
             identifier : form.identifier,
             description : form.description,
             icon : form.icon,
-            type : form.type
+            type : form.type,
+            validation_ws : form.validation_ws
         })
         .then(function(data) {
 

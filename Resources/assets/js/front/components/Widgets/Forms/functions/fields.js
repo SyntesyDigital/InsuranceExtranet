@@ -30,6 +30,7 @@ let jp = require('jsonpath');
 const fieldComponents = {
     text: TextField,
     date: DateField,
+    password: TextField,
     number: NumberField,
     select:SelectField,
     file:FileField,
@@ -316,7 +317,7 @@ export function validateField(field,values,isModal) {
       return true;
     }
 
-    if(values[field.identifier] === undefined || values[field.identifier] == ''){
+    if(values[field.identifier] === undefined || values[field.identifier] === ''){
       return false;
     }
   }

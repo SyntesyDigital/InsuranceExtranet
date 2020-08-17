@@ -114,6 +114,7 @@ export default class MissingDocuments extends Component {
     }
 
     renderField(value,field) {
+        console.log("renderFIeld :. " ,value,field)
 
       if(field.type == "date") {
           if(value !== undefined && value != "" && null !== value){

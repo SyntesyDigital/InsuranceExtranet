@@ -8,8 +8,7 @@ return [
         'label' => 'Text',
         'icon' => 'fa fa-font',
         'formats' => [
-          'email',
-          'telephone'
+          'password',
         ],
         'rules' => [
           'required',
@@ -17,7 +16,7 @@ return [
           'maxCharacters',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'format',
@@ -27,9 +26,12 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
+          'conditionalIcon',
           'textAlign',
-          'columnWidth'
-        ]
+          'columnWidth',
+          'readonly',
+          'groupe',
+        ],
       ],
       'number' => [
         'mapping' => 'num',
@@ -47,7 +49,7 @@ return [
           'sortable',
           'sortableByDefault',
           'maxNumber',
-          'minNumber'
+          'minNumber',
         ],
         'settings' => [
           'format',
@@ -60,8 +62,9 @@ return [
           'textAlign',
           'columnWidth',
           'operation',
-          'readonly'
-        ]
+          'readonly',
+          'currency',
+        ],
       ],
       'date' => [
         'mapping' => 'date',
@@ -76,7 +79,7 @@ return [
           'day_month',
           'month_year',
           'year',
-          'hour'
+          'hour',
         ],
         'rules' => [
           'required',
@@ -84,15 +87,16 @@ return [
           'sortable',
           'sortableByDefault',
           'maxDate',
-          'minDate'
+          'minDate',
         ],
         'settings' => [
           'format',
           'conditionalVisibility',
           'textAlign',
-          'columnWidth'
+          'columnWidth',
+          'readonly',
           //'defaultValue'
-        ]
+        ],
       ],
       'select' => [
         'mapping' => 'select',
@@ -112,7 +116,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
-        ]
+        ],
       ],
       'radio' => [
         'mapping' => 'radio',
@@ -131,8 +135,8 @@ return [
           'ws',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
-        ]
+          'conditionalFormatting',
+        ],
       ],
       'multi' => [
         'mapping' => 'multi',
@@ -151,8 +155,8 @@ return [
           'ws',
           'conditionalVisibility',
           'defaultValue',
-          'conditionalFormatting'
-        ]
+          'conditionalFormatting',
+        ],
       ],
       'file' => [
         'mapping' => 'doc',
@@ -165,13 +169,32 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'conditionalVisibility',
           'preview',
-          'columnWidth'
-        ]
+          'columnWidth',
+        ],
+      ],
+      'file_ws_fusion' => [
+        'mapping' => 'doc2',
+        'identifier' => 'file_ws_fusion',
+        'label' => 'File fusion',
+        'icon' => 'far fa-file-word',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'conditionalVisibility',
+          'preview',
+          'columnWidth',
+        ],
       ],
       'richtext' => [
         'mapping' => 'richtext',
@@ -186,13 +209,13 @@ return [
           'maxCharacters',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'conditionalVisibility',
           'defaultValue',
-          'textAlign'
-        ]
+          'textAlign',
+        ],
       ],
       'html' => [
         'mapping' => 'html',
@@ -205,13 +228,13 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'conditionalVisibility',
           'defaultValue',
-          'textAlign'
-        ]
+          'textAlign',
+        ],
       ],
       'list' => [
         'mapping' => 'list',
@@ -224,11 +247,10 @@ return [
           'required',
         ],
         'settings' => [
-          'conditionalVisibility'
+          'conditionalVisibility',
         ],
         'fields' => [
-
-        ]
+        ],
       ],
       'boolean' => [
         'mapping' => 'boolean',
@@ -240,13 +262,13 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'booleanValues',
           'conditionalVisibility',
           'defaultValue',
-        ]
+        ],
       ],
       'yesno' => [
         'mapping' => 'yesno',
@@ -258,13 +280,13 @@ return [
           'required',
           'searchable',
           'sortable',
-          'sortableByDefault'
+          'sortableByDefault',
         ],
         'settings' => [
           'booleanValues',
           'conditionalVisibility',
           'defaultValue',
-        ]
+        ],
       ],
       'label' => [
         'mapping' => 'LABEL',
@@ -274,8 +296,8 @@ return [
         'formats' => [],
         'rules' => [],
         'settings' => [
-          'conditionalVisibility'
-        ]
+          'conditionalVisibility',
+        ],
       ],
       'car' => [
         'mapping' => 'car',
@@ -284,11 +306,10 @@ return [
         'icon' => 'fas fa-car-crash',
         'formats' => [],
         'rules' => [
-          'required'
+          'required',
         ],
         'settings' => [
-          
-        ]
+        ],
       ],
       'immat' => [
         'mapping' => 'immat',
@@ -298,23 +319,23 @@ return [
         'formats' => [],
         'rules' => [
           'required',
-          'searchable'
+          'searchable',
         ],
         'settings' => [
           'conditionalVisibility',
-          'defaultValue'
-        ]
+          'defaultValue',
+        ],
       ],
     ],  // --- end fields ---
 
     'parameters' => [
       'settings' => [
         'required',
-        'type' //filter : filter, variable
+        'type', //filter : filter, variable
       ],
       'types' => [
         'filter', //it's totally necessary for WS, cames from Boby
         'variable', //it's for form variable, it cames from formVaraibles
-      ]
-    ]
+      ],
+    ],
 ];

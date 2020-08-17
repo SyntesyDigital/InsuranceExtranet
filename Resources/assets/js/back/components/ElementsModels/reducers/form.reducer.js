@@ -39,7 +39,9 @@ const initialState = {
         description: '',
         icon: '',
         type: 'form-v2',
-        procedures : []
+        procedures : [],
+        validation : false,
+        validation_ws : null
     },
 
     /*
@@ -172,13 +174,21 @@ function formReducer(state = initialState, action) {
 
             //console.log("INIT_STATE from Elements Models=> ", action.data);
 
+            var newForm = action.payload;
+            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
+                ? true : false;
+
             return {
                 ...state,
-                form : action.payload
+                form : newForm
             }
 
         case UPDATE_FIELD:
             form[action.payload.name] = action.payload.value;
+            //if validate disabled, remove validate_ws value
+            if(action.payload.name == "validation" && action.payload.value == false){
+                form['validation_ws'] = null;
+            }
 
             return {
                 ...state,
@@ -190,6 +200,8 @@ function formReducer(state = initialState, action) {
             var proceduresCopy = state.form.procedures;
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
+            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
+                ? true : false;
 
             return {
                 ...state,

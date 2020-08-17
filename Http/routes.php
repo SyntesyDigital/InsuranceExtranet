@@ -135,6 +135,21 @@ Route::group([
     Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
 });
 
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:currencies', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+    // Routes Parameters
+    Route::get('/currencies', 'CurrencyController@index')->name('extranet.currencies.index');
+    Route::get('/currencies/create', 'CurrencyController@create')->name('extranet.currencies.create');
+    Route::get('/currencies/{currency}/show', 'CurrencyController@show')->name('extranet.currencies.show');
+    Route::post('/currencies/store', 'CurrencyController@store')->name('extranet.currencies.store');
+    Route::put('/currencies/{currency}/update', 'CurrencyController@update')->name('extranet.currencies.update');
+    Route::delete('/currencies/{currency}/delete', 'CurrencyController@delete')->name('extranet.currencies.delete');
+    Route::get('/currencies/datatable', 'CurrencyController@datatable')->name('extranet.currencies.datatable');
+});
+
 /*
 |--------------------------------------------------------------------------
 |   FRONT
@@ -210,6 +225,7 @@ Route::group([
 
     Route::get('/', 'ContentController@index')->name('home');
     Route::get('/document/show/{id}', 'ContentController@showDocument')->name('document.show');
+    Route::get('/document/show-ws-fusion/{id}', 'ContentController@showWSFusion')->name('document.show-ws-fusion');
     Route::get('/document/show/preview/{id}/{size?}', 'ContentController@showDocumentPreview')->name('document.show.preview');
 
     Route::get('/not-found', 'ContentController@languageNotFound')->name('language-not-found');

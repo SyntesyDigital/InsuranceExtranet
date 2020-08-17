@@ -225,6 +225,52 @@ class ModalTestForm extends Component {
         }
     }
 
+    cleanNullValues(jsonArray) {
+        for(var i=jsonArray.length -1;i>=0;i--){
+            if(jsonArray[i] == null)
+                jsonArray.splice(i,1);
+        }
+        return jsonArray;
+    }
+
+    cleanJSON(json) {
+        console.log("clean json ",json);
+
+        //if not array and not object, is a value, return value
+        if((!(json instanceof Array) && !(typeof json === 'object')) || json === null){
+            return json;
+        }
+
+        //its an object or an array
+        var empty = true;
+        for(var key in json) {
+            //clean the children
+            json[key] = this.cleanJSON(json[key]);
+            
+            //if it's empty delete item
+            if(json[key] == "empty"){
+                delete json[key];
+            }
+            //if not empty
+            else if(json[key] != null && json[key] !== '' ){
+                //thgis objets don't need to remove
+                empty = false;
+            }
+
+        }
+        //if empty return string "empty" to be rmeoved
+        if(empty)
+            return "empty";
+
+        //if array clean nulls ( delete array position return null array items example : [null,null,{something : ''}])
+        if(json instanceof Array){
+            json = this.cleanNullValues(json);
+        }
+
+        //else return json so nothing to do
+        return json;
+    }
+
     renderServices() {
         return this.state.services.map((item,index) => 
             <CollapsableGroup
@@ -234,7 +280,7 @@ class ModalTestForm extends Component {
                 <InputFieldJsonEdit 
                     label={'JSON'} 
                     name={item.identifier}
-                    placeholder={item.json}
+                    placeholder={this.cleanJSON(item.json)}
                     height={400}
                 />
 

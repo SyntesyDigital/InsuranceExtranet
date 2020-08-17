@@ -51,6 +51,8 @@
 
 
         @stack('styles')
+
+        @include ('extranet::front.partials.google-analytics')
     </head>
 
     <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
@@ -94,17 +96,9 @@
         @if(!is_jailed())
           @include ('extranet::front.partials.footer')
         @endif
-        <script>
-          const WEBROOT = '{{route("home")}}';
-          const ASSETS = '{{asset('')}}';
-          const LOCALE = '{{App::getLocale()}}';
+        @include ('extranet::front.layouts.jsconst')
 
-          @if(isset(Auth::user()->id))
-            const ID_PER_USER = '{{Auth::user()->id}}';
-            const SESSION_ID = '{{isset(Auth::user()->session_id) ? Auth::user()->session_id : null}}';
-            const SESSION = {!! Auth::session() ? json_encode(Auth::session()->toArray(), JSON_PRETTY_PRINT) : null !!};
-          @endif
-        </script>
+       
         
         {{-- <script type="text/javascript" src="{{route('messages', App::getLocale())}}" ></script> --}}
         <script type="text/javascript" src="{{route('localization.js', App::getLocale())}}" ></script>
@@ -125,6 +119,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js" type="text/javascript"></script>
 
         {{ Html::script('/modules/architect/plugins/bootbox/bootbox.min.js') }}
+
+        <script>
+          toastr.options = {
+            "closeButton": true,
+            "timeOut": 0,
+            "extendedTimeOut": 0
+          };
+        </script>
 
         @stack('javascripts')
     </body>

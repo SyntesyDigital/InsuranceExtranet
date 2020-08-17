@@ -8,27 +8,63 @@ class ExampleSettingsField extends Component {
 
   constructor(props) {
     super(props);
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   /**
    *  Define what happen when input change
    */
-  handleInputChange(name,value) {
+  handleInputChange(e) {
 
     var fieldValue = this.props.field[this.props.source][this.props.name];
-
-    fieldValue = value;
 
     var field = {
       name : this.props.name,
       source : this.props.source,
-      value : fieldValue
+      value : this.getValue(fieldValue,e.target.name,e.target.value)
     };
 
     console.log("handleInputChange :: ",field);
 
     this.props.onFieldChange(field);
     
+  }
+
+  /**
+   * Process the value depending on the settings state
+   */
+  getValue(currentValue,name,value) {
+    currentValue[name] = value;
+    return currentValue;
+  }
+
+  getDefaultValue() {
+    return {
+      type : '',
+      identifier : ""
+    }
+  }
+
+  renderInputs(value) {
+    
+    return (
+      <div>
+        <InputField
+          label={'Type'}
+          name={'type'}
+          value={value.type}
+          onChange={this.handleInputChange}
+        />
+
+        <InputField
+          label={'Identifier'}
+          name={'identifier'}
+          value={value.identifier}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
   }
 
   render() {
@@ -43,15 +79,12 @@ class ExampleSettingsField extends Component {
         label={this.props.label}
         name={this.props.name}
         source={this.props.source}
-        defaultValue={''}
+        defaultValue={this.getDefaultValue()}
       >
 
-        <InputField
-          label={this.props.inputLabel}
-          name={this.props.name}
-          value={value != null ? value : ''}
-          onChange={this.handleInputChange.bind(this)}
-        />
+        {value &&
+            this.renderInputs(value)
+        }
 
       </SettingsField>
     );

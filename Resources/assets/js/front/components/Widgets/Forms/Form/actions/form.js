@@ -44,6 +44,7 @@ export function loadProcedures(modelIdentifier) {
           dispatch({ type: PROCEDURES_LOADED, payload : {
             procedures : response.data.data.procedures,
             variables : response.data.data.variables,
+            validationWS : response.data.data.validation_ws
           }});
 
         }
@@ -352,6 +353,8 @@ export function removePutId(url) {
   return url;
 }
 
+
+
 /**
 * Process the procedure, with the service and the json
 * Returns info for next Step
@@ -361,6 +364,10 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
   return (dispatch) => {
 
     //console.log("submitProcedure :: ",procedure, jsonResult);
+
+    //clean null objects of json result 
+    jsonResult = cleanJSON(jsonResult);
+
 
     if(procedure.SERVICE === undefined){
       console.error("procedure not defined => ",procedure);
@@ -515,4 +522,58 @@ export function skipProcedure(currentProcedureIndex, procedures, jsonResult) {
       dispatch(finish());
     }
   }
+}
+
+/** 
+ * Function to clean when array has nulls example : [null,null,{object : ''}]
+ * After clean the result is : [{object : ''}]
+*/
+export function cleanNullValues(jsonArray) {
+  for(var i=jsonArray.length -1;i>=0;i--){
+      if(jsonArray[i] == null)
+          jsonArray.splice(i,1);
+  }
+  return jsonArray;
+}
+
+/**
+ * Recursive function to clean all objects that his values are null or ''
+ * @param {*} json 
+ */
+export function cleanJSON(json) {
+  console.log("clean json ",json);
+
+  //if not array and not object, is a value, return value
+  if((!(json instanceof Array) && !(typeof json === 'object')) || json === null){
+      return json;
+  }
+
+  //its an object or an array
+  var empty = true;
+  for(var key in json) {
+      //clean the children
+      json[key] = cleanJSON(json[key]);
+      
+      //if it's empty delete item
+      if(json[key] == "empty"){
+          delete json[key];
+      }
+      //if not empty
+      else if(json[key] != null && json[key] !== '' ){
+          //thgis objets don't need to remove
+          empty = false;
+      }
+
+  }
+  //if empty return string "empty" to be rmeoved
+  if(empty)
+      return "empty";
+
+  //if array clean nulls ( delete array position return null array items example : [null,null,{something : ''}])
+  if(json instanceof Array){
+      json = cleanNullValues(json);
+  }
+
+  //else return json so nothing to do
+  return json;
 }

@@ -42,7 +42,8 @@ class ModelValuesFormatTransformer extends Resource
         return json_encode($this->toArray($request));
     }
 
-    private function getContentUrl($contentId) {
+    private function getContentUrl($contentId)
+    {
         if (!isset($this->contentUrls[$contentId])) {
             //get the url
             $content = Content::find($contentId);
@@ -51,6 +52,7 @@ class ModelValuesFormatTransformer extends Resource
         } else {
             $url = $this->contentUrls[$contentId];
         }
+
         return $url;
     }
 
@@ -58,7 +60,7 @@ class ModelValuesFormatTransformer extends Resource
     {
         if (isset($hasRoute['id'])) {
             $url = $this->getContentUrl($hasRoute['id']);
-            
+
             //process parameters
             if ($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0) {
                 $url .= '?';
@@ -158,10 +160,10 @@ class ModelValuesFormatTransformer extends Resource
                         switch ($elementField->type) {
                             case 'number':
 
-                                $hideCurrency = isset($elementField->settings['hideCurrency']) ? $elementField->settings['hideCurrency'] : false; 
+                                $hideCurrency = isset($elementField->settings['hideCurrency']) ? $elementField->settings['hideCurrency'] : false;
                                 $currency = $hideCurrency ? '' : ' €';
 
-                                if (!$this->isTable) {
+                              /*  if (!$this->isTable) {
                                     if ($elementField->settings['format'] == 'price') {
                                         $result[$i][$elementField->identifier] = number_format($originalValue, 0, ',', '.').$currency;
                                     } elseif ($elementField->settings['format'] == 'price_with_decimals') {
@@ -173,13 +175,12 @@ class ModelValuesFormatTransformer extends Resource
                                     }
                                 } else {
                                     $result[$i][$elementField->identifier] = $originalValue != '' ? intval($originalValue) : 0;
-                                }
+                                }*/
+                                $result[$i][$elementField->identifier] = $originalValue;
 
                                 break;
                             case 'text':
-                                if ($elementField->settings['format'] == 'email') {
-                                    $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
-                                } elseif ($elementField->settings['format'] == 'telephone') {
+                                if ($elementField->settings['format'] == 'password') {
                                     $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
                                 } else {
                                     $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
@@ -216,14 +217,23 @@ class ModelValuesFormatTransformer extends Resource
 
                                 break;
                             case 'file':
+
                                 $fileLink = '';
                                 if ($originalValue != null && $originalValue != '') {
                                     if (isset($elementField->settings['preview']) && $elementField->settings['preview']) {
-
                                         $fileLink = '<a href="'.route('document.show', $originalValue).'" target="_blank" class="file-link image-link" style="background-image:url('.route('document.show.preview', $originalValue).')"></a>';
                                     } else {
                                         $fileLink = '<a href="'.route('document.show', $originalValue).'" target="_blank" class="file-link"><i class="fas fa-file-download"></i></a>';
                                     }
+                                }
+                                $result[$i][$elementField->identifier] = $fileLink;
+
+                            break;
+
+                            case 'file_ws_fusion':
+                                $fileLink = '';
+                                if ($originalValue != null && $originalValue != '') {
+                                    $fileLink = '<a href="'.route('document.show-ws-fusion', $originalValue).'" target="_blank" class="file-link"><i class="fas fa-file-download"></i></a>';
                                 }
                                 $result[$i][$elementField->identifier] = $fileLink;
 
@@ -238,7 +248,6 @@ class ModelValuesFormatTransformer extends Resource
                             isset($elementField->settings['hasRoute']) && $elementField->settings['hasRoute'] != null
                             && isset($elementField->settings['hasRoute']['id'])
                         ) {
-
                             $link = $this->processContent(
                                 $elementField->settings['hasRoute'],
                                 $modelValue,
@@ -252,26 +261,24 @@ class ModelValuesFormatTransformer extends Resource
                             } else {
                                 $result[$i][$elementField->identifier] = $link;
                             }
-
                         } elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
                             && isset($elementField->settings['hasModal']['id'])) {
-
-                                $link = $this->processElement(
+                            $link = $this->processElement(
                                     $elementField->settings['hasModal'],
                                     $modelValue,
                                     $result[$i][$elementField->identifier]
                                 );
 
-                                $redirect = "";
-                                if(isset($elementField->settings['hasModal']['redirect'])){
-                                    $redirect = $this->getContentUrl(
+                            $redirect = '';
+                            if (isset($elementField->settings['hasModal']['redirect'])) {
+                                $redirect = $this->getContentUrl(
                                         $elementField->settings['hasModal']['redirect']['id']
                                     );
-                                }
-                                
-                                //get link with format [value];[id]?[params]:[redirect_url]
-                                $result[$i][$elementField->identifier] =
+                            }
+
+                            //get link with format [value];[id]?[params]:[redirect_url]
+                            $result[$i][$elementField->identifier] =
                                     $result[$i][$elementField->identifier].';'.$link.':'.$redirect;
                         }
                     }

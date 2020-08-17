@@ -33,6 +33,7 @@ require('./components/Widgets/Action/ActionList');
 require('./components/Widgets/SimpleButton');
 require('./components/Widgets/MenuSidebar/MenuSidebar');
 require('./components/Widgets/MenuSidebar/SubMenuSidebar');
+require('./components/Widgets/MessageBox');
 
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');

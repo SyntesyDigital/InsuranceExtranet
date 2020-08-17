@@ -9,6 +9,7 @@ use Modules\Extranet\Services\TokenLogin\Providers\TokenLoginProvider;
 use Modules\Extranet\Services\ElementTemplate\Providers\ElementTemplateProvider;
 use Modules\Extranet\Services\RolesPermissions\Providers\RolesPermissionsProvider;
 use Modules\Extranet\Services\ElementModelLibrary\Providers\ElementModelLibraryProvider;
+use Modules\Extranet\Services\Currency\Providers\CurrencyProvider;
 
 class ExtranetServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,7 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->app->register(ElementModelLibraryProvider::class);
         $this->app->register(ElementTemplateProvider::class);
         $this->app->register(TokenLoginProvider::class);
+        $this->app->register(CurrencyProvider::class);
 
         if (config('app.env') == 'production') {
             \URL::forceScheme('https');

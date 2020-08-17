@@ -268,6 +268,35 @@ class ContentController extends Controller
           ->header('Content-Disposition', 'attachment; filename="'.$result->name.'"');
     }
 
+    public function showWSFusion($id)
+    {
+        
+        $authorized = $this->boby->checkDocumentAvailable($id);
+
+        if (!$authorized && false) {
+            abort(500);
+        }
+
+        $result = $this->document->findWSFusion($id);
+
+        if(!isset($result) || sizeof($result) == 0 ){
+            abort(500);
+        }
+
+        $filename = isset($result[0]->num) ? $result[0]->num : '' ;
+        $file = isset($result[0]->message) ? $result[0]->message : null;
+        
+        if(!isset($file)){
+            abort(500);
+        }
+
+        $file = base64_decode($file);
+
+        return response($file, 200)
+          ->header('Content-Type', 'application/docx')
+          ->header('Content-Disposition', 'attachment; filename="'.$filename.'.docx"');
+    }
+
     public function showDocumentPreview($id)
     {
         $authorized = $this->boby->checkDocumentAvailable($id);

@@ -150,7 +150,7 @@ body .box-class-2 .element-file-container .element-collapsable:before {
   color: {{$textColorBox2}} !important;
 }
 
-/* box-3 */
+ /*box-3 */
 body .box-class-3 .element-file-container .element-file-container-body {
   padding:0px;
 }
@@ -162,6 +162,61 @@ body .box-class-3 .element-file-container *{
 
 body .box-class-3 .element-file-container .element-collapsable:before {
   color: {{$textColorBox3}} !important;
+}
+
+/* class reduced */
+body .reduced div{
+    padding: 0;
+    margin: 0;
+}
+body .reduced .element-file-container h1, 
+body .reduced .element-file-container h2, 
+body .reduced .element-file-container h3, 
+body .reduced .element-file-container h4, 
+body .reduced .element-file-container h5{
+    margin: 0;
+    padding: 8px;
+    padding-bottom: 5px;
+}
+body .reduced .element-file-container .element-file-container-body{
+    padding: 0;
+    padding: {{$paddingBottomTopReduced}} {{$paddingRightLeftReduced}};
+    font-size: {{$fontSizeReduced}};
+    line-height: {{$lineHeightReduced}};
+}
+body .reduced .element-file-container .element-file-container-body .container-fields-default div{
+    margin: {{$marginBetweenReduced}} 0px;
+}
+body .reduced .container-fields-default div{
+    background: transparent !important; 
+}
+body .reduced .element-file-container .element-file-container-body .container-fields-default div.stripped .row div:not(:first-child){
+    text-align: right;
+}
+
+/* display label and display inline settings ficha */
+body .element-file-container .element-file-container-body .container-fields-default.display_inline div .row div:first-child, 
+body .element-file-container .element-file-container-body .display_inline .container-fields-default div .row div:first-child{
+    display: none;
+}
+body .element-file-container .element-file-container-body .container-fields-default.display_inline div .row div:not(:first-child), 
+body .element-file-container .element-file-container-body .display_inline .container-fields-default .row div:not(:first-child){
+    width: 100%;
+    padding: 0;
+}
+body .element-file-container .element-file-container-body .container-fields-default.display_inline div .row div:not(:first-child):after, 
+body .element-file-container .element-file-container-body .display_inline .container-fields-default div .row div:not(:first-child):after{
+    content: "/";
+}
+
+body .element-file-container .element-file-container-body .container-fields-default.display_inline div:last-child .row div:not(:first-child):after, 
+body .element-file-container .element-file-container-body .display_inline .container-fields-default div:last-child .row div:not(:first-child):after{
+    content: "";
+}
+
+body .element-file-container .element-file-container-body .container-fields-default.display_inline, 
+body .element-file-container .element-file-container-body .display_inline .container-fields-default{
+    display: flex;
 }
 
 @if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)
