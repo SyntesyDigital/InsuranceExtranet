@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter'
-
 import ExportButton from './ExportButton';
-
-import moment from 'moment';
-
 import {
     parseNumber,
     parseDate,
     getConditionalFormating,
     hasConditionalFormatting,
-    getTextAlign
+    getTextAlign,
+    getConditionalIcon,
+    hasConditionalIcon
 } from '../functions';
 
 //const selectors = Data.Selectors;
@@ -267,7 +263,7 @@ export default class TableComponent extends Component {
             value = parseDate(value, field);
         }
         if (field.type == "number") {
-            value = parseNumber(value,field,row.original, this.props.parameters);
+            value = parseNumber(value, field, row.original, this.props.parameters);
         }
         if (field.type == "text") {
             switch (field.settings.format) {
@@ -277,30 +273,51 @@ export default class TableComponent extends Component {
             }
         }
 
-        // console.log("value => ",value);
+        var icon = getConditionalIcon(field, value);
+        var hasIcon = hasConditionalIcon(icon);
         var style = getConditionalFormating(field, value);
         var hasColor = hasConditionalFormatting(style);
-        var textAlign = getTextAlign(field);
+        var textAlign = getTextAlign(field); 
 
         if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div className={"file-container" + ' ' + textAlign} dangerouslySetInnerHTML={{ __html: row.original[identifier] }} />
         }
+        // has route
         else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
-
-            return <div className={textAlign} dangerouslySetInnerHTML={{ __html: row.original[identifier + "_url"] }} />
+            
+            return <div className={(hasIcon ? 'has-icon' : '')}>
+                    {hasIcon ? <i className={icon.icon}></i> : null}
+                        <div 
+                            className={textAlign} 
+                            dangerouslySetInnerHTML={{ 
+                                __html: row.original[identifier + "_url"] 
+                            }} 
+                        />
+                    </div>
         }
+        // has modal
         else if (field.settings.hasModal !== undefined && field.settings.hasModal != null) {
-
-            return <div className={textAlign} dangerouslySetInnerHTML={{
-                __html: '<a href="" class="modal-link" data-modal="' + (row.original[identifier + "_url"]) + '">' +
-                    row.original[identifier] +
-                    '</a>'
-            }} />
+        
+            return <div 
+                        className={textAlign} 
+                        dangerouslySetInnerHTML={{
+                            __html: '<a href="" class="modal-link" data-modal="' + (row.original[identifier + "_url"]) + '">' +
+                            row.original[identifier] +
+                            '</a>'
+                        }} 
+                    />
         }
+        // default
         else {
-            return <div className={(hasColor ? 'has-color' : '') + ' ' + textAlign} style={style} dangerouslySetInnerHTML={{ __html: value }} />
+            return <div className={(hasIcon ? 'has-icon' : '')}>
+                        {hasIcon ? <i className={icon.icon}></i> : null}
+                        <div 
+                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign} 
+                            style={style} 
+                            dangerouslySetInnerHTML={{ __html: value }} 
+                        />
+                    </div>
         }
-
     }
 
     processColumns() {
