@@ -35,7 +35,7 @@ export default class DefaultField extends Component {
       maxWidth: '100%',
       display: 'inline-block',
     };
-
+console.log("this.props.icon :: " , this.props.icon)
     return (
       <div style={divStyle} className={(stripped ? 'stripped' : null)}>
         <Row>
@@ -45,6 +45,7 @@ export default class DefaultField extends Component {
             ></label>
           </Col>
           <Col md={!inline ? 12 : 6} style={divValue}>
+            {this.props.icon ? <i className={this.props.icon}></i> : null}
             <span 
               style={spanStyles} className={valueAlign == 'center' ? 'value-center' : null}
               dangerouslySetInnerHTML={{__html: value}}
@@ -65,5 +66,6 @@ DefaultField.propTypes = {
   stripped: PropTypes.bool,
   labelAlign: PropTypes.string,
   valueAlign: PropTypes.string,
-  inline: PropTypes.bool
+  inline: PropTypes.bool,
+  icon: PropTypes.string
 };

@@ -197,7 +197,38 @@ export function getConditionalFormating(field,value) {
 }
 
 /**
- * Check if ther eis conditional formating
+ * Check if there is conditional icon and process the value
+ * 
+ * @param {*} field 
+ * @param {*} value 
+ */
+
+export function  getConditionalIcon(field, value) {
+    if (value === undefined)
+        return {};
+
+    value = typeof value === 'string' ? value.toLowerCase() : value;
+
+    if (field.settings.conditionalIcon !== undefined &&
+        field.settings.conditionalIcon != null) {
+
+        for (var key in field.settings.conditionalIcon.conditions) {
+            var condition = field.settings.conditionalIcon.conditions[key];
+            var conditionValue = typeof condition.value === 'string' ?
+                condition.value.toLowerCase() : condition.value;
+
+            if (value.indexOf(conditionValue) != -1) {
+                return {
+                    icon: condition.icon,
+                };
+            }
+        }
+    }
+    return {};
+}
+
+/**
+ * Check if there is conditional formating
  * @param {*} conditionalFormatting 
  */
 export function hasConditionalFormatting(conditionalFormatting) {
@@ -206,6 +237,18 @@ export function hasConditionalFormatting(conditionalFormatting) {
   }
   return false;
 }
+
+/**
+ * Check if there is conditional icon
+ * @param {*} conditionalIcon 
+ */
+export function hasConditionalIcon(conditionalIcon) {
+    if(conditionalIcon.icon !== undefined){
+      return true;
+    }
+    return false;
+  }
+  
 
 /**
  * 

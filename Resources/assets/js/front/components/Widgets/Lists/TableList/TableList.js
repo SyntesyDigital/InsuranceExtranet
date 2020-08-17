@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-import moment from 'moment';
 import ListParser from '../ListParser';
 
 import {
     parseNumber,
     parseDate,
     getConditionalFormating,
-    hasConditionalFormatting
+    hasConditionalFormatting,
+    getConditionalIcon,
+    hasConditionalIcon
 } from '../../functions';
 
 export default class TableList extends Component {
 
     constructor(props) {
-
         super(props);
     }
 
@@ -25,17 +24,17 @@ export default class TableList extends Component {
         return false;
     }
 
-
     renderField(item, identifier, field) {
 
         var value = item[identifier];
+        var hasIcon = hasConditionalIcon(field, value);
 
         if (field.type == "date") {
             value = parseDate(value, field);
         }
         else if (field.type == "number") {
-            value = parseNumber(value,field,item, this.props.parameters);
-        } 
+            value = parseNumber(value, field, item, this.props.parameters);
+        }
         else if (field.type == "text") {
             switch (field.settings.format) {
                 case 'password':
@@ -46,18 +45,38 @@ export default class TableList extends Component {
 
         var style = getConditionalFormating(field, value);
         var hasColor = hasConditionalFormatting(style);
+        var icon = getConditionalIcon(field, value);
+        var hasIcon = hasConditionalIcon(icon);
+
 
         if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div dangerouslySetInnerHTML={{ __html: value }} />
         }
+        // has route
         else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
 
-            return <div dangerouslySetInnerHTML={{ __html: item[identifier + "_url"] }} />
+            return  <div className={(hasIcon ? 'has-icon' : '')}>
+                        {hasIcon ? <i className={icon.icon}></i> : null}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: item[identifier + "_url"]
+                            }}
+                        />
+                    </div>
         }
+        // has default
         else {
-            return <div className={hasColor ? 'has-color' : ''} style={style} dangerouslySetInnerHTML={{ __html: value }} />
+            return  <div className={(hasIcon ? 'has-icon' : '')}>
+                        {hasIcon ? <i className={icon.icon}></i> : null}
+                        <div
+                            className={hasColor ? 'has-color' : ''}
+                            style={style}
+                            dangerouslySetInnerHTML={{
+                                __html: value
+                            }}
+                        />
+                    </div>
         }
-
     }
 
     renderItem(item, elementObject) {

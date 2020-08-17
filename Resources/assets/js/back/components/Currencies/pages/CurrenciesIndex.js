@@ -129,7 +129,7 @@ export default class CurrenciesIndex extends Component {
                        // onRemove={this.removeItem(this)}
                     />
                     <PageTitle
-                        title={'Currencies'}
+                        title={'Divises'}
                         icon={'fas fa-coins'}
                     >
                         <ButtonPrimary
