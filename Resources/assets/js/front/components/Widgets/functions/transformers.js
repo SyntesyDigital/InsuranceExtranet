@@ -130,7 +130,7 @@ export function parseCurrency(value,currencyInfo,hideCurrency) {
  */
 export function parseDate(value,field) {
   if(value !== undefined && value != "" && null !== value){
-
+    
     if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
       switch(field.settings.format) {
         case 'day_month_year':
@@ -138,6 +138,12 @@ export function parseDate(value,field) {
           break;
         case 'day_month_year_2':
           value = moment.unix(value).format('DD-MM-YYYY');
+          break;
+        case 'day_month_year_hour':
+          value = moment.unix(value).format('DD/MM/YYYY HH:mm');
+          break;
+        case 'day_month':
+          value = moment.unix(value).format('DD/MM');
           break;
         case 'month_year':
           value = moment.unix(value).format('MM/YYYY');
@@ -148,9 +154,7 @@ export function parseDate(value,field) {
         case 'hour':
           value = moment.unix(value).format('HH:mm');
           break;
-        case 'day_month_year_hour':
-          value = moment.unix(value).format('DD/MM/YYYY HH:mm');
-          break;
+       
       }
     }else{
       value = moment.unix(value).format('DD/MM/YYYY')

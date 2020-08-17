@@ -299,9 +299,10 @@ export default class ElementCard extends Component {
         const color = conditionalFormating.color ? conditionalFormating.color : null;
         const backgroundColor = conditionalFormating.backgroundColor ? conditionalFormating.backgroundColor : null;
         const icon = conditionalIcon.icon ? conditionalIcon.icon : null;
-
-        if (value == null || value == "")
+        if (value == null || value.toString().replace(/(<([^>]+)>)/gi, "") == "")
             return null;
+
+        console.log('VALOR LINK', value);
 
         switch (field.type) {
             case 'boolean':
