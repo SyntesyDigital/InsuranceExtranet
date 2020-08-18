@@ -343,19 +343,19 @@ class ElementController extends Controller
 
     public function postService(PostServiceRequest $request)
     {
-        //try {
-        $result = $this->dispatchNow(ProcessService::fromRequest($request));
+        try {
+            $result = $this->dispatchNow(ProcessService::fromRequest($request));
 
-        return response()->json([
+            return response()->json([
                       'success' => true,
                       'result' => $result,
                   ]);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => $e->getMessage(),
-        //     ], 500);
-        // }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function getFormProcedures($modelId, Request $request)
