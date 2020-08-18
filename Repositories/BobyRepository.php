@@ -103,7 +103,7 @@ class BobyRepository
             //is array ( example documents ) process every item
             foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl,$body);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl, $body);
                 }
             }
 
@@ -112,16 +112,16 @@ class BobyRepository
         } elseif (is_array($url)) {
             //process every post of array
             foreach ($url as $currentUrl) {
-                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl,$body);
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl, $body);
             }
 
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data, $isOldUrl,$body);
+            return $this->processMethod($method, $url, $data, $isOldUrl, $body);
         }
     }
 
-    private function processMethod($method, $url, $data, $isOldUrl = null,$body = 'json')
+    private function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
     {
         $params = [
             $body => $data,
@@ -164,18 +164,21 @@ class BobyRepository
 
     private function params2url($baseUrl, $params)
     {
-        //if base url already contains ? continue url with &
-        $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
-        $first = true;
-        $url = '';
         if (!isset($params)) {
             return $url;
         }
 
-        foreach ($params as $key => $value) {
-            if ($value != '' && $value != null) {
-                $url .= ($first ? $firstChar : '&').$key.'='.$value;
-                $first = false;
+        //if base url already contains ? continue url with &
+        $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
+        $first = true;
+        $url = '';
+
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                if ($value != '' && $value != null) {
+                    $url .= ($first ? $firstChar : '&').$key.'='.$value;
+                    $first = false;
+                }
             }
         }
 
