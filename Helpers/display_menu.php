@@ -76,8 +76,8 @@ if (!function_exists('allowed_link')) {
         if (has_roles([ROLE_USER])) {
             $pages = Auth::user()->allowed_pages;
 
-            if (!isset($pages)) {
-                return false;
+            if (empty($pages)) {
+                return true;
             }
 
             $content = isset($link['link']['content'])
@@ -94,14 +94,9 @@ if (!function_exists('allowed_link')) {
                 if (isset($pages->{$content->url})) {
                     return $pages->{$content->url};
                 }
-
-                return false;
             }
-
-            return true;
-        } else {
-            //all allowed
-            return true;
         }
+
+        return true;
     }
 }
