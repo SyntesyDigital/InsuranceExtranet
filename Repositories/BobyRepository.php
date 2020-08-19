@@ -164,8 +164,8 @@ class BobyRepository
 
     private function params2url($baseUrl, $params)
     {
-        if (!isset($params)) {
-            return $url;
+        if (empty($params)) {
+            return null;
         }
 
         //if base url already contains ? continue url with &
