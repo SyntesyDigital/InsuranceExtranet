@@ -164,14 +164,14 @@ class BobyRepository
 
     private function params2url($baseUrl, $params)
     {
-        if (empty($params)) {
-            return null;
-        }
-
         //if base url already contains ? continue url with &
         $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
         $first = true;
         $url = '';
+
+        if (empty($params)) {
+            return null;
+        }
 
         if (is_array($params)) {
             foreach ($params as $key => $value) {
