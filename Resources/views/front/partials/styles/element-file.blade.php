@@ -184,6 +184,10 @@ body .reduced .element-file-container .element-file-container-body{
     font-size: {{$fontSizeReduced}};
     line-height: {{$lineHeightReduced}};
 }
+body .element-file-container .layout .reduced .container-fields-default span{
+    padding-top: {{$paddingBottomTopReducedValues}} !important;
+    padding-bottom: {{$paddingBottomTopReducedValues}} !important;
+}
 body .reduced .element-file-container .element-file-container-body .container-fields-default div{
     margin: {{$marginBetweenReduced}} 0px;
 }
