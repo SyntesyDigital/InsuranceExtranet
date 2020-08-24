@@ -51,13 +51,19 @@ export default class LastNews extends Component {
         const date = this.processDate(fields, 'date');
         const dateProcess = moment(date).format('ll');
 
+        const styles = {
+            backgroundImage: `url(${ASSETS + image})`,
+            width: 'auto',
+            height: '220px',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            margin: '0 auto'
+        }
+
         return (
             <div className="container-image-text-link">
-                <div className="container-image">
-                    <a href={link}>
-                        {image ? <img src={'/' + image} width="100%" height="auto" /> : null}
-                    </a>
-                </div>
+                <div className="container-image" style={styles}></div>
                 <div className="container-title">
                     <h3 className="alignleft" href="#">
                         <a href={'/actualites/' + link}>
