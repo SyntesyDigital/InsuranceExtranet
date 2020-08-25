@@ -14,73 +14,81 @@ export default class MessageBox extends Component {
         this.state = {
             elementObject: elementObject,
             model: model,
-            type: 'danger',
-            message: 'Este es el mensaje de error del state'
+            type: 'info',
+            message: '',
+            loaded : false
         };
         // console.log("ICONS.messageBox.success" , ICONS.messageBox.success);
     }
 
     componentDidMount() {
-        // this.query();
+        this.query();
     }
 
-    // getUrlParameters() {
-    //     // concat parameters, first constant parameters
-    //     var parameters = this.state.model.DEF1 != null ?
-    //         this.state.model.DEF1 : '';
+    getUrlParameters() {
+        // concat parameters, first constant parameters
+        var parameters = this.state.model.DEF1 != null ?
+            this.state.model.DEF1 : '';
 
-    //     if (parameters != '')
-    //         parameters += "&";
+        if (parameters != '')
+            parameters += "&";
 
-    //     //then
-    //     parameters += this.props.parameters;
+        //then
+        parameters += this.props.parameters;
 
-    //     return parameters;
+        return parameters;
 
-    // }
+    }
 
-    // query() {
+    query() {
 
-    //     var self = this;
-    //     const { elementObject } = this.state;
-    //     const parameters = this.getUrlParameters();
+        var self = this;
+        const { elementObject } = this.state;
+        const parameters = this.getUrlParameters();
 
-    //     axios.get('/architect/extranet/' + elementObject.id + '/model_values/data/1?' + parameters)
-    //         .then(function (response) {
-    //             if (response.status == 200
-    //                 && response.data.modelValues !== undefined) {
-    //                 console.log("ModelValues  :: componentDidMount => ", response.data);
+        axios.get('/architect/extranet/' + elementObject.id + '/model_values/data/1?' + parameters)
+            .then(function (response) {
+                if (response.status == 200
+                    && response.data.modelValues !== undefined) {
+                    console.log("ModelValues  :: componentDidMount => ", response.data);
 
-    //                 self.setState({
-    //                     val1: response.data.modelValues !== undefined ? response.data.modelValues[0].val1 : 0,
-    //                     val2: response.data.modelValues !== undefined ? response.data.modelValues[0].val2 : 0
-    //                 });
-    //             } 
+                    if(response.data.modelValues === undefined || response.data.modelValues[0].type === undefined){
+                        console.error("MessageBox :: bad configuration. Non modelValues recieved.")
+                    }
 
-    //         }).catch(function (error) {
-    //             console.log(error);
-    //             self.setState({
-    //                 loading: false
-    //             });
-    //         });
-    // }
+                    self.setState({
+                        type: response.data.modelValues !== undefined ? response.data.modelValues[0].type : 'info',
+                        message: response.data.modelValues !== undefined ? response.data.modelValues[0].message : '',
+                        loaded : true
+                    });
+                } 
+
+            }).catch(function (error) {
+                console.log(error);
+                self.setState({
+                    loading: false
+                });
+            });
+    }
 
     render() {
         return (
             <div>
-                <div
-                    className={`alert alert-${this.state.type} alert-dismissable`}
-                    role="alert">
-                    <i class={ICONS.messageBox[this.state.type]}></i>
-                    {this.state.message ? this.state.message : ''}
-                    <button
-                        type="button"
-                        className="close"
-                        data-dismiss="alert"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                {this.state.loaded && 
+                    <div
+                        className={`alert alert-${this.state.type} alert-dismissable`}
+                        role="alert">
+                        <i class={ICONS.messageBox[this.state.type]}></i>
+                        {this.state.message ? this.state.message : ''}
+                        <button
+                            type="button"
+                            className="close"
+                            data-dismiss="alert"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
             </div>
         );
     }
