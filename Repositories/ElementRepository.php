@@ -174,7 +174,7 @@ class ElementRepository extends BaseRepository
     public function getModelValuesFromElement($element, $parameters)
     {
         //dd($element->model_exemple);
-        $params = "?SES=".Auth::user()->session_id;
+        $params = "?".(isset(Auth::user()->session_id) ? "SES=".Auth::user()->session_id : "");
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {

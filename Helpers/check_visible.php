@@ -59,7 +59,8 @@ if (!function_exists('check_visible')) {
 
     function get_visibility_ws($wsName,$parameters) 
     {
-        $params = '?SES='.Auth::user()->session_id.''
+        $params = '?'
+            .get_session_parameter()
             .($parameters != "" ? '&'.$parameters : '');
 
         $boby = new Modules\Extranet\Repositories\BobyRepository();
