@@ -23,3 +23,5 @@ type Query
 #import ../../Services/ExportImport/GraphQL/schema/export.graphql 
 #import ../../Services/ExportImport/GraphQL/schema/import.graphql 
 
+# Currency
+#import ../../Services/Currency/GraphQL/schema/currency.graphql 

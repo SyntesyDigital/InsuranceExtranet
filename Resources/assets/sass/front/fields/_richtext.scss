@@ -1,5 +1,20 @@
 .richttext-field {
-  .ql-editor {
-    height: 150px !important;
-  }
+    .ql-editor {
+        height: 150px !important;
+    }
+}
+
+.ql-align {
+    &-right {
+        text-align: right;
+    }
+    &-center {
+        text-align: center;
+    }
+    &-left {
+        text-align: left;
+    }
+    &-justify {
+        text-align: justify;
+    }
 }

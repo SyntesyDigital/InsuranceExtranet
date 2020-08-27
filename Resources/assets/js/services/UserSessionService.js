@@ -4,6 +4,18 @@ export default class UserSessionService {
         this.session = session;
     }
 
+    getUser() {
+        return this.session;
+    }
+
+    /*
+        Return all allowed pages, to be used to filter menu and buttons.
+    */
+    getAllowedPages() {
+        var payload = JSON.parse(this.session.payload);
+        return payload.allowed_pages;
+    }
+
     getRole() {
         return this.session.role;
     }

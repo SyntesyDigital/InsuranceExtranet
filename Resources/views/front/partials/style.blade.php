@@ -246,6 +246,7 @@
     //REDUCED
     $fontSizeReduced = isset($storedStylesFront['fontSizeReduced']) ? $storedStylesFront['fontSizeReduced']->value.'px' : '14px';
     $paddingBottomTopReduced = isset($storedStylesFront['paddingBottomTopReduced']) ? $storedStylesFront['paddingBottomTopReduced']->value.'px' : '10px';
+    $paddingBottomTopReducedValues = isset($storedStylesFront['paddingBottomTopReducedValues']) ? $storedStylesFront['paddingBottomTopReducedValues']->value.'px' : '8px';
     $paddingRightLeftReduced = isset($storedStylesFront['paddingRightLeftReduced']) ? $storedStylesFront['paddingRightLeftReduced']->value.'px' : '15px';
     $lineHeightReduced = isset($storedStylesFront['lineHeightReduced']) ? $storedStylesFront['lineHeightReduced']->value.'px' : '20px';
     $marginBetweenReduced = isset($storedStylesFront['marginBetweenReduced']) ? $storedStylesFront['marginBetweenReduced']->value.'px' : '0px';
@@ -452,6 +453,8 @@
 @include('extranet::front.partials.styles.simple-button')
 @include('extranet::front.partials.styles.action-list')
 @include('extranet::front.partials.styles.message-box')
+@include('extranet::front.partials.styles.last-news-list')
+
 
 @if($frontFont)
   <style>

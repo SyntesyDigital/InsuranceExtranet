@@ -317,7 +317,7 @@ export function validateField(field,values,isModal) {
       return true;
     }
 
-    if(values[field.identifier] === undefined || values[field.identifier] == ''){
+    if(values[field.identifier] === undefined || values[field.identifier] === ''){
       return false;
     }
   }

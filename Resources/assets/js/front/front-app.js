@@ -34,6 +34,8 @@ require('./components/Widgets/SimpleButton');
 require('./components/Widgets/MenuSidebar/MenuSidebar');
 require('./components/Widgets/MenuSidebar/SubMenuSidebar');
 require('./components/Widgets/MessageBox');
+require('./components/Widgets/LastNews/LastNewsList');
+require('./components/Widgets/LastNews/LastNews');
 
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');

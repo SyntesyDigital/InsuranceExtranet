@@ -297,13 +297,12 @@ class SessionCreate
 
         $allowedPages = [];
 
-        foreach ($pages as $index => $page) {
-            //if this option exist in user info, and is Y
-            if (isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y') {
-                //add page
-                $allowedPages[$page->PAGE] = true;
-            } else {
-                $allowedPages[$page->PAGE] = false;
+        if (is_array($pages)) {
+            foreach ($pages as $index => $page) {
+                //if this option exist in user info, and is Y
+                $allowedPages[$page->PAGE] = isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y'
+                    ? true
+                    : false;
             }
         }
 

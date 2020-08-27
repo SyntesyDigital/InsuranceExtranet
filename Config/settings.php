@@ -39,4 +39,10 @@ return [
         'label' => Lang::get('extranet::settings.services'),
         'permissions' => 'services'
     ],
+    [
+        'route' => 'extranet.currencies.index',
+        'icon' => 'fas fa-money-bill-wave',
+        'label' => Lang::get('extranet::settings.currencies'),
+        'permissions' => 'currencies'
+    ],
 ];

@@ -20,6 +20,7 @@ class Richtext extends Field implements FieldInterface
         'fieldHeight',
         'htmlId',
         'htmlClass',
+        'textAlign',
         'conditionalVisibility'
     ];
 }

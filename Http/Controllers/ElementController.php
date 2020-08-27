@@ -14,8 +14,8 @@ use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
 use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
 use Modules\Extranet\Jobs\Elements\CreateElement;
 use Modules\Extranet\Jobs\Elements\DeleteElement;
-use Modules\Extranet\Jobs\Elements\UpdateElement;
 use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Jobs\Elements\UpdateElement;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
@@ -306,7 +306,9 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=10000';
+        $params = '?'
+            .get_session_parameter()
+            .'&perPage=10000';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -379,7 +381,7 @@ class ElementController extends Controller
             $data = [
                 'procedures' => $data['procedures'],
                 'variables' => $data['variables'],
-                'validation_ws' => $validationWs
+                'validation_ws' => $validationWs,
             ];
 
             if ($request->has('debug')) {
@@ -493,7 +495,7 @@ class ElementController extends Controller
 
         return [
           'variables' => $variables,
-          'procedures' => $procedures
+          'procedures' => $procedures,
         ];
     }
 

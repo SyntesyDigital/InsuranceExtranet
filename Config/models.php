@@ -26,8 +26,11 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
+          'conditionalIcon',
           'textAlign',
           'columnWidth',
+          'readonly',
+          'groupe',
         ],
       ],
       'number' => [
@@ -60,6 +63,7 @@ return [
           'columnWidth',
           'operation',
           'readonly',
+          'currency',
         ],
       ],
       'date' => [
@@ -90,6 +94,7 @@ return [
           'conditionalVisibility',
           'textAlign',
           'columnWidth',
+          'readonly',
           //'defaultValue'
         ],
       ],

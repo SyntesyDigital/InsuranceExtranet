@@ -103,7 +103,7 @@ class BobyRepository
             //is array ( example documents ) process every item
             foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl,$body);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl, $body);
                 }
             }
 
@@ -112,16 +112,16 @@ class BobyRepository
         } elseif (is_array($url)) {
             //process every post of array
             foreach ($url as $currentUrl) {
-                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl,$body);
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl, $body);
             }
 
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data, $isOldUrl,$body);
+            return $this->processMethod($method, $url, $data, $isOldUrl, $body);
         }
     }
 
-    private function processMethod($method, $url, $data, $isOldUrl = null,$body = 'json')
+    private function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
     {
         $params = [
             $body => $data,
@@ -168,26 +168,33 @@ class BobyRepository
         $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
         $first = true;
         $url = '';
-        if (!isset($params)) {
-            return $url;
+
+        if (empty($params)) {
+            return null;
         }
 
-        foreach ($params as $key => $value) {
-            if ($value != '' && $value != null) {
-                $url .= ($first ? $firstChar : '&').$key.'='.$value;
-                $first = false;
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                if ($value != '' && $value != null) {
+                    $url .= ($first ? $firstChar : '&').$key.'='.$value;
+                    $first = false;
+                }
             }
         }
 
         return $url;
     }
 
+
+
     public function checkDocumentAvailable($id)
     {
-        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?SES='.Auth::user()->session_id.'&id_doc='.$id, [
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
+        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?'
+            .get_session_parameter()
+            .'&id_doc='.$id, [
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
       ]);
 
         $result = json_decode($response->getBody());

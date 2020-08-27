@@ -21,20 +21,22 @@ export default class DataTable extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.init !== undefined && this.props.init == true) {
-            if (!this.state.init) {
-                this.setState({
-                    init: true
-                });
+        if (prevProps.init === false && this.props.init == true) {
+            this.setState({
+                init: true
+            },function(){
                 this.setDatatable(this.props.route);
-            }
+            });
+           
         }
         else {
-            if (this.state.init) {
+            if (prevProps.init === true && this.props.init == false ) {
                 this.setState({
                     init: false
+                },function(){
+                    this.destroyDatatable();
                 });
-                this.destroyDatatable();
+                
             }
         }
     }

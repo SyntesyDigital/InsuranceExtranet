@@ -38,7 +38,7 @@ class ElementModel extends Model
         'example',
         'def1',
         'def2',
-        'validation_ws'
+        'validation_ws',
     ];
 
     public function procedures(): HasMany
@@ -46,69 +46,62 @@ class ElementModel extends Model
         return $this->hasMany(ModelProcedure::class, 'model_id', 'id');
     }
 
-    public function getObject() {
-        
-        return (object)[
+    public function getObject()
+    {
+        return (object) [
             'ID' => $this->id,
             'TITRE' => $this->name,
             'COMMENTAIRE' => $this->description,
             'ICONE' => $this->icon,
-            'VALIDATION_WS' => $this->validation_ws
+            'VALIDATION_WS' => $this->validation_ws,
         ];
     }
 
-    public function getFields() {
-
+    public function getFields()
+    {
         $procedures = $this->procedures()->get();
         $procedures->load('fields');
-        
+
         $fields = [];
 
-        foreach($procedures as $procedure) {
-
-            if($procedure->configurable && !$procedure->repeatable){
+        foreach ($procedures as $procedure) {
+            if ($procedure->configurable && !$procedure->repeatable) {
                 //normal procedure, add field directly
-  
+
                 $fields = array_merge(
                     $fields,
                     $procedure->getFieldsConfig()
                 );
-  
-            }
-            else if($procedure->configurable && $procedure->repeatable){
+            } elseif ($procedure->configurable && $procedure->repeatable) {
                 //internal array like assure contact
 
                 //add speceific field to define a internal array
                 $fields[] = $procedure->getListFieldObject();
-
-            }
-            else if(!$procedure->configurable && $procedure->repeatable){
+            } elseif (!$procedure->configurable && $procedure->repeatable) {
                 //list with external model like documents
 
                 //TODO añadir un modelo externo
-            }
-            else {
+            } else {
                 //nothing to do
             }
         }
 
         return $fields;
-        
     }
 
     public function getProcedures($allVariables)
     {
         $procedures = $this->procedures()->get();
-        $procedures->load('fields','service');
+        $procedures->load('fields', 'service');
         $proceduresObjects = [];
         $variables = [];
 
-        foreach($procedures as $procedure) {
+        foreach ($procedures as $procedure) {
             $systemVars = [];
             $fieldsObject = $procedure->getFieldsObject();
 
             //process objects to values
-            foreach($fieldsObject as $index => $object){
+            foreach ($fieldsObject as $index => $object) {
                 if ($object->NATURE == 'SYSTEM') {
                     $systemVars[$object->VALEUR] = true;
                 }
@@ -143,10 +136,9 @@ class ElementModel extends Model
         });
 
         return [
-            "procedures" => $proceduresObjects,
-            "variables" => $variables
+            'procedures' => $proceduresObjects,
+            'variables' => $variables,
         ];
-
     }
 
     /**
@@ -175,7 +167,7 @@ class ElementModel extends Model
                 $urlArray = explode('?', $procedureServices->URL);
                 if (sizeof($urlArray) > 1) {
                     $urlArray = self::parameters2Array($urlArray[1]);
-                    
+
                     foreach ($urlArray as $key => $urlVariable) {
                         if ($urlVariable == $variableSlashes) {
                             $variables[$variableId] = $variable;
@@ -209,7 +201,6 @@ class ElementModel extends Model
      */
     public static function checkInnerDependces($variables, $allVariables)
     {
-
         $result = [];
 
         foreach ($variables as $variableId => $variable) {
@@ -224,21 +215,22 @@ class ElementModel extends Model
     }
 
     /**
-     * Iterate recursively all variables, until no more dependences
+     * Iterate recursively all variables, until no more dependences.
      */
-    private static function iterateVariables($variable, $result,$allVariables) {
-        if(isset($result[$variable->PARAM])){
+    private static function iterateVariables($variable, $result, $allVariables)
+    {
+        if (isset($result[$variable->PARAM])) {
             //already added
             return $result;
         }
 
-        //add variable 
+        //add variable
         $result[$variable->PARAM] = $variable;
-        
+
         //continue with next
         if (isset($variable->BOBYPAR) && $variable->BOBYPAR != '') {
             //start iteration
-            if(isset($allVariables[$variable->BOBYPAR])){
+            if (isset($allVariables[$variable->BOBYPAR])) {
                 $result = self::iterateVariables(
                     $allVariables[$variable->BOBYPAR],
                     $result,
@@ -246,6 +238,7 @@ class ElementModel extends Model
                 );
             }
         }
+
         return $result;
     }
 
@@ -279,13 +272,14 @@ class ElementModel extends Model
         }
 
         $paramsArray = explode('&', $paramString);
+
         for ($i = 0; $i < sizeof($paramsArray); ++$i) {
-            $paramsSubArray = explode('=', $paramsArray[$i]);
-            $result[$paramsSubArray[0]] = $paramsSubArray[1];
+            if ($paramsArray[$i]) {
+                $paramsSubArray = explode('=', $paramsArray[$i]);
+                $result[$paramsSubArray[0]] = $paramsSubArray[1];
+            }
         }
 
         return $result;
     }
-
-    
 }

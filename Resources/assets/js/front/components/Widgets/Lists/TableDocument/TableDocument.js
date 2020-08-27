@@ -21,7 +21,7 @@ export default class TableDocument extends Component {
             value = parseDate(value, field);
         }
         else if (field.type == "number") {
-            value = parseNumber(value, field);
+            value = parseNumber(value,field,this.props.elementObject.fields, this.props.parameters);
         }
         else if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div dangerouslySetInnerHTML={{ __html: value }} />

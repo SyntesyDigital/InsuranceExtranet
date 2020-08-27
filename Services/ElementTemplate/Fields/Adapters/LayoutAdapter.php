@@ -53,8 +53,10 @@ class LayoutAdapter
                         $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
                     }
                     else {
-                        $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
-                        $nodes[$key]['field']['value'] = $this->buildPageField($node['field']);
+                        if(isset($nodes[$key]['field']['name'])){
+                            $nodes[$key]['field']['fieldname'] = $nodes[$key]['field']['name'];
+                            $nodes[$key]['field']['value'] = $this->buildPageField($node['field']);
+                        }
                     }
                 }
             }
