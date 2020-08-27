@@ -185,12 +185,16 @@ class BobyRepository
         return $url;
     }
 
+
+
     public function checkDocumentAvailable($id)
     {
-        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?SES='.Auth::user()->session_id.'&id_doc='.$id, [
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
+        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?'
+            .get_session_parameter()
+            .'&id_doc='.$id, [
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
       ]);
 
         $result = json_decode($response->getBody());
