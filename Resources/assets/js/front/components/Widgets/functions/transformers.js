@@ -264,3 +264,20 @@ export function getTextAlign(field) {
   }
   return textAlign;
 }
+
+
+/**
+ * Function that read content field, to extract parameters from field values. When field is url or link.
+ * @param {*} field 
+ */
+export function getParametersFromContentField(content) {
+  
+  if(content.routes_parameters !== undefined && content.routes_parameters != null && content.routes_parameters.length > 0){
+    var parameters = [];
+    for(var key in content.routes_parameters){    
+      parameters.push(content.routes_parameters[key].identifier);
+    }
+    return parameters;
+  }
+  return [];
+}

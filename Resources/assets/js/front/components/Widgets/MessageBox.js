@@ -57,8 +57,10 @@ export default class MessageBox extends Component {
                     }
 
                     self.setState({
-                        type: response.data.modelValues !== undefined ? response.data.modelValues[0].type : 'info',
-                        message: response.data.modelValues !== undefined ? response.data.modelValues[0].message : '',
+                        type: response.data.modelValues !== undefined 
+                            ? response.data.modelValues[0].type : 'info',
+                        message: response.data.modelValues !== undefined && response.data.modelValues != null 
+                            ? response.data.modelValues[0].message : '',
                         loaded : true
                     });
                 } 
@@ -74,12 +76,12 @@ export default class MessageBox extends Component {
     render() {
         return (
             <div>
-                {this.state.loaded && 
+                {this.state.loaded && this.state.message != '' &&
                     <div
                         className={`alert alert-${this.state.type} alert-dismissable`}
                         role="alert">
                         <i class={ICONS.messageBox[this.state.type]}></i>
-                        {this.state.message ? this.state.message : ''}
+                        {this.state.message}
                         <button
                             type="button"
                             className="close"

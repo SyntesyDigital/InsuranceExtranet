@@ -16,6 +16,7 @@
         <div 
             id="actionList" 
             class="actionList" 
+            data-parameters="{{$parameters}}"
             field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}" 
         >
         </div>
