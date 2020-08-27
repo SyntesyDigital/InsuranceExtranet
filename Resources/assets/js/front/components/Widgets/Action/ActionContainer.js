@@ -12,6 +12,7 @@ export default class ActionContainer extends Component {
         return (
             <SimpleButton
                 field={this.props.field}
+                parameters={this.props.parameters}
             />
         );
     }

@@ -14,6 +14,7 @@ export default class ActionList extends Component {
             <SimpleButton
                 field={item}
                 key={index}
+                parameters={this.props.parameters}
             />
         );
     }
