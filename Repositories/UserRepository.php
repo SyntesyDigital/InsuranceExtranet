@@ -54,16 +54,17 @@ class UserRepository
 
     /**
      * Function to return all user permissions.
+     * WS came from parameters because is not defined yet.
      */
-    public function getRoleAndPermissions($token)
+    public function getRoleAndPermissions($token,$env)
     {
         $name = "WS2_DEF_PERMIS";
         $roleAndPermissions = [
-            'role' => null,
+            'roles' => [],
             'permissions' => []
         ];
 
-        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
+        $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -75,8 +76,9 @@ class UserRepository
 
             $permissions = $beans[0];
 
+            //TO DO take roles from boby
             if(isset($permissions->role))
-                $roleAndPermissions['role'] = $permissions->role;
+                $roleAndPermissions['roles'] = [$permissions->role];
 
             unset($permissions->role);
 

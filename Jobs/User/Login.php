@@ -72,7 +72,6 @@ class Login
                 if (!$loginResult || $loginResult->statusCode != 0) {
                     return false;
                 }
-
                 return (new SessionCreate($loginResult->token, $this->env))->handle();
             }
         } catch (\Exception $ex) {

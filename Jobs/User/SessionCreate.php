@@ -70,7 +70,10 @@ class SessionCreate
 
         //get veos roles
         $userRepository = new UserRepository();
-        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions($this->veosToken);
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
+            $this->veosToken,
+            $this->env
+        );
         
         $service = resolve('Services/RolesPermissions');
 
@@ -94,7 +97,7 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
-            'veosRole' => $veosRoleAndPermissions['role'],
+            'veosRoles' => $veosRoleAndPermissions['roles'],
             'veosPermissions' => $veosRoleAndPermissions['permissions'],
         ];
 
