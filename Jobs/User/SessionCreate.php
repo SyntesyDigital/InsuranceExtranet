@@ -97,8 +97,8 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
-            'veosRoles' => $veosRoleAndPermissions['roles'],
-            'veosPermissions' => $veosRoleAndPermissions['permissions'],
+            'veos_roles' => $veosRoleAndPermissions['roles'],
+            'veos_permissions' => $veosRoleAndPermissions['permissions'],
         ];
 
         // Merge constructor passed parameters to session

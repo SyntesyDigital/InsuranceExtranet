@@ -45,7 +45,7 @@
 			$('#session-changer').change(function(e) {
 
 				var sessionId = e.target.value;
-
+				
 				$('#session-changer').prop( "disabled", true );
 
 				//post sessions
@@ -58,14 +58,10 @@
 							},
 					dataType: 'json'
 				}).done(function(response) {
-
-							//console.log(response);
-							//window.location.href = response.redirect;
-							window.location.href = '/';
+					window.location.href = '/';
 
 				}).fail(function(jqXHR, textStatus) {
-						//el.find('.modal-footer .message').html(jqXHR.responseJSON.message);
-							window.location.href = '/';
+					window.location.href = '/';
 				});
 
 

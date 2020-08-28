@@ -2,10 +2,17 @@ export default class UserSessionService {
 
     constructor(session) {
         this.session = session;
+        if(this.session !== undefined && this.isTest()){
+            console.log("UserSession :: ",this.session);
+        }
     }
 
     getUser() {
         return this.session;
+    }
+
+    isTest() {
+        return this.session.test;
     }
 
     /*

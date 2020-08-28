@@ -5,7 +5,10 @@ namespace Modules\Extranet\Jobs\User;
 use Config;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Repositories\BobyRepository;
+use Modules\Extranet\Repositories\UserRepository;
 use Session;
+use Modules\Extranet\Extensions\VeosWsUrl;
+use Auth;
 
 class SessionUpdate
 {
@@ -44,14 +47,28 @@ class SessionUpdate
         // Ask Permissions to service
         $userData->permissions = $service->getPermissionsFromRoleId($userData->role);
 
+        $userRepository = new UserRepository();
+        
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
+            Auth::user()->token,
+            Auth::user()->env
+        );
+        
+        $userData->veos_roles = $veosRoleAndPermissions['roles'];
+        $userData->veos_permissions = $veosRoleAndPermissions['permissions'];
+
         //update session info, to know info of this user
         $userData->session_info = $sessionInfo;
 
         Session::put('user', json_encode($userData));
 
-        return $this->getRedirectPage($userData->role, $userData->allowed_pages);
+        return true;
     }
 
+    /**
+     * This method dones't work because allowed pages can be null if not defined. 
+     * And home can be accessible a part from being or not into allowed pages.
+     */
     private function getRedirectPage($role, $allowedPages)
     {
         //if user

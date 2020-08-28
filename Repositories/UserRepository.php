@@ -64,28 +64,31 @@ class UserRepository
             'permissions' => []
         ];
 
-        $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+        try {
+            $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]);
 
-        $result = json_decode($response->getBody());
-        $beans = $result->data;
-        if(sizeof($beans) > 0){
+            $result = json_decode($response->getBody());
+            $beans = $result->data;
+            if(sizeof($beans) > 0){
 
-            $permissions = $beans[0];
+                $permissions = $beans[0];
 
-            //TO DO take roles from boby
-            if(isset($permissions->role))
-                $roleAndPermissions['roles'] = [$permissions->role];
+                //TO DO take roles from boby
+                if(isset($permissions->role))
+                    $roleAndPermissions['roles'] = [$permissions->role];
 
-            unset($permissions->role);
+                unset($permissions->role);
 
-            $roleAndPermissions['permissions'] = $permissions;
+                $roleAndPermissions['permissions'] = $permissions;
+            }
+            return $roleAndPermissions;
         }
-
-        return $roleAndPermissions;
-
+        catch(\Exception $ex) {
+            return $roleAndPermissions;
+        }
     }
 }
