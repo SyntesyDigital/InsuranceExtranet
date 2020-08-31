@@ -2,18 +2,40 @@ export default class UserSessionService {
 
     constructor(session) {
         this.session = session;
+        if(this.session !== undefined && this.isTest()){
+            console.log("UserSession :: ",this.session);
+        }
     }
 
     getUser() {
         return this.session;
     }
 
+    isTest() {
+        return this.session.test;
+    }
+
     /*
         Return all allowed pages, to be used to filter menu and buttons.
     */
     getAllowedPages() {
-        var payload = JSON.parse(this.session.payload);
-        return payload.allowed_pages;
+        return this.session.allowed_pages;
+    }
+
+    /**
+     * Check if slug is allowed by this user.
+     * @param {*} slug 
+     */
+    isAllowedSlug(slug) {
+
+        if(this.session.allowed_pages == null || this.session.allowed_pages === undefined)
+            return true;
+
+        if(this.session.allowed_pages[slug] !== undefined){
+            return this.session.allowed_pages[slug];
+        }
+
+        return true;
     }
 
     getRole() {

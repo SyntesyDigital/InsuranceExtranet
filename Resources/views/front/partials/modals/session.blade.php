@@ -15,8 +15,6 @@
 			})
 		}
 
-		//console.log("options => ",options);
-
 		bootbox.prompt({
 		    title: "Sélectionnez une session",
 		    inputType: 'select',
@@ -33,27 +31,23 @@
 		    },
 		    inputOptions: options,
 		    callback: function (result) {
-	        if(result != null && result != ''){
+	        	if(result != null && result != ''){
 						//post sessions
 						$.ajax({
-						method: "POST",
-						url: '{{ route('session.update') }}',
-						data: {
-									session_id : result,
-									_token: $('meta[name="csrf-token"]').attr('content')
-								},
-						dataType: 'json'
-					}).done(function(response) {
+							method: "POST",
+							url: '{{ route('session.update') }}',
+							data: {
+										session_id : result,
+										_token: $('meta[name="csrf-token"]').attr('content')
+									},
+							dataType: 'json'
+						}).done(function(response) {
 
-								//console.log(response);
-								//window.location.href = response.redirect;
-								window.location.href = '/';
-								
+							window.location.href = '/';		
 
-					}).fail(function(jqXHR, textStatus) {
-								//el.find('.modal-footer .message').html(jqXHR.responseJSON.message);
+						}).fail(function(jqXHR, textStatus) {
 								window.location.href = '/';
-					});
+						});
 				}
 				else {
 					//logout

@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Repositories\UserRepository;
+use Modules\Extranet\Jobs\User\GetAllowedPages;
 
 class SessionCreate
 {
@@ -57,15 +59,24 @@ class SessionCreate
         // get all pages so store in cache and no need to process again
         $pages = $this->getPages($this->veosToken);
 
+        
         // check if possible to get allowed pages
-        $allowedPages = $this->getAllowedPages(
+        $allowedPages = (new GetAllowedPages(
             $currentSession,
             $pages,
-            $this->veosToken,
             $sessionInfo
-        );
+        ))->handle();
 
         $role = $this->processMainRole($sessionInfo);
+
+        //get veos roles
+        $userRepository = new UserRepository();
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
+            $this->veosToken,
+            $this->env,
+            $currentSession
+        );
+        
         $service = resolve('Services/RolesPermissions');
 
         $sessionData = [
@@ -88,6 +99,8 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
+            'veos_roles' => $veosRoleAndPermissions['roles'],
+            'veos_permissions' => $veosRoleAndPermissions['permissions'],
         ];
 
         // Merge constructor passed parameters to session
@@ -268,36 +281,5 @@ class SessionCreate
         return $payload->total > 0 && isset($payload->data[0])
             ? $payload->data[0]
             : null;
-    }
-
-    /**
-     * getAllowedPages.
-     *
-     * @param mixed $currentSession
-     * @param mixed $pages
-     * @param mixed $token
-     * @param mixed $sessionInfo
-     *
-     * @return void
-     */
-    private function getAllowedPages($currentSession, $pages, $token, $sessionInfo)
-    {
-        if ($currentSession == null || $sessionInfo == null) {
-            //not current session defined so, no pages info yet
-            return null;
-        }
-
-        $allowedPages = [];
-
-        if (is_array($pages)) {
-            foreach ($pages as $index => $page) {
-                //if this option exist in user info, and is Y
-                $allowedPages[$page->PAGE] = isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y'
-                    ? true
-                    : false;
-            }
-        }
-
-        return $allowedPages;
     }
 }

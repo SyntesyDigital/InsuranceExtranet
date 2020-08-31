@@ -5,7 +5,11 @@ namespace Modules\Extranet\Jobs\User;
 use Config;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Repositories\BobyRepository;
+use Modules\Extranet\Repositories\UserRepository;
 use Session;
+use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Jobs\User\GetAllowedPages;
+use Auth;
 
 class SessionUpdate
 {
@@ -33,7 +37,11 @@ class SessionUpdate
 
         //get allowed pages rights
         $userData->session_id = $this->attributes['session_id'];
-        $userData->allowed_pages = $this->getAllowedPages($sessionInfo, $userData->pages);
+        $userData->allowed_pages = (new GetAllowedPages(
+                $this->attributes['session_id'],
+                $userData->pages,
+                $sessionInfo
+            ))->handle();
 
         //update role for session role
         $userData->role = $this->processMainRole($sessionInfo);
@@ -44,14 +52,29 @@ class SessionUpdate
         // Ask Permissions to service
         $userData->permissions = $service->getPermissionsFromRoleId($userData->role);
 
+        $userRepository = new UserRepository();
+        
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
+            Auth::user()->token,
+            Auth::user()->env,
+            $this->attributes['session_id']
+        );
+        
+        $userData->veos_roles = $veosRoleAndPermissions['roles'];
+        $userData->veos_permissions = $veosRoleAndPermissions['permissions'];
+
         //update session info, to know info of this user
         $userData->session_info = $sessionInfo;
 
         Session::put('user', json_encode($userData));
 
-        return $this->getRedirectPage($userData->role, $userData->allowed_pages);
+        return true;
     }
 
+    /**
+     * This method dones't work because allowed pages can be null if not defined. 
+     * And home can be accessible a part from being or not into allowed pages.
+     */
     private function getRedirectPage($role, $allowedPages)
     {
         //if user
@@ -77,23 +100,6 @@ class SessionUpdate
         }
 
         return null;
-    }
-
-    private function getAllowedPages($sessionInfo, $pages)
-    {
-        $allowedPages = [];
-
-        foreach ($pages as $index => $page) {
-            //if this option exist in user info, and is Y
-            if (isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y') {
-                //add page
-                $allowedPages[$page->PAGE] = true;
-            } else {
-                $allowedPages[$page->PAGE] = false;
-            }
-        }
-
-        return $allowedPages;
     }
 
     private function processMainRole($userext)

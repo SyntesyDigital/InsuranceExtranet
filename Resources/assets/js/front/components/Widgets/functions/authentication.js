@@ -7,17 +7,12 @@
  */
 export function allowedLink(content) {
 
-  if(userSession.hasRole('user')){
-    var allowedPages = userSession.getAllowedPages();
+  const ROLE_USER = 4;  //FIXME put as constant
 
-    if(allowedPages == null || allowedPages === undefined)
-      return true;
-
+  if(userSession.hasRole(ROLE_USER)){ 
     if(content !== undefined && content.url !== undefined){
       var slug = content.url; 
-      if(allowedPages[slug] !== undefined){
-        return allowedPages[slug];
-      }
+      return userSession.isAllowedSlug(slug);
     }
   }
 

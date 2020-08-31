@@ -41,7 +41,7 @@ class ContentController extends Controller
 
         $content = Content::whereField('slug', $homeSlug)->first();
 
-        if (!$this->isPageAllowed($homeSlug)) {
+        if (!$this->isPageAllowed('/'.$homeSlug)) {
             abort(404, 'Page not allowed');
         }
 
@@ -156,7 +156,7 @@ class ContentController extends Controller
             if (!isset($pages)) {
                 return false;
             }
-
+            
             if (isset($pages->{$slug})) {
                 return $pages->{$slug};
             }
@@ -169,12 +169,11 @@ class ContentController extends Controller
 
     public function show(Request $request, $slug)
     {
-        //$slug = $request->segment(count($request->segments()));
+        
+        $slug = '/'.$slug;
         if (!$this->isPageAllowed($slug)) {
             abort(404, 'Page not allowed');
         }
-
-        $slug = '/'.$slug;
 
         $url = Url::where('url', $slug)
             ->where('entity_type', 'Modules\Architect\Entities\Content')
