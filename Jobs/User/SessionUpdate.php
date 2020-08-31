@@ -8,6 +8,7 @@ use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\UserRepository;
 use Session;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Jobs\User\GetAllowedPages;
 use Auth;
 
 class SessionUpdate
@@ -36,7 +37,11 @@ class SessionUpdate
 
         //get allowed pages rights
         $userData->session_id = $this->attributes['session_id'];
-        $userData->allowed_pages = $this->getAllowedPages($sessionInfo, $userData->pages);
+        $userData->allowed_pages = (new GetAllowedPages(
+                $this->attributes['session_id'],
+                $userData->pages,
+                $sessionInfo
+            ))->handle();
 
         //update role for session role
         $userData->role = $this->processMainRole($sessionInfo);
@@ -51,7 +56,8 @@ class SessionUpdate
         
         $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
             Auth::user()->token,
-            Auth::user()->env
+            Auth::user()->env,
+            $this->attributes['session_id']
         );
         
         $userData->veos_roles = $veosRoleAndPermissions['roles'];
@@ -94,23 +100,6 @@ class SessionUpdate
         }
 
         return null;
-    }
-
-    private function getAllowedPages($sessionInfo, $pages)
-    {
-        $allowedPages = [];
-
-        foreach ($pages as $index => $page) {
-            //if this option exist in user info, and is Y
-            if (isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y') {
-                //add page
-                $allowedPages[$page->PAGE] = true;
-            } else {
-                $allowedPages[$page->PAGE] = false;
-            }
-        }
-
-        return $allowedPages;
     }
 
     private function processMainRole($userext)

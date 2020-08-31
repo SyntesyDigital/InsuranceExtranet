@@ -56,13 +56,18 @@ class UserRepository
      * Function to return all user permissions.
      * WS came from parameters because is not defined yet.
      */
-    public function getRoleAndPermissions($token,$env)
+    public function getRoleAndPermissions($token,$env,$sessionId)
     {
-        $name = "WS2_DEF_PERMIS";
+        $name = "WS2_DEF_PERMIS?SES=".$sessionId;
         $roleAndPermissions = [
             'roles' => [],
             'permissions' => []
         ];
+
+        //if $sessionId is not defined, don't process boby. First time for supervue has no sessionId
+        if(!isset($sessionId)){
+            return $roleAndPermissions;
+        }
 
         try {
             $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
