@@ -7,5 +7,6 @@ return [
     'services' => 'Services',
     'parameters' => 'Parameters',
     'elements' => 'Éléments',
-    'currencies' => 'Currencies'
+    'currencies' => 'Currencies',
+    'siteConfigurations' => 'Site parameters',
 ];

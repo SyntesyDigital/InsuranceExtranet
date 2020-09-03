@@ -150,6 +150,17 @@ Route::group([
     Route::get('/currencies/datatable', 'CurrencyController@datatable')->name('extranet.currencies.datatable');
 });
 
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:siteConfigurations', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      // Site Configurations
+      Route::get('/site-configurations', 'SiteConfigurationsController@index')->name('site.configurations.index');
+      Route::get('/site-configurations/{name}', 'SiteConfigurationsController@show')->name('site.configuration.show');
+      Route::post('/site-configurations/{siteConfiguration}/update', 'SiteConfigurationsController@update')->name('site.configuration.update')->middleware('permissions:siteConfigurations.edit');
+  });
+
 /*
 |--------------------------------------------------------------------------
 |   FRONT

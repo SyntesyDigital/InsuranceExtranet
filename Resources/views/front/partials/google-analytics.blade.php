@@ -4,5 +4,5 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'UA-175206860-1');
+  gtag('config', get_site_configuration('googleAnalyticsId'));
 </script>
