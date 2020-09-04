@@ -52,7 +52,6 @@
     </head>
 
     <body>
-
     	@yield('modal')
 		<section id="wrapper">
 	        {{-- <aside class="sidebar">
