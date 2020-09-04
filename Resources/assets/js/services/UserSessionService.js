@@ -22,6 +22,10 @@ export default class UserSessionService {
         return this.session.allowed_pages;
     }
 
+    getAPIPermissions() {
+        return this.session.veos_permissions;
+    }
+
     /**
      * Check if slug is allowed by this user.
      * @param {*} slug 

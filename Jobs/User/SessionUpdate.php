@@ -35,13 +35,8 @@ class SessionUpdate
             return null;
         }
 
-        //get allowed pages rights
         $userData->session_id = $this->attributes['session_id'];
-        $userData->allowed_pages = (new GetAllowedPages(
-                $this->attributes['session_id'],
-                $userData->pages,
-                $sessionInfo
-            ))->handle();
+        
 
         //update role for session role
         $userData->role = $this->processMainRole($sessionInfo);
@@ -60,8 +55,18 @@ class SessionUpdate
             $this->attributes['session_id']
         );
         
+        $userData->veos_role = $veosRoleAndPermissions['role'];
         $userData->veos_roles = $veosRoleAndPermissions['roles'];
         $userData->veos_permissions = $veosRoleAndPermissions['permissions'];
+
+        //get allowed pages rights
+        $userData->allowed_pages = (new GetAllowedPages(
+            $this->attributes['session_id'],
+            $userData->pages,
+            $sessionInfo,
+            $userData->veos_role,
+            $userData->veos_permissions
+        ))->handle();
 
         //update session info, to know info of this user
         $userData->session_info = $sessionInfo;

@@ -14,12 +14,14 @@ use Modules\Architect\Entities\Content;
 
 class GetAllowedPages
 {
-    public function __construct($currentSession,$pages, $sessionInfo)
+    public function __construct($currentSession,$pages, $sessionInfo, $role, $permissions)
     {
         $this->currentSession = $currentSession;
         $this->pages = $pages;
         $this->sessionInfo = $sessionInfo;
         $this->wsAllowedPages = [];
+        $this->role = $role;
+        $this->permissions = $permissions;
     }
 
     public function handle()
@@ -93,7 +95,17 @@ class GetAllowedPages
         //check disponibility
         $allowed = $this->isAllowedFromWS($page);
 
-        //TO DO add allowed from config
+        //if allowed check if is allowed also 
+        if($allowed){
+            $allowed = (new CheckAllowedPage(
+                    $page,
+                    $this->role,
+                    $this->permissions
+                ))->handle();
+        }
+        else {
+            //if non allowed non necessary to check again.
+        }
                 
         return $allowed;
     }
@@ -107,11 +119,6 @@ class GetAllowedPages
             //if there is not in the array is available from WS
             return true;
         }
-    }
-
-    private function isAllowedFromContentSettings()
-    {
-        //TO DO
     }
 
     /**
