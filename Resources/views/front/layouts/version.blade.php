@@ -1,3 +1,4 @@
 <div class="version">
-    Architect v1.24.0@dev v1.24.0@dev
+    Architect {{config('version.architect')}}&#64;{{config('version.branch')}} 
+    Extranet {{config('version.extranet')}}&#64;{{config('version.branch')}}    
 </div>
