@@ -6,6 +6,7 @@
     layout="{{ base64_encode(json_encode($layout)) }}"
     form="{{ base64_encode(json_encode($form)) }}"
     fields="{{ count($fields) > 0?base64_encode(json_encode($fields)):null }}"
+    hide="false"
 ></div>
 
 @stop

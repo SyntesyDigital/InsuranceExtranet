@@ -20,28 +20,62 @@ return [
               [
                 'type' => 'field',
                 'input' => 'text',
-                'identifier' => 'appUrl',
-                'name' => 'appUrl',
+                'identifier' => 'APP_URL',
+                'name' => 'APP_URL',
                 'label' => 'App url',
               ],
               [
                 'type' => 'field',
                 'input' => 'text',
-                'identifier' => 'appName',
-                'name' => 'appName',
+                'identifier' => 'APP_NAME',
+                'name' => 'APP_NAME',
                 'label' => 'App name',
               ],
             ], //end children col
           ],
         ], //en children box
       ], //end general
+      
     ], //end sidebar
 
     'body' => [
       // -----------------------------------------------------------------//
       //      LEFT COL
       // -----------------------------------------------------------------//
-
+      [
+        'type' => 'box',
+        'title' => 'App WS',
+        'identifier' => 'box_ws',
+        'children' => [
+          [
+            'type' => 'col',
+            'class' => 'col-md-12',
+            'children' => [
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'WS_URL',
+                'name' => 'WS_URL',
+                'label' => 'WS Prod (WS_URL)',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'WS_URL_TEST',
+                'name' => 'WS_URL_TEST',
+                'label' => 'WS Preprod (WS_URL_TEST)',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'WS_URL_REC',
+                'name' => 'WS_URL_REC',
+                'label' => 'WS Rec (WS_URL_REC)',
+              ],
+            ], //end children col
+          ],
+        ], //en children box
+      ], //end WS
       [
         'type' => 'box',
         'title' => 'Google Analytics',
@@ -54,8 +88,8 @@ return [
               [
                 'type' => 'field',
                 'input' => 'text',
-                'identifier' => 'googleAnalyticsId',
-                'name' => 'googleAnalyticsId',
+                'identifier' => 'GA_ID',
+                'name' => 'GA_ID',
                 'label' => 'Google Analytics id',
               ],
             ],
@@ -75,8 +109,8 @@ return [
               [
                 'type' => 'field',
                 'input' => 'number',
-                'identifier' => 'charactersLimit',
-                'name' => 'charactersLimit',
+                'identifier' => 'PASSWORD_LIMIT',
+                'name' => 'PASSWORD_LIMIT',
                 'label' => 'Limite de caractères',
               ],
             ], //end children col
@@ -87,9 +121,9 @@ return [
   ],
 
   'default' => [
-    'appUrl' => 'http://localhost:8000',
-    'appName' => 'App Name',
-    'googleAnalyticsId' => 'UA-175206860-1',
-    'charactersLimit' => '10',
+    'APP_URL' => 'http://localhost:8000',
+    'APP_NAME' => 'App Name',
+    'GA_ID' => '',
+    'PASSWORD_LIMIT' => '6',
   ],
 ];

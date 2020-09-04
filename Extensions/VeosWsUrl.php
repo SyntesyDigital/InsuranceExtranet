@@ -25,17 +25,17 @@ class VeosWsUrl
 
     public static function prod()
     {
-        return env('WS_URL');
+        return get_config('WS_URL');
     }
 
     public static function test()
     {
-        return env('WS_URL_TEST');
+        return get_config('WS_URL_TEST');
     }
 
     public static function rec()
     {
-        return env('WS_URL_REC');
+        return get_config('WS_URL_REC');
     }
 
     public static function getEnvironmentUrl($env)
