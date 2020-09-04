@@ -181,6 +181,7 @@ Route::group([
     //update user session
 
     Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
+    Route::get('/extranet/content/{content}/settings', 'ContentController@getContentSettings')->name('extranet.content.settings');
     Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
 
     Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');

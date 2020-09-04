@@ -60,12 +60,7 @@ class SessionCreate
         $pages = $this->getPages($this->veosToken);
 
         
-        // check if possible to get allowed pages
-        $allowedPages = (new GetAllowedPages(
-            $currentSession,
-            $pages,
-            $sessionInfo
-        ))->handle();
+        
 
         $role = $this->processMainRole($sessionInfo);
 
@@ -76,6 +71,15 @@ class SessionCreate
             $this->env,
             $currentSession
         );
+
+        // check if possible to get allowed pages
+        $allowedPages = (new GetAllowedPages(
+            $currentSession,
+            $pages,
+            $sessionInfo,
+            $veosRoleAndPermissions['role'],
+            $veosRoleAndPermissions['permissions']
+        ))->handle();
         
         $service = resolve('Services/RolesPermissions');
 
@@ -99,6 +103,7 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
+            'veos_role' => $veosRoleAndPermissions['role'],
             'veos_roles' => $veosRoleAndPermissions['roles'],
             'veos_permissions' => $veosRoleAndPermissions['permissions'],
         ];

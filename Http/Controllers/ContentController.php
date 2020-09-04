@@ -355,6 +355,16 @@ class ContentController extends Controller
         return response()->json($content);
     }
 
+    /**
+     * Function to return content settings hierarchically
+     */
+    public function getContentSettings(Content $content)
+    {
+        $settings = Content::getTreeSettings($content->id);
+
+        return response()->json($settings);
+    }
+
     private function mime2ext($mime) {
         $mime_map = [
             'video/3gpp2'                                                               => '3g2',
