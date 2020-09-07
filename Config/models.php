@@ -31,6 +31,7 @@ return [
           'columnWidth',
           'readonly',
           'groupe',
+          'operation',
         ],
       ],
       'number' => [
