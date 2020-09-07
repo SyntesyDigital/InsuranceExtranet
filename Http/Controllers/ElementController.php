@@ -228,6 +228,10 @@ class ElementController extends Controller
         try {
             $result = $this->elements->getModelValuesFromElement($element, $request->all());
 
+            if ($request->has('debug')) {
+                dd($element->toArray(),$result);
+            }
+
             return response()->json([
                 'success' => true,
                 'modelValues' => new ModelValuesFormatTransformer(
