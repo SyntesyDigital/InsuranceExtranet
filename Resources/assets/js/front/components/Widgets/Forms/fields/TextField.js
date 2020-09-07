@@ -10,6 +10,75 @@ class TextField extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        //si es campo operacion
+
+        if (this.fieldHasOperationSettingsEnable()) {
+            this.processOperation(prevProps);
+        }
+    }
+
+    fieldHasOperationSettingsEnable() {
+        return this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '' ? true : false;
+    }
+
+    isReadOnly() {
+        const field = this.props.field;
+        const operation = field.settings.operation;
+        return field.settings.readonly || (operation !== undefined && operation !== null && operation !== '') ?
+            'readonly' : null;
+    }
+
+    // ==============================
+    // Getters
+    // ==============================
+
+    getNumberFromRules(key) {
+        const { rules } = this.props.field;
+
+        if (rules[key] !== undefined && rules[key] != null && rules[key] != '') {
+            return rules[key];
+        }
+
+        return '';
+    }
+
+    getMinValue() {
+        var min = parseInt(this.getNumberFromRules('minNumber'));
+        return min === 0 || (min && min !== "") ? min : -Number.MAX_VALUE;
+    }
+
+    getMaxValue() {
+        var max = parseInt(this.getNumberFromRules('maxNumber'));
+        return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
+    }
+
+    // ==============================
+    // Processers
+    // ==============================
+
+    processOperation(prevProps) {
+        
+        //miramos si ha cambiado un campo diferente al campo con formula para recalcular
+        if (this.props.value === prevProps.value) {
+            var formule = this.props.field.settings.operation;
+            var params = formule.match(/[^[\]]+(?=])/g);
+            for (var key in params) {
+                var id = params[key];
+                var value = this.props.values[id] !== undefined && this.props.values[id] !== null && this.props.values[id] !== '' ? this.props.values[id] : '0';
+                formule = formule.replace('[' + id + ']', value);
+            }
+            var result = eval(formule);
+            //miramos si ha cambiado o no el resultado de la formula para updatear el campo
+            if (this.props.value != result) {
+                this.props.onFieldChange({
+                    name: this.props.field.identifier,
+                    value: result
+                });
+            }
+        }
+    }
+
     // ==============================
     // Handlers
     // ==============================
@@ -35,31 +104,7 @@ class TextField extends Component {
 
     }
 
-    // ==============================
-    // Getters
-    // ==============================
-
-    getNumberFromRules(key) {
-        const { rules } = this.props.field;
-
-        if (rules[key] !== undefined && rules[key] != null && rules[key] != '') {
-            return parseInt(rules[key]);
-        }
-
-        return '';
-    }
-
-    // ==============================
-    // Processers
-    // ==============================
-
-    processReadOnly() {
-        const field = this.props.field;
-        const operation = field.settings.operation;
-        return field.settings.readonly || (operation !== undefined && operation !== null && operation !== '') ?
-            'readonly' : null;
-    }
-
+  
     // ==============================
     // Renderers
     // ==============================
@@ -81,10 +126,11 @@ class TextField extends Component {
         }
 
         let textFieldClass = ["text-field"];
+
         if (this.state.addClassBordered || this.props.value != "") {
             textFieldClass.push('bordered');
         }
-        console.log("field", field)
+
         return (
 
             <div className={"form-group bmd-form-group" + (errors)}>
@@ -106,7 +152,7 @@ class TextField extends Component {
                     maxLength={maxCharacters}
                     minLength={minCharacters}
                     placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
-                    readonly={this.processReadOnly()}
+                    readOnly={this.isReadOnly()}
                 />
             </div>
 
