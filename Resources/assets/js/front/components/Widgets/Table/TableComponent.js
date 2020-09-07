@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
+import matchSorter from 'match-sorter';
 import ExportButton from './ExportButton';
 import {
     parseNumber,
@@ -47,6 +47,7 @@ export default class TableComponent extends Component {
             parseInt(field.settings.headerRowsNumber) : 1;
 
         this.state = {
+            pokemons: null,
             id: props.id,
             field: field,
             elementObject: elementObject,
@@ -107,6 +108,8 @@ export default class TableComponent extends Component {
         })
 
     }
+
+
 
     componentDidMount() {
 
@@ -277,46 +280,46 @@ export default class TableComponent extends Component {
         var hasIcon = hasConditionalIcon(icon);
         var style = getConditionalFormating(field, value);
         var hasColor = hasConditionalFormatting(style);
-        var textAlign = getTextAlign(field); 
+        var textAlign = getTextAlign(field);
 
         if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div className={"file-container" + ' ' + textAlign} dangerouslySetInnerHTML={{ __html: row.original[identifier] }} />
         }
         // has route
         else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
-            
+
             return <div className={(hasIcon ? 'has-icon' : '')}>
-                    {hasIcon ? <i className={icon.icon}></i> : null}
-                        <div 
-                            className={textAlign} 
-                            dangerouslySetInnerHTML={{ 
-                                __html: row.original[identifier + "_url"] 
-                            }} 
-                        />
-                    </div>
+                {hasIcon ? <i className={icon.icon}></i> : null}
+                <div
+                    className={textAlign}
+                    dangerouslySetInnerHTML={{
+                        __html: row.original[identifier + "_url"]
+                    }}
+                />
+            </div>
         }
         // has modal
         else if (field.settings.hasModal !== undefined && field.settings.hasModal != null) {
-        
-            return <div 
-                        className={textAlign} 
-                        dangerouslySetInnerHTML={{
-                            __html: '<a href="" class="modal-link" data-modal="' + (row.original[identifier + "_url"]) + '">' +
-                            row.original[identifier] +
-                            '</a>'
-                        }} 
-                    />
+
+            return <div
+                className={textAlign}
+                dangerouslySetInnerHTML={{
+                    __html: '<a href="" class="modal-link" data-modal="' + (row.original[identifier + "_url"]) + '">' +
+                        row.original[identifier] +
+                        '</a>'
+                }}
+            />
         }
         // default
         else {
             return <div className={(hasIcon ? 'has-icon' : '')}>
-                        {hasIcon ? <i className={icon.icon}></i> : null}
-                        <div 
-                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign} 
-                            style={style} 
-                            dangerouslySetInnerHTML={{ __html: value }} 
-                        />
-                    </div>
+                {hasIcon ? <i className={icon.icon}></i> : null}
+                <div
+                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                    style={style}
+                    dangerouslySetInnerHTML={{ __html: value }}
+                />
+            </div>
         }
     }
 
@@ -394,7 +397,16 @@ export default class TableComponent extends Component {
     }
 
     filterMethod(identifier, filter, rows) {
-        //console.log("identifier => ",identifier);
+        // console.log("identifier => ", identifier);
+        // console.log(identifier, filter, rows);
+        // console.log("filter.value ", filter.value)
+
+        // const joinedKeysString = item => options.keys.map(key => item[key]).join(' ')
+        
+        // rows.map((item) => {
+        //     console.log(item[key]);
+        // })
+
         return matchSorter(rows, filter.value, {
             keys: [{
                 key: identifier,
@@ -416,10 +428,16 @@ export default class TableComponent extends Component {
         });
     }
 
+    handleFilterChange(){
+        this.setState({
+            currPage: 0,
+        });
+    }
+
     renderTable() {
         const { data, elementObject, itemsPerPage, maxItems, downloading, loadingData } = this.state;
         var originalPageSize = maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage);
-
+        console.log(this.state.filterable, "this.state.filterable");
         return (
             <div id={this.state.id}>
                 {this.props.exportBtn &&
@@ -464,6 +482,7 @@ export default class TableComponent extends Component {
 
                         onPageChange={this.handlePageChange.bind(this)}
                         onPageSizeChange={this.handlePageSizeChange.bind(this)}
+                        onFilteredChange={this.handleFilterChange.bind(this)} 
                     />
                 </div>
 
