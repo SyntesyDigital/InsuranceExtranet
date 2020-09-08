@@ -17,6 +17,9 @@ class CheckField extends Component
   constructor(props)
   {
     super(props);
+    this.state = {
+        addClassBordered: false,
+    }
     this.handleOnChange = this.handleOnChange.bind(this);
 
   }
@@ -34,6 +37,16 @@ class CheckField extends Component
   */
 
   handleOnChange(event) {
+    if (event.target.checked) {
+        this.setState({ 
+            addClassBordered: true
+        });
+    }else{
+        this.setState({ 
+            addClassBordered: false
+
+        });
+    }
 
     this.props.onFieldChange({
       name : this.props.field.identifier,
@@ -86,6 +99,11 @@ class CheckField extends Component
 
   render() {
 
+    let checkField = ["check-field"];
+    if (this.state.addClassBordered || this.props.value != "" ) {
+        checkField.push('bordered');
+    }
+
     const {field} = this.props;
     const errors = this.props.error ? 'is-invalid' : '';
     let isRequired = field.rules.required !== undefined ?
@@ -100,10 +118,9 @@ class CheckField extends Component
     }
     const value = this.getConfigValue(this.props.value);
     //console.log("CheckField :: getConfigValue()",value);
-
     return (
       <ThemeProvider theme={theme}>
-        <div className="check-field">
+        <div className={checkField.join(' ' )}>
             <FormControlLabel
                 className={errors}
                 control={

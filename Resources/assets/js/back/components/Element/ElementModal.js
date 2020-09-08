@@ -199,7 +199,13 @@ class ElementModal extends Component {
                                         />
                                     }
 
-
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="bordered"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Bordered"
+                                    />
 
                                     <BooleanSettingsField
                                         field={field}
