@@ -59,9 +59,6 @@ class SessionCreate
         // get all pages so store in cache and no need to process again
         $pages = $this->getPages($this->veosToken);
 
-        
-        
-
         $role = $this->processMainRole($sessionInfo);
 
         //get veos roles
@@ -82,9 +79,10 @@ class SessionCreate
         ))->handle();
         
         $service = resolve('Services/RolesPermissions');
+        $idPer = isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null;
 
         $sessionData = [
-            'id' => isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null,
+            'id' => $idPer,
             'firstname' => isset($user->{'USEREXT.nom_per'}) ? $user->{'USEREXT.nom_per'} : '',
             'lastname' => isset($user->{'USEREXT.nom2_per'}) ? $user->{'USEREXT.nom2_per'} : '',
             'email' => isset($user->{'USEREXT.email_per'}) ? $user->{'USEREXT.email_per'} : '',
@@ -92,7 +90,7 @@ class SessionCreate
             'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == '1' ? true : false,
             'supervue' => $isSupervue,
             'token' => $this->veosToken,
-            'api_token' => bin2hex(random_bytes(64)),
+            'api_token' => $this->getSessionApiToken($idPer),
             'env' => $this->env,
             'test' => $this->test,
             'pages' => $pages,
@@ -142,6 +140,24 @@ class SessionCreate
     }
 
     /**
+     * Retunrs session api_token for GraphQL depending on User BBDD id.
+     */
+    private function getSessionApiToken($idPer)
+    {
+        
+        $user = User::where('id_per', $idPer)->first();
+        
+        if(isset($idPer) && isset($user)){
+            $userSession = $user->session()->first();
+            if(isset($userSession)){
+                return $userSession->api_token;
+            }   
+        }
+        //else return a new token
+        return bin2hex(random_bytes(64));
+    }
+
+    /**
      * createUserSession.
      *
      * @param mixed $userData
@@ -163,20 +179,37 @@ class SessionCreate
             ]);
         }
 
-        // Remove of user session
-        UserSession::where('user_id', $user->id)->delete();
+        $userSession = UserSession::where('user_id', $user->id)->first();
+        if(!$userSession) {
+            //create session
 
-        // Return session or create
-        return UserSession::create([
-            'user_id' => $user->id,
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->header('User-Agent'),
-            'token' => $userData['token'],
-            'api_token' => $userData['api_token'],
-            'env' => $this->env,
-            'language' => 'fr',
-            'payload' => json_encode($userData),
-        ]);
+            $userSession = UserSession::create([
+                'user_id' => $user->id,
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'token' => $userData['token'],
+                'api_token' => $userData['api_token'],
+                'env' => $this->env,
+                'language' => 'fr',
+                'payload' => json_encode($userData),
+            ]);
+        }
+        else {
+            //update session
+            $userSession->update([
+                'id' => $userSession->id,
+                'user_id' => $user->id,
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'token' => $userData['token'],
+                //'api_token' => $userData['api_token'],
+                'env' => $this->env,
+                //'language' => 'fr',
+                'payload' => json_encode($userData),
+            ]);
+        }
+        
+        return $userSession;
     }
 
     /**
