@@ -223,7 +223,7 @@ class SessionCreate
         }
 
         //check if user is in admin array
-        if (in_array($userext->{'USEREXT.login_per'}, Config::get('admin'))) {
+        if (in_array($userext->{'USEREXT.login_per'}, Config::get('architect::admin'))) {
             //return admin
             return ROLE_SYSTEM;
         }

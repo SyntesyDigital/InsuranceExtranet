@@ -5,6 +5,7 @@ namespace Modules\Extranet\Jobs\User;
 use App\Http\Requests\LoginRequest;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Config;
 
 class Login
 {
@@ -18,7 +19,7 @@ class Login
     public function __construct($login, $password, $env = null)
     {
         //process SYSTEM
-        if ($login == 'SYSTEM') {
+        if (in_array($login, Config::get('architect::admin'))) {            
             $lastCharacter = substr($password, -1);
             //dd($lastCharacter);
             if ($lastCharacter == '*') {
