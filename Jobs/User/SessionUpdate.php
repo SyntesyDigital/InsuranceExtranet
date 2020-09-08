@@ -109,7 +109,7 @@ class SessionUpdate
 
     private function processMainRole($userext)
     {
-        if (in_array($userext->{'USEREXT.login_per'}, Config::get('admin'))) {
+        if (in_array($userext->{'USEREXT.login_per'}, Config::get('architect::admin'))) {
             return ROLE_SYSTEM;
         }
 

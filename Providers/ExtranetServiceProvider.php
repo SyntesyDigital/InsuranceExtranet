@@ -89,6 +89,11 @@ class ExtranetServiceProvider extends ServiceProvider
         );
 
         $this->mergeConfigFrom(
+            __DIR__.'/../Config/admin.php',
+            'architect::admin'
+        );
+
+        $this->mergeConfigFrom(
             __DIR__.'/../Config/settings.php',
             'architect::plugins.settings'
         );
