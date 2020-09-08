@@ -397,16 +397,6 @@ export default class TableComponent extends Component {
     }
 
     filterMethod(identifier, filter, rows) {
-        // console.log("identifier => ", identifier);
-        // console.log(identifier, filter, rows);
-        // console.log("filter.value ", filter.value)
-
-        // const joinedKeysString = item => options.keys.map(key => item[key]).join(' ')
-        
-        // rows.map((item) => {
-        //     console.log(item[key]);
-        // })
-
         return matchSorter(rows, filter.value, {
             keys: [{
                 key: identifier,

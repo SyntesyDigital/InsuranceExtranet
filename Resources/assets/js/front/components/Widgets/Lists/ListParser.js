@@ -261,6 +261,7 @@ export default class ListParser extends Component {
       var externalLoading = this.props.externalLoading !== undefined 
         ? this.props.externalLoading 
         : false ;
+
       var loaded = initiliased && !externalLoading;
 
       return (
@@ -275,11 +276,12 @@ export default class ListParser extends Component {
               </a>
             </div>
           }
-          { !loaded &&
+
+          {!initiliased &&
               <p className="message">Chargement...</p>
           }
 
-          {loaded && data != null && data.length == 0 &&
+          {initiliased && data != null && data.length == 0 &&
               <p className="message">Aucune donnée trouvée</p>
           }
 
