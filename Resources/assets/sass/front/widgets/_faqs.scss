@@ -1,0 +1,33 @@
+.faqs-widget,
+.faqs-list-widget {
+    margin-bottom: 10px;
+    .MuiAccordionSummary-root {
+        padding-left: 0;
+        background: #fff;
+        .MuiAccordionSummary-content {
+            order: 2;
+        }
+        .MuiAccordionSummary-expandIcon {
+            order: 1;
+            margin-right: unset;
+        }
+    }
+    .MuiCollapse-container{
+        background: #fff;
+    }
+    .MuiAccordion-root {
+        width: 100%;
+        box-shadow: unset;
+        background: unset;
+        margin-bottom: 10px;
+    }
+    .MuiAccordionDetails-root {
+        display: block;
+        padding: 8px 16px 16px;
+    }
+    .MuiIconButton-label {
+        .MuiSvgIcon-root {
+            font-size: 30px;
+        }
+    }
+}

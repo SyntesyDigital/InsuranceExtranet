@@ -422,6 +422,13 @@
     $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
     $fontSizeIconRemoveWarningMessageBox = isset($storedStylesFront['fontSizeIconRemoveWarningMessageBox']) ? $storedStylesFront['fontSizeIconRemoveWarningMessageBox']->value.'px' : '25px';
 
+    // faqs
+    $fontSizeTitleFaqs = isset($storedStylesFront['fontSizeTitleFaqs']) ? $storedStylesFront['fontSizeTitleFaqs']->value.'px' : '14px';
+    $colorTitleFaqs = isset($storedStylesFront['colorTitleFaqs']) ? $storedStylesFront['colorTitleFaqs']->value : $secondaryColor;
+    $backgroundColorTitleFaqs = isset($storedStylesFront['backgroundColorTitleFaqs']) ? $storedStylesFront['backgroundColorTitleFaqs']->value : '#fff';
+    $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
+    $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
+
 ?>
 
 <style type="text/css">
@@ -454,6 +461,7 @@
 @include('extranet::front.partials.styles.action-list')
 @include('extranet::front.partials.styles.message-box')
 @include('extranet::front.partials.styles.last-news-list')
+@include('extranet::front.partials.styles.faqs')
 
 
 @if($frontFont)
