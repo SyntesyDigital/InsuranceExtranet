@@ -74,7 +74,17 @@ body .element-form label  {
   font-size: {{$labelInputFontSize}};
   padding: {{$labelInputPadding}};
 }
-
+/* icon info ? form and files */
+body .element-form label .icon-desc-info, body #element-card .icon-desc-info {
+    width: 20px;
+    height: 20px;
+}
+body .element-form label button, body #element-card button.MuiButton-root{
+    margin-left: 10px;
+    border-radius: 10px;
+    padding:0;
+    min-width: unset;
+}
 /* textarea */
 body .element-form input.form-control, body .element-form textarea.form-control{
   border-radius: {{$borderRadiusInput}};

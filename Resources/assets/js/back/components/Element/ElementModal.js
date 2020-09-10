@@ -351,6 +351,17 @@ class ElementModal extends Component {
 
                                     }
 
+                                    {field != null && field.settings != null && field.settings.description !== undefined &&
+                                        <InputSettingsField
+                                            field={field}
+                                            name="description"
+                                            source="settings"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                            label="Description"
+                                            inputLabel="Indiquer la description"
+                                        />
+                                    }       
+
                                     {field != null && field.settings != null && field.settings.currency !== undefined &&
                                         <CurrencySettingsField
                                             field={field}

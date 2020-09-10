@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import iconSvg from '../assets/img/ico_info.svg';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+
+const HtmlTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: STYLES.elementForm.primaryColor,
+        color: '#fff',
+        maxWidth: 220,
+        fontSize: '16px',
+        borderRadius: 0,
+        padding: '15px',
+    },
+}))(Tooltip);
 
 class TextField extends Component {
     constructor(props) {
@@ -58,7 +73,7 @@ class TextField extends Component {
     // ==============================
 
     processOperation(prevProps) {
-        
+
         //miramos si ha cambiado un campo diferente al campo con formula para recalcular
         if (this.props.value === prevProps.value) {
             var formule = this.props.field.settings.operation;
@@ -104,7 +119,7 @@ class TextField extends Component {
 
     }
 
-  
+
     // ==============================
     // Renderers
     // ==============================
@@ -113,8 +128,12 @@ class TextField extends Component {
 
         const { field } = this.props;
         const errors = this.props.error ? ' has-error' : '';
+
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
+
+        let hasDescription = field.settings.description !== undefined ?
+            field.settings.description : false;
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
@@ -138,6 +157,22 @@ class TextField extends Component {
                     {field.name}
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
+                    }
+                    {hasDescription &&
+                        <HtmlTooltip
+                            title={
+                                <span className={'content-desc'}>
+                                    {field.settings.description ? field.settings.description : ''}
+                                </span>
+                            }
+                        >
+                            <Button>
+                                <img
+                                    className={'icon-desc-info'}
+                                    src={iconSvg}
+                                />
+                            </Button>
+                        </HtmlTooltip>
                     }
                 </label>
 

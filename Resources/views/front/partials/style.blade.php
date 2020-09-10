@@ -487,7 +487,8 @@
             iconColorElement: '{{$iconColorElement}}',
             errorColor : '{{$errorColor}}',
             inputColor: '{{$inputColor}}',
-            textBtnAddFileForm: '{{$textBtnAddFileForm}}'
+            textBtnAddFileForm: '{{$textBtnAddFileForm}}',
+            primaryColor: '{{$primaryColor}}'
         },
         sidebarMenu: {
             sidebarWidth: '{{$sidebarWidth}}'
