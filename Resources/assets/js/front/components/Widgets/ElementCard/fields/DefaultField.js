@@ -68,6 +68,7 @@ export default class DefaultField extends Component {
                                         {this.props.settings.description ? this.props.settings.description : ''}
                                     </span>
                                 }
+                                placement="right-start"
                             >
                                 <Button>
                                     <img

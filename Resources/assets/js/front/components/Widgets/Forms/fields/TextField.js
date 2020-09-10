@@ -165,6 +165,7 @@ class TextField extends Component {
                                     {field.settings.description ? field.settings.description : ''}
                                 </span>
                             }
+                            placement="right-start"
                         >
                             <Button>
                                 <img
