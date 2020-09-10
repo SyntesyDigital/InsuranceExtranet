@@ -269,6 +269,7 @@ return [
           'booleanValues',
           'conditionalVisibility',
           'defaultValue',
+          'bordered',
         ],
       ],
       'yesno' => [

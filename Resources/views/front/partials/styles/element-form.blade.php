@@ -67,11 +67,15 @@ body .element-form-container .element-form-container-head.collapsed{
 }
 
 /* FORM LABELS AND FIELDS */
+
+/* label */
 body .element-form label  {
   color: {{$labelInputColor}};
   font-size: {{$labelInputFontSize}};
   padding: {{$labelInputPadding}};
 }
+
+/* textarea */
 body .element-form input.form-control, body .element-form textarea.form-control{
   border-radius: {{$borderRadiusInput}};
 }
@@ -83,6 +87,11 @@ body .element-form input.form-control:focus, body .element-form textarea.form-co
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+body .element-form input.form-control.bordered, body .element-form textarea.form-control.bordered{
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
+}
+
+/* radio-field */
 body .element-form .container-radio-field .MuiFormGroup-root .MuiFormControlLabel-root .Mui-checked{
   color: {{$borderColorInput}};
 }
@@ -92,8 +101,29 @@ body .element-form .container-radio-field .bordered{
 body .element-form .container-radio-field .MuiFormControlLabel-root{
   border-radius: {{$borderRadiusInput}};
 }
-body .element-form .container-radio-field .MuiFormControlLabel-root span.MuiFormControlLabel-label{
-  font-size: {{$labelRadioFieldFontSize}};
+
+/* checkfield */
+body .element-form .check-field label {
+  border: {{$borderPxInputForm}} solid;
+  border-color: #eeeeee;
+  border-radius: {{$borderRadiusInput}};
+}
+body .element-form .check-field.bordered label {
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
+  border-radius: {{$borderRadiusInput}};
+}
+body .element-form .check-field label{
+    padding: 0;
+    padding-right: 40px;
+}
+body .element-form .check-field label .MuiIconButton-label{
+  color: #eeeeee;
+}
+body .element-form .check-field.bordered label .MuiIconButton-label{
+  color: {{$borderColorInput}};
+}
+body .element-form .check-field label span.MuiTypography-root{
+    color: {{$labelInputColor}} !important;
 }
 
 @if(isset($storedStylesFront['frontElementHeadTransparent']) && $storedStylesFront['frontElementHeadTransparent']->value == true)

@@ -1,18 +1,18 @@
 .check-field {
     label {
-        span{
-            color:#77a9f4;
+        span {
+            color: #77a9f4;
         }
         float: none;
         span.MuiTypography-root {
-            color:$brand-dark-color-1 !important;
+            color: $brand-dark-color-1 !important;
         }
         &.is-invalid {
             span.MuiIconButton-label {
-                color:$brand-danger !important;
+                color: $brand-danger !important;
             }
             span.MuiTypography-root {
-                color:$brand-danger !important;
+                color: $brand-danger !important;
             }
         }
     }
