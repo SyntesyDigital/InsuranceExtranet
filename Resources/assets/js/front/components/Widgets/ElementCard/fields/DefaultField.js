@@ -35,7 +35,6 @@ export default class DefaultField extends Component {
       maxWidth: '100%',
       display: 'inline-block',
     };
-console.log("this.props.icon :: " , this.props.icon)
     return (
       <div style={divStyle} className={(stripped ? 'stripped' : null)}>
         <Row>

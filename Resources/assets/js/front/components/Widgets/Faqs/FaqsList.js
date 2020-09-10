@@ -24,7 +24,11 @@ export default class FaqsList extends Component {
         );
     }
 
+    
     render() {
+        const field = this.props.field;
+        const title = field.settings.titleFaq !== undefined ? field.settings.titleFaq : '';
+
         return (
             <Accordion>
                 <AccordionSummary
@@ -32,7 +36,7 @@ export default class FaqsList extends Component {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography>Title Main</Typography>
+                    <Typography>{title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     {this.renderFaqsList()}
