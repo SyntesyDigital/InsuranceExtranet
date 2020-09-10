@@ -174,7 +174,7 @@ class RadioField extends Component
                 }
                 label={item.name}
                 labelPlacement="end"
-                className={bordered}
+                className={bordered + " radio-field-label"}
             />
         )
     })
