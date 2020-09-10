@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "extranet" => "v1.24.3",
-    "architect" => "v1.24.3",
+    "extranet" => "v1.24.5",
+    "architect" => "v1.24.5",
     "branch" => "demo"
 ];
