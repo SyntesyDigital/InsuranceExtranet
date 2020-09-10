@@ -438,6 +438,7 @@ export default class TableComponent extends Component {
         const { data, elementObject, itemsPerPage, maxItems, downloading, loadingData } = this.state;
         var originalPageSize = maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage);
         console.log(this.state.filterable, "this.state.filterable");
+
         return (
             <div id={this.state.id}>
                 {this.props.exportBtn &&
@@ -450,6 +451,7 @@ export default class TableComponent extends Component {
                         totalPages={this.state.totalPages}
                         pageLimit={this.state.pageLimit}
                         getQueryParams={this.getQueryParams.bind(this)}
+                        parameters={this.props.parameters}
                     />
                 }
 
