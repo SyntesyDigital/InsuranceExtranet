@@ -8,10 +8,10 @@ import { Row, Col } from 'react-bootstrap';
 
 const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
-        backgroundColor: STYLES.elementForm.primaryColor,
-        color: '#fff',
+        backgroundColor: STYLES.elementFile.backgroundColorTooltipDescFile,
+        color: STYLES.elementFile.colorTooltipDescFile,
         maxWidth: 220,
-        fontSize: '16px',
+        fontSize: STYLES.elementFile.fontSizeTooltipDescFile,
         borderRadius: 0,
         padding: '15px',
     },
@@ -60,7 +60,6 @@ export default class DefaultField extends Component {
                         <label style={labelStyle}
                             dangerouslySetInnerHTML={{ __html: label }}
                         >
-
                         </label>
                         {hasDescription &&
                             <HtmlTooltip

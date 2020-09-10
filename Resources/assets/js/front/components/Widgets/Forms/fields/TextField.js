@@ -7,10 +7,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
-        backgroundColor: STYLES.elementForm.primaryColor,
-        color: '#fff',
+        backgroundColor: STYLES.elementForm.backgroundColorTooltipDescForm,
+        color: STYLES.elementForm.colorTooltipDescForm,
         maxWidth: 220,
-        fontSize: '16px',
+        fontSize: STYLES.elementForm.fontSizeTooltipDescForm,
         borderRadius: 0,
         padding: '15px',
     },
