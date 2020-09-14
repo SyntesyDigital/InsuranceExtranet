@@ -73,7 +73,7 @@ class Login
                 if (!$loginResult || $loginResult->statusCode != 0) {
                     return false;
                 }
-                return (new SessionCreate($loginResult->token, $this->env))->handle();
+                return (new SessionCreate($loginResult->token, $this->env, $this->test))->handle();
             }
         } catch (\Exception $ex) {
             throw $ex;
