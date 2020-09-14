@@ -15,6 +15,15 @@ class NumberField extends Component
       addClassBordered: false,
     }
     this.handleOnChange = this.handleOnChange.bind(this);
+
+    //We do this to get 0 instead whitespace for initial values
+    if(this.props.value == ''){
+      this.props.onFieldChange({
+        name : this.props.field.identifier,
+        value : 0
+      });
+    }    
+
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -229,7 +238,6 @@ class NumberField extends Component
       field.rules.required : false;
 
     const currency =  this.fieldHasCurrencySettings();
-
 
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
