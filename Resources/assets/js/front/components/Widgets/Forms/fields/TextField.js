@@ -70,7 +70,7 @@ class TextField extends Component {
             }
             var result = eval(formule);
             //miramos si ha cambiado o no el resultado de la formula para updatear el campo
-            if (this.props.value != result) {
+            if (this.props.value !== result) {
                 this.props.onFieldChange({
                     name: this.props.field.identifier,
                     value: result

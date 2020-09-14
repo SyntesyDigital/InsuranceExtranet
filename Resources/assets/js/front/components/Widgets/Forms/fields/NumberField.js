@@ -16,13 +16,15 @@ class NumberField extends Component
     }
     this.handleOnChange = this.handleOnChange.bind(this);
 
+    /*
     //We do this to get 0 instead whitespace for initial values
     if(this.props.value == ''){
       this.props.onFieldChange({
         name : this.props.field.identifier,
         value : 0
       });
-    }    
+    } 
+    */   
 
   }
 
@@ -54,7 +56,7 @@ class NumberField extends Component
           var currencyIso = this.props.values[currencySettings.identifier]
         }
         var currencyInfo = CURRENCIES[currencyIso] !== undefined?CURRENCIES[currencyIso]:CURRENCIES['default'];
-        console.log('CURRENCY INFO',currencyInfo);
+        //console.log('CURRENCY INFO',currencyInfo);
         //We prepare values with a trick to be able to use whitespaces comming from back as ' '
         if(currencyInfo){          
           currencyInfo.decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
@@ -69,10 +71,12 @@ class NumberField extends Component
   }
 
   processOperation(prevProps){
+
       var max = this.getMaxValue();
       var min = this.getMinValue();
+
       //miramos si ha cambiado un campo diferente al campo con formula para recalcular
-      if(this.props.value === prevProps.value){ 
+      //if(this.props.value === prevProps.value){ 
         var formule = this.props.field.settings.operation;
         var params = formule.match(/[^[\]]+(?=])/g);
         for(var key in params){
@@ -81,7 +85,7 @@ class NumberField extends Component
           formule = formule.replace('['+id+']',value);
         }
         var result = eval(formule);
-        console.log("Number Field :: eval result => ",result);
+        //console.log("Number Field :: eval result => ",result);
         //miramos si el nuevo resultado esta dentro del rango max y minimo definido para cambiar por el resultado y sino por el valor maximo o minimo
         if(min !== '' && result < min ){
           result = min
@@ -91,13 +95,13 @@ class NumberField extends Component
         }
 
         //miramos si ha cambiado o no el resultado de la formula para updatear el campo
-        if(this.props.value != result){
+        if(this.props.value !== result){
           this.props.onFieldChange({
             name : this.props.field.identifier,
             value : result
           });
         }
-      }
+      //}
 
   }
 
@@ -139,7 +143,7 @@ class NumberField extends Component
     var max = this.getMaxValue();
     var min = this.getMinValue();
 
-    console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
+    //console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
 
     if(isNaN(value)){
       this.props.onFieldChange({
@@ -169,7 +173,7 @@ class NumberField extends Component
     var max = this.getMaxValue();
     var min = this.getMinValue();
 
-    console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
+    //console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
 
     if(isNaN(value)){
       this.props.onFieldChange({

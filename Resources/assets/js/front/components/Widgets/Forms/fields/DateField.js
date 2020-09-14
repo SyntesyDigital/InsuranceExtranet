@@ -19,7 +19,7 @@ class DateField extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        console.log("DateField :: componentDidUpdate :: nextProps", this.props.value);
+        //console.log("DateField :: componentDidUpdate :: nextProps", this.props.value);
 
         //if value is different
         if (prevProps.value != this.props.value) {
@@ -173,7 +173,7 @@ class DateField extends Component {
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
 
-        console.log("DateField : Max Date, Min Date => ", maxDate, minDate);
+        //console.log("DateField : Max Date, Min Date => ", maxDate, minDate);
 
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
