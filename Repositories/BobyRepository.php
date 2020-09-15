@@ -175,7 +175,7 @@ class BobyRepository
 
         if (is_array($params)) {
             foreach ($params as $key => $value) {
-                if ($value != '' && $value != null) {
+                if ($value !== '' && $value !== null) {
                     $url .= ($first ? $firstChar : '&').$key.'='.$value;
                     $first = false;
                 }

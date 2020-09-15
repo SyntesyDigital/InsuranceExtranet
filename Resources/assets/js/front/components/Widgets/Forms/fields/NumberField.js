@@ -30,12 +30,10 @@ class NumberField extends Component
 
   componentDidUpdate(prevProps, prevState){
     //si es campo operacion
-
     if(this.fieldHasOperationSettingsEnable()){
       this.processOperation(prevProps);
     }
     
-
   }
   fieldHasOperationSettingsEnable(){
     return this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== ''?true :false;
@@ -76,12 +74,13 @@ class NumberField extends Component
       var min = this.getMinValue();
 
       //miramos si ha cambiado un campo diferente al campo con formula para recalcular
-      //if(this.props.value === prevProps.value){ 
+      if(this.props.value === prevProps.value){ 
         var formule = this.props.field.settings.operation;
         var params = formule.match(/[^[\]]+(?=])/g);
         for(var key in params){
           var id = params[key];
           var value = this.props.values[id] !== undefined  && this.props.values[id] !== null && this.props.values[id] !== ''?this.props.values[id]:'0'; 
+          //console.log("primeNet :: processOperation :  params,key,value,id => ",params,key,value,id);
           formule = formule.replace('['+id+']',value);
         }
         var result = eval(formule);
@@ -101,7 +100,7 @@ class NumberField extends Component
             value : result
           });
         }
-      //}
+      }
 
   }
 
@@ -143,8 +142,6 @@ class NumberField extends Component
     var max = this.getMaxValue();
     var min = this.getMinValue();
 
-    //console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
-
     if(isNaN(value)){
       this.props.onFieldChange({
         name : event.target.name,
@@ -159,6 +156,12 @@ class NumberField extends Component
     if(max !== '' && value > max){
       return;
     }
+
+    /*
+    if(this.props.field.identifier == 'primeNet'){
+      console.log("primeNet :: handleOnChange : ",value);
+    }
+    */
 
     this.props.onFieldChange({
       name : event.target.name,
@@ -189,6 +192,12 @@ class NumberField extends Component
     if(max !== '' && value > max){
       return;
     }
+
+    /*
+    if(this.props.field.identifier == 'primeNet'){
+      console.log("primeNet :: handleNumberFormatChange : ",value);
+    }
+    */
 
     this.props.onFieldChange({
       name : event.target.name,
@@ -242,6 +251,12 @@ class NumberField extends Component
       field.rules.required : false;
 
     const currency =  this.fieldHasCurrencySettings();
+
+    /*
+    if(field.identifier == 'primeNet'){
+      console.log("primeNet :: currency : ",currency,this.props.value);
+    }
+    */
 
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
