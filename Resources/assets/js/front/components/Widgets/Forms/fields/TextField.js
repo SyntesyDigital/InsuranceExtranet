@@ -73,10 +73,6 @@ class TextField extends Component {
     // ==============================
 
     processOperation(prevProps) {
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/config_popup_desc
         //miramos si ha cambiado un campo diferente al campo con formula para recalcular
         if (this.props.value === prevProps.value) {
             var formule = this.props.field.settings.operation;
