@@ -147,9 +147,12 @@ class SessionCreate
         
         $user = User::where('id_per', $idPer)->first();
         
+        
+
         if(isset($idPer) && isset($user)){
+            
             $userSession = $user->session()->first();
-            if(isset($userSession)){
+            if(isset($userSession) && isset($userSession->api_token)){
                 return $userSession->api_token;
             }   
         }
@@ -202,9 +205,9 @@ class SessionCreate
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->header('User-Agent'),
                 'token' => $userData['token'],
-                //'api_token' => $userData['api_token'],
+                'api_token' => $userData['api_token'],
                 'env' => $this->env,
-                //'language' => 'fr',
+                'language' => 'fr',
                 'payload' => json_encode($userData),
             ]);
         }
