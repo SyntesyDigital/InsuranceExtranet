@@ -31,6 +31,13 @@ return [
                 'name' => 'APP_NAME',
                 'label' => 'App name',
               ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'APP_DEBUG',
+                'name' => 'APP_DEBUG',
+                'label' => 'App debug',
+              ]
             ], //end children col
           ],
         ], //en children box

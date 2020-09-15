@@ -4,6 +4,8 @@
     //if env is local or contains dev
     $testEnv = strpos(env('APP_ENV'), 'dev') !== false || strpos(env('APP_ENV'), 'local') !== false;
     $testEnv = $testEnv || env('APP_DEBUG');
+    //if there is config defined use it as priority
+    $testEnv = has_config('APP_DEBUG') ? get_config('APP_DEBUG') : $testEnv;
     $test = Request::has('debug') || old('env') != null || $testEnv ? true : false;
 
     if(!isset($storedStylesFront)){
