@@ -16,11 +16,11 @@ class SessionCreate
     private $password;
     private $test;
 
-    public function __construct($veosToken, $env = null, $params = [])
+    public function __construct($veosToken, $env = null, $test = false, $params = [])
     {
         $this->veosToken = $veosToken;
         $this->params = $params;
-        $this->test = $env != null ? true : false;
+        $this->test = $test;
         $this->env = $env != null ? $env : VeosWsUrl::PROD;
         $this->client = new Client();
     }
@@ -146,8 +146,6 @@ class SessionCreate
     {
         
         $user = User::where('id_per', $idPer)->first();
-        
-        
 
         if(isset($idPer) && isset($user)){
             
