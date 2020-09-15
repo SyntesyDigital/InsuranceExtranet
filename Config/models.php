@@ -32,6 +32,7 @@ return [
           'readonly',
           'groupe',
           'operation',
+          'description',
         ],
       ],
       'number' => [
@@ -65,6 +66,7 @@ return [
           'operation',
           'readonly',
           'currency',
+          'description',
         ],
       ],
       'date' => [
@@ -96,6 +98,7 @@ return [
           'textAlign',
           'columnWidth',
           'readonly',
+          'description',
           //'defaultValue'
         ],
       ],
@@ -117,6 +120,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
+          'description',
         ],
       ],
       'radio' => [
@@ -137,6 +141,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
+          'description',
         ],
       ],
       'multi' => [
@@ -157,6 +162,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'conditionalFormatting',
+          'description',
         ],
       ],
       'file' => [
@@ -176,6 +182,7 @@ return [
           'conditionalVisibility',
           'preview',
           'columnWidth',
+          'description',
         ],
       ],
       'file_ws_fusion' => [
@@ -195,6 +202,7 @@ return [
           'conditionalVisibility',
           'preview',
           'columnWidth',
+          'description',
         ],
       ],
       'richtext' => [
@@ -216,6 +224,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'textAlign',
+          'description',
         ],
       ],
       'html' => [
@@ -235,6 +244,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'textAlign',
+          'description',
         ],
       ],
       'list' => [
@@ -249,6 +259,7 @@ return [
         ],
         'settings' => [
           'conditionalVisibility',
+          'description',
         ],
         'fields' => [
         ],
@@ -270,6 +281,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'bordered',
+          'description',
         ],
       ],
       'yesno' => [
@@ -288,6 +300,7 @@ return [
           'booleanValues',
           'conditionalVisibility',
           'defaultValue',
+          'description',
         ],
       ],
       'label' => [
@@ -299,6 +312,7 @@ return [
         'rules' => [],
         'settings' => [
           'conditionalVisibility',
+          'description',
         ],
       ],
       'car' => [
@@ -311,6 +325,7 @@ return [
           'required',
         ],
         'settings' => [
+          'description',
         ],
       ],
       'immat' => [
@@ -326,6 +341,7 @@ return [
         'settings' => [
           'conditionalVisibility',
           'defaultValue',
+          'description',
         ],
       ],
     ],  // --- end fields ---

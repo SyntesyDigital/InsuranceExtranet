@@ -225,6 +225,10 @@
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
     $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
 
+    $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
+    $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
+    $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';
+
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
     $textColorBox1 = isset($storedStylesFront['textColorBox1']) ? $storedStylesFront['textColorBox1']->value : $secondaryColor;
@@ -354,6 +358,11 @@
     $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
     $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
     $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
+
+    //ELEMENT FILE
+    $backgroundColorTooltipDescFile = isset($storedStylesFront['backgroundColorTooltipDescFile']) ? $storedStylesFront['backgroundColorTooltipDescFile']->value : $primaryColor;
+    $colorTooltipDescFile = isset($storedStylesFront['colorTooltipDescFile']) ? $storedStylesFront['colorTooltipDescFile']->value : '#fff';
+    $fontSizeTooltipDescFile = isset($storedStylesFront['fontSizeTooltipDescFile']) ? $storedStylesFront['fontSizeTooltipDescFile']->value : '16px';
 
     //CHAT
     $senderColorChat = isset($storedStylesFront['senderColorChat']) ? $storedStylesFront['senderColorChat']->value : $secondaryColor;
@@ -495,7 +504,16 @@
             iconColorElement: '{{$iconColorElement}}',
             errorColor : '{{$errorColor}}',
             inputColor: '{{$inputColor}}',
-            textBtnAddFileForm: '{{$textBtnAddFileForm}}'
+            textBtnAddFileForm: '{{$textBtnAddFileForm}}',
+            primaryColor: '{{$primaryColor}}',
+            backgroundColorTooltipDescForm: '{{$backgroundColorTooltipDescForm}}',
+            colorTooltipDescForm: '{{$colorTooltipDescForm}}',
+            fontSizeTooltipDescForm: '{{$fontSizeTooltipDescForm}}'
+        },
+        elementFile: {
+            backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',
+            colorTooltipDescFile: '{{$colorTooltipDescFile}}',
+            fontSizeTooltipDescFile: '{{$fontSizeTooltipDescFile}}'
         },
         sidebarMenu: {
             sidebarWidth: '{{$sidebarWidth}}'
