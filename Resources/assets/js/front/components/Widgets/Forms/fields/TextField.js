@@ -58,7 +58,6 @@ class TextField extends Component {
     // ==============================
 
     processOperation(prevProps) {
-        
         //miramos si ha cambiado un campo diferente al campo con formula para recalcular
         if (this.props.value === prevProps.value) {
             var formule = this.props.field.settings.operation;
@@ -68,6 +67,7 @@ class TextField extends Component {
                 var value = this.props.values[id] !== undefined && this.props.values[id] !== null && this.props.values[id] !== '' ? this.props.values[id] : '0';
                 formule = formule.replace('[' + id + ']', value);
             }
+            console.log("TextField :: formule :: ",formule);
             var result = eval(formule);
             //miramos si ha cambiado o no el resultado de la formula para updatear el campo
             if (this.props.value !== result) {
