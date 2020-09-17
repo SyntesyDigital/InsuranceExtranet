@@ -166,7 +166,7 @@ if (!function_exists('check_visible')) {
         $operator = $condition['operator'];
         $value = $condition['values'];
 
-        $hasPermission = has_permission($permissions,$value);
+        $hasPermission = check_has_permission($permissions,$value);
 
         if ($operator == 'equal' && $hasPermission) {    
             return true;
@@ -177,7 +177,7 @@ if (!function_exists('check_visible')) {
         return false;
     }
 
-    function has_permission($permissions, $value) {
+    function check_has_permission($permissions, $value) {
         if(!isset($permissions))
             return false;
 
