@@ -40,6 +40,8 @@ require('./components/Widgets/LastNews/LastNews');
 //require('./components/Home');
 require('./components/Widgets/Faqs/FaqsList');
 require('./components/Widgets/Faqs/FaqsContainer');
+require('./components/Widgets/Tabs/TabsList');
+require('./components/Widgets/Tabs/TabsContainer');
 
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
