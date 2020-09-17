@@ -56,7 +56,7 @@ class ModalEditItem extends Component {
       field: null,
       displayListItemModal: false,
       listItemInfo: null,
-      //parameters : null
+      
     };
 
     this.onModalClose = this.onModalClose.bind(this);
@@ -104,7 +104,7 @@ class ModalEditItem extends Component {
 
       field = this.processProps(nextProps);
       //update widget settings
-      console.log("updateSettingsFromConfig :: start (field)",field);
+      //console.log("updateSettingsFromConfig :: start (field)",field);
       field = this.updateSettingsFromConfig(field);
 
     } else {
@@ -203,13 +203,13 @@ class ModalEditItem extends Component {
   getFieldParameters(field) {
     var params = [];
 
-    console.log("getFieldParameters :: (field)", field);
+    //console.log("getFieldParameters :: (field)", field);
 
     if (field.settings['formElementsV2Preload'] !== undefined) {
       params = this.getParamsMerged('formElementsV2Preload', field, params);
     }
 
-    console.log("getFieldParameters :: formElementsV2Preload (params)", JSON.parse(JSON.stringify(params)));
+    //console.log("getFieldParameters :: formElementsV2Preload (params)", JSON.parse(JSON.stringify(params)));
 
     if (field.settings['fileElements'] !== undefined) {
       params = this.getParamsMerged('fileElements', field, params);
@@ -227,7 +227,7 @@ class ModalEditItem extends Component {
       return null;
     }
 
-    console.log("getFieldParameters :: result (params)", JSON.parse(JSON.stringify(params)));
+    //console.log("getFieldParameters :: result (params)", JSON.parse(JSON.stringify(params)));
 
     //console.log("getInitParameters :: params => ",params);
     return params;
@@ -291,7 +291,7 @@ class ModalEditItem extends Component {
 
   renderField() {
 
-    console.log("ModalEditItem : renderField => ", this.state.field, FIELDS);
+    //console.log("ModalEditItem : renderField => ", this.state.field, FIELDS);
 
     switch (this.state.field.type) {
       case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
@@ -602,7 +602,7 @@ class ModalEditItem extends Component {
 
   render() {
 
-    console.log("ModalEditItem :: render field => ", this.state.field);
+    //console.log("ModalEditItem :: render field => ", this.state.field);
 
     return (
       <div>

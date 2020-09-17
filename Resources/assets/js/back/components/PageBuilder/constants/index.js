@@ -72,6 +72,8 @@ export const OPERATOR_DIFFERENT = "different";
 export const CONDITION_FIELD_TYPE_PARAMETER = "parameter";
 export const CONDITION_FIELD_TYPE_CONFIGURABLE = "config_field";
 export const CONDITION_FIELD_TYPE_UNCONFIGURABLE = "unconfig_field";
+export const CONDITION_FIELD_TYPE_ROLE= "role";
+export const CONDITION_FIELD_TYPE_PERMISSION= "permission";
 
 export const CONDITION_JOIN_AND = "and";
 export const CONDITION_JOIN_OR = "or";
