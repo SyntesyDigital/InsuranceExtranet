@@ -101,7 +101,7 @@ function checkConditionAccepted(condition,formParameters,values) {
 }
 
 function checkConfigurableCondition(condition,values) {
-  
+
   var formValue = null;
   //it is a config field
   if(values[condition.name] === undefined){
