@@ -144,7 +144,7 @@ class NumberField extends Component
 
     if(isNaN(value)){
       this.props.onFieldChange({
-        name : event.target.name,
+        name : this.props.field.identifier,
         value : ''
       });
       return;
@@ -164,7 +164,7 @@ class NumberField extends Component
     */
 
     this.props.onFieldChange({
-      name : event.target.name,
+      name : this.props.field.identifier,
       value : value
     });
 
@@ -180,7 +180,7 @@ class NumberField extends Component
 
     if(isNaN(value)){
       this.props.onFieldChange({
-        name : event.target.name,
+        name : this.props.field.identifier,
         value : ''
       });
       return;
@@ -200,7 +200,7 @@ class NumberField extends Component
     */
 
     this.props.onFieldChange({
-      name : event.target.name,
+      name : this.props.field.identifier,
       value : value
     });
   }

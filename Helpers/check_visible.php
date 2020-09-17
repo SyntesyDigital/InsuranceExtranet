@@ -3,10 +3,10 @@
 if (!function_exists('check_visible')) {
     function check_visible($settings, $parameters)
     {
+        
         if (!isset($parameters)) {
             return true;
         }
-
         $conditionalVisibility = check_conditional_visibility($settings,$parameters);
         $visibilityByWS = check_visibility_by_ws($settings,$parameters);
 
@@ -22,6 +22,8 @@ if (!function_exists('check_visible')) {
         || $settings['conditionalVisibility'] == '') {
             return true;
         }
+
+        
 
         $settings = $settings['conditionalVisibility'];
 
@@ -86,12 +88,35 @@ if (!function_exists('check_visible')) {
 
     function check_condition_accepted($condition, $parameters)
     {
+
+        
+        //chekc all variables exists
+        if (!isset($condition['type']) || $condition['type'] == '') {
+            return false;
+        }
         if (!isset($condition['name']) || $condition['name'] == '') {
             return false;
         }
         if (!isset($condition['values']) || $condition['values'] == '') {
             return false;
         }
+        
+        //check if condition is accepted
+        if($condition['type'] == 'parameter' ) {
+            return check_parameter_condition($condition,$parameters);
+        }
+        else if($condition['type'] == 'permission' ) {
+            return check_permission_condition($condition);
+        }
+        else if($condition['type'] == 'role' ) {
+            return check_role_condition($condition);
+        }
+
+        return false;
+    }
+
+    function check_parameter_condition($condition,$parameters)
+    {
         if (!isset($parameters[$condition['name']])) {
             return false;
         }
@@ -109,6 +134,56 @@ if (!function_exists('check_visible')) {
             }
         }
 
+        return false;
+    }
+
+    function check_role_condition($condition)
+    {
+        $role = Auth::user()->veos_role;
+        if(!isset($role))
+            return false;
+
+        $operator = $condition['operator'];
+        $value = $condition['values'];
+
+        $hasRole = strtolower($value) == strtolower($role) ? true : false;
+        
+        if ($operator == 'equal' && $hasRole) {    
+            return true;
+        } elseif ($operator == 'different' && !$hasRole) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function check_permission_condition($condition)
+    {
+        $permissions = Auth::user()->veos_permissions;
+        if(!isset($permissions))
+            return false;
+
+        $operator = $condition['operator'];
+        $value = $condition['values'];
+
+        $hasPermission = has_permission($permissions,$value);
+
+        if ($operator == 'equal' && $hasPermission) {    
+            return true;
+        } elseif ($operator == 'different' && !$hasPermission) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function has_permission($permissions, $value) {
+        if(!isset($permissions))
+            return false;
+
+        if(isset($permissions->{$value}) && $permissions->{$value} == "Y"){
+            return true;
+        }
         return false;
     }
 }
