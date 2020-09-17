@@ -23,8 +23,6 @@ if (!function_exists('check_visible')) {
             return true;
         }
 
-        
-
         $settings = $settings['conditionalVisibility'];
 
         $visible = $settings['initialValue'] == 'show' ? true : false;

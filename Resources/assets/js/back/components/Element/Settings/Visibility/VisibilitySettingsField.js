@@ -30,7 +30,9 @@ class VisibilitySettingsField extends Component {
       value : value,
       display : display,
       modalDisplay : false,
-      conditionIndex : null
+      conditionIndex : null,
+      roles : this.getRoles(),
+      permissions : this.getPermissions()
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -46,6 +48,23 @@ class VisibilitySettingsField extends Component {
           value : VISIBILITY_SHOW
       }
     ];
+  }
+
+  getPermissions() {
+    return Object.keys(CURRENT_USER.veos_permissions).map((key,index) => 
+      ({
+        name : key,
+        value : key
+      })
+    );
+  }
+  getRoles() {
+    return Object.keys(CURRENT_USER.veos_roles).map((key,index) => 
+      ({
+        name : CURRENT_USER.veos_roles[key],
+        value : CURRENT_USER.veos_roles[key]
+      })
+    );
   }
 
   /**
@@ -356,6 +375,8 @@ class VisibilitySettingsField extends Component {
           onConditionChange={this.handleConditionChange.bind(this)}
           parameters={this.props.parameters}
           fields={this.props.fields}
+          permissions={this.state.permissions}
+          roles={this.state.roles}
         />
 
         <div className="setup-field">

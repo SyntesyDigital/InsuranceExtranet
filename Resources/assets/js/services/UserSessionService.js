@@ -11,6 +11,14 @@ export default class UserSessionService {
         return this.session;
     }
 
+    getAPIRole() {
+        return this.session.veos_role;
+    }
+
+    getAPIPermissions() {
+        return this.session.veos_permissions;
+    }
+
     isTest() {
         return this.session.test;
     }
@@ -22,9 +30,7 @@ export default class UserSessionService {
         return this.session.allowed_pages;
     }
 
-    getAPIPermissions() {
-        return this.session.veos_permissions;
-    }
+    
 
     /**
      * Check if slug is allowed by this user.

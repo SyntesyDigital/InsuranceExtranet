@@ -112,7 +112,7 @@ class ConditionsModal extends Component {
 
   handleInputChange(e) {
     //TODO
-    const conditions = this.props.conditions;
+    let conditions = this.props.conditions;
 
     conditions[this.props.conditionIndex][e.target.name] = e.target.value;
 
@@ -242,16 +242,18 @@ class ConditionsModal extends Component {
                          </select>
                       </div>
 
-                      <div className="form-group bmd-form-group">
-                         <label htmlFor="name" className="bmd-label-floating">
-                            Field
-                         </label>
-                         <select type="text" className="form-control" name="name" value={condition.name} onChange={this.handleInputChange} >
-                            <option key={-1} value=""> Sélectionner </option>
-                            {this.renderParameters()}
-                         </select>
+                      {!this.isRoleOrPermission(condition.type) && 
+                        <div className="form-group bmd-form-group">
+                          <label htmlFor="name" className="bmd-label-floating">
+                              Field
+                          </label>
+                          <select type="text" className="form-control" name="name" value={condition.name} onChange={this.handleInputChange} >
+                              <option key={-1} value=""> Sélectionner </option>
+                              {this.renderParameters()}
+                          </select>
 
-                      </div>
+                        </div>
+                      }
 
                       <div className="form-group bmd-form-group">
                          <label htmlFor="operator" className="bmd-label-floating">
