@@ -471,6 +471,7 @@
 @include('extranet::front.partials.styles.message-box')
 @include('extranet::front.partials.styles.last-news-list')
 @include('extranet::front.partials.styles.faqs')
+@include('extranet::front.partials.styles.tabs-list')
 
 
 @if($frontFont)
@@ -517,7 +518,11 @@
         },
         sidebarMenu: {
             sidebarWidth: '{{$sidebarWidth}}'
-        }
+        },
+        tabslist: {
+            backgroundColorActiveTab: '{{$backgroundColorActiveTab}}',
+            backgroundColorTab: '{{$backgroundColorTab}}'
+        },
     };
 
     var ICONS = {
