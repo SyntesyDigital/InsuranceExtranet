@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
+import LabelTooltip from '../../../Common/LabelTooltip';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -193,6 +193,9 @@ class RadioField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let hasDescription = this.props.field.settings.description !== undefined ?
+      this.props.field.settings.description : false;
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -212,6 +215,12 @@ class RadioField extends Component
                 {field.name} 
                 {isRequired &&
                   <span className="required">&nbsp; *</span>
+                }
+                {hasDescription && 
+                    <LabelTooltip 
+                        description={this.props.field.settings.description ? 
+                            this.props.field.settings.description : ''}
+                    />
                 }
               </label>
               <div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import LabelTooltip from '../../../Common/LabelTooltip';
 import { getParametersFromURL } from './../functions';
 
 class DateField extends Component {
@@ -168,8 +168,13 @@ class DateField extends Component {
 
         const { field } = this.props;
         const errors = this.props.error ? ' has-error' : '';
+
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
+
+        let hasDescription = this.props.field.settings.description !== undefined ?
+            this.props.field.settings.description : false;
+
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
 
@@ -193,6 +198,12 @@ class DateField extends Component {
                     {field.name}
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
+                    }
+                    {hasDescription && 
+                        <LabelTooltip 
+                            description={this.props.field.settings.description ? 
+                                this.props.field.settings.description : ''}
+                        />
                     }
                 </label>
                 <DatePicker
