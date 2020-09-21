@@ -616,6 +616,7 @@ export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
           var value = processObjectValue(field,values, formParameters);
 
+          
           jp.apply(json, jsonpath, function() { 
               return value 
           });
