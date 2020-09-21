@@ -1,20 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import iconSvg from '../assets/img/ico_info.svg';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-
-const HtmlTooltip = withStyles((theme) => ({
-    tooltip: {
-        backgroundColor: STYLES.elementForm.backgroundColorTooltipDescForm,
-        color: STYLES.elementForm.colorTooltipDescForm,
-        maxWidth: 220,
-        fontSize: STYLES.elementForm.fontSizeTooltipDescForm,
-        borderRadius: 0,
-        padding: '15px',
-    },
-}))(Tooltip);
+import LabelTooltip from '../../../Common/LabelTooltip';
 
 class TextField extends Component {
     constructor(props) {
@@ -158,22 +144,11 @@ class TextField extends Component {
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
                     }
-                    {hasDescription &&
-                        <HtmlTooltip
-                            title={
-                                <span className={'content-desc'}>
-                                    {field.settings.description ? field.settings.description : ''}
-                                </span>
-                            }
-                            placement="right-start"
-                        >
-                            <Button>
-                                <img
-                                    className={'icon-desc-info'}
-                                    src={iconSvg}
-                                />
-                            </Button>
-                        </HtmlTooltip>
+                    {hasDescription && 
+                        <LabelTooltip 
+                            description={field.settings.description ? 
+                                field.settings.description : ''}
+                        />
                     }
                 </label>
 

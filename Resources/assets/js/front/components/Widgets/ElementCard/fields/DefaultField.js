@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import iconSvg from './../assets/img/ico_info.svg';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import { Row, Col } from 'react-bootstrap';
-
-const HtmlTooltip = withStyles((theme) => ({
-    tooltip: {
-        backgroundColor: STYLES.elementFile.backgroundColorTooltipDescFile,
-        color: STYLES.elementFile.colorTooltipDescFile,
-        maxWidth: 220,
-        fontSize: STYLES.elementFile.fontSizeTooltipDescFile,
-        borderRadius: 0,
-        padding: '15px',
-    },
-}))(Tooltip);
+import LabelTooltip from '../../../Common/LabelTooltip';
 
 export default class DefaultField extends Component {
 
@@ -61,22 +47,11 @@ export default class DefaultField extends Component {
                             dangerouslySetInnerHTML={{ __html: label }}
                         >
                         </label>
-                        {hasDescription &&
-                            <HtmlTooltip
-                                title={
-                                    <span className={'content-desc'}>
-                                        {this.props.settings.description ? this.props.settings.description : ''}
-                                    </span>
-                                }
-                                placement="right-start"
-                            >
-                                <Button>
-                                    <img
-                                        className={'icon-desc-info'}
-                                        src={iconSvg}
-                                    />
-                                </Button>
-                            </HtmlTooltip>
+                        {hasDescription && 
+                            <LabelTooltip 
+                                description={this.props.settings.description ? 
+                                    this.props.settings.description : ''}
+                            />
                         }
                     </Col>
                     <Col md={!inline ? 12 : 6} style={divValue}>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import NumberFormat from 'react-number-format';
+import LabelTooltip from '../../../Common/LabelTooltip';
 import {
   CONDITION_FIELD_TYPE_PARAMETER,
   CONDITION_FIELD_TYPE_CONFIGURABLE
@@ -250,6 +251,9 @@ class NumberField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let hasDescription = this.props.field.settings.description !== undefined ?
+        this.props.field.settings.description : false;
+
     const currency =  this.fieldHasCurrencySettings();
 
     /*
@@ -276,6 +280,12 @@ class NumberField extends Component
             {field.name} 
             {isRequired &&
               <span className="required">&nbsp; *</span>
+            }
+            {hasDescription && 
+                <LabelTooltip 
+                    description={this.props.field.settings.description ? 
+                        this.props.field.settings.description : ''}
+                />
             }
         </label>
           {!currency &&

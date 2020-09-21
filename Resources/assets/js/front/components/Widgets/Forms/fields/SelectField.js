@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import LabelTooltip from '../../../Common/LabelTooltip';
 import {
   HIDDEN_FIELD
 } from './../constants';
@@ -250,6 +251,9 @@ class SelectField extends Component {
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let hasDescription = this.props.field.settings.description !== undefined ?
+      this.props.field.settings.description : false;
+
     //required can be set also directly with modals
     if (this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined) {
@@ -283,11 +287,18 @@ class SelectField extends Component {
 
       <div className={"form-group bmd-form-group"} style={{ display: display ? 'block' : 'none' }}>
         <label className="bmd-label-floating">
-          {field.name}
-          {isRequired &&
-            <span className="required">&nbsp; *</span>
-          }
+            {field.name}
+            {isRequired &&
+                <span className="required">&nbsp; *</span>
+            }
+            {hasDescription && 
+                <LabelTooltip 
+                    description={this.props.field.settings.description ? 
+                        this.props.field.settings.description : ''}
+                />
+            }
         </label>
+        
         <Select
           onBlur={this.handleBlur.bind(this)}
           onFocus={this.handleFocus.bind(this)}
