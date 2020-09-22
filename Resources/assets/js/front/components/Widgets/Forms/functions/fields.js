@@ -20,6 +20,11 @@ import {
   HIDDEN_FIELD,
 } from './../constants';
 
+import {
+  checkIfExistJsonPath,
+  addKeyToJson
+} from './jsonpath.js';
+
 let jp = require('jsonpath');
 
 const fieldComponents = {
@@ -594,6 +599,8 @@ function initJSONResult(jsonResult,procedure, isRootArray) {
   return jsonResult;
 }
 
+
+
 export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
   for(var key in fields){
@@ -615,8 +622,14 @@ export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
       try {
 
-          var value = processObjectValue(field,values, formParameters);
+          //if jsonpath is not defined
+          if(!checkIfExistJsonPath(json,jsonpath)){
+              //add jsonpath to json
+              json = addKeyToJson(json,jsonpath);
+          }
 
+          var value = processObjectValue(field,values, formParameters);
+          
           jp.apply(json, jsonpath, function() { 
               return value 
           });
