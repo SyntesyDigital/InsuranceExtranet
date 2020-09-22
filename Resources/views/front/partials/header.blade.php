@@ -41,6 +41,14 @@
         $(".tooltip-link").tooltip({
             disabled: true
         });
+        $( ".menu-item" ).click(function() {
+            setTimeout(function(){
+                $('.sidebar.collapsed .menu-child .tooltip-link').tooltip({
+                    disabled: false,
+                    position: { my: "left+5 center", at: "right center" }
+                });
+            }, 500);
+        });
     });
 
 	$(function(){
@@ -48,7 +56,7 @@
             $(this).toggleClass('open');
             $(".tooltip-link").tooltip({
                 disabled: false,
-                position: { my: "left+15 center", at: "right center" }
+                position: { my: "left+5 center", at: "right center" }
             });
             e.preventDefault();
 			if($('#sidebar').hasClass('initial')){
