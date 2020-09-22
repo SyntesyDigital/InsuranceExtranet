@@ -183,6 +183,7 @@ return [
           'preview',
           'columnWidth',
           'description',
+          'iframe',
         ],
       ],
       'file_ws_fusion' => [

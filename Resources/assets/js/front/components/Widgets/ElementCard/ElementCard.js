@@ -273,7 +273,7 @@ export default class ElementCard extends Component {
                         key={key}
                         field={node.field}
                     />
-                );
+                );              
                 break;
         }
     }

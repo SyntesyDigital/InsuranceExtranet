@@ -43,6 +43,7 @@ require('./components/Widgets/Faqs/FaqsContainer');
 require('./components/Widgets/Tabs/TabsList');
 require('./components/Widgets/Tabs/TabsContainer');
 
+
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');
 require('./components/Widgets/Lists/TableDocument/TableDocument');
