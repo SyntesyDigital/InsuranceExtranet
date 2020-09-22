@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
-
+import LabelTooltip from '../../../Common/LabelTooltip';
 
 export default class DefaultField extends Component {
 
@@ -11,7 +11,7 @@ export default class DefaultField extends Component {
 
     render() {
         const { label, value, valueColor, valueBackgroundColor, stripped, labelAlign, valueAlign, inline } = this.props;
-        console.log("valueBackgroundColor :: ", (valueBackgroundColor + ' !important'))
+
         const divStyle = {
             overflow: 'hidden',
         }
@@ -25,7 +25,6 @@ export default class DefaultField extends Component {
             padding: '8px',
             marginBottom: '0'
         };
-
         const spanStyles = {
             backgroundColor: valueBackgroundColor,
             textAlign: labelAlign,
@@ -37,13 +36,23 @@ export default class DefaultField extends Component {
             display: 'inline-block',
         };
 
+        let hasDescription = this.props.settings.description !== undefined ?
+            this.props.settings.description : false;
+
         return (
             <div style={divStyle} className={(stripped ? 'stripped' : null)}>
                 <Row>
                     <Col md={!inline ? 12 : 6} style={divLabel}>
                         <label style={labelStyle}
                             dangerouslySetInnerHTML={{ __html: label }}
-                        ></label>
+                        >
+                        </label>
+                        {hasDescription && 
+                            <LabelTooltip 
+                                description={this.props.settings.description ? 
+                                    this.props.settings.description : ''}
+                            />
+                        }
                     </Col>
                     <Col md={!inline ? 12 : 6} style={divValue}>
                         {this.props.icon ? <i className={this.props.icon}></i> : null}

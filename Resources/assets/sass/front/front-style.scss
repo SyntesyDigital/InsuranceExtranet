@@ -1,5 +1,4 @@
 
-// Fonts
 // Variables
 @import "variables";
 
@@ -33,12 +32,8 @@ $bootstrap-sass-asset-helper: true;
 @import 'boxButton';
 @import 'staticBanner';
 @import 'stepper';
-
-
 //@import 'customized';
 
-
-//Extras
 
 // Components
 @import 'fields/map';
@@ -54,6 +49,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/immat';
 @import 'fields/select2-field';
 
+//widgets
 @import 'widgets/paginator';
 @import 'widgets/lists';
 @import 'widgets/chat';
@@ -72,12 +68,13 @@ $bootstrap-sass-asset-helper: true;
 @import 'widgets/table-list';
 @import 'widgets/banner-horizontal';
 @import 'widgets/action-button';
-@import 'widgets/tabs';
 @import 'widgets/total-box-price';
 @import 'widgets/simple-button';
 @import 'widgets/action-list';
 @import 'widgets/typology-last';
 @import 'widgets/message-box';
+@import 'widgets/faqs';
+@import 'widgets/tabs-list';
 
 @import 'env-bar';
 

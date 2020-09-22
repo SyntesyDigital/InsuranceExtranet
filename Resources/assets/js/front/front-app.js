@@ -5,6 +5,7 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
+//bootstrap
 require('./bootstrap');
 
 //libs
@@ -12,7 +13,7 @@ require('./libs/jquery-ui-1.12.1/jquery-ui.min.js');
 require('./libs/slick/slick.js');
 require('./libs/tweenMax/tweenmax.js');
 
-//require('./components/Home');
+//widgets
 require('./components/Fields/MapField');
 require('./components/Widgets/ElementFile');
 require('./components/Widgets/Table/ElementTable');
@@ -36,6 +37,11 @@ require('./components/Widgets/MenuSidebar/SubMenuSidebar');
 require('./components/Widgets/MessageBox');
 require('./components/Widgets/LastNews/LastNewsList');
 require('./components/Widgets/LastNews/LastNews');
+//require('./components/Home');
+require('./components/Widgets/Faqs/FaqsList');
+require('./components/Widgets/Faqs/FaqsContainer');
+require('./components/Widgets/Tabs/TabsList');
+require('./components/Widgets/Tabs/TabsContainer');
 
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');

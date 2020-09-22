@@ -225,6 +225,10 @@
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
     $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
 
+    $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
+    $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
+    $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';
+
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
     $textColorBox1 = isset($storedStylesFront['textColorBox1']) ? $storedStylesFront['textColorBox1']->value : $secondaryColor;
@@ -330,15 +334,12 @@
     $actionListDropdownHoverColor = isset($storedStylesFront['actionListDropdownHoverColor']) ? $storedStylesFront['actionListDropdownHoverColor']->value : $primaryColor;
     $actionListDropdownBorderRadius = isset($storedStylesFront['actionListDropdownBorderRadius']) ? $storedStylesFront['actionListDropdownBorderRadius']->value.'px' : '8px';
 
-    //TABS
+    //TABS LIST
     $fontColorTab = isset($storedStylesFront['fontColorTab']) ? $storedStylesFront['fontColorTab']->value : $secondaryColor;
     $backgroundColorTab = isset($storedStylesFront['backgroundColorTab']) ? $storedStylesFront['backgroundColorTab']->value : $primaryColor;
     $fontColorActiveTab = isset($storedStylesFront['fontColorActiveTab']) ? $storedStylesFront['fontColorActiveTab']->value : $secondaryColor;
     $backgroundColorActiveTab = isset($storedStylesFront['backgroundColorActiveTab']) ? $storedStylesFront['backgroundColorActiveTab']->value : '#fff';
-    $backgroundHoverColorTab = isset($storedStylesFront['backgroundHoverColorTab']) ? $storedStylesFront['backgroundHoverColorTab']->value : $primaryColor;
-    $backgroundColorContentTab = isset($storedStylesFront['backgroundColorContentTab']) ? $storedStylesFront['backgroundColorContentTab']->value : '#fff';
     $fontSizeTab = isset($storedStylesFront['fontSizeTab']) ? $storedStylesFront['fontSizeTab']->value.'px' : '14px';
-    $borderRadiusTab = isset($storedStylesFront['borderRadiusTab']) ? $storedStylesFront['borderRadiusTab']->value.'px' : '10px';
 
     //ELEMENT TABLE
     $headerColorTable = isset($storedStylesFront['headerColorTable']) ? $storedStylesFront['headerColorTable']->value : '#868d97';
@@ -354,6 +355,11 @@
     $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
     $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
     $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
+
+    //ELEMENT FILE
+    $backgroundColorTooltipDescFile = isset($storedStylesFront['backgroundColorTooltipDescFile']) ? $storedStylesFront['backgroundColorTooltipDescFile']->value : $primaryColor;
+    $colorTooltipDescFile = isset($storedStylesFront['colorTooltipDescFile']) ? $storedStylesFront['colorTooltipDescFile']->value : '#fff';
+    $fontSizeTooltipDescFile = isset($storedStylesFront['fontSizeTooltipDescFile']) ? $storedStylesFront['fontSizeTooltipDescFile']->value : '16px';
 
     //CHAT
     $senderColorChat = isset($storedStylesFront['senderColorChat']) ? $storedStylesFront['senderColorChat']->value : $secondaryColor;
@@ -422,6 +428,13 @@
     $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
     $fontSizeIconRemoveWarningMessageBox = isset($storedStylesFront['fontSizeIconRemoveWarningMessageBox']) ? $storedStylesFront['fontSizeIconRemoveWarningMessageBox']->value.'px' : '25px';
 
+    // faqs
+    $fontSizeTitleFaqs = isset($storedStylesFront['fontSizeTitleFaqs']) ? $storedStylesFront['fontSizeTitleFaqs']->value.'px' : '14px';
+    $colorTitleFaqs = isset($storedStylesFront['colorTitleFaqs']) ? $storedStylesFront['colorTitleFaqs']->value : $secondaryColor;
+    $backgroundColorTitleFaqs = isset($storedStylesFront['backgroundColorTitleFaqs']) ? $storedStylesFront['backgroundColorTitleFaqs']->value : '#fff';
+    $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
+    $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
+
 ?>
 
 <style type="text/css">
@@ -449,11 +462,12 @@
 @include('extranet::front.partials.styles.banner-horizontal')
 @include('extranet::front.partials.styles.sidebar')
 @include('extranet::front.partials.styles.range-field')
-@include('extranet::front.partials.styles.tabs')
 @include('extranet::front.partials.styles.simple-button')
 @include('extranet::front.partials.styles.action-list')
 @include('extranet::front.partials.styles.message-box')
 @include('extranet::front.partials.styles.last-news-list')
+@include('extranet::front.partials.styles.faqs')
+@include('extranet::front.partials.styles.tabs-list')
 
 
 @if($frontFont)
@@ -487,11 +501,24 @@
             iconColorElement: '{{$iconColorElement}}',
             errorColor : '{{$errorColor}}',
             inputColor: '{{$inputColor}}',
-            textBtnAddFileForm: '{{$textBtnAddFileForm}}'
+            textBtnAddFileForm: '{{$textBtnAddFileForm}}',
+            primaryColor: '{{$primaryColor}}',
+            backgroundColorTooltipDescForm: '{{$backgroundColorTooltipDescForm}}',
+            colorTooltipDescForm: '{{$colorTooltipDescForm}}',
+            fontSizeTooltipDescForm: '{{$fontSizeTooltipDescForm}}'
+        },
+        elementFile: {
+            backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',
+            colorTooltipDescFile: '{{$colorTooltipDescFile}}',
+            fontSizeTooltipDescFile: '{{$fontSizeTooltipDescFile}}'
         },
         sidebarMenu: {
             sidebarWidth: '{{$sidebarWidth}}'
-        }
+        },
+        tabslist: {
+            backgroundColorActiveTab: '{{$backgroundColorActiveTab}}',
+            backgroundColorTab: '{{$backgroundColorTab}}'
+        },
     };
 
     var ICONS = {

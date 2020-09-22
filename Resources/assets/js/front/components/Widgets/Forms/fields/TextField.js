@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import LabelTooltip from '../../../Common/LabelTooltip';
 
 class TextField extends Component {
     constructor(props) {
@@ -58,7 +59,6 @@ class TextField extends Component {
     // ==============================
 
     processOperation(prevProps) {
-        
         //miramos si ha cambiado un campo diferente al campo con formula para recalcular
         if (this.props.value === prevProps.value) {
             var formule = this.props.field.settings.operation;
@@ -68,6 +68,7 @@ class TextField extends Component {
                 var value = this.props.values[id] !== undefined && this.props.values[id] !== null && this.props.values[id] !== '' ? this.props.values[id] : '0';
                 formule = formule.replace('[' + id + ']', value);
             }
+            console.log("TextField :: formule :: ",formule);
             var result = eval(formule);
             //miramos si ha cambiado o no el resultado de la formula para updatear el campo
             if (this.props.value !== result) {
@@ -104,7 +105,7 @@ class TextField extends Component {
 
     }
 
-  
+
     // ==============================
     // Renderers
     // ==============================
@@ -113,8 +114,12 @@ class TextField extends Component {
 
         const { field } = this.props;
         const errors = this.props.error ? ' has-error' : '';
+
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
+
+        let hasDescription = field.settings.description !== undefined ?
+            field.settings.description : false;
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
@@ -138,6 +143,12 @@ class TextField extends Component {
                     {field.name}
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
+                    }
+                    {hasDescription && 
+                        <LabelTooltip 
+                            description={field.settings.description ? 
+                                field.settings.description : ''}
+                        />
                     }
                 </label>
 
