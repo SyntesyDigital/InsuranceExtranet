@@ -31,8 +31,9 @@ export default class MenuSidebar extends Component {
         });
 
         TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
-            display: "block",
-            left: "100%"
+            // display: "block",
+            left: "100%",
+            visibility: "visible"
         }, {
             left: "0px",
             ease: Power2.easeInOut,
@@ -69,7 +70,7 @@ export default class MenuSidebar extends Component {
 
         if (active) {
             TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
-                display: "block",
+                visibility: "visible",
                 left: "100%"
             }, {
                 left: "0px",

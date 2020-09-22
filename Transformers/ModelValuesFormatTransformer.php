@@ -2,8 +2,8 @@
 
 namespace Modules\Extranet\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\Resource;
 use Modules\Architect\Entities\Content;
 
 class ModelValuesFormatTransformer extends Resource

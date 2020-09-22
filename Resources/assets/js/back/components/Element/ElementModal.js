@@ -377,13 +377,22 @@ class ElementModal extends Component {
 
 
                                     {field != null && field.settings != null && field.settings.readonly !== undefined &&
-
                                         <BooleanSettingsField
                                             field={field}
                                             name="readonly"
                                             source="settings"
                                             onFieldChange={this.handleFieldSettingsChange}
                                             label="Readonly"
+                                        />
+                                    }
+
+                                    {field != null && field.settings != null && field.settings.iframe !== undefined && 
+                                        <BooleanSettingsField
+                                            field={field}
+                                            name="iframe"
+                                            source="settings"
+                                            label="Preview with Iframe"
+                                            onFieldChange={this.handleFieldSettingsChange}
                                         />
                                     }
 

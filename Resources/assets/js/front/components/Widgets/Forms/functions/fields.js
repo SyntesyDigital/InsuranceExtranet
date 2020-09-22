@@ -183,7 +183,8 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
-  const champIdentifier = object.PREFIX != "" 
+  const champIdentifier = object.PREFIX !== undefined && object.PREFIX != "" 
+    && object.PREFIX != null
     ? object.PREFIX+"."+object.CHAMP 
     : object.CHAMP;
 
@@ -192,7 +193,7 @@ export function processObjectValue(object,values,formParameters) {
   if(type == "INPUT"){
 
     //FIXME this not should be necessary
-    if(formParameters[defaultValue] !== undefined) {
+    if(defaultValue != null && formParameters[defaultValue] !== undefined) {
       return formParameters[defaultValue];
     }
     else if(defaultValue == "_id_per_user"){
