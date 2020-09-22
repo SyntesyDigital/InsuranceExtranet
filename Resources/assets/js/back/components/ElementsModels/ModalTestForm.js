@@ -106,6 +106,7 @@ class ModalTestForm extends Component {
         for(var key in fields){
             var jsonpath = root;
             var field = fields[key];
+            var keyAdded = false;
 
             if(field.jsonpath != null && field.jsonpath != ''){
                 jsonpath += field.jsonpath;
@@ -124,10 +125,11 @@ class ModalTestForm extends Component {
                 if(!this.checkIfExistJsonPath(json,jsonpath)){
                     //add jsonpath to json
                     json = this.addKeyToJson(json,jsonpath);
+                    keyAdded = true;
                 }
 
                 jp.apply(json, jsonpath, function(value) { 
-                    return field.example 
+                    return field.example+(keyAdded ? '_NEW' : '')
                 });
             }
             catch(error) {
