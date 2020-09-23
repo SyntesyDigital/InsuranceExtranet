@@ -1,8 +1,7 @@
-.iframe-container {
-    position: unset !important;
-    left: unset !important;
-    top: unset !important;
-    .iframe-file {
-        height: 500px;
+.iframe-file {
+    height: auto;
+    margin-top: 30px;
+    iframe{
+        min-height: 500px;
     }
 }

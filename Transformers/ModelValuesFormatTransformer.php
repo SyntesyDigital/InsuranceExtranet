@@ -222,6 +222,8 @@ class ModelValuesFormatTransformer extends Resource
                                 if ($originalValue != null && $originalValue != '') {
                                     if (isset($elementField->settings['preview']) && $elementField->settings['preview']) {
                                         $fileLink = '<a href="'.route('document.show', $originalValue).'" target="_blank" class="file-link image-link" style="background-image:url('.route('document.show.preview', $originalValue).')"></a>';
+                                    } elseif (isset($elementField->settings['iframe']) && $elementField->settings['iframe']) {
+                                        $fileLink = route('document.show', $originalValue);
                                     } else {
                                         $fileLink = '<a href="'.route('document.show', $originalValue).'" target="_blank" class="file-link"><i class="fas fa-file-download"></i></a>';
                                     }

@@ -5,15 +5,11 @@ export default class IframeFile extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        };
     }
-
-
     render() {
         return (
             <div className="iframe-file">
-                <iframe src="http://www.orimi.com/pdf-test.pdf" width="100%" height="500"></iframe>
+                <iframe className="iframe-content" src={this.props.link} width="100%" height="500"></iframe>
             </div>
         );
     }

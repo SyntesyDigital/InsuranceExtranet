@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ListParser from '../ListParser';
-import IframeFile from '../../../Common/IframeFile';
 
 import {
     parseNumber,
@@ -51,9 +50,6 @@ export default class TableList extends Component {
 
 
         if (field.type == "file" || field.type == "file_ws_fusion") {
-            if (field.settings.iframe !== undefined && field.settings.iframe != null && field.settings.iframe == true) {
-                return <IframeFile link={value}/>
-            }
             return <div dangerouslySetInnerHTML={{ __html: value }} />
         }
         // has route
@@ -87,7 +83,6 @@ export default class TableList extends Component {
 
         var file = null;
         var infos = [];
-        var isFile = false;
 
         for (var key in elementObject.fields) {
             // console.log("TypologyPaginated => ",items[key]);
@@ -105,12 +100,11 @@ export default class TableList extends Component {
             }
 
         }
-        console.log(isFile);
         return (
             <div>
                 <div className={"file-infos-container " + (file == null ? 'no-document' : '')}>
                     {file != null &&
-                        <div className={"file-icon " + (isFile ? 'iframe-container ' : '')}>
+                        <div className={"file-icon "}>
                             {file}
                         </div>
                     }
