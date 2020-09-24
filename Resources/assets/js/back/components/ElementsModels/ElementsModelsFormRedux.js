@@ -11,25 +11,36 @@ import BoxAddLarge from '../Layout/BoxAddLarge';
 import IconField from '../Layout/Fields/IconField';
 import { connect } from 'react-redux';
 import api from '../../api/index.js';
-
 import ModalTestForm from './modals/ModalTestForm';
 import ModalEditProcedures from './modals/ModalEditProcedures';
 import ModalEditObject from './modals/ModalEditObject';
-import ModalEditTableField from './modals/ModalEditTableField';
+import ModalTableField from './modals/ModalTableField';
 
 import {
     initState,
+
+    // Form
     saveForm,
     removeForm,
     testForm,
     updateField,
+
+    // Procedure
     removeProcedure,
     openModalCreateProcedure,
     openModalEditProcedure,
+
+    // Object
     openModalEditObject,
-    openModalCreateObject,
-    removeProcedureObject
-} from './actions'
+    // openModalCreateObject,
+    removeProcedureObject,
+
+    // Table 
+    openModalTableField,
+    closeModalTableField,
+    importFieldsFromService
+} from './actions';
+
 
 class ElementsModelsFormRedux extends Component {
 
@@ -46,7 +57,7 @@ class ElementsModelsFormRedux extends Component {
             ]
         };
 
-        this.props.initState(this.props.modelId, this.props.type);        
+        this.props.initState(this.props.modelId, this.props.type);       
     }
 
     componentDidMount() {
@@ -58,6 +69,7 @@ class ElementsModelsFormRedux extends Component {
     // ==============================
     loadServices() {
         var _this = this;
+
         api.services.getAll()
             .then(function(data){
                 var services = data.data.services.map((item) => {
@@ -122,9 +134,9 @@ class ElementsModelsFormRedux extends Component {
         this.props.openModalCreateProcedure(this.props.form.form.procedures);
     }
 
-    handleCreateProcedureObject(){
-        this.props.openModalCreateObject();
-    }
+    // handleCreateProcedureObject(){
+    //     this.props.openModalCreateObject();
+    // }
 
     handleRemoveProcedure(procedure){
         console.log("handleRemoveProcedure");
@@ -182,7 +194,6 @@ class ElementsModelsFormRedux extends Component {
         });
     }
 
-
     handleSubmit() {
         console.log("handleSubmit");
         this.props.saveForm(this.props.form.form);
@@ -236,10 +247,17 @@ class ElementsModelsFormRedux extends Component {
                 toastr.error(error.response.data.message);
             });
     }
+    
 
     // ==============================
-    // Renderers
+    // Getters
     // ==============================
+    getFormType() {
+        return this.props.form.form.type !== undefined 
+            ? this.props.form.form.type
+            : null;
+    }
+
     getTypeIcon(type) {
         switch(type) {
             case "INPUT" : 
@@ -252,10 +270,16 @@ class ElementsModelsFormRedux extends Component {
         return '';
     }
 
-    renderFields() {
-        let procedure = this.props.form.form.procedures[0];
 
-        const displayObjects = procedure.fields.map((object, index) =>
+    // ==============================
+    // Renderers
+    // ==============================
+    renderFields() {
+        let procedure = this.props.form.form.procedures[0] !== undefined 
+                ? this.props.form.form.procedures[0]
+                : null;
+
+        let displayObjects = procedure ? procedure.fields.map((object, index) =>
             <div key={object.identifier + index} className={object.identifier + index}>
                 <FieldListItem
                     key={index}
@@ -270,7 +294,7 @@ class ElementsModelsFormRedux extends Component {
                     onRemove={this.handleRemoveObject.bind(this, procedure, object)}
                 />
             </div>
-        );
+        ) : null;
 
         return (
             <div>
@@ -317,9 +341,22 @@ class ElementsModelsFormRedux extends Component {
 
         const saved = this.props.form.form.id == null ? false : true;
 
-        return (
 
+        return (
             <div className="forms-update">
+
+                {this.getFormType() == "table" && 
+                    <ModalTableField
+                        id={'modal-edit-object'}
+                        icon={'fas fa-bars'}
+                        size={'medium'}
+                        title={'Object | Configuration'}
+                        object={this.props.currentObject}
+                        procedure={this.props.form.form.procedures[0]}
+                        zIndex={10000}
+                        onModalClose={this.handleModalCloseEditObject.bind(this)}
+                    />
+                }
 
                 <ModalTestForm
                     id={'modal-test-form'}
@@ -341,32 +378,33 @@ class ElementsModelsFormRedux extends Component {
                     zIndex={10000}
                 />
 
-                {this.props.form.form.type == "table" && 
-                    <ModalEditTableField
-                        id={'modal-edit-object'}
-                        icon={'fas fa-bars'}
-                        size={'medium'}
-                        title={'Object | Configuration'}
-                        display={this.props.form.displayEditObject}
-                        object={this.props.form.currentObject}
-                        procedure={this.props.form.form.procedures[0]}
-                        zIndex={10000}
-                        onModalClose={this.handleModalCloseEditObject.bind(this)}
-                    />
-                }
-
+               
                 <BarTitle
                     icon={this.props.form.form.icon}
                     title={this.props.form.form.name}
                     backRoute={routes['extranet.elements-models.forms.index']}
                 >
-                    {saved && 
+                    {(saved && this.getFormType() != "table") && 
                         <ButtonSecondary
                             label={'Test form'}
                             icon={'fas fa-sync-alt'}
                             onClick={this.handleTestForm.bind(this)}
                         />
                     }
+
+                    {(saved && this.getFormType() == "table") && 
+                        <ButtonSecondary
+                            label={'Importer les champs'}
+                            icon={'fas fa-sync-alt'}
+                            onClick={e => {
+                                e.preventDefault();
+
+                                this.props.importFieldsFromService(1);
+                            }}
+                        />
+                    }
+
+                    
 
                     <ButtonDropdown
                         label={'Actions'}
@@ -401,33 +439,37 @@ class ElementsModelsFormRedux extends Component {
 
                 <div className="container rightbar-page">
 
-                    <div className="col-md-9 page-content form-fields" style={{
+                    <div 
+                        className="col-md-9 page-content form-fields" 
+                        style={{
                             opacity : saved ? 1 : 0.5,
                             pointerEvents : saved ? 'auto' : 'none'
-                        }}>
+                        }}
+                    >
 
                         <FieldList>
 
-                            {this.props.form.form.type == "form-v2" && 
-                                this.renderProcedures()
+                            {this.getFormType() == "form-v2" && 
+                                <div>
+                                    { this.renderProcedures() }
+                                    <BoxAddLarge
+                                        title='Ajouter'
+                                        onClick={this.handleCreateProcedure.bind(this)}
+                                    />
+                                </div>
                             }
 
-                            {this.props.form.form.type == "form-v2" && 
-                                <BoxAddLarge
-                                    title='Ajouter'
-                                    onClick={this.handleCreateProcedure.bind(this)}
-                                />
-                            }
-
-                            {this.props.form.form.type == "table" && 
-                                this.renderFields()
-                            }
-
-                            {this.props.form.form.type == "table" && 
-                                <BoxAddLarge
-                                    title='Ajouter un champ'
-                                    onClick={this.handleCreateProcedureObject.bind(this)}
-                                />
+                            {this.getFormType() == "table" && 
+                                <div>
+                                    { this.renderFields() }
+                                    <BoxAddLarge
+                                        title='Ajouter un champ'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            this.props.openModalTableField();
+                                        }}
+                                    />
+                                </div>
                             }
 
                         </FieldList>
@@ -465,7 +507,7 @@ class ElementsModelsFormRedux extends Component {
                         />
 
 
-                        {this.props.form.form.type == "table" && 
+                        {this.getFormType() == "table" && 
                             <SelectField
                                 label={'Service'}
                                 value={1}
@@ -477,6 +519,7 @@ class ElementsModelsFormRedux extends Component {
                         }
 
                     </div>
+
                 </div>
             </div>
         );
@@ -485,7 +528,8 @@ class ElementsModelsFormRedux extends Component {
 
 const mapStateToProps = state => {
     return {
-        form: state.form
+        form: state.form,
+        table: state.table
     }
 }
 
@@ -550,13 +594,21 @@ const mapDispatchToProps = dispatch => {
             return dispatch(removeProcedureObject(procedures, procedure, object));
         },
 
-        openModalCreateObject: () => {
-            return dispatch(openModalCreateObject());
+
+        // ==============================
+        // TABLE 
+        // ==============================
+        openModalTableField: (field) => {
+            return dispatch(openModalTableField(field));
         },
 
-        openModalEditObject: (procedure, object) => {
-            return dispatch(openModalEditObject(procedure, object));
+        closeModalTableField: () => {
+            return dispatch(closeModalTableField());
         },
+
+        importFieldsFromService: (servideId) => {
+            return dispatch(importFieldsFromService(servideId));
+        }
 
     }
 }

@@ -3,8 +3,7 @@ import {
     OPEN_MODAL_CREATE_OBJECT,
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
-    UPDATE_PROCEDURES,
-
+    UPDATE_PROCEDURES
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -38,9 +37,8 @@ export function openModalEditObject(procedure, object) {
 
 export function closeModalProcedureObject() {
     return {
-        type: CLOSE_MODAL_PROCEDURE_OBJECT, payload: {
-
-        }
+        type: CLOSE_MODAL_PROCEDURE_OBJECT, 
+        payload: {}
     };
 };
 
@@ -75,7 +73,6 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
 };
 
 export function saveProcedureObject(procedures, procedure, object) {
-
     if (object.id == null) {
         return createProcedureObject(procedures, procedure, object);
     }

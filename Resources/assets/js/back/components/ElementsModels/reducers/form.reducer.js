@@ -14,7 +14,6 @@ import {
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
     INIT_CREATE
-
 } from '../constants';
 
 const initialState = {
