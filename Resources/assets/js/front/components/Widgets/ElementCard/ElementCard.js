@@ -283,7 +283,7 @@ export default class ElementCard extends Component {
     }
 
     isDefined(value){
-        return value === null || value === '' || value === undefined
+        return value != null && value !== undefined && value !== ''
     }
 
     renderElementField(field, settings) {
@@ -310,7 +310,7 @@ export default class ElementCard extends Component {
         console.log('VALOR LINK', value, 'valuetostring ->' , value.toString().replace(/(<([^>]+)>)/gi, ""));
 
         
-        if (!this.isDefined()){
+        if (!this.isDefined(value)){
             return null;
         }
     
@@ -352,7 +352,7 @@ export default class ElementCard extends Component {
             case 'text':
                 //if then remove tags, string is null, hidden fields
                 value = this.removeTags(value);
-                if (!this.isDefined()){
+                if (!this.isDefined(value)){
                     return null;
                 }
                 if (field.settings.format == "password") {
