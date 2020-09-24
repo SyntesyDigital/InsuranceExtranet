@@ -24,7 +24,7 @@ export const SETTINGS_AVOID = {
   'columnWidth' : ['form','file','form-v2'],
   'operation' : ['table','file'],
   'readonly' : ['table','file'],
-  'iframe' : ['file'],
+  'iframe' : ['table','file'],
 
 };
 

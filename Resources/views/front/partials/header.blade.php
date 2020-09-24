@@ -49,6 +49,12 @@
                 });
             }, 500);
         });
+        //iframeFile styles on document iframe load
+        $(".iframe-content").on("load", function() {
+            let head = $(".iframe-content").contents().find("head");
+            let css = '<style>body{text-align:center;}img{height: 100vh;}</style>';
+            $(head).append(css);
+        });
     });
 
 	$(function(){

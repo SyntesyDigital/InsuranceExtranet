@@ -200,11 +200,13 @@ body .reduced .element-file-container .element-file-container-body .container-fi
 
 /* display label and display inline settings ficha */
 body .element-file-container .element-file-container-body .container-fields-default.display_inline div .row div:first-child, 
-body .element-file-container .element-file-container-body .display_inline .container-fields-default div .row div:first-child{
+body .element-file-container .element-file-container-body .display_inline .container-fields-default div .row div:first-child,
+body .element-file-container .element-file-container-body .container-fields-default.display_label div .row div:first-child{
     display: none;
 }
 body .element-file-container .element-file-container-body .container-fields-default.display_inline div .row div:not(:first-child), 
-body .element-file-container .element-file-container-body .display_inline .container-fields-default .row div:not(:first-child){
+body .element-file-container .element-file-container-body .display_inline .container-fields-default .row div:not(:first-child),
+body .element-file-container .element-file-container-body .display_label .container-fields-default .row div:not(:first-child){
     width: 100%;
     padding: 0;
 }
