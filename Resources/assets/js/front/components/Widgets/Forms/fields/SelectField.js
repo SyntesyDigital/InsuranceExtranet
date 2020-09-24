@@ -6,13 +6,16 @@ import {
   HIDDEN_FIELD
 } from './../constants';
 import {
-  parameteres2Array
+  processBoby,
+  getUrlParameters,
+  joinUrls,
+  updateParametersWithValues,
+  hasEmptyParameters
 } from './../functions/';
 
 class SelectField extends Component {
 
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -21,22 +24,98 @@ class SelectField extends Component {
 
     this.handleOnChange = this.handleOnChange.bind(this);
 
-    const { boby, parameters } = this.processBoby(this.props.field.boby);
+    const {boby,bobyParameters} = processBoby(this.props.field.boby);
 
     this.state = {
       loading: true,
       data: [],
-      boby: boby,
-      parameters: parameters,
       display: true,
       preloadData: [],
       selectedOption: null,
+
+      boby: boby,
+      bobyParameters : bobyParameters,
+      parameters : this.props.parameters,
+      waitingForParameters : false  //true when parameters need are not yet set
     };
 
-    this.loadData();
+    if(this.hasBobyParameters()){
+      this.state.waitingForParameters = true;
+    }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidMount() {
+    //if has no parameters load directly
+    if(!this.hasBobyParameters()){
+      this.loadData();
+    }
+  }
+
+  /**
+   * 
+   */
+  hasBobyParameters() {
+    return this.state.bobyParameters != null;
+  }
+
+  /**
+   * Join parameters coming from URL and parameters coming from values
+   */
+  processUrlParameters() {
+    var parameters = this.state.parameters;
+    var bobyParametersURL = this.hasBobyParameters() ? 
+      getUrlParameters(this.state.bobyParameters) : '';
+    
+    return joinUrls([parameters,bobyParametersURL]);
+  }
+
+  /**
+   * Check for every update the algorithm if necessary perameters
+   */
+  processBobyParametersLoaded(prevProps, prevState) {
+
+    //if no boby parameters
+    if(!this.hasBobyParameters()) {
+      return null;
+    }
+
+    //update parameters and check if necessary to update
+    const {hasChanged,parameters} = updateParametersWithValues(
+      this.state.bobyParameters,
+      this.props.values
+    );
+
+    //console.log("updateParametersWithValues :: ",{hasChanged,parameters});
+
+    if(hasChanged){
+      //check if there is parameters not defined yet
+      var empty = hasEmptyParameters(parameters);
+
+      var self = this;
+      this.setState({
+        bobyParameters : parameters,
+        waitingForParameters : empty,
+        data : [],
+        preloadData : []
+      },function() {
+        if(!empty){
+          self.cleanValue();
+
+          //if is not wainting for parameters to define
+          self.loadData();
+        }
+      });
+    }
+
+  }
+
+  /**
+   * For every update process the preloeaded info if exist.
+   * This is necessary when boby has diferent values for VEOS and for info
+   * coming from preload GET.
+   */
+  processUpdatePreloadedData(prevProps, prevState) {
+
     const identifier = this.props.field.identifier;
     const { preloadData } = this.state;
 
@@ -61,44 +140,25 @@ class SelectField extends Component {
         //console.log("SelectField :: is different, update (value)",this.state.data[dataPosition].value);
         //console.log("SelectField :: update preload : (dataPosition,value)",dataPosition,this.state.data[dataPosition].value);
         //if exist the value into preload data, change to veos valu
+        if(this.state.data[dataPosition] === undefined || this.state.data[dataPosition].value === undefined){
+          console.error("SelectField :: processUpdatePreloadedData : data[dataPosition].value undefined (dataPosition,data) ",dataPosition,this.state.data);
+          return null;
+        }
+
         this.props.onFieldChange({
           name: identifier,
           value: this.state.data[dataPosition].value
         });
       }
     }
+
   }
 
-  /**
-  *   Clean boby wihout parameters, and check all paremters are defined.
-  */
-  processBoby(boby) {
+  componentDidUpdate(prevProps, prevState) {
 
-    var parameters = parameteres2Array(this.props.parameters);
+    this.processBobyParametersLoaded(prevProps, prevState);
+    this.processUpdatePreloadedData(prevProps, prevState);
 
-    if (boby.indexOf('?') != -1) {
-      //if has parameters
-      var bobyArray = boby.split('?');
-      boby = bobyArray[0];
-
-      var bobyParams = parameteres2Array(bobyArray[1]);
-
-      for (var key in bobyParams) {
-        if (parameters[key] === undefined) {
-          //if any parameters is not defined show error
-
-          return {
-            boby: boby,
-            parameters: null
-          }
-        }
-      }
-    }
-
-    return {
-      boby: boby,
-      parameters: this.props.parameters
-    }
   }
 
   /**
@@ -129,46 +189,51 @@ class SelectField extends Component {
 
     var self = this;
 
-    var parameters = this.state.parameters == null ? "" : this.state.parameters;
 
-    axios.get(ASSETS + 'architect/elements/select/data/' + this.state.boby + "?" + parameters)
-      .then(function (response) {
-        if (response.status == 200 && response.data.data !== undefined) {
+    this.setState({
+      loading : true,
+      data : [],
+      preloadData : []
+    },function(){
+      axios.get(ASSETS + 'architect/elements/select/data/' + this.state.boby + "?"+this.processUrlParameters())
+        .then(function (response) {
+          if (response.status == 200 && response.data.data !== undefined) {
 
-          var display = false;
+            var display = false;
 
-          var preloadData = self.processPreloadData(response.data.data);
+            var preloadData = self.processPreloadData(response.data.data);
 
-          if (response.data.data.length == 0) {
-            //no data set this field as hidden, not needed
-            self.setHidden();
+            if (response.data.data.length == 0) {
+              //no data set this field as hidden, not needed
+              self.setHidden();
+            }
+            else if (response.data.data.length == 1) {
+              //only one value, selected it and hide
+              self.setUniqueValue(response.data.data[0].value);
+            }
+            else {
+              display = true;
+            }
+
+            //add first item with empty result, necessary to remove value
+            response.data.data.unshift({
+              name : "Sélectionnez",
+              value : "",
+              value_preload : null
+            });
+
+            self.setState({
+              data: response.data.data,
+              loading: false,
+              display: display,
+              preloadData: preloadData
+            });
+
           }
-          else if (response.data.data.length == 1) {
-            //only one value, selected it and hide
-            self.setUniqueValue(response.data.data[0].value);
-          }
-          else {
-            display = true;
-          }
-
-          //add first item with empty result, necessary to remove value
-          response.data.data.unshift({
-            name : "Sélectionnez",
-            value : "",
-            value_preload : null
-          });
-
-          self.setState({
-            data: response.data.data,
-            loading: false,
-            display: display,
-            preloadData: preloadData
-          });
-
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
       });
   }
 
@@ -176,6 +241,13 @@ class SelectField extends Component {
     this.props.onFieldChange({
       name: this.props.field.identifier,
       value: HIDDEN_FIELD
+    });
+  }
+
+  cleanValue() {
+    this.props.onFieldChange({
+      name : this.props.field.identifier,
+      value : ''
     });
   }
 
@@ -244,6 +316,7 @@ class SelectField extends Component {
   render() {
     const { field } = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
+    defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
     defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
     //const errors = this.props.error ? ' has-error' : '';
     const display = this.state.display;

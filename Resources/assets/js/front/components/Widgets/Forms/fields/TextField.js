@@ -68,7 +68,7 @@ class TextField extends Component {
                 var value = this.props.values[id] !== undefined && this.props.values[id] !== null && this.props.values[id] !== '' ? this.props.values[id] : '0';
                 formule = formule.replace('[' + id + ']', value);
             }
-            console.log("TextField :: formule :: ",formule);
+            //console.log("TextField :: formule :: ",formule);
             var result = eval(formule);
             //miramos si ha cambiado o no el resultado de la formula para updatear el campo
             if (this.props.value !== result) {
