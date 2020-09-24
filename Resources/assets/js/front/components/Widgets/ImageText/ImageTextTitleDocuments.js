@@ -69,7 +69,7 @@ export default class ImageTextTitleDocuments extends Component {
                 <div className="container-image">
                     {image ? <img src={'/' + image} width="100%" /> : null}
                     <a href={link} className="btn btn-primary">
-                        {titleLink}
+                        <h5>{titleLink}</h5>
                     </a>
                 </div>
                 <div className="container-title">
@@ -81,10 +81,7 @@ export default class ImageTextTitleDocuments extends Component {
                     {desc}
                 </div>
                 <div className="buttons-group text-center">
-                    <ButtonSecondary
-                        label={titleLink2}
-                        route={link2}
-                    />
+                    <a href={link2} class="btn btn-default"><h5>{titleLink2}</h5></a>
                 </div>
             </div>
         );

@@ -2,13 +2,15 @@
 
 namespace Modules\Extranet\Providers;
 
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
-use Modules\Extranet\Services\TokenLogin\Providers\TokenLoginProvider;
+use Modules\Extranet\Services\Currency\Providers\CurrencyProvider;
+use Modules\Extranet\Services\ElementModelLibrary\Providers\ElementModelLibraryProvider;
 use Modules\Extranet\Services\ElementTemplate\Providers\ElementTemplateProvider;
 use Modules\Extranet\Services\RolesPermissions\Providers\RolesPermissionsProvider;
-use Modules\Extranet\Services\ElementModelLibrary\Providers\ElementModelLibraryProvider;
+use Modules\Extranet\Services\SiteConfigurations\Providers\SiteConfigurationsProvider;
+use Modules\Extranet\Services\TokenLogin\Providers\TokenLoginProvider;
 
 class ExtranetServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,8 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->app->register(ElementModelLibraryProvider::class);
         $this->app->register(ElementTemplateProvider::class);
         $this->app->register(TokenLoginProvider::class);
+        $this->app->register(CurrencyProvider::class);
+        $this->app->register(SiteConfigurationsProvider::class);
 
         if (config('app.env') == 'production') {
             \URL::forceScheme('https');
@@ -77,6 +81,16 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/models.php',
             'models'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/version.php',
+            'version'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/admin.php',
+            'architect::admin'
         );
 
         $this->mergeConfigFrom(

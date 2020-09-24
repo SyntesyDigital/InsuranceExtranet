@@ -3,8 +3,15 @@ import ReactDOM from 'react-dom';
 import api from '../../api/index.js';
 import ImportButton from './../Layout/ImportButton';
 import moment from 'moment';
-
-import { ButtonSecondary, ButtonDropdown, BoxWithIcon, ButtonPrimary, BoxAdd, BoxList, PageTitle } from "architect-components-library";
+import { 
+    ButtonSecondary, 
+    ButtonDropdown, 
+    BoxWithIcon, 
+    ButtonPrimary, 
+    BoxAdd, 
+    BoxList, 
+    PageTitle 
+} from "architect-components-library";
 import { saveAs } from 'file-saver';
 
 

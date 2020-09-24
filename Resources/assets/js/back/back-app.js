@@ -24,6 +24,8 @@ require('./components/Services/ServiceForm');
 
 require('./components/ElementTemplate/Template');
 
+require('./components/Currencies/pages/CurrenciesIndex');
+
 
 
 

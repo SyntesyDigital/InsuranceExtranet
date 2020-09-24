@@ -14,21 +14,23 @@ import YesNoField from './../fields/YesNoField';
 import RadioField from './../fields/RadioField';
 import ImmatField from './../fields/ImmatField';
 import RadioMultiOptionField from './../fields/RadioMultiOptionField';
+import HtmlField from './../fields/HtmlField';
 
 import {
   HIDDEN_FIELD,
-  VISIBILITY_SHOW,
-  OPERATOR_EQUAL,
-  OPERATOR_DIFFERENT,
-  CONDITION_FIELD_TYPE_CONFIGURABLE,
-  CONDITION_FIELD_TYPE_PARAMETER
 } from './../constants';
+
+import {
+  checkIfExistJsonPath,
+  addKeyToJson
+} from './jsonpath.js';
 
 let jp = require('jsonpath');
 
 const fieldComponents = {
     text: TextField,
     date: DateField,
+    password: TextField,
     number: NumberField,
     select:SelectField,
     file:FileField,
@@ -40,7 +42,8 @@ const fieldComponents = {
     yesno : YesNoField,
     radio : RadioField,
     multi : RadioMultiOptionField,
-    immat : ImmatField
+    immat : ImmatField,
+    html : HtmlField
 };
 
 export function getFieldComponent(type) {
@@ -180,12 +183,17 @@ export function processObjectValue(object,values,formParameters) {
   const isConfigurable = object.CONF == "Y" ? true : false;
   const isActive = object.ACTIF == "Y" ? true : false;
 
+  const champIdentifier = object.PREFIX !== undefined && object.PREFIX != "" 
+    && object.PREFIX != null
+    ? object.PREFIX+"."+object.CHAMP 
+    : object.CHAMP;
+
   console.log("processObjectValue :: ",object,values, formParameters);
 
   if(type == "INPUT"){
 
     //FIXME this not should be necessary
-    if(formParameters[defaultValue] !== undefined) {
+    if(defaultValue != null && formParameters[defaultValue] !== undefined) {
       return formParameters[defaultValue];
     }
     else if(defaultValue == "_id_per_user"){
@@ -195,20 +203,24 @@ export function processObjectValue(object,values,formParameters) {
       return SESSION_ID;
     }
     
-    else if(values[object.CHAMP] == HIDDEN_FIELD){
+    else if(values[champIdentifier] == HIDDEN_FIELD){
       //this field is hidden
       return  null;
     }
     else {
+
+        //if champ is prefixed add prefix with identifier
+        
+
         //get value
-        if(values[object.CHAMP] === undefined){
+        if(values[champIdentifier] === undefined){
           if(isRequired){
-            console.error("Field is required : "+object.CHAMP);
+            console.error("Field is required : "+champIdentifier);
             //TODO dispatch error
           }
         }
         else {
-          return values[object.CHAMP];
+          return values[champIdentifier];
         }
     }
 
@@ -306,7 +318,7 @@ export function validateField(field,values,isModal) {
       return true;
     }
 
-    if(values[field.identifier] === undefined || values[field.identifier] == ''){
+    if(values[field.identifier] === undefined || values[field.identifier] === ''){
       return false;
     }
   }
@@ -461,127 +473,6 @@ export function parameteres2Array(paramString) {
   return result;
 }
 
-/**
-*   Check if field is visible depending on visibility conditionals.
-
-- check if parameter exist in form parameters and check value
-- check every condition
-type_pol = [true,false,]
-
-*/
-export function isVisible(file,formParameters,values) {
-
-  ////console.log("isVisible :: ",file,formParameters,values);
-
-  //if no has settings return visible
-  if(file.settings === undefined || file.settings.conditionalVisibility === undefined || file.settings.conditionalVisibility == null){
-    return true;
-  }
-
-  var settings = file.settings.conditionalVisibility;
-
-  var visible = settings.initialValue == VISIBILITY_SHOW ? true : false;  //init with default value
-
-  var conditionAccepted = false;
-
-  for(var index in settings.conditions) {
-    //fixme improve || for join type
-    conditionAccepted = conditionAccepted || checkConditionAccepted(
-      settings.conditions[index],
-      formParameters,
-      values
-    );
-  }
-
-  if(conditionAccepted){
-    //change visible to opposite
-    visible = !visible;
-  }
-  //if any condition is accepted, visible
-
-  ////console.log("isVisible :: ",visible);
-
-  return visible;
-}
-
-/**
-*   Check each condition to see if it's accepted or not.
-*/
-function checkConditionAccepted(condition,formParameters,values) {
-  if(condition.name === undefined || condition.name == "" )
-    return false;
-
-  if(condition.values === undefined || condition.values == "" )
-    return false;
-
-  var formValue = null;
-
-  //first get the value from parameters or variables
-  if(condition.type == CONDITION_FIELD_TYPE_CONFIGURABLE){
-    //it is a config field
-    if(values[condition.name] === undefined){
-      return false;
-    }
-
-    formValue = values[condition.name];
-  }
-  else if(condition.type == CONDITION_FIELD_TYPE_PARAMETER){
-    //it is a parameter
-
-    //condition parameter don't exist in form
-    if(formParameters['_'+condition.name] !== undefined){
-      formValue = formParameters['_'+condition.name];
-    }
-    else if(formParameters[condition.name] !== undefined){
-      formValue = formParameters[condition.name];
-    }
-    else {
-      return false;
-    }
-  }
-
-  if(formValue == null)
-    return false;
-
-
-  var operator = condition.operator;
-
-  //console.log("checkConditionAccepted :: ",condition,formValue,values);
-
-  // second check if need to check for defined or undefined
-  if(condition.values == null || condition.values == ""){
-    //not defined, maybe checking if defined or not, example : visible if variable ===  undefined
-    if(operator == OPERATOR_EQUAL && (formValue === undefined ||
-      formValue == null || formValue == "" )){
-        //value is undefined
-      return true;
-    }
-    if(operator == OPERATOR_DIFFERENT && (formValue !== undefined &&
-      formValue != null && formValue != "" )){
-        //value is defined
-      return true;
-    }
-  }
-  else {
-
-    var values = condition.values.split(",");
-
-    //third, check for values
-    for(var key in values){
-      var value = values[key].trim();
-
-      if(operator == OPERATOR_EQUAL && value == formValue){
-        return true;
-      }
-      else if(operator == OPERATOR_DIFFERENT && value != formValue){
-        return true;
-      }
-    }
-  }
-
-  return false;
-
-}
 
 /**
 *   Process procedure to obtain json result.
@@ -708,6 +599,8 @@ function initJSONResult(jsonResult,procedure, isRootArray) {
   return jsonResult;
 }
 
+
+
 export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
   for(var key in fields){
@@ -729,8 +622,14 @@ export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
       try {
 
-          var value = processObjectValue(field,values, formParameters);
+          //if jsonpath is not defined
+          if(!checkIfExistJsonPath(json,jsonpath)){
+              //add jsonpath to json
+              json = addKeyToJson(json,jsonpath);
+          }
 
+          var value = processObjectValue(field,values, formParameters);
+          
           jp.apply(json, jsonpath, function() { 
               return value 
           });

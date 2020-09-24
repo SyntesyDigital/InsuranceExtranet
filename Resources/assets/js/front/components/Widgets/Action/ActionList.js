@@ -14,6 +14,7 @@ export default class ActionList extends Component {
             <SimpleButton
                 field={item}
                 key={index}
+                parameters={this.props.parameters}
             />
         );
     }
@@ -34,8 +35,10 @@ export default class ActionList extends Component {
 if (document.getElementById('actionList')) {
     document.querySelectorAll('[id=actionList]').forEach(function (element) {
         var field = JSON.parse(atob(element.getAttribute('field')));
+        const props = Object.assign({}, element.dataset);
         ReactDOM.render(<ActionList
             field={field}
+            {...props}
         />, element);
     });
 }

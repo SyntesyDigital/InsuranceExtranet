@@ -6,5 +6,7 @@ return [
     'element_models' => 'Modèles d\'élément',
     'services' => 'Services',
     'parameters' => 'Parameters',
-    'elements' => 'Éléments'
+    'elements' => 'Éléments',
+    'currencies' => 'Currencies',
+    'siteConfigurations' => 'Site parameters',
 ];

@@ -97,89 +97,106 @@ class BobyRepository
         return $beans;
     }
 
-    public function processService($method, $url, $data, $isArray)
+    public function processService($method, $url, $data, $isArray, $isOldUrl = null, $body = 'json')
     {
         if ($isArray) {
             //is array ( example documents ) process every item
-            foreach($url as $currentUrl){
+            foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl, $body);
                 }
             }
 
             //FIXME get a response that represents all items
             return $result;
-        } else if(is_array($url)){
+        } elseif (is_array($url)) {
             //process every post of array
-            foreach($url as $currentUrl){
-                $result = $this->processMethod($method, $currentUrl, $data);
+            foreach ($url as $currentUrl) {
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl, $body);
             }
+
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data);
+            return $this->processMethod($method, $url, $data, $isOldUrl, $body);
         }
     }
 
-    private function processMethod($method, $url, $data)
+    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
     {
         $params = [
-          'json' => $data,
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ]
+            $body => $data,
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
         ];
+
+        $wsUrl = VeosWsUrl::get();
+
+        if ($isOldUrl) {
+            $wsUrl = str_replace('/rsExtranet2/', '/', $wsUrl);
+        }
 
         switch ($method) {
             case 'POST':
-                $response = $this->client->post(VeosWsUrl::get().$url, $params);
+                $response = $this->client->post($wsUrl.$url, $params);
                 break;
+
             case 'PUT':
             case 'PUT*':  //FIXME to delete when not used
             case 'PUT_2':
-                $response = $this->client->put(VeosWsUrl::get().$url, $params);
-            break;
+                $response = $this->client->put($wsUrl.$url, $params);
+                break;
+
             case 'GET':
-                $response = $this->client->get(VeosWsUrl::get().$url.$this->params2url($url,$params['json']), $params);
-            break;
+                $response = $this->client->get($wsUrl.$url.$this->params2url($url, $params['json']), $params);
+                break;
+
             case 'DELETE':
-                $response = $this->client->delete(VeosWsUrl::get().$url, $params);
+                $response = $this->client->delete($wsUrl.$url, $params);
+                break;
+
             default:
                 return null;
         }
 
-        
-
         return json_decode($response->getBody());
     }
 
-    private function params2url($baseUrl, $params){
-
+    private function params2url($baseUrl, $params)
+    {
         //if base url already contains ? continue url with &
-        $firstChar = strpos($baseUrl, "?") === false ? "?" : "&";
+        $firstChar = strpos($baseUrl, '?') === false ? '?' : '&';
         $first = true;
-        $url = "";
-        if(!isset($params))
-            return $url;
-            
-        foreach($params as $key => $value){
-            if($value != "" && $value != null){
-                $url .= ($first? $firstChar :'&').$key."=".$value;
-                $first = false;
+        $url = '';
+
+        if (empty($params)) {
+            return null;
+        }
+
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                if ($value !== '' && $value !== null) {
+                    $url .= ($first ? $firstChar : '&').$key.'='.$value;
+                    $first = false;
+                }
             }
         }
+
         return $url;
     }
 
     public function checkDocumentAvailable($id)
     {
-        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?SES='.Auth::user()->session_id.'&id_doc='.$id, [
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
+        $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?'
+            .get_session_parameter()
+            .'&id_doc='.$id, [
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
       ]);
 
         $result = json_decode($response->getBody());
-        
+
         if (isset($result->data[0])) {
             if ($result->data[0]->PERMIS == 'yes') {
                 return true;

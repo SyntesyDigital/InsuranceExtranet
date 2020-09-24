@@ -12,10 +12,10 @@ use Modules\Extranet\Http\Requests\Elements\CreateElementRequest;
 use Modules\Extranet\Http\Requests\Elements\DeleteElementRequest;
 use Modules\Extranet\Http\Requests\Elements\PostServiceRequest;
 use Modules\Extranet\Http\Requests\Elements\UpdateElementRequest;
-use Modules\Extranet\Jobs\Element\CreateElement;
-use Modules\Extranet\Jobs\Element\DeleteElement;
-use Modules\Extranet\Jobs\Element\UpdateElement;
+use Modules\Extranet\Jobs\Elements\CreateElement;
+use Modules\Extranet\Jobs\Elements\DeleteElement;
 use Modules\Extranet\Jobs\Elements\ProcessService;
+use Modules\Extranet\Jobs\Elements\UpdateElement;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\ElementRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
@@ -228,6 +228,10 @@ class ElementController extends Controller
         try {
             $result = $this->elements->getModelValuesFromElement($element, $request->all());
 
+            if ($request->has('debug')) {
+                dd($element->toArray(),$result);
+            }
+
             return response()->json([
                 'success' => true,
                 'modelValues' => new ModelValuesFormatTransformer(
@@ -306,7 +310,9 @@ class ElementController extends Controller
     {
         $parameters = $request->all();
 
-        $params = '?SES='.Auth::user()->session_id.'&perPage=10000';
+        $params = '?'
+            .get_session_parameter()
+            .'&perPage=10000';
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {
@@ -361,16 +367,26 @@ class ElementController extends Controller
     public function getFormProcedures($modelId, Request $request)
     {
         try {
+            $validationWs = null;
+
             if (intval($modelId) != 0) {
                 //ElementModel Form V2
                 $elementModel = ElementModel::where('id', $modelId)->first();
                 $data = $elementModel->getProcedures(
                     $this->elements->getVariables()
                 );
+                //if validation ws is defined add to array
+                $validationWs = $elementModel->validation_ws;
             } else {
                 //$modelId is an string, so Form V1
                 $data = $this->computeFormProcedures($modelId);
             }
+
+            $data = [
+                'procedures' => $data['procedures'],
+                'variables' => $data['variables'],
+                'validation_ws' => $validationWs,
+            ];
 
             if ($request->has('debug')) {
                 dd($data);
@@ -378,10 +394,7 @@ class ElementController extends Controller
 
             return response()->json([
                       'success' => true,
-                      'data' => [
-                          'procedures' => $data['procedures'],
-                          'variables' => $data['variables'],
-                        ],
+                      'data' => $data,
                   ]);
         } catch (\Exception $e) {
             return response()->json([

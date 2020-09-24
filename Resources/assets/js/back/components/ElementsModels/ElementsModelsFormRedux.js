@@ -107,8 +107,10 @@ class ElementsModelsFormRedux extends Component {
         );
     }
 
+    // FIXME : use openModalTableField()
     handleEditObject(procedure, object){
-        this.props.openModalEditObject(procedure, JSON.parse(JSON.stringify(object)));
+        //this.props.openModalTableField(procedure, JSON.parse(JSON.stringify(object)));
+        
     }
     //
     
@@ -175,23 +177,6 @@ class ElementsModelsFormRedux extends Component {
                 }
               }
             });
-    }
-
-    handleServiceChange(name,value) {
-
-        var service = null;
-        for(var key in this.state.services){
-            if(this.state.services[key].value == value){
-                service = this.state.services[key];
-                service.id = value;
-            }
-        }
-
-        const {procedure} = this.state;
-        procedure[name] = service;
-        this.setState({
-            procedure : procedure
-        });
     }
 
     handleSubmit() {
@@ -274,31 +259,48 @@ class ElementsModelsFormRedux extends Component {
     // ==============================
     // Renderers
     // ==============================
-    renderFields() {
-        let procedure = this.props.form.form.procedures[0] !== undefined 
-                ? this.props.form.form.procedures[0]
-                : null;
-
-        let displayObjects = procedure ? procedure.fields.map((object, index) =>
-            <div key={object.identifier + index} className={object.identifier + index}>
-                <FieldListItem
+    renderTableFields() {
+        let fields = this.props.table.fields.map((field, index) => 
+            <div key={field.identifier + index} className={field.identifier + index}>
+                 <FieldListItem
                     key={index}
-                    identifier={object.identifier}
+                    identifier={field.identifier}
                     index={index}
-                    icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
-                    icons={[this.getTypeIcon(object.type)]}
-                    label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                    labelField={object.name}
+                    icon={field.format !== undefined ? MODELS_FIELDS[field.format].icon : ''}
+                    icons={[this.getTypeIcon(field.type)]}
+                    label={field.format !== undefined ? MODELS_FIELDS[field.format].label : ''}
+                    labelField={field.name}
                     isField={true}
-                    onEdit={this.handleEditObject.bind(this, procedure, object)}
-                    onRemove={this.handleRemoveObject.bind(this, procedure, object)}
+                    onEdit={this.handleEditObject.bind(this, this.props.form.form.procedures[0], field)}
+                    onRemove={this.handleRemoveObject.bind(this, this.props.form.form.procedures[0], field)}
                 />
             </div>
-        ) : null;
+        );
+
+        // let procedure = this.props.form.form.procedures[0] !== undefined 
+        //         ? this.props.form.form.procedures[0]
+        //         : null;
+
+        // let fields = procedure ? procedure.fields.map((field, index) =>
+        //     <div key={field.identifier + index} className={field.identifier + index}>
+        //         <FieldListItem
+        //             key={index}
+        //             identifier={field.identifier}
+        //             index={index}
+        //             icon={field.format !== undefined ? MODELS_FIELDS[field.format].icon : ''}
+        //             icons={[this.getTypeIcon(field.type)]}
+        //             label={field.format !== undefined ? MODELS_FIELDS[field.format].label : ''}
+        //             labelField={field.name}
+        //             isField={true}
+        //             onEdit={this.handleEditObject.bind(this, procedure, field)}
+        //             onRemove={this.handleRemoveObject.bind(this, procedure, field)}
+        //         />
+        //     </div>
+        // ) : null;
 
         return (
             <div>
-                {displayObjects}
+                {fields}
             </div>
         )
     }
@@ -398,8 +400,7 @@ class ElementsModelsFormRedux extends Component {
                             icon={'fas fa-sync-alt'}
                             onClick={e => {
                                 e.preventDefault();
-
-                                this.props.importFieldsFromService(1);
+                                this.props.importFieldsFromService(this.props.form.form.service_id);
                             }}
                         />
                     }
@@ -461,7 +462,7 @@ class ElementsModelsFormRedux extends Component {
 
                             {this.getFormType() == "table" && 
                                 <div>
-                                    { this.renderFields() }
+                                    { this.renderTableFields() }
                                     <BoxAddLarge
                                         title='Ajouter un champ'
                                         onClick={(e) => {
@@ -510,14 +511,12 @@ class ElementsModelsFormRedux extends Component {
                         {this.getFormType() == "table" && 
                             <SelectField
                                 label={'Service'}
-                                value={1}
-                                name={'service'}
+                                value={this.props.form.service_id}
+                                name={'service_id'}
                                 arrayOfOptions={this.state.services}
-                                onChange={this.handleServiceChange.bind(this)}
-                                // onChange={this.handleFieldChange.bind(this)}
+                                onChange={this.props.updateField}
                             />
                         }
-
                     </div>
 
                 </div>

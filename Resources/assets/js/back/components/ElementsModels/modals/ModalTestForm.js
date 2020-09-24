@@ -24,6 +24,76 @@ class ModalTestForm extends Component {
     }
 
     /**
+     * Check if jsonpath is definied into de JSON.
+     * If it dones't exist.
+     * @param {*} json 
+     * @param {*} jsonpath 
+     */
+    checkIfExistJsonPath(json,jsonpath){
+        
+        var query = jp.query(json, jsonpath);
+
+        return query.length > 0;
+    }
+
+
+    /**
+    *   Iterate recursively to make the json result.
+    */
+    createJsonKey(paramArray,index,jsonResult) {
+
+        //console.log("setupJsonResult :: setup => ",paramArray,jsonResult,index,name,arrayPosition);
+    
+        var name = paramArray[index];
+
+        /*
+        console.log("createJsonKey :: iteration : (paramArray,index,jsonResult,name,paramArray.length)",
+            paramArray,
+            index,
+            JSON.stringify(jsonResult),
+            name,
+            paramArray.length
+        );
+        */
+    
+        if(jsonResult === undefined || jsonResult == null || $.isEmptyObject(jsonResult)){
+            jsonResult = {};
+        }
+
+        //define the json with null value
+        if(jsonResult[name] === undefined)
+            jsonResult[name] = null;
+    
+        if(paramArray.length-1 > index ){
+            //continue with the next step
+            jsonResult[name] = this.createJsonKey(
+                paramArray,
+                index+1,
+                jsonResult[name]
+            );
+        }
+    
+        return jsonResult;
+    }
+
+    addKeyToJson(json,jsonpath){
+
+        if(jsonpath.indexOf('[') != -1){
+            console.error("addKeyToJSON : not possible to add key to array (jsonpath)",jsonpath);
+            return json;
+        }
+
+        //remove identifier from jsonpath
+        var jsonPathArray = jsonpath.split('.');
+
+        json = this.createJsonKey(jsonPathArray,1,json);
+
+        //console.log("createJsonKey :: final result (json)",json,'\n\n');
+
+        return json;
+    }
+
+    /**
      * 
      * Process all procedure fields to obtain result json.
      * 
@@ -36,6 +106,7 @@ class ModalTestForm extends Component {
         for(var key in fields){
             var jsonpath = root;
             var field = fields[key];
+            var keyAdded = false;
 
             if(field.jsonpath != null && field.jsonpath != ''){
                 jsonpath += field.jsonpath;
@@ -49,8 +120,16 @@ class ModalTestForm extends Component {
             );
 
             try {
+
+                //if jsonpath is not defined
+                if(!this.checkIfExistJsonPath(json,jsonpath)){
+                    //add jsonpath to json
+                    json = this.addKeyToJson(json,jsonpath);
+                    keyAdded = true;
+                }
+
                 jp.apply(json, jsonpath, function(value) { 
-                    return field.example 
+                    return field.example+(keyAdded ? '_NEW' : '')
                 });
             }
             catch(error) {
@@ -225,6 +304,52 @@ class ModalTestForm extends Component {
         }
     }
 
+    cleanNullValues(jsonArray) {
+        for(var i=jsonArray.length -1;i>=0;i--){
+            if(jsonArray[i] == null)
+                jsonArray.splice(i,1);
+        }
+        return jsonArray;
+    }
+
+    cleanJSON(json) {
+        console.log("clean json ",json);
+
+        //if not array and not object, is a value, return value
+        if((!(json instanceof Array) && !(typeof json === 'object')) || json === null){
+            return json;
+        }
+
+        //its an object or an array
+        var empty = true;
+        for(var key in json) {
+            //clean the children
+            json[key] = this.cleanJSON(json[key]);
+            
+            //if it's empty delete item
+            if(json[key] == "empty"){
+                delete json[key];
+            }
+            //if not empty
+            else if(json[key] != null && json[key] !== '' ){
+                //thgis objets don't need to remove
+                empty = false;
+            }
+
+        }
+        //if empty return string "empty" to be rmeoved
+        if(empty)
+            return "empty";
+
+        //if array clean nulls ( delete array position return null array items example : [null,null,{something : ''}])
+        if(json instanceof Array){
+            json = this.cleanNullValues(json);
+        }
+
+        //else return json so nothing to do
+        return json;
+    }
+
     renderServices() {
         return this.state.services.map((item,index) => 
             <CollapsableGroup
@@ -234,7 +359,7 @@ class ModalTestForm extends Component {
                 <InputFieldJsonEdit 
                     label={'JSON'} 
                     name={item.identifier}
-                    placeholder={item.json}
+                    placeholder={this.cleanJSON(item.json)}
                     height={400}
                 />
 

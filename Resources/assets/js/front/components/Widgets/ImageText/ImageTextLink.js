@@ -59,7 +59,7 @@ export default class ImageTextLink extends Component {
             <div className="container-image-text-link">
                 <div className="container-image">
                     <a href={link}>
-                        {image ? <img src={'/' + image} width="100%" height="220" /> : null}
+                        {image ? <img src={'/' + image} width="100%" height="auto" /> : null}
                     </a>
                 </div>
                 <div className="container-title">

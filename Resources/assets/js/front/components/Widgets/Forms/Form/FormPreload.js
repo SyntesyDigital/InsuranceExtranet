@@ -35,6 +35,19 @@ class FormPreload extends Component {
       
     }
 
+    /**
+     * Function to get first procedure
+     */
+    getFirstPreloadProcedure(procedures) {
+      for(var key in procedures) {
+        var procedure = procedures[key];
+        if(procedure.PRELOAD == "Y" ){
+          return procedure;
+        }
+      }
+      return null;
+    }
+
     preloadForm() {
 
       console.log("FormPreload :: preloadForm ");
@@ -46,10 +59,12 @@ class FormPreload extends Component {
         return;
       }
 
-      if(this.props.version == "2" && procedures[0].SERVICE.METHODE == "PUT" 
-        && procedures[0].PRELOAD == "Y" ){
+      var preloadProcedure = this.getFirstPreloadProcedure(procedures);
+
+      //if there is a put procedure to preload
+      if(this.props.version == "2" && preloadProcedure != null ){
         this.props.preloadForm(
-          procedures[0],
+          preloadProcedure,
           this.props.parameters.formParameters
         );
         

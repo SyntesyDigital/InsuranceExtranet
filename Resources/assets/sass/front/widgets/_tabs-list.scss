@@ -1,0 +1,41 @@
+.tabs-list-widget {
+    .tabs-list-container {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        ul {
+            display: flex;
+            margin-left: 10px;
+        }
+        .container-tab {
+            display: flex;
+            margin-left: -10px;
+            &.active {
+                .simple-button-container {
+                    background-color: #fff;
+                }
+            }
+        }
+        .simple-button-container {
+            border-top-left-radius: 10px;
+            a {
+                @include line-clamp(2, 20);
+                white-space: nowrap;
+            }
+        }
+        .simple-btn {
+            padding: 12px 0px 12px 35px;
+            width: 160px;
+            float: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    + {
+        div {
+            border-top-left-radius: 0 !important;
+        }
+    }
+}

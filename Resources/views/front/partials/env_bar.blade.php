@@ -15,6 +15,5 @@
         <a href="{{route('contents.show',$content->id)}}" target="_blank"><i class="fa fa-pencil"></i> &nbsp;Modifier</a>
       </div>
     @endif
-
   </div>
 @endif

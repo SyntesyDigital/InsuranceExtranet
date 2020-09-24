@@ -16,6 +16,12 @@ export let services = {
         });
     },
 
+    getBody(id) {
+        return query(GQL_GET_SERVICE_BODY, {
+            id: id,
+        });
+    },
+
     delete(id) {
         return mutation(GQL_DELETE_SERVICE, {
             id: id,
@@ -51,8 +57,10 @@ export const GQL_GET_ALL_SERVICE = gql`
             response
             comment
             response_json
+            is_old_url_ws
             created_at
             updated_at
+            body
         }
     }
 `;
@@ -75,6 +83,8 @@ export const GQL_GET_SERVICE = gql`
         response
         comment
         response_json
+        is_old_url_ws
+        body
     }
   }
 `;
@@ -100,6 +110,9 @@ export const GQL_CREATE_SERVICE = gql`
         $response: String 
         $comment: String
         $response_json: String
+        $is_old_url_ws: Boolean
+        $body: String
+        
     ) {
         createService(
         input: {
@@ -112,6 +125,8 @@ export const GQL_CREATE_SERVICE = gql`
             response: $response
             comment: $comment
             response_json: $response_json
+            is_old_url_ws: $is_old_url_ws
+            body: $body
         }
     ) {
         id
@@ -124,6 +139,7 @@ export const GQL_CREATE_SERVICE = gql`
         response
         comment
         response_json
+        body
     }
   } 
 `;
@@ -151,6 +167,8 @@ export const GQL_UPDATE_SERVICE = gql`
         $response: String
         $comment: String
         $response_json: String
+        $is_old_url_ws: Boolean
+        $body: String
     ) {
         updateService(
             input: {
@@ -164,6 +182,8 @@ export const GQL_UPDATE_SERVICE = gql`
                 response: $response
                 comment: $comment
                 response_json: $response_json
+                is_old_url_ws: $is_old_url_ws
+                body: $body
             }
         ) {
             id
@@ -176,6 +196,8 @@ export const GQL_UPDATE_SERVICE = gql`
             response
             comment
             response_json
+            is_old_url_ws
+            body
         }
   } 
 `;
@@ -202,6 +224,18 @@ export const GQL_DELETE_SERVICE = gql`
             response
             comment
             response_json
+            is_old_url_ws
+            body
         }
   } 
+`;
+
+
+
+export const GQL_GET_SERVICE_BODY = gql`
+    query($id: ID!) {
+        serviceBody(id:$id) {
+            body
+        }
+    }
 `;

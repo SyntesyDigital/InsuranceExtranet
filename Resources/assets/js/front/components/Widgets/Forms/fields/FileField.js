@@ -142,12 +142,12 @@ class FileField extends Component
           {(this.props.value == null || this.props.value == '') &&
 
             <FilePicker
-              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx']}
+              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
               onChange={this.handleOnChange.bind(this)}
               onError={this.handleError.bind(this)}
             >
               <button className="btn btn-default" href="#" type="button">
-                <i className="fas fa-paperclip"></i> télécharger le fichier
+                <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
               </button>
             </FilePicker>
           }

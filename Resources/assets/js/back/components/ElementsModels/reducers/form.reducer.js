@@ -38,7 +38,10 @@ const initialState = {
         description: '',
         icon: '',
         type: 'form-v2',
-        procedures : []
+        procedures : [],
+        validation : false,
+        validation_ws : null,
+        service_id: null
     },
 
     /*
@@ -171,15 +174,17 @@ function formReducer(state = initialState, action) {
             }
 
         case INIT_STATE:
-
             if(action.payload.type == "table") {
                 return {
                     ...state,
-                    form: action.payload,
+                    form: {
+                        ...action.payload,
+                        service_id: action.payload.procedures[0].service.id
+                    },
                     currentProcedure: action.payload.procedures[0]
                 }
             }
-            
+
             return {
                 ...state,
                 form : action.payload
@@ -187,6 +192,10 @@ function formReducer(state = initialState, action) {
 
         case UPDATE_FIELD:
             form[action.payload.name] = action.payload.value;
+            //if validate disabled, remove validate_ws value
+            if(action.payload.name == "validation" && action.payload.value == false){
+                form['validation_ws'] = null;
+            }
 
             return {
                 ...state,
@@ -198,6 +207,8 @@ function formReducer(state = initialState, action) {
             var proceduresCopy = state.form.procedures;
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
+            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
+                ? true : false;
 
             return {
                 ...state,
@@ -227,6 +238,8 @@ function formReducer(state = initialState, action) {
                     configurable: false,
                     required: false,
                     repeatable: false,
+                    prefixed : false,
+                    duplicate: false,
                     repeatable_json : '',
                     repeatable_jsonpath : '',
                     fields: [],

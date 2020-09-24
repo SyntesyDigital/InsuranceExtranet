@@ -9,8 +9,8 @@ class TokenLoginConnectorHandler
     public function __construct($token, $provider)
     {
         $connector = isset(config('services:tokenlogin.providers')[$provider])
-                ? config('services:tokenlogin.providers')[$provider]
-                : null;
+            ? config('services:tokenlogin.providers')[$provider]
+            : null;
 
         if (!$connector) {
             return false;
@@ -21,6 +21,10 @@ class TokenLoginConnectorHandler
 
     public function handle()
     {
+        if (!$this->connector) {
+            return false;
+        }
+
         return $this->connector->handle();
     }
 }

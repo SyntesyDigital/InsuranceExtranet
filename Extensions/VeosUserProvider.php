@@ -13,14 +13,17 @@ class VeosUserProvider implements UserProvider
 {
     public function __construct()
     {
-        if ($this->user()) {
+        if ($this->user() && isset($this->user()->role)) {
             switch ($this->user()->role) {
-               case ROLE_SYSTEM:
-               case ROLE_SUPERADMIN:
-               case ROLE_ADMIN:
-               case ROLE_USER:
+                case ROLE_SYSTEM:
+                case ROLE_SUPERADMIN:
+                case ROLE_ADMIN:
+                case ROLE_USER:
                     $this->renewToken();
                     break;
+
+                case ROLE_ANONYMOUS:
+                break;
 
                 default:
                     header('Location: /unavailable');

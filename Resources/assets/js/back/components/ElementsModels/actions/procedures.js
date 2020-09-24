@@ -52,7 +52,9 @@ export function createProcedure(modelId,procedures,procedure) {
             service_id: procedure.service.id,
             model_id: modelId,
             order : procedure.order,
-            preload : procedure.preload
+            preload : procedure.preload,
+            prefixed : procedure.prefixed,
+            duplicate : procedure.duplicate,
         })
         .then(function(data) {
 
@@ -85,7 +87,9 @@ export function updateProcedure(modelId,procedures,procedure) {
             service_id: procedure.service.id,
             model_id: modelId,
             order : procedure.order,
-            preload : procedure.preload
+            preload : procedure.preload,
+            prefixed : procedure.prefixed,
+            duplicate : procedure.duplicate,
         })
         .then(function(data) {
 

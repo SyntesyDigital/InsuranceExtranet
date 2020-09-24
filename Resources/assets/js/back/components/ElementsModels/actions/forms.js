@@ -63,13 +63,36 @@ export function createForm(form) {
             identifier : form.identifier,
             description : form.description,
             icon : form.icon,
-            type : form.type
+            type : form.type,
+            validation_ws : form.validation_ws
         })
         .then(function(data) {
 
+            let model = data.data.createElementModel;
+
+            if(form.type == "table" && form.service_id !== undefined) {
+                api.procedures.create({
+                    name : 'TABLE_' +  form.identifier,
+                    configurable: false,
+                    required: true,
+                    repeatable: false,
+                    repeatable_json: false,
+                    repeatable_jsonpath: '',
+                    prefixed: false,
+                    duplicate: false,
+                    preload: false,
+                    service_id: form.service_id,
+                    model_id: model.id ,
+                    order: 0
+                });
+            } 
+
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({type: UPDATE_FORM, payload: data.data.createElementModel});
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: model
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -85,7 +108,8 @@ export function updateForm(form) {
             identifier : form.identifier,
             description : form.description,
             icon : form.icon,
-            type : form.type
+            type : form.type,
+            validation_ws : form.validation_ws
         })
         .then(function(data) {
 

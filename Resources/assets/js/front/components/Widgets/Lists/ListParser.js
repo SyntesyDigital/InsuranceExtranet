@@ -236,7 +236,7 @@ export default class ListParser extends Component {
        // console.log("TypologyPaginated => ",items[key]);
 
         result.push(
-          <div className={this.state.columns + ' ' + this.props.identifier ? this.props.identifier : null} key={key}>
+          <div className={this.state.columns + ' ' + (this.props.identifier ? this.props.identifier : '')} key={key}>
             <div className="item-container">
                 {this.props.renderItem(data[key],this.state.elementObject,key)}
             </div>
@@ -261,6 +261,7 @@ export default class ListParser extends Component {
       var externalLoading = this.props.externalLoading !== undefined 
         ? this.props.externalLoading 
         : false ;
+
       var loaded = initiliased && !externalLoading;
 
       return (
@@ -271,15 +272,16 @@ export default class ListParser extends Component {
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }
-          { !loaded &&
+
+          {!initiliased &&
               <p className="message">Chargement...</p>
           }
 
-          {loaded && data != null && data.length == 0 &&
+          {initiliased && data != null && data.length == 0 &&
               <p className="message">Aucune donnée trouvée</p>
           }
 
@@ -294,7 +296,7 @@ export default class ListParser extends Component {
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }

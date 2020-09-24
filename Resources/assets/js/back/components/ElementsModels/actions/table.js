@@ -19,14 +19,13 @@ export function closeModalTableField() {
     };
 };
 
-
-export function importFieldsFromService(serviceId) {
+export function importFieldsFromService(id) {
     return (dispatch) => {
-        return api.services.get(serviceId)
+        return api.services.getBody(id)
             .then(response => {
                 dispatch({ 
                     type: IMPORT_TABLE_FIELD,
-                    payload: response.data.service
+                    payload: JSON.parse(response.data.serviceBody.body)
                 });
             });
     }

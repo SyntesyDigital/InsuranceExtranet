@@ -2,13 +2,12 @@
 
 namespace Modules\Extranet\Services\ElementModelLibrary\Entities;
 
+use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Extranet\Services\ElementModelLibrary\Duplicators\ModelProcedureDuplicator;
 use Modules\Extranet\Services\ElementModelLibrary\Traits\Duplicator;
-
-use Config;
 
 class ModelProcedure extends Model
 {
@@ -39,7 +38,9 @@ class ModelProcedure extends Model
         'repeatable_json',
         'repeatable_jsonpath',
         'order',
-        'preload'
+        'preload',
+        'prefixed',
+        'duplicate'
     ];
 
     public function service(): BelongsTo
@@ -59,32 +60,35 @@ class ModelProcedure extends Model
 
     public function getObject()
     {
-        return (object)[
-            "ID"=> $this->id,
-            "ETAP"=> $this->order,
-            "LIB"=> $this->name,
-            "REP"=> $this->repeatable ? 'Y' : 'N',
-            "CONF"=> $this->configurable ? 'Y' : 'N',
-            "OBL"=> $this->required ? 'Y' : 'N',
-            "PRELOAD"=> $this->preload ? 'Y' : 'N',
-            "P1"=> null,
-            "P2"=> null,
-            "P3"=> null,
-            "JSON" => $this->repeatable_json,
-            "OBJID" => $this->id
+        return (object) [
+            'ID' => $this->id,
+            'ETAP' => $this->order,
+            'LIB' => $this->name,
+            'REP' => $this->repeatable ? 'Y' : 'N',
+            'CONF' => $this->configurable ? 'Y' : 'N',
+            'OBL' => $this->required ? 'Y' : 'N',
+            'PRELOAD' => $this->preload ? 'Y' : 'N',
+            'P1' => null,
+            'P2' => null,
+            'P3' => null,
+            'JSON' => $this->repeatable_json,
+            'OBJID' => $this->id,
+            'PREFIXED' => $this->prefixed ? 'Y' : 'N',
+            'DUPLICATE' => $this->duplicate ? 'Y' : 'N',
         ];
     }
 
-    public function getFieldsConfig() 
+    public function getFieldsConfig()
     {
-
         $fields = [];
+        $prefix = $this->prefixed ? $this->service->identifier : '';
         foreach($this->fields as $field){
-            $fieldObject = $field->getConfig();
+            $fieldObject = $field->getConfig($prefix);
             if(isset($fieldObject)){
                 $fields[] = $fieldObject;
             }
         }
+
         return $fields;
     }
 
@@ -108,16 +112,18 @@ class ModelProcedure extends Model
             'formats' => $fieldType['formats'],
             'rules' => $fieldType['rules'],
             'settings' => $fieldType['settings'],
-            'fields' => $fields
+            'fields' => $fields,
           ];
     }
 
-    public function getFieldsObject() 
+    public function getFieldsObject()
     {
         $fields = [];
-        foreach($this->fields as $field){
-            $fields[] = $field->getObject();
+        $prefix = $this->prefixed ? $this->service->identifier : '';
+        foreach ($this->fields as $field) {
+            $fields[] = $field->getObject($prefix);
         }
+
         return $fields;
     }
 }

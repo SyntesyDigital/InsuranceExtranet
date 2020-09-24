@@ -8,7 +8,10 @@
 			padding: 0px 25px 0px 10px;
 			margin-right: 16px;
 			margin-left: 0px;
-			padding: 2px 5px 2px 15px !important;
+            padding: 2px 5px 2px 15px !important;
+            &.radio-field-label{
+                padding: 0px 25px 0px 10px !important;
+            }
 			.Mui-checked{
 				color: #8db7f7;
 			}

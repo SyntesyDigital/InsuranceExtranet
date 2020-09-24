@@ -178,6 +178,10 @@ class ModalEditClass extends Component {
       {
         value: "box-class-3",
         name: "box-class-3",
+      },
+      {
+        value: "reduced",
+        name: "reduced",
       }
     ];
   }
@@ -287,6 +291,22 @@ class ModalEditClass extends Component {
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label={'Style conteneur'}
           options={this.getBoxClassOptions()}
+        />
+
+        <BooleanSettingsField
+          field={data}
+          name="displayInline"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={Lang.get('modals.display_inline')}
+        />
+
+        <BooleanSettingsField
+          field={data}
+          name="displayLabel"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={Lang.get('modals.display_label')}
         />
 
         <VisibilitySettingsField

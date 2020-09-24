@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+import {
+  CONDITION_FIELD_TYPE_PARAMETER,
+  CONDITION_FIELD_TYPE_CONFIGURABLE
+} from './../../../../back/components/Element/constants';
 
 /**
  * Same funciont as php number_format. Process number decimals.
@@ -39,15 +43,15 @@ export function numberFormat (number, decimals, dec_point, thousands_sep) {
  * @param {*} value 
  * @param {*} field 
  */
-export function parseNumber(value,field) {
+export function parseNumber(value,field, values = null, parameters = null) {
 
-  if(value !== undefined && value != ""){
+  var hideCurrency = field.settings.hideCurrency !== undefined ? field.settings.hideCurrency : false;
+  var currency = hideCurrency ? "" : "€";
+  var currencyInfo = '';
 
-    var hideCurrency = field.settings.hideCurrency !== undefined 
-      ? field.settings.hideCurrency : false;
-
-    var currency = hideCurrency ? "" : "€";
-
+  if(currencyInfo = fieldHasCurrencySettings(field,values,parameters)){      
+    value = parseCurrency(value,currencyInfo,hideCurrency);
+  }else{
     if(field.settings !== undefined && field.settings.format !== undefined){
       switch(field.settings.format) {
         case 'price':
@@ -62,11 +66,60 @@ export function parseNumber(value,field) {
       }
     }
   }
-  
+
   return value;
 
 }
 
+export function fieldHasCurrencySettings(field,values = null,parameters = null) {
+  //check settings exists and currency exists
+  if(field.settings == undefined )
+    return false;
+  var currencySetting = field.settings.currency !== undefined && field.settings.currency ? field.settings.currency:null;
+  if(!currencySetting)
+    return false;
+
+  if(currencySetting.type != CONDITION_FIELD_TYPE_PARAMETER && currencySetting.type != CONDITION_FIELD_TYPE_CONFIGURABLE)
+    return false;
+
+  if(values == null && parameters == null)
+    return false;
+  
+  if(currencySetting.type == CONDITION_FIELD_TYPE_PARAMETER){
+    var parametersObject = {};
+    parameters.split("&").forEach(function(part) {
+      var item = part.split("=");
+      parametersObject[item[0]] = decodeURIComponent(item[1]);
+    });
+    var currencyIso = parametersObject[currencySetting.identifier]
+  }else{
+    var currencyIso = values[currencySetting.identifier]
+  }
+  
+  //currency or default currency
+  return CURRENCIES[currencyIso] !== undefined?CURRENCIES[currencyIso]:CURRENCIES['default'];
+
+}
+
+
+export function parseCurrency(value,currencyInfo,hideCurrency) {
+  if(currencyInfo){
+    var decimals = currencyInfo.decimals && currencyInfo.decimals !== ''?currencyInfo.decimals:0;
+    var decimalsSeparators = currencyInfo.decimals_separator?currencyInfo.decimals_separator.replace("' '"," "):'';
+    var thousandSeparators = currencyInfo.thousands_separator? currencyInfo.thousands_separator.replace("' '"," "):'';
+    var symbole = currencyInfo.symbole && !hideCurrency?currencyInfo.symbole.replace("' '"," "):'';
+
+    value = numberFormat(value,decimals ,decimalsSeparators , thousandSeparators);
+
+    if(currencyInfo.symbole_position == 'L'){
+      return symbole  + value;
+    }else{
+      return value + symbole  ;
+    }
+  }else{
+    return numberFormat(value, 0, '', '');
+  }
+}
 
 
 /**
@@ -77,7 +130,7 @@ export function parseNumber(value,field) {
  */
 export function parseDate(value,field) {
   if(value !== undefined && value != "" && null !== value){
-
+    
     if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
       switch(field.settings.format) {
         case 'day_month_year':
@@ -85,6 +138,12 @@ export function parseDate(value,field) {
           break;
         case 'day_month_year_2':
           value = moment.unix(value).format('DD-MM-YYYY');
+          break;
+        case 'day_month_year_hour':
+          value = moment.unix(value).format('DD/MM/YYYY HH:mm');
+          break;
+        case 'day_month':
+          value = moment.unix(value).format('DD/MM');
           break;
         case 'month_year':
           value = moment.unix(value).format('MM/YYYY');
@@ -95,9 +154,7 @@ export function parseDate(value,field) {
         case 'hour':
           value = moment.unix(value).format('HH:mm');
           break;
-        case 'day_month_year_hour':
-          value = moment.unix(value).format('DD/MM/YYYY HH:mm');
-          break;
+       
       }
     }else{
       value = moment.unix(value).format('DD/MM/YYYY')
@@ -144,7 +201,38 @@ export function getConditionalFormating(field,value) {
 }
 
 /**
- * Check if ther eis conditional formating
+ * Check if there is conditional icon and process the value
+ * 
+ * @param {*} field 
+ * @param {*} value 
+ */
+
+export function  getConditionalIcon(field, value) {
+    if (value === undefined)
+        return {};
+
+    value = typeof value === 'string' ? value.toLowerCase() : value;
+
+    if (field.settings.conditionalIcon !== undefined &&
+        field.settings.conditionalIcon != null) {
+
+        for (var key in field.settings.conditionalIcon.conditions) {
+            var condition = field.settings.conditionalIcon.conditions[key];
+            var conditionValue = typeof condition.value === 'string' ?
+                condition.value.toLowerCase() : condition.value;
+
+            if (value.indexOf(conditionValue) != -1) {
+                return {
+                    icon: condition.icon,
+                };
+            }
+        }
+    }
+    return {};
+}
+
+/**
+ * Check if there is conditional formating
  * @param {*} conditionalFormatting 
  */
 export function hasConditionalFormatting(conditionalFormatting) {
@@ -155,6 +243,18 @@ export function hasConditionalFormatting(conditionalFormatting) {
 }
 
 /**
+ * Check if there is conditional icon
+ * @param {*} conditionalIcon 
+ */
+export function hasConditionalIcon(conditionalIcon) {
+    if(conditionalIcon.icon !== undefined){
+      return true;
+    }
+    return false;
+  }
+  
+
+/**
  * 
  */
 export function getTextAlign(field) {
@@ -163,4 +263,21 @@ export function getTextAlign(field) {
     textAlign='text-'+field.settings.textAlign;
   }
   return textAlign;
+}
+
+
+/**
+ * Function that read content field, to extract parameters from field values. When field is url or link.
+ * @param {*} field 
+ */
+export function getParametersFromContentField(content) {
+  
+  if(content.routes_parameters !== undefined && content.routes_parameters != null && content.routes_parameters.length > 0){
+    var parameters = [];
+    for(var key in content.routes_parameters){    
+      parameters.push(content.routes_parameters[key].identifier);
+    }
+    return parameters;
+  }
+  return [];
 }

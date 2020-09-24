@@ -8,6 +8,7 @@ const initialState = {
     displayModal: false,
     field: null,
     procedure: null,
+    fields: []
 };
 
 function tableReducer(state = initialState, action) {
@@ -28,8 +29,19 @@ function tableReducer(state = initialState, action) {
             };
 
         case IMPORT_TABLE_FIELD: 
+            let fields = Object.keys(action.payload.data[0]).map(k => {
+                return {
+                    name: k, 
+                    identifier: k,
+                    type: 'CTE',
+                    format: 'text',
+                    visible: 1
+                };
+            });
+
             return {
                 ...state,
+                fields: fields
             };
 
         default:

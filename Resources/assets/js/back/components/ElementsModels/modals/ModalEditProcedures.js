@@ -230,22 +230,36 @@ class ModalEditProcedures extends Component {
 
         //console.log("renderObjects :: (currentProcedure)",currentProcedure);
 
-        const displayObjects = currentProcedure.fields.map((object, index) =>
-            <div key={object.identifier + index} className={object.identifier + index}>
-                <FieldListItem
-                    key={index}
-                    identifier={object.identifier}
-                    index={index}
-                    icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
-                    icons={[this.getTypeIcon(object.type)]}
-                    label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                    labelField={object.name + ' ( '+currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier+' ) '}
-                    isField={true}
-                    onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
-                    onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
-                    
-                />
-            </div>
+        const displayObjects = currentProcedure.fields.map((object, index) => {
+
+                var jsonpath = "";
+                if(this.state.subJsonEnabled){
+                    jsonpath = '[subJSON] $.'+(object.jsonpath != null ? object.jsonpath : '')+object.identifier;
+                }
+                else {
+                    jsonpath = currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier
+                }
+                
+
+                return (
+                    <div key={object.identifier + index} className={object.identifier + index}> 
+                        <FieldListItem
+                            key={index}
+                            identifier={object.identifier}
+                            index={index}
+                            icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                            icons={[this.getTypeIcon(object.type)]}
+                            label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
+                            labelField={object.name + ' ( '+jsonpath+' ) '}
+                            isField={true}
+                            onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
+                            onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
+                            
+                        />
+                    </div>
+                );
+            }
+            
         )
         return (
             <div>
@@ -260,6 +274,9 @@ class ModalEditProcedures extends Component {
 
         const currentProcedure = this.state.procedure;
         const saved = currentProcedure != null ? currentProcedure.id != null : false;
+        const serviceUrl = currentProcedure != null && currentProcedure.service != ''   
+            ? routes['extranet.services.update'].replace(':id',currentProcedure.service.id)
+            : null;
 
         return (
 
@@ -325,13 +342,17 @@ class ModalEditProcedures extends Component {
 
                      
                             <SelectField
-                                label={'Service'}
+                                label={serviceUrl != null 
+                                    ? <a href={serviceUrl} target="_blank"><i className="fas fa-external-link-alt"></i>&nbsp; Service</a>
+                                    : 'Service'
+                                }
                                 value={currentProcedure.service.id}
                                 name={'service'}
                                 arrayOfOptions={this.state.services}
                                 onChange={this.handleServiceChange.bind(this)}
                                 // onChange={this.handleFieldChange.bind(this)}
                             />
+                            
                             
                             <InputField
                                 label={'Ordre'}
@@ -369,9 +390,23 @@ class ModalEditProcedures extends Component {
                             />
 
                             <ToggleField
-                                label={'précharge (PUT uniquement)'}
+                                label={'précharge (PUT ou POST dupliquer)'}
                                 name={'preload'}
                                 checked={currentProcedure.preload == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Concaténer avec l\'ID de service'}
+                                name={'prefixed'}
+                                checked={currentProcedure.prefixed == "1" ? true : false}
+                                onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            <ToggleField
+                                label={'Dupliquer (POST uniquement'}
+                                name={'duplicate'}
+                                checked={currentProcedure.duplicate == "1" ? true : false}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
@@ -393,6 +428,7 @@ class ModalEditProcedures extends Component {
                                 /> 
                             }
 
+                            
 
 
                             

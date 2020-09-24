@@ -29,8 +29,8 @@ class News extends Component {
           {fields.image &&
             <ImageField
               field={fields.image}
-              width={50}
-              height={50}
+              width={48}
+              height={48}
             />
           }
         </div>

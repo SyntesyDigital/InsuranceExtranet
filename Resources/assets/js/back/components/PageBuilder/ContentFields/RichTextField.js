@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {connect} from 'react-redux';
@@ -10,7 +9,6 @@ class RichTextField extends Component {
 
   constructor(props){
     super(props);
-    //this.handleOnChange = this.handleOnChange.bind(this);
 
     var values = this.props.field.value ? this.props.field.value : {};
 
@@ -48,6 +46,7 @@ class RichTextField extends Component {
         [{ 'header': [1, 2, 3, 4, 5, false] }],
         ['bold', 'italic', 'underline','strike', 'blockquote'],
         [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+        [{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
         ['link'],
         ['clean']
       ],
@@ -56,7 +55,7 @@ class RichTextField extends Component {
       var formats = [
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list', 'bullet', 'indent',
+        'list', 'bullet', 'indent', 'align',
         'link', 'image'
       ];
 

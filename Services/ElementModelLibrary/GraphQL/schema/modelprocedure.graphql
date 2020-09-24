@@ -10,6 +10,8 @@ type ModelProcedure {
     repeatable_json: String
     repeatable_jsonpath: String
     preload: String
+    prefixed: Boolean
+    duplicate: Boolean
     order: Int
     service: Service! @belongsTo
     elementModel: ElementModel! @belongsTo
@@ -27,6 +29,8 @@ input CreateModelProcedureInput {
     repeatable: String
     repeatable_json: String
     repeatable_jsonpath: String
+    prefixed: Boolean
+    duplicate: Boolean
     preload: String
     service_id: ID
     model_id: ID
@@ -42,6 +46,8 @@ input UpdateModelProcedureInput {
     repeatable: String
     repeatable_json: String
     repeatable_jsonpath: String
+    prefixed: Boolean
+    duplicate: Boolean
     preload: String
     service_id: ID
     model_id: ID

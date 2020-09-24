@@ -168,7 +168,7 @@ class TemplateRedux extends Component {
                                 nonAllowedFields={[
                                     "contents","boolean","date","file",
                                     "images","key_values","localization","slug",
-                                    "translated_file","link","url","video","richtext"
+                                    "translated_file","link","url","video"
                                 ]}
                                 onChange={this.handleLayoutChange.bind(this)}
                             />

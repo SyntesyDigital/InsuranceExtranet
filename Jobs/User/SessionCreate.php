@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Repositories\UserRepository;
+use Modules\Extranet\Jobs\User\GetAllowedPages;
 
 class SessionCreate
 {
@@ -14,11 +16,11 @@ class SessionCreate
     private $password;
     private $test;
 
-    public function __construct($veosToken, $env = null, $params = [])
+    public function __construct($veosToken, $env = null, $test = false, $params = [])
     {
         $this->veosToken = $veosToken;
         $this->params = $params;
-        $this->test = $env != null ? true : false;
+        $this->test = $test;
         $this->env = $env != null ? $env : VeosWsUrl::PROD;
         $this->client = new Client();
     }
@@ -32,14 +34,14 @@ class SessionCreate
             return false;
         }
 
-        //check if has multiple sessions
+        // check if has multiple sessions
         $isSupervue = isset($user->{'USEREXT.supervue'}) && $user->{'USEREXT.supervue'} == 'Y' ? true : false;
 
-        //get user sessions available
+        // get user sessions available
         $sessions = $this->getSessions($this->veosToken);
         $currentSession = null;
 
-        //if no sessions exit
+        // if no sessions exit
         if (sizeof($sessions) == 0) {
             return false;
         } elseif (sizeof($sessions) == 1) {
@@ -48,36 +50,47 @@ class SessionCreate
                 ? $sessions[0]->session
                 : null;
         }
-        //else need a modal to select from all sessions
+        // else need a modal to select from all sessions
 
-        //get new session info depending on the current session
+        // get new session info depending on the current session
         $sessionInfo = $this->getSessionInfo($currentSession, $this->veosToken);
 
-        //Check pages rights
-        //get all pages so store in cache and no need to process again
+        // Check pages rights
+        // get all pages so store in cache and no need to process again
         $pages = $this->getPages($this->veosToken);
 
-        //check if possible to get allowed pages
-        $allowedPages = $this->getAllowedPages(
-            $currentSession,
-            $pages,
+        $role = $this->processMainRole($sessionInfo);
+
+        //get veos roles
+        $userRepository = new UserRepository();
+        $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
             $this->veosToken,
-            $sessionInfo
+            $this->env,
+            $currentSession
         );
 
-        $role = $this->processMainRole($sessionInfo);
+        // check if possible to get allowed pages
+        $allowedPages = (new GetAllowedPages(
+            $currentSession,
+            $pages,
+            $sessionInfo,
+            $veosRoleAndPermissions['role'],
+            $veosRoleAndPermissions['permissions']
+        ))->handle();
+        
         $service = resolve('Services/RolesPermissions');
+        $idPer = isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null;
 
         $sessionData = [
-            'id' => isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null,
+            'id' => $idPer,
             'firstname' => isset($user->{'USEREXT.nom_per'}) ? $user->{'USEREXT.nom_per'} : '',
             'lastname' => isset($user->{'USEREXT.nom2_per'}) ? $user->{'USEREXT.nom2_per'} : '',
             'email' => isset($user->{'USEREXT.email_per'}) ? $user->{'USEREXT.email_per'} : '',
             'phone' => isset($user->{'USEREXT.telprinc_per'}) ? $user->{'USEREXT.telprinc_per'} : '',
-            'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == "1" ? true : false,
+            'must_reset_password' => isset($user->{'USEREXT.resetmdp'}) && $user->{'USEREXT.resetmdp'} == '1' ? true : false,
             'supervue' => $isSupervue,
             'token' => $this->veosToken,
-            'api_token' => bin2hex(random_bytes(64)),
+            'api_token' => $this->getSessionApiToken($idPer),
             'env' => $this->env,
             'test' => $this->test,
             'pages' => $pages,
@@ -88,6 +101,9 @@ class SessionCreate
             'session_info' => $sessionInfo,
             'role' => $role,
             'permissions' => $service->getPermissionsFromRoleId($role),
+            'veos_role' => $veosRoleAndPermissions['role'],
+            'veos_roles' => $veosRoleAndPermissions['roles'],
+            'veos_permissions' => $veosRoleAndPermissions['permissions'],
         ];
 
         // Merge constructor passed parameters to session
@@ -124,6 +140,25 @@ class SessionCreate
     }
 
     /**
+     * Retunrs session api_token for GraphQL depending on User BBDD id.
+     */
+    private function getSessionApiToken($idPer)
+    {
+        
+        $user = User::where('id_per', $idPer)->first();
+
+        if(isset($idPer) && isset($user)){
+            
+            $userSession = $user->session()->first();
+            if(isset($userSession) && isset($userSession->api_token)){
+                return $userSession->api_token;
+            }   
+        }
+        //else return a new token
+        return bin2hex(random_bytes(64));
+    }
+
+    /**
      * createUserSession.
      *
      * @param mixed $userData
@@ -145,20 +180,37 @@ class SessionCreate
             ]);
         }
 
-        // Remove of user session
-        UserSession::where('user_id', $user->id)->delete();
+        $userSession = UserSession::where('user_id', $user->id)->first();
+        if(!$userSession) {
+            //create session
 
-        // Return session or create
-        return UserSession::create([
-            'user_id' => $user->id,
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->header('User-Agent'),
-            'token' => $userData['token'],
-            'api_token' => $userData['api_token'],
-            'env' => $this->env,
-            'language' => 'fr',
-            'payload' => json_encode($userData),
-        ]);
+            $userSession = UserSession::create([
+                'user_id' => $user->id,
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'token' => $userData['token'],
+                'api_token' => $userData['api_token'],
+                'env' => $this->env,
+                'language' => 'fr',
+                'payload' => json_encode($userData),
+            ]);
+        }
+        else {
+            //update session
+            $userSession->update([
+                'id' => $userSession->id,
+                'user_id' => $user->id,
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'token' => $userData['token'],
+                'api_token' => $userData['api_token'],
+                'env' => $this->env,
+                'language' => 'fr',
+                'payload' => json_encode($userData),
+            ]);
+        }
+        
+        return $userSession;
     }
 
     /**
@@ -178,7 +230,6 @@ class SessionCreate
             ],
         ]);
         $payload = json_decode($query->getBody()->getContents());
-        
 
         $query = $this->client->get($WsUrl.'boBy/v2/WS_EXT2_USE?id_per_user='.$payload->id, [
             'headers' => [
@@ -206,7 +257,7 @@ class SessionCreate
         }
 
         //check if user is in admin array
-        if (in_array($userext->{'USEREXT.login_per'}, Config::get('admin'))) {
+        if (in_array($userext->{'USEREXT.login_per'}, Config::get('architect::admin'))) {
             //return admin
             return ROLE_SYSTEM;
         }
@@ -269,37 +320,5 @@ class SessionCreate
         return $payload->total > 0 && isset($payload->data[0])
             ? $payload->data[0]
             : null;
-    }
-
-    /**
-     * getAllowedPages.
-     *
-     * @param mixed $currentSession
-     * @param mixed $pages
-     * @param mixed $token
-     * @param mixed $sessionInfo
-     *
-     * @return void
-     */
-    private function getAllowedPages($currentSession, $pages, $token, $sessionInfo)
-    {
-        if ($currentSession == null || $sessionInfo == null) {
-            //not current session defined so, no pages info yet
-            return null;
-        }
-
-        $allowedPages = [];
-
-        foreach ($pages as $index => $page) {
-            //if this option exist in user info, and is Y
-            if (isset($sessionInfo->{$page->option}) && $sessionInfo->{$page->option} == 'Y') {
-                //add page
-                $allowedPages[$page->PAGE] = true;
-            } else {
-                $allowedPages[$page->PAGE] = false;
-            }
-        }
-
-        return $allowedPages;
     }
 }

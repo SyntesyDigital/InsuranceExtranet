@@ -11,12 +11,16 @@ import {
   SKIP_PROCEDURE,
   PROCEDURE_NEXT_STEP,
   UPDATE_JSON_RESULT_GET_ERROR,
-
+  VALIDATION_SKIP,
+  VALIDATION_DONE,
+  VALIDATION_START,
+  VALIDATION_ERROR
 } from '../constants';
 
 const initialState =  {
   procedures : [],
   variables : [], //system variables with all data processed
+  validationWS : null, //WS to validate if necessary
   loading : true,
 
   iterating : false,
@@ -48,8 +52,11 @@ function formReducer(state = initialState, action) {
                 ...state,
                 procedures : action.payload.procedures,
                 variables : action.payload.variables,
+                validationWS : action.payload.validationWS,
                 loading : false
             }
+        case VALIDATION_SKIP : 
+        case VALIDATION_DONE :
         case PROCEDURES_INIT_ITERATION:
             return {
                 ...state,
@@ -60,6 +67,16 @@ function formReducer(state = initialState, action) {
                 complete : false,
                 error : false,
                 jsonGetDone : false
+            }
+        case VALIDATION_START:
+            return {
+                ...state,
+                processing : true,
+            }
+        case VALIDATION_ERROR:
+            return {
+                ...state,
+                processing : false,
             }
         case UPDATE_JSON_RESULT_FROM_GET:
             return {

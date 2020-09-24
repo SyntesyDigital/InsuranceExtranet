@@ -60,6 +60,7 @@ export const GQL_GET_MODEL = gql`
         example
         def1
         def2
+        validation_ws
         procedures {
             id
             name
@@ -68,6 +69,8 @@ export const GQL_GET_MODEL = gql`
             repeatable
             repeatable_json
             repeatable_jsonpath
+            prefixed
+            duplicate
             order
             preload
             service {
@@ -133,6 +136,7 @@ export const GQL_CREATE_MODEL = gql`
         $example: String
         $def1: String
         $def2: String
+        $validation_ws: String
     ) {
         createElementModel(
         input: {
@@ -147,6 +151,7 @@ export const GQL_CREATE_MODEL = gql`
             example: $example
             def1: $def1
             def2: $def2
+            validation_ws: $validation_ws
         }
     ) {
         id
@@ -161,6 +166,7 @@ export const GQL_CREATE_MODEL = gql`
         example
         def1
         def2
+        validation_ws
     }
   } 
 `;
@@ -179,6 +185,7 @@ export const GQL_UPDATE_MODEL = gql`
         $example: String
         $def1: String
         $def2: String
+        $validation_ws: String
     ) {
         updateElementModel(
         input: {
@@ -194,6 +201,7 @@ export const GQL_UPDATE_MODEL = gql`
             example: $example
             def1: $def1
             def2: $def2
+            validation_ws: $validation_ws
         }
     ) {
         id
@@ -208,6 +216,7 @@ export const GQL_UPDATE_MODEL = gql`
         example
         def1
         def2
+        validation_ws
     }
   } 
 `;
@@ -236,6 +245,7 @@ export const GQL_DELETE_MODEL = gql`
             example
             def1
             def2
+            validation_ws
         }
   } 
 `;
