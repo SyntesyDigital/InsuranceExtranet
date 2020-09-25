@@ -132,7 +132,6 @@ class ElementsModelsFormRedux extends Component {
 
 
     handleCreateProcedure(){
-        console.log("handleCreateProcedure");
         this.props.openModalCreateProcedure(this.props.form.form.procedures);
     }
 
@@ -180,7 +179,15 @@ class ElementsModelsFormRedux extends Component {
     }
 
     handleSubmit() {
-        console.log("handleSubmit");
+        if(this.getFormType() == "table") {
+            this.props.saveForm({
+                ...this.props.form.form,
+                fields: this.props.table.fields,
+                procedure: this.props.form.currentProcedure,
+            });
+            return;
+        }
+
         this.props.saveForm(this.props.form.form);
     }
 
@@ -271,11 +278,16 @@ class ElementsModelsFormRedux extends Component {
                     label={field.format !== undefined ? MODELS_FIELDS[field.format].label : ''}
                     labelField={field.name}
                     isField={true}
-                    onEdit={this.handleEditObject.bind(this, this.props.form.form.procedures[0], field)}
+                    onEdit={() => this.props.openModalTableField({
+                        ...field,
+                        index: index
+                    })}
                     onRemove={this.handleRemoveObject.bind(this, this.props.form.form.procedures[0], field)}
                 />
             </div>
         );
+
+        
 
         // let procedure = this.props.form.form.procedures[0] !== undefined 
         //         ? this.props.form.form.procedures[0]
@@ -354,7 +366,6 @@ class ElementsModelsFormRedux extends Component {
                         size={'medium'}
                         title={'Object | Configuration'}
                         object={this.props.currentObject}
-                        procedure={this.props.form.form.procedures[0]}
                         zIndex={10000}
                         onModalClose={this.handleModalCloseEditObject.bind(this)}
                     />
@@ -597,8 +608,8 @@ const mapDispatchToProps = dispatch => {
         // ==============================
         // TABLE 
         // ==============================
-        openModalTableField: (field) => {
-            return dispatch(openModalTableField(field));
+        openModalTableField: (index) => {
+            return dispatch(openModalTableField(index));
         },
 
         closeModalTableField: () => {

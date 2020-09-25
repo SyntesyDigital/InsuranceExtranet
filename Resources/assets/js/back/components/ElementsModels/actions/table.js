@@ -2,9 +2,12 @@ import {
     OPEN_MODAL_TABLE_FIELD,
     CLOSE_MODAL_TABLE_FIELD,
     IMPORT_TABLE_FIELD,
+    SAVE_TABLE_FIELD,
+    CHANGE_TABLE_FIELD
 } from "../constants/";
 
 import api from '../../../api/index.js';
+
 
 export function openModalTableField(field) {
     return { 
@@ -30,3 +33,20 @@ export function importFieldsFromService(id) {
             });
     }
 };
+
+
+export function saveTableField() {
+    return { 
+        type: SAVE_TABLE_FIELD
+    };
+}
+
+export function changeTableField(name, value) {
+    return { 
+        type: CHANGE_TABLE_FIELD,
+        payload: {
+            name: name,
+            value: value
+        }
+    };
+}

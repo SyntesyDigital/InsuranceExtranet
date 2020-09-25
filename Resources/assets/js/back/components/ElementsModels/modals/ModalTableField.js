@@ -7,29 +7,26 @@ import { connect } from 'react-redux';
 
 
 import {
-    closeModalTableField
+    closeModalTableField,
+    saveTableField,
+    changeTableField
 } from '../actions';
+
+const formats = Object.keys(MODELS_FIELDS).reduce((acc, key) => {
+    acc.push({
+        name : key,
+        value : key
+    });
+    return acc;
+}, []);
 
 class ModalTableField extends Component {
 
     constructor(props) {
         super(props);
 
-        let formats = Object.keys(MODELS_FIELDS).reduce((acc, key) => {
-            acc.push({
-                name : key,
-                value : key
-            });
-            return acc;
-        }, []);
-
         this.state = {
             formats: formats,
-            form: {
-                identifier : this.props.table.field ? this.props.table.field.identifier : null,
-                name: this.props.table.field ? this.props.table.field.name : null,
-                format: this.props.table.field ? this.props.table.field.format : formats[0].value, 
-            }
         };
     }
 
@@ -37,21 +34,17 @@ class ModalTableField extends Component {
     // Handlers
     // ==============================
 
-    handleCancel() {
-        this.props.closeModalEditTableField();
+    closeModal() {
+        this.props.closeModalTableField();
     }
 
     handleFieldChange(name, value){
-        const {form} = this.state;
-        form[name] = value;
-
-        this.setState({
-            form: form
-        });
+        this.props.changeTableField(name, value);
     }
     
     handleSubmit() {
-        console.log('SUBMIT ===>', this.state);
+        this.props.saveTableField();
+        this.closeModal();
     }
 
     handleRemove() {
@@ -62,10 +55,7 @@ class ModalTableField extends Component {
     // Getter
     // ==============================
     getFieldValue(name) {
-        return this.state.form[name];
-        // return this.state.form && this.props.table.field[name] !== undefined
-        //     ? this.props.table.field
-        //     : null; 
+        return null;
     }
     
     // ==============================
@@ -73,19 +63,6 @@ class ModalTableField extends Component {
     // ==============================
     render() {
         
-        // const { currentObject } = this.props.table;
-        
-        // const saved = currentObject != null 
-        //     ? currentObject.id != null 
-        //     : false;
-
-        // if(currentObject == null)
-        //     return null;
-
-        // var currentJsonpath = this.props.procedure.repeatable_jsonpath
-        //     +(currentObject.jsonpath != null ? currentObject.jsonpath : '')
-        //     +currentObject.identifier;
-
         return (
             <Modal
                 id={this.props.id}
@@ -94,9 +71,9 @@ class ModalTableField extends Component {
                 display={this.props.table.displayModal}
                 zIndex={10000}
                 size={this.props.size}
-                onModalClose={() => this.props.closeModalTableField()}
+                onModalClose={this.closeModal.bind(this)}
                 deleteButton={false}
-                onCancel={() => this.props.closeModalTableField()}
+                onCancel={() => this.closeModal}
                 onSubmit={this.handleSubmit.bind(this)}
                 onRemove={this.handleRemove.bind(this)}
             >
@@ -105,21 +82,21 @@ class ModalTableField extends Component {
 
                         <InputField
                             label={'Identifier (champ)'}
-                            value={this.getFieldValue('identifier')}
+                            value={this.props.table.form.identifier}
                             name={'identifier'}
                             onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <InputField
                             label={'Name (lib)'}
-                            value={this.getFieldValue('name')}
+                            value={this.props.table.form.name}
                             name={'name'}
                             onChange={this.handleFieldChange.bind(this)}
                         />
 
                         <SelectField
                             label={'Format (Text, num, etc)'}
-                            value={this.getFieldValue('format')}
+                            value={this.props.table.form.format}
                             name={'format'}
                             arrayOfOptions={this.state.formats}
                             onChange={this.handleFieldChange.bind(this)}
@@ -141,19 +118,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // saveProcedureObject: (procedures, procedure, object) => {
-        //     return dispatch(saveProcedureObject(procedures, procedure, object));
-        // },
-
-        // removeProcedureObject: (procedures,procedure, object) => {
-        //     return dispatch(removeProcedureObject(procedures, procedure, object));
-        // },
-
         closeModalTableField: () => {return dispatch(closeModalTableField())},
-
-        // moveProcedureObject: (procedure, object) => {
-        //     return dispatch(moveProcedureObject(procedure, object));
-        // },
+        saveTableField: () => {return dispatch(saveTableField())},
+        changeTableField: (name, value) => {return dispatch(changeTableField(name, value))},
     }
 }
 

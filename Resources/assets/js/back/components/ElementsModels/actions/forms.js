@@ -4,8 +4,8 @@ import {
     UPDATE_FORM,
     REMOVE_FORM,
     TEST_FORM,
-    INIT_CREATE
-
+    INIT_CREATE,
+    LOAD_TABLE_FIELD,
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -19,19 +19,29 @@ function transformElementModel(model) {
 
 
 export function initState(modelId, type) {
-    if(modelId === undefined || modelId == null || modelId == '')
+    if(modelId === undefined || modelId == null || modelId == '') {
         return { 
             type: INIT_CREATE,
             payload: {
                 type: type
             }
         };
+    }
+        
 
     return (dispatch) => {
         api.elementModel.get(modelId)
-            .then(function(data) {
-                var payload = transformElementModel(data.data.elementModel);
+            .then(function(response) {
+                let model = response.data.elementModel;
+                let payload = transformElementModel(model);
                 payload.type = type;
+
+                if(type == 'table') {
+                    dispatch({ 
+                        type: LOAD_TABLE_FIELD, 
+                        payload : model.procedures.length > 0 ? model.procedures[0].fields : null,
+                    });
+                }
                 
                 dispatch({ 
                     type: INIT_STATE, 
@@ -66,9 +76,9 @@ export function createForm(form) {
             type : form.type,
             validation_ws : form.validation_ws
         })
-        .then(function(data) {
+        .then(function(response) {
 
-            let model = data.data.createElementModel;
+            let model = response.data.createElementModel;
 
             if(form.type == "table" && form.service_id !== undefined) {
                 api.procedures.create({
@@ -84,6 +94,11 @@ export function createForm(form) {
                     service_id: form.service_id,
                     model_id: model.id ,
                     order: 0
+                }).then(function(response) {
+                    dispatch({
+                        type: UPDATE_PROCEDURES, 
+                        payload: response.data.createModelProcedure
+                    });
                 });
             } 
 
@@ -111,13 +126,46 @@ export function updateForm(form) {
             type : form.type,
             validation_ws : form.validation_ws
         })
-        .then(function(data) {
+        .then(function(response) {
+
+            if(form.type == "table" && form.fields !== undefined && form.procedure) {
+
+                // Remove all fields from procedure 
+                form.procedure.fields.map(field => api.fields.delete(field.id));
+
+                form.fields.map(field => {
+                    api.fields.create({
+                        procedure_id: form.procedure.id,
+                        name: field.name,
+                        identifier: field.identifier,
+                        type: 'CTE',
+                        format: field.format !== undefined ? field.format : 'text',
+                        default_value: field.default_value !== undefined ? field.default_value : null,
+                        boby: null,
+                        jsonpath: null,
+                        example: null,
+                        configurable: true,
+                        visible: true,
+                        required: true,
+                    })
+                        .then(function (res) {
+                            field.id = res.data.createModelField.id;
+                        })
+                        .catch(function (error) {
+                            toastr.error(error.message);
+                        });
+                });
+            }
 
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({type: UPDATE_FORM, payload: data.data.updateElementModel});
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: response.data.updateElementModel
+            });
         })
         .catch(function(error) {
+            console.log(error);
             toastr.error(error.message);
         });
     }
