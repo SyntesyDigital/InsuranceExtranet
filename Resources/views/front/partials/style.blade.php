@@ -317,6 +317,8 @@
     $borderBottomLeftActionButton = isset($storedStylesFront['borderBottomLeftActionButton']) ? $storedStylesFront['borderBottomLeftActionButton']->value : '0px';
     $fontSizeTitleActionButton = isset($storedStylesFront['fontSizeTitleActionButton']) ? $storedStylesFront['fontSizeTitleActionButton']->value.'px' : '18px';
     $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '15';
+    $numberColorActionButton = isset($storedStylesFront['numberColorActionButton']) ? $storedStylesFront['numberColorActionButton']->value : $primaryColor;
+    $numberHoverColorActionButton = isset($storedStylesFront['numberHoverColorActionButton']) ? $storedStylesFront['numberHoverColorActionButton']->value : $secondaryColor;
 
     //ACTION LIST
 
