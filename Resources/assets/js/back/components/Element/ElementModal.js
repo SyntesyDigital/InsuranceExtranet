@@ -98,7 +98,7 @@ class ElementModal extends Component {
 
         const field = this.props.app.settingsField;
 
-        if (!field)
+        if (!field || MODELS_FIELDS[field.type] === undefined)
             return [];
 
         return MODELS_FIELDS[field.type].formats.map((item, index) => {

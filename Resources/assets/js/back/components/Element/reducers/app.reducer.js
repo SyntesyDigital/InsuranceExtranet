@@ -198,6 +198,14 @@ function addDefinitionToFields(fields,fieldsList) {
     fields[j].modelDefinition = fieldsListByKey[fields[j].identifier];
   }
 
+  //add Definition to custom fields
+  for(var j=0;j<fields.length;j++){
+    //if exist in custom fields
+    if(MODELS_CUSTOM_FIELDS[fields[j].type] !== undefined){
+      fields[j].modelDefinition = MODELS_CUSTOM_FIELDS[fields[j].type];
+    }
+  }
+
   return fields;
 }
 

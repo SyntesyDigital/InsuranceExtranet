@@ -288,7 +288,11 @@ class ElementField extends Component {
 		connectDragSource,
 		connectDropTarget,
 	} = this.props
-	const opacity = isDragging ? 0 : 1
+
+	const opacity = isDragging ? 0 : 1;
+
+	var label = MODELS_FIELDS[this.props.type] !== undefined ? MODELS_FIELDS[this.props.type].label : '';
+	label = MODELS_CUSTOM_FIELDS[this.props.type] !== undefined ? MODELS_CUSTOM_FIELDS[this.props.type].label : label;
 
     return connectDragSource(
 			connectDropTarget(
@@ -296,7 +300,7 @@ class ElementField extends Component {
       <div className="typology-field" style={{ ...style, opacity }}>
         <div className={"field-type "}>
           <i className={"fa "+this.props.icon}></i> &nbsp;
-					{MODELS_FIELDS[this.props.type] !== undefined ? MODELS_FIELDS[this.props.type].label : ''}
+					{label}
 					&nbsp;
 					{configuration.required ? ' *' : ''}
 
@@ -326,8 +330,6 @@ class ElementField extends Component {
 							</span>
 						}
 
-
-
 					</div>
 
         </div>
@@ -337,9 +339,9 @@ class ElementField extends Component {
             <div className="field-name col-xs-6">
               <input type="text" className="form-control" name="name" placeholder="Nom" value={this.state.name} onChange={this.handleChange}/>
             </div>
-						<div className="field-name col-xs-6">
-							<input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.state.identifier} onChange={this.handleChange}/>
-						</div>
+			<div className="field-name col-xs-6">
+				<input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.state.identifier} onChange={this.handleChange}/>
+			</div>
 
           </div>
         </div>

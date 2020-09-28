@@ -1,5 +1,6 @@
 <script>
   const MODELS_FIELDS = {!! json_encode(Config('models.fields'), JSON_PRETTY_PRINT) !!};
+  const MODELS_CUSTOM_FIELDS = {!! json_encode(Config('models.customFields'), JSON_PRETTY_PRINT) !!};
   const TEXT = 'text';
   const NUMBER = 'number';
   const DATE = 'date';

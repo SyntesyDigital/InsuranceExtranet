@@ -30,7 +30,6 @@ return [
           'textAlign',
           'columnWidth',
           'readonly',
-          'groupe',
           'operation',
           'description',
         ],
@@ -346,6 +345,27 @@ return [
         ],
       ],
     ],  // --- end fields ---
+
+    'customFields' => [
+      'action' => [
+        'mapping' => 'action',
+        'identifier' => 'action',
+        'label' => 'Action',
+        'name' => 'Action',
+        'type' => 'action',
+        'icon' => 'fas fa-cog',
+        'formats' => [],
+        'rules' => [],
+        'settings' => [
+          'hasRoute',
+          'hasModal',
+          'conditionalVisibility',
+          'conditionalIcon',
+          'groupe',
+          'description',
+        ],
+      ],
+    ],// --- end customFields ---
 
     'parameters' => [
       'settings' => [

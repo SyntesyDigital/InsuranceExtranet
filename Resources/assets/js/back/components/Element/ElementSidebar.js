@@ -155,11 +155,18 @@ class ElementSidebar extends Component {
 
         <hr/>
 
+        <h3>AJOUTER ACTIONS</h3>
+
+        <div className="field-list">
+          {this.props.customFields()}
+        </div>
+
+        <hr/>
 
         <h3>{ Lang.get('fields.add_fields')}</h3>
 
         <div className="field-list">
-          {this.props.children}
+          {this.props.fields()}
         </div>
 
         <hr/>

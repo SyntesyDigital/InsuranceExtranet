@@ -8,6 +8,7 @@ import update from 'immutability-helper'
 import ElementSidebar from './ElementSidebar';
 import ElementDropZoneContainer from './ElementDropZoneContainer';
 import ElementDragField from './ElementDragField';
+import ElementCustomDragField from './ElementCustomDragField';
 import ElementBar from './ElementBar';
 import ElementModal from './ElementModal';
 import ElementParametersModal from './ElementParameters/ElementParametersModal';
@@ -81,6 +82,13 @@ class ElementForm extends Component {
     // ==============================
     // Renderers
     // ==============================
+
+    renderCustomFields() {
+        return Object.keys(MODELS_CUSTOM_FIELDS).map((key,i) => 
+            <ElementCustomDragField definition={MODELS_CUSTOM_FIELDS[key]} key={i} />
+        )
+    }
+
     renderFields() {
         var result = null;
         if (this.props.app.fieldsList) {
@@ -136,9 +144,10 @@ class ElementForm extends Component {
                             }
                         </div>
 
-                        <ElementSidebar>
-                            {this.renderFields()}
-                        </ElementSidebar>
+                        <ElementSidebar
+                            customFields={this.renderCustomFields.bind(this)}
+                            fields={this.renderFields.bind(this)}
+                        />
 
                     </div>
                 </DragDropContextProvider>
