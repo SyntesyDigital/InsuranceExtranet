@@ -125,6 +125,7 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
+
         if ($element->type == Element::FORM_V2) {
             $elementModel = ElementModel::where('id', $element->model_identifier)->first();
             $model = $elementModel->getObject();
