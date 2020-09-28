@@ -40,6 +40,12 @@ export default class ActionButton extends Component {
 
     query() {
 
+        if(this.state.model == null){
+            //console.error("ActionButton :: model not defined");
+            return;
+        }
+
+
         var self = this;
         const { elementObject } = this.state;
         const parameters = this.getUrlParameters();
@@ -50,7 +56,11 @@ export default class ActionButton extends Component {
                     && response.data.modelValues !== undefined) {
                     console.log("ModelValues  :: componentDidMount => ", response.data);
                     self.setState({
-                        val1: response.data.modelValues !== undefined ? response.data.modelValues[0].val1 : 0,
+                        val1: response.data.modelValues !== undefined 
+                        && response.data.modelValues.length > 0
+                        && response.data.modelValues[0].val1 !== undefined 
+                        ? response.data.modelValues[0].val1 
+                        : 0,
                     });
                 }
 
@@ -66,13 +76,13 @@ export default class ActionButton extends Component {
         console.log("this.props , ", this.props)
         return (
             <div className="action-button-container ">
-                <div className="col-md-3 col-sm-3 col-xs-3 container-icon" >
+                <div className="col-md-2 col-sm-2 col-xs-2 container-icon" >
                     {this.props.icon ? <i className={this.props.icon}></i> : null}
                 </div>
                 <div className="col-md-7 col-sm-7 col-xs-7 container-title">
                     {this.props.title ? <p>{this.props.title}</p> : null}
                 </div>
-                <div className="col-md-2 col-sm-2 col-xs-2 container-number">
+                <div className="col-md-3 col-sm-3 col-xs-3 container-number">
                     <span>
                         <NumberFormat
                             value={this.state.val1}
