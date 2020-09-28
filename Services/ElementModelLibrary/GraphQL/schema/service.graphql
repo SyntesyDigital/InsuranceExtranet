@@ -19,6 +19,7 @@ type Service {
     created_at: String
     updated_at: String
     body: String
+    example: String
 }
 
 type ServiceBodyResponse {
@@ -42,6 +43,7 @@ input CreateServiceInput {
     response_json: String
     is_old_url_ws: Boolean
     body: String
+    example: String
 }
 
 input UpdateServiceInput {
@@ -57,6 +59,7 @@ input UpdateServiceInput {
     response_json: String
     is_old_url_ws: Boolean
     body: String
+    example: String
 }
 
 

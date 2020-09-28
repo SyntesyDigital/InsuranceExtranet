@@ -75,7 +75,6 @@ export function createProcedure(modelId,procedures,procedure) {
 };
 
 export function updateProcedure(modelId,procedures,procedure) {
-
     return (dispatch) => {
         api.procedures.update(procedure.id,{
             name : procedure.name,
@@ -92,9 +91,6 @@ export function updateProcedure(modelId,procedures,procedure) {
             duplicate : procedure.duplicate,
         })
         .then(function(data) {
-
-            //console.log("procedures.js action :: updateProcedure :: (data)",data)
-
             //update the service form info loaded after update
             procedure.service = data.data.updateModelProcedure.service;
 
@@ -111,13 +107,10 @@ export function updateProcedure(modelId,procedures,procedure) {
         .catch(function(error) {
             toastr.error(error.message);
         });
-
     }
-
 };
 
 export function removeProcedure(procedures,procedure) {
-
     return (dispatch) => {
         api.procedures.delete(procedure.id)
         .then(function(data) {
@@ -136,9 +129,8 @@ export function removeProcedure(procedures,procedure) {
 
 export function moveProcedure() {
     return {
-        type: UPDATE_PROCEDURES, payload: {
-
-        }
+        type: UPDATE_PROCEDURES, 
+        payload: {}
     };
 };
 
@@ -152,13 +144,13 @@ function getProcedureIndex(procedures,procedure) {
 }
 
 export function updateProcedureField(procedures, procedure, name, value) {
-
     procedure[name] = value;
     var index = getProcedureIndex(procedures,procedure);
     procedures[index] = procedure;
 
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: UPDATE_PROCEDURES, 
+        payload: procedures
     };
 };
 
@@ -171,7 +163,6 @@ export function updateSettings(procedure, name, value) {
         }
     };
 };
-
 
 export function closeModalProcedure() {
     return {

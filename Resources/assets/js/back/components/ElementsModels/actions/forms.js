@@ -6,6 +6,7 @@ import {
     TEST_FORM,
     INIT_CREATE,
     LOAD_TABLE_FIELD,
+    UPDATE_PROCEDURES
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -28,7 +29,6 @@ export function initState(modelId, type) {
         };
     }
         
-
     return (dispatch) => {
         api.elementModel.get(modelId)
             .then(function(response) {
@@ -36,7 +36,7 @@ export function initState(modelId, type) {
                 let payload = transformElementModel(model);
                 payload.type = type;
 
-                if(type == 'table') {
+                if(type == 'table' || type == 'fiche') {
                     dispatch({ 
                         type: LOAD_TABLE_FIELD, 
                         payload : model.procedures.length > 0 ? model.procedures[0].fields : null,
@@ -80,9 +80,9 @@ export function createForm(form) {
 
             let model = response.data.createElementModel;
 
-            if(form.type == "table" && form.service_id !== undefined) {
+            if((form.type == "table" || form.type == "fiche") && form.service_id !== undefined) {
                 api.procedures.create({
-                    name : 'TABLE_' +  form.identifier,
+                    name : form.type + '_' +  form.identifier,
                     configurable: false,
                     required: true,
                     repeatable: false,
@@ -127,8 +127,29 @@ export function updateForm(form) {
             validation_ws : form.validation_ws
         })
         .then(function(response) {
+            let model = response.data.updateElementModel;
+            
+            if((form.type == "table" || form.type == "fiche") && form.fields !== undefined && form.procedure) {
 
-            if(form.type == "table" && form.fields !== undefined && form.procedure) {
+                api.procedures.update(form.procedure.id, {
+                    name : form.type + '_' +  form.identifier,
+                    configurable: false,
+                    required: true,
+                    repeatable: false,
+                    repeatable_json: false,
+                    repeatable_jsonpath: '',
+                    prefixed: false,
+                    duplicate: false,
+                    preload: false,
+                    service_id: form.service_id,
+                    model_id: model.id ,
+                    order: 0
+                }).then(function(response) {
+                    dispatch({
+                        type: UPDATE_PROCEDURES, 
+                        payload: response.data.updateModelProcedure
+                    });
+                });
 
                 // Remove all fields from procedure 
                 form.procedure.fields.map(field => api.fields.delete(field.id));
@@ -161,7 +182,7 @@ export function updateForm(form) {
 
             dispatch({
                 type: UPDATE_FORM, 
-                payload: response.data.updateElementModel
+                payload: model
             });
         })
         .catch(function(error) {
@@ -172,13 +193,10 @@ export function updateForm(form) {
 };
 
 export function removeForm(form) {
-
-    return (dispatch) => {
-        api.elementModel.delete(form.id)
-            .then(function(data) {
-                window.location.href = routes['extranet.elements-models.forms.index'];
-            });
-    }
+    return (dispatch) => api.elementModel.delete(form.id)
+        .then(function(data) {
+            window.location.href = routes['extranet.elements-models.forms.index'];
+        });
 };
 
 export function testForm(form) {

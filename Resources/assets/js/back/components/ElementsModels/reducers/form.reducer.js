@@ -174,7 +174,7 @@ function formReducer(state = initialState, action) {
             }
 
         case INIT_STATE:
-            if(action.payload.type == "table") {
+            if(action.payload.type == "table" || action.payload.type == "fiche") {
                 return {
                     ...state,
                     form: {

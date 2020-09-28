@@ -3,7 +3,8 @@ import {
     OPEN_MODAL_CREATE_OBJECT,
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
-    UPDATE_PROCEDURES
+    UPDATE_PROCEDURES,
+    DELETE_TABLE_FIELD
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -149,6 +150,15 @@ export function updateProcedureObject(procedures, procedure, object) {
 };
 
 export function removeProcedureObject(procedures, procedure, object) {
+
+    if(!object.id) {
+        return (dispatch) => {
+            dispatch({ 
+                type: DELETE_TABLE_FIELD, 
+                payload: object 
+            });
+        };
+    }
 
     return (dispatch) => {
         api.fields.delete(object.id)

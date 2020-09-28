@@ -61,6 +61,7 @@ export const GQL_GET_ALL_SERVICE = gql`
             created_at
             updated_at
             body
+            example
         }
     }
 `;
@@ -85,6 +86,7 @@ export const GQL_GET_SERVICE = gql`
         response_json
         is_old_url_ws
         body
+        example
     }
   }
 `;
@@ -112,7 +114,7 @@ export const GQL_CREATE_SERVICE = gql`
         $response_json: String
         $is_old_url_ws: Boolean
         $body: String
-        
+        $example: String
     ) {
         createService(
         input: {
@@ -127,6 +129,7 @@ export const GQL_CREATE_SERVICE = gql`
             response_json: $response_json
             is_old_url_ws: $is_old_url_ws
             body: $body
+            example: $example
         }
     ) {
         id
@@ -140,6 +143,7 @@ export const GQL_CREATE_SERVICE = gql`
         comment
         response_json
         body
+        example
     }
   } 
 `;
@@ -169,6 +173,7 @@ export const GQL_UPDATE_SERVICE = gql`
         $response_json: String
         $is_old_url_ws: Boolean
         $body: String
+        $example: String
     ) {
         updateService(
             input: {
@@ -184,6 +189,7 @@ export const GQL_UPDATE_SERVICE = gql`
                 response_json: $response_json
                 is_old_url_ws: $is_old_url_ws
                 body: $body
+                example: $example
             }
         ) {
             id
@@ -198,6 +204,7 @@ export const GQL_UPDATE_SERVICE = gql`
             response_json
             is_old_url_ws
             body
+            example
         }
   } 
 `;
@@ -226,6 +233,7 @@ export const GQL_DELETE_SERVICE = gql`
             response_json
             is_old_url_ws
             body
+            example
         }
   } 
 `;

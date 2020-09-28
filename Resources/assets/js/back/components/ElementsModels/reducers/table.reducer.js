@@ -4,7 +4,8 @@ import {
     IMPORT_TABLE_FIELD,
     SAVE_TABLE_FIELD,
     CHANGE_TABLE_FIELD,
-    LOAD_TABLE_FIELD
+    LOAD_TABLE_FIELD,
+    DELETE_TABLE_FIELD
 } from '../constants';
 
 const initialState = {
@@ -91,6 +92,14 @@ function tableReducer(state = initialState, action) {
             return {
                 ...state,
                 fields: action.payload
+            };
+
+        case DELETE_TABLE_FIELD: 
+            return {
+                ...state,
+                fields:  state.fields.filter(field => {
+                    return action.payload.index == field.index ? false : true;
+                })
             };
 
         default:

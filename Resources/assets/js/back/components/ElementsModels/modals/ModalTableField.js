@@ -18,7 +18,10 @@ const formats = Object.keys(MODELS_FIELDS).reduce((acc, key) => {
         value : key
     });
     return acc;
-}, []);
+}, [{
+    name : '---',
+    value : null
+}]);
 
 class ModalTableField extends Component {
 
@@ -27,6 +30,11 @@ class ModalTableField extends Component {
 
         this.state = {
             formats: formats,
+            errors: {
+                identifier: null,
+                name: null, 
+                format: null,
+            }
         };
     }
 
@@ -43,26 +51,49 @@ class ModalTableField extends Component {
     }
     
     handleSubmit() {
-        this.props.saveTableField();
-        this.closeModal();
+        if(this.validate()) {
+            this.props.saveTableField();
+            this.closeModal();
+        }
     }
 
     handleRemove() {
        
     }
 
+    validate() {
+        if(!this.props.table.form.identifier || !this.props.table.form.name || !this.props.table.form.format) {
+            this.setState({
+                errors: {
+                    identifier: !this.props.table.form.identifier ? true : false,
+                    name: !this.props.table.form.name ? true : false, 
+                    format: !this.props.table.form.format ? true : false,
+                }
+            });
+            return false;
+        }
+
+        // Reset state
+        this.setState({
+            errors: {
+                identifier: null,
+                name: null,
+                format: null
+            }
+        });
+
+        return true;
+    }
+
     // ==============================
     // Getter
     // ==============================
-    getFieldValue(name) {
-        return null;
-    }
-    
+
+
     // ==============================
     // Renderers
     // ==============================
     render() {
-        
         return (
             <Modal
                 id={this.props.id}
@@ -85,21 +116,24 @@ class ModalTableField extends Component {
                             value={this.props.table.form.identifier}
                             name={'identifier'}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.identifier}
                         />
 
                         <InputField
                             label={'Name (lib)'}
                             value={this.props.table.form.name}
+                            error={this.state.errors.name}
                             name={'name'}
                             onChange={this.handleFieldChange.bind(this)}
                         />
-
+                        
                         <SelectField
                             label={'Format (Text, num, etc)'}
-                            value={this.props.table.form.format}
+                            value={this.props.table.form.format !== null ? this.props.table.form.format : this.state.formats[0].value}
                             name={'format'}
                             arrayOfOptions={this.state.formats}
                             onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.format}
                         /> 
 
                     </div>

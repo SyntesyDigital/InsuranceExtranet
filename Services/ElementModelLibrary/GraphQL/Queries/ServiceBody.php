@@ -2,6 +2,7 @@
 
 namespace Modules\Extranet\Services\ElementModelLibrary\GraphQL\Queries;
 
+use Auth;
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\Service;
@@ -28,7 +29,16 @@ class ServiceBody
         }
 
         $boby = new BobyRepository();
-        $response = $boby->processMethod(strtoupper($service->http_method), $service->url, []);
+
+        $map = [
+            '{SESS}' => Auth::user()->id,
+        ];
+
+        $response = $boby->processMethod(
+            strtoupper($service->http_method),
+            str_replace(array_keys($map), array_values($map), $service->example),
+            []
+        );
 
         return [
             'body' => json_encode($response),

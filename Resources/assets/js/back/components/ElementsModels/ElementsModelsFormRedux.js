@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import api from '../../api/index.js';
 import ModalTestForm from './modals/ModalTestForm';
 import ModalEditProcedures from './modals/ModalEditProcedures';
-import ModalEditObject from './modals/ModalEditObject';
 import ModalTableField from './modals/ModalTableField';
 
 import {
@@ -54,7 +53,12 @@ class ElementsModelsFormRedux extends Component {
                     name: 'chargement...',
                     value: ''
                 }
-            ]
+            ],
+            errors: {
+                identifier: null,
+                name: null,
+                service_id: null,
+            }
         };
 
         this.props.initState(this.props.modelId, this.props.type);       
@@ -110,7 +114,6 @@ class ElementsModelsFormRedux extends Component {
     // FIXME : use openModalTableField()
     handleEditObject(procedure, object){
         //this.props.openModalTableField(procedure, JSON.parse(JSON.stringify(object)));
-        
     }
     //
     
@@ -153,12 +156,8 @@ class ElementsModelsFormRedux extends Component {
     }
 
     handleRemoveForm(form) {
-
-        var _this = this;
-
         bootbox.confirm({
-            message: this.props.rempoveMessage !== undefined ? 
-            this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+            message: this.props.rempoveMessage !== undefined ? this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
             buttons: {
                 confirm: {
                     label: Lang.get('fields.si') ,
@@ -169,27 +168,68 @@ class ElementsModelsFormRedux extends Component {
                     className: 'btn-default'
                 }
             },
-            callback: function (result) {
-                if(result){
-                    console.log("handleRemoveForm");
-                    _this.props.removeForm(_this.props.form.form);
-                }
-              }
-            });
+            callback: result => result ? this.props.removeForm(this.props.form.form) : null
+        });
     }
 
     handleSubmit() {
-        if(this.getFormType() == "table") {
-            this.props.saveForm({
-                ...this.props.form.form,
-                fields: this.props.table.fields,
-                procedure: this.props.form.currentProcedure,
-            });
-            return;
+
+        if(!this.validate()) {
+            return false;
         }
 
-        this.props.saveForm(this.props.form.form);
+        switch(this.getFormType()) {
+            case "fiche":
+            case "table":
+                this.props.saveForm({
+                    ...this.props.form.form,
+                    fields: this.props.table.fields,
+                    procedure: this.props.form.currentProcedure,
+                });
+                break;
+
+            default:
+                this.props.saveForm(this.props.form.form);
+                break;
+        }        
     }
+
+    validate() {
+
+        this.setState({
+            errors: {
+                identifier: !this.props.form.form.identifier ? true : false,
+                name: !this.props.form.form.name ? true : false, 
+                service_id: !this.props.form.form.service_id ? true : false,
+            }
+        });
+
+        switch(this.getFormType()) {
+            case 'fiche':
+            case 'table':
+                if(!this.props.form.form.identifier || !this.props.form.form.name || !this.props.form.form.service_id) {
+                    return false;
+                }
+            break;
+            
+            default: 
+                if(!this.props.form.form.identifier || !this.props.form.form.name) {
+                    return false;
+                }
+            break;
+        }
+
+        this.setState({
+            errors: {
+                identifier: null,
+                name: null,
+                service_id: null
+            }
+        });
+
+        return true;
+    }
+
 
     handleImportFromV1() {
         var _this = this;
@@ -232,7 +272,6 @@ class ElementsModelsFormRedux extends Component {
     importModel(modelId) {
         axios.get(routes['extranet.element.import'].replace(':model_id',modelId))
             .then(function(response) {
-                //console.log("importModel response",response.data.model.id);
                 window.location.href = routes['extranet.elements-models.forms.update'].replace(':id',response.data.model.id);
             })
             .catch(function (error) {
@@ -262,6 +301,13 @@ class ElementsModelsFormRedux extends Component {
         return '';
     }
 
+    getTableProcedure()
+    {
+        return this.props.form.form.procedures.length > 0 
+            ? this.props.form.form.procedures[0] 
+            : null;
+    }
+
 
     // ==============================
     // Renderers
@@ -282,33 +328,10 @@ class ElementsModelsFormRedux extends Component {
                         ...field,
                         index: index
                     })}
-                    onRemove={this.handleRemoveObject.bind(this, this.props.form.form.procedures[0], field)}
+                    onRemove={this.handleRemoveObject.bind(this, this.getTableProcedure(), field)}
                 />
             </div>
         );
-
-        
-
-        // let procedure = this.props.form.form.procedures[0] !== undefined 
-        //         ? this.props.form.form.procedures[0]
-        //         : null;
-
-        // let fields = procedure ? procedure.fields.map((field, index) =>
-        //     <div key={field.identifier + index} className={field.identifier + index}>
-        //         <FieldListItem
-        //             key={index}
-        //             identifier={field.identifier}
-        //             index={index}
-        //             icon={field.format !== undefined ? MODELS_FIELDS[field.format].icon : ''}
-        //             icons={[this.getTypeIcon(field.type)]}
-        //             label={field.format !== undefined ? MODELS_FIELDS[field.format].label : ''}
-        //             labelField={field.name}
-        //             isField={true}
-        //             onEdit={this.handleEditObject.bind(this, procedure, field)}
-        //             onRemove={this.handleRemoveObject.bind(this, procedure, field)}
-        //         />
-        //     </div>
-        // ) : null;
 
         return (
             <div>
@@ -359,7 +382,7 @@ class ElementsModelsFormRedux extends Component {
         return (
             <div className="forms-update">
 
-                {this.getFormType() == "table" && 
+                {(this.getFormType() == "table" || this.getFormType() == "fiche") && 
                     <ModalTableField
                         id={'modal-edit-object'}
                         icon={'fas fa-bars'}
@@ -397,7 +420,7 @@ class ElementsModelsFormRedux extends Component {
                     title={this.props.form.form.name}
                     backRoute={routes['extranet.elements-models.forms.index']}
                 >
-                    {(saved && this.getFormType() != "table") && 
+                    {(saved && this.getFormType() != "table" && this.getFormType() != "fiche") && 
                         <ButtonSecondary
                             label={'Test form'}
                             icon={'fas fa-sync-alt'}
@@ -405,18 +428,30 @@ class ElementsModelsFormRedux extends Component {
                         />
                     }
 
-                    {(saved && this.getFormType() == "table") && 
+                    {(saved && (this.getFormType() == "table" || this.getFormType() != "fiche")) && 
                         <ButtonSecondary
                             label={'Importer les champs'}
                             icon={'fas fa-sync-alt'}
                             onClick={e => {
                                 e.preventDefault();
-                                this.props.importFieldsFromService(this.props.form.form.service_id);
+
+                                bootbox.confirm({
+                                    message: "Attention ! Si vous importez des champs, vous perderez les champs actuellement configurés. Êtes-vous sûr de vouloir importer les champs du service ?",
+                                    buttons: {
+                                        confirm: {
+                                            label: Lang.get('fields.si') ,
+                                            className: 'btn-primary'
+                                        },
+                                        cancel: {
+                                            label:  Lang.get('fields.no'),
+                                            className: 'btn-default'
+                                        }
+                                    },
+                                    callback: result => result ? this.props.importFieldsFromService(this.props.form.form.service_id) : null
+                                });
                             }}
                         />
                     }
-
-                    
 
                     <ButtonDropdown
                         label={'Actions'}
@@ -433,7 +468,7 @@ class ElementsModelsFormRedux extends Component {
                                 onClick: this.handleImportFromV1.bind(this),
                             },
                             {
-                                label: 'Supprimier',
+                                label: 'Supprimer',
                                 icon: 'fas fa-trash-alt',
                                 className: 'text-danger',
                                 onClick: this.handleRemoveForm.bind(this),
@@ -471,7 +506,7 @@ class ElementsModelsFormRedux extends Component {
                                 </div>
                             }
 
-                            {this.getFormType() == "table" && 
+                            {(this.getFormType() == "table" || this.getFormType() == "fiche") && 
                                 <div>
                                     { this.renderTableFields() }
                                     <BoxAddLarge
@@ -495,6 +530,7 @@ class ElementsModelsFormRedux extends Component {
                             value={this.props.form.form.name}
                             name={'name'}
                             onChange={this.props.updateField}
+                            error={this.state.errors.name}
                         />
                         
                         <InputField
@@ -502,6 +538,7 @@ class ElementsModelsFormRedux extends Component {
                             value={this.props.form.form.identifier}
                             name={'identifier'}
                             onChange={this.props.updateField}
+                            error={this.state.errors.identifier}
                         />
 
                         <IconField
@@ -519,13 +556,14 @@ class ElementsModelsFormRedux extends Component {
                         />
 
 
-                        {this.getFormType() == "table" && 
+                        {(this.getFormType() == "table" || this.getFormType() == "fiche") && 
                             <SelectField
                                 label={'Service'}
-                                value={this.props.form.service_id}
+                                value={this.props.form.form.service_id}
                                 name={'service_id'}
                                 arrayOfOptions={this.state.services}
                                 onChange={this.props.updateField}
+                                error={this.state.errors.service_id}
                             />
                         }
                     </div>

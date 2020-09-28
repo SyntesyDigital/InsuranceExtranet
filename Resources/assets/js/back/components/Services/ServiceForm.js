@@ -24,7 +24,8 @@ export default class ServiceForm extends Component {
                 http_method : 'POST',
                 json : '{}',
                 reponse_json : '{}',
-                is_old_url_ws: false
+                is_old_url_ws: false,
+                example: null
             },
 
             errors: {},
@@ -78,9 +79,10 @@ export default class ServiceForm extends Component {
     load() {
         api.services.get(this.props.serviceId)
             .then(payload => this.setState({
-                'service': payload.data.service ? payload.data.service : null,
-                'json' : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
-                'response_json' : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
+                service: payload.data.service ? payload.data.service : null,
+                json : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
+                example :  payload.data.service.example != "" ? payload.data.service.example : null,
+                response_json : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
             }));
     }
 
@@ -107,6 +109,8 @@ export default class ServiceForm extends Component {
     // ==============================
 
     handleSaveSuccess(service) {
+        console.log('SERVICE ===>', service);
+        
         this.setState({
             service: service,
             errors: {}
@@ -184,7 +188,6 @@ export default class ServiceForm extends Component {
     // ==============================
 
     render() {
-
         return (
             <div className="services-update">
 
@@ -319,6 +322,14 @@ export default class ServiceForm extends Component {
                             name={'is_old_url_ws'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.is_old_url_ws ? true : false}
+                        />
+
+                        <InputField
+                            label={'Example'}
+                            value={this.state.service.example ? this.state.service.example : ''}
+                            name={'example'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.example ? true : false}
                         />
 
                         <InputField
