@@ -8,8 +8,8 @@ import InputFieldJsonEdit from '../../Layout/Fields/InputFieldJsonEdit';
 import FieldList from '../../Layout/FieldList';
 import FieldListItem from '../../Layout/FieldListItem';
 import BoxAddLarge from '../../Layout/BoxAddLarge';
-import ModalEditObject from './ModalEditObject';
 import { connect } from 'react-redux';
+import api from '../../../api/index.js';
 
 import {
     closeModalProcedure,
@@ -22,10 +22,9 @@ import {
     updateSettings
 } from '../actions';
 
-import api from '../../../api/index.js';
 
 
-class ModalEditProcedures extends Component {
+class ModalProcedures extends Component {
 
     constructor(props) {
         super(props);
@@ -77,13 +76,9 @@ class ModalEditProcedures extends Component {
 
     componentDidUpdate(prevProps,prevState) {
         if(!prevProps.display && this.props.display) {
-
             const jsonValue = this.props.procedure.repeatable_json;
-            const jsonEnabled = jsonValue !== undefined 
-            && jsonValue != '' && jsonValue != null? true : false;
-            //console.log("componentDidUpdate (jsonValue)",jsonValue);
+            const jsonEnabled = jsonValue !== undefined && jsonValue != '' && jsonValue != null ? true : false;
 
-            //modal is showing 
             this.setState({
                 procedure : this.props.procedure,
                 subJsonEnabled : jsonEnabled,
@@ -95,39 +90,6 @@ class ModalEditProcedures extends Component {
     // ==============================
     // Handlers
     // ==============================
-
-    handleRemoveObject(procedure, object){
-        console.log("handleRemoveObject", procedure, object);
-        this.props.removeProcedureObject(
-            this.props.form.form.procedures,
-            procedure, 
-            object
-        );
-        //this.props.cancel
-    }
-
-    handleEditObject(procedure, object){
-
-        //make a copy of the object
-        object = JSON.parse(JSON.stringify(object));
-
-        console.log("handleEditObject", procedure, object);
-        this.props.openModalEditObject(procedure, object);
-    }
-    
-    handleModalCloseEditObject() {
-        this.setState({
-            displayEditObject: false,
-            displayEditProcedures: true,
-        });
-    }
-    
-    handleCreateProcedureObject(){
-        console.log("handleCreateProcedureObject");
-
-        this.props.openModalCreateObject();
-    }
-
     handleChangeRepeatable() {
         this.setState({
             checkedRepeatable: !this.state.checkedRepeatable
@@ -136,35 +98,11 @@ class ModalEditProcedures extends Component {
 
     handleFieldChange(name, value){
         const {procedure} = this.state;
-
-        console.log("ModalEditPRocedures (name,value) => ",name,value);
-
         procedure[name] = value;
+
         this.setState({
             procedure : procedure
         });
-    }
-
-    handleSubmit() {
-        //this.props.saveGroup(this.state);
-        this.props.saveProcedure(
-            this.props.form.form.id,
-            this.props.form.form.procedures,
-            this.state.procedure
-        );
-    }
-
-    handleCancel() {
-        this.props.closeModalProcedure();
-    }
-
-    handleRemove() {
-
-        this.props.removeProcedure(
-            this.props.form.form.procedures,
-            this.state.procedure
-        );
-        this.props.closeModalProcedure();
     }
 
     handleServiceChange(name,value) {
@@ -185,13 +123,6 @@ class ModalEditProcedures extends Component {
         });
     }
 
-    handleSubJsonChange(name,value) {
-        console.log("handleSubJsonChange :: (value)",value);
-
-        this.setState({
-            subJsonEnabled : value
-        });
-    }
 
     // ==============================
     // Renderers
@@ -206,6 +137,7 @@ class ModalEditProcedures extends Component {
         return null;
     }
 
+    // FIXME : REDUX STATE ?
     getTypeIcon(type) {
         switch(type) {
             case "INPUT" : 
@@ -223,51 +155,45 @@ class ModalEditProcedures extends Component {
         var procedures = this.props.form.form.procedures;
         var index = this.getProcedureIndex(procedures,this.state.procedure);
         
-        if (index == null)
+        if (index == null) {
             return null;
-
+        }
+    
         var currentProcedure = procedures[index];
-
-        //console.log("renderObjects :: (currentProcedure)",currentProcedure);
 
         const displayObjects = currentProcedure.fields.map((object, index) => {
 
-                var jsonpath = "";
-                if(this.state.subJsonEnabled){
-                    jsonpath = '[subJSON] $.'+(object.jsonpath != null ? object.jsonpath : '')+object.identifier;
-                }
-                else {
-                    jsonpath = currentProcedure.repeatable_jsonpath+(object.jsonpath != null ? object.jsonpath : '')+object.identifier
-                }
-                
+            var jsonpath = this.state.subJsonEnabled
+                ? '[subJSON] $.'+ (object.jsonpath != null ? object.jsonpath : '') + object.identifier 
+                : currentProcedure.repeatable_jsonpath + (object.jsonpath != null ? object.jsonpath : '') + object.identifier;
 
-                return (
-                    <div key={object.identifier + index} className={object.identifier + index}> 
-                        <FieldListItem
-                            key={index}
-                            identifier={object.identifier}
-                            index={index}
-                            icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
-                            icons={[this.getTypeIcon(object.type)]}
-                            label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                            labelField={object.name + ' ( '+jsonpath+' ) '}
-                            isField={true}
-                            onEdit={this.handleEditObject.bind(this, currentProcedure, object)}
-                            onRemove={this.handleRemoveObject.bind(this, currentProcedure, object)}
-                            
-                        />
-                    </div>
-                );
-            }
+            return (
+                <div 
+                    key={object.identifier + index} 
+                    className={object.identifier + index}
+                > 
+                    <FieldListItem
+                        key={index}
+                        identifier={object.identifier}
+                        index={index}
+                        icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                        icons={[this.getTypeIcon(object.type)]}
+                        label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
+                        labelField={object.name + ' ( '+jsonpath+' ) '}
+                        isField={true}
+                        onEdit={() => this.props.openModalEditObject(currentProcedure, JSON.parse(JSON.stringify(object)))}
+                        onRemove={() => this.props.removeProcedureObject(this.props.form.form.procedures,currentProcedure, object)}
+                    />
+                </div>
+            );
+
+        });
             
-        )
         return (
             <div>
                 {displayObjects}
             </div>
-
         )
-
     }
 
     render() {
@@ -290,23 +216,21 @@ class ModalEditProcedures extends Component {
                 onModalClose={this.props.closeModalProcedure}
                 onCancel={this.props.closeModalProcedure}
                 deleteButton={saved ? true : false}
-                onSubmit={this.handleSubmit.bind(this)}
-                onRemove={this.handleRemove.bind(this)}
-                
+                onSubmit={() => {
+                    this.props.saveProcedure(
+                        this.props.form.form.id,
+                        this.props.form.form.procedures,
+                        this.state.procedure
+                    );
+                }}
+                onRemove={() => {
+                    this.props.removeProcedure(
+                        this.props.form.form.procedures,
+                        this.state.procedure
+                    );
+                    this.props.closeModalProcedure()
+                }}
             >
-
-                <ModalEditObject
-                    id={'modal-edit-object'}
-                    icon={'fas fa-bars'}
-                    size={'medium'}
-                    title={'Object | Configuration'}
-                    display={this.props.form.displayEditObject}
-                    object={this.props.form.currentObject}
-                    procedure={currentProcedure}
-                    zIndex={10000}
-                    onModalClose={this.handleModalCloseEditObject.bind(this)}
-                />
-
 
                 {currentProcedure != null &&
 
@@ -316,19 +240,18 @@ class ModalEditProcedures extends Component {
                             opacity : saved ? 1 : 0.5,
                             pointerEvents : saved ? 'auto' : 'none'
                         }}>
-
                             <FieldList>
-
                                 {this.renderObjects()}
 
                                 <BoxAddLarge
                                     identifier='1'
                                     title='Ajouter'
-                                    onClick={this.handleCreateProcedureObject.bind(this)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.props.openModalCreateObject();
+                                    }}
                                 />
-
                             </FieldList>
-
                         </div>
 
                         <div className="col-md-4 col-xs-12 field-col">
@@ -340,7 +263,6 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                     
                             <SelectField
                                 label={serviceUrl != null 
                                     ? <a href={serviceUrl} target="_blank"><i className="fas fa-external-link-alt"></i>&nbsp; Service</a>
@@ -352,7 +274,6 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleServiceChange.bind(this)}
                                 // onChange={this.handleFieldChange.bind(this)}
                             />
-                            
                             
                             <InputField
                                 label={'Ordre'}
@@ -410,12 +331,13 @@ class ModalEditProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-
                             <ToggleField
                                 label={'Sub JSON'}
                                 name={'sub_json'}
                                 checked={this.state.subJsonEnabled}
-                                onChange={this.handleSubJsonChange.bind(this)}
+                                onChange={() => this.setState({
+                                    subJsonEnabled : value
+                                })}
                             />
 
                             {this.state.subJsonEnabled && 
@@ -427,17 +349,9 @@ class ModalEditProcedures extends Component {
                                     height={200}
                                 /> 
                             }
-
-                            
-
-
-                            
-
                         </div>
                     </div>
-
                 }
-
             </Modal>
         );
     }
@@ -455,8 +369,6 @@ const mapDispatchToProps = dispatch => {
         saveProcedure: (modelId,procedures,procedure) => {
             return dispatch(saveProcedure(modelId,procedures,procedure));
         },
-
-        //remove
         removeProcedure: (procedures,procedure) => {
             return dispatch(removeProcedure(procedures,procedure));
         },
@@ -484,9 +396,9 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEditProcedures);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalProcedures);
 
-ModalEditProcedures.propTypes = {
+ModalProcedures.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
@@ -496,9 +408,7 @@ ModalEditProcedures.propTypes = {
 
     onAddProcedureObject: PropTypes.func,
     onEditProcedureObject: PropTypes.func,
-    // onRemoveProcedureObject: PropTypes.func,
     onMoveProcedureObject: PropTypes.func,
-    // onUpdateProcedureField: PropTypes.func,
     onCloseModal: PropTypes.func,
 
     onCancel: PropTypes.func,

@@ -1,34 +1,30 @@
 import {
     INIT_STATE,
-    OPEN_MODAL_CREATE_PROCEDURE,
-    OPEN_MODAL_EDIT_PROCEDURE,
+    OPEN_MODAL_PROCEDURE,
+    CLOSE_MODAL_PROCEDURE,
     REMOVE_PROCEDURE,
     UPDATE_PROCEDURES,
-    CLOSE_MODAL_PROCEDURES,
 
 } from "../constants/";
 
 import api from '../../../api/index.js';
 
 
-function getMaxId (list) {
-    var maxId = 0;
-    for(var index in list) {
-        maxId = Math.max(list[index].id,maxId);
-    }
-    return parseInt(maxId) + 1;
-}
+// function getMaxId (list) {
+//     var maxId = 0;
+//     for(var index in list) {
+//         maxId = Math.max(list[index].id,maxId);
+//     }
+//     return parseInt(maxId) + 1;
+// }
 
-export function openModalCreateProcedure(procedures) {
-
+export function openModalProcedure(procedure) {
     return {
-        type: OPEN_MODAL_CREATE_PROCEDURE
+        type: OPEN_MODAL_PROCEDURE,
+        payload: procedure
     };
 };
 
-export function openModalEditProcedure(procedure) {
-    return { type: OPEN_MODAL_EDIT_PROCEDURE, payload: procedure };
-};
 
 export function saveProcedure(modelId,procedures,procedure) {
 
@@ -57,16 +53,15 @@ export function createProcedure(modelId,procedures,procedure) {
             duplicate : procedure.duplicate,
         })
         .then(function(data) {
-
             toastr.success(Lang.get('fields.success'));
-
-            console.log("procedures.js action :: createProcedure :: (procedure,data)",procedure,data)
-
             procedure.id = data.data.createModelProcedure.id;
             procedure.service = data.data.createModelProcedure.service;
-            
             procedures.push(procedure);
-            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+
+            dispatch({ 
+                type: UPDATE_PROCEDURES, 
+                payload: procedures 
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -91,18 +86,19 @@ export function updateProcedure(modelId,procedures,procedure) {
             duplicate : procedure.duplicate,
         })
         .then(function(data) {
-            //update the service form info loaded after update
             procedure.service = data.data.updateModelProcedure.service;
 
             var index = getProcedureIndex(procedures,procedure);
             var objectsCopy = procedures[index].fields;
             procedures[index] = procedure;
-            //objects are modified directly in the state
             procedures[index].fields = objectsCopy;
 
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+            dispatch({ 
+                type: UPDATE_PROCEDURES, 
+                payload: procedures 
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -119,7 +115,10 @@ export function removeProcedure(procedures,procedure) {
 
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+            dispatch({ 
+                type: UPDATE_PROCEDURES, 
+                payload: procedures 
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -156,7 +155,8 @@ export function updateProcedureField(procedures, procedure, name, value) {
 
 export function updateSettings(procedure, name, value) {
     return {
-        type: UPDATE_PROCEDURES, payload: {
+        type: UPDATE_PROCEDURES, 
+        payload: {
             procedure: procedure,
             name: name,
             value: value
@@ -166,7 +166,7 @@ export function updateSettings(procedure, name, value) {
 
 export function closeModalProcedure() {
     return {
-        type: CLOSE_MODAL_PROCEDURES, 
+        type: CLOSE_MODAL_PROCEDURE, 
         payload: {}
     };
 };

@@ -4,7 +4,8 @@ import {
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     UPDATE_PROCEDURES,
-    DELETE_TABLE_FIELD
+    DELETE_TABLE_FIELD,
+    IMPORT_PROCEDURE_OBJECTS
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -13,13 +14,25 @@ export function initState(payload) {
     return { type: INIT_STATE, payload }
 };
 
-function getMaxId(list) {
-    var maxId = 0;
-    for (var index in list) {
-        maxId = Math.max(list[index].id, maxId);
+// function getMaxId(list) {
+//     var maxId = 0;
+//     for (var index in list) {
+//         maxId = Math.max(list[index].id, maxId);
+//     }
+//     return parseInt(maxId) + 1;
+// }
+
+export function importFieldsFromService(id) {
+    return (dispatch) => {
+        return api.services.getBody(id)
+            .then(response => {
+                dispatch({ 
+                    type: IMPORT_PROCEDURE_OBJECTS,
+                    payload: JSON.parse(response.data.serviceBody.body)
+                });
+            });
     }
-    return parseInt(maxId) + 1;
-}
+};
 
 export function openModalCreateObject() {
     return {
@@ -29,7 +42,8 @@ export function openModalCreateObject() {
 
 export function openModalEditObject(procedure, object) {
     return {
-        type: OPEN_MODAL_EDIT_OBJECT, payload: {
+        type: OPEN_MODAL_EDIT_OBJECT, 
+        payload: {
             procedure: procedure,
             object: object
         }
@@ -69,7 +83,8 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
     procedures[index].fields[objectIndex] = object;
 
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: UPDATE_PROCEDURES, 
+        payload: procedures
     };
 };
 

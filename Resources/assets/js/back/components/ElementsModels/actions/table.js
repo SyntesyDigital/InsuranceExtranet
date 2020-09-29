@@ -22,17 +22,17 @@ export function closeModalTableField() {
     };
 };
 
-export function importFieldsFromService(id) {
-    return (dispatch) => {
-        return api.services.getBody(id)
-            .then(response => {
-                dispatch({ 
-                    type: IMPORT_TABLE_FIELD,
-                    payload: JSON.parse(response.data.serviceBody.body)
-                });
-            });
-    }
-};
+// export function importFieldsFromService(id) {
+//     return (dispatch) => {
+//         return api.services.getBody(id)
+//             .then(response => {
+//                 dispatch({ 
+//                     type: IMPORT_TABLE_FIELD,
+//                     payload: JSON.parse(response.data.serviceBody.body)
+//                 });
+//             });
+//     }
+// };
 
 
 export function saveTableField() {

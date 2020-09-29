@@ -30,13 +30,13 @@ class ServiceBody
 
         $boby = new BobyRepository();
 
-        $map = [
-            '{SESS}' => Auth::user()->id,
-        ];
+        $url = strpos($service->example, '?') === false
+            ? $service->example.'?SES='.Auth::user()->id_per
+            : $service->example.'&SES='.Auth::user()->id_per;
 
         $response = $boby->processMethod(
             strtoupper($service->http_method),
-            str_replace(array_keys($map), array_values($map), $service->example),
+            $url,
             []
         );
 

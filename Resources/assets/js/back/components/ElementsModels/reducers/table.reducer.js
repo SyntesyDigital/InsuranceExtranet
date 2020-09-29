@@ -73,20 +73,20 @@ function tableReducer(state = initialState, action) {
                 ...state
             };
 
-        case IMPORT_TABLE_FIELD: 
-            return {
-                ...state,
-                fields: Object.keys(action.payload.data[0]).map((k, index) => {
-                    return {
-                        name: k, 
-                        identifier: k,
-                        type: 'CTE',
-                        format: 'text',
-                        visible: 1,
-                        index: index
-                    };
-                })
-            };
+        // case IMPORT_TABLE_FIELD: 
+        //     return {
+        //         ...state,
+        //         fields: Object.keys(action.payload.data[0]).map((k, index) => {
+        //             return {
+        //                 name: k, 
+        //                 identifier: k,
+        //                 type: 'CTE',
+        //                 format: 'text',
+        //                 visible: 1,
+        //                 index: index
+        //             };
+        //         })
+        //     };
 
         case LOAD_TABLE_FIELD:
             return {

@@ -4,32 +4,30 @@ import {
     UPDATE_FORM,
     REMOVE_FORM,
     TEST_FORM,
-    OPEN_MODAL_CREATE_PROCEDURE,
-    OPEN_MODAL_EDIT_PROCEDURE,
+    OPEN_MODAL_PROCEDURE,
+    CLOSE_MODAL_PROCEDURE,
     REMOVE_PROCEDURE,
     UPDATE_PROCEDURES,
-    CLOSE_MODAL_PROCEDURES,
     OPEN_MODAL_CREATE_OBJECT,
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
-    INIT_CREATE
+    INIT_CREATE,
+    IMPORT_PROCEDURE_OBJECTS
 } from '../constants';
 
 const initialState = {
 
     saved: false,
 
-    //Objects
-    displayEditObject: false,
+    displayProcedureModal: false,
+    displayObjectModal: false,
+
+    currentProcedure: null,
     currentObject: null,
 
     //Test
     displayTestForm: false,
-
-    //Procedures
-    displayEditProcedures: false,
-    currentProcedure: null,
 
     form : {
         id: null,
@@ -192,7 +190,7 @@ function formReducer(state = initialState, action) {
 
         case UPDATE_FIELD:
             form[action.payload.name] = action.payload.value;
-            //if validate disabled, remove validate_ws value
+
             if(action.payload.name == "validation" && action.payload.value == false){
                 form['validation_ws'] = null;
             }
@@ -207,8 +205,7 @@ function formReducer(state = initialState, action) {
             var proceduresCopy = state.form.procedures;
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
-            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
-                ? true : false;
+            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' ? true : false;
 
             return {
                 ...state,
@@ -226,32 +223,31 @@ function formReducer(state = initialState, action) {
                 displayTestForm: true,
             }
 
-        case OPEN_MODAL_CREATE_PROCEDURE:
+        case OPEN_MODAL_PROCEDURE:
             return {
                 ...state,
-                displayEditProcedures: true,
-                //add default procedure values
-                currentProcedure : {
+                displayProcedureModal: true,
+                currentProcedure: action.payload ? action.payload : {
                     id: null,
                     name: '',
                     service: '',
                     configurable: false,
                     required: false,
                     repeatable: false,
-                    prefixed : false,
+                    prefixed: false,
                     duplicate: false,
-                    repeatable_json : '',
-                    repeatable_jsonpath : '',
+                    repeatable_json: '',
+                    repeatable_jsonpath: '',
                     fields: [],
-                    order:0
+                    order: 0
                 }
             }
 
-        case OPEN_MODAL_EDIT_PROCEDURE:
+        case CLOSE_MODAL_PROCEDURE:
             return {
                 ...state,
-                displayEditProcedures: true,
-                currentProcedure: action.payload
+                displayProcedureModal: false,
+                currentProcedure: null
             }
 
         case REMOVE_PROCEDURE:
@@ -261,25 +257,20 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_PROCEDURES:
-
-            form.procedures = action.payload;
-
             return {
                 ...state,
-                form : form
+                form : {
+                    ...form,
+                    procedures: action.payload
+                },
             }
 
-        case CLOSE_MODAL_PROCEDURES:
-            return {
-                ...state,
-                displayEditProcedures: false,
-                currentProcedure: null
-            }
+        
 
         case OPEN_MODAL_CREATE_OBJECT:
             return {
                 ...state,
-                displayEditObject: true,
+                displayObjectModal: true,
                 //default current object
                 currentObject : {
                     id : null,
@@ -299,14 +290,14 @@ function formReducer(state = initialState, action) {
         case OPEN_MODAL_EDIT_OBJECT:
             return {
                 ...state,
-                displayEditObject: true,
+                displayObjectModal: true,
                 currentObject: action.payload.object,
             }
 
         case CLOSE_MODAL_PROCEDURE_OBJECT:
             return {
                 ...state,
-                displayEditObject: false,
+                displayObjectModal: false,
                 currentObject: null
             }
 
@@ -315,6 +306,24 @@ function formReducer(state = initialState, action) {
                 ...state,
                 displayTestForm: false,
             }
+
+        case IMPORT_PROCEDURE_OBJECTS: 
+            return {
+                ...state,
+                currentProcedure: {
+                    ...state.currentProcedure,
+                    fields: Object.keys(action.payload.data[0]).map((k, index) => {
+                        return {
+                            name: k, 
+                            identifier: k,
+                            type: 'CTE',
+                            format: 'text',
+                            visible: 1,
+                            index: index
+                        };
+                    })
+                }
+            };
 
         default:
             return state;

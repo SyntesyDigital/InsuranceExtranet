@@ -60,29 +60,29 @@ export function updateField(name, value) {
     };
 }
 
-export function saveForm(form) {
-    return form.id === null 
-        ? createForm(form) 
-        : updateForm(form);
+export function saveForm(state) {
+    return state.form.id === null 
+        ? createForm(state) 
+        : updateForm(state);
 }
 
-export function createForm(form) {
+export function createForm(state) {
     return (dispatch) => {
         api.elementModel.create({
-            name : form.name,
-            identifier : form.identifier,
-            description : form.description,
-            icon : form.icon,
-            type : form.type,
-            validation_ws : form.validation_ws
+            name : state.form.name,
+            identifier : state.form.identifier,
+            description : state.form.description,
+            icon : state.form.icon,
+            type : state.form.type,
+            validation_ws : state.form.validation_ws
         })
         .then(function(response) {
 
             let model = response.data.createElementModel;
 
-            if((form.type == "table" || form.type == "fiche") && form.service_id !== undefined) {
+            if(['table', 'fiche'].includes(state.form.type)) {
                 api.procedures.create({
-                    name : form.type + '_' +  form.identifier,
+                    name : state.form.type + '_' +  state.form.identifier,
                     configurable: false,
                     required: true,
                     repeatable: false,
@@ -91,7 +91,7 @@ export function createForm(form) {
                     prefixed: false,
                     duplicate: false,
                     preload: false,
-                    service_id: form.service_id,
+                    service_id: state.form.service_id,
                     model_id: model.id ,
                     order: 0
                 }).then(function(response) {
@@ -115,24 +115,24 @@ export function createForm(form) {
     }
 };
 
-export function updateForm(form) {
+export function updateForm(state) {
     
     return (dispatch) => {
-        api.elementModel.update(form.id,{
-            name : form.name,
-            identifier : form.identifier,
-            description : form.description,
-            icon : form.icon,
-            type : form.type,
-            validation_ws : form.validation_ws
+        api.elementModel.update(state.form.id, {
+            name : state.form.name,
+            identifier : state.form.identifier,
+            description : state.form.description,
+            icon : state.form.icon,
+            type : state.form.type,
+            validation_ws : state.form.validation_ws
         })
         .then(function(response) {
             let model = response.data.updateElementModel;
             
-            if((form.type == "table" || form.type == "fiche") && form.fields !== undefined && form.procedure) {
+            if(['table', 'fiche'].includes(state.form.type)) {
 
-                api.procedures.update(form.procedure.id, {
-                    name : form.type + '_' +  form.identifier,
+                api.procedures.update(state.currentProcedure.id, {
+                    name : state.form.type + '_' +  state.form.identifier,
                     configurable: false,
                     required: true,
                     repeatable: false,
@@ -141,8 +141,8 @@ export function updateForm(form) {
                     prefixed: false,
                     duplicate: false,
                     preload: false,
-                    service_id: form.service_id,
-                    model_id: model.id ,
+                    service_id: state.form.service_id,
+                    model_id: model.id,
                     order: 0
                 }).then(function(response) {
                     dispatch({
@@ -151,12 +151,11 @@ export function updateForm(form) {
                     });
                 });
 
-                // Remove all fields from procedure 
-                form.procedure.fields.map(field => api.fields.delete(field.id));
+                state.form.procedures[0].fields.map(field => api.fields.delete(field.id));
 
-                form.fields.map(field => {
+                state.currentProcedure.fields.map(field => {
                     api.fields.create({
-                        procedure_id: form.procedure.id,
+                        procedure_id: state.currentProcedure.id,
                         name: field.name,
                         identifier: field.identifier,
                         type: 'CTE',
