@@ -18,6 +18,12 @@
     body .action-button-container:hover .container-icon i{
         color: {{$iconHoverColorActionButton}};
     }
+    body .action-button-container:hover .container-number span{
+        color: {{$numberHoverColorActionButton}};
+    }
+    body .action-button-container .container-number span{
+        color: {{$numberColorActionButton}};
+    }
     body .action-button-container .container-title p{
         color: {{$titleColorActionButton}};
         font-size: {{$fontSizeTitleActionButton}};

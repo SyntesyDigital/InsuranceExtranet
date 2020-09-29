@@ -22,9 +22,10 @@
         span{
             position: absolute;
             top: 50%;
-            transform: translate(-50%, -50%);
-            right: 0;
-            font-size: 2.2vw;
+            transform: translate(0, -50%);
+            right: 15px;
+            font-size: 30px;
+            -webkit-transition: 0.8s;
           }
     }
     &-title {
