@@ -407,9 +407,9 @@ class VisibilitySettingsField extends Component {
             <div className="form-group conditions-list">
               {this.renderConditions()}
             </div>
-            <div class="add-row-block">
-              <a href="" class="btn btn-default" onClick={this.openModal.bind(this)}>
-                <i class="fa fa-plus-circle"></i> Ajouter une condition
+            <div className="add-row-block">
+              <a href="" className="btn btn-default" onClick={this.openModal.bind(this)}>
+                <i className="fa fa-plus-circle"></i> Ajouter une condition
               </a>
             </div>
           </div>

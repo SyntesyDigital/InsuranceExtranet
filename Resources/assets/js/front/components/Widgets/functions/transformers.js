@@ -221,11 +221,21 @@ export function  getConditionalIcon(field, value) {
             var conditionValue = typeof condition.value === 'string' ?
                 condition.value.toLowerCase() : condition.value;
 
-            if (value.indexOf(conditionValue) != -1) {
+            //console.log("getConditionalIcon :: (field,conditionValue)",field,conditionValue);
+
+            //if not defined take as default icon
+            if(conditionValue == null && condition.icon !== undefined){
+              return {
+                icon: condition.icon,
+              };
+            }
+            else if (value.indexOf(conditionValue) != -1) {
                 return {
                     icon: condition.icon,
                 };
             }
+
+            
         }
     }
     return {};
@@ -280,4 +290,32 @@ export function getParametersFromContentField(content) {
     return parameters;
   }
   return [];
+}
+
+export function hasRoute(field) {
+  return field.settings.hasRoute !== undefined && field.settings.hasRoute != null;
+}
+
+export function hasModal(field) {
+  return field.settings.hasModal !== undefined && field.settings.hasModal != null;
+}
+
+export function cleanIdentifier(identifier) {
+  identifier.replace('.', '');
+  return identifier;
+}
+
+export function getFieldUrl(field,row) {
+  //process field identifier removing .
+  var identifier = cleanIdentifier(field.identifier);
+  return row.original[identifier + "_url"] !== undefined 
+    && row.original[identifier + "_url"] !== "" 
+    ? row.original[identifier + "_url"]
+    : ''
+}
+
+export function isGrouped(field) {
+  return field.settings.group !== undefined && field.settings.group != null 
+    ? field.settings.group 
+    : false;
 }

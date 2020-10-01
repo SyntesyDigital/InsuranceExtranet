@@ -361,7 +361,7 @@ return [
           'hasModal',
           'conditionalVisibility',
           'conditionalIcon',
-          'groupe',
+          'group',
           'description',
         ],
       ],

@@ -26,6 +26,10 @@ import {
     changeFieldSettings
 } from './actions/';
 
+import {
+    updateSettingsFromConfig
+} from './functions';
+
 class ElementModal extends Component {
 
     constructor(props) {
@@ -37,7 +41,8 @@ class ElementModal extends Component {
 
         this.state = {
             id: 'modal-element-settings',
-            isOpen: false
+            isOpen: false,
+            field : null
         };
     }
 
@@ -51,17 +56,21 @@ class ElementModal extends Component {
         this.props.closeModalSettings();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("ElementModal :: ", nextProps);
-
-        if (nextProps.display != this.state.isOpen) {
-            if (nextProps.display) {
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.display != this.props.display){
+            if (this.props.display) {
                 this.openModal();
             }
             else {
                 this.closeModal();
             }
         }
+    }
+
+    updateField() {
+        return updateSettingsFromConfig(
+            this.props.app.settingsField,
+            this.props.app.element.type);
     }
 
     openModal() {
@@ -72,8 +81,11 @@ class ElementModal extends Component {
             opacity: 1,
             ease: Power2.easeInOut
         });
+
+
         this.setState({
-            isOpen: true
+            isOpen: true,
+            field : this.updateField()  //process field from last updates
         });
 
     }
@@ -87,7 +99,8 @@ class ElementModal extends Component {
             ease: Power2.easeInOut,
             onComplete: function () {
                 self.setState({
-                    isOpen: false
+                    isOpen: false,
+                    field : null
                 });
                 self.props.onModalSettingsClosed();
             }
@@ -126,7 +139,7 @@ class ElementModal extends Component {
 
     render() {
 
-        const field = this.props.app.settingsField;
+        const field = this.state.field;
 
         console.log("field :: ElementModal", field);
 
@@ -317,11 +330,11 @@ class ElementModal extends Component {
                                         />
                                     }
 
-                                    {field != null && field.settings != null && field.settings.groupe !== undefined &&
+                                    {field != null && field.settings != null && field.settings.group !== undefined &&
 
                                         <BooleanSettingsField
                                             field={field}
-                                            name="groupe"
+                                            name="group"
                                             source="settings"
                                             onFieldChange={this.handleFieldSettingsChange}
                                             label="Groupe"
@@ -469,8 +482,6 @@ class ElementModal extends Component {
                                             inputLabel="Indique le nombre"
                                         />
                                     }
-
-
 
                                 </div>
                             </div>
