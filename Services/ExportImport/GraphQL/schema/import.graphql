@@ -14,7 +14,7 @@ type Import {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     import(payload: String! @spread): Import
         @field(resolver: "Modules\\Extranet\\Services\\ExportImport\\GraphQL\\Mutations\\ImporterMutator")
 }

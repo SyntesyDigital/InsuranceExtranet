@@ -5,6 +5,7 @@ import {
     UPDATE_FIELD,
     LOAD_TEMPLATE,
     DELETE_TEMPLATE,
+    LOAD_ELEMENT_PARAMETERS
 } from "../constants/";
 
 /**
@@ -54,6 +55,7 @@ const initialState = {
     fields : [],
     tabsRoutes: [],
     templatesList: [],
+    parameters: [],
     form: {
         id: null,
         name: '',
@@ -117,6 +119,11 @@ function templateReducer(state = initialState, action) {
                 errors : anyIdentifierIsUndefined(layoutFieldsIdentifier)
             };
 
+        case LOAD_ELEMENT_PARAMETERS : 
+            return {
+                ...state,
+                parameters : action.payload
+            };
 
         case UPDATE_FIELD:
             var form = state.form;

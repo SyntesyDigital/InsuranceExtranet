@@ -7,6 +7,10 @@
     body .container-image-text-link {
         border-radius: {{$borderRadiusImgTxtLink}};
     }
+    body .container-image-text-link .container-image{
+        border-top-left-radius: {{$borderRadiusImgTxtLink}};
+        border-top-right-radius: {{$borderRadiusImgTxtLink}};
+    }
     /* title */
     body .imageTextLink .container-title .alignleft a, body .imageTextLinkList .container-title .alignleft a{
         font-size: {{$titleFontSizeImgTxtLink}};
@@ -18,7 +22,7 @@
         color: {{$dateColorImgTxtLink}}
     }
     /* desc */
-    body .imageTextLink .container-description p, body .imageTextLinkList .container-description p{
+    body .imageTextLink .container-description, body .imageTextLinkList .container-description{
         font-size: {{$descFontSizeImgTxtLink}};
         color: {{$descColorImgTxtLink}}
     }

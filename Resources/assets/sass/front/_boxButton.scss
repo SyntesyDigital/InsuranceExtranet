@@ -100,8 +100,10 @@
       }
       p {
         text-transform: uppercase;
-        width: 108px;
         margin: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+        @include line-clamp(2,40);
       }
     }
   }

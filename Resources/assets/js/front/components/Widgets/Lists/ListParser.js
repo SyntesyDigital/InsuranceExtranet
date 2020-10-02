@@ -236,7 +236,7 @@ export default class ListParser extends Component {
        // console.log("TypologyPaginated => ",items[key]);
 
         result.push(
-          <div className={this.state.columns} key={key}>
+          <div className={this.state.columns + ' ' + (this.props.identifier ? this.props.identifier : '')} key={key}>
             <div className="item-container">
                 {this.props.renderItem(data[key],this.state.elementObject,key)}
             </div>
@@ -244,6 +244,10 @@ export default class ListParser extends Component {
         );
       }
 
+      if(this.props.onReverse == true){
+        result.reverse();
+      }
+      
       return (
           <div className="row">
             {result}
@@ -257,15 +261,27 @@ export default class ListParser extends Component {
       var externalLoading = this.props.externalLoading !== undefined 
         ? this.props.externalLoading 
         : false ;
+
       var loaded = initiliased && !externalLoading;
 
       return (
+        
         <div className={this.props.customClass ? this.props.customClass : ''}>
-          { !loaded &&
+          {loaded && this.props.onReverse && currentPage <= totalPages &&
+            <div className="more-btn">
+              <a href="#" onClick={(e) => this.loadMore(e)}> 
+                <i className="far fa-arrow-alt-circle-down"></i>
+                &nbsp;
+                Voir plus 
+              </a>
+            </div>
+          }
+
+          {!initiliased &&
               <p className="message">Chargement...</p>
           }
 
-          {loaded && data != null && data.length == 0 &&
+          {initiliased && data != null && data.length == 0 &&
               <p className="message">Aucune donnée trouvée</p>
           }
 
@@ -275,13 +291,12 @@ export default class ListParser extends Component {
                   {this.renderItems(data)}
                 </div>
           }
-          {loaded && currentPage <= totalPages &&
-
+          {loaded && !this.props.onReverse && currentPage <= totalPages &&
             <div className="more-btn">
               <a href="#" onClick={(e) => this.loadMore(e)}> 
                 <i className="far fa-arrow-alt-circle-down"></i>
                 &nbsp;
-                Voire plus 
+                Voir plus 
               </a>
             </div>
           }

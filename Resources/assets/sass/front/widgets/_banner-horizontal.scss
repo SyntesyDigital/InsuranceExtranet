@@ -1,6 +1,7 @@
 .page-builder{
   .horizontal-banner{
     -webkit-transition: 0.8s;
+    min-height: 152px;
     .image-static-banner{
       img{
         width: 75%;
@@ -13,8 +14,23 @@
         height: 105px;
       }
     }
+    .wrapper-arrow{
+      min-height: 152px;
+      background-image: url("../../../img/geo_arrow-right.png");
+      background-position: 97% 50%;
+      background-repeat: no-repeat;
+    }
     .text-static-banner {
       padding-left: 0;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      .wrapper-banner{
+        position: relative;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        left: 50%;
+      }
       p, h4{
         -webkit-transition: 0.8s;
       }

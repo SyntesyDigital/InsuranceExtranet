@@ -28,7 +28,7 @@ input UpdateElementTemplateInput {
 ################################
 #   QUERY
 ################################
-extend type Query {
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
     elementTemplates: [ElementTemplate!]!
         @all(model: "Modules\\Extranet\\Services\\ElementTemplate\\Entities\\ElementTemplate")
 
@@ -43,7 +43,7 @@ extend type Query {
 ################################
 #   MUTATOR
 ################################
-extend type Mutation {
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
     createElementTemplate(input: CreateElementTemplateInput! @spread): ElementTemplate
         @field(resolver: "Modules\\Extranet\\Services\\ElementTemplate\\GraphQL\\Mutations\\CreateElementTemplate")
 

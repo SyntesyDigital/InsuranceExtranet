@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
-import ReactQuill from 'react-quill';
+import LabelTooltip from '../../../Common/LabelTooltip';
 import 'react-quill/dist/quill.snow.css';
 
 class RichtextField extends Component
@@ -65,8 +64,13 @@ class RichtextField extends Component
   render() {
 
     const {field} = this.props;
+
     const isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
+
+    let hasDescription = this.props.field.settings.description !== undefined ?
+    this.props.field.settings.description : false;
+
     const errors = this.props.error ? ' has-error' : '';
 
     let textFieldClass = ["text-field"];
@@ -85,7 +89,12 @@ class RichtextField extends Component
             {isRequired &&
               <span className="required">&nbsp; *</span>
             }
-            
+            {hasDescription && 
+                <LabelTooltip 
+                    description={this.props.field.settings.description ? 
+                        this.props.field.settings.description : ''}
+                />
+            }
         </label>
 
         &nbsp;

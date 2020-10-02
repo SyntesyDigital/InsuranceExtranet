@@ -19,6 +19,7 @@
   
 @endphp
 
+@if($visible)
 <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
   <div class="title">
@@ -56,3 +57,4 @@
       </div>
   </div>
 </div>
+@endif

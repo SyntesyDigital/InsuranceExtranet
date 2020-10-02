@@ -130,9 +130,15 @@ class ModalEditObject extends Component {
         if(currentObject == null || this.props.procedure == null)
             return null;
 
-        var currentJsonpath = this.props.procedure.repeatable_jsonpath
+        var currentJsonpath = "";
+        if(this.props.procedure.repeatable == "1"){
+            currentJsonpath = '[subJSON] $.'+(currentObject.jsonpath != null ? currentObject.jsonpath : '')+currentObject.identifier;
+        }
+        else {
+            currentJsonpath = this.props.procedure.repeatable_jsonpath
             +(currentObject.jsonpath != null ? currentObject.jsonpath : '')
             +currentObject.identifier;
+        }
 
         return (
 

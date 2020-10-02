@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import RolesUpdateRedux from './RolesUpdateRedux';
-
 import { Provider } from "react-redux";
-
 import configureStore from './configureStore'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -13,9 +11,9 @@ let store = configureStore();
 //necessary because material ui is using rem. 
 const theme = createMuiTheme({
     typography: {
-      fontSize: 18,
+        fontSize: 18,
     },
-  });
+});
 
 export default class RolesUpdate extends Component {
 
@@ -28,7 +26,7 @@ export default class RolesUpdate extends Component {
         return (
             <Provider store={store}>
                 <ThemeProvider theme={theme}>
-                    <RolesUpdateRedux 
+                    <RolesUpdateRedux
                         roleId={this.props.roleId}
                     />
                 </ThemeProvider>
@@ -43,7 +41,7 @@ if (document.getElementById('roles-update')) {
 
     var element = document.getElementById('roles-update');
 
-    ReactDOM.render(<RolesUpdate 
+    ReactDOM.render(<RolesUpdate
         roleId={element.getAttribute('roleId')}
     />, document.getElementById('roles-update'));
 }

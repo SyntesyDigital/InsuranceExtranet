@@ -7,23 +7,23 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
-
 use Session;
-
 
 class VeosUserProvider implements UserProvider
 {
     public function __construct()
     {
-        if ($this->user()) {
+        if ($this->user() && isset($this->user()->role)) {
             switch ($this->user()->role) {
-               case ROLE_SYSTEM:
-               case ROLE_SUPERADMIN:
-               case ROLE_ADMIN:
-               case ROLE_USER:
-                    //update token
+                case ROLE_SYSTEM:
+                case ROLE_SUPERADMIN:
+                case ROLE_ADMIN:
+                case ROLE_USER:
                     $this->renewToken();
                     break;
+
+                case ROLE_ANONYMOUS:
+                break;
 
                 default:
                     header('Location: /unavailable');
@@ -97,7 +97,7 @@ class VeosUserProvider implements UserProvider
             //if not has expired renew
             $user = json_decode(Session::get('user'));
 
-            $sessionUser = User::where('id_per',$user->id)->first();
+            $sessionUser = User::where('id_per', $user->id)->first();
 
             if (!isset($sessionUser)) {
                 header('Location: /login');
@@ -123,14 +123,16 @@ class VeosUserProvider implements UserProvider
             $result = json_decode($response->getBody());
             $user->token = $result->token;
 
-            if ($session) {
+            $service = resolve('Services/RolesPermissions');
+            $user->permissions = $service->getPermissionsFromRoleId($user->role);
 
+            if ($session) {
                 $payload = json_decode($session->payload);
                 $payload->token = $result->token;
 
                 $session->update([
                     'token' => $result->token,
-                    'payload' => json_encode($payload)
+                    'payload' => json_encode($payload),
                 ]);
             }
 
@@ -140,13 +142,25 @@ class VeosUserProvider implements UserProvider
 
     public function user()
     {
-        return Session::has('user') ? json_decode(Session::get('user')) : false;
+        $user = Session::has('user')
+            ? json_decode(Session::get('user'))
+            : false;
+
+        return $user;
     }
 
     public function session()
     {
-        return isset($this->user()->token) ? 
-            UserSession::where('token', $this->user()->token)->first() : false ;
+        $session = isset($this->user()->token)
+            ? UserSession::where('token', $this->user()->token)->first()
+            : false;
+
+        if ($session) {
+            $payload = $session->payload ? json_decode($session->payload) : null;
+            $session->permissions = isset($payload->permissions) ? $payload->permissions : [];
+        }
+
+        return $session;
     }
 
     public function attempt()

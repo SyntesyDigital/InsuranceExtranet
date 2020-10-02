@@ -31,7 +31,7 @@ class FormProceduresIterator extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-      console.log("FormProceduresIterator :: componentDidUpdate (this.props.form.iterating) ",this.props.form.iterating);
+      //console.log("FormProceduresIterator :: componentDidUpdate (this.props.form.iterating) ",this.props.form.iterating);
 
       if(this.props.form.iterating) {
 

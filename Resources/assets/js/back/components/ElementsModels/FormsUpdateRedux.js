@@ -24,6 +24,8 @@ import {
     
 } from './actions'
 
+import ToggleField from '../Layout/Fields/ToggleField';
+
 
 
 class FormsUpdateRedux extends Component {
@@ -310,6 +312,25 @@ class FormsUpdateRedux extends Component {
                             name={'description'}
                             onChange={this.props.updateField}
                         />
+
+                        <hr/>
+
+                        <ToggleField
+                            label={'Validation'}
+                            checked={this.props.form.form.validation}
+                            name={'validation'}
+                            onChange={this.props.updateField}
+                        />
+
+
+                        {this.props.form.form.validation && 
+                            <InputField
+                                label={'WS de validation'}
+                                value={this.props.form.form.validation_ws}
+                                name={'validation_ws'}
+                                onChange={this.props.updateField}
+                            />
+                        }
 
                     </div>
                 </div>

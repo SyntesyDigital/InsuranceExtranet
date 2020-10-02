@@ -14,3 +14,11 @@
         cursor: pointer;
     }
 }
+
+
+.container-radio-field.has-error{	
+    .MuiFormGroup-root .MuiFormControlLabel-root {
+        border: 1px solid #a94442;
+    }
+}
+

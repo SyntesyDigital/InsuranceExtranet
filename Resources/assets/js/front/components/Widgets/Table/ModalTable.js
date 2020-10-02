@@ -191,11 +191,29 @@ class ModalTable extends Component {
         </div>
       );
     }
+    else if(element.type == "form-v2") {
+      return (
+        <div className="row">
+          <div className="col-xs-12 col-md-10 col-md-offset-1">
+            <FormComponent
+              elementObject={this.state.element}
+              parameters={this.state.parameters}
+              finalRedirectUrl={this.props.redirectUrl != null ? 
+                this.props.redirectUrl : ''}
+              onFormFinished={this.handleFormFinished.bind(this)}
+              version={"2"}
+            />
+          </div>
+        </div>
+      );
+    }
 
     return null;
   }
 
   render() {
+
+    const size = this.state.element != null && this.state.element.type.indexOf('form') != -1 ? 'medium' : 'large';
 
     return (
       <div
@@ -210,7 +228,7 @@ class ModalTable extends Component {
 
           <div className="modal-container">
 
-            <div className="modal-content">
+            <div className={"modal-content "+size}>
 
               <div className="modal-header">
                 {this.renderHeader()}

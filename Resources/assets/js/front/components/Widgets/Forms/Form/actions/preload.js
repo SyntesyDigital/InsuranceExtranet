@@ -16,7 +16,6 @@ export function preloadForm(procedure,formParameters) {
     ////console.log("getJsonResultBeforePut :: ",procedure);
 
     if(procedure.SERVICE === undefined){
-      console.error("procedure not defined => ",procedure);
       return dispatch({type : PRELOAD_FORM_ERROR});
     }
 
@@ -27,33 +26,28 @@ export function preloadForm(procedure,formParameters) {
       method : "GET",
       url : url,
       data : "",
-      is_array : false
+      is_array : false,
+      is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
+            ? procedure.SERVICE.IS_OLD_URL 
+            : null
     };
 
     self = this;
 
     axios.post(ASSETS+'architect/elements/form/process-service',params)
       .then(function(response) {
-        ////console.log("response => ",response);
-        ////console.log("getJsonResultBeforePut :: response ",response);
         if(response.status == 200){
-            ////console.log("response => ",response);
-
-            return dispatch(setResultValues(
-              procedure,
-              response.data.result
-            ));
+            return dispatch(setResultValues(procedure, response.data.result));
         }
         else {
             toastr.error(response.data.message);
             return dispatch({type : PRELOAD_FORM_ERROR});
-            //callback();
         }
       })
       .catch(function(error){
-        console.error("error => ",error.message);
-        return dispatch({type : PRELOAD_FORM_ERROR});
-        //callback();
+        return dispatch({
+            type : PRELOAD_FORM_ERROR
+        });
       });
 
   }

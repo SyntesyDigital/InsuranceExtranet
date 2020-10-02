@@ -29,7 +29,7 @@ class ElementRepository extends BaseRepository
 
     public function getElementsByType($element_type)
     {
-        return Element::where('type', $element_type)->get();
+        return Element::where('type', $element_type)->orderBy('name','asc')->get();
     }
 
     /*
@@ -173,8 +173,7 @@ class ElementRepository extends BaseRepository
 
     public function getModelValuesFromElement($element, $parameters)
     {
-        //dd($element->model_exemple);
-        $params = "?SES=".Auth::user()->session_id;
+        $params = "?".get_session_parameter();
 
         if (isset($parameters) && sizeof($parameters) > 0) {
             foreach ($parameters as $key => $value) {

@@ -1,17 +1,29 @@
 <!-- FOOTER -->
-<footer>
-	<!-- Col 2 -->
 
-  <div>
-    <div class="row">
-      @include ('extranet::front.partials.menu_footer',
-    		["menu" => get_menu('footer')]
-    	)
+@php
+	$template = collect(\Request::segments())->implode('-');
+	$storedStylesFront = \Cache::get('frontStyles');
+@endphp
 
-		&nbsp;&nbsp;&nbsp;
-		<div class="version" style="">
-			Architect v1.17.0 v1.17.5
+@if( $template != 'login' )
+	@if( $template != 'reset-password')
+		<footer>
+			<!-- Col 2 -->
+
+		<div>
+			<div class="row">
+				@if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true)
+					@else
+					@include ('extranet::front.partials.menu_footer',
+						["menu" => get_menu('footer')]
+					)
+				@endif
+				&nbsp;&nbsp;&nbsp;
+				@include ('extranet::front.layouts.version')
 		</div>
-  </div>
-	<!-- end Col 2 -->
-</footer><!-- END FOOTER -->
+			<!-- end Col 2 -->
+		</footer><!-- END FOOTER -->
+	@endif
+@endif
+
+

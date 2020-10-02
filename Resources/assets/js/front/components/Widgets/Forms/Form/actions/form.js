@@ -44,6 +44,7 @@ export function loadProcedures(modelIdentifier) {
           dispatch({ type: PROCEDURES_LOADED, payload : {
             procedures : response.data.data.procedures,
             variables : response.data.data.variables,
+            validationWS : response.data.data.validation_ws
           }});
 
         }
@@ -69,7 +70,6 @@ export function getJsonResultBeforePut(procedure,formParameters) {
     ////console.log("getJsonResultBeforePut :: ",procedure);
 
     if(procedure.SERVICE === undefined){
-      console.error("procedure not defined => ",procedure);
       return dispatch({type : UPDATE_JSON_RESULT_GET_ERROR});
     }
 
@@ -77,10 +77,14 @@ export function getJsonResultBeforePut(procedure,formParameters) {
     var url = processUrlParameters(procedure.SERVICE.URL,formParameters);
 
     var params = {
-      method : "GET",
-      url : url,
-      data : "",
-      is_array : false
+        method : "GET",
+        url : url,
+        data : "",
+        is_array : false,
+        is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
+            ? procedure.SERVICE.IS_OLD_URL 
+            : null,
+        body : 'json'
     };
 
     self = this;
@@ -144,6 +148,15 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         }
       }
 
+      //process POST with duplicate
+      if(!stepsToProcess && procedure.SERVICE !== undefined &&
+        procedure.SERVICE.METHODE == "POST" && !jsonGetDone){
+        //if version 2 check if duplicate
+        if(version == "2" && procedure.DUPLICATE == "Y") {
+          //set the jsonResult with a get
+          return dispatch(getJsonResultBeforePut(procedure,formParameters));
+        }
+      }
 
       const isRequired = procedure.OBL == "Y" ? true : false;
       const isConfigurable = procedure.CONF == "Y" ? true : false;
@@ -322,6 +335,26 @@ export function submitStandardProcedure(currentProcedureIndex,procedure,
 
 }
 
+
+/**
+ * Function used to remove the last id of the PUT url to duplicate with 
+ * same JSON. Ejample PUT url : flotte/adherent/[_id_adh].
+ * Result : POST url to duplicate : flotte/adherent/
+ * @param {*} url 
+ */
+export function removePutId(url) {
+  for(var key in url) {
+    var currentUrl = url[key];
+    var urlArray = currentUrl.split('/');
+    urlArray.pop();
+    url[key] = urlArray.join('/');
+  }
+  
+  return url;
+}
+
+
+
 /**
 * Process the procedure, with the service and the json
 * Returns info for next Step
@@ -331,6 +364,10 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
   return (dispatch) => {
 
     //console.log("submitProcedure :: ",procedure, jsonResult);
+
+    //clean null objects of json result 
+    jsonResult = cleanJSON(jsonResult);
+
 
     if(procedure.SERVICE === undefined){
       console.error("procedure not defined => ",procedure);
@@ -357,6 +394,12 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       formParameters
     );
 
+    //if it is a procedure to duplicate and it is a post
+    if(procedure.DUPLICATE == "Y" && procedure.SERVICE.METHODE == "POST") {
+      //remove last parameter of url
+      url = removePutId(url);
+    }
+
     console.log("submitProcedure (url,procedure.SERVICE.URL) => ",url,procedure.SERVICE.URL);
 
     //if is request_parms need to be wrappen into json
@@ -379,7 +422,11 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
       method : procedure.SERVICE.METHODE,
       url : url,
       data : jsonResult,
-      is_array : procedureIsArray(procedure)
+      is_array : procedureIsArray(procedure),
+      is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
+            ? procedure.SERVICE.IS_OLD_URL 
+            : null,
+      body : procedure.SERVICE.BODY
     };
 
     axios.post(ASSETS+'architect/elements/form/process-service',params)
@@ -475,4 +522,58 @@ export function skipProcedure(currentProcedureIndex, procedures, jsonResult) {
       dispatch(finish());
     }
   }
+}
+
+/** 
+ * Function to clean when array has nulls example : [null,null,{object : ''}]
+ * After clean the result is : [{object : ''}]
+*/
+export function cleanNullValues(jsonArray) {
+  for(var i=jsonArray.length -1;i>=0;i--){
+      if(jsonArray[i] == null)
+          jsonArray.splice(i,1);
+  }
+  return jsonArray;
+}
+
+/**
+ * Recursive function to clean all objects that his values are null or ''
+ * @param {*} json 
+ */
+export function cleanJSON(json) {
+  console.log("clean json ",json);
+
+  //if not array and not object, is a value, return value
+  if((!(json instanceof Array) && !(typeof json === 'object')) || json === null){
+      return json;
+  }
+
+  //its an object or an array
+  var empty = true;
+  for(var key in json) {
+      //clean the children
+      json[key] = cleanJSON(json[key]);
+      
+      //if it's empty delete item
+      if(json[key] == "empty"){
+          delete json[key];
+      }
+      //if not empty
+      else if(json[key] != null && json[key] !== '' ){
+          //thgis objets don't need to remove
+          empty = false;
+      }
+
+  }
+  //if empty return string "empty" to be rmeoved
+  if(empty)
+      return "empty";
+
+  //if array clean nulls ( delete array position return null array items example : [null,null,{something : ''}])
+  if(json instanceof Array){
+      json = cleanNullValues(json);
+  }
+
+  //else return json so nothing to do
+  return json;
 }

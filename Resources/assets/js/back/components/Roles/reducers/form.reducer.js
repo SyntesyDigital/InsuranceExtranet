@@ -3,25 +3,21 @@ import {
     OPEN_MODAL_CREATE_GROUP,
     OPEN_MODAL_EDIT_GROUP,
     UPDATE_GROUPS,
-
     REMOVE_GROUP,
     UPDATE_GROUP,
     CANCEL_EDIT_GROUP,
     CREATE_GROUP,
-
     UPDATE_ROLE,
     CREATE_PERMISSION,
     UPDATE_PERMISSION,
     REMOVE_PERMISSION
-
-
 } from '../constants';
 
 const initialState = {
 
-    loaded : false,
+    loaded: false,
     saved: false,
-
+    time: 'now',
     displayPermision: false,
     displayGroup: false,
 
@@ -29,7 +25,7 @@ const initialState = {
     selectedPermission: null,
 
     //flag to reload the groups
-    groupsReload : false,
+    groupsReload: false,
 
     roles: [],
 
@@ -44,23 +40,23 @@ const initialState = {
     }
 }
 
-function getGroupIndex(role,group) {
-    for(var key in role.groups) {
-        if(role.groups[key].id == group.id) {
+function getGroupIndex(role, group) {
+    for (var key in role.groups) {
+        if (role.groups[key].id == group.id) {
             return key;
         }
     }
     return null;
 }
 
-function getPermissionIndex(group,permisisonId) {
-    for(var key in group.permissions) {
-      if(group.permissions[key].id == permisisonId) {
-          return key;
-      }
+function getPermissionIndex(group, permisisonId) {
+    for (var key in group.permissions) {
+        if (group.permissions[key].id == permisisonId) {
+            return key;
+        }
     }
     return null;
-  }
+}
 
 function formReducer(state = initialState, action) {
 
@@ -73,8 +69,8 @@ function formReducer(state = initialState, action) {
         case INIT_STATE:
             return {
                 ...state,
-                role : action.payload,
-                loaded : true
+                role: action.payload,
+                loaded: true
             }
         case UPDATE_FIELD:
             role[action.payload.name] = action.payload.value;
@@ -84,29 +80,29 @@ function formReducer(state = initialState, action) {
                 role: role
             }
 
-        
-        case UPDATE_ROLE : 
+
+        case UPDATE_ROLE:
 
             role = action.payload
 
             return {
                 ...state,
-                role : role
+                role: role
             }
 
-        case UPDATE_PERMISSION :
+        case UPDATE_PERMISSION:
 
             return {
                 ...state,
-                groupsReload : true
+                groupsReload: true,
             }
-            
+
         case OPEN_MODAL_CREATE_GROUP:
 
             return {
                 ...state,
                 displayGroup: true,
-                currentGroup : null
+                currentGroup: null
             }
 
         case OPEN_MODAL_EDIT_GROUP:
@@ -134,65 +130,66 @@ function formReducer(state = initialState, action) {
 
             return {
                 ...state,
-                role : role,
+                role: role,
                 displayGroup: false,
-                currentGroup : null
+                currentGroup: null
             };
 
         case REMOVE_GROUP:
 
             role = state.role;
-            index = getGroupIndex(role,action.payload);
-            role.groups.splice(index,1);
+            index = getGroupIndex(role, action.payload);
+            role.groups.splice(index, 1);
 
             return {
                 ...state,
-                role : role,
+                role: role,
                 displayGroup: false,
-                currentGroup : null
+                currentGroup: null
             }
 
         case UPDATE_GROUP:
-
+            
             role = state.role;
-            index = getGroupIndex(role,action.payload);
-            role.groups[index].name = action.payload.name;
-            role.groups[index].identifier = action.payload.identifier;
-            role.groups[index].order = action.payload.order;
+            index = getGroupIndex(role, action.payload);
+            var oldPermissions = role.groups[index].permissions;
+
+            role.groups[index] = action.payload;
+            role.groups[index].permissions = oldPermissions;
 
             return {
                 ...state,
-                role : role,
+                role: role,
                 displayGroup: false,
-                currentGroup : null
+                currentGroup: null
             };
-        case CREATE_PERMISSION: 
+
+        case CREATE_PERMISSION:
 
             role = state.role;
-            index = getGroupIndex(role,action.payload.group);
+            index = getGroupIndex(role, action.payload.group);
             role.groups[index].permissions.push({
-                id : action.payload.id,
-                identifier : action.payload.identifier,
-                name : action.payload.name,
-                value : false,
-                group : action.payload.group.id
+                id: action.payload.id,
+                identifier: action.payload.identifier,
+                name: action.payload.name ? action.payload.name : null,
+                value: false,
+                group: action.payload.group.id
             });
 
             return {
                 ...state,
-                role : role
+                role: role
             };
         case REMOVE_PERMISSION:
 
             role = state.role;
-            index = getGroupIndex(role,action.payload.group);
-            var permissionIndex = getPermissionIndex(role.groups[index],action.payload.id);
-            //console.log("REMOVE_PERMISSION : ",index,permissionIndex);
-            role.groups[index].permissions.splice(permissionIndex,1);
+            index = getGroupIndex(role, action.payload.group);
+            var permissionIndex = getPermissionIndex(role.groups[index], action.payload.id);
+            role.groups[index].permissions.splice(permissionIndex, 1);
 
             return {
                 ...state,
-                role : role
+                role: role
             };
 
         case UPDATE_GROUPS:
@@ -202,10 +199,10 @@ function formReducer(state = initialState, action) {
 
             return {
                 ...state,
-                role : role,
-                groupsReload : false
+                role: role,
+                groupsReload: false
             };
-        
+
         default:
             return state;
     }

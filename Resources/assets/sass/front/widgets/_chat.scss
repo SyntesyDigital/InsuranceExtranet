@@ -1,0 +1,56 @@
+.table-chat-container-body {
+  background-color: #fff;
+  .table-chat-container {
+    display: flex;
+    flex-direction: column;
+    .documents-container {
+      padding: 20px;
+      .chat-field {
+        .container-active {
+          margin-left: auto;
+          margin-bottom: 20px;
+          width: 80%;
+        }
+        .container-inactive {
+          width: 80%;
+          margin-bottom: 20px;
+        }
+      }
+      .item-container {
+        .file-infos-container {
+          .file-infos {
+            padding: 22px 30px 8px;
+            display: flex;
+            flex-direction: column;
+            .field-container {
+              order: 3;
+              .container-date {
+                order: 1;
+                margin-bottom: 10px;
+              }
+              .container-mail {
+                order: 2;
+                margin-top: -26px;
+                margin-left: 100px;
+              }
+              .container-content {
+                margin-top: 15px;
+                margin-bottom: 15px;
+              }
+            }
+          }
+        }
+        .field-container {
+          overflow: hidden;
+          margin-bottom: 5px;
+        }
+      }
+    }
+    .more-btn {
+      text-align: center;
+      a {
+        transition: 0.5s;
+      }
+    }
+  }
+}

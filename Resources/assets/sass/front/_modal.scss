@@ -4,6 +4,8 @@
   opacity:0;
   z-index:1000;
 
+  
+
   a {
     &.btn-default {
       @include round($button-radius);
@@ -97,7 +99,39 @@
         height: 100%;
         padding: 20px 20px;
       }
+
+      margin:0 auto;
+      
+      &.medium {
+          width: 100%;
+          @include mq(tablet) {
+              width: 70%;
+          }
+          @include mq(wide) {
+              width: 50%;
+          }
+      }
+    
+      &.medium-large{
+          width: 80%;
+      }
+    
+      &.large{
+          width: 100%;
+      }
+    
+      &.small{
+          width: 100%;
+          @include mq(tablet) {
+              width: 50%;
+          }
+          @include mq(wide) {
+              width: 30%;
+          }
+      }
   }
+
+  
 
   .modal-footer{
     position: absolute;
@@ -223,5 +257,19 @@
 
   button {
     @include round($button-radius);
+  }
+}
+
+.bootstrap-modal {
+  &.modal {
+    z-index:1100;
+
+    label {
+      display:block;
+    }
+  }
+
+  button {
+    border-radius: 20px;
   }
 }

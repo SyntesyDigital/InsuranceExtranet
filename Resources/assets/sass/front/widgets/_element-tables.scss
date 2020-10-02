@@ -39,7 +39,7 @@
   overflow: hidden;
 
   .element-table-container-body{
-    @include round($elements-radius);
+    // @include round($elements-radius);
     overflow: hidden;
 
     &.collapse{
@@ -106,6 +106,14 @@
 
       &.m-top{
         margin-top:40px;
+      }
+      .rt-tbody{
+          .has-icon{
+            display: inline-flex;
+            i{
+                margin-right: 5px;
+            }
+          }
       }
     }
   }
@@ -375,14 +383,22 @@
 body {
   .react-table-container {
     .ReactTable {
+      .rt-noData{
+        top: 75% !important;
+        background-color: transparent !important;
+        position: relative;
+        transform: translate(-8%,-5%);
+      }
       .rt-thead {
         display: flex;
-        order: 1;
         padding-left: 15px;
         padding-right: 15px;
+        &.-header{
+          box-shadow: none !important;
+          border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
         &.-filters{
           display: flex;
-          order: 1;
         }
         .rt-resizable-header-content{
           text-transform: capitalize;

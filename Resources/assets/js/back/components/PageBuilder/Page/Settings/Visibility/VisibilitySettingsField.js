@@ -11,6 +11,7 @@ import {
 } from './../../../constants';
 
 import ConditionsModal from './ConditionsModal';
+import ToggleField from '../../../../Layout/Fields/ToggleField';
 
 /**
 *   Settings with conditional language to define if field is visible or not
@@ -30,7 +31,9 @@ class VisibilitySettingsField extends Component {
       value : value,
       display : display,
       modalDisplay : false,
-      conditionIndex : null
+      conditionIndex : null,
+      roles : this.getRoles(),
+      permissions : this.getPermissions()
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -46,6 +49,23 @@ class VisibilitySettingsField extends Component {
           value : VISIBILITY_SHOW
       }
     ];
+  }
+
+  getPermissions() {
+    return Object.keys(CURRENT_USER.veos_permissions).map((key,index) => 
+      ({
+        name : key,
+        value : key
+      })
+    );
+  }
+  getRoles() {
+    return Object.keys(CURRENT_USER.veos_roles).map((key,index) => 
+      ({
+        name : CURRENT_USER.veos_roles[key],
+        value : CURRENT_USER.veos_roles[key]
+      })
+    );
   }
 
   /**
@@ -153,12 +173,12 @@ class VisibilitySettingsField extends Component {
   }
 
 
-  handleFieldChange(event) {
+  handleFieldChange(name,value) {
 
     var field = {
       name : this.props.name,
       source : this.props.source,
-      value : event.target.checked ? this.state.value : null
+      value : value ? this.state.value : null
     };
 
     this.props.onFieldChange(field);
@@ -355,19 +375,18 @@ class VisibilitySettingsField extends Component {
           conditionIndex={this.state.selectedContidion}
           onConditionChange={this.handleConditionChange.bind(this)}
           parameters={this.props.parameters}
+          fields={this.props.fields}
+          permissions={this.state.permissions}
+          roles={this.state.roles}
         />
 
-        <div className="setup-field">
-          <div className="togglebutton">
-            <label>
-                <input type="checkbox"
-                  name={this.props.name}
-                  checked={ this.state.checkbox != null ? checkbox : false }
-                  onChange={this.handleFieldChange}
-                />
-                {this.props.label}
-            </label>
-          </div>
+        <div className="setup-field  version-2">
+          <ToggleField 
+              label={this.props.label}
+              name={this.props.name}
+              checked={ this.state.checkbox != null ? checkbox : false }
+              onChange={this.handleFieldChange}
+            />
 
 
           <div className="setup-field-config" style={{display : this.state.checkbox != null && this.state.checkbox ? "block" : "none" }}>

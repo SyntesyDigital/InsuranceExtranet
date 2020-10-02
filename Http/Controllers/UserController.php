@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use Datatables;
 use Illuminate\Http\Request;
 use Lang;
@@ -10,6 +11,9 @@ use Modules\Extranet\Entities\User;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Jobs\User\SessionUpdate;
 use Modules\Extranet\Repositories\UserRepository;
+
+use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
+use Modules\Extranet\Jobs\User\PasswordUpdate;
 
 class UserController extends Controller
 {
@@ -25,8 +29,7 @@ class UserController extends Controller
         $redirect = null;
 
         try {
-            $redirect = $this->dispatchNow(SessionUpdate::fromRequest($request));
-            if (isset($redirect)) {
+            if ($redirect = $this->dispatchNow(SessionUpdate::fromRequest($request))) {
                 $success = true;
                 $message = '';
             }
@@ -48,13 +51,11 @@ class UserController extends Controller
 
     public function datatable(Request $request)
     {
-        $veosUsers = $this->users->getUsers();
-        $idPers = User::all()->pluck('id','id_per')->toArray();
+        $idPers = User::all()->pluck('id', 'id_per')->toArray();
+        $users = collect([]);
 
-        $users = [];
-        //process users
-        foreach ($veosUsers as $user) {
-            $users[] = [
+        foreach ($this->users->getUsers() as $user) {
+            $users->push([
                 'id_per' => $user->{'USEREXT.id_per'},
                 'name' => $user->{'USEREXT.nom2_per'},
                 'username' => $user->{'USEREXT.login_per'},
@@ -62,35 +63,54 @@ class UserController extends Controller
                 'active' => $user->{'USEREXT.actif'},
                 'admin' => $user->{'USEREXT.admin'},
                 'supervue' => $user->{'USEREXT.supervue'},
-            ];
+            ]);
         }
 
-        $collection = collect($users);
-
-        return Datatables::of($collection)
-            //column with actions
+        return Datatables::of($users)
             ->addColumn('action', function ($item) use ($idPers) {
-                $id = isset($idPers[$item['id_per']]) ? $idPers[$item['id_per']] : null;
-                if (isset($id)) {
-                    return '
-                        <a href="'.route('extranet.users.update', ['id' => $id]).'" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'</a>&nbsp;
-                    ';
+                if (isset($idPers[$item['id_per']])) {
+                    // return '<a href="'.route('extranet.users.update', ['id' => $idPers[$item['id_per']]]).'" class="btn btn-link">
+                    //     <i class="fas fa-pencil-alt"></i> '.Lang::get('architect::datatables.edit').'
+                    // </a>&nbsp;';
+
+                    return null;
                 }
-                return '
-                    <a href="" class="btn btn-link has-event" data-type="add" data-payload="'.$item['id_per'].'" ><i class="fas fa-plus"></i> Ajouter</a>&nbsp;
-                ';
+
+                return '<a href="" class="btn btn-link has-event" data-type="add" data-payload="'.$item['id_per'].'"><i class="fas fa-plus"></i> Ajouter</a>&nbsp;';
             })
-            ->rawColumns(['action'])   //columns with html
-            ->make(true);
+            ->rawColumns(['action'])
+            ->make(true)
+            ->header('token', Auth::user()->token);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        return view('extranet::users.update',["id"=>$id]);
+        return view('extranet::users.update', ['id' => $id]);
     }
 
     public function delete(Request $request)
     {
         return true;
+    }
+
+    public function updatePassword(SavePasswordRequest $request)
+    {
+        $success = false;
+        $message = Lang::get('extranet::form.modal-password.messages.errors.default');
+
+        try {
+            if ($this->dispatchNow(PasswordUpdate::fromRequest($request))) {
+                $success = true;
+                $message = Lang::get('extranet::form.modal-password.messages.success');
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $request->session()->flash('error_message', $message);
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 }

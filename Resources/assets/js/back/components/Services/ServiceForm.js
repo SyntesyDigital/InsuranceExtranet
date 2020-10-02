@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import BarTitle from '../Layout/BarTitle';
 import ButtonPrimary from '../Layout/ButtonPrimary';
 import InputField from '../Layout/Fields/InputField';
+import ToggleField from '../Layout/Fields/ToggleField';
 import ButtonDropdown from '../Layout/ButtonDropdown';
 import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
@@ -22,7 +23,8 @@ export default class ServiceForm extends Component {
             service: {
                 http_method : 'POST',
                 json : '{}',
-                reponse_json : '{}'
+                reponse_json : '{}',
+                is_old_url_ws: false
             },
 
             errors: {},
@@ -50,13 +52,20 @@ export default class ServiceForm extends Component {
                 }
             ],
 
+            bodyTypes: [
+                {
+                    name: 'Json',
+                    value: 'json'
+                },
+                {
+                    name: 'Multipart',
+                    value: 'multipart'
+                },
+            ],
+
             json : {},
             response_json : {}
-
-
         };
-
-
     }
 
     componentDidMount() {       
@@ -264,10 +273,21 @@ export default class ServiceForm extends Component {
 
                         <div className="form-group">
                             <SelectField
-                                label={'Methode HTTP'}
+                                label={'Méthode HTTP'}
                                 value={this.state.service.http_method ? this.state.service.http_method : ''}
                                 name={'http_method'}
                                 arrayOfOptions={this.state.methodes}
+                                onChange={this.handleFieldChange.bind(this)}
+                                error={this.state.errors.http_method ? true : false}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <SelectField
+                                label={'Body'}
+                                value={this.state.service.body ? this.state.service.body : ''}
+                                name={'body'}
+                                arrayOfOptions={this.state.bodyTypes}
                                 onChange={this.handleFieldChange.bind(this)}
                                 error={this.state.errors.http_method ? true : false}
                             />
@@ -293,6 +313,14 @@ export default class ServiceForm extends Component {
                             />
                         }
 
+                        <ToggleField
+                            label={'Ancienne URL WS'}
+                            checked={this.state.service.is_old_url_ws ? this.state.service.is_old_url_ws : false}
+                            name={'is_old_url_ws'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.is_old_url_ws ? true : false}
+                        />
+
                         <InputField
                             label={'Commentaire'}
                             value={this.state.service.comment ? this.state.service.comment : ''}
@@ -305,6 +333,9 @@ export default class ServiceForm extends Component {
 
                         <KeyValuesField
                             label={'Response paramètres'}
+                            keyLabel={'Identifier (avec _)'}
+                            keyPrefix={'_'}
+                            valueLabel={'JSON Path (ej. $.value)'}
                             value={this.state.service.response ? this.state.service.response : ''}
                             name={'response'}
                             onChange={this.handleFieldChange.bind(this)}

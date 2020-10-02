@@ -5,7 +5,7 @@ const client = new ApolloClient({
   request: operation => {
     operation.setContext({
       headers: {
-        authorization: 'Bearer '+CURRENT_USER.token,
+        authorization: 'Bearer ' + SESSION.api_token,
       },
     });
   },

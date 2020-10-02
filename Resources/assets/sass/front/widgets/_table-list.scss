@@ -10,12 +10,17 @@
             font-size: 24px;
         }
     }
-
     .has-color {
         border-radius: 5px;
         padding: 4px 8px;
         margin-bottom: 0px;
         max-width: 100%;
         display: inline-block;
+    }
+    .has-icon{
+        display: inline-flex;
+        i{
+            margin-right: 5px;
+        }
     }
 }

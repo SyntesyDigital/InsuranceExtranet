@@ -2,85 +2,106 @@
 
 /*
 |--------------------------------------------------------------------------
+|   ERROR
+|--------------------------------------------------------------------------
+*/
+
+Route::group([
+    'middleware' => ['web'],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+    Route::get('/expired-token', 'ErrorController@expiredToken')->name('error.expired-token');
+});
+
+/*
+|--------------------------------------------------------------------------
 | ADMIN
 |--------------------------------------------------------------------------
 */
 
 Route::group([
-  'prefix' => 'architect',
-  'namespace' => 'Modules\Extranet\Http\Controllers',
-  'middleware' => [
-    'web',
-    'auth:veos-ws',
-    'DetectUserLocale',
-  ],
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:roles', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      // Roles
+      Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
+      Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
+      Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create');
+      Route::post('/roles/{id}/duplicate', 'RoleController@duplicate')->name('extranet.roles.duplicate');
+      Route::get('/roles/{id}/update', 'RoleController@update')->name('extranet.roles.update');
+      Route::delete('/roles/{id}/delete', 'RoleController@delete')->name('extranet.roles.delete');
+
+      //users
+      Route::get('/users', 'UserController@index')->name('extranet.users.index');
+      Route::get('/users/datatable', 'UserController@datatable')->name('extranet.users.datatable');
+      Route::get('/users/{id}/update/', 'UserController@update')->name('extranet.users.update');
+      Route::get('/users/{id}/delete/', 'UserController@delete')->name('extranet.users.delete');
+  });
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:services', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      // Services
+      Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
+      Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
+      Route::get('/services/{service}/update', 'ServiceController@update')->name('extranet.services.update');
+      Route::get('/services/create', 'ServiceController@create')->name('extranet.services.create');
+      Route::delete('/services/{service}/delete', 'ServiceController@delete')->name('extranet.services.delete');
+  });
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:element_models', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      //Elements Models
+      Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
+      Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
+      Route::get('/elements-models/forms/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
+      Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
+      Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
+      Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
+  });
+
+  Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:elements', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      // Models
+      Route::get('/models', 'ModelController@index')->name('extranet.models.index');
+      Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');
+      Route::get('/models/{id}/show', 'ModelController@show')->name('extranet.models.show');
+      Route::post('/models/store', 'ModelController@store')->name('extranet.models.store');
+      Route::put('/models/{model}/update', 'ModelController@update')->name('extranet.models.update');
+      Route::delete('/models/{model}/delete', 'ModelController@delete')->name('extranet.models.delete');
+
+      // Elements
+      Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
+      Route::get('/elements/datatable', 'ElementController@getDataTable')->name('extranet.elements.datatable');
+      Route::get('/elements/list', 'ElementController@getElements')->name('extranet.elements.list');
+      Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
+      Route::get('/elements/get-model/{element_type}', 'ElementController@getModelsByType')->name('extranet.elements.get_by_type');
+      Route::get('/elements/create/{element_type}/{model_id}', 'ElementController@create')->name('extranet.element.create');
+      Route::get('/elements/import/{element_type}/{model_id}', 'ElementController@import')->name('extranet.element.import');
+      Route::get('/elements/{element}/show', 'ElementController@show')->name('extranet.elements.show');
+      Route::post('/elements/store', 'ElementController@store')->name('extranet.elements.store');
+      Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');
+      Route::delete('/elements/{element}/delete', 'ElementController@delete')->name('extranet.elements.delete');
+      Route::get('/api/elements/data', 'ElementController@data')->name('extranet.api.elements.data');
+      Route::get('/elements/{element}/template/create', 'ElementController@createTemplate')->name('extranet.elements.template.create');
+      Route::get('/elements/{element}/template/{template}', 'ElementController@showTemplate')->name('extranet.elements.template.show');
+      Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
+  });
+
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:parameters', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
-    // Templates
-    Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
-    Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
-
-    // Roles
-    Route::get('/roles', 'RoleController@index')->name('extranet.roles.index');
-    Route::get('/roles/datatable', 'RoleController@datatable')->name('extranet.roles.datatable');
-    Route::get('/roles/create', 'RoleController@create')->name('extranet.roles.create');
-    Route::post('/roles/{id}/duplicate', 'RoleController@duplicate')->name('extranet.roles.duplicate');
-    Route::get('/roles/{id}/update', 'RoleController@update')->name('extranet.roles.update');
-    Route::delete('/roles/{id}/delete', 'RoleController@delete')->name('extranet.roles.delete');
-
-    //users
-    Route::get('/users', 'UserController@index')->name('extranet.users.index');
-    Route::get('/users/datatable', 'UserController@datatable')->name('extranet.users.datatable');
-    Route::get('/users/{id}/update/', 'UserController@update')->name('extranet.users.update');
-    Route::get('/users/{id}/delete/', 'UserController@delete')->name('extranet.users.delete');
-
-    // Services
-    Route::get('/services', 'ServiceController@index')->name('extranet.services.index');
-    Route::get('/services/datatable', 'ServiceController@datatable')->name('extranet.services.datatable');
-    Route::get('/services/{service}/update', 'ServiceController@update')->name('extranet.services.update');
-    Route::get('/services/create', 'ServiceController@create')->name('extranet.services.create');
-    Route::delete('/services/{service}/delete', 'ServiceController@delete')->name('extranet.services.delete');
-
-    //Elements Models
-    Route::get('/elements-models', 'ElementModelController@index')->name('extranet.elements-models.index');
-    Route::get('/elements-models/forms', 'ElementModelController@show')->name('extranet.elements-models.forms.index');
-    Route::get('/elements-models/forms/update/{id}', 'ElementModelController@update')->name('extranet.elements-models.forms.update');
-    Route::get('/elements-models/forms/create', 'ElementModelController@create')->name('extranet.elements-models.forms.create');
-    Route::delete('/elements-models/{element-model}/delete', 'ElementModelController@delete')->name('extranet.elements-models.forms.delete');
-    Route::get('/elements-models/{element-model}/show', 'ElementModelController@show')->name('extranet.elements-models.show');
-
-    // Models
-    Route::get('/models', 'ModelController@index')->name('extranet.models.index');
-    Route::get('/models/create/{class}', 'ModelController@create')->name('extranet.models.create');
-    Route::get('/models/{id}/show', 'ModelController@show')->name('extranet.models.show');
-    Route::post('/models/store', 'ModelController@store')->name('extranet.models.store');
-    Route::put('/models/{model}/update', 'ModelController@update')->name('extranet.models.update');
-    Route::delete('/models/{model}/delete', 'ModelController@delete')->name('extranet.models.delete');
-
-    // Lists
-    Route::get('/sitelists', 'Admin\SiteListController@index')->name('extranet.admin.sitelists.index');
-    Route::get('/sitelists/create', 'Admin\SiteListController@create')->name('extranet.admin.sitelists.create');
-    Route::post('/sitelists/store', 'Admin\SiteListController@store')->name('extranet.admin.sitelists.store');
-    Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
-    Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
-    Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
-
-    // Elements
-    Route::get('/elements', 'ElementController@index')->name('extranet.elements.index');
-    Route::get('/elements/datatable', 'ElementController@getDataTable')->name('extranet.elements.datatable');
-    Route::get('/elements/list', 'ElementController@getElements')->name('extranet.elements.list');
-    Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
-    Route::get('/elements/get-model/{element_type}', 'ElementController@getModelsByType')->name('extranet.elements.get_by_type');
-    Route::get('/elements/create/{element_type}/{model_id}', 'ElementController@create')->name('extranet.element.create');
-    Route::get('/elements/import/{element_type}/{model_id}', 'ElementController@import')->name('extranet.element.import');
-    Route::get('/elements/{element}/show', 'ElementController@show')->name('extranet.elements.show');
-    Route::post('/elements/store', 'ElementController@store')->name('extranet.elements.store');
-    Route::put('/elements/{element}/update', 'ElementController@update')->name('extranet.elements.update');
-    Route::delete('/elements/{element}/delete', 'ElementController@delete')->name('extranet.elements.delete');
-    Route::get('/api/elements/data', 'ElementController@data')->name('extranet.api.elements.data');
-    Route::get('/elements/{element}/template/create', 'ElementController@createTemplate')->name('extranet.elements.template.create');
-    Route::get('/elements/{element}/template/{template}', 'ElementController@showTemplate')->name('extranet.elements.template.show');
-    Route::get('/elements/{element_type}', 'ElementController@typeIndex')->name('extranet.elements.typeIndex');
-
     // Routes Parameters
     Route::get('/routes_parameters', 'RouteParameterController@index')->name('extranet.routes_parameters.index');
     Route::get('/routes_parameters/data', 'RouteParameterController@data')->name('extranet.routes_parameters.data');
@@ -92,14 +113,75 @@ Route::group([
 });
 
 Route::group([
-  'middleware' => ['web', 'auth:veos-ws'],
-  'prefix' => 'architect',
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+    'middleware' => [
+        'web',
+        'auth:veos-ws',
+        'DetectUserLocale',
+        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN',
+    ],
+], function () {
+    // Templates
+    Route::get('/template/datatable', 'TemplateController@datatable')->name('extranet.template.datatable');
+    Route::get('/template/{name}', 'TemplateController@template')->name('extranet.template');
+
+    // Lists
+    Route::get('/sitelists', 'Admin\SiteListController@index')->name('extranet.admin.sitelists.index');
+    Route::get('/sitelists/create', 'Admin\SiteListController@create')->name('extranet.admin.sitelists.create');
+    Route::post('/sitelists/store', 'Admin\SiteListController@store')->name('extranet.admin.sitelists.store');
+    Route::get('/sitelists/{sitelist}', 'Admin\SiteListController@show')->name('extranet.admin.sitelists.show');
+    Route::put('/sitelists/{sitelist}/update', 'Admin\SiteListController@update')->name('extranet.admin.sitelists.update');
+    Route::delete('/sitelists/{sitelist}/delete', 'Admin\SiteListController@delete')->name('extranet.admin.sitelists.delete');
+});
+
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:currencies', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+], function () {
+    // Routes Parameters
+    Route::get('/currencies', 'CurrencyController@index')->name('extranet.currencies.index');
+    Route::get('/currencies/create', 'CurrencyController@create')->name('extranet.currencies.create');
+    Route::get('/currencies/{currency}/show', 'CurrencyController@show')->name('extranet.currencies.show');
+    Route::post('/currencies/store', 'CurrencyController@store')->name('extranet.currencies.store');
+    Route::put('/currencies/{currency}/update', 'CurrencyController@update')->name('extranet.currencies.update');
+    Route::delete('/currencies/{currency}/delete', 'CurrencyController@delete')->name('extranet.currencies.delete');
+    Route::get('/currencies/datatable', 'CurrencyController@datatable')->name('extranet.currencies.datatable');
+});
+
+Route::group([
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:siteConfigurations', 'DetectUserLocale'],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
+  ], function () {
+      // Site Configurations
+      Route::get('/site-configurations', 'SiteConfigurationsController@index')->name('site.configurations.index');
+      Route::get('/site-configurations/{name}', 'SiteConfigurationsController@show')->name('site.configuration.show');
+      Route::post('/site-configurations/{siteConfiguration}/update', 'SiteConfigurationsController@update')->name('site.configuration.update')->middleware('permissions:siteConfigurations.edit');
+  });
+
+/*
+|--------------------------------------------------------------------------
+|   FRONT
+|--------------------------------------------------------------------------
+*/
+
+Route::group([
+    'middleware' => [
+        'SignInWhenToken',
+        'web',
+        'auth:veos-ws',
+        'auth:veos-link',
+        'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS',
+    ],
+    'prefix' => 'architect',
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     //update user session
-    Route::post('/session', 'UserController@setUserSession')->name('session.update');
 
     Route::get('/extranet/content/{content}/parameters', 'ContentController@getContentParameters')->name('extranet.content.parameters');
+    Route::get('/extranet/content/{content}/settings', 'ContentController@getContentSettings')->name('extranet.content.settings');
     Route::get('/extranet/element/{element}/parameters', 'ElementController@getElementParameters')->name('extranet.element.parameters');
 
     Route::get('/extranet/element-modal/{element}', 'ElementController@getElementForModal')->name('extranet.element.modal');
@@ -118,43 +200,46 @@ Route::group([
     Route::post('/elements/form/process-service', 'ElementController@postService')->name('elements.postservice');
 });
 
-/*
-|--------------------------------------------------------------------------
-|   FRONT
-|--------------------------------------------------------------------------
-*/
-
 Route::group([
-  'middleware' => ['web'],
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+    'middleware' => ['web'],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
-  Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
-  Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
-  Route::get('/change-password/{env?}', 'ResetPasswordController@changePassword')->name('change-password');
-  Route::post('/update-password', 'ResetPasswordController@updatePassword')->name('update-password');
-  
+    Route::get('/reset-password', 'ResetPasswordController@index')->name('reset-password');
+    Route::post('/send-reset-password', 'ResetPasswordController@sendEmail')->name('send-reset-password');
+    Route::get('/change-password/{env?}', 'ResetPasswordController@changePassword')->name('change-password');
+    Route::post('/update-password', 'ResetPasswordController@updatePassword')->name('update-password');
 });
 
 Route::group([
-  //'prefix' => LaravelLocalization::setLocale(),
-  //'middleware' => ['web','auth:veos-ws','localeSessionRedirect', 'localeViewPath','localize'],
-  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM'],
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+    //'prefix' => LaravelLocalization::setLocale(),
+    //'middleware' => ['web','auth:veos-ws','localeSessionRedirect', 'localeViewPath','localize'],
+    'middleware' => ['web', 'auth:veos-ws', 'permissions:contents.create'],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::get('/preview/{id}', 'ContentController@preview')->name('preview');
 });
 
 Route::group([
   //'prefix' => LaravelLocalization::setLocale(),
-  'middleware' => ['web', 'auth:veos-ws', 'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER'],
-  'namespace' => 'Modules\Extranet\Http\Controllers',
+  'middleware' => [
+      'SignInWhenToken',
+      'web',
+      'auth:veos-link',
+      'auth:veos-ws',
+      'roles:ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS',
+    ],
+    'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
+    Route::post('/user/session/renew', 'UserController@setUserSession')->name('session.update');
+    Route::post('/modal/update-password', 'UserController@updatePassword')->name('modal.update-password');
+
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');
     Route::get(LaravelLocalization::transRoute('routes.tag.index'), 'TagController@index')->name('blog.tag.index');
     Route::get(LaravelLocalization::transRoute('search'), 'ContentController@search')->name('front.search');
 
     Route::get('/', 'ContentController@index')->name('home');
     Route::get('/document/show/{id}', 'ContentController@showDocument')->name('document.show');
+    Route::get('/document/show-ws-fusion/{id}', 'ContentController@showWSFusion')->name('document.show-ws-fusion');
     Route::get('/document/show/preview/{id}/{size?}', 'ContentController@showDocumentPreview')->name('document.show.preview');
 
     Route::get('/not-found', 'ContentController@languageNotFound')->name('language-not-found');

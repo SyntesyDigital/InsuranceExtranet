@@ -135,6 +135,8 @@ class PageBuilderRedux extends Component {
 
         <ModalEditClass
           zIndex={9000}
+          fields={this.props.fields}
+          parameters={this.props.parameters}
         />
 
         {/*
@@ -160,6 +162,8 @@ class PageBuilderRedux extends Component {
 
         <ModalEditItem
           zIndex={9000}
+          fields={this.props.fields}
+          parameters={this.props.parameters}
         />
 
         <div className="field-group">

@@ -25,22 +25,27 @@ class RolesPermissionsTableSeeder extends Seeder
 
         $this->system = Role::create([
             'name' => 'system',
-            'identifier' => 'system'
+            'identifier' => 'ROLE_SYSTEM',
+            'icon' => 'fas fa-user-secret'
         ]);
 
         $this->superAdmin = Role::create([
             'name' => 'Super admin',
-            'identifier' => 'super-admin'
+            'identifier' => 'ROLE_SUPERADMIN',
+            'icon' => 'fas fa-user-cog'
         ]);
 
         $this->admin = Role::create([
             'name' => 'admin',
-            'identifier' => 'admin'
+            'identifier' => 'ROLE_ADMIN',
+            'icon' => 'fas fa-user-shield'
         ]);
 
         $this->client = Role::create([
             'name' => 'Client',
-            'identifier' => 'client'
+            'identifier' => 'ROLE_USER',
+            'icon' => 'fas fa-users',
+            'default' => 1
         ]);
         
         // Contents
@@ -50,15 +55,30 @@ class RolesPermissionsTableSeeder extends Seeder
             'contents.publish' => 'Contents publish',
             'contents.edit' => 'Contents edit',
             'contents.remove' => 'Contents remove',
+            'contents.edit_parent_page' => 'Contents edit parent page',
+            'contents.edit_pagebuilder' => 'Contents edit page builder',
         ], PermissionGroup::create([
-            'name' => 'Contents'
+            'name' => 'Contents',
+            'identifier' => 'contents'
+        ]));
+
+        // Medias
+        $this->createPermissions([
+            'medias' => 'Medias',
+            'medias.create' => 'Medias create',
+            'medias.edit' => 'Medias edit',
+            'medias.remove' => 'Medias remove',
+        ], PermissionGroup::create([
+            'name' => 'Medias',
+            'identifier' => 'medias'
         ]));
 
         // Settings
         $this->createPermissions([
             'settings' => 'settings',
         ], PermissionGroup::create([
-            'name' => 'Settings'
+            'name' => 'Settings',
+            'identifier' => 'settings'
         ]));
 
         // Styles
@@ -66,18 +86,22 @@ class RolesPermissionsTableSeeder extends Seeder
             'styles' => 'Styles',
             'styles.edit' => 'Style edit',
         ], PermissionGroup::create([
-            'name' => 'Styles'
+            'name' => 'Styles',
+            'identifier' => 'styles'
         ]));
 
         // Users
+        /*
         $this->createPermissions([
             'users' => 'Users',
             'users.create' => 'Users create',
             'users.edit_roles' => 'Users edit roles',
             'users.edit_permissions' => 'Users edit_permissions',
         ], PermissionGroup::create([
-            'name' => 'Users'
+            'name' => 'Users',
+            'identifier' => 'users'
         ]));
+        */
 
         // roles
         $this->createPermissions([
@@ -86,7 +110,8 @@ class RolesPermissionsTableSeeder extends Seeder
             'roles.edit' => 'Roles edit',
             'roles.remove' => 'Roles remove',
         ], PermissionGroup::create([
-            'name' => 'Roles'
+            'name' => 'Roles',
+            'identifier' => 'roles'
         ]));
 
         // permissions
@@ -96,7 +121,8 @@ class RolesPermissionsTableSeeder extends Seeder
             'permissions.edit' => 'Permissions edit',
             'permissions.remove' => 'Permissions remove',
         ], PermissionGroup::create([
-            'name' => 'Permissions'
+            'name' => 'Permissions',
+            'identifier' => 'permissions'
         ]));
 
         // Page layout
@@ -105,7 +131,8 @@ class RolesPermissionsTableSeeder extends Seeder
             'page_layouts.create' => 'Page layout create',
             'page_layouts.remove' => 'Page layout remove',
         ], PermissionGroup::create([
-            'name' => 'Page layout'
+            'name' => 'Page layout',
+            'identifier' => 'layout'
         ]));
 
         // Menu
@@ -115,7 +142,8 @@ class RolesPermissionsTableSeeder extends Seeder
             'menu.create' => 'Menu create',
             'menu.remove' => 'Menu remove',
         ], PermissionGroup::create([
-            'name' => 'Menu'
+            'name' => 'Menu',
+            'identifier' => 'menu'
         ]));
 
         // Element model
@@ -125,7 +153,8 @@ class RolesPermissionsTableSeeder extends Seeder
             'element_models.create' => 'Element model create',
             'element_models.remove' => 'Element model remove',
         ], PermissionGroup::create([
-            'name' => 'Element model'
+            'name' => 'Element model',
+            'identifier' => 'element_model'
         ]));
 
         // Elements
@@ -135,21 +164,31 @@ class RolesPermissionsTableSeeder extends Seeder
             'elements.create' => 'Elements create',
             'elements.remove' => 'Elements remove',
         ], PermissionGroup::create([
-            'name' => 'Elements'
+            'name' => 'Elements',
+            'identifier' => 'elements'
         ]));
 
         // Parameters
         $this->createPermissions([
             'parameters' => 'Parameters',
         ], PermissionGroup::create([
-            'name' => 'Parameters'
+            'name' => 'Parameters',
+            'identifier' => 'parameters'
         ]));
 
         // Parameters
         $this->createPermissions([
             'services' => 'Services',
         ], PermissionGroup::create([
-            'name' => 'Services'
+            'name' => 'Services',
+            'identifier' => 'services'
+        ]));
+
+        $this->createPermissions([
+            'dashboard' => 'Dashboard',
+        ], PermissionGroup::create([
+            'name' => 'Dashboard',
+            'identifier' => 'dashboard'
         ]));
 
         // Parameters
@@ -162,14 +201,28 @@ class RolesPermissionsTableSeeder extends Seeder
 
         $this->superAdmin->addPermission('contents');
         $this->superAdmin->addPermission('contents.edit');
+        $this->superAdmin->addPermission('contents.edit_parent_page');
+        $this->superAdmin->addPermission('contents.edit_pagebuilder');
+        $this->superAdmin->addPermission('contents.edit');
+        $this->superAdmin->addPermission('contents.remove');
+        $this->superAdmin->addPermission('contents.create');
+        $this->superAdmin->addPermission('contents.publish');
+
         $this->superAdmin->addPermission('settings');
+        $this->superAdmin->addPermission('styles');
         $this->superAdmin->addPermission('styles.edit');
-        $this->superAdmin->addPermission('users');
-        $this->superAdmin->addPermission('users.create');
-        $this->superAdmin->addPermission('users.edit_roles');
-        $this->superAdmin->addPermission('users.edit_permissions');
-        $this->superAdmin->addPermission('permissions');
-        $this->superAdmin->addPermission('permissions.create');
+        //$this->superAdmin->addPermission('users');
+        //$this->superAdmin->addPermission('users.create');
+        //$this->superAdmin->addPermission('users.edit_roles');
+        //$this->superAdmin->addPermission('users.edit_permissions');
+
+        //$this->superAdmin->addPermission('permissions');
+        //$this->superAdmin->addPermission('permissions.create');
+
+        $this->superAdmin->addPermission('page_layouts');
+        $this->superAdmin->addPermission('page_layouts.create');
+        $this->superAdmin->addPermission('page_layouts.remove');
+
         $this->superAdmin->addPermission('menu');
         $this->superAdmin->addPermission('menu.create');
         $this->superAdmin->addPermission('menu.edit');
@@ -178,12 +231,23 @@ class RolesPermissionsTableSeeder extends Seeder
         $this->superAdmin->addPermission('elements.create');
         $this->superAdmin->addPermission('elements.edit');
         $this->superAdmin->addPermission('architect_api.get');
-
+        $this->superAdmin->addPermission('dashboard');
+        $this->superAdmin->addPermission('medias');
+        $this->superAdmin->addPermission('medias.create');
+        $this->superAdmin->addPermission('medias.edit');
+        $this->superAdmin->addPermission('medias.remove');
+        
         $this->admin->addPermission('settings');
         $this->admin->addPermission('styles.edit');
         $this->admin->addPermission('architect_api.get');
-
+        $this->admin->addPermission('dashboard');
+        
+        $this->admin->addPermission('medias.create');
+        $this->admin->addPermission('medias.edit');
+        
         $this->client->addPermission('architect_api.get');
+        
+        
     }
 
 

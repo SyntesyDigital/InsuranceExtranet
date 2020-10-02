@@ -7,7 +7,7 @@ use Auth;
 class VeosWsUrl
 {
     const PROD = 'prod';
-    const DEV = 'dev';
+    const DEV = 'preprod';
     const REC = 'rec';
 
     public static function get()
@@ -19,21 +19,23 @@ class VeosWsUrl
         if (get_class(Auth::user()) == 'Modules\\Extranet\\Entities\\User') {
             return self::getEnvironmentUrl(Auth::user()->env);
         }
+
+        return self::prod();
     }
 
     public static function prod()
     {
-        return env('WS_URL');
+        return get_config('WS_URL');
     }
 
     public static function test()
     {
-        return env('WS_URL_TEST');
+        return get_config('WS_URL_TEST');
     }
 
     public static function rec()
     {
-        return env('WS_URL_REC');
+        return get_config('WS_URL_REC');
     }
 
     public static function getEnvironmentUrl($env)
@@ -54,9 +56,9 @@ class VeosWsUrl
     public static function getEnvironmentOptions()
     {
         return [
-          self::DEV,
-          self::REC,
-          self::PROD,
+            self::DEV,
+            self::REC,
+            self::PROD,
         ];
     }
 }

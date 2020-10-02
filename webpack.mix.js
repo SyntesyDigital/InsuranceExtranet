@@ -26,6 +26,11 @@ mix.webpackConfig({
                 from: 'Resources/assets/plugins/',
                 to: '../public/modules/extranet/plugins/',
                 toType: 'dir'
+            },
+            {
+                from: 'Resources/assets/img/',
+                to: '../public/modules/extranet/img/',
+                toType: 'dir'
             }
         ])
     ]

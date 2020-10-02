@@ -5,8 +5,11 @@ import { render } from 'react-dom';
 import {
   OPERATOR_EQUAL,
   OPERATOR_DIFFERENT,
-  CONDITION_FIELD_TYPE_PARAMETER
-} from './../../../constants/';
+  CONDITION_FIELD_TYPE_PARAMETER,
+  CONDITION_FIELD_TYPE_CONFIGURABLE,
+  CONDITION_FIELD_TYPE_ROLE,
+  CONDITION_FIELD_TYPE_PERMISSION
+} from './../../../constants';
 
 class ConditionsModal extends Component {
 
@@ -37,6 +40,17 @@ class ConditionsModal extends Component {
       {
         name : "Paramètre",
         value : CONDITION_FIELD_TYPE_PARAMETER
+      },
+      {
+        name : "Champ configurable",
+        value : CONDITION_FIELD_TYPE_CONFIGURABLE
+      },{
+        name : "Role",
+        value : CONDITION_FIELD_TYPE_ROLE
+      },
+      {
+        name : "Permis",
+        value : CONDITION_FIELD_TYPE_PERMISSION
       }
     ];
 
@@ -98,10 +112,35 @@ class ConditionsModal extends Component {
 
   handleInputChange(e) {
     //TODO
-    const conditions = this.props.conditions;
+    let conditions = this.props.conditions;
 
     conditions[this.props.conditionIndex][e.target.name] = e.target.value;
+
+    //if type is changed and type is not parameter, the name is set with same type, 
+    conditions = this.updateConditionNameWithType(conditions,e);
+
     this.props.onConditionChange(conditions);
+  }
+
+  /**
+   * If type is role or permis, update the name with same type, because name is always the same
+   * for role and permis.
+   */
+  updateConditionNameWithType(conditions,e) {
+    if(e.target.name == "type") {
+      if(e.target.value != CONDITION_FIELD_TYPE_PARAMETER && e.target.value != CONDITION_FIELD_TYPE_CONFIGURABLE){
+        if(e.target.value == CONDITION_FIELD_TYPE_ROLE){
+          conditions[this.props.conditionIndex]['name'] = CONDITION_FIELD_TYPE_ROLE;
+        }
+        else if(e.target.value == CONDITION_FIELD_TYPE_PERMISSION){
+          conditions[this.props.conditionIndex]['name'] = CONDITION_FIELD_TYPE_PERMISSION;
+        }
+      }
+      //reset values variable
+      conditions[this.props.conditionIndex]['values'] = '';
+    }
+
+    return conditions;
   }
 
   renderOperators() {
@@ -121,13 +160,41 @@ class ConditionsModal extends Component {
 
   renderParameters() {
 
-    var parameters = this.props.parameters;
+    const condition = this.props.conditions[this.props.conditionIndex];
 
-    //console.log("Object(parameters).keys => ",parameters,Object.keys(parameters));
+    if(condition.type == CONDITION_FIELD_TYPE_CONFIGURABLE) {
+      return this.props.fields.map((item,index) =>
+        <option key={index} value={item.identifier}> {item.name}</option>
+      );
+    }
+    else if(condition.type == CONDITION_FIELD_TYPE_PARAMETER) {
+      return this.props.parameters.map((item,index) =>
+        <option key={index} value={item.identifier}> {item.name}</option>
+      );
+    }
+    return null;
+  }
 
-    return Object.keys(parameters).map((key,index) =>
-      <option key={index} value={parameters[key].identifier}> {parameters[key].name}</option>
-    );
+  renderValues(type) {
+
+    var permissions = this.props.permissions;
+    var roles = this.props.roles;
+
+    if(type == CONDITION_FIELD_TYPE_ROLE) {
+      return roles.map((item,index) =>
+        <option key={index} value={item.value}> {item.name}</option>
+      );
+    }
+    else if(type == CONDITION_FIELD_TYPE_PERMISSION) {
+      return permissions.map((item,index) =>
+        <option key={index} value={item.value}> {item.name}</option>
+      );
+    }
+    return null;
+  }
+
+  isRoleOrPermission(type) {
+    return type == CONDITION_FIELD_TYPE_ROLE || type == CONDITION_FIELD_TYPE_PERMISSION
   }
 
   render() {
@@ -175,16 +242,18 @@ class ConditionsModal extends Component {
                          </select>
                       </div>
 
-                      <div className="form-group bmd-form-group">
-                         <label htmlFor="name" className="bmd-label-floating">
-                            Field
-                         </label>
-                         <select type="text" className="form-control" name="name" value={condition.name} onChange={this.handleInputChange} >
-                            <option key={-1} value=""> Sélectionner </option>
-                            {this.renderParameters()}
-                         </select>
+                      {!this.isRoleOrPermission(condition.type) && 
+                        <div className="form-group bmd-form-group">
+                          <label htmlFor="name" className="bmd-label-floating">
+                              Field
+                          </label>
+                          <select type="text" className="form-control" name="name" value={condition.name} onChange={this.handleInputChange} >
+                              <option key={-1} value=""> Sélectionner </option>
+                              {this.renderParameters()}
+                          </select>
 
-                      </div>
+                        </div>
+                      }
 
                       <div className="form-group bmd-form-group">
                          <label htmlFor="operator" className="bmd-label-floating">
@@ -195,12 +264,26 @@ class ConditionsModal extends Component {
                          </select>
                       </div>
 
-                      <div className="form-group bmd-form-group">
-                         <label htmlFor="values" className="bmd-label-floating">
-                            Values separated by comas
-                         </label>
-                         <input type="text" className="form-control" name="values" value={condition.values} onChange={this.handleInputChange} />
-                      </div>
+                      {!this.isRoleOrPermission(condition.type) && 
+                        <div className="form-group bmd-form-group">
+                          <label htmlFor="values" className="bmd-label-floating">
+                              Values separated by comas
+                          </label>
+                          <input type="text" className="form-control" name="values" value={condition.values} onChange={this.handleInputChange} />
+                        </div>
+                      } 
+
+                      {this.isRoleOrPermission(condition.type) && 
+                        <div className="form-group bmd-form-group">
+                          <label htmlFor="values" className="bmd-label-floating">
+                              Value
+                          </label>
+                          <select type="text" className="form-control" name="values" value={condition.values} onChange={this.handleInputChange} >
+                            <option key={-1} value=""> Sélectionner </option>
+                            {this.renderValues(condition.type)}
+                          </select>
+                        </div>
+                      }
 
                     </div>
                   </div>

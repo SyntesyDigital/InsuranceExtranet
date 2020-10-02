@@ -201,7 +201,10 @@ class PageBuilderAdapter
                               $values[ explode('.', $v->name)[1] ][$iso] = $v->value;
                           } else {
                               if(explode('.', $v->name)[1] == 'content') {
-                                  $values[ explode('.', $v->name)[1] ] = Content::find($v->value);
+                                  $content = Content::find($v->value);
+                                  $values[ explode('.', $v->name)[1] ] = isset($content) ? 
+                                    $content->load('routesParameters') : 
+                                    null;
                               }
                           }
                       }

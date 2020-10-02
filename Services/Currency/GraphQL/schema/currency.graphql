@@ -1,0 +1,69 @@
+################################
+#   TYPE
+################################
+type Currency {
+    id: ID!
+    code: String!
+    label: String!
+    symbole: String
+    symbole_position: String
+    decimals: Int
+    decimals_separator: String
+    thousands_separator: String
+    default: Boolean 
+    created_at: String
+}
+
+################################
+#   INPUT
+################################
+
+input CreateCurrencyInput {
+    code: String @rules(apply: ["required"])
+    label: String @rules(apply: ["required"])
+    symbole: String 
+    symbole_position: String 
+    decimals: Int
+    decimals_separator: String
+    thousands_separator: String
+    default: Boolean 
+}
+
+input UpdateCurrencyInput {
+    id: ID!
+    code: String @rules(apply: ["required"])
+    label: String @rules(apply: ["required"])
+    symbole: String 
+    symbole_position: String 
+    decimals: Int
+    decimals_separator: String
+    thousands_separator: String 
+    default: Boolean
+}
+
+
+
+################################
+#   QUERY
+################################
+extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
+    currencies: [Currency!]!
+        @all(model: "Modules\\Extranet\\Services\\Currency\\Entities\\Currency")
+
+    currency(id: ID! @eq): Currency
+        @find(model: "Modules\\Extranet\\Services\\Currency\\Entities\\Currency")
+}
+
+################################
+#   MUTATOR
+################################
+extend type Mutation @middleware(checks: ["auth:veos-ws-token"]) {
+    createCurrency(input: CreateCurrencyInput! @spread): Currency
+        @create(model: "Modules\\Extranet\\Services\\Currency\\Entities\\Currency")
+
+    updateCurrency(input: UpdateCurrencyInput! @spread): Currency
+        @update(model: "Modules\\Extranet\\Services\\Currency\\Entities\\Currency")
+
+    deleteCurrency(id: ID!): Currency
+        @delete(model: "Modules\\Extranet\\Services\\Currency\\Entities\\Currency")
+}

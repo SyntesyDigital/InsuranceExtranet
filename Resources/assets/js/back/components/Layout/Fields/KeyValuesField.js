@@ -102,8 +102,9 @@ export default class KeyValuesField extends Component {
             <KeyValueField 
                 index={index}
                 key={index}
-                keyLabel="Identifier"
-                valueLabel="JSON Path"
+                keyPrefix={'_'}
+                keyLabel={this.props.keyLabel}
+                valueLabel={this.props.valueLabel}
                 keyValue={item.key}
                 value={item.value}
                 onChange={this.handleChangeItem.bind(this)}

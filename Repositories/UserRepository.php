@@ -51,4 +51,97 @@ class UserRepository
 
         return $beans;
     }
+
+    /**
+     * Function to return all user permissions.
+     * WS came from parameters because is not defined yet.
+     */
+    public function getRoleAndPermissions($token,$env,$sessionId)
+    {
+        $name = "WS2_DEF_PERMIS?SES=".$sessionId;
+
+        $userRoleAndPermissions = $this->getPermissions($token,$env,$sessionId);
+
+        $rolesAndPermissions = [
+            'roles' => $this->getRoles($token,$env,$sessionId),
+            'role' => $userRoleAndPermissions['role'],
+            'permissions' => $userRoleAndPermissions['permissions']
+        ];
+        return $rolesAndPermissions;
+    }
+
+    public function getPermissions($token,$env,$sessionId) 
+    {
+        $name = "WS2_DEF_PERMIS?SES=".$sessionId;
+        $roleAndPermissions = [
+            "role" => null,
+            "permissions" => []
+        ];
+        $role = null;
+
+        //if $sessionId is not defined, don't process boby. First time for supervue has no sessionId
+        if(!isset($sessionId)){
+            return $roleAndPermissions;
+        }
+
+        
+
+        try {
+            $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]);
+
+            $result = json_decode($response->getBody());
+            $beans = $result->data;
+            if(sizeof($beans) > 0){
+
+                $permissions = $beans[0];
+                $role = $permissions->role;
+                unset($permissions->role);
+                $roleAndPermissions = [
+                    "role" => $role,
+                    "permissions" => $permissions
+                ];
+            }
+            return $roleAndPermissions;
+        }
+        catch(\Exception $ex) {
+            return $roleAndPermissions;
+        }
+    }
+
+
+    public function getRoles($token,$env,$sessionId) 
+    {
+        $name = "WS2_DEF_ROLE?SES=".$sessionId;
+        $roles = [];
+
+        //if $sessionId is not defined, don't process boby. First time for supervue has no sessionId
+        if(!isset($sessionId)){
+            return $roles;
+        }
+
+        try {
+            $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/'.$name, [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]);
+
+            $result = json_decode($response->getBody());
+            $beans = $result->data;
+            
+            if(sizeof($beans) > 0){
+                foreach($beans as $bean){
+                    $roles[] = $bean->val;
+                }
+            }
+            return $roles;
+        }
+        catch(\Exception $ex) {
+            return $roles;
+        }
+    }
 }

@@ -22,7 +22,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.timeout = 30000;
+window.axios.defaults.timeout = 90000;
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -37,6 +37,10 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+import { default as UserSessionService } from './../services/UserSessionService';
+
+window.userSession = new UserSessionService(typeof SESSION !== 'undefined' ? SESSION : {});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

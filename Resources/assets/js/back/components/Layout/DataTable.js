@@ -21,20 +21,22 @@ export default class DataTable extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.init !== undefined && this.props.init == true) {
-            if (!this.state.init) {
-                this.setState({
-                    init: true
-                });
+        if (prevProps.init === false && this.props.init == true) {
+            this.setState({
+                init: true
+            },function(){
                 this.setDatatable(this.props.route);
-            }
+            });
+           
         }
         else {
-            if (this.state.init) {
+            if (prevProps.init === true && this.props.init == false ) {
                 this.setState({
                     init: false
+                },function(){
+                    this.destroyDatatable();
                 });
-                this.destroyDatatable();
+                
             }
         }
     }
@@ -43,25 +45,32 @@ export default class DataTable extends Component {
         var _this = this;
         
         $(this.refs.main).DataTable({
-                language: {
-                    //url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/"+Lang.get('datatables.json')+".json"
-                },
-                processing: true,
-                serverSide: true,
-                order: [],
-                pageLength: 10,
-                ajax: route,
-                columns: this.props.columns,
-                initComplete: function (settings, json) {
-                    _this.initEvents();
-               
-                }
-            });
+            language: {
+                //url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/"+Lang.get('datatables.json')+".json"
+            },
+            processing: true,
+            serverSide: true,
+            order: [],
+            pageLength: 10,
+            ajax: route,
+            columns: this.props.columns,
+            initComplete: function (settings, json, xhr) {
+                _this.initEvents();
+            }
+        }).on('xhr.dt', function (e, settings, json, xhr) {
+            var token = xhr.getResponseHeader('token');
+            
+            SESSION.token = token ? token : SESSION.token;
+        });
 
     }
 
     destroyDatatable() {
         $(this.refs.main).DataTable().destroy();
+    }
+
+    refreshDatatable() {
+        $(this.refs.main).DataTable().ajax.reload();
     }
 
     addField() {

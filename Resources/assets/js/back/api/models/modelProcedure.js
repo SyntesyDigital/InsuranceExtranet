@@ -25,7 +25,6 @@ export let procedures = {
     },
 
     create(params) {
-        console.log("api.procedure.create (params)",params);
         return mutation(GQL_CREATE_MODEL_PROCEDURE, params);
     }
 }
@@ -49,6 +48,8 @@ export const GQL_GET_MODEL_PROCEDURE = gql`
         repeatable_json
         order
         preload
+        prefixed
+        duplicate
         service {
             id
             name
@@ -83,8 +84,10 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
             $required: String
             $repeatable: String
             $repeatable_json: String
-            $repeatable_jsonpath: String,
-            $preload: String,
+            $repeatable_jsonpath: String
+            $prefixed: Boolean
+            $duplicate: Boolean
+            $preload: String
             $service_id: ID! 
             $model_id: ID! 
             $order: Int
@@ -96,6 +99,8 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                     required: $required
                     repeatable: $repeatable
                     repeatable_json: $repeatable_json
+                    prefixed: $prefixed
+                    duplicate: $duplicate
                     repeatable_jsonpath: $repeatable_jsonpath
                     service_id: $service_id
                     model_id: $model_id
@@ -111,6 +116,8 @@ export const GQL_CREATE_MODEL_PROCEDURE = gql`
                 repeatable_json
                 order
                 preload
+                duplicate
+                prefixed
                 service {
                     id
                     name
@@ -145,7 +152,9 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
             $required: String
             $repeatable: String
             $repeatable_json: String
-            $repeatable_jsonpath: String
+            $repeatable_jsonpath: String 
+            $prefixed: Boolean
+            $duplicate: Boolean
             $service_id: ID
             $model_id: ID
             $order: Int
@@ -160,6 +169,8 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                     repeatable: $repeatable
                     repeatable_json: $repeatable_json
                     repeatable_jsonpath: $repeatable_jsonpath
+                    prefixed: $prefixed
+                    duplicate: $duplicate
                     service_id: $service_id
                     model_id: $model_id
                     order: $order
@@ -174,6 +185,8 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                 repeatable_json
                 order
                 preload
+                duplicate
+                prefixed
                 service {
                     id
                     name

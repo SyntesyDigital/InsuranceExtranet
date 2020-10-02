@@ -29,8 +29,6 @@ export default class LayoutParser extends Component {
 
     parseNode(nodes, settings) {
 
-
-
         return nodes.map((node, key) => {
 
             const alignment = node.settings && node.settings.textAlign ?
@@ -41,14 +39,34 @@ export default class LayoutParser extends Component {
 
             const box = node.settings && node.settings.boxClass ?
                 node.settings.boxClass
-                : '' ;
+                : '';
+
+            const display = node.settings && node.settings.displayInline == true ?
+                'display_inline'
+                : '';
+
+            const label = node.settings && node.settings.displayLabel == true ?
+                'display_label'
+                : '';
+
 
             switch (node.type) {
                 case "row":
                     // console.log("parseNode :: row (node)", node);
 
+                    if (!this.props.checkVisibility(node))
+                        return null;
+
                     return (
-                        <Row key={key} className={alignment + " " + box}>
+                        <Row
+                            key={key}
+                            className={
+                                (" " + alignment) +
+                                (" " + box) +
+                                (" " + display) +
+                                (" " + label)
+                            }
+                        >
                             {node.children != null &&
                                 this.parseNode(
                                     node.children,
@@ -61,10 +79,21 @@ export default class LayoutParser extends Component {
                 case "col":
                     // console.log("parseNode :: col (node)", node.settings.boxClass);
 
+                    if (!this.props.checkVisibility(node))
+                        return null;
+
                     return (
                         <div
                             key={key}
-                            className={"container-fields-default " + (border + " ") + node.colClass + (" " + alignment) + (" " + box)}
+                            className={
+                                "container-fields-default" +
+                                (" " + node.colClass) +
+                                (" " + border) +
+                                (" " + alignment) +
+                                (" " + box) +
+                                (" " + display) +
+                                (" " + label)
+                            }
                         >
                             {node.children != null &&
                                 this.parseNode(
@@ -76,6 +105,10 @@ export default class LayoutParser extends Component {
                     break;
 
                 default:
+
+                    if (!this.props.checkVisibility(node.field))
+                        return null;
+
                     return this.props.fieldRender(
                         node,
                         key,

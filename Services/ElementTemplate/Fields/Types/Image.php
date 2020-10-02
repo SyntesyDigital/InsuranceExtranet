@@ -20,7 +20,8 @@ class Image extends Field implements FieldInterface
     public $settings = [
         'cropsAllowed',
         'htmlId',
-        'htmlClass'
+        'htmlClass',
+        'conditionalVisibility'
     ];
 
     public function save(ElementTemplate $template, $identifier, $media, $languages = null)
