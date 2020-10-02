@@ -261,10 +261,10 @@ class ContentController extends Controller
               $contentType = 'application/'.$extension;
           }
         }
-
+        
         return response($content, 200)
           ->header('Content-Type', $contentType)
-          ->header('Content-Disposition', 'attachment; filename="'.$result->name.'"');
+          ->header('Content-Disposition', 'inline; filename="'.$result->name.'"');
     }
 
     public function showWSFusion($id)

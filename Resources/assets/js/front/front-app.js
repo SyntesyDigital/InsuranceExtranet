@@ -29,6 +29,7 @@ require('./components/Widgets/ImageText/ImageTextLinkList');
 require('./components/Widgets/ImageText/ImageTextTitleDocuments');
 require('./components/Widgets/ImageText/ImageTextTitleDocumentsContainer');
 require('./components/Widgets/TotalBoxPrice');
+require('./components/Widgets/ActionButton');
 require('./components/Widgets/Action/ActionContainer');
 require('./components/Widgets/Action/ActionList');
 require('./components/Widgets/SimpleButton');
@@ -42,6 +43,7 @@ require('./components/Widgets/Faqs/FaqsList');
 require('./components/Widgets/Faqs/FaqsContainer');
 require('./components/Widgets/Tabs/TabsList');
 require('./components/Widgets/Tabs/TabsContainer');
+
 
 //Lists
 require('./components/Widgets/Lists/MissingDocuments/MissingDocuments');

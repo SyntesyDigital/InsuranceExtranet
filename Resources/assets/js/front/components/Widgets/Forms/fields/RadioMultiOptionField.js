@@ -18,7 +18,11 @@ import {
 } from './../constants';
 
 import {
-  parameteres2Array
+  processBoby,
+  getUrlParameters,
+  joinUrls,
+  updateParametersWithValues,
+  hasEmptyParameters
 } from './../functions/';
 
 class RadioMultiOptionField extends Component
@@ -31,88 +35,133 @@ class RadioMultiOptionField extends Component
     }
     this.handleOnChange = this.handleOnChange.bind(this);
 
-    const {boby,parameters} = this.processBoby(this.props.field.boby);
+    const {boby,bobyParameters} = processBoby(
+      this.props.field.boby,
+      this.props.parameters
+    );
 
     this.state = {
       loading : true,
       data : [],
       boby : boby,
-      parameters : parameters,
-      display : true
+      bobyParameters : bobyParameters,
+      parameters : this.props.parameters,
+      display : true,
+      waitingForParameters : false  //true when parameters need are not yet set
     };
 
-    this.loadData();
+    if(this.hasBobyParameters()){
+      this.state.waitingForParameters = true;
+    }
+  }
+
+  componentDidMount() {
+    //if has no parameters load directly
+    if(!this.hasBobyParameters()){
+      this.loadData();
+    }
   }
 
   /**
-  *   Clean boby wihout parameters, and check all paremters are defined.
-  */
-  processBoby(boby) {
+   * 
+   */
+  hasBobyParameters() {
+    return this.state.bobyParameters != null;
+  }
 
-    var parameters = parameteres2Array(this.props.parameters);
+  /**
+   * Join parameters coming from URL and parameters coming from values
+   */
+  processUrlParameters() {
+    var parameters = this.state.parameters;
+    var bobyParametersURL = this.hasBobyParameters() ? 
+      getUrlParameters(this.state.bobyParameters) : '';
+    
+    return joinUrls([parameters,bobyParametersURL]);
+  }
 
-    if(boby.indexOf('?') != -1){
-      //if has parameters
-      var bobyArray = boby.split('?');
-      boby = bobyArray[0];
+  componentDidUpdate(prevProps, prevState) {
+    
+    this.processBobyParametersLoaded(prevProps, prevState);
 
-      var bobyParams = parameteres2Array(bobyArray[1]);
+  }
 
-      for(var key in bobyParams){
-        if(parameters[key] === undefined){
-          //if any parameters is not defined show error
+  /**
+   * Check for every update the algorithm if necessary perameters
+   */
+  processBobyParametersLoaded(prevProps, prevState) {
 
-          return {
-            boby : boby,
-            parameters : null
-          }
+    //if no boby parameters
+    if(!this.hasBobyParameters()) {
+      return null;
+    }
+
+    //update parameters and check if necessary to update
+    const {hasChanged,parameters} = updateParametersWithValues(
+      this.state.bobyParameters,
+      this.props.values
+    );
+
+    //console.log("updateParametersWithValues :: ",{hasChanged,parameters});
+
+    if(hasChanged){
+      //check if there is parameters not defined yet
+      var empty = hasEmptyParameters(parameters);
+
+      var self = this;
+      this.setState({
+        bobyParameters : parameters,
+        waitingForParameters : empty,
+        data : [],
+      },function() {
+        if(!empty){
+          self.cleanValue();
+          //if is not wainting for parameters to define
+          self.loadData();
         }
-      }
+      });
     }
 
-    return {
-      boby : boby,
-      parameters : this.props.parameters
-    }
   }
 
   loadData() {
 
       var self = this;
 
-      if(this.state.parameters == null){
-        console.error("Parameter necessary not defined , "+key);
-        return;
-      }
+      this.setState({
+        loading : true,
+        data : []
+      },function(){
 
-      axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+this.state.parameters)
-        .then(function(response) {
-          if(response.status == 200 && response.data.data !== undefined){
+        axios.get(ASSETS+'architect/elements/select/data/'+this.state.boby+"?"+this.processUrlParameters())
+          .then(function(response) {
+            if(response.status == 200 && response.data.data !== undefined){
 
-            var display = false;
+              var display = false;
 
-            if(response.data.data.length == 0){
-              //no data set this field as hidden, not needed
-              self.setHidden();
+              if(response.data.data.length == 0){
+                //no data set this field as hidden, not needed
+                self.setHidden();
+              }
+              else if(response.data.data.length == 1){
+                //only one value, selected it and hide
+                self.setUniqueValue(response.data.data[0].value);
+              }
+              else {
+                display = true;
+              }
+
+              self.setState({
+                data : response.data.data,
+                loading : false,
+                display : display
+              });
+
             }
-            else if(response.data.data.length == 1){
-              //only one value, selected it and hide
-              self.setUniqueValue(response.data.data[0].value);
-            }
-            else {
-              display = true;
-            }
-
-            self.setState({
-              data : response.data.data,
-              loading : false,
-              display : display
-            });
-
-          }
-        })
-        .catch(function (error) {
-          console.error(error);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
         });
   }
 
@@ -122,6 +171,14 @@ class RadioMultiOptionField extends Component
       value : HIDDEN_FIELD
     });
   }
+
+  cleanValue() {
+    this.props.onFieldChange({
+      name : this.props.field.identifier,
+      value : ''
+    });
+  }
+
   setUniqueValue(value) {
     this.props.onFieldChange({
       name : this.props.field.identifier,
@@ -212,7 +269,8 @@ class RadioMultiOptionField extends Component
 
     const {field} = this.props;
     let defaultValue = this.state.loading ? 'Chargement...' : '';
-    defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
+    defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
+    //defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
     const errors = this.props.error ? ' has-error' : '';
     const display = this.state.display;
 

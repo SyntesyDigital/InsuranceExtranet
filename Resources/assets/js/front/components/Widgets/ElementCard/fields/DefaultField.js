@@ -11,7 +11,7 @@ export default class DefaultField extends Component {
 
     render() {
         const { label, value, valueColor, valueBackgroundColor, stripped, labelAlign, valueAlign, inline } = this.props;
-
+        
         const divStyle = {
             overflow: 'hidden',
         }
@@ -38,6 +38,7 @@ export default class DefaultField extends Component {
 
         let hasDescription = this.props.settings.description !== undefined ?
             this.props.settings.description : false;
+
 
         return (
             <div style={divStyle} className={(stripped ? 'stripped' : null)}>

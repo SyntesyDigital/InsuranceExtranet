@@ -89,6 +89,7 @@ export default class TableList extends Component {
             var identifier = elementObject.fields[key].identifier
             if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
                 file = this.renderField(item, identifier, elementObject.fields[key]);
+                isFile = true;
             }
             else {
                 infos.push(
@@ -99,12 +100,11 @@ export default class TableList extends Component {
             }
 
         }
-
         return (
             <div>
                 <div className={"file-infos-container " + (file == null ? 'no-document' : '')}>
                     {file != null &&
-                        <div className="file-icon">
+                        <div className={"file-icon "}>
                             {file}
                         </div>
                     }

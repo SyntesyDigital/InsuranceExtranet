@@ -6,6 +6,7 @@ import IconField from './fields/IconField';
 import DefaultField from './fields/DefaultField';
 import ImageField from './fields/ImageField';
 import RichTextField from './fields/RichTextField';
+import IframeFile from './fields/IframeFile';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../back/api';
 import LayoutParser from './LayoutParser';
@@ -74,7 +75,6 @@ export default class ElementCard extends Component {
     }
 
     getModelFieldValue(fieldname) {
-
         return this.state.modelValues[0] !== undefined &&
             this.state.modelValues[0][fieldname] ? this.state.modelValues[0][fieldname] : "";
     }
@@ -273,18 +273,26 @@ export default class ElementCard extends Component {
                         key={key}
                         field={node.field}
                     />
-                );
+                );              
                 break;
         }
     }
 
+    removeTags(value){
+        return value.toString().replace(/(<([^>]+)>)/gi, "");
+    }
+
+    isDefined(value){
+        return value != null && value !== undefined && value !== ''
+    }
+
     renderElementField(field, settings) {
 
-        const value = this.getModelFieldValue(field.identifier);
+        var value = this.getModelFieldValue(field.identifier);
         const fieldSettings = field.settings;
         const conditionalFormating = this.getConditionalFormating(field, value);
         const conditionalIcon = this.getConditionalIcon(field, value);
-
+        
         console.log("renderElementField :: (field,conditionalFormating,value)", field, conditionalFormating, value);
 
         settings = {
@@ -299,11 +307,13 @@ export default class ElementCard extends Component {
         const color = conditionalFormating.color ? conditionalFormating.color : null;
         const backgroundColor = conditionalFormating.backgroundColor ? conditionalFormating.backgroundColor : null;
         const icon = conditionalIcon.icon ? conditionalIcon.icon : null;
-        if (value == null || value.toString().replace(/(<([^>]+)>)/gi, "") == "")
+        console.log('VALOR LINK', value, 'valuetostring ->' , value.toString().replace(/(<([^>]+)>)/gi, ""));
+
+        
+        if (!this.isDefined(value)){
             return null;
-
-        console.log('VALOR LINK', value);
-
+        }
+    
         switch (field.type) {
             case 'boolean':
                 return <CheckField
@@ -314,6 +324,16 @@ export default class ElementCard extends Component {
                     checked={this.getConfigValue(field, value)}
                     settings={settings}
                 />
+
+            case 'file':
+                if (field.settings.iframe !== undefined && field.settings.iframe != null && field.settings.iframe == true) {
+                    return <IframeFile 
+                                link={value}
+                                stripped={stripped}
+                                key={field.id}
+                                settings={settings}
+                            />
+                }
 
             case 'number':
                 return <DefaultField
@@ -330,6 +350,11 @@ export default class ElementCard extends Component {
                 />
 
             case 'text':
+                //if then remove tags, string is null, hidden fields
+                value = this.removeTags(value);
+                if (!this.isDefined(value)){
+                    return null;
+                }
                 if (field.settings.format == "password") {
                     return <DefaultField
                         label={field.name}

@@ -427,7 +427,6 @@ export default class TableComponent extends Component {
     renderTable() {
         const { data, elementObject, itemsPerPage, maxItems, downloading, loadingData } = this.state;
         var originalPageSize = maxItems ? parseInt(maxItems) : parseInt(this.state.itemsPerPage);
-        console.log(this.state.filterable, "this.state.filterable");
 
         return (
             <div id={this.state.id}>
