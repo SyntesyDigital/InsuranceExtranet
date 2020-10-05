@@ -363,7 +363,7 @@ export function submitProcedure(procedure, jsonResult, formParameters, version) 
 
   return (dispatch) => {
 
-    //console.log("submitProcedure :: ",procedure, jsonResult);
+    console.log("submitProcedure :: ",procedure, jsonResult);
 
     //clean null objects of json result 
     jsonResult = cleanJSON(jsonResult);

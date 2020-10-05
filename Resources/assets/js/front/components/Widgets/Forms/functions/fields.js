@@ -218,6 +218,7 @@ export function processObjectValue(object,values,formParameters) {
             console.error("Field is required : "+champIdentifier);
             //TODO dispatch error
           }
+          return '';
         }
         else {
           return values[champIdentifier];
@@ -371,21 +372,25 @@ export function processResponseParameters(response,service,formParameters,versio
  */
 function processResponseFromJSONPath(response,service,formParameters){
   
-  console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
+  //console.log("processResponseFromJSONPath (response,service,formParameters)",response,service,formParameters);
 
   if(service.REPONSE != null && service.REPONSE != "" && service.REPONSE.indexOf("[") != -1){
     var fields = JSON.parse(service.REPONSE);
-    console.log("processResponseFromJSONPath (fields)",fields);
+    //console.log("processResponseFromJSONPath (fields)",fields);
     for(var key in fields){
       
       var field = fields[key];
       if(field.key != "" && field.value != ""){        
         try {
           var value = jp.value(response,field.value);
-          console.log("processResponseFromJSONPath (value) ",value);
+          //console.log("processResponseFromJSONPath (value) ",value);
           if(Array.isArray(value)){
             //keep as array
             formParameters[field.key] = value;
+          }
+          else if(value == null || value === undefined) {
+            //if value is no defined in the response formParameters is null to not to be added as redirect
+            formParameters[field.key] = null;
           }
           else {
             //convert to string
@@ -399,7 +404,7 @@ function processResponseFromJSONPath(response,service,formParameters){
     }
   }
 
-  console.log("processResponseFromJSONPath (formParameters)",formParameters);
+  //console.log("processResponseFromJSONPath (formParameters)",formParameters);
 
   return formParameters;
 }
@@ -603,6 +608,13 @@ function initJSONResult(jsonResult,procedure, isRootArray) {
 
 export function updateJSONWithFields(root,fields,json,values,formParameters) {
 
+  console.log("updateJSONWithFields :: processing  (json,fields,values,formParameters)",
+          JSON.parse(JSON.stringify(json)),
+          fields,
+          values,
+          formParameters
+      );
+
   for(var key in fields){
       var jsonpath = root;
       var field = fields[key];
@@ -612,13 +624,12 @@ export function updateJSONWithFields(root,fields,json,values,formParameters) {
       }
       jsonpath += field.CHAMP;
 
-      /*
+      
       console.log("updateJSONWithFields :: processing field (json,jsonpath,field)",
           JSON.parse(JSON.stringify(json)),
           jsonpath,
           field
       );
-      */
 
       try {
 

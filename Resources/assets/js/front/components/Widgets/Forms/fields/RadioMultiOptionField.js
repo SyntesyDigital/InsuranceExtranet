@@ -35,7 +35,10 @@ class RadioMultiOptionField extends Component
     }
     this.handleOnChange = this.handleOnChange.bind(this);
 
-    const {boby,bobyParameters} = processBoby(this.props.field.boby);
+    const {boby,bobyParameters} = processBoby(
+      this.props.field.boby,
+      this.props.parameters
+    );
 
     this.state = {
       loading : true,
