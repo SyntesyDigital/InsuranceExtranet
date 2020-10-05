@@ -25,6 +25,10 @@ export default class TableActionGroup extends React.Component {
 
     render() {
 
+        //if no grouped actiosn don't show list
+        if(this.props.actions === undefined || this.props.actions.length == 0)
+            return null;
+
         return (
             <div className="action-list-container">
                 <a href="#" 

@@ -20,7 +20,7 @@ export default class TableActionLink extends React.Component {
                 data-modal={hasModalLink ? this.props.url : ''}
             >
                 {icon != null && 
-                    <span style={{fontSize : 18, marginRight : 15}}>
+                    <span style={{fontSize : 16, marginRight : 10}}>
                         <i className={icon}></i>&nbsp;
                     </span>
                 } 
@@ -31,8 +31,8 @@ export default class TableActionLink extends React.Component {
 }
 
 TableActionLink.propTypes = {
-    icon: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired,
+    icon: PropTypes.object,
+    name: PropTypes.string,
     modalLink: PropTypes.bool,
     url: PropTypes.string,
 };

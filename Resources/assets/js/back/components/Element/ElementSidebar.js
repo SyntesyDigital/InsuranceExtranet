@@ -96,6 +96,23 @@ class ElementSidebar extends Component {
     this.props.inputChange(field);
   }
 
+  renderActions() {
+    if(this.props.app.elementType != 'table' && this.props.app.elementType != 'table_v2')
+      return null;
+
+    return (
+        <div>
+          <h3>AJOUTER ACTIONS</h3>
+
+          <div className="field-list">
+            {this.props.customFields()}
+          </div>
+
+          <hr/>
+        </div>
+      );
+  }
+
   render() {
 
     return (
@@ -155,13 +172,7 @@ class ElementSidebar extends Component {
 
         <hr/>
 
-        <h3>AJOUTER ACTIONS</h3>
-
-        <div className="field-list">
-          {this.props.customFields()}
-        </div>
-
-        <hr/>
+        {this.renderActions()}
 
         <h3>{ Lang.get('fields.add_fields')}</h3>
 

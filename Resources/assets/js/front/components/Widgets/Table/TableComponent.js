@@ -409,6 +409,7 @@ export default class TableComponent extends Component {
             Header: 'Actions',
             sortable: false,
             filterable: false,
+            className: 'actions-col',
             Cell: this.renderActions.bind(this, actions),
         };
 

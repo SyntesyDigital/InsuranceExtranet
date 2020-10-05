@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import TableActionLink from './TableActionLink';
+import LabelTooltip from '../../Common/LabelTooltip';
 
 const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
@@ -19,7 +20,31 @@ const HtmlTooltip = withStyles((theme) => ({
 
 export default class TableAction extends React.Component {
 
+    renderIcon() {
+        const hasModalLink = this.props.modalLink !== undefined 
+            ? this.props.modalLink : false;
+
+        const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined 
+            ? this.props.icon.icon : null ;
+
+        return (
+            <a 
+                href={!hasModalLink ? this.props.url : ''} 
+                className={hasModalLink ? 'modal-link' : ''} 
+                data-modal={hasModalLink ? this.props.url : ''}
+            >
+                {icon != null && 
+                    <span style={{fontSize : 18, marginRight : 15}}>
+                        <i className={icon}></i>&nbsp;
+                    </span>
+                } 
+            </a>
+        );
+    }
+
     render() {
+
+        
 
         return (
             <HtmlTooltip
@@ -30,12 +55,7 @@ export default class TableAction extends React.Component {
                 }
                 placement="bottom"
             >
-                <TableActionLink
-                    icon={this.props.icon}
-                    name={''}
-                    modalLink={this.props.modalLink}
-                    url={this.props.url}
-                />
+               {this.renderIcon()}
             </HtmlTooltip>
         )
     }
