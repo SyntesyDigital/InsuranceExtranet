@@ -3,6 +3,8 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
 import ExportButton from './ExportButton';
+import TableActions from './TableActions';
+
 import {
     parseNumber,
     parseDate,
@@ -10,7 +12,11 @@ import {
     hasConditionalFormatting,
     getTextAlign,
     getConditionalIcon,
-    hasConditionalIcon
+    hasConditionalIcon,
+    hasRoute,
+    hasModal,
+    cleanIdentifier,
+    isGrouped
 } from '../functions';
 
 //const selectors = Data.Selectors;
@@ -178,10 +184,10 @@ export default class TableComponent extends Component {
                     var dataProcessed = self.processData(response.data.modelValues);
 
                     var pageSize = self.state.maxItems ? parseInt(self.state.maxItems) : parseInt(self.state.itemsPerPage);
-                    console.log('DATA PAGINATION', self.state.pagination);
-                    console.log('HIDEEMPTY', self.state.hideEmptyRows);
-                    console.log('DATA PROCESED', dataProcessed.length);
-                    console.log('PAGE SIXZE', pageSize);
+                    //console.log('DATA PAGINATION', self.state.pagination);
+                    //console.log('HIDEEMPTY', self.state.hideEmptyRows);
+                    //console.log('DATA PROCESED', dataProcessed.length);
+                    //console.log('PAGE SIXZE', pageSize);
 
                     if (!self.state.pagination && self.state.hideEmptyRows == '1' && dataProcessed.length < pageSize) {
                         pageSize = dataProcessed.length;
@@ -257,6 +263,19 @@ export default class TableComponent extends Component {
 
     }
 
+    /**
+     * Process actions object with row information
+     * 
+     * @param {*} actions 
+     * @param {*} row 
+     */
+    renderActions(actions, row) {
+        return <TableActions 
+            actions={actions}
+            row={row}
+        />;
+    }
+
     renderCell(field, identifier, row) {
 
         var value = row.original[identifier];
@@ -286,20 +305,21 @@ export default class TableComponent extends Component {
             return <div className={"file-container" + ' ' + textAlign} dangerouslySetInnerHTML={{ __html: row.original[identifier] }} />
         }
         // has route
-        else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
+        else if (hasRoute(field)) {
 
             return <div className={(hasIcon ? 'has-icon' : '')}>
-                {hasIcon ? <i className={icon.icon}></i> : null}
                 <div
                     className={textAlign}
-                    dangerouslySetInnerHTML={{
-                        __html: row.original[identifier + "_url"]
-                    }}
-                />
+                >
+                    <a href="" href={row.original[identifier + "_url"]}>
+                        {hasIcon ? <i className={icon.icon}></i> : null}
+                        &nbsp; {row.original[identifier]}
+                    </a>
+                </div>
             </div>
         }
         // has modal
-        else if (field.settings.hasModal !== undefined && field.settings.hasModal != null) {
+        else if (hasModal(field)) {
 
             return <div
                 className={textAlign}
@@ -308,19 +328,94 @@ export default class TableComponent extends Component {
                         row.original[identifier] +
                         '</a>'
                 }}
+
             />
         }
         // default
         else {
-            return <div className={(hasIcon ? 'has-icon' : '')}>
-                {hasIcon ? <i className={icon.icon}></i> : null}
-                <div
-                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
-                    style={style}
-                    dangerouslySetInnerHTML={{ __html: value }}
-                />
-            </div>
+
+            if(hasIcon){
+                //consider with icone not possible to have html link
+                return <div className={('has-icon')}>
+                    <div
+                        className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                        style={style}
+                    >
+                        <i className={icon.icon}></i> &nbsp;
+                        {value}
+                    </div>
+                </div>
+            }
+            else {
+                //if no icon, it's possible that value come with html. 
+                return <div className={(hasIcon ? 'has-icon' : '')}>
+                    {hasIcon ? <i className={icon.icon}></i> : null}
+                    <div
+                        className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                        style={style}
+                        dangerouslySetInnerHTML={{ __html: value }}
+                    />
+                </div>
+            }
         }
+    }
+
+    /**
+     * Function to process all element fields and group it as a global definition
+     * @param {*} columns 
+     */
+    processActionColumn(columns) {
+
+        //check for all object of type action and grouped to return action definition
+        const { elementObject } = this.state;
+        var definition = {};
+
+        var actions = {
+            list : [],
+            grouped : []
+        };
+
+        for (var index in elementObject.fields) {
+            //if object field is an action continue to next field
+            var field = elementObject.fields[index];
+
+            if(field.type != "action")
+                continue;
+
+            var action = {
+                icon : getConditionalIcon(field, ''),
+                name : field.name,
+                modalLink : hasModal(field),
+                field : field,
+                identifier : cleanIdentifier(field.identifier)
+            };
+
+            if(isGrouped(field)){
+                actions.grouped.push(action);
+            }
+            else {
+                actions.list.push(action);
+            }
+
+        }
+
+        //if no actions to proced, return same columns
+        if(actions.list.length == 0 && actions.grouped.length == 0){
+            return columns;
+        }
+
+        definition = {
+            accessor: 'actions',
+            Header: 'Actions',
+            sortable: false,
+            filterable: false,
+            className: 'actions-col',
+            Cell: this.renderActions.bind(this, actions),
+        };
+
+        columns.push(definition);
+
+        return columns;
     }
 
     processColumns() {
@@ -335,11 +430,16 @@ export default class TableComponent extends Component {
         var definition = {};
 
         for (var index in elementObject.fields) {
+
+            //if object field is an action continue to next field
+            if(elementObject.fields[index].type == "action")
+                continue;
+
             if (elementObject.fields[index].rules.searchable && !anySearchable) {
                 anySearchable = true;
             }
 
-            var identifier = elementObject.fields[index].identifier.replace('.', '');
+            var identifier = cleanIdentifier(elementObject.fields[index].identifier);
             if (elementObject.fields[index].rules.sortableByDefault) {
                 sortColumnName = identifier;
                 sortColumnType = elementObject.fields[index].rules.sortableByDefault;
@@ -365,6 +465,10 @@ export default class TableComponent extends Component {
             columns.push(definition);
         }
 
+
+        //process actions
+        columns = this.processActionColumn(columns);
+
         this.setState({
             columns: columns,
             filterable: anySearchable,
@@ -379,7 +483,7 @@ export default class TableComponent extends Component {
         for (var key in data) {
             for (var subkey in data[key]) {
                 //remove . on keys to allow filter
-                var newSubkey = subkey.replace('.', '');
+                var newSubkey = cleanIdentifier(subkey);
                 var dataValue = data[key][subkey];
 
                 //if value has ';' that means it has a link

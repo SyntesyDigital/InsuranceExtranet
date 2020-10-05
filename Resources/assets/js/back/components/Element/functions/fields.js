@@ -25,7 +25,8 @@ export const SETTINGS_AVOID = {
   'operation' : ['table','file'],
   'readonly' : ['table','file'],
   'iframe' : ['table','file'],
-
+  'group' : ['form','file','form-v2'],
+  'description' : ['table'],
 };
 
 /*
@@ -184,3 +185,43 @@ export function getDatepickerFormat(format) {
   }
 
 }
+
+/**
+ *   Widget configuration can be changed because some settings or $rule
+ *   added directly to PHP. It's necessary to update the json stored in BBDD
+ *   to update the avialabe settings, and modifiy if necessary
+ */
+export function updateSettingsFromConfig(field,elementType) {
+
+      var config = MODELS_FIELDS[field.type];
+      config = config == null ? MODELS_CUSTOM_FIELDS[field.type] : config;
+
+      if(config == null){
+          return field;
+      }
+
+      console.log("updateSettingsFromConfig :: (field,config)",field,config);
+
+      if(config.rules !== undefined ) {
+          for(var id in config.rules){
+              var rule = config.rules[id];
+              if(checkIfSettingsAllowed(rule,elementType) 
+                && field.rules[rule] === undefined){
+                field.rules[rule] = null;
+              }
+          }
+      }
+      
+      if(config.settings !== undefined ) {
+          for(var id in config.settings){
+              var setting = config.settings[id];
+              console.log("updateSettingsFromConfig :: (checkIfSettingsAllowed(setting,elementType",setting,elementType,checkIfSettingsAllowed(setting,elementType));
+              if(checkIfSettingsAllowed(setting,elementType) 
+                && field.settings[setting] === undefined){
+                field.settings[setting] = null;
+              }
+          }
+      }
+
+      return field;
+  }

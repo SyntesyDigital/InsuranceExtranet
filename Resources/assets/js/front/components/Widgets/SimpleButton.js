@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 import {
     getParametersFromContentField,
@@ -12,7 +11,6 @@ export default class SimpleButton extends Component {
 
     constructor(props) {
         super(props);
-        moment.locale(LOCALE);
     }
 
     processText(fields, index) {
