@@ -16,7 +16,6 @@ import api from '../../api/index.js';
 import ModalTestForm from './modals/ModalTestForm';
 import ModalObject from './modals/ModalObject';
 import ModalProcedures from './modals/ModalProcedures';
-import ModalTableField from './modals/ModalTableField';
 
 import {
     initState,
@@ -38,8 +37,6 @@ import {
     removeProcedureObject,
 
     // Table 
-    openModalTableField,
-    closeModalTableField,
     importFieldsFromService
 } from './actions';
 
@@ -107,7 +104,6 @@ class ElementsModelsFormRedux extends Component {
     // Handlers
     // ==============================
 
-    // FIELDS
     handleRemoveObject(procedure, object){
         this.props.removeProcedureObject(
             this.props.form.form.procedures,
@@ -115,14 +111,6 @@ class ElementsModelsFormRedux extends Component {
             object
         );
     }
-
-    // FIXME : use openModalTableField()
-    handleEditObject(procedure, object){
-        //this.props.openModalTableField(procedure, JSON.parse(JSON.stringify(object)));
-    }
-    //
-
-
 
     handleRemoveProcedure(procedure){
         this.props.removeProcedure(
@@ -263,7 +251,7 @@ class ElementsModelsFormRedux extends Component {
         return '';
     }
 
-    getTableProcedure()
+    getTableFicheProcedure()
     {
         return this.props.form.form.procedures.length > 0 
             ? this.props.form.form.procedures[0] 
@@ -277,7 +265,7 @@ class ElementsModelsFormRedux extends Component {
     renderProcedureObjects() {
         return (
             <div>
-                {this.props.form.currentProcedure.fields.map((object, index) => 
+                {this.props.form.currentProcedure !== null && this.props.form.currentProcedure.fields !== undefined && this.props.form.currentProcedure.fields.map((object, index) => 
                     <div key={object.identifier + index} className={object.identifier + index}>
                         <FieldListItem
                             key={index}
@@ -288,11 +276,10 @@ class ElementsModelsFormRedux extends Component {
                             label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
                             labelField={object.name}
                             isField={true}
-                            onEdit={(e) => {
-                                e.preventDefault();
-                                this.props.openModalEditObject(this.props.form.currentProcedure, JSON.parse(JSON.stringify(object)));
+                            onEdit={() => {
+                                this.props.openModalEditObject(this.props.form.currentProcedure, JSON.parse(JSON.stringify(object)))
                             }}
-                            onRemove={this.handleRemoveObject.bind(this, this.getTableProcedure(), object)}
+                            onRemove={ this.handleRemoveObject.bind(this, this.getTableFicheProcedure(), object) }
                         />
                     </div>
                 )}
@@ -397,7 +384,7 @@ class ElementsModelsFormRedux extends Component {
                         />
                     }
 
-                    {(saved && (this.getFormType() == "table" || this.getFormType() != "fiche")) && 
+                    {(saved && (this.getFormType() == "table" || this.getFormType() == "fiche")) && 
                         <ButtonSecondary
                             label={'Importer les champs'}
                             icon={'fas fa-sync-alt'}
@@ -604,18 +591,6 @@ const mapDispatchToProps = dispatch => {
 
         removeProcedureObject: (procedures, procedure, object) => {
             return dispatch(removeProcedureObject(procedures, procedure, object));
-        },
-
-
-        // ==============================
-        // TABLE 
-        // ==============================
-        openModalTableField: (index) => {
-            return dispatch(openModalTableField(index));
-        },
-
-        closeModalTableField: () => {
-            return dispatch(closeModalTableField());
         },
 
         importFieldsFromService: (servideId) => {

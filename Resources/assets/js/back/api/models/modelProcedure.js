@@ -159,6 +159,7 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
             $model_id: ID
             $order: Int
             $preload: String,
+            $fields: UpdateModelProcedureFieldsHasMany
         ) {
             updateModelProcedure(
                 input: {
@@ -174,7 +175,8 @@ export const GQL_UPDATE_MODEL_PROCEDURE = gql`
                     service_id: $service_id
                     model_id: $model_id
                     order: $order
-                    preload: $preload
+                    preload: $preload,
+                    fields: $fields
                 }
             ) {
                 id

@@ -4,7 +4,7 @@ import {
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     UPDATE_PROCEDURES,
-    DELETE_TABLE_FIELD,
+    REMOVE_OBJECT_CURRENT_PROCEDURE,
     IMPORT_PROCEDURE_OBJECTS
 } from "../constants/";
 
@@ -89,12 +89,9 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
 };
 
 export function saveProcedureObject(procedures, procedure, object) {
-    if (object.id == null) {
-        return createProcedureObject(procedures, procedure, object);
-    }
-    else {
-        return updateProcedureObject(procedures, procedure, object);
-    }
+    return object.id  == null 
+            ? createProcedureObject(procedures, procedure, object)
+            : updateProcedureObject(procedures, procedure, object);
 };
 
 export function createProcedureObject(procedures, procedure, object) {
@@ -169,9 +166,21 @@ export function removeProcedureObject(procedures, procedure, object) {
     if(!object.id) {
         return (dispatch) => {
             dispatch({ 
-                type: DELETE_TABLE_FIELD, 
+                type: REMOVE_OBJECT_CURRENT_PROCEDURE, 
                 payload: object 
             });
+
+            // var index = getProcedureIndex(procedures, procedure);
+            // var objectIndex = getObjectIndex(procedure.fields, object);
+            // procedures[index].fields.splice(objectIndex, 1);
+
+            // toastr.success(Lang.get('fields.success'));
+
+            // dispatch({ 
+            //     type: UPDATE_PROCEDURES, 
+            //     payload: procedures 
+            // });
+
         };
     }
 
@@ -184,7 +193,10 @@ export function removeProcedureObject(procedures, procedure, object) {
 
                 toastr.success(Lang.get('fields.success'));
 
-                dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+                dispatch({ 
+                    type: UPDATE_PROCEDURES, 
+                    payload: procedures 
+                });
             })
             .catch(function (error) {
                 toastr.error(error.message);

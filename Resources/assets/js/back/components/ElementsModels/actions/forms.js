@@ -6,7 +6,7 @@ import {
     TEST_FORM,
     INIT_CREATE,
     LOAD_TABLE_FIELD,
-    UPDATE_PROCEDURES
+    UPDATE_CURRENT_PROCEDURE
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -35,13 +35,6 @@ export function initState(modelId, type) {
                 let model = response.data.elementModel;
                 let payload = transformElementModel(model);
                 payload.type = type;
-
-                if(type == 'table' || type == 'fiche') {
-                    dispatch({ 
-                        type: LOAD_TABLE_FIELD, 
-                        payload : model.procedures.length > 0 ? model.procedures[0].fields : null,
-                    });
-                }
                 
                 dispatch({ 
                     type: INIT_STATE, 
@@ -95,19 +88,31 @@ export function createForm(state) {
                     model_id: model.id ,
                     order: 0
                 }).then(function(response) {
+
+                    toastr.success(Lang.get('fields.success'));
+                
                     dispatch({
-                        type: UPDATE_PROCEDURES, 
-                        payload: response.data.createModelProcedure
+                        type: UPDATE_CURRENT_PROCEDURE, 
+                        payload: {
+                            ...response.data.createModelProcedure,
+                            fields: []
+                        }
+                    });
+
+                    dispatch({
+                        type: UPDATE_FORM, 
+                        payload: model
                     });
                 });
-            } 
+            } else {
 
-            toastr.success(Lang.get('fields.success'));
+                toastr.success(Lang.get('fields.success'));
 
-            dispatch({
-                type: UPDATE_FORM, 
-                payload: model
-            });
+                dispatch({
+                    type: UPDATE_FORM, 
+                    payload: model
+                });
+            }
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -130,7 +135,6 @@ export function updateForm(state) {
             let model = response.data.updateElementModel;
             
             if(['table', 'fiche'].includes(state.form.type)) {
-
                 api.procedures.update(state.currentProcedure.id, {
                     name : state.form.type + '_' +  state.form.identifier,
                     configurable: false,
@@ -143,49 +147,45 @@ export function updateForm(state) {
                     preload: false,
                     service_id: state.form.service_id,
                     model_id: model.id,
-                    order: 0
+                    order: 0,
+                    fields: {
+                        delete: state.form.procedures[0] !== undefined ? state.form.procedures[0].fields.map(field => {
+                            return field.id
+                        }) : [],
+                        create: state.currentProcedure.fields !== undefined ? state.currentProcedure.fields.map(field => {
+                            return {
+                                name: field.name,
+                                identifier: field.identifier,
+                                type: 'CTE',
+                                format: field.format !== undefined ? field.format : 'text',
+                                default_value: field.default_value !== undefined ? field.default_value : null,
+                                boby: null,
+                                jsonpath: null,
+                                example: null,
+                                configurable: true,
+                                visible: true,
+                                required: true,
+                            };
+                        }) : []
+                    }
                 }).then(function(response) {
+                    toastr.success(Lang.get('fields.success'));
+
                     dispatch({
-                        type: UPDATE_PROCEDURES, 
-                        payload: response.data.updateModelProcedure
+                        type: UPDATE_FORM, 
+                        payload: model
                     });
                 });
+            } else {
+                toastr.success(Lang.get('fields.success'));
 
-                state.form.procedures[0].fields.map(field => api.fields.delete(field.id));
-
-                state.currentProcedure.fields.map(field => {
-                    api.fields.create({
-                        procedure_id: state.currentProcedure.id,
-                        name: field.name,
-                        identifier: field.identifier,
-                        type: 'CTE',
-                        format: field.format !== undefined ? field.format : 'text',
-                        default_value: field.default_value !== undefined ? field.default_value : null,
-                        boby: null,
-                        jsonpath: null,
-                        example: null,
-                        configurable: true,
-                        visible: true,
-                        required: true,
-                    })
-                        .then(function (res) {
-                            field.id = res.data.createModelField.id;
-                        })
-                        .catch(function (error) {
-                            toastr.error(error.message);
-                        });
+                dispatch({
+                    type: UPDATE_FORM, 
+                    payload: model
                 });
             }
-
-            toastr.success(Lang.get('fields.success'));
-
-            dispatch({
-                type: UPDATE_FORM, 
-                payload: model
-            });
         })
         .catch(function(error) {
-            console.log(error);
             toastr.error(error.message);
         });
     }

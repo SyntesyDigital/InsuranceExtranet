@@ -13,7 +13,9 @@ import {
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
     INIT_CREATE,
-    IMPORT_PROCEDURE_OBJECTS
+    IMPORT_PROCEDURE_OBJECTS,
+    UPDATE_CURRENT_PROCEDURE,
+    REMOVE_OBJECT_CURRENT_PROCEDURE
 } from '../constants';
 
 const initialState = {
@@ -207,9 +209,13 @@ function formReducer(state = initialState, action) {
             newForm.procedures = proceduresCopy;
             newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' ? true : false;
 
+            if(form.type == "table" || form.type == "fiche") {
+                newForm.service_id = proceduresCopy[0].service.id;
+            }
+
             return {
                 ...state,
-                form : newForm
+                form: newForm
             }
 
         case REMOVE_FORM:
@@ -261,17 +267,26 @@ function formReducer(state = initialState, action) {
                 ...state,
                 form : {
                     ...form,
+                    service_id: form.type == "table" || form.type == "fiche" ? action.payload[0].service.id : null,
                     procedures: action.payload
                 },
             }
 
-        
+        case UPDATE_CURRENT_PROCEDURE: 
+            return {
+                ...state,
+                currentProcedure: action.payload,
+                form : {
+                    ...form,
+                    procedures: [action.payload],
+                    service_id: action.payload.service_id
+                },
+            }
 
         case OPEN_MODAL_CREATE_OBJECT:
             return {
                 ...state,
                 displayObjectModal: true,
-                //default current object
                 currentObject : {
                     id : null,
                     identifier: '',
@@ -299,6 +314,15 @@ function formReducer(state = initialState, action) {
                 ...state,
                 displayObjectModal: false,
                 currentObject: null
+            }
+
+        case REMOVE_OBJECT_CURRENT_PROCEDURE: 
+            return {
+                ...state,
+                currentProcedure: {
+                    ...state.currentProcedure,
+                    fields: state.currentProcedure.fields.filter(field => field.identifier != action.payload.identifier)
+                }
             }
 
         case CLOSE_MODAL_TEST:
