@@ -350,20 +350,32 @@ class ModalTestForm extends Component {
         return json;
     }
 
-    renderServices() {
-        return this.state.services.map((item,index) => 
-            <CollapsableGroup
-                identifier={item.identifier}
-                title={item.http_method+' / '+item.url+' -> '+item.response}
-            >
-                <InputFieldJsonEdit 
-                    label={'JSON'} 
-                    name={item.identifier}
-                    placeholder={this.cleanJSON(item.json)}
-                    height={400}
-                />
+    getItemJSON(item) {
+        var json = this.cleanJSON(item.json);
+        json = json == "empty" ? {} : json;
+        return json;
+    }
 
-            </CollapsableGroup>
+    renderServices() {
+
+        return this.state.services.map((item,index) => {
+                //console.log("renderServices :: ( json, clean json ) ",item.json,this.getItemJSON(item));
+
+                return (
+                    <CollapsableGroup
+                        identifier={item.identifier}
+                        title={item.http_method+' / '+item.url+' -> '+item.response}
+                    >
+                        <InputFieldJsonEdit 
+                            label={'JSON'} 
+                            name={item.identifier}
+                            placeholder={this.getItemJSON(item)}
+                            height={400}
+                        />
+
+                    </CollapsableGroup>
+                )
+            }
         )
     }
 

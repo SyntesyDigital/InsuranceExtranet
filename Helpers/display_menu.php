@@ -52,9 +52,14 @@ if (!function_exists('format_link')) {
             $icon = $menuElement['settings']['icon'];
         }
 
+        $filteredMenu = [];
+
         foreach ($menuElement['children'] as $index => $child) {
-            $menuElement['children'][$index] = format_link($child);
+            if (allowed_link($menuElement['children'][$index])) {
+                $filteredMenu[] = format_link($child);
+            }
         }
+        $menuElement['children'] = $filteredMenu;
 
         return [
             'url' => $url,

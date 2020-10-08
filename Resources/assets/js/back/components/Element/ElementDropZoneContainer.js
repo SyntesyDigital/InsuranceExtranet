@@ -70,20 +70,20 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addField : (field) => {
-						return dispatch(addField(field));
-				},
-				changeField : (field) => {
-						return dispatch(changeField(field));
-				},
-				removeField : (fieldId) => {
-						return dispatch(removeField(fieldId));
-				},
-				moveField : (dragIndex, hoverIndex) => {
-						return dispatch(moveField(dragIndex, hoverIndex));
-				},
-				onOpenSettings : (fieldId) => {
-						return dispatch(openModalSettings(fieldId));
-				}
+				return dispatch(addField(field));
+		},
+		changeField : (field) => {
+				return dispatch(changeField(field));
+		},
+		removeField : (fieldId) => {
+				return dispatch(removeField(fieldId));
+		},
+		moveField : (dragIndex, hoverIndex) => {
+				return dispatch(moveField(dragIndex, hoverIndex));
+		},
+		onOpenSettings : (fieldId) => {
+				return dispatch(openModalSettings(fieldId));
+		}
     }
 }
 

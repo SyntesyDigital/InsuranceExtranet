@@ -163,7 +163,7 @@ export function joinUrls(arrayUrls) {
   *     }
   *   }
   */
- export function processBoby(boby) {
+ export function processBoby(boby,formParametersUrl) {
 
   if(boby.indexOf('?') != -1){
     //if has parameters
@@ -172,10 +172,20 @@ export function joinUrls(arrayUrls) {
     
     //get values with _param1, remove the _ and store into object
     var objectUrl = parameteres2Array(bobyArray[1]);
+
+    var formParametersObject = parameteres2Array(formParametersUrl);
+    
     for(var key in objectUrl){
       var parameter = objectUrl[key].replace("_",'');
-      bobyParameters[parameter] = '';
+      //if no exist into form parameters url add it
+      if(formParametersObject[parameter] === undefined){
+        bobyParameters[parameter] = '';
+      }
     }
+
+    //if no keys return null
+    bobyParameters = Object.keys(bobyParameters).length > 0 ? 
+      bobyParameters : null;
 
     return {
       boby : bobyArray[0],

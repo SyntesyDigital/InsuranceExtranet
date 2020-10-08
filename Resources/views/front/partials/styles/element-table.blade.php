@@ -77,6 +77,11 @@ body .element-table-container .rt-tr.-odd:hover, body .element-table-container .
 body .element-table-container .rt-tr.-odd:hover a, body .element-table-container .rt-tr.-even:hover a{
     color: {{$rowHoverColorTable}};
 }
+
+body .element-table-container .rt-tr.-odd:hover a.simple-btn, body .element-table-container .rt-tr.-even:hover a.simple-btn {
+    color:{{$elementLinkColor}};
+}
+
 body .element-table-container .rt-tbody .rt-tr.-even, body .element-table-container .rt-tr.-odd{
     border-radius: {{$borderRadiusRowTable}};
 }

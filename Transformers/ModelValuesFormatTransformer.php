@@ -56,6 +56,11 @@ class ModelValuesFormatTransformer extends Resource
         return $url;
     }
 
+    private function processLink($link,$value)
+    {
+        return '<a href="'.$url.'">'.$value.'</a>';
+    }
+
     private function processContent($hasRoute, $modelValue, $value)
     {
         if (isset($hasRoute['id'])) {
@@ -79,7 +84,9 @@ class ModelValuesFormatTransformer extends Resource
         if ($this->isCsv) {
             return $value;
         } else {
-            return '<a href="'.$url.'">'.$value.'</a>';
+            //return '<a href="'.$url.'">'.$value.'</a>';
+            //REFACTOR now it returns directly the url, and it's the table who process the url
+            return $url;
         }
     }
 
@@ -155,27 +162,12 @@ class ModelValuesFormatTransformer extends Resource
             foreach ($modelValues as $modelValue) {
                 if (!$limit || $i < $limit) {
                     foreach ($elementFields as $elementField) {
-                        $originalValue = $modelValue->{$elementField->identifier};
+
+                        $originalValue = isset($modelValue->{$elementField->identifier}) 
+                            ? $modelValue->{$elementField->identifier} : '';
 
                         switch ($elementField->type) {
                             case 'number':
-
-                                $hideCurrency = isset($elementField->settings['hideCurrency']) ? $elementField->settings['hideCurrency'] : false;
-                                $currency = $hideCurrency ? '' : ' €';
-
-                              /*  if (!$this->isTable) {
-                                    if ($elementField->settings['format'] == 'price') {
-                                        $result[$i][$elementField->identifier] = number_format($originalValue, 0, ',', '.').$currency;
-                                    } elseif ($elementField->settings['format'] == 'price_with_decimals') {
-                                        $result[$i][$elementField->identifier] = number_format($originalValue, 2, ',', '.').$currency;
-                                    } elseif ($elementField->settings['format'] == 'price_with_decimals_2') {
-                                        $result[$i][$elementField->identifier] = number_format($originalValue, 2, '.', ' ').$currency;
-                                    } else {
-                                        $result[$i][$elementField->identifier] = $originalValue !== null ? $originalValue : '';
-                                    }
-                                } else {
-                                    $result[$i][$elementField->identifier] = $originalValue != '' ? intval($originalValue) : 0;
-                                }*/
                                 $result[$i][$elementField->identifier] = $originalValue;
 
                                 break;
@@ -239,7 +231,7 @@ class ModelValuesFormatTransformer extends Resource
                                 }
                                 $result[$i][$elementField->identifier] = $fileLink;
 
-                            break;
+                                break;
 
                             default:
                                 $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
@@ -258,10 +250,9 @@ class ModelValuesFormatTransformer extends Resource
 
                             //to allow order when table, need to process separately link and value
                             if ($this->isTable) {
-                                $result[$i][$elementField->identifier] =
-                                $result[$i][$elementField->identifier].';'.$link;
+                                $result[$i][$elementField->identifier] = $result[$i][$elementField->identifier].';'.$link;
                             } else {
-                                $result[$i][$elementField->identifier] = $link;
+                                $result[$i][$elementField->identifier] = $this->processLink($link,$modelValue);
                             }
                         } elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
