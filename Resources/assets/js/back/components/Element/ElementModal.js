@@ -409,6 +409,16 @@ class ElementModal extends Component {
                                         />
                                     }
 
+                                    {field != null && field.settings != null && field.settings.hidden !== undefined && 
+                                        <BooleanSettingsField
+                                            field={field}
+                                            name="hidden"
+                                            source="settings"
+                                            label="Hidden"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
                                     {field != null && field.rules != null && field.rules.maxDate !== undefined &&
                                         <MaxDateSettingsField
                                             field={field}

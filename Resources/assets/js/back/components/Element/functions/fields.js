@@ -27,6 +27,8 @@ export const SETTINGS_AVOID = {
   'iframe' : ['table','file'],
   'group' : ['form','file','form-v2'],
   'description' : ['table'],
+  'hidden' : ['form-v2'],
+
 };
 
 /*
