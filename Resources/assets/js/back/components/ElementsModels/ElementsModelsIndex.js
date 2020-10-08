@@ -32,13 +32,13 @@ export default class ElementsModelsIndex extends Component {
                         <BoxWithIcon
                             icon={'fas fa-table'}
                             name={'Tableau'}
-                            route={routes['extranet.elements-models.index'].replace(':type', 'table')}
+                            route={routes['extranet.elements-models.index'].replace(':type', 'table-v2')}
                         />
 
                         <BoxWithIcon
                             icon={'fas fa-table'}
                             name={'Fiche'}
-                            route={routes['extranet.elements-models.index'].replace(':type', 'fiche')}
+                            route={routes['extranet.elements-models.index'].replace(':type', 'file-v2')}
                         />
                     </BoxList>
 

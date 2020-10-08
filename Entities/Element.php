@@ -16,17 +16,19 @@ class Element extends Model
     const FILE = 'file';
     const TABLE = 'table';
     const FORM_V2 = 'form-v2';
+    const FILE_V2 = 'file-v2';
+    const TABLE_V2 = 'table-v2';
 
     const TYPES = [
         Element::TABLE => [
-            'name' => 'Tableau',
+            'name' => 'Tableau v1.0',
             'identifier' => 'table',
             'icon' => 'fa fa-table',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' => 'TB',
         ],
         Element::FILE => [
-            'name' => 'Fiche',
+            'name' => 'Fiche v1.0',
             'identifier' => 'file',
             'icon' => 'fa fa-columns',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
@@ -46,6 +48,21 @@ class Element extends Model
             'WS_NAME' => '',
             'FORMAT' => '',
         ],
+        Element::TABLE_V2 => [
+            'name' => 'Tableau v2.0',
+            'identifier' => 'table-v2',
+            'icon' => 'fa fa-table',
+            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
+            'FORMAT' => 'TB',
+        ],
+        Element::FILE_V2 => [
+            'name' => 'Fiche v2.0',
+            'identifier' => 'file-v2',
+            'icon' => 'fa fa-columns',
+            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
+            'FORMAT' => 'FC',
+        ],
+        
     ];
 
     /**
