@@ -81,11 +81,13 @@
                     parameters="{{ $parameters }}"
                 >
                 </div>
-                <div>
-                    <div class="more-btn">
-                        @include($view, $params)
+                @if (isset($field['fields'][1]['value']['content']) || isset($field['fields'][1]['value']['url'][App::getLocale()]))
+                    <div>
+                        <div class="more-btn">
+                            @include($view, $params)
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
