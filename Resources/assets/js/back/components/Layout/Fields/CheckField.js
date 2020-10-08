@@ -41,7 +41,6 @@ export default class CheckField extends Component {
 
         return (
             <div className="check-field" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} >
-
                 <FormControlLabel
                     disabled={disabled}
                     control={
