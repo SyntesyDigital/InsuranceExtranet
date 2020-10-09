@@ -103,12 +103,15 @@ class ElementForm extends Component {
     }
 
     render() {
+
+        const saved = this.props.app.element != null;
+
         return (
             <div id="model-container" className="element-template">
                 <BarTitle
                     icon={'far fa-list-alt'}
                     title={this.props.app.inputs.name ? this.props.app.inputs.name : ''}
-                    backRoute={routes['extranet.elements.index']}
+                    backRoute={routes['elements']}
                     slot={ this.props.app.element && this.props.app.element.type != "table" 
                         ? <SimpleTabs routes={this.props.app.tabsRoutes} /> 
                         : null
@@ -138,7 +141,12 @@ class ElementForm extends Component {
                         <ElementParametersModal />
 
 
-                        <div className="col-md-9 page-content">
+                        <div className="col-md-9 page-content"
+                            style={{
+                                opacity : saved ? 1 : 0.5,
+                                pointerEvents : saved ? 'auto' : 'none'
+                            }}
+                        >
                             {
                                 <ElementDropZoneContainer />
                             }
@@ -147,6 +155,7 @@ class ElementForm extends Component {
                         <ElementSidebar
                             customFields={this.renderCustomFields.bind(this)}
                             fields={this.renderFields.bind(this)}
+                            saved={saved}
                         />
 
                     </div>

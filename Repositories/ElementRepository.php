@@ -42,15 +42,15 @@ class ElementRepository extends BaseRepository
     {
         $beans = [];
 
-        if ($type == Element::FORM_V2) {
+        if (in_array($type,Element::getTypesV2())) {
             $models = ElementModel::where('type', $type)->get();
 
             foreach ($models as $model) {
                 $beans[] = (object) [
-              'ID' => trim($model->id),
-              'ICONE' => $model->icon,
-              'TITRE' => $model->name,
-            ];
+                    'ID' => trim($model->id),
+                    'ICONE' => $model->icon,
+                    'TITRE' => $model->name,
+                ];
             }
         } else {
             $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);

@@ -11,6 +11,9 @@ import ButtonSecondary from '../Layout/ButtonSecondary';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 
+import InputField from '../Layout/Fields/InputField';
+import SlugField from '../Layout/Fields/SlugField';
+
 class ElementSidebar extends Component {
 
   constructor(props) {
@@ -86,6 +89,13 @@ class ElementSidebar extends Component {
       this.props.inputChange(field);
   }
 
+  handleFieldChange(name,value) {
+    this.props.inputChange({
+      name : name,
+      value : value
+    });
+  }
+
 
   handleSelectChange(selectedOption) {
     var field = {
@@ -124,7 +134,7 @@ class ElementSidebar extends Component {
           label={this.props.app.model.TITRE}
           icon={this.props.app.model.ICONE}
           onClick={(e) => {
-            if(this.props.app.elementType == "form-v2"){
+            if(this.props.app.elementType.indexOf('v2') != -1 ){
               window.open(
                 routes['extranet.elements-models.forms.update'],
                 '_blank'
@@ -136,16 +146,37 @@ class ElementSidebar extends Component {
         <hr/>
 
 
-
+        {/*
         <div className={"form-group bmd-form-group " + (this.props.app.errors.name ? 'has-error' : '')}>
            <label htmlFor="name" className="bmd-label-floating">{ Lang.get('fields.name')}</label>
-           <input type="text" className="form-control" id="name" name="name" value={this.props.app.inputs.name} onChange={this.handleChange} />
+           <input type="text" className="form-control" id="name" name="name" value={this.props.app.inputs.name} onChange={this.handleFieldChange.bind(this)} />
         </div>
+        */}
 
+        <InputField
+            label={Lang.get('fields.name')}
+            value={this.props.app.inputs.name}
+            name={'name'}
+            onChange={this.handleFieldChange.bind(this)}
+            error={this.props.app.errors.name}
+        />
+
+        {/*
         <div className={"form-group bmd-form-group " + (this.props.app.errors.identifier ? 'has-error' : '')}>
            <label htmlFor="identifier" className="bmd-label-floating">{ Lang.get('fields.identifier')}</label>
            <input type="text" className="form-control" id="identifier" name="identifier" value={this.props.app.inputs.identifier} onChange={this.handleChange} />
         </div>
+        */}
+
+        <SlugField
+            label={'Identifiant'}
+            value={this.props.app.inputs.identifier}
+            name={'identifier'}
+            sourceValue={this.props.app.inputs.name}
+            onChange={this.handleFieldChange.bind(this)}
+            error={this.props.app.errors.identifier}
+            blocked={this.props.app.element != null}
+        />
 
         <div className="form-group bmd-form-group">
            <label htmlFor="icon" className="bmd-label-floating">{ Lang.get('fields.icon')}</label>
@@ -172,15 +203,24 @@ class ElementSidebar extends Component {
 
         <hr/>
 
-        {this.renderActions()}
+        <div 
+            style={{
+              opacity : this.props.saved ? 1 : 0.5,
+              pointerEvents : this.props.saved ? 'auto' : 'none'
+          }}
+        >
 
-        <h3>{ Lang.get('fields.add_fields')}</h3>
+          {this.renderActions()}
 
-        <div className="field-list">
-          {this.props.fields()}
+          <h3>{ Lang.get('fields.add_fields')}</h3>
+
+          <div className="field-list">
+            {this.props.fields()}
+          </div>
+
+          <hr/>
+
         </div>
-
-        <hr/>
 
         {this.props.app.element != null &&
           <div className="text-right">

@@ -61,7 +61,7 @@
         'extranet.elements.template' : "{{ route('extranet.elements.template.create', $element) }}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
         'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
-        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.update',['type' => 'form-v2', 'id'=>$model->ID])}}",
+        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.update',['type' => $element_type, 'id'=>$model->ID])}}",
     };
 @else 
     var routes = {

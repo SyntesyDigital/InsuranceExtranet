@@ -41,13 +41,6 @@ class Element extends Model
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' => 'CR',
         ],
-        Element::FORM_V2 => [
-            'name' => 'Formulaire v2.0',
-            'identifier' => 'form-v2',
-            'icon' => 'fa fa-list-alt',
-            'WS_NAME' => '',
-            'FORMAT' => '',
-        ],
         Element::TABLE_V2 => [
             'name' => 'Tableau v2.0',
             'identifier' => 'table-v2',
@@ -62,6 +55,13 @@ class Element extends Model
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' => 'FC',
         ],
+        Element::FORM_V2 => [
+            'name' => 'Formulaire v2.0',
+            'identifier' => 'form-v2',
+            'icon' => 'fa fa-list-alt',
+            'WS_NAME' => '',
+            'FORMAT' => '',
+        ]       
         
     ];
 
@@ -109,6 +109,10 @@ class Element extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public static function getTypesV2() {
+        return [self::TABLE_V2,self::FILE_V2,self::FORM_V2];
+    }
 
     public function fields(): HasMany
     {
