@@ -11,10 +11,7 @@
     $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['fileElements'])->first()->load('fields');
   }
   
-  $model = null;
-  if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
-    $model = $models[$elementObject->model_identifier];
-  }
+  $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
   $visible = check_visible($field['settings'],$parameters);
 @endphp

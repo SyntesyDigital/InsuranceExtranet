@@ -10,9 +10,7 @@
         ? \Modules\Extranet\Entities\Element::find($field['settings']['fileElements'])->load('fields')
         : null;
 
-    $model = (isset($element)) && isset($models[$element->model_identifier])
-        ? $models[$element->model_identifier]
-        : null;
+    $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
     $view = 'extranet::front.partials.fields.' . $field['fields'][1]['type'];
 

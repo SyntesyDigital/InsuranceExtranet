@@ -13,10 +13,12 @@ import IconField from '../Layout/Fields/IconField';
 import { connect } from 'react-redux';
 import api from '../../api/index.js';
 
+
 // MODALS
 import ModalTestForm from './modals/ModalTestForm';
 import ModalObject from './modals/ModalObject';
 import ModalProcedures from './modals/ModalProcedures';
+import ToggleField from '../Layout/Fields/ToggleField';
 
 import {
     initState,
@@ -465,17 +467,35 @@ class ElementsModelsFormRedux extends Component {
                             onChange={this.props.updateField}
                         />
 
+                        {/*
+                        <InputField
+                            label={'Paramètres par défaut ( DEF1 )'}
+                            value={this.props.form.form.def1}
+                            name={'def1'}
+                            onChange={this.props.updateField}
+                        />
+                        */}
 
-                        {(this.getFormType() == "table" || this.getFormType() == "fiche") && 
-                            <SelectField
-                                label={'Service'}
-                                value={this.props.form.form.service_id}
-                                name={'service_id'}
-                                arrayOfOptions={this.state.services}
+                        <hr/>
+
+                        <ToggleField
+                            label={'Validation'}
+                            checked={this.props.form.form.validation}
+                            name={'validation'}
+                            onChange={this.props.updateField}
+                        />
+
+
+                        {this.props.form.form.validation && 
+                            <InputField
+                                label={'WS de validation'}
+                                value={this.props.form.form.validation_ws}
+                                name={'validation_ws'}
                                 onChange={this.props.updateField}
-                                error={this.state.errors.service_id}
                             />
                         }
+
+
                     </div>
 
                 </div>

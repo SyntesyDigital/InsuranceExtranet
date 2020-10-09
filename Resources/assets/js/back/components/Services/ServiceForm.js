@@ -9,6 +9,7 @@ import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import KeyValuesField from '../Layout/Fields/KeyValuesField';
+import SlugField from '../Layout/Fields/SlugField';
 
 import api from '../../api/index.js';
 
@@ -266,12 +267,14 @@ export default class ServiceForm extends Component {
                             error={this.state.errors.name ? true : false}
                         />
 
-                        <InputField
+                        <SlugField
                             label={'Identifier'}
                             value={this.state.service.identifier ? this.state.service.identifier : ''}
                             name={'identifier'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.identifier ? true : false}
+                            sourceValue={this.state.service.name}
+                            blocked={false}
                         />
 
                         <div className="form-group">

@@ -41,7 +41,8 @@ const initialState = {
         procedures : [],
         validation : false,
         validation_ws : null,
-        service_id: null
+        service_id: null,
+        def1 : ''
     },
 
     /*
@@ -175,20 +176,10 @@ function formReducer(state = initialState, action) {
             }
 
         case INIT_STATE:
-            /*
-            if(action.payload.type == "table" || action.payload.type == "fiche") {
-                return {
-                    ...state,
-                    form: {
-                        ...action.payload,
-                        service_id: action.payload.procedures[0].service.id
-                    },
-                    currentProcedure: action.payload.procedures[0]
-                }
-            }
-            */
            form = action.payload;
            form.isForm = action.payload.type == 'form-v2';
+           form.validation = form.validation_ws !== undefined &&  form.validation_ws != null && form.validation_ws != '' 
+           ? true : false;
 
             return {
                 ...state,
@@ -213,10 +204,6 @@ function formReducer(state = initialState, action) {
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
             newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' ? true : false;
-
-            if(form.type == "table" || form.type == "fiche") {
-                newForm.service_id = proceduresCopy[0].service.id;
-            }
 
             return {
                 ...state,

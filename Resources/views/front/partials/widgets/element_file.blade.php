@@ -5,9 +5,7 @@
         ? \Modules\Extranet\Entities\Element::where('id',$field['settings']['fileElements'])->first()->load('fields')
         : null;
 
-    $model = (isset($elementObject)) && isset($models[$elementObject->model_identifier])
-        ? $models[$elementObject->model_identifier]
-        : null;
+    $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
     $view = 'extranet::front.partials.fields.' . $field['fields'][1]['type'];
 

@@ -60,7 +60,7 @@ export function saveForm(state) {
 }
 
 export function createForm(state) {
-    console.log("create form!");
+    //console.log("create form!");
     return (dispatch) => {
         api.elementModel.create({
             name : state.form.name,
@@ -68,60 +68,22 @@ export function createForm(state) {
             description : state.form.description,
             icon : state.form.icon,
             type : state.form.type,
-            validation_ws : state.form.validation_ws
+            validation_ws : state.form.validation_ws,
+            def1 : state.form.def1
         })
         .then(function(response) {
 
             let model = response.data.createElementModel;
 
-            /*
-            if(['table', 'fiche'].includes(state.form.type)) {
-                api.procedures.create({
-                    name : state.form.type + '_' +  state.form.identifier,
-                    configurable: false,
-                    required: true,
-                    repeatable: false,
-                    repeatable_json: false,
-                    repeatable_jsonpath: '',
-                    prefixed: false,
-                    duplicate: false,
-                    preload: false,
-                    service_id: state.form.service_id,
-                    model_id: model.id ,
-                    order: 0
-                }).then(function(response) {
+            toastr.success(Lang.get('fields.success'));
 
-                    toastr.success(Lang.get('fields.success'));
+            window.location.href = routes['extranet.elements-models.update']
+                .replace(':id',model.id);
 
-                    console.log("create done!",routes['extranet.elements-models.update']
-                    .replace(':id',response.data.createModelProcedure.id),response.data.createModelProcedure)
-
-                    dispatch({
-                        type: UPDATE_CURRENT_PROCEDURE, 
-                        payload: {
-                            ...response.data.createModelProcedure,
-                            fields: []
-                        }
-                    });
-
-                    dispatch({
-                        type: UPDATE_FORM, 
-                        payload: model
-                    });
-                });
-            } else {
-            */
-
-                toastr.success(Lang.get('fields.success'));
-
-                window.location.href = routes['extranet.elements-models.update']
-                    .replace(':id',model.id);
-
-                dispatch({
-                    type: UPDATE_FORM, 
-                    payload: model
-                });
-            //}
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: model
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -138,61 +100,18 @@ export function updateForm(state) {
             description : state.form.description,
             icon : state.form.icon,
             type : state.form.type,
-            validation_ws : state.form.validation_ws
+            validation_ws : state.form.validation_ws,
+            def1 : state.form.def1
         })
         .then(function(response) {
             let model = response.data.updateElementModel;
             
-            if(['table', 'fiche'].includes(state.form.type)) {
-                api.procedures.update(state.currentProcedure.id, {
-                    name : state.form.type + '_' +  state.form.identifier,
-                    configurable: false,
-                    required: true,
-                    repeatable: false,
-                    repeatable_json: false,
-                    repeatable_jsonpath: '',
-                    prefixed: false,
-                    duplicate: false,
-                    preload: false,
-                    service_id: state.form.service_id,
-                    model_id: model.id,
-                    order: 0,
-                    fields: {
-                        delete: state.form.procedures[0] !== undefined ? state.form.procedures[0].fields.map(field => {
-                            return field.id
-                        }) : [],
-                        create: state.currentProcedure.fields !== undefined ? state.currentProcedure.fields.map(field => {
-                            return {
-                                name: field.name,
-                                identifier: field.identifier,
-                                type: 'CTE',
-                                format: field.format !== undefined ? field.format : 'text',
-                                default_value: field.default_value !== undefined ? field.default_value : null,
-                                boby: null,
-                                jsonpath: null,
-                                example: null,
-                                configurable: true,
-                                visible: true,
-                                required: true,
-                            };
-                        }) : []
-                    }
-                }).then(function(response) {
-                    toastr.success(Lang.get('fields.success'));
+            toastr.success(Lang.get('fields.success'));
 
-                    dispatch({
-                        type: UPDATE_FORM, 
-                        payload: model
-                    });
-                });
-            } else {
-                toastr.success(Lang.get('fields.success'));
-
-                dispatch({
-                    type: UPDATE_FORM, 
-                    payload: model
-                });
-            }
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: model
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
