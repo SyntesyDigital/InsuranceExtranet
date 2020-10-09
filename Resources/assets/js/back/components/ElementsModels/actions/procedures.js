@@ -219,9 +219,10 @@ export function importFieldsFromService(procedure) {
                         procedure_id: procedure.id,
                         name: field.identifier, 
                         identifier: field.identifier,
-                        type: 'CTE',
-                        format: 'text',
+                        type: 'INPUT',
+                        format: '',
                         visible: 1,
+                        configurable: 1,
                         index: index,
                         jsonpath: field.jsonpath !== undefined ? field.jsonpath : null
                     }).then(response => {
