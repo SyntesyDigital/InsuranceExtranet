@@ -376,7 +376,7 @@ class ElementsModelsFormRedux extends Component {
                     title={this.props.form.form.name}
                     backRoute={routes['extranet.elements-models.forms.index']}
                 >
-                    {(saved && this.getFormType() != "table" && this.getFormType() != "fiche") && 
+                    {saved && 
                         <ButtonSecondary
                             label={'Test form'}
                             icon={'fas fa-sync-alt'}
