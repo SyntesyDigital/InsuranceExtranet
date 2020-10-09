@@ -339,21 +339,53 @@ function formReducer(state = initialState, action) {
             }
 
         case IMPORT_PROCEDURE_OBJECTS: 
+
+            // let payload =  JSON.parse(action.payload);
+
+            // const fn = (object, jsonpath) => {
+            //     return Object.entries(object).reduce((acc, arr) => {
+            //       let key = arr[0];
+            //       let value = arr[1];
+                
+            //       if(typeof value !== 'object' && typeof value !== 'array') {
+            //           if(value == '*') {
+            //             acc.push({
+            //               identifier : key,
+            //               jsonpath: jsonpath !== undefined ? jsonpath : key
+            //             });
+            //           }
+            //       } 
+                  
+            //      return acc;
+            //   }, []);
+            // }
+              
+            // let fields = fn(payload.data[0]).map((field, index) => {
+            //     return {
+            //         name: field.identifier, 
+            //         identifier: field.identifier,
+            //         type: 'CTE',
+            //         format: 'text',
+            //         visible: 1,
+            //         index: index,
+            //         jsonpath: field.jsonpath
+            //     };
+            // });
+  
+            // return {
+            //     ...state,
+            //     currentProcedure: {
+            //         ...state.currentProcedure,
+            //         fields: fields
+            //     }
+            // };
+
+            let currentProcedure = state.currentProcedure;
+            currentProcedure.fields.push(action.payload);
+
             return {
                 ...state,
-                currentProcedure: {
-                    ...state.currentProcedure,
-                    fields: Object.keys(action.payload.data[0]).map((k, index) => {
-                        return {
-                            name: k, 
-                            identifier: k,
-                            type: 'CTE',
-                            format: 'text',
-                            visible: 1,
-                            index: index
-                        };
-                    })
-                }
+                currentProcedure: currentProcedure
             };
 
         default:

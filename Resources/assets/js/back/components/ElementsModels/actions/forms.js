@@ -143,56 +143,56 @@ export function updateForm(state) {
         .then(function(response) {
             let model = response.data.updateElementModel;
             
-            if(['table', 'fiche'].includes(state.form.type)) {
-                api.procedures.update(state.currentProcedure.id, {
-                    name : state.form.type + '_' +  state.form.identifier,
-                    configurable: false,
-                    required: true,
-                    repeatable: false,
-                    repeatable_json: false,
-                    repeatable_jsonpath: '',
-                    prefixed: false,
-                    duplicate: false,
-                    preload: false,
-                    service_id: state.form.service_id,
-                    model_id: model.id,
-                    order: 0,
-                    fields: {
-                        delete: state.form.procedures[0] !== undefined ? state.form.procedures[0].fields.map(field => {
-                            return field.id
-                        }) : [],
-                        create: state.currentProcedure.fields !== undefined ? state.currentProcedure.fields.map(field => {
-                            return {
-                                name: field.name,
-                                identifier: field.identifier,
-                                type: 'CTE',
-                                format: field.format !== undefined ? field.format : 'text',
-                                default_value: field.default_value !== undefined ? field.default_value : null,
-                                boby: null,
-                                jsonpath: null,
-                                example: null,
-                                configurable: true,
-                                visible: true,
-                                required: true,
-                            };
-                        }) : []
-                    }
-                }).then(function(response) {
-                    toastr.success(Lang.get('fields.success'));
+            // if(['table', 'fiche'].includes(state.form.type)) {
+            //     api.procedures.update(state.currentProcedure.id, {
+            //         name : state.form.type + '_' +  state.form.identifier,
+            //         configurable: false,
+            //         required: true,
+            //         repeatable: false,
+            //         repeatable_json: false,
+            //         repeatable_jsonpath: '',
+            //         prefixed: false,
+            //         duplicate: false,
+            //         preload: false,
+            //         service_id: state.form.service_id,
+            //         model_id: model.id,
+            //         order: 0,
+            //         // fields: {
+            //         //     delete: state.form.procedures[0] !== undefined ? state.form.procedures[0].fields.map(field => {
+            //         //         return field.id
+            //         //     }) : [],
+            //         //     create: state.currentProcedure.fields !== undefined ? state.currentProcedure.fields.map(field => {
+            //         //         return {
+            //         //             name: field.name,
+            //         //             identifier: field.identifier,
+            //         //             type: 'CTE',
+            //         //             format: field.format !== undefined ? field.format : 'text',
+            //         //             default_value: field.default_value !== undefined ? field.default_value : null,
+            //         //             boby: null,
+            //         //             jsonpath: null,
+            //         //             example: null,
+            //         //             configurable: true,
+            //         //             visible: true,
+            //         //             required: true,
+            //         //         };
+            //         //     }) : []
+            //         // }
+            //     }).then(function(response) {
+            //         toastr.success(Lang.get('fields.success'));
 
-                    dispatch({
-                        type: UPDATE_FORM, 
-                        payload: model
-                    });
-                });
-            } else {
+            //         dispatch({
+            //             type: UPDATE_FORM, 
+            //             payload: model
+            //         });
+            //     });
+            // } else {
                 toastr.success(Lang.get('fields.success'));
 
                 dispatch({
                     type: UPDATE_FORM, 
                     payload: model
                 });
-            }
+            // }
         })
         .catch(function(error) {
             toastr.error(error.message);

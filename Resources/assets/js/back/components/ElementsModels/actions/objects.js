@@ -22,17 +22,7 @@ export function initState(payload) {
 //     return parseInt(maxId) + 1;
 // }
 
-export function importFieldsFromService(id) {
-    return (dispatch) => {
-        return api.services.getBody(id)
-            .then(response => {
-                dispatch({ 
-                    type: IMPORT_PROCEDURE_OBJECTS,
-                    payload: JSON.parse(response.data.serviceBody.body)
-                });
-            });
-    }
-};
+
 
 export function openModalCreateObject() {
     return {

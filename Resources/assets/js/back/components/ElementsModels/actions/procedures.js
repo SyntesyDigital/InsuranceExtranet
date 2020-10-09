@@ -4,7 +4,7 @@ import {
     CLOSE_MODAL_PROCEDURE,
     REMOVE_PROCEDURE,
     UPDATE_PROCEDURES,
-
+    IMPORT_PROCEDURE_OBJECTS
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -84,6 +84,23 @@ export function updateProcedure(modelId,procedures,procedure) {
             preload : procedure.preload,
             prefixed : procedure.prefixed,
             duplicate : procedure.duplicate,
+            // fields: {
+            //     upsert: procedure.fields.map(field => {
+            //         return {
+            //             name: field.name,
+            //             identifier: field.identifier,
+            //             type: 'CTE',
+            //             format: field.format !== undefined ? field.format : 'text',
+            //             default_value: field.default_value !== undefined ? field.default_value : null,
+            //             boby: null,
+            //             jsonpath: null,
+            //             example: null,
+            //             configurable: true,
+            //             visible: true,
+            //             required: true,
+            //         };
+            //     })
+            // }
         })
         .then(function(data) {
             procedure.service = data.data.updateModelProcedure.service;
@@ -91,7 +108,7 @@ export function updateProcedure(modelId,procedures,procedure) {
             var index = getProcedureIndex(procedures,procedure);
             var objectsCopy = procedures[index].fields;
             procedures[index] = procedure;
-            procedures[index].fields = objectsCopy;
+            //procedures[index].fields = objectsCopy;
 
             toastr.success(Lang.get('fields.success'));
 
@@ -169,5 +186,62 @@ export function closeModalProcedure() {
         type: CLOSE_MODAL_PROCEDURE, 
         payload: {}
     };
+};
+
+const fn = (object, jsonpath) => {
+    return Object.entries(object).reduce((acc, arr) => {
+      let key = arr[0];
+      let value = arr[1];
+    
+      if(typeof value !== 'object' && typeof value !== 'array') {
+          if(value == '*') {
+            acc.push({
+              identifier : key,
+              jsonpath: jsonpath !== undefined ? jsonpath : key
+            });
+          }
+      } 
+      
+     return acc;
+  }, []);
+}
+
+export function importFieldsFromService(procedure) {
+    return (dispatch) => {
+        return api.services.get(procedure.service.id)
+            .then(response => {
+
+                let payload =  JSON.parse(response.data.service.response_json);
+
+                let fields = fn(payload.data[0]).map((field, index) => {
+                    
+                    api.fields.create({
+                        procedure_id: procedure.id,
+                        name: field.identifier, 
+                        identifier: field.identifier,
+                        type: 'CTE',
+                        format: 'text',
+                        visible: 1,
+                        index: index,
+                        jsonpath: field.jsonpath !== undefined ? field.jsonpath : null
+                    }).then(response => {
+                        dispatch({ 
+                            type: IMPORT_PROCEDURE_OBJECTS,
+                            payload: response.data.createModelField
+                        });
+                    });
+
+                    // return {
+                    //     name: field.identifier, 
+                    //     identifier: field.identifier,
+                    //     type: 'CTE',
+                    //     format: 'text',
+                    //     visible: 1,
+                    //     index: index,
+                    //     jsonpath: field.jsonpath
+                    // };
+                });
+            });
+    }
 };
 

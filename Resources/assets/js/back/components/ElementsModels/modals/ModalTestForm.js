@@ -4,6 +4,7 @@ import Modal from '../../Layout/Modal';
 import CollapsableGroup from '../../Layout/CollapsableGroup';
 import InputFieldJsonEdit from '../../Layout/Fields/InputFieldJsonEdit';
 import { connect } from 'react-redux';
+import api from '../../../api/index.js';
 
 import {
     closeTest
@@ -18,10 +19,12 @@ class ModalTestForm extends Component {
         super(props);
 
         this.state = {
-            services : []
+            services : [],
+            bodies: []
         };
 
     }
+
 
     /**
      * Check if jsonpath is definied into de JSON.
@@ -359,8 +362,6 @@ class ModalTestForm extends Component {
     renderServices() {
 
         return this.state.services.map((item,index) => {
-                //console.log("renderServices :: ( json, clean json ) ",item.json,this.getItemJSON(item));
-
                 return (
                     <CollapsableGroup
                         identifier={item.identifier}
@@ -374,15 +375,13 @@ class ModalTestForm extends Component {
                         />
 
                     </CollapsableGroup>
-                )
+                );
             }
         )
     }
 
     render() {
-
         return (
-
             <Modal
                 id={this.props.id}
                 icon={this.props.icon}
@@ -425,7 +424,7 @@ ModalTestForm.propTypes = {
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
     size: PropTypes.string.isRequired,
-
+    type: PropTypes.string,
     onModalClose: PropTypes.func
 };
 

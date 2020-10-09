@@ -316,6 +316,7 @@ class ElementsModelsFormRedux extends Component {
                     size={'medium'}
                     title={'Test Json'}
                     display={this.props.form.displayTestForm}
+                    type={this.getFormType()}
                     zIndex={10000}
                 />
 
