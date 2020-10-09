@@ -60,6 +60,7 @@ export function saveForm(state) {
 }
 
 export function createForm(state) {
+    console.log("create form!");
     return (dispatch) => {
         api.elementModel.create({
             name : state.form.name,
@@ -73,6 +74,7 @@ export function createForm(state) {
 
             let model = response.data.createElementModel;
 
+            /*
             if(['table', 'fiche'].includes(state.form.type)) {
                 api.procedures.create({
                     name : state.form.type + '_' +  state.form.identifier,
@@ -90,7 +92,10 @@ export function createForm(state) {
                 }).then(function(response) {
 
                     toastr.success(Lang.get('fields.success'));
-                
+
+                    console.log("create done!",routes['extranet.elements-models.update']
+                    .replace(':id',response.data.createModelProcedure.id),response.data.createModelProcedure)
+
                     dispatch({
                         type: UPDATE_CURRENT_PROCEDURE, 
                         payload: {
@@ -105,14 +110,18 @@ export function createForm(state) {
                     });
                 });
             } else {
+            */
 
                 toastr.success(Lang.get('fields.success'));
+
+                window.location.href = routes['extranet.elements-models.update']
+                    .replace(':id',model.id);
 
                 dispatch({
                     type: UPDATE_FORM, 
                     payload: model
                 });
-            }
+            //}
         })
         .catch(function(error) {
             toastr.error(error.message);

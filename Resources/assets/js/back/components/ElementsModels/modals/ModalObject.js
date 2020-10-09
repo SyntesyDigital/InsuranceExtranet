@@ -116,14 +116,8 @@ class ModalObject extends Component {
     // ==============================
     // Getters
     // ==============================
-    getFormType() {
-        return this.props.form.form.type !== undefined 
-            ? this.props.form.form.type
-            : null;
-    }
-
-    isFormType(arr) {
-        return arr.includes(this.getFormType());
+    isForm() {
+        return this.props.form.form.isForm;
     }
 
     // ==============================
@@ -177,23 +171,27 @@ class ModalObject extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            <SelectField
-                                label={'Type (Nature) (CTE, System, INPUT)'}
-                                value={currentObject.type}
-                                name={'type'}
-                                arrayOfOptions={this.state.typeNature}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                            {this.isForm() && 
+                                <SelectField
+                                    label={'Type (Nature) (CTE, System, INPUT)'}
+                                    value={currentObject.type}
+                                    name={'type'}
+                                    arrayOfOptions={this.state.typeNature}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                />
+                            }
 
-                            <SelectField
-                                label={'Format (Text, num, etc)'}
-                                value={currentObject.format}
-                                name={'format'}
-                                arrayOfOptions={this.state.formats}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                            {currentObject.type == 'INPUT' && 
+                                <SelectField
+                                    label={'Format (Text, num, etc)'}
+                                    value={currentObject.format}
+                                    name={'format'}
+                                    arrayOfOptions={this.state.formats}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                />
+                            }
 
-                            {this.isFormType(['form-v2']) && 
+                            {this.isForm() && 
                             <InputField
                                 label={'Default value ( System variables avec _ ex : _idPol)'}
                                 name={'default_value'}
@@ -202,7 +200,7 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {this.isFormType(['form-v2']) && (currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' ) && 
+                            {this.isForm() && (currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' ) && 
                                 <InputField
                                     label={'Boby'}
                                     name={'boby'}
@@ -211,16 +209,14 @@ class ModalObject extends Component {
                                 />
                             }
 
-                            {this.isFormType(['form-v2']) && 
                             <InputField
                                 label={'JSON path (résultat : '+currentJsonpath+' ) '}
                                 name={'jsonpath'}
                                 value={currentObject.jsonpath}
                                 onChange={this.handleFieldChange.bind(this)}
                             />
-                            }
 
-                            {this.isFormType(['form-v2']) && 
+                            {this.isForm() && 
                             <InputField
                                 label={'Example'}
                                 name={'example'}
@@ -229,7 +225,7 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {this.isFormType(['form-v2']) && 
+                            {this.isForm() && 
                             <ToggleField
                                 label={'Configurable'}
                                 name={'configurable'}
@@ -238,7 +234,9 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {this.isFormType(['form-v2']) && 
+                            {/*
+
+                            {this.isForm() && 
                             <ToggleField
                                 label={'Visible'}
                                 name={'visible'}
@@ -247,7 +245,9 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {this.isFormType(['form-v2']) && 
+                            */}
+
+                            {this.isForm() && 
                             <ToggleField
                                 label={'Obligatoire'}
                                 name={'required'}

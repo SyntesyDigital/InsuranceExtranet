@@ -168,12 +168,14 @@ function formReducer(state = initialState, action) {
 
         case INIT_CREATE : 
             form.type = action.payload.type;
+            form.isForm = action.payload.type == 'form-v2';
             return {
                 ...state,
                 form: form
             }
 
         case INIT_STATE:
+            /*
             if(action.payload.type == "table" || action.payload.type == "fiche") {
                 return {
                     ...state,
@@ -184,10 +186,13 @@ function formReducer(state = initialState, action) {
                     currentProcedure: action.payload.procedures[0]
                 }
             }
+            */
+           form = action.payload;
+           form.isForm = action.payload.type == 'form-v2';
 
             return {
                 ...state,
-                form : action.payload
+                form : form
             }
 
         case UPDATE_FIELD:
@@ -230,6 +235,7 @@ function formReducer(state = initialState, action) {
             }
 
         case OPEN_MODAL_PROCEDURE:
+
             return {
                 ...state,
                 displayProcedureModal: true,
@@ -237,13 +243,13 @@ function formReducer(state = initialState, action) {
                     id: null,
                     name: '',
                     service: '',
-                    configurable: false,
+                    configurable: !state.form.isForm,   //by default form is false, others is true
                     required: false,
                     repeatable: false,
                     prefixed: false,
                     duplicate: false,
                     repeatable_json: '',
-                    repeatable_jsonpath: '',
+                    repeatable_jsonpath: '$.',
                     fields: [],
                     order: 0
                 }
@@ -267,7 +273,7 @@ function formReducer(state = initialState, action) {
                 ...state,
                 form : {
                     ...form,
-                    service_id: form.type == "table" || form.type == "fiche" ? action.payload[0].service.id : null,
+                    service_id: null,
                     procedures: action.payload
                 },
             }
@@ -284,6 +290,7 @@ function formReducer(state = initialState, action) {
             }
 
         case OPEN_MODAL_CREATE_OBJECT:
+
             return {
                 ...state,
                 displayObjectModal: true,
@@ -297,7 +304,7 @@ function formReducer(state = initialState, action) {
                     boby: '',
                     jsonPath: '',
                     example: '',
-                    configurable: false,
+                    configurable: !state.form.isForm,   //by default form is false, others is true
                     visible: false
                 }
             }

@@ -6,6 +6,7 @@ import ButtonDropdown from '../Layout/ButtonDropdown';
 import FieldList from '../Layout/FieldList';
 import FieldListItem from '../Layout/FieldListItem';
 import InputField from '../Layout/Fields/InputField';
+import SlugField from '../Layout/Fields/SlugField';
 import SelectField from '../Layout/Fields/SelectField';
 import BoxAddLarge from '../Layout/BoxAddLarge';
 import IconField from '../Layout/Fields/IconField';
@@ -262,38 +263,7 @@ class ElementsModelsFormRedux extends Component {
     // ==============================
     // Renderers
     // ==============================
-    renderProcedureObjects() {
-        return (
-            <div>
-                {this.props.form.currentProcedure !== null && this.props.form.currentProcedure.fields !== undefined && this.props.form.currentProcedure.fields.map((object, index) => 
-                    <div key={object.identifier + index} className={object.identifier + index}>
-                        <FieldListItem
-                            key={index}
-                            identifier={object.identifier}
-                            index={index}
-                            icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
-                            icons={[this.getTypeIcon(object.type)]}
-                            label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
-                            labelField={object.name}
-                            isField={true}
-                            onEdit={() => {
-                                this.props.openModalEditObject(this.props.form.currentProcedure, JSON.parse(JSON.stringify(object)))
-                            }}
-                            onRemove={ this.handleRemoveObject.bind(this, this.getTableFicheProcedure(), object) }
-                        />
-                    </div>
-                )}
-                <BoxAddLarge
-                    title='Ajouter un champ'
-                    onClick={(e) => {
-                        e.preventDefault();
-                        this.props.openModalCreateObject();
-                    }}
-                />
-            </div>
-        )
-    }
-
+    
     renderProcedures() {
         let procedures = this.props.form.form.procedures;
 
@@ -374,7 +344,7 @@ class ElementsModelsFormRedux extends Component {
                 <BarTitle
                     icon={this.props.form.form.icon}
                     title={this.props.form.form.name}
-                    backRoute={routes['extranet.elements-models.forms.index']}
+                    backRoute={routes['extranet.elements-models.index']}
                 >
                     {(saved && this.getFormType() != "table" && this.getFormType() != "fiche") && 
                         <ButtonSecondary
@@ -415,7 +385,7 @@ class ElementsModelsFormRedux extends Component {
                             {
                                 label: 'Nouveau',
                                 icon: 'fa fa-plus-circle',
-                                route: routes['extranet.elements-models.forms.create'],
+                                route: routes['extranet.elements-models.create'],
 
                             },
                             {
@@ -452,17 +422,9 @@ class ElementsModelsFormRedux extends Component {
 
                         <FieldList>
 
-                            {this.getFormType() == "form-v2" && 
-                                <div>
-                                    { this.renderProcedures() }
-                                </div>
-                            }
-
-                            {(this.getFormType() == "table" || this.getFormType() == "fiche") && 
-                                <div>
-                                    { this.renderProcedureObjects() }
-                                </div>
-                            }
+                            <div>
+                                { this.renderProcedures() }
+                            </div>
 
                         </FieldList>
 
@@ -478,13 +440,16 @@ class ElementsModelsFormRedux extends Component {
                             error={this.state.errors.name}
                         />
                         
-                        <InputField
+                        <SlugField
                             label={'Identifier'}
                             value={this.props.form.form.identifier}
                             name={'identifier'}
+                            sourceValue={this.props.form.form.name}
                             onChange={this.props.updateField}
                             error={this.state.errors.identifier}
+                            blocked={this.props.modelId != ''}
                         />
+                        
 
                         <IconField
                             label={'Icone'}

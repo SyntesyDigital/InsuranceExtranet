@@ -21,6 +21,7 @@ import {
     removeProcedureObject,
     updateSettings
 } from '../actions';
+import ButtonSecondary from '../../Layout/ButtonSecondary';
 
 
 
@@ -123,6 +124,10 @@ class ModalProcedures extends Component {
         });
     }
 
+    handleImportFields() {
+
+    }
+
 
     // ==============================
     // Renderers
@@ -196,6 +201,10 @@ class ModalProcedures extends Component {
         )
     }
 
+    isForm() {
+        return this.props.form.form.type == "form-v2";
+    }
+
     render() {
 
         const currentProcedure = this.state.procedure;
@@ -256,6 +265,30 @@ class ModalProcedures extends Component {
 
                         <div className="col-md-4 col-xs-12 field-col">
 
+                            <SelectField
+                                label={serviceUrl != null 
+                                    ? <a href={serviceUrl} target="_blank"><i className="fas fa-external-link-alt"></i>&nbsp; Service</a>
+                                    : 'Service'
+                                }
+                                value={currentProcedure.service.id !== undefined 
+                                    ? currentProcedure.service.id 
+                                    : ''}
+                                name={'service'}
+                                arrayOfOptions={this.state.services}
+                                onChange={this.handleServiceChange.bind(this)}
+                                // onChange={this.handleFieldChange.bind(this)}
+                            />
+
+                            {!this.isForm() && 
+                                <ButtonSecondary 
+                                    label="Import Fields"
+                                    icon="fas fa-download"
+                                    onClick={this.handleImportFields.bind(this)}
+                                />
+                            }
+
+                            <hr/>
+
                             <InputField
                                 label={'Name'}
                                 name={'name'}
@@ -263,17 +296,7 @@ class ModalProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            <SelectField
-                                label={serviceUrl != null 
-                                    ? <a href={serviceUrl} target="_blank"><i className="fas fa-external-link-alt"></i>&nbsp; Service</a>
-                                    : 'Service'
-                                }
-                                value={currentProcedure.service.id}
-                                name={'service'}
-                                arrayOfOptions={this.state.services}
-                                onChange={this.handleServiceChange.bind(this)}
-                                // onChange={this.handleFieldChange.bind(this)}
-                            />
+                            
                             
                             <InputField
                                 label={'Ordre'}
@@ -289,56 +312,60 @@ class ModalProcedures extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
 
-                            <ToggleField
-                                label={'Configurable'}
-                                name={'configurable'}
-                                checked={currentProcedure.configurable == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                            {this.isForm() && 
+                                <div>
+                                    <ToggleField
+                                        label={'Configurable'}
+                                        name={'configurable'}
+                                        checked={currentProcedure.configurable == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'Required'}
-                                name={'required'}
-                                checked={currentProcedure.required == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                                    <ToggleField
+                                        label={'Required'}
+                                        name={'required'}
+                                        checked={currentProcedure.required == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'Repeatable'}
-                                name={'repeatable'}
-                                checked={currentProcedure.repeatable == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                                    <ToggleField
+                                        label={'Repeatable'}
+                                        name={'repeatable'}
+                                        checked={currentProcedure.repeatable == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'précharge (PUT ou POST dupliquer)'}
-                                name={'preload'}
-                                checked={currentProcedure.preload == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                                    <ToggleField
+                                        label={'précharge (PUT ou POST dupliquer)'}
+                                        name={'preload'}
+                                        checked={currentProcedure.preload == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'Concaténer avec l\'ID de service'}
-                                name={'prefixed'}
-                                checked={currentProcedure.prefixed == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                                    <ToggleField
+                                        label={'Concaténer avec l\'ID de service'}
+                                        name={'prefixed'}
+                                        checked={currentProcedure.prefixed == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'Dupliquer (POST uniquement'}
-                                name={'duplicate'}
-                                checked={currentProcedure.duplicate == "1" ? true : false}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
+                                    <ToggleField
+                                        label={'Dupliquer (POST uniquement'}
+                                        name={'duplicate'}
+                                        checked={currentProcedure.duplicate == "1" ? true : false}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                    />
 
-                            <ToggleField
-                                label={'Sub JSON'}
-                                name={'sub_json'}
-                                checked={this.state.subJsonEnabled}
-                                onChange={() => this.setState({
-                                    subJsonEnabled : value
-                                })}
-                            />
+                                    <ToggleField
+                                        label={'Sub JSON'}
+                                        name={'sub_json'}
+                                        checked={this.state.subJsonEnabled}
+                                        onChange={() => this.setState({
+                                            subJsonEnabled : value
+                                        })}
+                                    />
+                                </div>
+                            }
 
                             {this.state.subJsonEnabled && 
                                 <InputFieldJsonEdit 
