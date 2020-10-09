@@ -19,7 +19,8 @@ import {
     openModalEditObject,
     openModalCreateObject,
     removeProcedureObject,
-    updateSettings
+    updateSettings,
+    importFieldsFromService
 } from '../actions';
 import ButtonSecondary from '../../Layout/ButtonSecondary';
 
@@ -125,7 +126,15 @@ class ModalProcedures extends Component {
     }
 
     handleImportFields() {
+        const currentProcedure = this.state.procedure;
 
+        // var index = getProcedureIndex(procedures, procedure);
+
+        if(currentProcedure.service.id) {
+            this.props.importFieldsFromService(currentProcedure);
+        }
+
+        return null;
     }
 
 
@@ -163,8 +172,12 @@ class ModalProcedures extends Component {
         if (index == null) {
             return null;
         }
-    
+
         var currentProcedure = procedures[index];
+        //var currentProcedure = this.props.form.currentProcedure;
+        // if(currentProcedure == null) {
+        //     return null;
+        // }
 
         const displayObjects = currentProcedure.fields.map((object, index) => {
 
@@ -229,7 +242,7 @@ class ModalProcedures extends Component {
                     this.props.saveProcedure(
                         this.props.form.form.id,
                         this.props.form.form.procedures,
-                        this.state.procedure
+                        this.props.form.currentProcedure
                     );
                 }}
                 onRemove={() => {
@@ -281,7 +294,7 @@ class ModalProcedures extends Component {
 
                             {!this.isForm() && 
                                 <ButtonSecondary 
-                                    label="Import Fields"
+                                    label="Importer les champs"
                                     icon="fas fa-download"
                                     onClick={this.handleImportFields.bind(this)}
                                 />
@@ -419,6 +432,10 @@ const mapDispatchToProps = dispatch => {
         openModalCreateObject: () => {
             return dispatch(openModalCreateObject());
         },
+
+        importFieldsFromService: (procedure) => {
+            return dispatch(importFieldsFromService(procedure));
+        }
         
     }
 }

@@ -10,7 +10,7 @@ import SelectField from '../Layout/Fields/SelectField';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import KeyValuesField from '../Layout/Fields/KeyValuesField';
 import SlugField from '../Layout/Fields/SlugField';
-
+import ButtonSecondary from '../Layout/ButtonSecondary';
 import api from '../../api/index.js';
 
 export default class ServiceForm extends Component {
@@ -24,7 +24,7 @@ export default class ServiceForm extends Component {
             service: {
                 http_method : 'POST',
                 json : '{}',
-                reponse_json : '{}',
+                response_json : '{}',
                 is_old_url_ws: false,
                 example: null
             },
@@ -83,7 +83,7 @@ export default class ServiceForm extends Component {
                 service: payload.data.service ? payload.data.service : null,
                 json : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
                 example :  payload.data.service.example != "" ? payload.data.service.example : null,
-                response_json : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
+                //response_json : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
             }));
     }
 
@@ -105,15 +105,30 @@ export default class ServiceForm extends Component {
             : this.create();
     }
 
+    getBody() {
+        api.services.getBody(this.state.service.id)
+            .then(payload => this.handleGetBody(payload.data.serviceBody))
+            .catch(error => {
+                toastr.error('Une erreur est survenue lors de l\'appel au service.');
+            });
+    }
+
     // ==============================
     // Handlers
     // ==============================
 
-    handleSaveSuccess(service) {
-        console.log('SERVICE ===>', service);
-        
+    handleGetBody(payload) {        
         this.setState({
-            service: service,
+            service: {
+                ...this.state.service, 
+                response_json: payload.body
+            }
+        });
+    }
+
+    handleSaveSuccess(payload) {    
+        this.setState({
+            service: payload,
             errors: {}
         });
         toastr.success('Service enregistré');
@@ -245,12 +260,13 @@ export default class ServiceForm extends Component {
                             identifier="response_json"
                             title="Response JSON (Exemple)"
                         >
+              
                             <InputFieldJsonEdit
                                 id={'response_json'}
                                 label={'Response JSON'}
                                 width={'100%'}
                                 name={'response_json'}
-                                placeholder={this.state.response_json}
+                                placeholder={JSON.parse(this.state.service.response_json)}
                                 onChange={this.handleFieldChange.bind(this)}
                                 height={400}
                             />
@@ -328,14 +344,6 @@ export default class ServiceForm extends Component {
                         />
 
                         <InputField
-                            label={'Example'}
-                            value={this.state.service.example ? this.state.service.example : ''}
-                            name={'example'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.example ? true : false}
-                        />
-
-                        <InputField
                             label={'Commentaire'}
                             value={this.state.service.comment ? this.state.service.comment : ''}
                             name={'comment'}
@@ -354,6 +362,22 @@ export default class ServiceForm extends Component {
                             name={'response'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.response ? true : false}
+                        />
+
+                        <hr/>
+
+                        <InputField
+                            label={'Exemple'}
+                            value={this.state.service.example ? this.state.service.example : ''}
+                            name={'example'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.example ? true : false}
+                        />
+
+                        <ButtonSecondary
+                            label='Envoyer'
+                            icon='fa fa-paper-plane'
+                            onClick={() => this.getBody()}
                         />
 
                     </div>

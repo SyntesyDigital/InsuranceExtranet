@@ -318,6 +318,7 @@ class ElementsModelsFormRedux extends Component {
                     size={'medium'}
                     title={'Test Json'}
                     display={this.props.form.displayTestForm}
+                    type={this.getFormType()}
                     zIndex={10000}
                 />
 
@@ -348,7 +349,7 @@ class ElementsModelsFormRedux extends Component {
                     title={this.props.form.form.name}
                     backRoute={routes['extranet.elements-models.index']}
                 >
-                    {(saved && this.getFormType() != "table" && this.getFormType() != "fiche") && 
+                    {saved && 
                         <ButtonSecondary
                             label={'Test form'}
                             icon={'fas fa-sync-alt'}
