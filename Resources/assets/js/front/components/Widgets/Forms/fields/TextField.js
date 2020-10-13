@@ -141,8 +141,8 @@ class TextField extends Component {
 
         return (
 
-            <div className={"form-group bmd-form-group" + (errors)}>
-                <label className={'bmd-label-floating ' + isHidden}>
+            <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden)}>
+                <label className={'bmd-label-floating'}>
                     {field.name}
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
@@ -157,7 +157,7 @@ class TextField extends Component {
 
                 <input
                     type={field.settings.format == "password" ? "password" : "text"}
-                    className={"form-control " + (textFieldClass.join(' ')) + (isHidden) }
+                    className={"form-control " + (textFieldClass.join(' '))}
                     name={field.identifier}
                     value={this.props.value}
                     onChange={this.handleOnChange.bind(this)}
