@@ -121,8 +121,8 @@ class TextField extends Component {
         let hasDescription = field.settings.description !== undefined ?
             field.settings.description : false;
 
-        let isHidden = field.settings.hidden !== undefined ?
-            ' hidden' : '';
+        let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
+            true : false;
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
@@ -141,7 +141,7 @@ class TextField extends Component {
 
         return (
 
-            <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden)}>
+            <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
                 <label className={'bmd-label-floating'}>
                     {field.name}
                     {isRequired &&
