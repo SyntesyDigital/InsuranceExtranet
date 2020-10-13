@@ -30,11 +30,15 @@ class ServiceBody
 
         $boby = new BobyRepository();
 
-        $sessionParameter = get_session_parameter();
+        $url = $service->example;
 
-        $url = strpos($service->example, '?') === false
-            ? $service->example.'?'.$sessionParameter
-            : $service->example.'&'.$sessionParameter;
+        if($service->has_session_id){
+
+            //FIXME id_per is not the same as session_id
+            $url = strpos($url, '?') === false
+            ? $url.'?SES='.Auth::user()->id_per
+            : $url.'&SES='.Auth::user()->id_per;
+        }
 
         $response = $boby->processMethod(
             strtoupper($service->http_method),

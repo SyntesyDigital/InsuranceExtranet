@@ -463,9 +463,6 @@ class ElementRepository extends BaseRepository
     public function getModelValuesV2($element,$parameters) 
     {
 
-        //add session parameter
-        $parameters['SES'] = isset(Auth::user()->session_id) ? Auth::user()->session_id : null;
-        
         //if debug parameter is set, unset to remove from final query parameters
         if(isset($parameters['debug']))
             unset($parameters['debug']);
@@ -488,6 +485,11 @@ class ElementRepository extends BaseRepository
         }
 
         //dd($parameters);
+
+        if($procedure->SERVICE->HAS_SESSION_ID){
+            //add session parameter
+            $parameters['SES'] = isset(Auth::user()->session_id) ? Auth::user()->session_id : null;
+        }
 
         //if parameter is necessary in url is necessary to proceed
         $urlProcessed = $this->processUrlByParameters($procedure->SERVICE->URL,$parameters);

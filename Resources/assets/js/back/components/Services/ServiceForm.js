@@ -110,7 +110,10 @@ export default class ServiceForm extends Component {
 
     getBody() {
         api.services.getBody(this.state.service.id)
-            .then(payload => this.handleGetBody(payload.data.serviceBody))
+            .then(payload => {
+                toastr.success('Action terminée avec succès.');
+                this.handleGetBody(payload.data.serviceBody);
+            })
             .catch(error => {
                 toastr.error('Une erreur est survenue lors de l\'appel au service.');
             });
@@ -121,6 +124,8 @@ export default class ServiceForm extends Component {
     // ==============================
 
     handleGetBody(payload) {        
+
+
         this.setState({
             service: {
                 ...this.state.service, 
@@ -342,12 +347,22 @@ export default class ServiceForm extends Component {
                         }
 
                         <ToggleField
+                            label={'Identifiant de session'}
+                            checked={this.state.service.has_session_id ? this.state.service.has_session_id : false}
+                            name={'has_session_id'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.has_session_id ? true : false}
+                        />
+
+                        <ToggleField
                             label={'Ancienne URL WS'}
                             checked={this.state.service.is_old_url_ws ? this.state.service.is_old_url_ws : false}
                             name={'is_old_url_ws'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.is_old_url_ws ? true : false}
                         />
+
+                        
 
                         <InputField
                             label={'Commentaire'}
