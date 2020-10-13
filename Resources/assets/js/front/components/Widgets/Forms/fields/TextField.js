@@ -122,7 +122,7 @@ class TextField extends Component {
             field.settings.description : false;
 
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
-            true : false;
+            field.settings.hidden : false;
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');

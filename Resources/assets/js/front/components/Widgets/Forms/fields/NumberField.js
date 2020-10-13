@@ -255,7 +255,7 @@ class NumberField extends Component
         this.props.field.settings.description : false;
 
     let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
-        true : false;
+      field.settings.hidden : false;
 
     const currency =  this.fieldHasCurrencySettings();
 
