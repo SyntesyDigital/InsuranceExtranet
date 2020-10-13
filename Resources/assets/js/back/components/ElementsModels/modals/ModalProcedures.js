@@ -20,7 +20,8 @@ import {
     openModalCreateObject,
     removeProcedureObject,
     updateSettings,
-    importFieldsFromService
+    importFieldsFromService,
+    deleteAllFields
 } from '../actions';
 import ButtonSecondary from '../../Layout/ButtonSecondary';
 
@@ -128,11 +129,18 @@ class ModalProcedures extends Component {
     handleImportFields() {
         const currentProcedure = this.state.procedure;
 
-        // var index = getProcedureIndex(procedures, procedure);
-
-        if(currentProcedure.service.id) {
-            this.props.importFieldsFromService(currentProcedure);
-        }
+        /* TO FINISH
+        this.props.deleteAllFields(
+            this.props.form.form.procedures,
+            currentProcedure
+        );
+         */
+        
+        this.props.importFieldsFromService(
+            this.props.form.form.procedures,
+            currentProcedure
+        );
+        
 
         return null;
     }
@@ -293,11 +301,16 @@ class ModalProcedures extends Component {
                             />
 
                             {!this.isForm() && 
-                                <ButtonSecondary 
-                                    label="Importer les champs"
-                                    icon="fas fa-download"
-                                    onClick={this.handleImportFields.bind(this)}
-                                />
+                                <div  style={{
+                                    opacity : saved ? 1 : 0.5,
+                                    pointerEvents : saved ? 'auto' : 'none'
+                                }}>
+                                    <ButtonSecondary 
+                                        label="Importer les champs"
+                                        icon="fas fa-download"
+                                        onClick={this.handleImportFields.bind(this)}
+                                    />
+                                </div>
                             }
 
                             <hr/>
@@ -433,8 +446,12 @@ const mapDispatchToProps = dispatch => {
             return dispatch(openModalCreateObject());
         },
 
-        importFieldsFromService: (procedure) => {
-            return dispatch(importFieldsFromService(procedure));
+        importFieldsFromService: (procedures,procedure) => {
+            return dispatch(importFieldsFromService(procedures,procedure));
+        },
+
+        deleteAllFields: (procedures, procedure) => {
+            return dispatch(deleteAllFields(procedures,procedure));
         }
         
     }

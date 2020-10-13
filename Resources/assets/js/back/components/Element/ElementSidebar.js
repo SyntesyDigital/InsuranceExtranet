@@ -107,7 +107,7 @@ class ElementSidebar extends Component {
   }
 
   renderActions() {
-    if(this.props.app.elementType != 'table' && this.props.app.elementType != 'table_v2')
+    if(this.props.app.elementType != 'table' && this.props.app.elementType != 'table-v2')
       return null;
 
     return (

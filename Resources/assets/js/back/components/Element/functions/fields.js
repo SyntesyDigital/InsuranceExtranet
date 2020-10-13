@@ -34,7 +34,7 @@ export const SETTINGS_AVOID = {
   'iframe' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'group' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
   'description' : [TABLE_V1,TABLE_V2],
-  'hidden' : [FORM_V1,FORM_V2],
+  'hidden' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
 
 };
 
@@ -80,6 +80,7 @@ export function getFieldToAdd(field,id,elementType) {
 
   //console.log("Rules => ",rules);
 
+  //if is a list item, add fields into settings.fields
   if(field.fields != null){
     settings.fields = field.fields;
   }

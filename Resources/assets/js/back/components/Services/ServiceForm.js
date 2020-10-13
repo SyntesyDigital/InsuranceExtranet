@@ -89,7 +89,10 @@ export default class ServiceForm extends Component {
 
     create() {
         api.services.create(this.state.service)
-            .then(payload => this.handleSaveSuccess(payload.data.createService))
+            .then(payload => {
+                this.handleSaveSuccess(payload.data.createService);
+                window.location.href = routes['extranet.services.update'].replace(':id',payload.data.createService.id);
+            })
             .catch(error => this.handleSaveError(error));
     }
 
@@ -204,6 +207,9 @@ export default class ServiceForm extends Component {
     // ==============================
 
     render() {
+
+        const isGet = this.state.service.http_method == "GET";
+        
         return (
             <div className="services-update">
 
@@ -374,11 +380,21 @@ export default class ServiceForm extends Component {
                             error={this.state.errors.example ? true : false}
                         />
 
-                        <ButtonSecondary
-                            label='Envoyer'
-                            icon='fa fa-paper-plane'
-                            onClick={() => this.getBody()}
-                        />
+                        <div style={{
+                            opacity : isGet ? 1 : 0.5,
+                            pointerEvents : isGet ? 'auto' : 'none'
+                        }}>
+                            <ButtonSecondary
+                                label='Envoyer'
+                                icon='fa fa-paper-plane'
+                                onClick={() => this.getBody()}
+                            />
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
 
                     </div>
                 </div>

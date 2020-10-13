@@ -239,10 +239,10 @@ class ElementController extends Controller
                     $result['modelValues'],
                     $element->fields()->get(),
                     $limit, $request->all(),
-                    $element->type == Element::TYPES['table']['identifier'] ? true : false
+                    $element->type == Element::TYPES['table']['identifier'] || Element::TYPES['table-v2']['identifier']  ? true : false
                 ),
-                'totalPage' => $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
-                'total' => $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
+                'totalPage' => isset( $result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
+                'total' => isset( $result['completeObject']) &&  $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
             ]);
         } catch (\Exception $e) {
             return response()->json([

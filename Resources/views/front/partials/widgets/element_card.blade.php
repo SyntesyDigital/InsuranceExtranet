@@ -7,11 +7,13 @@
     $htmlId = uniqid();
 
     $element = isset($field['settings']['fileElements']) 
-        ? \Modules\Extranet\Entities\Element::find($field['settings']['fileElements'])->load('fields')
+        ? \Modules\Extranet\Entities\Element::find($field['settings']['fileElements'])
         : null;
+    
+    $element = isset($element) ? $element->load('fields') : null;
 
-    $model = isset($elementObject) ? $elementObject->getModel($models) : null;
-
+    $model = isset($element) ? $element->getModel($models) : null;
+    
     $view = 'extranet::front.partials.fields.' . $field['fields'][1]['type'];
 
     $params = [

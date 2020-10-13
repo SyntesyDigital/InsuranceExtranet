@@ -175,6 +175,9 @@ export function removeProcedureObject(procedures, procedure, object) {
     }
 
     return (dispatch) => {
+
+        console.log("remove object!",object.id)
+
         api.fields.delete(object.id)
             .then(function (data) {
                 var index = getProcedureIndex(procedures, procedure);

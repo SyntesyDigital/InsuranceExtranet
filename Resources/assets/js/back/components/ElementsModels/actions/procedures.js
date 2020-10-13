@@ -9,6 +9,10 @@ import {
 
 import api from '../../../api/index.js';
 
+import {
+    removeProcedureObject
+} from './objects';
+
 
 // function getMaxId (list) {
 //     var maxId = 0;
@@ -188,7 +192,7 @@ export function closeModalProcedure() {
     };
 };
 
-const fn = (object, jsonpath) => {
+const filterJSONFields = (object, jsonpath) => {
     return Object.entries(object).reduce((acc, arr) => {
       let key = arr[0];
       let value = arr[1];
@@ -197,7 +201,7 @@ const fn = (object, jsonpath) => {
           if(value == '*') {
             acc.push({
               identifier : key,
-              jsonpath: jsonpath !== undefined ? jsonpath : key
+              jsonpath: jsonpath !== undefined ? jsonpath : ''
             });
           }
       } 
@@ -206,42 +210,70 @@ const fn = (object, jsonpath) => {
   }, []);
 }
 
-export function importFieldsFromService(procedure) {
+/**
+ * FIXME better add an action that remove all fields directly with one petition, and update
+ * graphql same time. Why ? problems with sincronization between state and delete.
+ * 
+ * @param {*} procedures 
+ * @param {*} procedure 
+ */
+export function deleteAllFields(procedures,procedure) {
+    return (dispatch) => {
+        for( var key in procedure.fields) {
+            var object = procedure.fields[key];
+
+            console.log("(object) ",object);
+
+            dispatch(removeProcedureObject(procedures, procedure, object));
+        }
+
+        toastr.success(Lang.get('fields.success'));
+    }
+}
+
+export function importFieldsFromService(procedures, procedure) {
     return (dispatch) => {
         return api.services.get(procedure.service.id)
             .then(response => {
 
                 let payload =  JSON.parse(response.data.service.response_json);
 
-                let fields = fn(payload.data[0]).map((field, index) => {
-                    
+                const isArray = payload.data !== undefined && payload.data instanceof Array ? 
+                    true : false;
+
+                //if response contains data and is array should be format data[0] = {}, if not is normal  json
+                var response = isArray ? payload.data[0] : payload;
+
+
+                let fields = filterJSONFields(response).map((field, index) => {
+
+                    console.log("Service json : (field)",field);
+
                     api.fields.create({
                         procedure_id: procedure.id,
                         name: field.identifier, 
                         identifier: field.identifier,
                         type: 'INPUT',
-                        format: '',
+                        format: 'text',
                         visible: 1,
                         configurable: 1,
                         index: index,
                         jsonpath: field.jsonpath !== undefined ? field.jsonpath : null
                     }).then(response => {
-                        dispatch({ 
-                            type: IMPORT_PROCEDURE_OBJECTS,
-                            payload: response.data.createModelField
-                        });
-                    });
 
-                    // return {
-                    //     name: field.identifier, 
-                    //     identifier: field.identifier,
-                    //     type: 'CTE',
-                    //     format: 'text',
-                    //     visible: 1,
-                    //     index: index,
-                    //     jsonpath: field.jsonpath
-                    // };
+                        var object = response.data.createModelField;
+                        console.log("object created => (object)",object);
+                        var index = getProcedureIndex(procedures,procedure);
+                        procedures[index].fields.push(object);
+
+                        //toastr.success(Lang.get('fields.success'));
+
+                        dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+                    });
                 });
+
+                toastr.success(Lang.get('fields.success'));
+
             });
     }
 };

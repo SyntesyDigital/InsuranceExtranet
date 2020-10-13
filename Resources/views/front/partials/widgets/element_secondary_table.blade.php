@@ -12,8 +12,6 @@
 
     $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
-    dd($model);
-
     $icon = isset($field['fields'][2]['value']) 
         ? $field['fields'][2]['value'] 
         : null;

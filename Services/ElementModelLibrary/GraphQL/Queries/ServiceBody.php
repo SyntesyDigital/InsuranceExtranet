@@ -30,9 +30,11 @@ class ServiceBody
 
         $boby = new BobyRepository();
 
+        $sessionParameter = get_session_parameter();
+
         $url = strpos($service->example, '?') === false
-            ? $service->example.'?SES='.Auth::user()->id_per
-            : $service->example.'&SES='.Auth::user()->id_per;
+            ? $service->example.'?'.$sessionParameter
+            : $service->example.'&'.$sessionParameter;
 
         $response = $boby->processMethod(
             strtoupper($service->http_method),
