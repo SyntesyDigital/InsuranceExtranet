@@ -234,8 +234,6 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {/*
-
                             {this.isForm() && 
                             <ToggleField
                                 label={'Visible'}
@@ -244,8 +242,6 @@ class ModalObject extends Component {
                                 onChange={this.handleFieldChange.bind(this)}
                             />
                             }
-
-                            */}
 
                             {this.isForm() && 
                             <ToggleField
