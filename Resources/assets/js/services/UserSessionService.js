@@ -7,6 +7,10 @@ export default class UserSessionService {
         }
     }
 
+    getApiToken() {
+        return this.session.api_token;
+    }
+
     getUser() {
         return this.session;
     }

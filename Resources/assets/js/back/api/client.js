@@ -1,11 +1,10 @@
 import ApolloClient, { gql } from 'apollo-boost';
-
 const client = new ApolloClient({
     uri: ASSETS + '/graphql',
     request: operation => {
         operation.setContext({
             headers: {
-                authorization: 'Bearer ' + CURRENT_USER.api_token,
+                authorization: 'Bearer ' + userSession.getApiToken(),
             },
         });
     },
