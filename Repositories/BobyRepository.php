@@ -121,8 +121,32 @@ class BobyRepository
         }
     }
 
+    /**
+     * File that comes from multipart service is base64 encoded. It's necessary to decode.
+     * Data structure : 
+     *  [{
+     *       name: 'file',
+     *       contents: 'asdfasdfasdfasdf',  //base64 string
+     *       filename: ''
+     *   }]
+     */
+    private function processMultipartData($data,$body)
+    {   
+        if($body == 'multipart'){
+            //decode flie info
+            if(isset($data[0]['contents']))
+                $data[0]['contents'] = base64_decode($data[0]['contents']);
+        }
+
+        return $data;
+    }
+
     private function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
     {
+
+        //process data depending on body
+        $data = $this->processMultipartData($data,$body);
+        
         $params = [
             $body => $data,
             'headers' => [
