@@ -6,8 +6,10 @@ import { mutation, query } from '../client.js';
 //------------------------------------------------------------//
 export let elementModel = {
 
-    getAll() {
-        return query(GQL_GET_ALL_MODELS);
+    getAll(type) {
+        return query(GQL_GET_ALL_MODELS, {
+            type: type
+        });
     },
 
     get(id) {
@@ -102,24 +104,23 @@ export const GQL_GET_MODEL = gql`
 `;
 
 export const GQL_GET_ALL_MODELS = gql`
-  {
-    elementModels {
-        id
-        identifier
-        name
-        description
-        icon
-        type
-        ws
-        ws_format
-        filtres
-        example
-        def1
-        def2
-        created_at
-        validation_ws
+    query($type: String) {
+        elementModels(type: $type) {
+            id
+            identifier
+            name
+            description
+            icon
+            type
+            ws
+            ws_format
+            filtres
+            example
+            def1
+            def2
+            created_at
+        }
     }
-  }
 `;
 
 export const GQL_CREATE_MODEL = gql`

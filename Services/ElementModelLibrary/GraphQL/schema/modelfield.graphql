@@ -20,7 +20,7 @@ type ModelField {
 #   INPUT
 ################################
 input CreateModelFieldInput {
-    procedure_id: ID!
+    procedure_id: ID
     name: String!
     identifier: String!
     type: String!

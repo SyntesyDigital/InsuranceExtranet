@@ -3,7 +3,6 @@
     $identifier = str_replace(",","",$field['identifier']);
     $identifier = str_replace("[","",$identifier);
     $identifier = str_replace("]","",$identifier).'_'.$iterator;
-
     $visible = check_visible($field['settings'],$parameters);
 
     $elementObject = null;
@@ -11,10 +10,7 @@
         $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
     }
 
-    $model = null;
-    if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
-        $model = $models[$elementObject->model_identifier];
-    }
+    $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
     $icon = isset($field['fields'][2]['value']) 
         ? $field['fields'][2]['value'] 

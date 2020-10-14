@@ -4,33 +4,32 @@ import {
     UPDATE_FORM,
     REMOVE_FORM,
     TEST_FORM,
-    OPEN_MODAL_CREATE_PROCEDURE,
-    OPEN_MODAL_EDIT_PROCEDURE,
+    OPEN_MODAL_PROCEDURE,
+    CLOSE_MODAL_PROCEDURE,
     REMOVE_PROCEDURE,
     UPDATE_PROCEDURES,
-    CLOSE_MODAL_PROCEDURES,
     OPEN_MODAL_CREATE_OBJECT,
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     CLOSE_MODAL_TEST,
-    INIT_CREATE
-
+    INIT_CREATE,
+    IMPORT_PROCEDURE_OBJECTS,
+    UPDATE_CURRENT_PROCEDURE,
+    REMOVE_OBJECT_CURRENT_PROCEDURE
 } from '../constants';
 
 const initialState = {
 
     saved: false,
 
-    //Objects
-    displayEditObject: false,
+    displayProcedureModal: false,
+    displayObjectModal: false,
+
+    currentProcedure: null,
     currentObject: null,
 
     //Test
     displayTestForm: false,
-
-    //Procedures
-    displayEditProcedures: false,
-    currentProcedure: null,
 
     form : {
         id: null,
@@ -41,7 +40,9 @@ const initialState = {
         type: 'form-v2',
         procedures : [],
         validation : false,
-        validation_ws : null
+        validation_ws : null,
+        service_id: null,
+        def1 : ''
     },
 
     /*
@@ -167,25 +168,27 @@ function formReducer(state = initialState, action) {
     switch (action.type) {
 
         case INIT_CREATE : 
+            form.type = action.payload.type;
+            form.isForm = action.payload.type == 'form-v2';
             return {
-                ...state
+                ...state,
+                form: form
             }
+
         case INIT_STATE:
-
-            //console.log("INIT_STATE from Elements Models=> ", action.data);
-
-            var newForm = action.payload;
-            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
-                ? true : false;
+           form = action.payload;
+           form.isForm = action.payload.type == 'form-v2';
+           form.validation = form.validation_ws !== undefined &&  form.validation_ws != null && form.validation_ws != '' 
+           ? true : false;
 
             return {
                 ...state,
-                form : newForm
+                form : form
             }
 
         case UPDATE_FIELD:
             form[action.payload.name] = action.payload.value;
-            //if validate disabled, remove validate_ws value
+
             if(action.payload.name == "validation" && action.payload.value == false){
                 form['validation_ws'] = null;
             }
@@ -200,12 +203,11 @@ function formReducer(state = initialState, action) {
             var proceduresCopy = state.form.procedures;
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
-            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' 
-                ? true : false;
+            newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' ? true : false;
 
             return {
                 ...state,
-                form : newForm
+                form: newForm
             }
 
         case REMOVE_FORM:
@@ -219,32 +221,32 @@ function formReducer(state = initialState, action) {
                 displayTestForm: true,
             }
 
-        case OPEN_MODAL_CREATE_PROCEDURE:
+        case OPEN_MODAL_PROCEDURE:
+
             return {
                 ...state,
-                displayEditProcedures: true,
-                //add default procedure values
-                currentProcedure : {
+                displayProcedureModal: true,
+                currentProcedure: action.payload ? action.payload : {
                     id: null,
                     name: '',
                     service: '',
-                    configurable: false,
+                    configurable: !state.form.isForm,   //by default form is false, others is true
                     required: false,
                     repeatable: false,
-                    prefixed : false,
+                    prefixed: false,
                     duplicate: false,
-                    repeatable_json : '',
-                    repeatable_jsonpath : '',
+                    repeatable_json: '',
+                    repeatable_jsonpath: '$.',
                     fields: [],
-                    order:0
+                    order: 0
                 }
             }
 
-        case OPEN_MODAL_EDIT_PROCEDURE:
+        case CLOSE_MODAL_PROCEDURE:
             return {
                 ...state,
-                displayEditProcedures: true,
-                currentProcedure: action.payload
+                displayProcedureModal: false,
+                currentProcedure: null
             }
 
         case REMOVE_PROCEDURE:
@@ -254,26 +256,31 @@ function formReducer(state = initialState, action) {
             }
 
         case UPDATE_PROCEDURES:
-
-            form.procedures = action.payload;
-
             return {
                 ...state,
-                form : form
+                form : {
+                    ...form,
+                    service_id: null,
+                    procedures: action.payload
+                },
             }
 
-        case CLOSE_MODAL_PROCEDURES:
+        case UPDATE_CURRENT_PROCEDURE: 
             return {
                 ...state,
-                displayEditProcedures: false,
-                currentProcedure: null
+                currentProcedure: action.payload,
+                form : {
+                    ...form,
+                    procedures: [action.payload],
+                    service_id: action.payload.service_id
+                },
             }
 
         case OPEN_MODAL_CREATE_OBJECT:
+
             return {
                 ...state,
-                displayEditObject: true,
-                //default current object
+                displayObjectModal: true,
                 currentObject : {
                     id : null,
                     identifier: '',
@@ -284,7 +291,7 @@ function formReducer(state = initialState, action) {
                     boby: '',
                     jsonPath: '',
                     example: '',
-                    configurable: false,
+                    configurable: !state.form.isForm,   //by default form is false, others is true
                     visible: false
                 }
             }
@@ -292,15 +299,24 @@ function formReducer(state = initialState, action) {
         case OPEN_MODAL_EDIT_OBJECT:
             return {
                 ...state,
-                displayEditObject: true,
+                displayObjectModal: true,
                 currentObject: action.payload.object,
             }
 
         case CLOSE_MODAL_PROCEDURE_OBJECT:
             return {
                 ...state,
-                displayEditObject: false,
+                displayObjectModal: false,
                 currentObject: null
+            }
+
+        case REMOVE_OBJECT_CURRENT_PROCEDURE: 
+            return {
+                ...state,
+                currentProcedure: {
+                    ...state.currentProcedure,
+                    fields: state.currentProcedure.fields.filter(field => field.identifier != action.payload.identifier)
+                }
             }
 
         case CLOSE_MODAL_TEST:
@@ -308,6 +324,56 @@ function formReducer(state = initialState, action) {
                 ...state,
                 displayTestForm: false,
             }
+
+        case IMPORT_PROCEDURE_OBJECTS: 
+
+            // let payload =  JSON.parse(action.payload);
+
+            // const fn = (object, jsonpath) => {
+            //     return Object.entries(object).reduce((acc, arr) => {
+            //       let key = arr[0];
+            //       let value = arr[1];
+                
+            //       if(typeof value !== 'object' && typeof value !== 'array') {
+            //           if(value == '*') {
+            //             acc.push({
+            //               identifier : key,
+            //               jsonpath: jsonpath !== undefined ? jsonpath : key
+            //             });
+            //           }
+            //       } 
+                  
+            //      return acc;
+            //   }, []);
+            // }
+              
+            // let fields = fn(payload.data[0]).map((field, index) => {
+            //     return {
+            //         name: field.identifier, 
+            //         identifier: field.identifier,
+            //         type: 'CTE',
+            //         format: 'text',
+            //         visible: 1,
+            //         index: index,
+            //         jsonpath: field.jsonpath
+            //     };
+            // });
+  
+            // return {
+            //     ...state,
+            //     currentProcedure: {
+            //         ...state.currentProcedure,
+            //         fields: fields
+            //     }
+            // };
+
+            let currentProcedure = state.currentProcedure;
+            currentProcedure.fields.push(action.payload);
+
+            return {
+                ...state,
+                currentProcedure: currentProcedure
+            };
 
         default:
             return state;

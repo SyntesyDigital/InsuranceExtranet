@@ -10,10 +10,7 @@
     $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['tableElements'])->first()->load('fields');
   }
 
-  $model = null;
-  if(isset($elementObject) && isset($models[$elementObject->model_identifier])){
-    $model = $models[$elementObject->model_identifier];
-  }
+  $model = isset($elementObject) ? $elementObject->getModel($models) : null;
   
 @endphp
 

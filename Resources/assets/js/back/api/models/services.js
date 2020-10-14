@@ -16,6 +16,12 @@ export let services = {
         });
     },
 
+    getBody(id) {
+        return query(GQL_GET_SERVICE_BODY, {
+            id: id,
+        });
+    },
+
     delete(id) {
         return mutation(GQL_DELETE_SERVICE, {
             id: id,
@@ -55,6 +61,8 @@ export const GQL_GET_ALL_SERVICE = gql`
             created_at
             updated_at
             body
+            example
+            has_session_id
         }
     }
 `;
@@ -79,6 +87,8 @@ export const GQL_GET_SERVICE = gql`
         response_json
         is_old_url_ws
         body
+        example
+        has_session_id
     }
   }
 `;
@@ -106,7 +116,8 @@ export const GQL_CREATE_SERVICE = gql`
         $response_json: String
         $is_old_url_ws: Boolean
         $body: String
-        
+        $example: String
+        $has_session_id: Boolean
     ) {
         createService(
         input: {
@@ -121,6 +132,8 @@ export const GQL_CREATE_SERVICE = gql`
             response_json: $response_json
             is_old_url_ws: $is_old_url_ws
             body: $body
+            example: $example
+            has_session_id: $has_session_id
         }
     ) {
         id
@@ -134,6 +147,8 @@ export const GQL_CREATE_SERVICE = gql`
         comment
         response_json
         body
+        example
+        has_session_id
     }
   } 
 `;
@@ -163,6 +178,8 @@ export const GQL_UPDATE_SERVICE = gql`
         $response_json: String
         $is_old_url_ws: Boolean
         $body: String
+        $example: String
+        $has_session_id: Boolean
     ) {
         updateService(
             input: {
@@ -178,6 +195,8 @@ export const GQL_UPDATE_SERVICE = gql`
                 response_json: $response_json
                 is_old_url_ws: $is_old_url_ws
                 body: $body
+                example: $example
+                has_session_id: $has_session_id
             }
         ) {
             id
@@ -192,6 +211,8 @@ export const GQL_UPDATE_SERVICE = gql`
             response_json
             is_old_url_ws
             body
+            example
+            has_session_id
         }
   } 
 `;
@@ -220,6 +241,18 @@ export const GQL_DELETE_SERVICE = gql`
             response_json
             is_old_url_ws
             body
+            example
+            has_session_id
         }
   } 
+`;
+
+
+
+export const GQL_GET_SERVICE_BODY = gql`
+    query($id: ID!) {
+        serviceBody(id:$id) {
+            body
+        }
+    }
 `;

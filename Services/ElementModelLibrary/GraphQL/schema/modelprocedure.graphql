@@ -52,8 +52,15 @@ input UpdateModelProcedureInput {
     service_id: ID
     model_id: ID
     order: Int
+    #fields: UpdateModelProcedureFieldsHasMany
 }
 
+input UpdateModelProcedureFieldsHasMany {
+  create: [CreateModelFieldInput!]
+  upsert: [CreateModelFieldInput!]
+  update: [UpdateModelFieldInput!]
+  delete: [ID!]
+}
 
 ################################
 #   QUERY

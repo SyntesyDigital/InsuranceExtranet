@@ -121,6 +121,9 @@ class TextField extends Component {
         let hasDescription = field.settings.description !== undefined ?
             field.settings.description : false;
 
+        let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
+            field.settings.hidden : false;
+
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
 
@@ -138,15 +141,15 @@ class TextField extends Component {
 
         return (
 
-            <div className={"form-group bmd-form-group" + (errors)}>
-                <label className="bmd-label-floating">
+            <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
+                <label className={'bmd-label-floating'}>
                     {field.name}
                     {isRequired &&
                         <span className="required">&nbsp; *</span>
                     }
-                    {hasDescription && 
-                        <LabelTooltip 
-                            description={field.settings.description ? 
+                    {hasDescription &&
+                        <LabelTooltip
+                            description={field.settings.description ?
                                 field.settings.description : ''}
                         />
                     }

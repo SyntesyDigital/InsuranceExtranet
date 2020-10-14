@@ -16,17 +16,19 @@ class Element extends Model
     const FILE = 'file';
     const TABLE = 'table';
     const FORM_V2 = 'form-v2';
+    const FILE_V2 = 'file-v2';
+    const TABLE_V2 = 'table-v2';
 
     const TYPES = [
         Element::TABLE => [
-            'name' => 'Tableau',
+            'name' => 'Tableau v1.0',
             'identifier' => 'table',
             'icon' => 'fa fa-table',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' => 'TB',
         ],
         Element::FILE => [
-            'name' => 'Fiche',
+            'name' => 'Fiche v1.0',
             'identifier' => 'file',
             'icon' => 'fa fa-columns',
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
@@ -39,13 +41,28 @@ class Element extends Model
             'WS_NAME' => 'WS_EXT2_DEF_MODELES',
             'FORMAT' => 'CR',
         ],
+        Element::TABLE_V2 => [
+            'name' => 'Tableau v2.0',
+            'identifier' => 'table-v2',
+            'icon' => 'fa fa-table',
+            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
+            'FORMAT' => 'TB',
+        ],
+        Element::FILE_V2 => [
+            'name' => 'Fiche v2.0',
+            'identifier' => 'file-v2',
+            'icon' => 'fa fa-columns',
+            'WS_NAME' => 'WS_EXT2_DEF_MODELES',
+            'FORMAT' => 'FC',
+        ],
         Element::FORM_V2 => [
             'name' => 'Formulaire v2.0',
             'identifier' => 'form-v2',
             'icon' => 'fa fa-list-alt',
             'WS_NAME' => '',
             'FORMAT' => '',
-        ],
+        ]       
+        
     ];
 
     /**
@@ -93,6 +110,14 @@ class Element extends Model
         'deleted_at',
     ];
 
+    public static function getTypesV2() {
+        return [self::TABLE_V2,self::FILE_V2,self::FORM_V2];
+    }
+
+    public static function isV2($type) {
+        return in_array($type,self::getTypesV2());
+    }
+
     public function fields(): HasMany
     {
         return $this->hasMany('\Modules\Extranet\Entities\ElementField');
@@ -110,7 +135,7 @@ class Element extends Model
 
     public function elementModel()
     {
-        if ($this->type == 'form-v2') {
+        if (in_array($this->type,self::getTypesV2())) {
             return $this->hasOne(ElementModel::class, 'id', 'model_identifier');
         }
 
@@ -159,5 +184,20 @@ class Element extends Model
             ->first();
 
         return $attr ? $attr->value : null;
+    }
+
+    /**
+     * Static function to get model depending on if element is v1 or v2.
+     * 
+     */
+    public function getModel($veosModels) 
+    {
+        if(self::isV2($this->type)){
+            return $this->elementModel->getObject();
+        }
+        else if(isset($veosModels[$this->model_identifier])){
+            return $veosModels[$this->model_identifier];
+        }
+        return null;
     }
 }

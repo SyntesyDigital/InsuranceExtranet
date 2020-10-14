@@ -64,7 +64,9 @@ class ModelField extends Model
                 'required' => $this->required == 1,
                 'formats' => $fieldConfig['formats'],
                 'rules' => $fieldConfig['rules'],
-                'settings' => array_diff($fieldConfig['settings'],['hasRoute']),
+                //REMOVED because hasRoute is already filtered during JS, and thi is causing a bug, changin array to object.
+                //'settings' => array_diff($fieldConfig['settings'],['hasRoute']),
+                'settings' => $fieldConfig['settings'],
                 'prefix' => $prefix // service identifier added if difference with same keys
               ];
         }

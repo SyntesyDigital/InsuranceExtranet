@@ -56,7 +56,7 @@ class ElementDropZone extends Component {
 
 	addField(field) {
 
-		//console.log("add field =>",field);
+		console.log("add field =>",field);
 
 		if(field.added){
 			toastr.error('Not possible to add same field twice');

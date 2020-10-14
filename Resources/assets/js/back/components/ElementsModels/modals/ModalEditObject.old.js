@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../Layout/Modal';
-import InputField from '../Layout/Fields/InputField';
-import ToggleField from '../Layout/Fields/ToggleField';
-import SelectField from '../Layout/Fields/SelectField';
+import Modal from '../../Layout/Modal';
+import InputField from '../../Layout/Fields/InputField';
+import ToggleField from '../../Layout/Fields/ToggleField';
+import SelectField from '../../Layout/Fields/SelectField';
 import { connect } from 'react-redux';
 
 import {
-
     removeProcedureObject,
     closeModalProcedureObject,
     saveProcedureObject
-
-} from './actions';
-
+} from '../actions';
 
 class ModalEditObject extends Component {
 
@@ -93,7 +90,7 @@ class ModalEditObject extends Component {
 
         this.props.saveProcedureObject(
             this.props.form.form.procedures,
-            this.props.form.form.procedures[index],
+            this.props.form.form.procedures[0],
             this.state.object
         );
 

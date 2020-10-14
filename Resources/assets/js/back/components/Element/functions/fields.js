@@ -2,31 +2,40 @@
 /*
 *   Relations between elements that don't implement this settings.
 */
+const TABLE_V1 = "table";
+const TABLE_V2 = "table-v2";
+const FILE_V1 = "file";
+const FILE_V2 = "file-v2";
+const FORM_V1 = "form";
+const FORM_V2 = "form-v2";
+
 export const SETTINGS_AVOID = {
   //rules
-  'required': ['table','file'],
-  'minCharacters': ['table','file'],
-  'maxCharacters': ['table','file'],
-  'searchable': ['form','file','form-v2'],
-  'sortable': ['form','file','form-v2'],
-  'sortableByDefault': ['form','file','form-v2'],
-  'maxDate' : ['table','file'],
-  'minDate' : ['table','file'],
-  'minNumber' : ['table','file'], 
-  'maxNumber' : ['table','file'],
+  'required': [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'minCharacters': [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'maxCharacters': [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'searchable': [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'sortable': [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'sortableByDefault': [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'maxDate' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'minDate' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'minNumber' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2], 
+  'maxNumber' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   //settings
-  //'format' : ['form'],
-  'maxLength' : ['form','form-v2'],
-  'hasRoute' : ['form','form-v2'],
-  'hasModal' : ['form','file','form-v2'],
-  'conditionalVisibility' : ['table','file'],
-  'defaultValue' : ['table','file'],
-  'columnWidth' : ['form','file','form-v2'],
-  'operation' : ['table','file'],
-  'readonly' : ['table','file'],
-  'iframe' : ['table','file'],
-  'group' : ['form','file','form-v2'],
-  'description' : ['table'],
+  //'format' : [FORM_V1],
+  'maxLength' : [FORM_V1,FORM_V2],
+  'hasRoute' : [FORM_V1,FORM_V2],
+  'hasModal' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'conditionalVisibility' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'defaultValue' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'columnWidth' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'operation' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'readonly' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'iframe' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'group' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
+  'description' : [TABLE_V1,TABLE_V2],
+  'hidden' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+
 };
 
 /*
@@ -71,6 +80,7 @@ export function getFieldToAdd(field,id,elementType) {
 
   //console.log("Rules => ",rules);
 
+  //if is a list item, add fields into settings.fields
   if(field.fields != null){
     settings.fields = field.fields;
   }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
-import FormsUpdateRedux from "./FormsUpdateRedux";
+import ElementsModelsFormRedux from "./ElementsModelsFormRedux";
 import configureStore from './configureStore'
 
 let store = configureStore();
 
-export default class FormsUpdate extends Component {
+export default class ElementsModelsForm extends Component {
 
   constructor(props) {
     super(props);
@@ -16,8 +16,9 @@ export default class FormsUpdate extends Component {
   render() {
     return (
       <Provider store={store}>
-          <FormsUpdateRedux 
+          <ElementsModelsFormRedux 
             modelId={this.props.modelId}
+            type={this.props.type}
           />
       </Provider>
     );
@@ -28,7 +29,8 @@ if (document.getElementById('elements-models-forms-update')) {
 
   var element = document.getElementById('elements-models-forms-update');
 
-  ReactDOM.render(<FormsUpdate 
+  ReactDOM.render(<ElementsModelsForm 
       modelId={element.getAttribute('modelId')}
+      type={element.getAttribute('type')}
   />, document.getElementById('elements-models-forms-update'));
 }

@@ -77,7 +77,7 @@ class ElementController extends Controller
     {
         $procedures = null;
         //get model and fields
-        if ($element_type == Element::FORM_V2) {
+        if (in_array($element_type ,Element::getTypesV2())){
             $elementModel = ElementModel::where('id', $model_id)->first();
             $model = $elementModel->getObject();
         } else {
@@ -94,7 +94,7 @@ class ElementController extends Controller
         if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        } elseif ($element_type == Element::FORM_V2) {
+        } elseif (in_array($element_type ,Element::getTypesV2())){    
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
@@ -126,7 +126,7 @@ class ElementController extends Controller
     public function show(Element $element, Request $request)
     {
 
-        if ($element->type == Element::FORM_V2) {
+        if (in_array($element->type ,Element::getTypesV2())) {
             $elementModel = ElementModel::where('id', $element->model_identifier)->first();
             $model = $elementModel->getObject();
         } else {
@@ -137,7 +137,7 @@ class ElementController extends Controller
         if ($element->type == Element::FORM) {
             $fields = $this->elements->getFormFields(trim($model->ID));
             $procedures = $this->computeFormProcedures(trim($model->ID));
-        } elseif ($element->type == Element::FORM_V2) {
+        } elseif (in_array($element->type ,Element::getTypesV2())) {
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
@@ -239,10 +239,10 @@ class ElementController extends Controller
                     $result['modelValues'],
                     $element->fields()->get(),
                     $limit, $request->all(),
-                    $element->type == Element::TYPES['table']['identifier'] ? true : false
+                    $element->type == Element::TYPES['table']['identifier'] || Element::TYPES['table-v2']['identifier']  ? true : false
                 ),
-                'totalPage' => $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
-                'total' => $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
+                'totalPage' => isset( $result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
+                'total' => isset( $result['completeObject']) &&  $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
             ]);
         } catch (\Exception $e) {
             return response()->json([

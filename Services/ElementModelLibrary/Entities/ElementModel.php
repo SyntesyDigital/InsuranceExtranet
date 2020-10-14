@@ -39,6 +39,7 @@ class ElementModel extends Model
         'def1',
         'def2',
         'validation_ws',
+        'default_parameters'
     ];
 
     public function procedures(): HasMany
@@ -54,6 +55,7 @@ class ElementModel extends Model
             'COMMENTAIRE' => $this->description,
             'ICONE' => $this->icon,
             'VALIDATION_WS' => $this->validation_ws,
+            'DEF1' => $this->def1
         ];
     }
 

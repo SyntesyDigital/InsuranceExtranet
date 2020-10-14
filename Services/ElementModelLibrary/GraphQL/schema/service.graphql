@@ -1,3 +1,5 @@
+
+
 ################################
 #   TYPE
 ################################
@@ -16,6 +18,12 @@ type Service {
     procedures: [ModelProcedure!] @hasMany
     created_at: String
     updated_at: String
+    body: String
+    example: String
+    has_session_id: Boolean
+}
+
+type ServiceBodyResponse {
     body: String
 }
 
@@ -36,6 +44,8 @@ input CreateServiceInput {
     response_json: String
     is_old_url_ws: Boolean
     body: String
+    example: String
+    has_session_id: Boolean
 }
 
 input UpdateServiceInput {
@@ -51,6 +61,8 @@ input UpdateServiceInput {
     response_json: String
     is_old_url_ws: Boolean
     body: String
+    example: String
+    has_session_id: Boolean
 }
 
 
@@ -64,7 +76,11 @@ extend type Query @middleware(checks: ["auth:veos-ws-token"]) {
 
     service(id: ID! @eq): Service
         @find(model: "Modules\\Extranet\\Services\\ElementModelLibrary\\Entities\\Service")
+
+    serviceBody(id: ID! @eq): ServiceBodyResponse
+        @field(resolver: "Modules\\Extranet\\Services\\ElementModelLibrary\\GraphQL\\Queries\\ServiceBody")    
 }
+
 
 ################################
 #   MUTATOR

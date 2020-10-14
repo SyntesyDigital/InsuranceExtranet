@@ -41,7 +41,7 @@ export default class SlugField extends Component
 
       changed = true;
 
-      this.props.onFieldChange(value);
+      this.props.onChange(this.props.name,value);
 
     }
 
@@ -100,30 +100,42 @@ export default class SlugField extends Component
 
   render() {
 
-    //console.log("SlugField :: render blocked => ",this.state.blocked);
+    const { label, error } = this.props;
 
     return (
-      <div>
+      <div className="slug-field">
         
-        <div className="block-div" onClick={this.toggleBlock.bind(this)} style={{display: this.state.blocked ? 'display' : 'none'}}>
+        <div className="block-div" onClick={this.toggleBlock.bind(this)} style={{
+              display: this.state.blocked ? 'display' : 'none',
+              top: 27,
+              height: 36
+            }}>
           <i className="fa fa-lock"></i>
         </div>
-        
-        <input
-          type="text"
-          className="form-control"
-          name={this.props.name}
-          placeholder={this.props.placeholder}
-          value={this.props.value}
-          onChange={this.onFieldChange.bind(this)}
-        />
-      </div>
+
+          <div className={"form-group bmd-form-group" + (error ? ' has-error' : '')}>
+            {label !== undefined && label != "" && 
+                  <label className="bmd-label-floating">
+                      {label}
+                  </label>
+              }
+            
+            <input
+              type="text"
+              className="form-control"
+              name={this.props.name}
+              placeholder={this.props.placeholder}
+              value={this.props.value}
+              onChange={this.onFieldChange.bind(this)}
+            />
+          </div>
+        </div>
     )
   }
 
 }
 
-InputField.propTypes = {
+SlugField.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   sourceValue: PropTypes.string.isRequired,

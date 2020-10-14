@@ -4,8 +4,9 @@ import {
     UPDATE_FORM,
     REMOVE_FORM,
     TEST_FORM,
-    INIT_CREATE
-
+    INIT_CREATE,
+    LOAD_TABLE_FIELD,
+    UPDATE_CURRENT_PROCEDURE
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -18,18 +19,26 @@ function transformElementModel(model) {
 }
 
 
-export function initState(modelId) {
-
-    if(modelId === undefined || modelId == null || modelId == '')
-        return { type: INIT_CREATE };
-
+export function initState(modelId, type) {
+    if(modelId === undefined || modelId == null || modelId == '') {
+        return { 
+            type: INIT_CREATE,
+            payload: {
+                type: type
+            }
+        };
+    }
+        
     return (dispatch) => {
         api.elementModel.get(modelId)
-            .then(function(data) {
-                //console.log("initState :: (data) ",data);
+            .then(function(response) {
+                let model = response.data.elementModel;
+                let payload = transformElementModel(model);
+                payload.type = type;
+                
                 dispatch({ 
                     type: INIT_STATE, 
-                    payload : transformElementModel(data.data.elementModel) 
+                    payload : payload,
                 });
             });
     }
@@ -44,32 +53,37 @@ export function updateField(name, value) {
     };
 }
 
-export function saveForm(form) {
-
-    if (form.id == null) {
-        return createForm(form);
-    }
-    else {
-        //else update
-        return updateForm(form);
-    }
+export function saveForm(state) {
+    return state.form.id === null 
+        ? createForm(state) 
+        : updateForm(state);
 }
 
-export function createForm(form) {
+export function createForm(state) {
+    //console.log("create form!");
     return (dispatch) => {
         api.elementModel.create({
-            name : form.name,
-            identifier : form.identifier,
-            description : form.description,
-            icon : form.icon,
-            type : form.type,
-            validation_ws : form.validation_ws
+            name : state.form.name,
+            identifier : state.form.identifier,
+            description : state.form.description,
+            icon : state.form.icon,
+            type : state.form.type,
+            validation_ws : state.form.validation_ws,
+            def1 : state.form.def1
         })
-        .then(function(data) {
+        .then(function(response) {
+
+            let model = response.data.createElementModel;
 
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({type: UPDATE_FORM, payload: data.data.createElementModel});
+            window.location.href = routes['extranet.elements-models.update']
+                .replace(':id',model.id);
+
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: model
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -77,22 +91,27 @@ export function createForm(form) {
     }
 };
 
-export function updateForm(form) {
+export function updateForm(state) {
     
     return (dispatch) => {
-        api.elementModel.update(form.id,{
-            name : form.name,
-            identifier : form.identifier,
-            description : form.description,
-            icon : form.icon,
-            type : form.type,
-            validation_ws : form.validation_ws
+        api.elementModel.update(state.form.id, {
+            name : state.form.name,
+            identifier : state.form.identifier,
+            description : state.form.description,
+            icon : state.form.icon,
+            type : state.form.type,
+            validation_ws : state.form.validation_ws,
+            def1 : state.form.def1
         })
-        .then(function(data) {
-
+        .then(function(response) {
+            let model = response.data.updateElementModel;
+            
             toastr.success(Lang.get('fields.success'));
 
-            dispatch({type: UPDATE_FORM, payload: data.data.updateElementModel});
+            dispatch({
+                type: UPDATE_FORM, 
+                payload: model
+            });
         })
         .catch(function(error) {
             toastr.error(error.message);
@@ -101,13 +120,10 @@ export function updateForm(form) {
 };
 
 export function removeForm(form) {
-
-    return (dispatch) => {
-        api.elementModel.delete(form.id)
-            .then(function(data) {
-                window.location.href = routes['extranet.elements-models.forms.index'];
-            });
-    }
+    return (dispatch) => api.elementModel.delete(form.id)
+        .then(function(data) {
+            window.location.href = routes['extranet.elements-models.forms.index'];
+        });
 };
 
 export function testForm(form) {

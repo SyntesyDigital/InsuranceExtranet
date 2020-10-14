@@ -47,6 +47,7 @@
     {{ Html::script('/modules/architect/js/architect.js') }}
 @endpush
 
+
 @push('javascripts-libs')
 <script>
 @if((isset($element)) && $element)
@@ -60,7 +61,7 @@
         'extranet.elements.template' : "{{ route('extranet.elements.template.create', $element) }}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
         'extranet.elements.show' : "{{  isset($element) ? route('extranet.elements.show', $element) : null }}",
-        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.forms.update',['id'=>$model->ID])}}",
+        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.update',['type' => $element_type, 'id'=>$model->ID])}}",
     };
 @else 
     var routes = {
@@ -71,7 +72,7 @@
         'extranet.content.parameters' : "{{route('extranet.content.parameters', ['content' => ':content'])}}",
         'extranet.element.parameters' : "{{route('extranet.element.parameters', ['element' => ':element'])}}",
         'extranet.elements.index' : "{{route('extranet.elements.index')}}",
-        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.forms.update',['id'=>$model->ID])}}",
+        'extranet.elements-models.forms.update' :"{{route('extranet.elements-models.update',['type' => 'form-v2', 'id'=>$model->ID])}}",
     };
 @endif
 </script>

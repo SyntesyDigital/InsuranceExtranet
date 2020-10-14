@@ -33,7 +33,7 @@ app.sitelist = {
             node += "<div class=\"col-md-12 dragable-option\" draggable=\"true\" ondragstart=\"app.sitelist.dragstart(event)\"  ondragenter=\"app.sitelist.dragenter(event)\" >" +
                 "<div class=\"content-add\">" +
                 "<div class=\"tool-box\">" +
-                "<a class=\"remove-action\" onclick=\"app.sitelist.removeContent(" + i + ")\"><i class=\"fa fa-trash\"></i> &nbsp; Supprimier </a>" +
+                "<a class=\"remove-action\" onclick=\"app.sitelist.removeContent(" + i + ")\"><i class=\"fa fa-trash\"></i> &nbsp; Supprimer </a>" +
                 "</div>" +
                 "<input type=\"text\" name=\"name_json\" oninput=\"list_json[" + i + "].name = this.value;app.sitelist.updatePreview();\" class=\"form-control input-lg input-name-option\" placeholder=\"name\" value=\"" + ele.name + "\"  />" +
                 "<input type=\"text\" name=\"value_json\" oninput=\"list_json[" + i + "].value = this.value;app.sitelist.updatePreview();\" class=\"form-control input-sm input-value-option\" placeholder=\"value\" value=\"" + ele.value + "\"  />" +

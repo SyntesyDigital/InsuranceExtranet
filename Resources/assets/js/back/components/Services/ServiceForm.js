@@ -9,7 +9,8 @@ import InputFieldJsonEdit from '../Layout/Fields/InputFieldJsonEdit';
 import SelectField from '../Layout/Fields/SelectField';
 import CollapsableGroup from '../Layout/CollapsableGroup';
 import KeyValuesField from '../Layout/Fields/KeyValuesField';
-
+import SlugField from '../Layout/Fields/SlugField';
+import ButtonSecondary from '../Layout/ButtonSecondary';
 import api from '../../api/index.js';
 
 export default class ServiceForm extends Component {
@@ -23,8 +24,9 @@ export default class ServiceForm extends Component {
             service: {
                 http_method : 'POST',
                 json : '{}',
-                reponse_json : '{}',
-                is_old_url_ws: false
+                response_json : '{}',
+                is_old_url_ws: false,
+                example: null
             },
 
             errors: {},
@@ -78,15 +80,19 @@ export default class ServiceForm extends Component {
     load() {
         api.services.get(this.props.serviceId)
             .then(payload => this.setState({
-                'service': payload.data.service ? payload.data.service : null,
-                'json' : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
-                'response_json' : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
+                service: payload.data.service ? payload.data.service : null,
+                json : payload.data.service.json != "" ? JSON.parse(payload.data.service.json) : {},
+                example :  payload.data.service.example != "" ? payload.data.service.example : null,
+                //response_json : payload.data.service.response_json != "" ? JSON.parse(payload.data.service.response_json) : {}
             }));
     }
 
     create() {
         api.services.create(this.state.service)
-            .then(payload => this.handleSaveSuccess(payload.data.createService))
+            .then(payload => {
+                this.handleSaveSuccess(payload.data.createService);
+                window.location.href = routes['extranet.services.update'].replace(':id',payload.data.createService.id);
+            })
             .catch(error => this.handleSaveError(error));
     }
 
@@ -102,13 +108,35 @@ export default class ServiceForm extends Component {
             : this.create();
     }
 
+    getBody() {
+        api.services.getBody(this.state.service.id)
+            .then(payload => {
+                toastr.success('Action terminée avec succès.');
+                this.handleGetBody(payload.data.serviceBody);
+            })
+            .catch(error => {
+                toastr.error('Une erreur est survenue lors de l\'appel au service.');
+            });
+    }
+
     // ==============================
     // Handlers
     // ==============================
 
-    handleSaveSuccess(service) {
+    handleGetBody(payload) {        
+
+
         this.setState({
-            service: service,
+            service: {
+                ...this.state.service, 
+                response_json: payload.body
+            }
+        });
+    }
+
+    handleSaveSuccess(payload) {    
+        this.setState({
+            service: payload,
             errors: {}
         });
         toastr.success('Service enregistré');
@@ -185,6 +213,8 @@ export default class ServiceForm extends Component {
 
     render() {
 
+        const isGet = this.state.service.http_method == "GET";
+        
         return (
             <div className="services-update">
 
@@ -241,12 +271,13 @@ export default class ServiceForm extends Component {
                             identifier="response_json"
                             title="Response JSON (Exemple)"
                         >
+              
                             <InputFieldJsonEdit
                                 id={'response_json'}
                                 label={'Response JSON'}
                                 width={'100%'}
                                 name={'response_json'}
-                                placeholder={this.state.response_json}
+                                placeholder={JSON.parse(this.state.service.response_json)}
                                 onChange={this.handleFieldChange.bind(this)}
                                 height={400}
                             />
@@ -263,12 +294,14 @@ export default class ServiceForm extends Component {
                             error={this.state.errors.name ? true : false}
                         />
 
-                        <InputField
+                        <SlugField
                             label={'Identifier'}
                             value={this.state.service.identifier ? this.state.service.identifier : ''}
                             name={'identifier'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.identifier ? true : false}
+                            sourceValue={this.state.service.name}
+                            blocked={false}
                         />
 
                         <div className="form-group">
@@ -314,12 +347,22 @@ export default class ServiceForm extends Component {
                         }
 
                         <ToggleField
+                            label={'Identifiant de session'}
+                            checked={this.state.service.has_session_id ? this.state.service.has_session_id : false}
+                            name={'has_session_id'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.has_session_id ? true : false}
+                        />
+
+                        <ToggleField
                             label={'Ancienne URL WS'}
                             checked={this.state.service.is_old_url_ws ? this.state.service.is_old_url_ws : false}
                             name={'is_old_url_ws'}
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.is_old_url_ws ? true : false}
                         />
+
+                        
 
                         <InputField
                             label={'Commentaire'}
@@ -341,6 +384,32 @@ export default class ServiceForm extends Component {
                             onChange={this.handleFieldChange.bind(this)}
                             error={this.state.errors.response ? true : false}
                         />
+
+                        <hr/>
+
+                        <InputField
+                            label={'Exemple'}
+                            value={this.state.service.example ? this.state.service.example : ''}
+                            name={'example'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.example ? true : false}
+                        />
+
+                        <div style={{
+                            opacity : isGet ? 1 : 0.5,
+                            pointerEvents : isGet ? 'auto' : 'none'
+                        }}>
+                            <ButtonSecondary
+                                label='Envoyer'
+                                icon='fa fa-paper-plane'
+                                onClick={() => this.getBody()}
+                            />
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
 
                     </div>
                 </div>

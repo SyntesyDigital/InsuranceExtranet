@@ -6,61 +6,116 @@ import ButtonDropdown from '../Layout/ButtonDropdown';
 import FieldList from '../Layout/FieldList';
 import FieldListItem from '../Layout/FieldListItem';
 import InputField from '../Layout/Fields/InputField';
-import ModalTestForm from './ModalTestForm';
-import ModalEditProcedures from './ModalEditProcedures';
+import SlugField from '../Layout/Fields/SlugField';
+import SelectField from '../Layout/Fields/SelectField';
 import BoxAddLarge from '../Layout/BoxAddLarge';
 import IconField from '../Layout/Fields/IconField';
 import { connect } from 'react-redux';
+import api from '../../api/index.js';
+
+
+// MODALS
+import ModalTestForm from './modals/ModalTestForm';
+import ModalObject from './modals/ModalObject';
+import ModalProcedures from './modals/ModalProcedures';
+import ToggleField from '../Layout/Fields/ToggleField';
 
 import {
     initState,
+
+    // Form
     saveForm,
     removeForm,
     testForm,
     updateField,
+
+    // Procedure
     removeProcedure,
-    openModalCreateProcedure,
-    openModalEditProcedure,
-    
-} from './actions'
+    openModalProcedure,
+    closeModalProcedure,
 
-import ToggleField from '../Layout/Fields/ToggleField';
+    // Object
+    openModalEditObject,
+    openModalCreateObject,
+    removeProcedureObject,
+
+    // Table 
+    importFieldsFromService
+} from './actions';
 
 
-
-class FormsUpdateRedux extends Component {
+class ElementsModelsFormRedux extends Component {
 
     constructor(props) {
 
         super(props);
 
         this.state = {
-
+            services: [
+                {
+                    name: 'chargement...',
+                    value: ''
+                }
+            ],
+            errors: {
+                identifier: null,
+                name: null,
+                service_id: null,
+            }
         };
 
-        this.props.initState(this.props.modelId);
+        this.props.initState(this.props.modelId, this.props.type);       
     }
+
+    componentDidMount() {
+
+        // FIXME : poner eso dentro del state redux
+        let onLoaded = (data) => {
+
+            let services = data.data.services.map((item) => {
+                return {
+                    name : item.name + ' - ' + item.created_at + '',
+                    value : item.id
+                }
+            }).sort(function(a, b){
+                if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+                if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+                return 0;
+            });
+
+            services.unshift({
+                name : '---',
+                value : ''
+            });
+
+            this.setState({
+                services : services
+            })
+        };
+
+        api.services
+            .getAll()
+            .then(data => onLoaded(data));
+    }
+
+    // ==============================
+    // Loaders
+    // ==============================
+
 
     // ==============================
     // Handlers
     // ==============================
-    
-    handleEditProcedure(procedure){
-        console.log("handleEditProcedure", procedure);
 
-        //clone the object not send the reference
-        procedure = JSON.parse(JSON.stringify(procedure));
-
-        this.props.openModalEditProcedure(procedure);
-    }
-
-    handleCreateProcedure(){
-        console.log("handleCreateProcedure");
-        this.props.openModalCreateProcedure(this.props.form.form.procedures);
+    handleRemoveObject(procedure, object){
+        this.props.removeProcedureObject(
+            this.props.form.form.procedures,
+            procedure, 
+            object
+        );
     }
 
     handleRemoveProcedure(procedure){
-        console.log("handleRemoveProcedure");
         this.props.removeProcedure(
             this.props.form.form.procedures, 
             procedure
@@ -68,17 +123,12 @@ class FormsUpdateRedux extends Component {
     }
 
     handleTestForm(form){
-        console.log("handleTestForm");
         this.props.testForm(form);
     }
 
     handleRemoveForm(form) {
-
-        var _this = this;
-
         bootbox.confirm({
-            message: this.props.rempoveMessage !== undefined ? 
-            this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
+            message: this.props.rempoveMessage !== undefined ? this.props.rempoveMessage : Lang.get('fields.delete_row_alert'),
             buttons: {
                 confirm: {
                     label: Lang.get('fields.si') ,
@@ -89,19 +139,52 @@ class FormsUpdateRedux extends Component {
                     className: 'btn-default'
                 }
             },
-            callback: function (result) {
-                if(result){
-                    console.log("handleRemoveForm");
-                    _this.props.removeForm(_this.props.form.form);
-                }
-              }
-            });
+            callback: result => result ? this.props.removeForm(this.props.form.form) : null
+        });
     }
 
-    handleSubmit() {
-        console.log("handleSubmit");
-        this.props.saveForm(this.props.form.form);
+    handleSubmit() {        
+        return this.validate() 
+            ? this.props.saveForm(this.props.form)
+            : false;
     }
+
+    validate() {
+
+        this.setState({
+            errors: {
+                identifier: !this.props.form.form.identifier ? true : false,
+                name: !this.props.form.form.name ? true : false, 
+                service_id: !this.props.form.form.service_id ? true : false,
+            }
+        });
+
+        switch(this.getFormType()) {
+            case 'fiche':
+            case 'table':
+                if(!this.props.form.form.identifier || !this.props.form.form.name || !this.props.form.form.service_id) {
+                    return false;
+                }
+            break;
+            
+            default: 
+                if(!this.props.form.form.identifier || !this.props.form.form.name) {
+                    return false;
+                }
+            break;
+        }
+
+        this.setState({
+            errors: {
+                identifier: null,
+                name: null,
+                service_id: null
+            }
+        });
+
+        return true;
+    }
+
 
     handleImportFromV1() {
         var _this = this;
@@ -143,28 +226,54 @@ class FormsUpdateRedux extends Component {
 
     importModel(modelId) {
         axios.get(routes['extranet.element.import'].replace(':model_id',modelId))
-            .then(function(response) {
-                //console.log("importModel response",response.data.model.id);
+            .then(response => {
                 window.location.href = routes['extranet.elements-models.forms.update'].replace(':id',response.data.model.id);
             })
-            .catch(function (error) {
-                toastr.error(error.response.data.message);
-            });
+            .catch(error => toastr.error(error.response.data.message));
     }
+    
+
+    // ==============================
+    // Getters
+    // ==============================
+    getFormType() {
+        return this.props.form.form.type !== undefined 
+            ? this.props.form.form.type
+            : null;
+    }
+
+    getTypeIcon(type) {
+        switch(type) {
+            case "INPUT" : 
+                return 'far fa-user'
+            case "SYSTEM" : 
+                return 'fas fa-database'
+            case "CTE" : 
+                return 'fas fa-lock'
+        }
+        return '';
+    }
+
+    getTableFicheProcedure()
+    {
+        return this.props.form.form.procedures.length > 0 
+            ? this.props.form.form.procedures[0] 
+            : null;
+    }
+
 
     // ==============================
     // Renderers
     // ==============================
-
+    
     renderProcedures() {
-        
-        var procedures = this.props.form.form.procedures;
+        let procedures = this.props.form.form.procedures;
 
         procedures.sort((a, b) => {
             return parseInt(a.order) - parseInt(b.order);
         });
 
-        const displayProcedures = this.props.form.form.procedures.map((procedure, index) =>
+        let displayProcedures = this.props.form.form.procedures.map((procedure, index) =>
             <div key={procedure.name+index} className={procedure.name+index}>
                 <FieldListItem
                     key={index}
@@ -176,16 +285,21 @@ class FormsUpdateRedux extends Component {
                     ]}
                     labelInputLeft={procedure.name}
                     labelInputRight={procedure.service.name}
-                    
-                    //onEvents
-                    onEdit={this.handleEditProcedure.bind(this, procedure)}
-                    onRemove={this.handleRemoveProcedure.bind(this, procedure)}
+                    onEdit={() => this.props.openModalProcedure(JSON.parse(JSON.stringify(procedure)))}
+                    onRemove={() => this.props.removeProcedure(this.props.form.form.procedures, procedure)}
                 />
             </div>
         )
         return (
             <div>
                 {displayProcedures}
+                
+                <BoxAddLarge
+                    title='Ajouter'
+                    onClick={() => {
+                        this.props.openModalProcedure();
+                    }}
+                />
             </div>
         )
     }
@@ -194,8 +308,8 @@ class FormsUpdateRedux extends Component {
 
         const saved = this.props.form.form.id == null ? false : true;
 
-        return (
 
+        return (
             <div className="forms-update">
 
                 <ModalTestForm
@@ -204,25 +318,36 @@ class FormsUpdateRedux extends Component {
                     size={'medium'}
                     title={'Test Json'}
                     display={this.props.form.displayTestForm}
+                    type={this.getFormType()}
                     zIndex={10000}
-                    // onModalClose={this.handleModalClose.bind(this)}
                 />
 
-                <ModalEditProcedures
+                <ModalProcedures
                     id={'modal-edit-procedures'}
                     icon={'fas fa-bars'}
                     size={'large'}
                     title={'Test Json'}
-                    display={this.props.form.displayEditProcedures}
+                    display={this.props.form.displayProcedureModal}
                     procedure={this.props.form.currentProcedure}
                     zIndex={10000}
-                    
                 />
 
+                <ModalObject
+                    id={'modal-edit-object'}
+                    icon={'fas fa-bars'}
+                    size={'medium'}
+                    title={'Object | Configuration'}
+                    display={this.props.form.displayObjectModal}
+                    object={this.props.form.currentObject}
+                    procedure={this.props.form.currentProcedure}
+                    zIndex={10000}
+                    onModalClose={() => this.props.closeModalProcedureObject()}
+                />
+               
                 <BarTitle
                     icon={this.props.form.form.icon}
                     title={this.props.form.form.name}
-                    backRoute={routes['extranet.elements-models.forms.index']}
+                    backRoute={routes['extranet.elements-models.index']}
                 >
                     {saved && 
                         <ButtonSecondary
@@ -232,13 +357,38 @@ class FormsUpdateRedux extends Component {
                         />
                     }
 
+                    {(saved && (this.getFormType() == "table" || this.getFormType() == "fiche")) && 
+                        <ButtonSecondary
+                            label={'Importer les champs'}
+                            icon={'fas fa-sync-alt'}
+                            onClick={e => {
+                                e.preventDefault();
+
+                                bootbox.confirm({
+                                    message: "Attention ! Si vous importez des champs, vous perderez les champs actuellement configurés. Êtes-vous sûr de vouloir importer les champs du service ?",
+                                    buttons: {
+                                        confirm: {
+                                            label: Lang.get('fields.si') ,
+                                            className: 'btn-primary'
+                                        },
+                                        cancel: {
+                                            label:  Lang.get('fields.no'),
+                                            className: 'btn-default'
+                                        }
+                                    },
+                                    callback: result => result ? this.props.importFieldsFromService(this.props.form.form.service_id) : null
+                                });
+                            }}
+                        />
+                    }
+
                     <ButtonDropdown
                         label={'Actions'}
                         list={[
                             {
                                 label: 'Nouveau',
                                 icon: 'fa fa-plus-circle',
-                                route: routes['extranet.elements-models.forms.create'],
+                                route: routes['extranet.elements-models.create'],
 
                             },
                             {
@@ -247,7 +397,7 @@ class FormsUpdateRedux extends Component {
                                 onClick: this.handleImportFromV1.bind(this),
                             },
                             {
-                                label: 'Supprimier',
+                                label: 'Supprimer',
                                 icon: 'fas fa-trash-alt',
                                 className: 'text-danger',
                                 onClick: this.handleRemoveForm.bind(this),
@@ -265,19 +415,19 @@ class FormsUpdateRedux extends Component {
 
                 <div className="container rightbar-page">
 
-                    <div className="col-md-9 page-content form-fields" style={{
+                    <div 
+                        className="col-md-9 page-content form-fields" 
+                        style={{
                             opacity : saved ? 1 : 0.5,
                             pointerEvents : saved ? 'auto' : 'none'
-                        }}>
+                        }}
+                    >
 
                         <FieldList>
 
-                            {this.renderProcedures()}
-
-                            <BoxAddLarge
-                                title='Ajouter'
-                                onClick={this.handleCreateProcedure.bind(this)}
-                            />
+                            <div>
+                                { this.renderProcedures() }
+                            </div>
 
                         </FieldList>
 
@@ -290,14 +440,19 @@ class FormsUpdateRedux extends Component {
                             value={this.props.form.form.name}
                             name={'name'}
                             onChange={this.props.updateField}
+                            error={this.state.errors.name}
                         />
                         
-                        <InputField
+                        <SlugField
                             label={'Identifier'}
                             value={this.props.form.form.identifier}
                             name={'identifier'}
+                            sourceValue={this.props.form.form.name}
                             onChange={this.props.updateField}
+                            error={this.state.errors.identifier}
+                            blocked={this.props.modelId != ''}
                         />
+                        
 
                         <IconField
                             label={'Icone'}
@@ -312,6 +467,15 @@ class FormsUpdateRedux extends Component {
                             name={'description'}
                             onChange={this.props.updateField}
                         />
+
+                        {/*
+                        <InputField
+                            label={'Paramètres par défaut ( DEF1 )'}
+                            value={this.props.form.form.def1}
+                            name={'def1'}
+                            onChange={this.props.updateField}
+                        />
+                        */}
 
                         <hr/>
 
@@ -332,7 +496,9 @@ class FormsUpdateRedux extends Component {
                             />
                         }
 
+
                     </div>
+
                 </div>
             </div>
         );
@@ -341,7 +507,8 @@ class FormsUpdateRedux extends Component {
 
 const mapStateToProps = state => {
     return {
-        form: state.form
+        form: state.form,
+        table: state.table
     }
 }
 
@@ -353,8 +520,8 @@ const mapDispatchToProps = dispatch => {
         // Initial State
         // ==============================
 
-        initState: (modelId) => {
-            return dispatch(initState(modelId));
+        initState: (modelId, type) => {
+            return dispatch(initState(modelId, type));
         },
 
         // ==============================
@@ -389,15 +556,34 @@ const mapDispatchToProps = dispatch => {
             return dispatch(removeProcedure(procedures,procedure));
         },
         
-        openModalCreateProcedure: (procedures) => {
-            return dispatch(openModalCreateProcedure(procedures));
+        openModalProcedure: (procedure) => {
+            return dispatch(openModalProcedure(procedure));
         },
 
-        openModalEditProcedure: (procedure) => {
-            return dispatch(openModalEditProcedure(procedure));
+        closeModalProcedure: () => {
+            return dispatch(closeModalProcedure());
         },
+
+        // ==============================
+        // Procedures FIELDS
+        // ==============================
+        openModalEditObject: (procedure, object) => {
+            return dispatch(openModalEditObject(procedure, object));
+        },
+
+        openModalCreateObject: () => {
+            return dispatch(openModalCreateObject());
+        },
+
+        removeProcedureObject: (procedures, procedure, object) => {
+            return dispatch(removeProcedureObject(procedures, procedure, object));
+        },
+
+        importFieldsFromService: (servideId) => {
+            return dispatch(importFieldsFromService(servideId));
+        }
 
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormsUpdateRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(ElementsModelsFormRedux);

@@ -209,8 +209,6 @@ class BobyRepository
         return $url;
     }
 
-
-
     public function checkDocumentAvailable($id)
     {
         $response = $this->client->get(VeosWsUrl::get().'boBy/v2/WS_EXT2_DEF_PERMISDOC?'

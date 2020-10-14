@@ -32,6 +32,7 @@ return [
           'readonly',
           'operation',
           'description',
+          'hidden',
         ],
       ],
       'number' => [
@@ -66,6 +67,7 @@ return [
           'readonly',
           'currency',
           'description',
+          'hidden',
         ],
       ],
       'date' => [
@@ -365,7 +367,7 @@ return [
           'description',
         ],
       ],
-    ],// --- end customFields ---
+    ], // --- end customFields ---
 
     'parameters' => [
       'settings' => [

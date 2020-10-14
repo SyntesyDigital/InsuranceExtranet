@@ -58,14 +58,14 @@ class ModelValuesFormatTransformer extends Resource
 
     private function processLink($link,$value)
     {
-        return '<a href="'.$url.'">'.$value.'</a>';
+        return '<a href="'.$link.'">'.$value.'</a>';
     }
 
     private function processContent($hasRoute, $modelValue, $value)
     {
         if (isset($hasRoute['id'])) {
             $url = $this->getContentUrl($hasRoute['id']);
-
+            
             //process parameters
             if ($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0) {
                 $url .= '?';
@@ -158,6 +158,8 @@ class ModelValuesFormatTransformer extends Resource
         $result = [];
         $i = 0;
 
+        
+
         try {
             foreach ($modelValues as $modelValue) {
                 if (!$limit || $i < $limit) {
@@ -165,6 +167,8 @@ class ModelValuesFormatTransformer extends Resource
 
                         $originalValue = isset($modelValue->{$elementField->identifier}) 
                             ? $modelValue->{$elementField->identifier} : '';
+
+                        //dd($modelValue[$elementField->identifier]);
 
                         switch ($elementField->type) {
                             case 'number':
@@ -252,8 +256,9 @@ class ModelValuesFormatTransformer extends Resource
                             if ($this->isTable) {
                                 $result[$i][$elementField->identifier] = $result[$i][$elementField->identifier].';'.$link;
                             } else {
-                                $result[$i][$elementField->identifier] = $this->processLink($link,$modelValue);
+                                $result[$i][$elementField->identifier] = $this->processLink($link,$result[$i][$elementField->identifier]);
                             }
+                            
                         } elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
                             && isset($elementField->settings['hasModal']['id'])) {

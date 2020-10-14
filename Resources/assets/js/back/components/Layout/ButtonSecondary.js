@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 export default class ButtonSecondary extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
     }
 
@@ -21,8 +19,8 @@ export default class ButtonSecondary extends Component {
 }
 
 ButtonSecondary.propTypes = {
-  label: PropTypes.string.isRequired,
-  icon: PropTypes.string,
-  onClick : PropTypes.func,
-  route : PropTypes.string
+    label: PropTypes.string.isRequired,
+    icon: PropTypes.string,
+    onClick: PropTypes.func,
+    route: PropTypes.string
 };

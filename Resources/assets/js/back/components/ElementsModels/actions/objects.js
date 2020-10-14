@@ -4,7 +4,8 @@ import {
     OPEN_MODAL_EDIT_OBJECT,
     CLOSE_MODAL_PROCEDURE_OBJECT,
     UPDATE_PROCEDURES,
-
+    REMOVE_OBJECT_CURRENT_PROCEDURE,
+    IMPORT_PROCEDURE_OBJECTS
 } from "../constants/";
 
 import api from '../../../api/index.js';
@@ -13,13 +14,15 @@ export function initState(payload) {
     return { type: INIT_STATE, payload }
 };
 
-function getMaxId(list) {
-    var maxId = 0;
-    for (var index in list) {
-        maxId = Math.max(list[index].id, maxId);
-    }
-    return parseInt(maxId) + 1;
-}
+// function getMaxId(list) {
+//     var maxId = 0;
+//     for (var index in list) {
+//         maxId = Math.max(list[index].id, maxId);
+//     }
+//     return parseInt(maxId) + 1;
+// }
+
+
 
 export function openModalCreateObject() {
     return {
@@ -29,7 +32,8 @@ export function openModalCreateObject() {
 
 export function openModalEditObject(procedure, object) {
     return {
-        type: OPEN_MODAL_EDIT_OBJECT, payload: {
+        type: OPEN_MODAL_EDIT_OBJECT, 
+        payload: {
             procedure: procedure,
             object: object
         }
@@ -38,9 +42,8 @@ export function openModalEditObject(procedure, object) {
 
 export function closeModalProcedureObject() {
     return {
-        type: CLOSE_MODAL_PROCEDURE_OBJECT, payload: {
-
-        }
+        type: CLOSE_MODAL_PROCEDURE_OBJECT, 
+        payload: {}
     };
 };
 
@@ -70,18 +73,15 @@ export function updateProcedureObjectField(procedures, procedure, object, name, 
     procedures[index].fields[objectIndex] = object;
 
     return {
-        type: UPDATE_PROCEDURES, payload: procedures
+        type: UPDATE_PROCEDURES, 
+        payload: procedures
     };
 };
 
 export function saveProcedureObject(procedures, procedure, object) {
-
-    if (object.id == null) {
-        return createProcedureObject(procedures, procedure, object);
-    }
-    else {
-        return updateProcedureObject(procedures, procedure, object);
-    }
+    return object.id  == null 
+            ? createProcedureObject(procedures, procedure, object)
+            : updateProcedureObject(procedures, procedure, object);
 };
 
 export function createProcedureObject(procedures, procedure, object) {
@@ -153,7 +153,31 @@ export function updateProcedureObject(procedures, procedure, object) {
 
 export function removeProcedureObject(procedures, procedure, object) {
 
+    if(!object.id) {
+        return (dispatch) => {
+            dispatch({ 
+                type: REMOVE_OBJECT_CURRENT_PROCEDURE, 
+                payload: object 
+            });
+
+            // var index = getProcedureIndex(procedures, procedure);
+            // var objectIndex = getObjectIndex(procedure.fields, object);
+            // procedures[index].fields.splice(objectIndex, 1);
+
+            // toastr.success(Lang.get('fields.success'));
+
+            // dispatch({ 
+            //     type: UPDATE_PROCEDURES, 
+            //     payload: procedures 
+            // });
+
+        };
+    }
+
     return (dispatch) => {
+
+        console.log("remove object!",object.id)
+
         api.fields.delete(object.id)
             .then(function (data) {
                 var index = getProcedureIndex(procedures, procedure);
@@ -162,7 +186,10 @@ export function removeProcedureObject(procedures, procedure, object) {
 
                 toastr.success(Lang.get('fields.success'));
 
-                dispatch({ type: UPDATE_PROCEDURES, payload: procedures });
+                dispatch({ 
+                    type: UPDATE_PROCEDURES, 
+                    payload: procedures 
+                });
             })
             .catch(function (error) {
                 toastr.error(error.message);

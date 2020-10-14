@@ -13,6 +13,7 @@ use GuzzleHttp\Client;
 use Auth;
 use Config;
 use Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel;
+use JsonPath\JsonObject;
 
 class ElementRepository extends BaseRepository
 {
@@ -42,15 +43,15 @@ class ElementRepository extends BaseRepository
     {
         $beans = [];
 
-        if ($type == Element::FORM_V2) {
+        if (in_array($type,Element::getTypesV2())) {
             $models = ElementModel::where('type', $type)->get();
 
             foreach ($models as $model) {
                 $beans[] = (object) [
-              'ID' => trim($model->id),
-              'ICONE' => $model->icon,
-              'TITRE' => $model->name,
-            ];
+                    'ID' => trim($model->id),
+                    'ICONE' => $model->icon,
+                    'TITRE' => $model->name,
+                ];
             }
         } else {
             $allBeans = $this->boby->postQuery(Element::TYPES[$type]['WS_NAME']);
@@ -181,8 +182,17 @@ class ElementRepository extends BaseRepository
             }
         }
 
-        return $this->boby->getModelValuesQuery($element->model_ws.$params);
+        //if is v2 process jsonpath
+        if(Element::isV2($element->type)){
+            //parameters are passed as an array for V2
+            return $this->getModelValuesV2($element,$parameters);
+        }
+        else {
+            return $this->boby->getModelValuesQuery($element->model_ws.$params);
+        }
     }
+
+    
 
     public function getFormFields($modelId)
     {
@@ -445,4 +455,154 @@ class ElementRepository extends BaseRepository
             ->rawColumns(['title', 'action'])
             ->make(true);
     }
+
+    /**
+     * MODEL V2 PROCESSMENT. MOVE TO SOMEWHERE ELSE ? 
+     */
+
+    public function getModelValuesV2($element,$parameters) 
+    {
+
+        //if debug parameter is set, unset to remove from final query parameters
+        if(isset($parameters['debug']))
+            unset($parameters['debug']);
+
+        //get model, procedures and service to know WS 
+        $variables = $this->boby->getModelValuesQuery('WS_EXT2_DEF_PARAMPAGES?perPage=100');
+        //we use the same method for forms to process all inner info
+        $modelProcedures = $element->elementModel->getProcedures($variables);
+
+        if(!isset($modelProcedures['procedures']) || sizeof($modelProcedures['procedures']) == 0){
+            return null;
+        }
+
+        //by now only use first procedure, merge not available
+        $procedure = $modelProcedures['procedures'][0];
+
+        if($procedure->SERVICE->METHODE != "GET"){
+            //only GET is available by now
+            return null;
+        }
+
+        //dd($parameters);
+
+        if($procedure->SERVICE->HAS_SESSION_ID){
+            //add session parameter
+            $parameters['SES'] = isset(Auth::user()->session_id) ? Auth::user()->session_id : null;
+        }
+
+        //if parameter is necessary in url is necessary to proceed
+        $urlProcessed = $this->processUrlByParameters($procedure->SERVICE->URL,$parameters);
+
+        //convert url to parameters object
+        $result = $this->boby->processMethod(
+            $procedure->SERVICE->METHODE,
+            $urlProcessed['url'],
+            $urlProcessed['parameters']
+        );
+
+        $isArray = isset($result->data);
+
+        $data = $isArray ? $result->data : $result;
+
+        //get procedure model values ( all info is into a procedure)
+        $data = $this->processResponseWithJSONP($data,$procedure,$isArray);
+        
+        
+        $beans = [];
+        $beans['modelValues'] = $data;
+        $beans['completeObject'] = $isArray ? $result : null;
+
+        
+
+        return $beans;
+    }
+
+    /**
+     * Check if parameters exist in the url example : /etude/_id_etude.
+     * Check if exist in parameters and remove from parameters array, so no necessary
+     * to add as url parameters like this ?param1=value1.
+     */
+    private function processUrlByParameters($url,$parameters)
+    {
+        
+        $finalParameters = [];
+        foreach($parameters as $key => $value){
+            $urlKey = "_".$key;
+            if(strpos($url,$urlKey) !== false){
+                //key exist in url
+                $url = str_replace($urlKey,$value,$url);
+            }
+            else {
+                $finalParameters[$key] = $value;
+            }
+        }
+        return [
+            'url' => $url,
+            'parameters' => $finalParameters
+        ];
+    }
+
+    /**
+     * Iterate all response to get only element values filtered by jsonpath
+     */
+    private function processResponseWithJSONP($responseData,$procedure,$isArray)
+    {
+        $resultData = [];
+
+        if($isArray){
+            //process every items of array
+            foreach($responseData as $index => $item) {
+                $resultData = $this->processItem($resultData,$index,$item,$procedure);
+            }
+        }
+        else {
+            //is of type file, so return only one item with result
+            $resultData = $this->processItem($resultData,0,$responseData,$procedure);
+        }
+        
+        return $resultData;
+    }
+
+    private function processItem($resultData,$index,$item,$procedure) 
+    {
+        $jsonObject = new JsonObject($item);
+    
+        $resultData[$index] = (object)[];
+
+        //for all model fields process jsponath value
+        foreach($procedure->OBJECTS as $object) {
+            $jsonpath = $procedure->JSONP.$object->OBJ_JSONP.$object->CHAMP;
+            $value = $jsonObject->get($jsonpath);
+            if($value && sizeof($value)>0){
+                $resultData[$index]->{$object->CHAMP} = $value[0];
+            }
+            else {
+                //if not found jsonpath
+                $resultData[$index]->{$object->CHAMP} = null;
+            }
+        }
+        return $resultData;
+    }
+
+    /**
+     * Convert param1=value1&param2=value2 to 
+     * [
+     *     param1 => value1,
+     *     param2 => value2
+     * ]
+     */
+    private function url2parameters($url) {
+        
+        $parameters = [];
+        $urlArray = explode('&',$url);
+        foreach($urlArray as $index => $parameter) {
+            $parameterArray = explode('=',$parameter);
+            $parameters[$parameterArray[0]] = $parameterArray[1];
+        }
+        return $parameters;
+    }
+
+
+
 }

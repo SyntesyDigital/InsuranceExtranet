@@ -12,7 +12,8 @@
   var routes = {
     'extranet.services.index' : "{{route('extranet.services.index')}}",
     'extranet.services.create' : "{{route('extranet.services.create')}}",
-    'extranet.services.delete' : "{{route('extranet.services.delete',['id' => 1])}}",
+    'extranet.services.update' : "{{route('extranet.services.update',['id' => ':id'])}}",
+    'extranet.services.delete' : "{{route('extranet.services.delete',['id' => ':id'])}}",
   };
 </script>
 @endpush

@@ -1,7 +1,13 @@
 .check-field {
+    margin-top: 20px;
+    margin-bottom: 13px;
     label {
+        margin-bottom: 0 !important;
         span {
             color: #77a9f4;
+            &.MuiIconButton-root{
+                padding: 7px !important
+            }
         }
         float: none;
         span.MuiTypography-root {
