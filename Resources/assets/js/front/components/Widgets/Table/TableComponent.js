@@ -59,6 +59,7 @@ export default class TableComponent extends Component {
             elementObject: elementObject,
             data: [],
             columns: [],
+            columnsTypes : {},
             pagination: pagination,
             itemsPerPage: itemsPerPage,
             maxItems: maxItems,
@@ -428,6 +429,7 @@ export default class TableComponent extends Component {
         var sortColumnType = null;
         var columnWidth = null;
         var definition = {};
+        var columnsTypes = {};
 
         for (var index in elementObject.fields) {
 
@@ -440,6 +442,10 @@ export default class TableComponent extends Component {
             }
 
             var identifier = cleanIdentifier(elementObject.fields[index].identifier);
+
+            //set columns definition to use to get type by identifier
+            columnsTypes[identifier] = elementObject.fields[index];
+
             if (elementObject.fields[index].rules.sortableByDefault) {
                 sortColumnName = identifier;
                 sortColumnType = elementObject.fields[index].rules.sortableByDefault;
@@ -450,7 +456,11 @@ export default class TableComponent extends Component {
                 Header: elementObject.fields[index].name,
                 sortable: elementObject.fields[index].rules.sortable,
                 filterable: elementObject.fields[index].rules.searchable,
-                filterMethod: this.filterMethod.bind(this, identifier),
+                filterMethod: this.filterMethod.bind(
+                    this, 
+                    identifier,
+                    elementObject.fields[index].type
+                ),
                 filterAll: true,
                 Cell: this.renderCell.bind(this, elementObject.fields[index], identifier),
             };
@@ -473,18 +483,39 @@ export default class TableComponent extends Component {
             columns: columns,
             filterable: anySearchable,
             sortColumnName: sortColumnName,
-            sortColumnType: sortColumnType
+            sortColumnType: sortColumnType,
+            columnsTypes : columnsTypes
         }, this.query.bind(this)
         );
     }
 
+    processDataDates(data,newSubkey,value) {
+
+        var field = this.state.columnsTypes[newSubkey];
+
+        //do nothing
+        if(field === undefined)
+            return data;
+
+        if(field.type == 'date'){
+            //add field to process date for filter
+            data[newSubkey + '_date'] = parseDate(value, field);
+        }
+
+        return data;
+    }
+
     processData(data) {
+
+        console.log("processData (data)",data);
 
         for (var key in data) {
             for (var subkey in data[key]) {
                 //remove . on keys to allow filter
                 var newSubkey = cleanIdentifier(subkey);
                 var dataValue = data[key][subkey];
+
+                data[key] = this.processDataDates(data[key],newSubkey,dataValue);
 
                 //if value has ';' that means it has a link
                 if (typeof dataValue === 'string' && dataValue.indexOf(';') != -1) {
@@ -500,7 +531,20 @@ export default class TableComponent extends Component {
         return data;
     }
 
-    filterMethod(identifier, filter, rows) {
+    filterMethod(identifier, type, filter, rows) {
+
+        if(type == "date") {
+            //console.log("filterMethod :: ( identifier, type, filter,rows ) ",identifier, type, filter,rows);
+            //to filter date we use an auxiliar field with date processed according to format. By now best option found.
+            return matchSorter(rows, filter.value, {
+                keys: [{
+                    key: '_original.'+identifier+'_date',
+                    threshold: matchSorter.rankings.CONTAINS
+                }]
+            });    
+        }
+
+        //else
         return matchSorter(rows, filter.value, {
             keys: [{
                 key: identifier,

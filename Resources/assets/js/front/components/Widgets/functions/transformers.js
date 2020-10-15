@@ -301,7 +301,7 @@ export function hasModal(field) {
 }
 
 export function cleanIdentifier(identifier) {
-  identifier.replace('.', '');
+  identifier = identifier.replace('.', '');
   return identifier;
 }
 
