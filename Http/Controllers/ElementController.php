@@ -239,7 +239,7 @@ class ElementController extends Controller
                     $result['modelValues'],
                     $element->fields()->get(),
                     $limit, $request->all(),
-                    $element->type == Element::TYPES['table']['identifier'] || Element::TYPES['table-v2']['identifier']  ? true : false
+                    $element->type == Element::TYPES['table']['identifier'] || $element->type == Element::TYPES['table-v2']['identifier']  ? true : false
                 ),
                 'totalPage' => isset( $result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
                 'total' => isset( $result['completeObject']) &&  $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
