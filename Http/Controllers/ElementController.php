@@ -242,7 +242,7 @@ class ElementController extends Controller
                     $element->type == Element::TYPES['table']['identifier'] || $element->type == Element::TYPES['table-v2']['identifier']  ? true : false
                 ),
                 'totalPage' => isset( $result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
-                'total' => isset( $result['completeObject']) &&  $result['completeObject']->totalPage != null ? $result['completeObject']->total : null,
+                'total' => isset( $result['completeObject']) &&  $result['completeObject']->total != null ? $result['completeObject']->total : null,
             ]);
         } catch (\Exception $e) {
             return response()->json([

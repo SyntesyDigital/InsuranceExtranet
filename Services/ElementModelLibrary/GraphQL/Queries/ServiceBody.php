@@ -23,6 +23,7 @@ class ServiceBody
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $service = Service::find($args['id']);
+        $sessionId = $args['session_id'];
 
         if (!$service) {
             abort(500, 'Bad request');
@@ -31,13 +32,11 @@ class ServiceBody
         $boby = new BobyRepository();
 
         $url = $service->example;
-
+        
         if($service->has_session_id){
-
-            //FIXME id_per is not the same as session_id
             $url = strpos($url, '?') === false
-            ? $url.'?SES='.Auth::user()->id_per
-            : $url.'&SES='.Auth::user()->id_per;
+                ? $url.'?SES='.$sessionId
+                : $url.'&SES='.$sessionId;
         }
 
         $response = $boby->processMethod(

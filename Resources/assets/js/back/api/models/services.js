@@ -16,9 +16,11 @@ export let services = {
         });
     },
 
-    getBody(id) {
+    getBody(id, sessionId) {
+        
         return query(GQL_GET_SERVICE_BODY, {
             id: id,
+            session_id : sessionId
         });
     },
 
@@ -250,8 +252,14 @@ export const GQL_DELETE_SERVICE = gql`
 
 
 export const GQL_GET_SERVICE_BODY = gql`
-    query($id: ID!) {
-        serviceBody(id:$id) {
+    query(
+            $id: ID!
+            $session_id: String!
+        ) {
+        serviceBody(
+            id:$id
+            session_id:$session_id
+        ) {
             body
         }
     }

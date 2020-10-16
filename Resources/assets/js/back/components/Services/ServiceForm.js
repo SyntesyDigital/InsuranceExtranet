@@ -109,7 +109,8 @@ export default class ServiceForm extends Component {
     }
 
     getBody() {
-        api.services.getBody(this.state.service.id)
+        console.log("getBody :: (this.state.service.id, userSession.session.session_id)",this.state.service.id, userSession.session.session_id);
+        api.services.getBody(this.state.service.id, userSession.session.session_id)
             .then(payload => {
                 toastr.success('Action terminée avec succès.');
                 this.handleGetBody(payload.data.serviceBody);

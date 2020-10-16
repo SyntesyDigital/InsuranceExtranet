@@ -462,6 +462,7 @@ class ElementRepository extends BaseRepository
 
     public function getModelValuesV2($element,$parameters) 
     {
+       
 
         //if debug parameter is set, unset to remove from final query parameters
         if(isset($parameters['debug']))
@@ -501,23 +502,55 @@ class ElementRepository extends BaseRepository
             $urlProcessed['parameters']
         );
 
-        $isArray = $element->type == Element::TABLE_V2;
-
+        
         //$data = $isArray ? $result->data : $result;
         $data = $this->getResponseData($result,$procedure);
 
-        //jsonpath is incorrect
-        if($data == null)
-            return null;
+        $isArray = $this->isArray($data) ? true : false ;
 
-        //get procedure model values ( all info is into a procedure)
-        $data = $this->processResponseWithJSONP($data,$procedure,$isArray);
-        
+        dd($result,$isArray,$data,$isArray);
+
+        //jsonpath is incorrect
+        if($data != null && sizeof($data) > 0){
+            //get procedure model values ( all info is into a procedure)
+            $data = $this->processResponseWithJSONP($data,$procedure,$isArray);    
+        }
+
         $beans = [];
         $beans['modelValues'] = $data;
-        $beans['completeObject'] = $isArray ? $result : null;
+        $beans['completeObject'] = $this->getCompleteObject($result);
 
         return $beans;
+    }
+
+    private function isArray($arr) {
+        if (!is_array($arr))
+          return false;
+        foreach ($arr as $elm) {
+          if (!is_array($elm))
+            return false;
+        }
+        return true;
+    }
+
+    private function getCompleteObject($result) {
+
+        $total = 1;
+        $totalPage = 1;
+
+        if(isset($result->total)){
+            $totalPage = $result->totalPage;
+            $total = $result->total;
+        }
+        else {
+            $totalPage = 1;
+            $total = isset($result) ? sizeof($result) : 0;
+        }
+        
+        return (object)[
+            'totalPage' => $totalPage,
+            'total' => $total
+        ];
     }
 
     /**
@@ -584,11 +617,12 @@ class ElementRepository extends BaseRepository
         $jsonObject = new JsonObject($item);
     
         $resultData[$index] = (object)[];
-        $union = $isArray ? '.' : '';
+        //for all items is necessary to add .
+        $union = '.';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
-            $jsonpath = $procedure->JSONP.$union.$object->OBJ_JSONP.$object->CHAMP;
+            $jsonpath = '$.'.$object->OBJ_JSONP.$object->CHAMP;
             $value = $jsonObject->get($jsonpath);
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];
