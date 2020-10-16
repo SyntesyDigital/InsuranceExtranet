@@ -141,7 +141,7 @@ class BobyRepository
         return $data;
     }
 
-    private function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
+    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
     {
 
         //process data depending on body
