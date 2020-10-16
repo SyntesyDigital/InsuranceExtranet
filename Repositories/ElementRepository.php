@@ -501,21 +501,36 @@ class ElementRepository extends BaseRepository
             $urlProcessed['parameters']
         );
 
-        $isArray = isset($result->data);
+        $isArray = $element->type == Element::TABLE_V2;
 
-        $data = $isArray ? $result->data : $result;
+        //$data = $isArray ? $result->data : $result;
+        $data = $this->getResponseData($result,$procedure);
+
+        //jsonpath is incorrect
+        if($data == null)
+            return null;
 
         //get procedure model values ( all info is into a procedure)
         $data = $this->processResponseWithJSONP($data,$procedure,$isArray);
-        
         
         $beans = [];
         $beans['modelValues'] = $data;
         $beans['completeObject'] = $isArray ? $result : null;
 
-        
-
         return $beans;
+    }
+
+    /**
+     * It's necessary to process the object depending on the jsonpath. 
+     * Some objects are into $.data or others into $ depending on if it's array or not.
+     */
+    private function getResponseData($result,$procedure)
+    {
+        $jsonObject = new JsonObject($result);
+
+        $result = $jsonObject->get($procedure->JSONP);
+
+        return isset($result[0]) ? $result[0] : null;
     }
 
     /**
@@ -553,26 +568,27 @@ class ElementRepository extends BaseRepository
         if($isArray){
             //process every items of array
             foreach($responseData as $index => $item) {
-                $resultData = $this->processItem($resultData,$index,$item,$procedure);
+                $resultData = $this->processItem($resultData,$index,$item,$procedure,$isArray);
             }
         }
         else {
             //is of type file, so return only one item with result
-            $resultData = $this->processItem($resultData,0,$responseData,$procedure);
+            $resultData = $this->processItem($resultData,0,$responseData,$procedure,$isArray);
         }
         
         return $resultData;
     }
 
-    private function processItem($resultData,$index,$item,$procedure) 
+    private function processItem($resultData,$index,$item,$procedure,$isArray = false) 
     {
         $jsonObject = new JsonObject($item);
     
         $resultData[$index] = (object)[];
+        $union = $isArray ? '.' : '';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
-            $jsonpath = $procedure->JSONP.$object->OBJ_JSONP.$object->CHAMP;
+            $jsonpath = $procedure->JSONP.$union.$object->OBJ_JSONP.$object->CHAMP;
             $value = $jsonObject->get($jsonpath);
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];
