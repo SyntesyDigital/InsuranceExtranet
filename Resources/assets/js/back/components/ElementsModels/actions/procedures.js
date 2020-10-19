@@ -114,7 +114,7 @@ export function updateProcedure(modelId,procedures,procedure) {
             var index = getProcedureIndex(procedures,procedure);
             var objectsCopy = procedures[index].fields;
             procedures[index] = procedure;
-            //procedures[index].fields = objectsCopy;
+            procedures[index].fields = objectsCopy;
 
             toastr.success(Lang.get('fields.success'));
 

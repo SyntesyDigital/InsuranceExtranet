@@ -506,12 +506,10 @@ class ElementRepository extends BaseRepository
         //$data = $isArray ? $result->data : $result;
         $data = $this->getResponseData($result,$procedure);
 
-        $isArray = $this->isArray($data) ? true : false ;
-
-        dd($result,$isArray,$data,$isArray);
+        $isArray = is_array($data) ? true : false ;
 
         //jsonpath is incorrect
-        if($data != null && sizeof($data) > 0){
+        if($data != null){
             //get procedure model values ( all info is into a procedure)
             $data = $this->processResponseWithJSONP($data,$procedure,$isArray);    
         }
@@ -524,12 +522,15 @@ class ElementRepository extends BaseRepository
     }
 
     private function isArray($arr) {
+
         if (!is_array($arr))
           return false;
+
         foreach ($arr as $elm) {
           if (!is_array($elm))
             return false;
         }
+
         return true;
     }
 
@@ -544,7 +545,9 @@ class ElementRepository extends BaseRepository
         }
         else {
             $totalPage = 1;
-            $total = isset($result) ? sizeof($result) : 0;
+            $total = isset($result) 
+                ? (is_array($result) ? sizeof($result) : 1) 
+                : 0;
         }
         
         return (object)[
@@ -559,12 +562,35 @@ class ElementRepository extends BaseRepository
      */
     private function getResponseData($result,$procedure)
     {
-        $jsonObject = new JsonObject($result);
+        $jsonObject = new JsonObject($result,true);
 
         $result = $jsonObject->get($procedure->JSONP);
 
-        return isset($result[0]) ? $result[0] : null;
+        /*
+        result is normally an array. Depending on if is object like {var : 1}
+        or array an array of objects like :  [{var : 1}]
+        Need to be returned as object or array, to know if process like array of items, or like an object
+        */
+        
+        $isArray = !$this->isAssoc($result);
+
+        //dd($procedure->JSONP,$result,$isArray);
+        
+        //if first item of result is object then cast the result, if not return array
+        $data = $isArray ? $result : (object)$result;
+
+        return $data;
     }
+
+    /**
+     * Function to check if is array is an object. So it has keys and values
+     */
+    private function isAssoc(array $arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
 
     /**
      * Check if parameters exist in the url example : /etude/_id_etude.
@@ -601,29 +627,33 @@ class ElementRepository extends BaseRepository
         if($isArray){
             //process every items of array
             foreach($responseData as $index => $item) {
-                $resultData = $this->processItem($resultData,$index,$item,$procedure,$isArray);
+                $resultData = $this->processItem($resultData,$index,$item,$procedure);
             }
         }
         else {
             //is of type file, so return only one item with result
-            $resultData = $this->processItem($resultData,0,$responseData,$procedure,$isArray);
+            $resultData = $this->processItem($resultData,0,$responseData,$procedure);
         }
-        
+
         return $resultData;
     }
 
-    private function processItem($resultData,$index,$item,$procedure,$isArray = false) 
+    private function processItem($resultData,$index,$item,$procedure) 
     {
         $jsonObject = new JsonObject($item);
     
         $resultData[$index] = (object)[];
-        //for all items is necessary to add .
-        $union = '.';
+        
+        //prefix is always $. because process item give always the position where the item is.
+        $prefix = '$.';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
-            $jsonpath = '$.'.$object->OBJ_JSONP.$object->CHAMP;
+
+            $jsonpath = $prefix.$object->OBJ_JSONP.$object->CHAMP;
+
             $value = $jsonObject->get($jsonpath);
+
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];
             }
