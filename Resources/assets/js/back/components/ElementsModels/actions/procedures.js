@@ -13,6 +13,8 @@ import {
     removeProcedureObject
 } from './objects';
 
+let jp = require('jsonpath');
+
 
 // function getMaxId (list) {
 //     var maxId = 0;
@@ -112,7 +114,7 @@ export function updateProcedure(modelId,procedures,procedure) {
             var index = getProcedureIndex(procedures,procedure);
             var objectsCopy = procedures[index].fields;
             procedures[index] = procedure;
-            //procedures[index].fields = objectsCopy;
+            procedures[index].fields = objectsCopy;
 
             toastr.success(Lang.get('fields.success'));
 
@@ -231,6 +233,35 @@ export function deleteAllFields(procedures,procedure) {
     }
 }
 
+/**
+ * get item from procedure jsonpath
+ * @param {*} response 
+ * @param {*} jsonpath 
+ */
+export function getItemToCheck(response,jsonpath){
+
+    //console.log("getItemToCheck :: source : ",response,jsonpath);
+    
+    //if last char of jsonpath is . put * to get all from this point. ej : $. -> $
+    jsonpath = jsonpath.slice(-1) == '.' ? jsonpath.slice(0, -1) : jsonpath;
+
+    var source = jp.value(response,jsonpath);
+    //console.log("getItemToCheck :: response : ",source,jsonpath);
+
+    //check if it is an array
+    if(source instanceof Array) {
+        //if array get position 0
+        if(source.length > 0)
+            return source[0];
+        else 
+            return null;
+    }
+
+    //else return item
+    return source;
+    
+}
+
 export function importFieldsFromService(procedures, procedure) {
     return (dispatch) => {
         return api.services.get(procedure.service.id)
@@ -238,12 +269,9 @@ export function importFieldsFromService(procedures, procedure) {
 
                 let payload =  JSON.parse(response.data.service.response_json);
 
-                const isArray = payload.data !== undefined && payload.data instanceof Array ? 
-                    true : false;
+                var response = getItemToCheck(payload,procedure.repeatable_jsonpath);
 
-                //if response contains data and is array should be format data[0] = {}, if not is normal  json
-                var response = isArray ? payload.data[0] : payload;
-
+                //console.log("getItemToCheck :: response : ",response);
 
                 let fields = filterJSONFields(response).map((field, index) => {
 

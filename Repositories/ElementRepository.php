@@ -462,6 +462,7 @@ class ElementRepository extends BaseRepository
 
     public function getModelValuesV2($element,$parameters) 
     {
+       
 
         //if debug parameter is set, unset to remove from final query parameters
         if(isset($parameters['debug']))
@@ -501,22 +502,95 @@ class ElementRepository extends BaseRepository
             $urlProcessed['parameters']
         );
 
-        $isArray = isset($result->data);
-
-        $data = $isArray ? $result->data : $result;
-
-        //get procedure model values ( all info is into a procedure)
-        $data = $this->processResponseWithJSONP($data,$procedure,$isArray);
         
-        
+        //$data = $isArray ? $result->data : $result;
+        $data = $this->getResponseData($result,$procedure);
+
+        $isArray = is_array($data) ? true : false ;
+
+        //jsonpath is incorrect
+        if($data != null){
+            //get procedure model values ( all info is into a procedure)
+            $data = $this->processResponseWithJSONP($data,$procedure,$isArray);    
+        }
+
         $beans = [];
         $beans['modelValues'] = $data;
-        $beans['completeObject'] = $isArray ? $result : null;
-
-        
+        $beans['completeObject'] = $this->getCompleteObject($result);
 
         return $beans;
     }
+
+    private function isArray($arr) {
+
+        if (!is_array($arr))
+          return false;
+
+        foreach ($arr as $elm) {
+          if (!is_array($elm))
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getCompleteObject($result) {
+
+        $total = 1;
+        $totalPage = 1;
+
+        if(isset($result->total)){
+            $totalPage = $result->totalPage;
+            $total = $result->total;
+        }
+        else {
+            $totalPage = 1;
+            $total = isset($result) 
+                ? (is_array($result) ? sizeof($result) : 1) 
+                : 0;
+        }
+        
+        return (object)[
+            'totalPage' => $totalPage,
+            'total' => $total
+        ];
+    }
+
+    /**
+     * It's necessary to process the object depending on the jsonpath. 
+     * Some objects are into $.data or others into $ depending on if it's array or not.
+     */
+    private function getResponseData($result,$procedure)
+    {
+        $jsonObject = new JsonObject($result,true);
+
+        $result = $jsonObject->get($procedure->JSONP);
+
+        /*
+        result is normally an array. Depending on if is object like {var : 1}
+        or array an array of objects like :  [{var : 1}]
+        Need to be returned as object or array, to know if process like array of items, or like an object
+        */
+        
+        $isArray = !$this->isAssoc($result);
+
+        //dd($procedure->JSONP,$result,$isArray);
+        
+        //if first item of result is object then cast the result, if not return array
+        $data = $isArray ? $result : (object)$result;
+
+        return $data;
+    }
+
+    /**
+     * Function to check if is array is an object. So it has keys and values
+     */
+    private function isAssoc(array $arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
 
     /**
      * Check if parameters exist in the url example : /etude/_id_etude.
@@ -560,7 +634,7 @@ class ElementRepository extends BaseRepository
             //is of type file, so return only one item with result
             $resultData = $this->processItem($resultData,0,$responseData,$procedure);
         }
-        
+
         return $resultData;
     }
 
@@ -569,11 +643,17 @@ class ElementRepository extends BaseRepository
         $jsonObject = new JsonObject($item);
     
         $resultData[$index] = (object)[];
+        
+        //prefix is always $. because process item give always the position where the item is.
+        $prefix = '$.';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
-            $jsonpath = $procedure->JSONP.$object->OBJ_JSONP.$object->CHAMP;
+
+            $jsonpath = $prefix.$object->OBJ_JSONP.$object->CHAMP;
+
             $value = $jsonObject->get($jsonpath);
+
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];
             }
