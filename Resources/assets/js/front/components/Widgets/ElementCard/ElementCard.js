@@ -351,7 +351,7 @@ export default class ElementCard extends Component {
 
             case 'text':
                 //if then remove tags, string is null, hidden fields
-                value = this.removeTags(value);
+                //value = this.removeTags(value);
                 if (!this.isDefined(value)){
                     return null;
                 }

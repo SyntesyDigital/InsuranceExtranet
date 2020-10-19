@@ -184,7 +184,7 @@ class ModelValuesFormatTransformer extends Resource
                                 break;
                             case 'date':
 
-                                if (isset($originalValue)) {
+                                if (isset($originalValue) && $originalValue != '') {
                                     $originalValue = intval($originalValue) / 1000;
                                     $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
 
