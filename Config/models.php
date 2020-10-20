@@ -122,6 +122,7 @@ return [
           'defaultValue',
           'conditionalFormatting',
           'description',
+          'hidden',
         ],
       ],
       'radio' => [

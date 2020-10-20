@@ -330,6 +330,9 @@ class SelectField extends Component {
     let hasDescription = this.props.field.settings.description !== undefined ?
       this.props.field.settings.description : false;
 
+    let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
+      field.settings.hidden : false;
+
     //required can be set also directly with modals
     if (this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined) {
@@ -361,7 +364,7 @@ class SelectField extends Component {
 
     return (
 
-      <div className={"form-group bmd-form-group"} style={{ display: display ? 'block' : 'none' }}>
+      <div className={"form-group bmd-form-group"} style={{ display: display && !isHidden ? 'block' : 'none' }}>
         <label className="bmd-label-floating">
             {field.name}
             {isRequired &&
