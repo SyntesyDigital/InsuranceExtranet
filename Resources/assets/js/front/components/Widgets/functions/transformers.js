@@ -306,8 +306,15 @@ export function cleanIdentifier(identifier) {
 }
 
 export function getFieldUrl(field,row) {
-  //process field identifier removing .
+
+  //process field identifier removing, if url is not allowed _url is not defined.
   var identifier = cleanIdentifier(field.identifier);
+
+  //if original value is not defined, then return
+  if(row.original[identifier] === undefined || row.original[identifier] == null || row.original[identifier] === ''){
+    return '';
+  }
+
   return row.original[identifier + "_url"] !== undefined 
     && row.original[identifier + "_url"] !== "" 
     ? row.original[identifier + "_url"]

@@ -65,17 +65,24 @@ class ModelValuesFormatTransformer extends Resource
     {
         if (isset($hasRoute['id'])) {
             $url = $this->getContentUrl($hasRoute['id']);
+
+            
+            //if is allowed
+            if(!allowed_slug($url))
+                return null;
+
             
             //process parameters
             if ($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0) {
                 $url .= '?';
-
+                
                 //process parameters with model model values
                 $currentRouteParameters = $this->processParameters2Array(
                     $this->routeParameters,
                     $hasRoute['params'],
                     $modelValue
                 );
+                
                 $url .= $this->arrayToUrl($currentRouteParameters);
             }
         }
@@ -126,13 +133,20 @@ class ModelValuesFormatTransformer extends Resource
         unset($initArray['orderType']);
         unset($initArray['page']);
 
+        $paramResult = [];
+
         foreach ($pageParams as $param) {
+            //check if exisst value into parameteres
             if ($param['value'] != '' && $modelValue->{$param['value']} != null) {
-                $initArray[$param['identifier']] = $modelValue->{$param['value']};
+                $paramResult[$param['identifier']] = $modelValue->{$param['value']};
+            }
+            //if not exist into parameters check if it exist into url
+            else if($param['identifier'] != '' && isset($initArray[$param['identifier']]) && $initArray[$param['identifier']] != ''){
+                $paramResult[$param['identifier']] = $initArray[$param['identifier']];
             }
         }
 
-        return $initArray;
+        return $paramResult;
     }
 
     /**
@@ -158,8 +172,6 @@ class ModelValuesFormatTransformer extends Resource
         $result = [];
         $i = 0;
 
-        
-
         try {
             foreach ($modelValues as $modelValue) {
                 if (!$limit || $i < $limit) {
@@ -168,9 +180,18 @@ class ModelValuesFormatTransformer extends Resource
                         $originalValue = isset($modelValue->{$elementField->identifier}) 
                             ? $modelValue->{$elementField->identifier} : '';
 
-                        //dd($modelValue[$elementField->identifier]);
-
                         switch ($elementField->type) {
+                            case 'action':
+                                
+                                if (!$this->isCsv) {
+                                    //if identifier is not defined, then is dinamica action
+                                    $originalValue = isset($modelValue->{$elementField->identifier}) 
+                                        ? $modelValue->{$elementField->identifier} : 'action';
+
+                                    $result[$i][$elementField->identifier] = $originalValue;
+                                }
+
+                                break;
                             case 'number':
                                 $result[$i][$elementField->identifier] = $originalValue;
 
@@ -242,7 +263,10 @@ class ModelValuesFormatTransformer extends Resource
                             break;
                         }
 
-                        if (isset($elementField->settings) &&
+                        if($this->isCsv){
+                            //nothing to process with links by now
+                        }
+                        elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasRoute']) && $elementField->settings['hasRoute'] != null
                             && isset($elementField->settings['hasRoute']['id'])
                         ) {
@@ -252,11 +276,13 @@ class ModelValuesFormatTransformer extends Resource
                                 $result[$i][$elementField->identifier]
                             );
 
+                           
+
                             //to allow order when table, need to process separately link and value
                             if ($this->isTable) {
-                                $result[$i][$elementField->identifier] = $result[$i][$elementField->identifier].';'.$link;
+                                $result[$i][$elementField->identifier] = isset($link) ? $result[$i][$elementField->identifier].';'.$link : '';
                             } else {
-                                $result[$i][$elementField->identifier] = $this->processLink($link,$result[$i][$elementField->identifier]);
+                                $result[$i][$elementField->identifier] = isset($link) ? $this->processLink($link,$result[$i][$elementField->identifier]) : '';
                             }
                             
                         } elseif (isset($elementField->settings) &&

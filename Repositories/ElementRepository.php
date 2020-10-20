@@ -645,14 +645,16 @@ class ElementRepository extends BaseRepository
         $resultData[$index] = (object)[];
         
         //prefix is always $. because process item give always the position where the item is.
-        $prefix = '$.';
+        $prefix = '$';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
 
-            $jsonpath = $prefix.$object->OBJ_JSONP.$object->CHAMP;
+            $jsonpath = $prefix.$object->OBJ_JSONP.'["'.$object->CHAMP.'"]';
 
             $value = $jsonObject->get($jsonpath);
+
+            //dd($item,$jsonpath,$value);
 
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];

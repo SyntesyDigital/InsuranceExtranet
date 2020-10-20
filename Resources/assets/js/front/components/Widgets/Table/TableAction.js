@@ -44,7 +44,13 @@ export default class TableAction extends React.Component {
 
     render() {
 
-        
+        const hasModalLink = this.props.modalLink !== undefined 
+            ? this.props.modalLink : false;
+
+        //if no link defined no action
+        if(!hasModalLink && this.props.url == ''){
+            return null;
+        }
 
         return (
             <HtmlTooltip

@@ -346,6 +346,24 @@ return [
           'description',
         ],
       ],
+      'action' => [
+        'mapping' => 'action',
+        'identifier' => 'action',
+        'label' => 'Action',
+        'name' => 'Action',
+        'type' => 'action',
+        'icon' => 'fas fa-cog',
+        'formats' => [],
+        'rules' => [],
+        'settings' => [
+          'hasRoute',
+          'hasModal',
+          'conditionalVisibility',
+          'conditionalIcon',
+          'group',
+          'description',
+        ],
+      ],
     ],  // --- end fields ---
 
     'customFields' => [
