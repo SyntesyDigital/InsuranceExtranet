@@ -311,7 +311,7 @@ export function getFieldUrl(field,row) {
   var identifier = cleanIdentifier(field.identifier);
 
   //if original value is not defined, then return
-  if(row.original[identifier] === undefined || row.original[identifier] == null || row.original[identifier] === ''){
+  if(row.original[field.identifier] === undefined || row.original[field.identifier] == null || row.original[field.identifier  ] === ''){
     return '';
   }
 

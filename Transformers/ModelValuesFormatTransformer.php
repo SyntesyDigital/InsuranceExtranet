@@ -183,10 +183,13 @@ class ModelValuesFormatTransformer extends Resource
                         switch ($elementField->type) {
                             case 'action':
                                 
+                                //dd($modelValue,$elementField->identifier,array_key_exists($elementField->identifier,$modelValue));
+
                                 if (!$this->isCsv) {
-                                    //if identifier is not defined, then is dinamica action
-                                    $originalValue = isset($modelValue->{$elementField->identifier}) 
-                                        ? $modelValue->{$elementField->identifier} : 'action';
+                                    //if identifier is in array, then is dinamica action
+                                    $originalValue = array_key_exists($elementField->identifier,$modelValue) 
+                                        ? $originalValue 
+                                        : 'action';
 
                                     $result[$i][$elementField->identifier] = $originalValue;
                                 }
@@ -268,7 +271,8 @@ class ModelValuesFormatTransformer extends Resource
                         }
                         elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasRoute']) && $elementField->settings['hasRoute'] != null
-                            && isset($elementField->settings['hasRoute']['id'])
+                            && isset($elementField->settings['hasRoute']['id']) && 
+                            $result[$i][$elementField->identifier] != ''    //if original value is '' then value is not defined, so action no need to be added
                         ) {
                             $link = $this->processContent(
                                 $elementField->settings['hasRoute'],
@@ -286,8 +290,11 @@ class ModelValuesFormatTransformer extends Resource
                             }
                             
                         } elseif (isset($elementField->settings) &&
-                            isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
-                            && isset($elementField->settings['hasModal']['id'])) {
+                                isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
+                                && isset($elementField->settings['hasModal']['id'])
+                                && $result[$i][$elementField->identifier] != '' //if original value is '' then value is not defined, so action no need to be added
+                            ) {
+
                             $link = $this->processElement(
                                     $elementField->settings['hasModal'],
                                     $modelValue,
@@ -312,6 +319,8 @@ class ModelValuesFormatTransformer extends Resource
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+
+        //dd($result);
 
         return $result;
     }

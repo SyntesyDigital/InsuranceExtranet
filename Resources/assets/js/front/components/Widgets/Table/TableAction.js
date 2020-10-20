@@ -48,7 +48,7 @@ export default class TableAction extends React.Component {
             ? this.props.modalLink : false;
 
         //if no link defined no action
-        if(!hasModalLink && this.props.url == ''){
+        if(this.props.url == ''){
             return null;
         }
 
