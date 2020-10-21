@@ -97,7 +97,7 @@ class FormButtonRedux extends Component {
         },function(){
             toastr.success('Téléchargement en cours');
             //console.log("processFusionForm :: ");
-            //$("form#file-redirect-form").submit();
+            $("form#file-redirect-form").submit();
         })
 
     }

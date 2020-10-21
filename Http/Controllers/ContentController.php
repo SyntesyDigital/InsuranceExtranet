@@ -305,6 +305,8 @@ class ContentController extends Controller
      */
     public function downloadWSFusion(Request $request) {
 
+        dd($request->toArray());
+
         if(!$request->has('content')){
             abort(500);
         }
