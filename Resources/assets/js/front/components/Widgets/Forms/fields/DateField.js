@@ -174,6 +174,9 @@ class DateField extends Component {
 
         let hasDescription = this.props.field.settings.description !== undefined ?
             this.props.field.settings.description : false;
+        
+        let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
+            field.settings.hidden : false;
 
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
@@ -193,7 +196,7 @@ class DateField extends Component {
 
         return (
 
-            <div className={"form-group bmd-form-group" + (errors)}>
+            <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
                 <label className="bmd-label-floating">
                     {field.name}
                     {isRequired &&

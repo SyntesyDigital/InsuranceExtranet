@@ -300,6 +300,30 @@ class ContentController extends Controller
           ->header('Content-Disposition', 'attachment; filename="'.$filename.($extension != '' ? '.'.$extension : ''));
     }
 
+    /**
+     * Function to download directly a document from giving parameters. Content and filename.
+     */
+    public function downloadWSFusion(Request $request) {
+
+        if(!$request->has('content')){
+            abort(500);
+        }
+
+        $filename = $request->has('filename') ? $request->get('filename')  : '' ;
+        $file = $request->get('content');
+
+        $file = base64_decode($file);
+
+        $f = finfo_open();
+        $mime_type = finfo_buffer($f, $file, FILEINFO_MIME_TYPE);
+        $extension = $this->mime2ext($mime_type);
+
+        return response($file, 200)
+          ->header('Content-Type', 'mime_type')
+          ->header('Content-Disposition', 'attachment; filename="'.$filename.($extension != '' ? '.'.$extension : ''));
+
+    }
+
     public function showDocumentPreview($id)
     {
         $authorized = $this->boby->checkDocumentAvailable($id);

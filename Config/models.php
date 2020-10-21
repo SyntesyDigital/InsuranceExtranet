@@ -100,6 +100,7 @@ return [
           'columnWidth',
           'readonly',
           'description',
+          'hidden',
           //'defaultValue'
         ],
       ],
