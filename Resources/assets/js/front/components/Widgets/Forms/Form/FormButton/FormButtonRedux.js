@@ -155,7 +155,7 @@ class FormButtonRedux extends Component {
                 className="hidden"
                 method='POST'
             >
-
+                <input type="hidden" name="_method" value="POST"/>
                 <input type="hidden" name="filename" value={this.state.filename}/>
                 <input type="hidden" name="content" value={this.state.content}/>
                 <input type="hidden" name="_token" value={$('meta[name="csrf-token"]').attr('content')} />

@@ -317,11 +317,11 @@ class ContentController extends Controller
         $file = base64_decode($file);
 
         $f = finfo_open();
-        $mime_type = finfo_buffer($f, $file, FILEINFO_MIME_TYPE);
+        $mimeType = finfo_buffer($f, $file, FILEINFO_MIME_TYPE);
         $extension = $this->mime2ext($mime_type);
 
         return response($file, 200)
-          ->header('Content-Type', 'mime_type')
+          ->header('Content-Type', $mimeType)
           ->header('Content-Disposition', 'attachment; filename="'.$filename.($extension != '' ? '.'.$extension : ''));
 
     }
