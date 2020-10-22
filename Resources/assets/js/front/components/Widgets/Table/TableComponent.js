@@ -271,7 +271,7 @@ export default class TableComponent extends Component {
      */
     renderActions(actions, row) {
         var textAlign = actions.list[0]['field']['settings']['textAlign'];
-        var alignment = textAlign !== undefined && textAlign != null ? textAlign : 'text-right';
+        var alignment = textAlign !== undefined && textAlign != null ? ('text-' + textAlign) : 'text-right';
 
         return <TableActions
             actions={actions}
@@ -415,7 +415,7 @@ export default class TableComponent extends Component {
             Header: 'Actions',
             sortable: false,
             filterable: false,
-            className: 'actions-col ' + textAlign,
+            className: 'actions-col',
             Cell: this.renderActions.bind(this, actions),
         };
 
