@@ -301,11 +301,12 @@ class ContentController extends Controller
     }
 
     /**
+     * TO REMOVE Not used by now
      * Function to download directly a document from giving parameters. Content and filename.
      */
     public function downloadWSFusion(Request $request) {
 
-        dd($request->toArray());
+        //dd($request->toArray());
 
         if(!$request->has('content')){
             abort(500);
