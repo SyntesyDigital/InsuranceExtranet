@@ -53,13 +53,12 @@ export default class TableComponent extends Component {
             parseInt(field.settings.headerRowsNumber) : 1;
 
         this.state = {
-            pokemons: null,
             id: props.id,
             field: field,
             elementObject: elementObject,
             data: [],
             columns: [],
-            columnsTypes : {},
+            columnsTypes: {},
             pagination: pagination,
             itemsPerPage: itemsPerPage,
             maxItems: maxItems,
@@ -271,10 +270,14 @@ export default class TableComponent extends Component {
      * @param {*} row 
      */
     renderActions(actions, row) {
-        return <TableActions 
+        var textAlign = actions.list[0]['field']['settings']['textAlign'];
+        var alignment = textAlign !== undefined && textAlign != null ? textAlign : 'text-right';
+
+        return <TableActions
             actions={actions}
             row={row}
-        />;
+            textAlign={alignment}
+        />
     }
 
     renderCell(field, identifier, row) {
@@ -335,7 +338,7 @@ export default class TableComponent extends Component {
         // default
         else {
 
-            if(hasIcon){
+            if (hasIcon) {
                 //consider with icone not possible to have html link
                 return <div className={('has-icon')}>
                     <div
@@ -372,26 +375,28 @@ export default class TableComponent extends Component {
         var definition = {};
 
         var actions = {
-            list : [],
-            grouped : []
+            list: [],
+            grouped: []
         };
 
         for (var index in elementObject.fields) {
+
             //if object field is an action continue to next field
             var field = elementObject.fields[index];
+            var textAlign = getTextAlign(field);
 
-            if(field.type != "action")
+            if (field.type != "action")
                 continue;
 
             var action = {
-                icon : getConditionalIcon(field, ''),
-                name : field.name,
-                modalLink : hasModal(field),
-                field : field,
-                identifier : cleanIdentifier(field.identifier)
+                icon: getConditionalIcon(field, ''),
+                name: field.name,
+                modalLink: hasModal(field),
+                field: field,
+                identifier: cleanIdentifier(field.identifier)
             };
 
-            if(isGrouped(field)){
+            if (isGrouped(field)) {
                 actions.grouped.push(action);
             }
             else {
@@ -401,7 +406,7 @@ export default class TableComponent extends Component {
         }
 
         //if no actions to proced, return same columns
-        if(actions.list.length == 0 && actions.grouped.length == 0){
+        if (actions.list.length == 0 && actions.grouped.length == 0) {
             return columns;
         }
 
@@ -410,7 +415,7 @@ export default class TableComponent extends Component {
             Header: 'Actions',
             sortable: false,
             filterable: false,
-            className: 'actions-col',
+            className: 'actions-col ' + textAlign,
             Cell: this.renderActions.bind(this, actions),
         };
 
@@ -434,7 +439,7 @@ export default class TableComponent extends Component {
         for (var index in elementObject.fields) {
 
             //if object field is an action continue to next field
-            if(elementObject.fields[index].type == "action")
+            if (elementObject.fields[index].type == "action")
                 continue;
 
             if (elementObject.fields[index].rules.searchable && !anySearchable) {
@@ -457,7 +462,7 @@ export default class TableComponent extends Component {
                 sortable: elementObject.fields[index].rules.sortable,
                 filterable: elementObject.fields[index].rules.searchable,
                 filterMethod: this.filterMethod.bind(
-                    this, 
+                    this,
                     identifier,
                     elementObject.fields[index].type
                 ),
@@ -484,20 +489,20 @@ export default class TableComponent extends Component {
             filterable: anySearchable,
             sortColumnName: sortColumnName,
             sortColumnType: sortColumnType,
-            columnsTypes : columnsTypes
+            columnsTypes: columnsTypes
         }, this.query.bind(this)
         );
     }
 
-    processDataDates(data,newSubkey,value) {
+    processDataDates(data, newSubkey, value) {
 
         var field = this.state.columnsTypes[newSubkey];
 
         //do nothing
-        if(field === undefined)
+        if (field === undefined)
             return data;
 
-        if(field.type == 'date'){
+        if (field.type == 'date') {
             //add field to process date for filter
             data[newSubkey + '_date'] = parseDate(value, field);
         }
@@ -507,7 +512,7 @@ export default class TableComponent extends Component {
 
     processData(data) {
 
-        console.log("processData (data)",data);
+        console.log("processData (data)", data);
 
         for (var key in data) {
             for (var subkey in data[key]) {
@@ -515,7 +520,7 @@ export default class TableComponent extends Component {
                 var newSubkey = cleanIdentifier(subkey);
                 var dataValue = data[key][subkey];
 
-                data[key] = this.processDataDates(data[key],newSubkey,dataValue);
+                data[key] = this.processDataDates(data[key], newSubkey, dataValue);
 
                 //if value has ';' that means it has a link
                 if (typeof dataValue === 'string' && dataValue.indexOf(';') != -1) {
@@ -533,15 +538,15 @@ export default class TableComponent extends Component {
 
     filterMethod(identifier, type, filter, rows) {
 
-        if(type == "date") {
+        if (type == "date") {
             //console.log("filterMethod :: ( identifier, type, filter,rows ) ",identifier, type, filter,rows);
             //to filter date we use an auxiliar field with date processed according to format. By now best option found.
             return matchSorter(rows, filter.value, {
                 keys: [{
-                    key: '_original.'+identifier+'_date',
+                    key: '_original.' + identifier + '_date',
                     threshold: matchSorter.rankings.CONTAINS
                 }]
-            });    
+            });
         }
 
         //else
@@ -566,7 +571,7 @@ export default class TableComponent extends Component {
         });
     }
 
-    handleFilterChange(){
+    handleFilterChange() {
         this.setState({
             currPage: 0,
         });
@@ -621,7 +626,7 @@ export default class TableComponent extends Component {
 
                         onPageChange={this.handlePageChange.bind(this)}
                         onPageSizeChange={this.handlePageSizeChange.bind(this)}
-                        onFilteredChange={this.handleFilterChange.bind(this)} 
+                        onFilteredChange={this.handleFilterChange.bind(this)}
                     />
                 </div>
 

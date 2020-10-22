@@ -364,6 +364,7 @@ return [
           'conditionalIcon',
           'group',
           'description',
+          'textAlign',
         ],
       ],
     ],  // --- end fields ---
