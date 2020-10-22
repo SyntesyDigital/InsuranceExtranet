@@ -7,6 +7,8 @@ import moment from 'moment';
 import {
     parameteres2Array,
     getUrlParameters,
+    b64toBlob,
+    ext2mime
 } from './../../functions';
 
 import {
@@ -80,16 +82,46 @@ class FormButtonRedux extends Component {
         }
     }
 
+    getFilenameExtension(filename) {
+        if(filename === undefined || filename == null || filename === '')
+            return '';
+        
+        var filenameArray = filename.split('.');
+        return filenameArray[filenameArray.length-1];
+    }
+
     processFusionForm(parameters) {
 
-
-        if(parameters['_fusionFilename'] === undefined || parameters['_fusionFilename'] == null 
-            || parameters['_fusionFilename'] === ''){
+        if(parameters['_fusionContent'] === undefined || parameters['_fusionContent'] == null 
+            || parameters['_fusionContent'] === ''){
             
             toastr.error('Aucune donnée trouvée');
             return;
         }
 
+        var filename = parameters['_fusionFilename'];
+
+        //get extension and process extension to get mime type
+        var extension = this.getFilenameExtension();
+        const contentType = ext2mime(extension);
+        const b64Data = parameters['_fusionContent'];
+
+        //create file from base64 data
+        const blob = b64toBlob(b64Data, contentType);
+        const blobUrl = URL.createObjectURL(blob);
+
+        //redirect to file
+        //window.location = blobUrl;
+
+        var downloadLink = document.createElement("a");
+        downloadLink.href = blobUrl;
+        downloadLink.download = filename;
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        /*
         this.setState({
             fileEnabled : true,
             filename : parameters['_fusionFilename'] ? parameters['_fusionFilename'] : 'fichier',
@@ -99,6 +131,7 @@ class FormButtonRedux extends Component {
             //console.log("processFusionForm :: ");
             ///$("form#file-redirect-form").submit();
         })
+        */
 
     }
 
@@ -140,6 +173,7 @@ class FormButtonRedux extends Component {
     }
 
     /**
+     * TO REMOVE not used
      * Form to submit directly to redirect to post result
      */
     renderHiddenForm() {
