@@ -121,6 +121,8 @@ class FormButtonRedux extends Component {
         downloadLink.click();
         document.body.removeChild(downloadLink);
 
+        toastr.success('Téléchargement en cours');
+
         /*
         this.setState({
             fileEnabled : true,
