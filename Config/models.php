@@ -365,6 +365,8 @@ return [
           'group',
           'description',
           'textAlign',
+          'isFile',
+          'isFileWSFusion'
         ],
       ],
     ],  // --- end fields ---

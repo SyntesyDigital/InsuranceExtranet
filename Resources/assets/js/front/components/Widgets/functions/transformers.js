@@ -305,6 +305,17 @@ export function cleanIdentifier(identifier) {
   return identifier;
 }
 
+function isFile(field) {
+  if(field.settings.isFile !== undefined && field.settings.isFile)
+    return true;
+  else if(field.settings.isFileWSFusion !== undefined && field.settings.isFileWSFusion){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 export function getFieldUrl(field,row) {
 
   //process field identifier removing, if url is not allowed _url is not defined.
@@ -313,6 +324,11 @@ export function getFieldUrl(field,row) {
   //if original value is not defined, then return
   if(row.original[field.identifier] === undefined || row.original[field.identifier] == null || row.original[field.identifier  ] === ''){
     return '';
+  }
+
+  //if is file, the value is the url processed
+  if(isFile(field)){
+    return row.original[field.identifier];
   }
 
   return row.original[identifier + "_url"] !== undefined 
