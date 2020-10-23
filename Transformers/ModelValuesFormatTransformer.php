@@ -166,6 +166,27 @@ class ModelValuesFormatTransformer extends Resource
         return $url;
     }
 
+    private function getActionValue($elementField,$modelValue,$originalValue)
+    {
+        //if identifier is in array, then is dinamica action
+        $originalValue = array_key_exists($elementField->identifier, $modelValue)
+            ? $originalValue
+            : 'action';
+
+        if(!isset($originalValue) || $originalValue === ""){
+            return $originalValue;
+        }
+
+        if(isset($elementField->settings['isFile']) && $elementField->settings['isFile']) {
+            $originalValue = route('document.show', $originalValue);
+        }
+        elseif(isset($elementField->settings['isFileWSFusion']) && $elementField->settings['isFileWSFusion']) {
+            $originalValue = route('document.show-ws-fusion', $originalValue);
+        }
+
+        return $originalValue;
+    }
+
     public function getModelArray($modelValues, $elementFields, $limit)
     {
         $result = [];
@@ -181,15 +202,8 @@ class ModelValuesFormatTransformer extends Resource
                         switch ($elementField->type) {
                             case 'action':
 
-                                //dd($modelValue,$elementField->identifier,array_key_exists($elementField->identifier,$modelValue));
-
                                 if (!$this->isCsv) {
-                                    //if identifier is in array, then is dinamica action
-                                    $originalValue = array_key_exists($elementField->identifier, $modelValue)
-                                        ? $originalValue
-                                        : 'action';
-
-                                    $result[$i][$elementField->identifier] = $originalValue;
+                                    $result[$i][$elementField->identifier] = $this->getActionValue($elementField,$modelValue,$originalValue);
                                 }
 
                                 break;

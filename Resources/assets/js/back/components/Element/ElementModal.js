@@ -493,6 +493,22 @@ class ElementModal extends Component {
                                         />
                                     }
 
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="isFile"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Action de type fichier"
+                                    />
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="isFileWSFusion"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Action de type fichier Fusion"
+                                    />
+
                                 </div>
                             </div>
                         </div>
