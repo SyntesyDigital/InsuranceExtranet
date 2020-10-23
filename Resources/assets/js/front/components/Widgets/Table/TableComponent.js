@@ -277,6 +277,83 @@ export default class TableComponent extends Component {
         />;
     }
 
+    renderDefaultValue(hasIcon,hasColor,textAlign,value,icon,style) {
+
+        if(hasIcon){
+            //consider with icone not possible to have html link
+            return <div className={('has-icon')}>
+                <div
+                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                    style={style}
+                >
+                    <i className={icon.icon}></i> &nbsp;
+                    {value}
+                </div>
+            </div>
+        }
+        else {
+            //if no icon, it's possible that value come with html. 
+            return <div className={''}>
+                <div
+                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                    style={style}
+                    dangerouslySetInnerHTML={{ __html: value }}
+                />
+            </div>
+        }
+    }
+
+    renderLink(hasIcon,textAlign,value,url,icon,style) {
+
+        if(hasIcon){
+            return <div className={('has-icon')}>
+                    <div
+                        className={textAlign}
+                    >
+                        <a href={url}>
+                            {hasIcon ? <i className={icon.icon}></i> : null}
+                            &nbsp; {value}
+                        </a>
+                    </div>
+                </div>
+        }
+        else {
+            return <div className={''}>
+                    <a href={url}
+                        className={(textAlign)}
+                        style={style}
+                        dangerouslySetInnerHTML={{ __html: value }}
+                    />
+                </div>
+        }
+    }
+
+    renderModalLink(hasIcon,textAlign,value,url,icon,style) {
+
+        if(hasIcon){
+            return <div className={('has-icon')}>
+                    <div
+                        className={textAlign}
+                    >
+                        <a href={url} className="modal-link" data-modal={url}>
+                            <i className={icon.icon}></i>
+                            &nbsp; {value}
+                        </a>
+                    </div>
+                </div>
+        }
+        else {
+            return <div
+                className={textAlign}
+                dangerouslySetInnerHTML={{
+                    __html: '<a href="" class="modal-link" data-modal="' + (url) + '">' +
+                        value +
+                        '</a>'
+                }}
+            />
+        }
+    }
+
     renderCell(field, identifier, row) {
 
         var value = row.original[identifier];
@@ -308,56 +385,30 @@ export default class TableComponent extends Component {
         // has route
         else if (hasRoute(field)) {
 
-            return <div className={(hasIcon ? 'has-icon' : '')}>
-                <div
-                    className={textAlign}
-                >
-                    <a href="" href={row.original[identifier + "_url"]}>
-                        {hasIcon ? <i className={icon.icon}></i> : null}
-                        &nbsp; {row.original[identifier]}
-                    </a>
-                </div>
-            </div>
+            return this.renderLink(
+                    hasIcon,
+                    textAlign,
+                    row.original[identifier],
+                    row.original[identifier + "_url"],
+                    icon,
+                    style
+                );
         }
         // has modal
         else if (hasModal(field)) {
 
-            return <div
-                className={textAlign}
-                dangerouslySetInnerHTML={{
-                    __html: '<a href="" class="modal-link" data-modal="' + (row.original[identifier + "_url"]) + '">' +
-                        row.original[identifier] +
-                        '</a>'
-                }}
-
-            />
+            return this.renderModalLink(
+                hasIcon,
+                textAlign,
+                row.original[identifier],
+                row.original[identifier + "_url"],
+                icon,
+                style
+            );
         }
         // default
         else {
-
-            if(hasIcon){
-                //consider with icone not possible to have html link
-                return <div className={('has-icon')}>
-                    <div
-                        className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
-                        style={style}
-                    >
-                        <i className={icon.icon}></i> &nbsp;
-                        {value}
-                    </div>
-                </div>
-            }
-            else {
-                //if no icon, it's possible that value come with html. 
-                return <div className={(hasIcon ? 'has-icon' : '')}>
-                    {hasIcon ? <i className={icon.icon}></i> : null}
-                    <div
-                        className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
-                        style={style}
-                        dangerouslySetInnerHTML={{ __html: value }}
-                    />
-                </div>
-            }
+            return this.renderDefaultValue(hasIcon,hasColor,textAlign,value,icon,style);
         }
     }
 
