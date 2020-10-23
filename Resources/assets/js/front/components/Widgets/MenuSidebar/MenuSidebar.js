@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SubMenuSidebar from './SubMenuSidebar';
 import arrowRight from './assets/img/menu_right.svg';
+import UserSessionService from '../../../../services/UserSessionService';
 
 export default class MenuSidebar extends Component {
 
@@ -40,6 +41,21 @@ export default class MenuSidebar extends Component {
             onComplete: function () { }
         });
 
+    }
+
+    handleUserSettings() {
+        this.props.history.push('architect/roles/' + userSession.role);
+    }
+
+    hasUrlUser() {
+        var SITE_CONFIG_GENERAL
+
+
+        var searchDelay = settings.searchDelay !== null ?
+            settings.searchDelay :
+            _fnDataSource(settings) === 'ssp' ?
+                400 :
+                0;
     }
 
     componentDidMount() {
@@ -118,6 +134,12 @@ export default class MenuSidebar extends Component {
     }
 
     render() {
+
+        const hasUrlUser = SITE_CONFIG_GENERAL.URL_MY_ACCOUNT !== undefined
+            && SITE_CONFIG_GENERAL.URL_MY_ACCOUNT !== null ?
+            true
+            : false;
+
         return (
             <div>
                 <div className="menu-container">
@@ -140,7 +162,13 @@ export default class MenuSidebar extends Component {
                         </div>
                         <ul className="container-menu">
                             <li className="user-item">
-                                <span className="sidebar-text">{this.props.currentUser}</span>
+                                {hasUrlUser ?
+                                    <a href={SITE_CONFIG_GENERAL.URL_MY_ACCOUNT.value} className="user-item-settings">
+                                        <span className="sidebar-text">{this.props.currentUser}</span>
+                                    </a>
+                                    :
+                                    <span className="sidebar-text">{this.props.currentUser}</span>
+                                }
                                 <a href="#" onClick={this.handleLogOut.bind(this)}>
                                     <i className="fas fa-power-off"></i>
                                 </a>
