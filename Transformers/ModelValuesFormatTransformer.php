@@ -56,7 +56,7 @@ class ModelValuesFormatTransformer extends Resource
         return $url;
     }
 
-    private function processLink($link,$value)
+    private function processLink($link, $value)
     {
         return '<a href="'.$link.'">'.$value.'</a>';
     }
@@ -66,23 +66,22 @@ class ModelValuesFormatTransformer extends Resource
         if (isset($hasRoute['id'])) {
             $url = $this->getContentUrl($hasRoute['id']);
 
-            
             //if is allowed
-            if(!allowed_slug($url))
+            if (!allowed_slug($url)) {
                 return null;
+            }
 
-            
             //process parameters
             if ($hasRoute['params'] != null && sizeof($hasRoute['params']) > 0) {
                 $url .= '?';
-                
+
                 //process parameters with model model values
                 $currentRouteParameters = $this->processParameters2Array(
                     $this->routeParameters,
                     $hasRoute['params'],
                     $modelValue
                 );
-                
+
                 $url .= $this->arrayToUrl($currentRouteParameters);
             }
         }
@@ -141,7 +140,7 @@ class ModelValuesFormatTransformer extends Resource
                 $paramResult[$param['identifier']] = $modelValue->{$param['value']};
             }
             //if not exist into parameters check if it exist into url
-            else if($param['identifier'] != '' && isset($initArray[$param['identifier']]) && $initArray[$param['identifier']] != ''){
+            elseif ($param['identifier'] != '' && isset($initArray[$param['identifier']]) && $initArray[$param['identifier']] != '') {
                 $paramResult[$param['identifier']] = $initArray[$param['identifier']];
             }
         }
@@ -176,19 +175,18 @@ class ModelValuesFormatTransformer extends Resource
             foreach ($modelValues as $modelValue) {
                 if (!$limit || $i < $limit) {
                     foreach ($elementFields as $elementField) {
-
-                        $originalValue = isset($modelValue->{$elementField->identifier}) 
+                        $originalValue = isset($modelValue->{$elementField->identifier})
                             ? $modelValue->{$elementField->identifier} : '';
 
                         switch ($elementField->type) {
                             case 'action':
-                                
+
                                 //dd($modelValue,$elementField->identifier,array_key_exists($elementField->identifier,$modelValue));
 
                                 if (!$this->isCsv) {
                                     //if identifier is in array, then is dinamica action
-                                    $originalValue = array_key_exists($elementField->identifier,$modelValue) 
-                                        ? $originalValue 
+                                    $originalValue = array_key_exists($elementField->identifier, $modelValue)
+                                        ? $originalValue
                                         : 'action';
 
                                     $result[$i][$elementField->identifier] = $originalValue;
@@ -196,14 +194,22 @@ class ModelValuesFormatTransformer extends Resource
 
                                 break;
                             case 'number':
-                                $result[$i][$elementField->identifier] = $originalValue;
+                                if ($this->isCsv) {
+                                    $result[$i][$elementField->identifier] = number_format($originalValue != '' ? $originalValue : 0, 2, ',', '');
+                                } else {
+                                    $result[$i][$elementField->identifier] = $originalValue;
+                                }
 
                                 break;
                             case 'text':
                                 if ($elementField->settings['format'] == 'password') {
                                     $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
                                 } else {
-                                    $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
+                                    if ($this->isCsv) {
+                                        $result[$i][$elementField->identifier] = $originalValue ? strip_tags($originalValue) : '';
+                                    } else {
+                                        $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
+                                    }
                                 }
                                 break;
                             case 'date':
@@ -211,7 +217,6 @@ class ModelValuesFormatTransformer extends Resource
                                 if (isset($originalValue) && $originalValue != '') {
                                     $originalValue = intval($originalValue) / 1000;
                                     $result[$i][$elementField->identifier] = $originalValue ? $originalValue : '';
-
                                     //only process date when is not table. At tables date is processed in react to sort properly
                                     if (!$this->isTable) {
                                         if ($elementField->settings['format'] == 'day_month_year') {
@@ -228,6 +233,8 @@ class ModelValuesFormatTransformer extends Resource
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d/m/Y H:i');
                                         } elseif ($elementField->settings['format'] == 'hour') {
                                             $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('H:i');
+                                        } else {
+                                            $result[$i][$elementField->identifier] = Carbon::createFromTimestamp($originalValue)->format('d/m/Y');
                                         }
                                     }
                                 } else {
@@ -266,12 +273,11 @@ class ModelValuesFormatTransformer extends Resource
                             break;
                         }
 
-                        if($this->isCsv){
+                        if ($this->isCsv) {
                             //nothing to process with links by now
-                        }
-                        elseif (isset($elementField->settings) &&
+                        } elseif (isset($elementField->settings) &&
                             isset($elementField->settings['hasRoute']) && $elementField->settings['hasRoute'] != null
-                            && isset($elementField->settings['hasRoute']['id']) && 
+                            && isset($elementField->settings['hasRoute']['id']) &&
                             $result[$i][$elementField->identifier] != ''    //if original value is '' then value is not defined, so action no need to be added
                         ) {
                             $link = $this->processContent(
@@ -280,21 +286,17 @@ class ModelValuesFormatTransformer extends Resource
                                 $result[$i][$elementField->identifier]
                             );
 
-                           
-
                             //to allow order when table, need to process separately link and value
                             if ($this->isTable) {
                                 $result[$i][$elementField->identifier] = isset($link) ? $result[$i][$elementField->identifier].';'.$link : '';
                             } else {
-                                $result[$i][$elementField->identifier] = isset($link) ? $this->processLink($link,$result[$i][$elementField->identifier]) : '';
+                                $result[$i][$elementField->identifier] = isset($link) ? $this->processLink($link, $result[$i][$elementField->identifier]) : '';
                             }
-                            
                         } elseif (isset($elementField->settings) &&
                                 isset($elementField->settings['hasModal']) && $elementField->settings['hasModal'] != null
                                 && isset($elementField->settings['hasModal']['id'])
                                 && $result[$i][$elementField->identifier] != '' //if original value is '' then value is not defined, so action no need to be added
                             ) {
-
                             $link = $this->processElement(
                                     $elementField->settings['hasModal'],
                                     $modelValue,

@@ -516,7 +516,7 @@ class ElementRepository extends BaseRepository
 
         $beans = [];
         $beans['modelValues'] = $data;
-        $beans['completeObject'] = $this->getCompleteObject($result);
+        $beans['completeObject'] = $this->getCompleteObject($result,$data);
 
         return $beans;
     }
@@ -534,7 +534,7 @@ class ElementRepository extends BaseRepository
         return true;
     }
 
-    private function getCompleteObject($result) {
+    private function getCompleteObject($result,$data) {
 
         $total = 1;
         $totalPage = 1;
@@ -545,8 +545,8 @@ class ElementRepository extends BaseRepository
         }
         else {
             $totalPage = 1;
-            $total = isset($result) 
-                ? (is_array($result) ? sizeof($result) : 1) 
+            $total = isset($data) 
+                ? (is_array($data) ? sizeof($data) : 1) 
                 : 0;
         }
         
@@ -650,7 +650,14 @@ class ElementRepository extends BaseRepository
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
 
-            $jsonpath = $prefix.$object->OBJ_JSONP.'["'.$object->CHAMP.'"]';
+            if(strpos($object->CHAMP, '[')  === false){
+                //if there is no [ into champ, then we can add it
+                $jsonpath = $prefix.$object->OBJ_JSONP.'["'.$object->CHAMP.'"]';    
+            }
+            else {
+                //if exist then that means the champ already includes de key
+                $jsonpath = $prefix.$object->OBJ_JSONP.$object->CHAMP;
+            }
 
             $value = $jsonObject->get($jsonpath);
 

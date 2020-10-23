@@ -100,6 +100,7 @@ return [
           'columnWidth',
           'readonly',
           'description',
+          'hidden',
           //'defaultValue'
         ],
       ],
@@ -363,6 +364,7 @@ return [
           'conditionalIcon',
           'group',
           'description',
+          'textAlign',
         ],
       ],
     ],  // --- end fields ---

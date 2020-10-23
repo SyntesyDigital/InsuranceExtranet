@@ -3,7 +3,6 @@
 namespace Modules\Extranet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Extranet\Entities\Element;
@@ -77,7 +76,7 @@ class ElementController extends Controller
     {
         $procedures = null;
         //get model and fields
-        if (in_array($element_type ,Element::getTypesV2())){
+        if (in_array($element_type, Element::getTypesV2())) {
             $elementModel = ElementModel::where('id', $model_id)->first();
             $model = $elementModel->getObject();
         } else {
@@ -94,7 +93,7 @@ class ElementController extends Controller
         if ($element_type == Element::FORM) {
             $fields = $this->elements->getFormFields($model->ID);
             $procedures = $this->computeFormProcedures($model->ID);
-        } elseif (in_array($element_type ,Element::getTypesV2())){    
+        } elseif (in_array($element_type, Element::getTypesV2())) {
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
@@ -125,8 +124,7 @@ class ElementController extends Controller
 
     public function show(Element $element, Request $request)
     {
-
-        if (in_array($element->type ,Element::getTypesV2())) {
+        if (in_array($element->type, Element::getTypesV2())) {
             $elementModel = ElementModel::where('id', $element->model_identifier)->first();
             $model = $elementModel->getObject();
         } else {
@@ -137,7 +135,7 @@ class ElementController extends Controller
         if ($element->type == Element::FORM) {
             $fields = $this->elements->getFormFields(trim($model->ID));
             $procedures = $this->computeFormProcedures(trim($model->ID));
-        } elseif (in_array($element->type ,Element::getTypesV2())) {
+        } elseif (in_array($element->type, Element::getTypesV2())) {
             $fields = $elementModel->getFields();
             $procedures = $elementModel->getProcedures(
                 $this->elements->getVariables()
@@ -230,7 +228,7 @@ class ElementController extends Controller
             $result = $this->elements->getModelValuesFromElement($element, $request->all());
 
             if ($request->has('debug')) {
-                dd($element->toArray(),$result);
+                dd($element->toArray(), $result);
             }
 
             return response()->json([
@@ -239,10 +237,10 @@ class ElementController extends Controller
                     $result['modelValues'],
                     $element->fields()->get(),
                     $limit, $request->all(),
-                    $element->type == Element::TYPES['table']['identifier'] || $element->type == Element::TYPES['table-v2']['identifier']  ? true : false
+                    $element->type == Element::TYPES['table']['identifier'] || $element->type == Element::TYPES['table-v2']['identifier'] ? true : false
                 ),
-                'totalPage' => isset( $result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
-                'total' => isset( $result['completeObject']) &&  $result['completeObject']->total != null ? $result['completeObject']->total : null,
+                'totalPage' => isset($result['completeObject']) && $result['completeObject']->totalPage != null ? $result['completeObject']->totalPage : null,
+                'total' => isset($result['completeObject']) && $result['completeObject']->total != null ? $result['completeObject']->total : null,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -264,7 +262,7 @@ class ElementController extends Controller
             $titles = $element->fields()->pluck('name')->toArray();
             $row = [];
             foreach ($titles as $key => $value) {
-                array_push($row, isset($value) ? mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8') : '');
+                array_push($row, isset($value) ? iconv('utf-8', 'windows-1252', $value) : ''); //'windows-1252' for  symbols
             }
 
             fputcsv($handle, $row, ';');
@@ -350,7 +348,6 @@ class ElementController extends Controller
 
     public function postService(PostServiceRequest $request)
     {
-
         try {
             $result = $this->dispatchNow(ProcessService::fromRequest($request));
 

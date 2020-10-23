@@ -24,9 +24,9 @@ export default class TableActions extends React.Component {
     }
 
     render() {
-
+        
         return (
-            <div className="table-actions-col text-right">
+            <div className={'table-actions-col ' + (this.props.textAlign)}>
                 {this.renderActions()}
                 <TableActionGroup
                     actions={this.props.actions.grouped}
