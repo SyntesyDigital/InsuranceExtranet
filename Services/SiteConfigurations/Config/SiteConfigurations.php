@@ -37,12 +37,11 @@ return [
                 'identifier' => 'APP_DEBUG',
                 'name' => 'APP_DEBUG',
                 'label' => 'App debug',
-              ]
+              ],
             ], //end children col
           ],
         ], //en children box
       ], //end general
-      
     ], //end sidebar
 
     'body' => [
@@ -119,6 +118,27 @@ return [
                 'identifier' => 'PASSWORD_LIMIT',
                 'name' => 'PASSWORD_LIMIT',
                 'label' => 'Limite de caractères',
+              ],
+            ], //end children col
+          ],
+        ], //en children box
+      ], //end box password
+
+      [
+        'type' => 'box',
+        'title' => 'Utilisateur',
+        'identifier' => 'box_4',
+        'children' => [
+          [
+            'type' => 'col',
+            'class' => 'col-sm-12 col-md-6',
+            'children' => [
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'URL_MY_ACCOUNT',
+                'name' => 'URL_MY_ACCOUNT',
+                'label' => 'URL Lien Mon Compte',
               ],
             ], //end children col
           ],

@@ -358,20 +358,23 @@ footer {
             width: 142px;
             display: block;
         }
-        a {
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            right: 37px;
-            width: 30px;
-            top: 50%;
-            transform: translateY(-50%);
 
-            i {
+        a {
+            &:not(.user-item-settings) {
+                width: 30px;
+                height: 30px;
                 position: absolute;
+                right: 37px;
+                width: 30px;
                 top: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 20px;
+                transform: translateY(-50%);
+
+                i {
+                    position: absolute;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 20px;
+                }
             }
         }
     }
@@ -660,10 +663,10 @@ body {
             width: 75px;
             .sub-menu-sidebar-container {
                 width: 75px;
-                ul{
-                    li{
+                ul {
+                    li {
                         padding-left: 0;
-                        a{
+                        a {
                             padding-right: 0;
                             text-align: center;
                         }
