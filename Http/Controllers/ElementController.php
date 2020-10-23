@@ -262,7 +262,7 @@ class ElementController extends Controller
             $titles = $element->fields()->pluck('name')->toArray();
             $row = [];
             foreach ($titles as $key => $value) {
-                array_push($row, isset($value) ? mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8') : '');
+                array_push($row, isset($value) ? iconv('utf-8', 'windows-1252', $value) : ''); //'windows-1252' for  symbols
             }
 
             fputcsv($handle, $row, ';');
