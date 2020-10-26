@@ -13,7 +13,7 @@ import ModalAddDocument from './ModalAddDocument';
 import Stepper from '../Stepper';
 import RangeField from '../Forms/fields/RangeField';
 import { Separator } from "architect-components-library";
-import SearchTopBar from '../../../components/Widgets/SearchTopBar';
+import SearchTopBar from '../SearchTopBar/SearchTopBar';
 
 const steps = [{ title: 'Adresse / Surface' }, { title: 'Détail du risque' }, { title: 'Antécedent' }, { title: 'Projet' }, { title: 'Souscripteur' }, { title: 'Validation' }]
 
