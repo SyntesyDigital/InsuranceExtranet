@@ -31,7 +31,7 @@ export const SETTINGS_AVOID = {
   'columnWidth' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
   'operation' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'readonly' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
-  'iframe' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'iframe' : [TABLE_V1,FORM_V1,TABLE_V2,FORM_V2],
   'group' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
   'description' : [TABLE_V1,TABLE_V2],
   'hidden' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],

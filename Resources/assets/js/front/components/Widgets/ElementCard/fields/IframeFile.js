@@ -9,7 +9,7 @@ export default class IframeFile extends Component {
     render() {
         return (
             <div className="iframe-file">
-                <iframe className="iframe-content" src={this.props.link} width="100%" height="500"></iframe>
+                <iframe className="iframe-content" src={this.props.link} width="100%"></iframe>
             </div>
         );
     }
