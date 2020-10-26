@@ -86,13 +86,21 @@ if (!function_exists('breadcrumb')) {
             }
 
             $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                $v['url'],
+                isBreadcrumbActive() ? $v['url'] : '#',
                 $v['label']
             );
         }
+
         $html .= '';
 
         return $html;
+    }
+
+    function isBreadcrumbActive()
+    {
+        $config = get_config_object($group = 'general');
+
+        return isset($config['BREADCUMB_IS_ACTIVE']) && $config['BREADCUMB_IS_ACTIVE'] === true ? true : false;
     }
 
     function typology_breadcrumb($content)
@@ -129,7 +137,7 @@ if (!function_exists('breadcrumb')) {
             }
 
             $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                $v['url'],
+                isBreadcrumbActive() ? $v['url'] : '#',
                 $v['label']
             );
         }
@@ -164,7 +172,7 @@ if (!function_exists('breadcrumb')) {
             }
 
             $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                $v['url'],
+                isBreadcrumbActive() ? $v['url'] : '#',
                 $v['label']
             );
         }

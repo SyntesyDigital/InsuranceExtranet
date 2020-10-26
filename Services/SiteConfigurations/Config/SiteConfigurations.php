@@ -41,8 +41,8 @@ return [
               [
                 'type' => 'field',
                 'input' => 'boolean',
-                'identifier' => 'BREADCRUMB_STATUS',
-                'name' => 'BREADCRUMB_STATUS',
+                'identifier' => 'BREADCUMB_IS_ACTIVE',
+                'name' => 'BREADCUMB_IS_ACTIVE',
                 'label' => 'Enable / disable link breadcrumbs',
               ],
             ], //end children col
