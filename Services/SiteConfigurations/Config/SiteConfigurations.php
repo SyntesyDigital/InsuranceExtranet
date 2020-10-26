@@ -38,6 +38,13 @@ return [
                 'name' => 'APP_DEBUG',
                 'label' => 'App debug',
               ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'BREADCRUMB_STATUS',
+                'name' => 'BREADCRUMB_STATUS',
+                'label' => 'Enable / disable link breadcrumbs',
+              ],
             ], //end children col
           ],
         ], //en children box
