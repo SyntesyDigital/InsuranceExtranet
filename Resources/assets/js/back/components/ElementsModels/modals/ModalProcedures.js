@@ -193,6 +193,10 @@ class ModalProcedures extends Component {
                 ? '[subJSON] $.'+ (object.jsonpath != null ? object.jsonpath : '') + object.identifier 
                 : currentProcedure.repeatable_jsonpath + (object.jsonpath != null ? object.jsonpath : '') + object.identifier;
 
+            //if format is not defined is considered as text. Constant and variables system 
+            var format = object.format !== undefined && MODELS_FIELDS[object.format] !== undefined ? 
+                object.format : 'text';
+
             return (
                 <div 
                     key={object.identifier + index} 
@@ -202,9 +206,9 @@ class ModalProcedures extends Component {
                         key={index}
                         identifier={object.identifier}
                         index={index}
-                        icon={object.format !== undefined ? MODELS_FIELDS[object.format].icon : ''}
+                        icon={MODELS_FIELDS[format].icon}
                         icons={[this.getTypeIcon(object.type)]}
-                        label={object.format !== undefined ? MODELS_FIELDS[object.format].label : ''}
+                        label={MODELS_FIELDS[format].label}
                         labelField={object.name + ' ( '+jsonpath+' ) '}
                         isField={true}
                         onEdit={() => this.props.openModalEditObject(currentProcedure, JSON.parse(JSON.stringify(object)))}
