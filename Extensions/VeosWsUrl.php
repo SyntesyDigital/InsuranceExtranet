@@ -11,7 +11,7 @@ class VeosWsUrl
     const DEV = 'preprod';
     const REC = 'rec';
 
-    public static function get()
+    public static function get($env = null)
     {
         if (Auth::user()) {
             if (isset(Auth::user()->env)) {
@@ -27,6 +27,18 @@ class VeosWsUrl
 
                 return self::getEnvironmentUrl($user->env);
             }
+        }
+
+        switch (strtolower($env)) {
+            case 'test':
+            case 'preprod':
+                return self::test();
+
+            case 'rec':
+                return self::rec();
+
+            default:
+                self::prod();
         }
 
         return self::prod();

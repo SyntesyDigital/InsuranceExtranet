@@ -59,7 +59,7 @@ class Login
 
     public function handle()
     {
-        $this->saveLoginAttempt();
+        $this->checkAttempts();
 
         try {
             $client = new Client();
@@ -96,16 +96,20 @@ class Login
         return false;
     }
 
-    private function saveLoginAttempt()
+    private function checkAttempts()
     {
+        $limit = get_config('LOGIN_LIMIT_ATTEMPTS') ? get_config('LOGIN_LIMIT_ATTEMPTS') : false;
+
+        if ($limit == false || $limit <= 0) {
+            return null;
+        }
+
         $attempt = LoginAttempt::where('login', $this->uid)
             ->where('env', $this->env)
             ->first();
 
-        $limit = get_config('LOGIN_LIMIT_ATTEMPTS') ? get_config('LOGIN_LIMIT_ATTEMPTS') : 5;
-
         if (!$attempt) {
-            LoginAttempt::create([
+            $attempt = LoginAttempt::create([
                 'login' => $this->uid,
                 'ip_address' => Request::ip(),
                 'user_agent' => Request::header('User-Agent'),
@@ -118,6 +122,8 @@ class Login
         }
 
         if ($attempt->count >= $limit) {
+            dispatch_now(new DisableAccount($this->uid, $this->env));
+
             throw new Exception('Error limit login attempts', self::ERROR_LIMIT_LOGIN_ATTEMPTS);
         }
     }
