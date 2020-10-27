@@ -70,12 +70,12 @@ export default class ImageTextTitleDocuments extends Component {
         const link2 = this.processLink2(fields, 3);
         const desc = this.processDesc(fields, 4).replace(/(<([^>]+)>)/ig, '');
         const fileLink = this.processFile(fields, 5);
-
+        
         return (
             <div className="container-image-text-title-documents">
                 <div className="container-image">
                     {image ? <img src={'/' + image} width="100%" /> : null}
-                    <a href={fileLink} className="btn btn-primary">
+                    <a href={ASSETS + fileLink} className="btn btn-primary">
                         <h5>{titleLink}</h5>
                     </a>
                 </div>
