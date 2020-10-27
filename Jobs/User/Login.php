@@ -75,8 +75,8 @@ class Login
 
                 $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
 
-                if (get_config('ACCOUNT_NOTICE_ON_LOGIN') == true) {
-                    dispatch_now(new NoticeOnLogin($session));
+                if (get_config('ON_LOGIN_TRIGGER_FORM') == true) {
+                    dispatch_now(new TriggerOnLogin($session));
                 }
 
                 return $session;

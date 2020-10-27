@@ -143,10 +143,19 @@ return [
 
               [
                 'type' => 'field',
-                'input' => 'boolean',
-                'identifier' => 'ACCOUNT_NOTICE_ON_LOGIN',
-                'name' => 'ACCOUNT_NOTICE_ON_LOGIN',
-                'label' => 'Envoyer un email lors de la connexion',
+                'input' => 'select',
+                'identifier' => 'ON_LOGIN_TRIGGER_FORM',
+                'name' => 'ON_LOGIN_TRIGGER_FORM',
+                'label' => 'Modele à éxécuter lors du login',
+                'options' => \Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel::where('type', 'form-v2')->get()->map(function ($element) {
+                    return [
+                        'name' => $element->name,
+                        'value' => $element->id,
+                    ];
+                })->prepend([
+                    'name' => '---',
+                    'value' => null,
+                ]),
               ],
             ], //end children col
           ],
