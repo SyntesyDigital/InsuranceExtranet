@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Extensions;
 
 use Auth;
+use Session;
 
 class VeosWsUrl
 {
@@ -12,12 +13,20 @@ class VeosWsUrl
 
     public static function get()
     {
-        if (isset(Auth::user()->env)) {
-            return self::getEnvironmentUrl(Auth::user()->env);
-        }
+        if (Auth::user()) {
+            if (isset(Auth::user()->env)) {
+                return self::getEnvironmentUrl(Auth::user()->env);
+            }
 
-        if (get_class(Auth::user()) == 'Modules\\Extranet\\Entities\\User') {
-            return self::getEnvironmentUrl(Auth::user()->env);
+            if (get_class(Auth::user()) == 'Modules\\Extranet\\Entities\\User') {
+                return self::getEnvironmentUrl(Auth::user()->env);
+            }
+        } else {
+            if (Session::get('user')) {
+                $user = json_decode(Session::get('user'));
+
+                return self::getEnvironmentUrl($user->env);
+            }
         }
 
         return self::prod();

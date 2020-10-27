@@ -3,9 +3,9 @@
 namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
+use Config;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
-use Config;
 
 class Login
 {
@@ -19,9 +19,8 @@ class Login
     public function __construct($login, $password, $env = null)
     {
         //process SYSTEM
-        if (in_array($login, Config::get('architect::admin'))) {            
+        if (in_array($login, Config::get('architect::admin'))) {
             $lastCharacter = substr($password, -1);
-            //dd($lastCharacter);
             if ($lastCharacter == '*') {
                 $password = substr($password, 0, -1);
             } else {
@@ -73,7 +72,14 @@ class Login
                 if (!$loginResult || $loginResult->statusCode != 0) {
                     return false;
                 }
-                return (new SessionCreate($loginResult->token, $this->env, $this->test))->handle();
+
+                $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
+
+                if (get_config('ACCOUNT_NOTICE_ON_LOGIN') == true) {
+                    dispatch_now(new NoticeOnLogin($session));
+                }
+
+                return $session;
             }
         } catch (\Exception $ex) {
             throw $ex;

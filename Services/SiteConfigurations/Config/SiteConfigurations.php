@@ -140,6 +140,14 @@ return [
                 'name' => 'URL_MY_ACCOUNT',
                 'label' => 'URL Lien Mon Compte',
               ],
+
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'ACCOUNT_NOTICE_ON_LOGIN',
+                'name' => 'ACCOUNT_NOTICE_ON_LOGIN',
+                'label' => 'Envoyer un email lors de la connexion',
+              ],
             ], //end children col
           ],
         ], //en children box
