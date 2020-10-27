@@ -19,7 +19,6 @@ export default class SearchTopBar extends Component {
             valueSearch: event.target.value
         });
         console.log("handleChange", this.state.valueSearch)
-
     }
 
     handleModalClose() {
@@ -38,7 +37,7 @@ export default class SearchTopBar extends Component {
                     display={this.state.display}
                     onModalClose={this.handleModalClose.bind(this)}
                     deleteButton={false}
-                    state={this.state.valueSearch}
+                    dataFromParent={this.state.valueSearch}
                 />
                 <label>
                     <input
@@ -49,8 +48,6 @@ export default class SearchTopBar extends Component {
                         placeholder="Recherche"
                     />
                 </label>
-
-
                 <div className="actions-header">
                     <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation"></span></a>
                     <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft"></span></a>

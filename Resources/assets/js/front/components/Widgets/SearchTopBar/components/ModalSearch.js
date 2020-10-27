@@ -2,19 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../Modal';
 import './ModalSearch.scss';
-import {
-    InputField
-} from "architect-components-library";
-
-
 
 export default class ModalSearch extends Component {
 
     constructor(props) {
         super(props);
-        this.state ={
-            valueSearch: this.props.valueSearch ? this.props.valueSearch : ''
-        }
     }
 
     handleChange(name, value) {
@@ -33,7 +25,7 @@ export default class ModalSearch extends Component {
     }
 
     handleOnChange(e) {
-        this.props.onChange('search', e.target.value);
+        console.log("this.props.valueSearch" , this.props.dataFromParent);
     }
 
 
@@ -42,6 +34,7 @@ export default class ModalSearch extends Component {
     // ==============================
 
     render() {
+        console.log(this.props.valueSearch)
         return (
             <Modal
                 id={this.props.id}
@@ -60,7 +53,7 @@ export default class ModalSearch extends Component {
                     <input
                         type="text"
                         name="search"
-                        value={this.state.valueSearch}
+                        value={this.props.valueSearch}
                         onChange={this.handleOnChange.bind(this)}
                         placeholder="Recherche"
                     />
@@ -117,6 +110,7 @@ ModalSearch.propTypes = {
     size: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onSubmit: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    valueSearch: PropTypes.string.isRequired,
 };
 
