@@ -4,8 +4,11 @@ namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
 use Config;
+use Exception;
 use GuzzleHttp\Client;
+use Modules\Extranet\Entities\LoginAttempt;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Request;
 
 class Login
 {
@@ -15,6 +18,8 @@ class Login
 
     const MESSAGE_404 = "Nom d'utilisateur ou mot de passe incorrect";
     const MESSAGE_500 = 'Erreur de connexion. Veuillez réessayer après quelques minutes.';
+
+    const ERROR_LIMIT_LOGIN_ATTEMPTS = 100;
 
     public function __construct($login, $password, $env = null)
     {
@@ -54,9 +59,10 @@ class Login
 
     public function handle()
     {
+        $this->saveLoginAttempt();
+
         try {
             $client = new Client();
-
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
             $login = $client->post($WsUrl.'login', [
@@ -73,6 +79,8 @@ class Login
                     return false;
                 }
 
+                $this->flushLoginAttempt();
+
                 $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
 
                 if (get_config('ON_LOGIN_TRIGGER_FORM') == true) {
@@ -86,5 +94,36 @@ class Login
         }
 
         return false;
+    }
+
+    private function saveLoginAttempt()
+    {
+        $attempt = LoginAttempt::where('login', $this->uid)
+            ->where('env', $this->env)
+            ->first();
+
+        if (!$attempt) {
+            LoginAttempt::create([
+                'login' => $this->uid,
+                'ip_address' => Request::ip(),
+                'user_agent' => Request::header('User-Agent'),
+                'count' => 1,
+                'env' => $this->env,
+            ]);
+        } else {
+            ++$attempt->count;
+            $attempt->save();
+        }
+
+        if ($attempt->count >= 5) {
+            throw new Exception('Error limit login attempts', self::ERROR_LIMIT_LOGIN_ATTEMPTS);
+        }
+    }
+
+    private function flushLoginAttempt()
+    {
+        LoginAttempt::where('login', $this->uid)
+            ->where('env', $this->env)
+            ->delete();
     }
 }
