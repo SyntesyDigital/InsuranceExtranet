@@ -102,6 +102,8 @@ class Login
             ->where('env', $this->env)
             ->first();
 
+        $limit = get_config('LOGIN_LIMIT_ATTEMPTS') ? get_config('LOGIN_LIMIT_ATTEMPTS') : 5;
+
         if (!$attempt) {
             LoginAttempt::create([
                 'login' => $this->uid,
@@ -115,7 +117,7 @@ class Login
             $attempt->save();
         }
 
-        if ($attempt->count >= 5) {
+        if ($attempt->count >= $limit) {
             throw new Exception('Error limit login attempts', self::ERROR_LIMIT_LOGIN_ATTEMPTS);
         }
     }

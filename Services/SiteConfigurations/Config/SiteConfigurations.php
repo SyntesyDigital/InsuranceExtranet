@@ -157,6 +157,14 @@ return [
                     'value' => null,
                 ]),
               ],
+
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'LOGIN_LIMIT_ATTEMPTS',
+                'name' => 'LOGIN_LIMIT_ATTEMPTS',
+                'label' => 'Limite de tentative de connexion avant changement de mot de passe',
+              ],
             ], //end children col
           ],
         ], //en children box
