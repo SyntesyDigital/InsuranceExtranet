@@ -43,7 +43,7 @@ return [
                 'input' => 'boolean',
                 'identifier' => 'BREADCUMB_IS_ACTIVE',
                 'name' => 'BREADCUMB_IS_ACTIVE',
-                'label' => 'Enable / disable link breadcrumbs',
+                'label' => 'Disable / Enable link breadcrumbs',
               ],
             ], //end children col
           ],

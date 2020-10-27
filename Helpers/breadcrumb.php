@@ -85,8 +85,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                isBreadcrumbActive() ? $v['url'] : '#',
+            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+                isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
         }
@@ -100,7 +100,7 @@ if (!function_exists('breadcrumb')) {
     {
         $config = get_config_object($group = 'general');
 
-        return isset($config['BREADCUMB_IS_ACTIVE']) && $config['BREADCUMB_IS_ACTIVE'] === true ? true : false;
+        return isset($config['BREADCUMB_IS_ACTIVE']) && $config['BREADCUMB_IS_ACTIVE']->value === true ? true : false;
     }
 
     function typology_breadcrumb($content)
@@ -136,8 +136,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                isBreadcrumbActive() ? $v['url'] : '#',
+            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+                isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
         }
@@ -171,8 +171,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf('<a href="%s">%s</a>'.$arrow,
-                isBreadcrumbActive() ? $v['url'] : '#',
+            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+                isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
         }
