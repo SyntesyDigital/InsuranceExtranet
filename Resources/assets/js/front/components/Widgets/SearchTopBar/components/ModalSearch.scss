@@ -6,10 +6,13 @@
     .modal-header{
         padding-bottom: 20px;
     }
+    .results{
+        background: white;
+    }
     .modal-container {
         position: absolute;
         width: 100%;
-        top: 0px;
+        top: -15px;
         padding: unset;
         .modal-buttons {
             top: 20px;
@@ -36,7 +39,7 @@
                 border-bottom-right-radius: 12px;
                 label {
                     position: absolute;
-                    top: -61px;
+                    top: -46px;
                     &:before {
                         content: "";
                         position: absolute;

@@ -13,8 +13,13 @@
 							<span class="icon-bar"></span>
 						</button>
 					</div>
-					<div class="user-info">
-						@if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
+					<div class="user-info col-xs-offset-2">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="searchTopBar" class="searchTopBar"></div>
+                            </div>
+                            <div class="col-xs-6">
+                            @if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
 							<div class="button-header-container">
 								<a href="{{route('dashboard')}}" class="btn btn-header">
 									<i class="fa fa-cog"></i> <p class="button-text">Espace Admin</p>
@@ -24,6 +29,8 @@
 						<p class="user-name">
 							@include('extranet::front.partials.session_select')
 						</p>
+                            </div>
+                        </div>
 					</div>
 				</div>
 			@endif
@@ -41,6 +48,10 @@
         $(".tooltip-link").tooltip({
             disabled: true
         });
+        $(".tooltip-link-action").tooltip({
+                disabled: false,
+                position: { my: "right+60 top-80%", at: "center" }
+            });
         $( ".menu-item" ).click(function() {
             setTimeout(function(){
                 $('.sidebar.collapsed .menu-child .tooltip-link').tooltip({

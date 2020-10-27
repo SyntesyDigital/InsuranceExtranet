@@ -2,7 +2,6 @@
     label {
         position: relative;
     }
-
     label:before {
         content: "";
         position: absolute;
@@ -12,10 +11,31 @@
         width: 30px;
         background: url("./../../../../../img/ico_search.svg") center / contain no-repeat;
     }
-
     input {
         padding: 10px 40px;
         border: none;
         box-shadow: none;
+    }
+    .actions-header {
+        display: flex;
+        float: right;
+        span {
+            width: 40px;
+            height: 40px;
+            display: block;
+            margin-left: 70px;
+            &.localisation {
+                background-image: url("./../../../../../img/ico_localisation.svg");
+            }
+            &.draft {
+                background-image: url("./../../../../../img/ico_draft.svg");
+            }
+            &.notification {
+                background-image: url("./../../../../../img/ico_notification.svg");
+                &:hover{
+                    background-image: url("./../../../../../img/ico_creer_notification_hover.svg");
+                }
+            }
+        }
     }
 }

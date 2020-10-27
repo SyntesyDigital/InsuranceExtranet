@@ -12,8 +12,8 @@ export default class ModalSearch extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            valueSearch: null
+        this.state ={
+            valueSearch: this.props.valueSearch ? this.props.valueSearch : ''
         }
     }
 
@@ -30,6 +30,10 @@ export default class ModalSearch extends Component {
 
     handleFocus() {
         console.log("handleFocus :: ");
+    }
+
+    handleOnChange(e) {
+        this.props.onChange('search', e.target.value);
     }
 
 
@@ -57,11 +61,11 @@ export default class ModalSearch extends Component {
                         type="text"
                         name="search"
                         value={this.state.valueSearch}
-                        onChange={this.handleChange.bind(this)}
+                        onChange={this.handleOnChange.bind(this)}
                         placeholder="Recherche"
                     />
                 </label>
-                <div className="container">
+                <div className="col-xs-12 results">
                     <div className="row-result">
                         <h3>Numéro de contrat</h3>
                         <span>122131254</span>
@@ -111,7 +115,7 @@ ModalSearch.propTypes = {
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
     size: PropTypes.string.isRequired,
-
+    value: PropTypes.string.isRequired,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func
 };
