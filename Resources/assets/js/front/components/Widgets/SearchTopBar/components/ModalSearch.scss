@@ -1,0 +1,61 @@
+#modal-search {
+    .modal-background {
+        background-color: #3a6780;
+        opacity: 0.9;
+    }
+    .modal-header{
+        padding-bottom: 20px;
+    }
+    .modal-container {
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        padding: unset;
+        .modal-buttons {
+            top: 20px;
+            right: 10px;
+        }
+        .close-button-modal {
+            i {
+                &.fa-times {
+                    &:before {
+                        content: url("./../../../../../../img/efface_saisie.svg") !important;
+                        width: 20px;
+                        display: block;
+                    }
+                }
+            }
+        }
+        .modal-content {
+            overflow: unset;
+            padding-bottom: 0;
+            z-index: 9999;
+            .container-modal {
+                background: white;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                label {
+                    position: absolute;
+                    top: -61px;
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        left: 10px;
+                        top: 0;
+                        bottom: 0;
+                        width: 30px;
+                        background: url("./../../../../../../img/ico_search.svg") center/contain no-repeat;
+                    }
+                    input {
+                        padding: 10px 40px;
+                        border: none;
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+        .modal-footer {
+            display: none;
+        }
+    }
+}

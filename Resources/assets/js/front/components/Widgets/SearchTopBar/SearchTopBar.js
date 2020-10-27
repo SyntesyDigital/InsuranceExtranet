@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-import ModalSearch from './components/ModalSearch'
+import React, { Component } from 'react';
+import ModalSearch from './components/ModalSearch';
+import './SearchTopBar.scss';
 
 class SearchTopBar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            display: false
+            display: false,
+            valueSearch: null
         }
     }
 
@@ -22,7 +24,7 @@ class SearchTopBar extends Component {
 
     render() {
         return (
-            <div>
+            <div className="search-top-bar">
                 <ModalSearch
                     id={'modal-search'}
                     zIndex={10000}
@@ -31,13 +33,15 @@ class SearchTopBar extends Component {
                     onModalClose={this.handleModalClose.bind(this)}
                     deleteButton={false}
                 />
-                <input
-                    type="text"
-                    className="form-control"
-                    name="searrch"
-                    value={''}
-                    onChange={this.handleFocus.bind(this)}
-                />
+                <label>
+                    <input
+                        type="text"
+                        name="search"
+                        value={this.state.valueSearch}
+                        onChange={this.handleFocus.bind(this)}
+                        placeholder="Recherche"
+                    />
+                </label>
             </div>
         )
     }

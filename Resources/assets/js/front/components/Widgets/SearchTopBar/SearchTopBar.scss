@@ -1,0 +1,21 @@
+.search-top-bar {
+    label {
+        position: relative;
+    }
+
+    label:before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        background: url("./../../../../../img/ico_search.svg") center / contain no-repeat;
+    }
+
+    input {
+        padding: 10px 40px;
+        border: none;
+        box-shadow: none;
+    }
+}

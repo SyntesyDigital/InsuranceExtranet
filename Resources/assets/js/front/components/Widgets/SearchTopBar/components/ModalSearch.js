@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../Modal';
+import './ModalSearch.scss';
+import {
+    InputField
+} from "architect-components-library";
+
+
 
 export default class ModalSearch extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            valueSearch: null
+        }
     }
 
+    handleChange(name, value) {
+        console.log("handleChange :: ", evt.target.name, evt.target.value);
+    }
     handleCancel() {
         console.log("handleCancel :: ");
     }
@@ -15,6 +27,11 @@ export default class ModalSearch extends Component {
     handleSubmit() {
         console.log("handleSubmit :: ");
     }
+
+    handleFocus() {
+        console.log("handleFocus :: ");
+    }
+
 
     // ==============================
     // Renderers
@@ -33,16 +50,54 @@ export default class ModalSearch extends Component {
                 size={'medium'}
                 deleteButton={false}
                 cancelButton={false}
+                submitButton={false}
             >
-                <div className="row">
-                    <div className="col-xs-12">
-                        Número de contrat
-                        122131254
-                        122131254
-                        Numéro de quittance
-                        zy12213562
-                        Numéro de sinistre
+                <label>
+                    <input
+                        type="text"
+                        name="search"
+                        value={this.state.valueSearch}
+                        onChange={this.handleChange.bind(this)}
+                        placeholder="Recherche"
+                    />
+                </label>
+                <div className="container">
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
                     </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+                    <div className="row-result">
+                        <h3>Numéro de contrat</h3>
+                        <span>122131254</span>
+                        <span>122131254</span>
+                    </div>
+
                 </div>
             </Modal>
         );
