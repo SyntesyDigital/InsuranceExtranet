@@ -50,14 +50,14 @@ class ResetPasswordController extends Controller
 
     public function changePassword(Request $request, $env = null)
     {
-        // if (!$request->has('np') && !$request->old('token')) {
-        //     return redirect(route('login'));
-        // }
+        if (!$request->has('np') && !$request->old('token')) {
+            return redirect(route('login'));
+        }
 
         return view('extranet::auth.change-password', [
-            'env' => $env,
-            'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
-        ]);
+        'env' => $env,
+        'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
+      ]);
     }
 
     public function updatePassword(ChangePasswordRequest $request)
@@ -67,8 +67,7 @@ class ResetPasswordController extends Controller
             $result = dispatch_now(ChangePassword::fromRequest($request));
 
             if ($result) {
-                return redirect(route('login'))
-            ->with('message', 'Mot de passe changé avec succès');
+                return redirect(route('login'))->with('message', 'Mot de passe changé avec succès');
             }
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
