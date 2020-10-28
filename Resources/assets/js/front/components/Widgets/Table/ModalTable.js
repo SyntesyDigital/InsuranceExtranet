@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 import TableComponent from './TableComponent';
 import FileComponent from './../File/FileComponent';
 import FormComponent from './../Forms/Form/FormComponent';
+import CardComponent from './../ElementCard/CardComponent';
+
 
 import moment from 'moment';
 
@@ -166,6 +168,16 @@ class ModalTable extends Component {
       );
     }
     else if(element.type == "file") {
+
+      return (
+        <CardComponent
+          field={null}  // there's no field
+          element={this.state.element}
+          model={this.state.model}
+          parameters={this.state.parameters}
+        />
+      );
+      /*
       return (
         <FileComponent
           elementObject={this.state.element}
@@ -174,6 +186,7 @@ class ModalTable extends Component {
           parameters={this.state.parameters}
         />
       );
+      */
     }
     else if(element.type == "form") {
       return (

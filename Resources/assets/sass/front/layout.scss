@@ -458,6 +458,11 @@ footer {
         padding-left: 0;
         @include font(12, 16, 400);
         color: $primary-color;
+        .not-links{
+            a{
+                pointer-events: none;
+            }
+        }
         a {
             @include font(12, 16, 400);
             color: $primary-color;
