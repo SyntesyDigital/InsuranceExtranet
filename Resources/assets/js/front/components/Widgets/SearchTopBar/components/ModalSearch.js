@@ -7,34 +7,39 @@ export default class ModalSearch extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            results: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        }
     }
 
-    handleChange(name, value) {
-        console.log("handleChange :: ", evt.target.name, evt.target.value);
-    }
-    handleCancel() {
-        console.log("handleCancel :: ");
-    }
-
-    handleSubmit() {
-        console.log("handleSubmit :: ");
-    }
-
-    handleFocus() {
-        console.log("handleFocus :: ");
-    }
+    // ==============================
+    // Handlers
+    // ==============================
 
     handleOnChange(e) {
-        console.log("this.props.valueSearch" , this.props.dataFromParent);
+        this.props.onChangeSearch(e.target.value);
     }
 
+    handleClickNumResult() {
+        console.log("handleClickNumResult :: ");
+    }
 
     // ==============================
     // Renderers
     // ==============================
 
+    renderRowResults() {
+        return (this.state.results.map((item, i) => (
+            <div className="row-result">
+                <h4>{'Numero de contract'}</h4>
+                <a href="#" onClick={this.handleClickNumResult.bind(this)}><span>122131254</span></a>
+                <a href="#" onClick={this.handleClickNumResult.bind(this)}><span>122131254</span></a>
+            </div>
+        ))
+        );
+    }
+
     render() {
-        console.log(this.props.valueSearch)
         return (
             <Modal
                 id={this.props.id}
@@ -42,8 +47,6 @@ export default class ModalSearch extends Component {
                 display={this.props.display}
                 zIndex={10000}
                 onModalClose={this.props.onModalClose}
-                onCancel={this.handleCancel.bind(this)}
-                onSubmit={this.handleSubmit.bind(this)}
                 size={'medium'}
                 deleteButton={false}
                 cancelButton={false}
@@ -59,42 +62,9 @@ export default class ModalSearch extends Component {
                     />
                 </label>
                 <div className="col-xs-12 results">
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
+                    <div className="container-results">
+                        {this.renderRowResults()}
                     </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-                    <div className="row-result">
-                        <h3>Numéro de contrat</h3>
-                        <span>122131254</span>
-                        <span>122131254</span>
-                    </div>
-
                 </div>
             </Modal>
         );
@@ -112,5 +82,6 @@ ModalSearch.propTypes = {
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     valueSearch: PropTypes.string.isRequired,
+    onChangeSearch: PropTypes.func
 };
 

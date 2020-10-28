@@ -12,7 +12,7 @@
         background: url("./../../../../../img/ico_search.svg") center / contain no-repeat;
     }
     input {
-        padding: 10px 40px;
+        padding: 10px 50px;
         border: none;
         box-shadow: none;
     }
@@ -20,10 +20,29 @@
         display: flex;
         float: right;
         span {
-            width: 40px;
-            height: 40px;
-            display: block;
-            margin-left: 70px;
+            &.icon {
+                width: 40px;
+                height: 40px;
+                display: block;
+                margin-left: 70px;
+                span{
+                    &.number{
+                        background: #F49E00;
+                        position: absolute;
+                        right: -20px;
+                        top: -5px;
+                        display: block;
+                        width: 32px;
+                        height: 23px;
+                        text-align: center;
+                        border-radius: 4px;
+                        line-height: normal;
+                        font-size: 12px;
+                        color: white;
+                        line-height: 21px;
+                    }
+                }
+            }
             &.localisation {
                 background-image: url("./../../../../../img/ico_localisation.svg");
             }
@@ -32,7 +51,7 @@
             }
             &.notification {
                 background-image: url("./../../../../../img/ico_notification.svg");
-                &:hover{
+                &:hover {
                     background-image: url("./../../../../../img/ico_creer_notification_hover.svg");
                 }
             }

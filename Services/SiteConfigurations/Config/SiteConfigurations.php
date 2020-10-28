@@ -38,6 +38,13 @@ return [
                 'name' => 'APP_DEBUG',
                 'label' => 'App debug',
               ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'SEARCH_IS_ACTIVE',
+                'name' => 'SEARCH_IS_ACTIVE',
+                'label' => 'Enable / Disable search top bar',
+              ],
             ], //end children col
           ],
         ], //en children box

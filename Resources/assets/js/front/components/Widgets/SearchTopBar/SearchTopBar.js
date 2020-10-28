@@ -12,13 +12,16 @@ export default class SearchTopBar extends Component {
         }
     }
 
+    // ==============================
+    // Handlers
+    // ==============================
+
+
     handleChange(event) {
-        console.log("handleChange", event.target.value)
         this.setState({
             display: true,
             valueSearch: event.target.value
         });
-        console.log("handleChange", this.state.valueSearch)
     }
 
     handleModalClose() {
@@ -26,6 +29,10 @@ export default class SearchTopBar extends Component {
             display: false,
         });
     }
+
+    // ==============================
+    // Renderers
+    // ==============================
 
     render() {
         return (
@@ -37,7 +44,7 @@ export default class SearchTopBar extends Component {
                     display={this.state.display}
                     onModalClose={this.handleModalClose.bind(this)}
                     deleteButton={false}
-                    dataFromParent={this.state.valueSearch}
+                    valueSearch={this.state.valueSearch}
                 />
                 <label>
                     <input
@@ -49,15 +56,14 @@ export default class SearchTopBar extends Component {
                     />
                 </label>
                 <div className="actions-header">
-                    <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation"></span></a>
-                    <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft"></span></a>
-                    <a href="#" className="tooltip-link-action" title={'notification'}><span className="notification"></span></a>
+                    <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation icon"><span className="number">12</span></span></a>
+                    <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft icon"><span className="number">4</span></span></a>
+                    <a href="#" className="tooltip-link-action" title={'notification'}><span className="notification icon"><span className="number">6</span></span></a>
                 </div>
             </div>
         )
     }
 }
-
 
 if (document.getElementById('searchTopBar')) {
     ReactDOM.render(<SearchTopBar
