@@ -44,6 +44,7 @@ require('./components/Widgets/Faqs/FaqsContainer');
 require('./components/Widgets/Tabs/TabsList');
 require('./components/Widgets/Tabs/TabsContainer');
 require('./components/Widgets/SearchTopBar/SearchTopBar');
+require('./components/Widgets/ActionNotification/ActionNotification');
 
 
 //Lists

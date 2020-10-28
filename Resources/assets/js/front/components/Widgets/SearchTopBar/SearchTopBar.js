@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ModalSearch from './components/ModalSearch';
 import './SearchTopBar.scss';
+import ActionNotification from '../ActionNotification/ActionNotification';
 
 export default class SearchTopBar extends Component {
     constructor(props) {
@@ -58,7 +59,7 @@ export default class SearchTopBar extends Component {
                 <div className="actions-header">
                     <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation icon"><span className="number">12</span></span></a>
                     <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft icon"><span className="number">4</span></span></a>
-                    <a href="#" className="tooltip-link-action" title={'notification'}><span className="notification icon"><span className="number">6</span></span></a>
+                    <ActionNotification/>
                 </div>
             </div>
         )
