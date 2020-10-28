@@ -5,10 +5,10 @@ namespace Modules\Extranet\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
-use Modules\Extranet\Jobs\ResetPassword\SendResetPassword;
+use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 use Modules\Extranet\Jobs\ResetPassword\ChangePassword;
+use Modules\Extranet\Jobs\ResetPassword\SendResetPassword;
 use Validator;
 
 class ResetPasswordController extends Controller
@@ -50,14 +50,14 @@ class ResetPasswordController extends Controller
 
     public function changePassword(Request $request, $env = null)
     {
-        if (!$request->has('np') && !$request->old('token')) {
-            return redirect(route('login'));
-        }
+        // if (!$request->has('np') && !$request->old('token')) {
+        //     return redirect(route('login'));
+        // }
 
         return view('extranet::auth.change-password', [
-        'env' => $env,
-        'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
-      ]);
+            'env' => $env,
+            'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
+        ]);
     }
 
     public function updatePassword(ChangePasswordRequest $request)

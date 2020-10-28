@@ -151,6 +151,62 @@ return [
           ],
         ], //en children box
       ], //end box password
+
+      [
+        'type' => 'box',
+        'title' => 'Sécurité des mot de passe',
+        'identifier' => 'box_4',
+        'children' => [
+          [
+            'type' => 'col',
+            'class' => 'col-sm-12 col-md-6',
+            'children' => [
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'PASSWORD_RULE_UPPERCASE',
+                'name' => 'PASSWORD_RULE_UPPERCASE',
+                'label' => 'Doit contenir au moins 1 caractères majuscule',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'PASSWORD_RULE_LOWERCASE',
+                'name' => 'PASSWORD_RULE_LOWERCASE',
+                'label' => 'Doit contenir au moins 1 caractères minuscule',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'PASSWORD_RULE_NUMBER',
+                'name' => 'PASSWORD_RULE_NUMBER',
+                'label' => 'Doit contenir au moins 1 numéro',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'PASSWORD_RULE_SPECIAL',
+                'name' => 'PASSWORD_RULE_SPECIAL',
+                'label' => 'Doit contenir au moins 1 caractères spécial',
+              ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'PASSWORD_MIN_RULES_TO_SATISFY',
+                'name' => 'PASSWORD_MIN_RULES_TO_SATISFY',
+                'label' => 'Minimum de règle à satisfaire',
+              ],
+              [
+                    'type' => 'field',
+                    'input' => 'text',
+                    'identifier' => 'PASSWORD_RULE_MINLENGTH',
+                    'name' => 'PASSWORD_RULE_MINLENGTH',
+                    'label' => 'Taille minimum du mot de passe ',
+                ],
+            ], //end children col
+          ],
+        ], //en children box
+      ], //end box password
     ],
   ],
 

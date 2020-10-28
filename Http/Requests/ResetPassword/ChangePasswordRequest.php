@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Http\Requests\ResetPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Extranet\Rules\Request\PasswordPolicyRule;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required|confirmed|min:6',
+            'password' => ['required', 'confirmed', new PasswordPolicyRule()],
         ];
     }
 }
