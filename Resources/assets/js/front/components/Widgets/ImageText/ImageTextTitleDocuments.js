@@ -19,7 +19,7 @@ export default class ImageTextTitleDocuments extends Component {
             fields[index].value[LOCALE] : "";
     }
     processTitleLink(fields, index) {
-        return fields[index].value != null && fields[index].value.title != null ? fields[index].value.title[LOCALE]
+        return fields[index].value != null && fields[index].value != null ? fields[index].value[LOCALE]
             : '';          
     }
     processTitleLink2(fields, index) {
@@ -53,9 +53,15 @@ export default class ImageTextTitleDocuments extends Component {
         return url;
     }
 
+    processFile(fields, index) {
+        return fields[index].value != null ? fields[index].value.urls.files
+        : '';          
+    }
+
     render() {
         
         const fields = this.props.field.fields;
+        console.log(fields)
         const image = this.processImage(fields, 0);
         const title = this.processText(fields, 1);
         const titleLink = this.processTitleLink(fields, 2);
@@ -63,12 +69,13 @@ export default class ImageTextTitleDocuments extends Component {
         const titleLink2 = this.processTitleLink2(fields, 3);
         const link2 = this.processLink2(fields, 3);
         const desc = this.processDesc(fields, 4).replace(/(<([^>]+)>)/ig, '');
-
+        const fileLink = this.processFile(fields, 5);
+        
         return (
             <div className="container-image-text-title-documents">
                 <div className="container-image">
                     {image ? <img src={'/' + image} width="100%" /> : null}
-                    <a href={link} className="btn btn-primary">
+                    <a href={ASSETS + fileLink} className="btn btn-primary">
                         <h5>{titleLink}</h5>
                     </a>
                 </div>
@@ -81,7 +88,7 @@ export default class ImageTextTitleDocuments extends Component {
                     {desc}
                 </div>
                 <div className="buttons-group text-center">
-                    <a href={link2} class="btn btn-default"><h5>{titleLink2}</h5></a>
+                    <a href={link2} className="btn btn-default"><h5>{titleLink2}</h5></a>
                 </div>
             </div>
         );

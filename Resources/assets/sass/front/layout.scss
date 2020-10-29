@@ -51,7 +51,12 @@ header {
                         margin-left: 230px;
                     }
                     .user-info {
-                        overflow: hidden;
+                        // overflow: hidden;
+                        margin-left: 275px;
+                        transition: 0.5s;
+                        &.collapsed{
+                            margin-left: 100px;
+                        }
                         .button-header-container {
                             float: right;
                             margin-left: 10px;
@@ -530,7 +535,7 @@ body {
                         }
                     }
                     .right-part-header {
-                        overflow: hidden;
+                        // overflow: hidden;
                         .menu {
                             display: none;
                         }
