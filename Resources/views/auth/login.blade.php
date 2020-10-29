@@ -108,16 +108,29 @@
       </div>
     @endif
 
-    <div class="form-group row mb-0">
-      <div class="col-md-12 buttons-group">
-          <button type="submit" class="btn btn-primary">
-              <i class="fas fa-sign-in-alt"></i> Connexion
-          </button>
-          <p class="forgot">
-            <a href="{{route('reset-password')}}@if($test)?debug=1 @endif">Mot de passe oublié ?</a>
-          </p>
-      </div>
-    </div>
+    @if(!Request::get('login_notallowed'))
+        <div class="form-group row mb-0">
+            <div class="col-md-12 buttons-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Connexion
+                </button>
+
+                <p class="forgot">
+                    <a href="{{route('reset-password')}}@if($test)?debug=1 @endif">Mot de passe oublié ?</a>
+                </p>
+            </div>
+        </div>
+    @else 
+        <div class="form-group row mb-0">
+            <div class="col-md-12 buttons-group">
+                <div class="invalid-field">
+                    <p align="center">
+                        <strong>Votre compte a été désactivé. <br /> Veuillez contacter votre administrateur pour le réactiver.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    @endif
 
     {{-- comment until task reported
         

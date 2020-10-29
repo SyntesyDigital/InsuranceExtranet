@@ -20,6 +20,7 @@ class Login
     const MESSAGE_500 = 'Erreur de connexion. Veuillez réessayer après quelques minutes.';
 
     const ERROR_LIMIT_LOGIN_ATTEMPTS = 100;
+    const ERROR_LOGIN_NOT_ALLOWED = 101;
 
     public function __construct($login, $password, $env = null)
     {
@@ -83,10 +84,6 @@ class Login
 
                 $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
 
-                if (get_config('ON_LOGIN_TRIGGER_FORM') == true) {
-                    dispatch_now(new TriggerOnLogin($session));
-                }
-
                 return $session;
             }
         } catch (\Exception $ex) {
@@ -102,6 +99,10 @@ class Login
 
         if ($limit == false || $limit <= 0) {
             return null;
+        }
+
+        if (dispatch_now(new CheckIfDisabledAccount($this->uid, $this->env))) {
+            throw new Exception('User not allowed to login', self::ERROR_LOGIN_NOT_ALLOWED);
         }
 
         $attempt = LoginAttempt::where('login', $this->uid)

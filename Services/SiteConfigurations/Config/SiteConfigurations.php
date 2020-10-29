@@ -154,7 +154,7 @@ return [
                 'identifier' => 'ON_LOGIN_TRIGGER_FORM',
                 'name' => 'ON_LOGIN_TRIGGER_FORM',
                 'label' => 'Modele à éxécuter lors du login',
-                'options' => \Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel::where('type', 'form-v2')->get()->map(function ($element) {
+                'options' => \Modules\Extranet\Entities\Element::where('type', 'form-v2')->get()->map(function ($element) {
                     return [
                         'name' => $element->name,
                         'value' => $element->id,
