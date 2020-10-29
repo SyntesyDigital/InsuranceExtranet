@@ -10,7 +10,7 @@ import CheckField from '../ElementCard/fields/CheckField'; // FIXME
 import ListField from './fields/ListField';
 import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
-import Stepper from '../../Widgets/StageManager/Stepper';
+import StepperList from '../../Widgets/Stepper';
 import RangeField from '../Forms/fields/RangeField';
 import { Separator } from "architect-components-library";
 
@@ -129,197 +129,7 @@ export default class FormComponentTemp extends Component {
                     deleteButton={false}
                     arrayOfOptions={this.state.optionsBoolean}
                 />
-                <Grid
-                    className="layout"
-                    fluid={true}>
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'Fiche agrément'}
-                                textAlign={'left'}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={3}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={3}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <div className="col-md-12 buttons-group text-center">
-                            <button type="submit" className="btn btn-primary btn-rounded btn-1">
-                                Valider
-                            </button>
-                        </div>
-                    </Row>
-                </Grid>
-
-                <Grid
-                    className="layout"
-                    fluid={true}
-                >
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'Calcul agrément'}
-                                textAlign={'left'}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={4}>
-                            <TextField
-                                label={'Nom du baileur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={4}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                        <Col md={4}>
-                            <TextField
-                                label={'Prénom du bailleur *'}
-                                value={this.props.value}
-                                name={'nombaileur'}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12}>
-                            <RadioField
-                                label={'Radio buttons'}
-                                arrayOfOptions={this.state.options}
-                                name={'optionsButton'}
-                                value={this.state.optionsButton}
-                                onChange={this.handleFieldChange.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <label class="bmd-label-floating" style={{position: "relative", top: "30px"}}>Radio buttons yes/no</label>
-                            <YesNoField
-                                arrayOfOptions={this.state.optionsBoolean}
-                                name={'optionsBooleanButton'}
-                                value={this.state.optionsBooleanButton}
-                                onChange={this.handleFieldChange.bind(this)}
-                                text={'Fumé ou tapoté ces deux dernières années ? *'}
-                            />
-                        </Col>
-                    </Row>
-                </Grid>
-                <Grid
-                    className="layout"
-                    fluid={true}
-
-                >
-                    <Row>
-                        <Col md={6}>
-                            <YesNoFieldSwitch
-                                label={'Protection juridique'}
-                                label1={'Non'}
-                                label2={'Oui'}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'checkedA'}
-                                identifier={'checkedA'}
-                            />
-                            <YesNoFieldSwitch
-                                label={'Autres dommages non dénommés'}
-                                label1={'Non'}
-                                label2={'Oui'}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'checkedB'}
-                                identifier={'checkedB'}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            
-                        </Col>
-                    </Row>
-                </Grid>
+                
                 <Grid
                     className="layout"
                     fluid={true}
@@ -331,47 +141,14 @@ export default class FormComponentTemp extends Component {
                                 text={'Etapes'}
                                 textAlign={'left'}
                             />
-                            <Stepper
+                            <StepperList
                                 steps={steps}
                                 activeStep={this.state.activeStep}
                                 showNumber={true}
                             />
                         </Col>
                     </Row>
-                    <Separator height={50} />
-                    <Row>
-                        <Col md={12}>
-                            <Label
-                                text={'Jauges'}
-                                textAlign={'left'}
-                            />
-                            <RangeField
-                                label={'Lorem Ipsum is simply dummy text of the printin'}
-                                minValue={10}
-                                maxValue={500}
-                                value={this.state.rangeField}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'rangeField'}
-                            />
-                             <RangeField
-                                label={'Lorem Ipsum is simply dummy '}
-                                minValue={10}
-                                maxValue={1000}
-                                value={this.state.rangeField2}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'rangeField2'}
-                            />
-                             <RangeField
-                                label={'Lorem ip'}
-                                minValue={10}
-                                maxValue={1000}
-                                value={this.state.rangeField3}
-                                onChange={this.handleFieldChange.bind(this)}
-                                name={'rangeField3'}
-                            />
-                        </Col>
-                    </Row>
-                    <Separator height={50} />
+                    
                 </Grid>
 
 

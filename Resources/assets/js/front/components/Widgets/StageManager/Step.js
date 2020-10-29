@@ -1,38 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom';
-
+import moment from 'moment';
 
 export default class Step extends React.Component {
     constructor(props) {
         super(props);
+        moment.locale(LOCALE);
+
+    }
+
+    processText(fields, index) {
+        return fields[index].value != null && fields[index].value[LOCALE] !== undefined ?
+            fields[index].value[LOCALE] : '';
     }
 
     render() {
-        const {index, activeStep, lastIndexOfSteps, title, showNumber} = this.props;
+        const { index, activeStep, lastIndexOfSteps, showNumber } = this.props;
         console.log(this.props)
+        const fields = this.props.field.fields;
+        const title = this.processText(fields, 0);
+        console.log(title);
         return (
-            <div>
-                <div className="stepper-item" id={(this.props.index + 1) < this.props.activeStep ?
+            <React.Fragment key={index}>
+                <div className="stepper-item" id={(index + 1) < activeStep ?
                     'stepper-item-completed'
                     : 'stepper-item-uncompleted'
                 }>
                     <div
-                        className={`stepper-item-outer ${this.props.activeStep === (this.props.index + 1) ? 'stepper-item-outer-active' : ''}`}
-                        onClick={this.props.onSelect.bind(null, this.props.index + 1)}
+                        className={`stepper-item-outer ${activeStep === (index + 1)
+                            ? 'stepper-item-outer-active'
+                            : ''}`}
+                        // onClick={onSelect.bind(null, index + 1)}
                     >
-                        <div className={`stepper-item-inner ${this.props.activeStep === (this.props.index + 1) ? 'stepper-item-inner-active'
-                            : (this.props.index + 1) < this.props.activeStep ? 'stepper-item-inner-completed' : 'stepper-item-inner-future'}`}
+                        <div className={`stepper-item-inner ${activeStep === (index + 1) ?
+                            'stepper-item-inner-active'
+                            : (index + 1) < activeStep ?
+                                'stepper-item-inner-completed'
+                                : 'stepper-item-inner-future'
+                            }`}
                         >
-                            {(this.props.index + 1) < this.props.activeStep ? <i className="fas fa-check"></i> : this.props.showNumber && this.props.index + 1}
+                            {(index + 1) < activeStep ? <i className="fas fa-check"></i> : showNumber && index + 1}
                         </div>
                     </div>
-                    <span className={`stepper-title ${this.props.activeStep === (this.props.index + 1) ? 'stepper-title-active' : ''}`}>
-                        {this.props.title}
+                    <span className={`stepper-title ${activeStep === (index + 1)
+                        ? 'stepper-title-active'
+                        : ''}
+                `}>
+                        {title}
                     </span>
                 </div>
-                {this.props.lastIndexOfSteps === this.props.index ? '' : <div className="stepper-item-outer"><div className="stepper-item-outer-inner"></div></div>}
-            </div>
+                {lastIndexOfSteps === index ?
+                    ''
+                    : <div className="stepper-item-outer"><div className="stepper-item-outer-inner"></div></div>}
+            </React.Fragment>
+
         )
     }
 }
@@ -41,7 +62,6 @@ Step.propTypes = {
     index: PropTypes.number,
     activeStep: PropTypes.number,
     onSelect: PropTypes.func,
-    title: PropTypes.string,
     lastIndexOfSteps: PropTypes.number,
     showNumber: PropTypes.number,
 };

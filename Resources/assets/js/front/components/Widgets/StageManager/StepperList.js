@@ -12,8 +12,7 @@ export default class StepperList extends React.Component {
     onSelect() {
         console.log("onSelect")
     }
-
-
+    
     renderImageList() {
 
         const { steps, showNumber, activeStep } = this.props;
