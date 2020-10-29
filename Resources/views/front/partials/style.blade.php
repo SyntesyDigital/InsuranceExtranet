@@ -225,6 +225,13 @@
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
     $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
 
+    $stepperCompletedColor = isset($storedStylesFront['stepperCompletedColor']) ? $storedStylesFront['stepperCompletedColor']->value : $primaryColor;
+    $stepperCompletedBackgroundColor = isset($storedStylesFront['stepperCompletedBackgroundColor']) ? $storedStylesFront['stepperCompletedBackgroundColor']->value : $secondaryColor;
+    $stepperOuterColor = isset($storedStylesFront['stepperOuterColor']) ? $storedStylesFront['stepperOuterColor']->value : $primaryColor;
+    $stepperOuterBackgroundColor = isset($storedStylesFront['stepperOuterBackgroundColor']) ? $storedStylesFront['stepperOuterBackgroundColor']->value : $secondaryColor;
+    $stepperActiveBackgroundColor = isset($storedStylesFront['stepperActiveBackgroundColor']) ? $storedStylesFront['stepperActiveBackgroundColor']->value : $primaryColor;
+    $stepperActiveColor = isset($storedStylesFront['stepperActiveColor']) ? $storedStylesFront['stepperActiveColor']->value : $secondaryColor;
+
     $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
     $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';

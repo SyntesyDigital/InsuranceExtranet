@@ -6,7 +6,6 @@ export default class Step extends React.Component {
     constructor(props) {
         super(props);
         moment.locale(LOCALE);
-
     }
 
     processText(fields, index) {
@@ -15,11 +14,11 @@ export default class Step extends React.Component {
     }
 
     render() {
+        
         const { index, activeStep, lastIndexOfSteps, showNumber } = this.props;
-        console.log(this.props)
         const fields = this.props.field.fields;
         const title = this.processText(fields, 0);
-        console.log(title);
+
         return (
             <React.Fragment key={index}>
                 <div className="stepper-item" id={(index + 1) < activeStep ?
@@ -32,7 +31,7 @@ export default class Step extends React.Component {
                             : ''}`}
                         // onClick={onSelect.bind(null, index + 1)}
                     >
-                        <div className={`stepper-item-inner ${activeStep === (index + 1) ?
+                        <div className={`stepper-item-inner ${(activeStep === (index + 1)) ?
                             'stepper-item-inner-active'
                             : (index + 1) < activeStep ?
                                 'stepper-item-inner-completed'

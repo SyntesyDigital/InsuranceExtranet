@@ -7,25 +7,33 @@ import Step from './Step';
 export default class StepperList extends React.Component {
     constructor(props) {
         super(props);
+
+        const activeStep = this.props.field.settings['initStage'] ?
+            parseInt(this.props.field.settings['initStage'])
+            : 1;
+            
+        this.state = {
+            activeStep: activeStep,
+            shownumber: true
+        }
     }
 
     onSelect() {
         console.log("onSelect")
     }
-    
+
     renderImageList() {
 
-        const { steps, showNumber, activeStep } = this.props;
-        const lastIndexOfSteps = steps.length - 1;
-        
+        const lastIndexOfSteps = this.props.field.value.length - 1;
+
         return this.props.field.value.map((item, index) =>
             <Step
                 field={item}
                 index={index}
-                activeStep={activeStep}
+                activeStep={this.state.activeStep}
                 onSelect={this.onSelect.bind(this)}
                 lastIndexOfSteps={lastIndexOfSteps}
-                showNumber={showNumber}
+                showNumber={this.state.shownumber}
             />
         );
     }
@@ -37,13 +45,6 @@ export default class StepperList extends React.Component {
             </div>
         )
     }
-}
-
-StepperList.defaultProps = {
-    steps: [{ title: 'Step 1' }, { title: 'Step 2' }, { title: 'Step 3' }, { title: 'Step 4' }],
-    showNumber: false,
-    activeStep: 2,
-    // onSelect: (step) => { }
 }
 
 StepperList.propTypes = {
