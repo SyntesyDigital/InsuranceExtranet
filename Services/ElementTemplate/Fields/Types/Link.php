@@ -22,7 +22,9 @@ class Link extends Field implements FieldInterface
 
     public $settings = [
       'htmlId',
-      'htmlClass'
+      'htmlClass',
+      'buttonType',
+      'stageOperation'
     ];
 
     public function validate($request)
@@ -36,7 +38,7 @@ class Link extends Field implements FieldInterface
         $field = ElementTemplateField::create([
             'name' => $identifier,
             'value' => '',
-            'content_id' => $template->id
+            'template_id' => $template->id
         ]);
 
         if(!$field) {

@@ -7,6 +7,7 @@ import ImageField from './../../ElementCard/fields/ImageField';
 import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
+import StageButton from './../fields/StageButton';
 
 import LayoutParser from './../../ElementCard/LayoutParser';
 
@@ -16,6 +17,7 @@ import {
     parameteres2Array,
     isVisible,
     getUrlParameters,
+    isDefined
 } from '../functions';
 
 import {
@@ -24,7 +26,8 @@ import {
     loadProcedures,
     initProceduresIteration,
     updateParametersFromParent,
-    startValidation
+    startValidation,
+    updateStageParameter
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
@@ -54,7 +57,11 @@ class FormComponent extends Component {
             layout: null,
             templateLoaded: props.template ? false : true,
             sendingPreload: false,
-            preloadFinish: false
+            preloadFinish: false,
+
+            hasStages : isDefined(props.hasStages) ? props.hasStages : false,
+            stageParameter : isDefined(props.stageParameter) ? props.stageParameter : null,
+            currentStage : 1
         };
 
         this.props.initParametersState(parametersObject);
@@ -201,6 +208,30 @@ class FormComponent extends Component {
         });
     }
 
+    handleStageChange(stage) {
+
+        if(stage == null){
+            console.error("Stage Button Click error : stage not defined.");
+            return;
+        }
+        
+        //validate stage
+
+        var self = this;
+
+        this.setState({
+            currentStage : stage
+        },function(){
+            //update form parameters
+            self.props.updateStageParameter(
+                self.state.stageParameter,
+                stage,
+                self.props.parameters.formParameters
+            );
+        });
+
+    }
+
 
     hasTemplate() {
         if (this.state.templateLoaded && this.state.layout != null) {
@@ -345,6 +376,18 @@ class FormComponent extends Component {
                     <RichText
                         key={key}
                         field={node.field}
+                    />
+                );
+
+            case 'link':
+                return (
+                    <StageButton
+                        key={key}
+                        field={node.field}
+                        onStageChange={this.handleStageChange.bind(this)}
+                        onSubmit={this.handleSubmit.bind(this, this.props.id)}
+                        values={this.state.values}
+                        formParameters={this.props.parameters.formParameters}
                     />
                 );
         }
@@ -570,6 +613,32 @@ class FormComponent extends Component {
         return this.props.preload.done && this.state.templateLoaded
     }
 
+    renderSubmitButton() {
+
+        //if has stages submit button is added directy to layout, then listen to bnt-submit click
+        if(this.state.hasStages){
+            return (
+                <div style={{height:30}}></div>
+            );
+        }
+
+        return (
+            <div className={"element-form-row " + (this.props.isFormPreload ? 'preload-form' : '')}>
+                <div className="col-md-12 buttons">
+                    <button
+                        className={"btn " + (!this.props.isFormPreload ? "btn-primary" : "btn-secondary")}
+                        type="submit"
+                        disabled={this.props.form.processing}
+                    >
+                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
+
+                        {(!this.props.isFormPreload ? "Valider" : "Précharger")}
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     render() {
 
         const loaded = this.isLoaded();
@@ -610,24 +679,7 @@ class FormComponent extends Component {
 
                         {this.renderItems()}
 
-                        <div className={"element-form-row " + (this.props.isFormPreload ? 'preload-form' : '')}>
-
-                            <div className="col-md-12 buttons">
-                                <button
-                                    className={"btn " + (!this.props.isFormPreload ? "btn-primary" : "btn-secondary")}
-                                    type="submit"
-                                    disabled={this.props.form.processing}
-                                >
-                                    <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
-
-                                    {(!this.props.isFormPreload ? "Valider" : "Précharger")}
-                                </button>
-                                {/*
-                        <a className="btn btn-back left"><i className="fa fa-angle-left"></i> Retour</a>
-                        */}
-                            </div>
-                        </div>
-
+                        {this.renderSubmitButton()}
                     </form>
                 }
             </div>
@@ -663,7 +715,10 @@ const mapDispatchToProps = dispatch => {
         },
         updateParametersFromParent: (parentParameters, formParameters) => {
             return dispatch(updateParametersFromParent(parentParameters, formParameters))
-        }
+        },
+        updateStageParameter : (identifier,stage,formParameters) => {
+            return dispatch(updateStageParameter(identifier,stage,formParameters))
+        },
     }
 }
 

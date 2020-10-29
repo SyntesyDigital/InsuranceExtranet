@@ -599,6 +599,41 @@ class ModalEditItem extends Component {
           label={'Cacher les bords'}
         />
 
+        <SelectorSettingsField
+          field={this.state.field}
+          name="buttonType"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Type de bouton'}
+          options={[
+            {
+              value: "",
+              name: 'Défaut',
+            },
+            {
+              value: "btn-prev",
+              name: "Précédent",
+            },
+            {
+              value: "btn-next",
+              name: "Suivant",
+            },
+            {
+              value: "btn-submit",
+              name: "Terminer",
+            }
+          ]}
+        />
+
+        <InputSettingsField
+          field={this.state.field}
+          name="stageOperation"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Étape"
+          inputLabel="Valeur ou opération"
+        />
+
       </div>
     );
   }

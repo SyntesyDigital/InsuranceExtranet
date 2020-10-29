@@ -248,3 +248,13 @@ export function joinUrls(arrayUrls) {
     }
     return false
   }
+
+/**
+ *  Easy funtion to check if variable is definied or not
+ */
+export function isDefined(field) {
+  if(field !== undefined && field != null && field !== ''){
+    return true;
+  }
+  return false;
+}

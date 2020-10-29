@@ -168,6 +168,10 @@ class ModalEditClass extends Component {
   getBoxClassOptions(){
     return [
       {
+        value: "",
+        name: 'Sélectionnez',
+      },
+      {
         value: "box-class-1",
         name: 'box-class-1',
       },

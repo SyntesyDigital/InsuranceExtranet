@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Extranet\Entities\Element;
 
+use Modules\Architect\Traits\HasFields;
+
 class ElementTemplate extends Model
 {
+    use HasFields;
+
     /**
      * The database table used by the model.
      *

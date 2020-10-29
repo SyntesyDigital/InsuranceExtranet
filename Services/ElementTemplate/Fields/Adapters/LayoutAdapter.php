@@ -7,6 +7,7 @@ use Modules\Architect\Entities\Media;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplate;
 use Modules\Extranet\Services\ElementTemplate\Entities\ElementTemplateField;
 use Modules\Extranet\Entities\ElementField;
+use Modules\Architect\Entities\Content;
 
 
 class LayoutAdapter
@@ -65,6 +66,13 @@ class LayoutAdapter
         return $nodes;
     }
 
+    private function getLanguageIsoFromId($id)
+    {
+        $language = Language::getCachedLanguageById($id);
+
+        return $language ? $language->iso : false;
+    }
+
     private function buildPageField($field, $name = null)
     {
         $fieldName = isset($field['fieldname']) ? $field['fieldname'] : null;
@@ -113,6 +121,33 @@ class LayoutAdapter
                     ->first();
 
                 return $fields ? $fields->value : null;
+                break;
+
+            case 'url':
+            case 'link':
+                $field = $this->elementTemplate->fields->where('name', $fieldName)->first();
+                $values = null;
+
+                if($field) {
+                    $childs = $this->elementTemplate->getFieldChilds($field);
+
+                    if($childs != null){
+                        foreach($childs as $k => $v) {
+                            if($v->language_id) {
+                                $iso = $this->getLanguageIsoFromId($v->language_id);
+                                $values[ explode('.', $v->name)[1] ][$iso] = $v->value;
+                            } else {
+                                if(explode('.', $v->name)[1] == 'content') {
+                                    $content = Content::find($v->value);
+                                    $values[ explode('.', $v->name)[1] ] = isset($content) ? 
+                                    $content->load('routesParameters') : 
+                                    null;
+                                }
+                            }
+                        }
+                    }
+                }
+                return $values;
                 break;
         }
 

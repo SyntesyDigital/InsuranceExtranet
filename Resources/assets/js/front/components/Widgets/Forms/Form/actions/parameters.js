@@ -202,3 +202,16 @@ export function updateParametersFromParent(parentParameters,formParameters) {
   return {type : PARAMETER_PARENT_UPDATE, payload : formParameters};
 
 }
+
+/**
+ * Function to update form parameters accordin to parameter identifier and step value
+ * 
+ * @param {} stage 
+ * @param {*} formParameters 
+ */
+export function updateStageParameter(identifier,stage,formParameters) {
+
+  formParameters['_'+identifier] = stage;
+
+  return {type : PARAMETER_PARENT_UPDATE, payload : formParameters};
+}
