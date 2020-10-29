@@ -19,7 +19,7 @@ export default class ImageTextTitleDocuments extends Component {
             fields[index].value[LOCALE] : "";
     }
     processTitleLink(fields, index) {
-        return fields[index].value != null && fields[index].value.title != null ? fields[index].value.title[LOCALE]
+        return fields[index].value != null && fields[index].value != null ? fields[index].value[LOCALE]
             : '';          
     }
     processTitleLink2(fields, index) {
