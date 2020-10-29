@@ -45,6 +45,7 @@ require('./components/Widgets/Tabs/TabsList');
 require('./components/Widgets/Tabs/TabsContainer');
 require('./components/Widgets/SearchTopBar/SearchTopBar');
 require('./components/Widgets/ActionNotification/ActionNotification');
+require('./components/Widgets/StageManager/Stepper');
 
 
 //Lists

@@ -10,7 +10,7 @@ import CheckField from '../ElementCard/fields/CheckField'; // FIXME
 import ListField from './fields/ListField';
 import CarField from './fields/CarField';
 import ModalAddDocument from './ModalAddDocument';
-import Stepper from '../Stepper';
+import Stepper from '../../Widgets/StageManager/Stepper';
 import RangeField from '../Forms/fields/RangeField';
 import { Separator } from "architect-components-library";
 
