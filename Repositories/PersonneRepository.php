@@ -49,7 +49,7 @@ class PersonneRepository
     public function find($id)
     {
         $userData = json_decode(Session::get('user'));
-        
+
         $response = $this->client->get(VeosWsUrl::get().'personne/'.$id, [
             'headers' => [
                 'Authorization' => 'Bearer '.$userData->token,
@@ -147,12 +147,12 @@ class PersonneRepository
     *
     *   @return Personne Object
     */
-    public function update($id, $data)
+    public function update($id, $data, $token = null)
     {
         $response = $this->client->put(VeosWsUrl::get().'personne/'.$id, [
             'json' => $data,
             'headers' => [
-                'Authorization' => 'Bearer '.Auth::user()->token,
+                'Authorization' => 'Bearer '.$token ? $token : Auth::user()->token,
             ],
         ]);
 

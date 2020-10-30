@@ -119,8 +119,7 @@ export function getJsonResultBeforePut(procedure,formParameters) {
 /**
 *   Function to process current iteration
 */
-export function processProcedure(procedures,currentProcedureIndex, values,
-    currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) {
+export function processProcedure(procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) {
 
     //const {procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess} = this.state;
     //let {jsonResult} = this.state;
@@ -190,8 +189,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
         //always pass to next procedure
 
         //if has values
-            return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,
-              jsonResult,procedures,formParameters,version));
+            return dispatch(submitStandardProcedure(currentProcedureIndex,procedure,jsonResult,procedures,formParameters,version));
 
             //this.submitStandardProcedure(currentProcedureIndex,procedure,jsonResult);
 
@@ -200,8 +198,7 @@ export function processProcedure(procedures,currentProcedureIndex, values,
               //TODO error
             //else
               //TODO pass next procedure
-      }
-      else if(isConfigurable && isRepetable){
+      } else if(isConfigurable && isRepetable){
         //internal array, check for values list
 
         console.log("Process list iteration => ",currentProcedureIndex, currentListIndex, procedure,  values,jsonResult);

@@ -5,10 +5,10 @@ namespace Modules\Extranet\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
-use Modules\Extranet\Jobs\ResetPassword\SendResetPassword;
+use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 use Modules\Extranet\Jobs\ResetPassword\ChangePassword;
+use Modules\Extranet\Jobs\ResetPassword\SendResetPassword;
 use Validator;
 
 class ResetPasswordController extends Controller
@@ -67,8 +67,7 @@ class ResetPasswordController extends Controller
             $result = dispatch_now(ChangePassword::fromRequest($request));
 
             if ($result) {
-                return redirect(route('login'))
-            ->with('message', 'Mot de passe changé avec succès');
+                return redirect(route('login'))->with('message', 'Mot de passe changé avec succès');
             }
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
