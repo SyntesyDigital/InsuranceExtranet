@@ -444,6 +444,17 @@
     $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
     $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
 
+    // Timeline
+    $widthStageTimeline = isset($storedStylesFront['widthStageTimeline']) ? $storedStylesFront['widthStageTimeline']->value.'px' : '35px';
+    $backgroundColorActiveTimeline = isset($storedStylesFront['backgroundColorActiveTimeline']) ? $storedStylesFront['backgroundColorActiveTimeline']->value : '#fff';
+    $borderColorActiveTimeline = isset($storedStylesFront['borderColorActiveTimeline']) ? $storedStylesFront['borderColorActiveTimeline']->value : '#e7eaef';
+    $backgroundColorOuterTimeline = isset($storedStylesFront['backgroundColorOuterTimeline']) ? $storedStylesFront['backgroundColorOuterTimeline']->value : '#e7eaef';
+    $borderColorOuterTimeline = isset($storedStylesFront['borderColorOuterTimeline']) ? $storedStylesFront['borderColorOuterTimeline']->value : '#e7eaef';
+    $colorDateTimeline = isset($storedStylesFront['colorDateTimeline']) ? $storedStylesFront['colorDateTimeline']->value : '#c8ccd1';
+    $colorTextTimeline = isset($storedStylesFront['colorTextTimeline']) ? $storedStylesFront['colorTextTimeline']->value : '#004161';
+    $fontSizeDateTimeline = isset($storedStylesFront['fontSizeDateTimeline']) ? $storedStylesFront['fontSizeDateTimeline']->value.'px' : '14px';
+    $fontSizeTextTimeline = isset($storedStylesFront['fontSizeTextTimeline']) ? $storedStylesFront['fontSizeTextTimeline']->value.'px' : '16px';
+
 ?>
 
 <style type="text/css">
@@ -477,6 +488,7 @@
 @include('extranet::front.partials.styles.last-news-list')
 @include('extranet::front.partials.styles.faqs')
 @include('extranet::front.partials.styles.tabs-list')
+@include('extranet::front.partials.styles.timeline')
 
 
 @if($frontFont)

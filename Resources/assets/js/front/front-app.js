@@ -56,3 +56,5 @@ require('./components/Widgets/Lists/TableDocument/TableDocument');
 require('./components/Widgets/Lists/TableList/TableList');
 require('./components/Widgets/Lists/Chat/Chat');
 require('./components/Widgets/TypologyLast');
+require('./components/Widgets/Lists/TimeLine/TimeLine');
+
