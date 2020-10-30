@@ -24,8 +24,14 @@ class ChangePasswordRequest extends FormRequest
      */
     public function rules()
     {
+        if (get_config('PASSWORD_RULES_ENABLED')) {
+            return [
+                'password' => ['required', 'confirmed', new PasswordPolicyRule()],
+            ];
+        }
+
         return [
-            'password' => ['required', 'confirmed', new PasswordPolicyRule()],
+            'password' => ['required', 'confirmed'],
         ];
     }
 }

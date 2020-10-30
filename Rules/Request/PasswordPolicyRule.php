@@ -23,6 +23,10 @@ class PasswordPolicyRule implements Rule
     {
         $this->errors = [];
 
+        if (!get_config('PASSWORD_RULES_ENABLED')) {
+            return true;
+        }
+
         if (!ContainNumberOfChars::satisfy($value, get_config('PASSWORD_RULE_MINLENGTH'))) {
             $this->error = sprintf('doit contenir un minimum de %s caractères', get_config('PASSWORD_RULE_MINLENGTH'));
 

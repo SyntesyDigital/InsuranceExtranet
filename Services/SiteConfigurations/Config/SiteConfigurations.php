@@ -193,6 +193,14 @@ return [
             'type' => 'col',
             'class' => 'col-sm-12 col-md-6',
             'children' => [
+                [
+                    'type' => 'field',
+                    'input' => 'boolean',
+                    'identifier' => 'PASSWORD_RULES_ENABLED',
+                    'name' => 'PASSWORD_RULES_ENABLED',
+                    'label' => 'Activer les règles de sécurité des mots de passe',
+                ],
+
               [
                 'type' => 'field',
                 'input' => 'boolean',
