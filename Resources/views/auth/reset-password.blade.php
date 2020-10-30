@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    @if(Request::has('debug') || old('env') != null)
+    @if(Request::has('debug') || old('env') != null || Request::has('env') != null)
 
         <hr/>
 
@@ -80,7 +80,7 @@
             <div class="col-md-12">
                 <select id="env" class="form-control" name="env" >
                     @foreach(\Modules\Extranet\Extensions\VeosWsUrl::getEnvironmentOptions() as $env)
-                    <option name="{{$env}}">{{$env}}</option>
+                        <option name="{{$env}}" @if(Request::get('env') == $env) selected @endif>{{$env}}</option>
                     @endforeach
                 </select>
             </div>
