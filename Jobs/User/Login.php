@@ -3,9 +3,12 @@
 namespace Modules\Extranet\Jobs\User;
 
 use App\Http\Requests\LoginRequest;
-use GuzzleHttp\Client;
-use Modules\Extranet\Extensions\VeosWsUrl;
 use Config;
+use Exception;
+use GuzzleHttp\Client;
+use Modules\Extranet\Entities\LoginAttempt;
+use Modules\Extranet\Extensions\VeosWsUrl;
+use Request;
 
 class Login
 {
@@ -16,12 +19,14 @@ class Login
     const MESSAGE_404 = "Nom d'utilisateur ou mot de passe incorrect";
     const MESSAGE_500 = 'Erreur de connexion. Veuillez réessayer après quelques minutes.';
 
+    const ERROR_LIMIT_LOGIN_ATTEMPTS = 100;
+    const ERROR_LOGIN_NOT_ALLOWED = 101;
+
     public function __construct($login, $password, $env = null)
     {
         //process SYSTEM
-        if (in_array($login, Config::get('architect::admin'))) {            
+        if (in_array($login, Config::get('architect::admin'))) {
             $lastCharacter = substr($password, -1);
-            //dd($lastCharacter);
             if ($lastCharacter == '*') {
                 $password = substr($password, 0, -1);
             } else {
@@ -55,9 +60,10 @@ class Login
 
     public function handle()
     {
+        $this->checkAttempts();
+
         try {
             $client = new Client();
-
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
             $login = $client->post($WsUrl.'login', [
@@ -73,12 +79,60 @@ class Login
                 if (!$loginResult || $loginResult->statusCode != 0) {
                     return false;
                 }
-                return (new SessionCreate($loginResult->token, $this->env, $this->test))->handle();
+
+                $this->flushLoginAttempt();
+
+                $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
+
+                return $session;
             }
         } catch (\Exception $ex) {
             throw $ex;
         }
 
         return false;
+    }
+
+    private function checkAttempts()
+    {
+        $limit = get_config('LOGIN_LIMIT_ATTEMPTS') ? get_config('LOGIN_LIMIT_ATTEMPTS') : false;
+
+        if ($limit == false || $limit <= 0) {
+            return null;
+        }
+
+        if (dispatch_now(new CheckIfDisabledAccount($this->uid, $this->env))) {
+            throw new Exception('User not allowed to login', self::ERROR_LOGIN_NOT_ALLOWED);
+        }
+
+        $attempt = LoginAttempt::where('login', $this->uid)
+            ->where('env', $this->env)
+            ->first();
+
+        if (!$attempt) {
+            $attempt = LoginAttempt::create([
+                'login' => $this->uid,
+                'ip_address' => Request::ip(),
+                'user_agent' => Request::header('User-Agent'),
+                'count' => 1,
+                'env' => $this->env,
+            ]);
+        } else {
+            ++$attempt->count;
+            $attempt->save();
+        }
+
+        if ($attempt->count >= $limit) {
+            dispatch_now(new DisableAccount($this->uid, $this->env));
+
+            throw new Exception('Error limit login attempts', self::ERROR_LIMIT_LOGIN_ATTEMPTS);
+        }
+    }
+
+    private function flushLoginAttempt()
+    {
+        LoginAttempt::where('login', $this->uid)
+            ->where('env', $this->env)
+            ->delete();
     }
 }

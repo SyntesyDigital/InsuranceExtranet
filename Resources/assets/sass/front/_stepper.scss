@@ -1,7 +1,9 @@
 //Variables
 $active-color: #e6e6e6;
 $unactive-color: #e6e6e6;
-
+.step-list{
+    margin-bottom: 50px;
+}
 .stepper {
   &-container {
     display: flex;
@@ -13,7 +15,6 @@ $unactive-color: #e6e6e6;
   }
   &-item {
     position: relative;
-    cursor: pointer;
     margin: 0 10px;
     &#stepper-item-completed {
       .stepper-item-outer {

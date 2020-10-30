@@ -225,13 +225,6 @@
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
     $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
 
-    $stepperCompletedColor = isset($storedStylesFront['stepperCompletedColor']) ? $storedStylesFront['stepperCompletedColor']->value : $primaryColor;
-    $stepperCompletedBackgroundColor = isset($storedStylesFront['stepperCompletedBackgroundColor']) ? $storedStylesFront['stepperCompletedBackgroundColor']->value : $secondaryColor;
-    $stepperOuterColor = isset($storedStylesFront['stepperOuterColor']) ? $storedStylesFront['stepperOuterColor']->value : $primaryColor;
-    $stepperOuterBackgroundColor = isset($storedStylesFront['stepperOuterBackgroundColor']) ? $storedStylesFront['stepperOuterBackgroundColor']->value : $secondaryColor;
-    $stepperActiveBackgroundColor = isset($storedStylesFront['stepperActiveBackgroundColor']) ? $storedStylesFront['stepperActiveBackgroundColor']->value : $primaryColor;
-    $stepperActiveColor = isset($storedStylesFront['stepperActiveColor']) ? $storedStylesFront['stepperActiveColor']->value : $secondaryColor;
-
     $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
     $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';
@@ -437,13 +430,28 @@
     $iconWarningMessageBox = isset($storedStylesFront['iconWarningMessageBox']) ? $storedStylesFront['iconWarningMessageBox']->value : '';
     $fontSizeIconRemoveWarningMessageBox = isset($storedStylesFront['fontSizeIconRemoveWarningMessageBox']) ? $storedStylesFront['fontSizeIconRemoveWarningMessageBox']->value.'px' : '25px';
 
-    // faqs
+    // FAQS
     $fontSizeTitleFaqs = isset($storedStylesFront['fontSizeTitleFaqs']) ? $storedStylesFront['fontSizeTitleFaqs']->value.'px' : '14px';
     $colorTitleFaqs = isset($storedStylesFront['colorTitleFaqs']) ? $storedStylesFront['colorTitleFaqs']->value : $secondaryColor;
     $backgroundColorTitleFaqs = isset($storedStylesFront['backgroundColorTitleFaqs']) ? $storedStylesFront['backgroundColorTitleFaqs']->value : '#fff';
     $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
     $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
 
+    //FORM PER ÉTAPES -> STEPPER
+    $stepperCompletedBackgroundColor = isset($storedStylesFront['stepperCompletedBackgroundColor']) ? $storedStylesFront['stepperCompletedBackgroundColor']->value : '#C9D200';
+    $colorCompletedLabelStepper = isset($storedStylesFront['colorCompletedLabelStepper']) ? $storedStylesFront['colorCompletedLabelStepper']->value : '#A8A8A8';
+    $stepperCompletedColor = isset($storedStylesFront['stepperCompletedColor']) ? $storedStylesFront['stepperCompletedColor']->value : '#fff';
+
+    $stepperActiveBackgroundColor = isset($storedStylesFront['stepperActiveBackgroundColor']) ? $storedStylesFront['stepperActiveBackgroundColor']->value : '#65C4DB';
+    $stepperActiveColor = isset($storedStylesFront['stepperActiveColor']) ? $storedStylesFront['stepperActiveColor']->value : '#fff';
+    $colorActiveLabelStepper = isset($storedStylesFront['colorActiveLabelStepper']) ? $storedStylesFront['colorActiveLabelStepper']->value : '#65C4DB';
+
+    $stepperOuterBackgroundColor = isset($storedStylesFront['stepperOuterBackgroundColor']) ? $storedStylesFront['stepperOuterBackgroundColor']->value : '#E6E6E6';
+    $stepperOuterColor = isset($storedStylesFront['stepperOuterColor']) ? $storedStylesFront['stepperOuterColor']->value : '#E6E6E6';
+    $colorOuterLabelStepper = isset($storedStylesFront['colorOuterLabelStepper']) ? $storedStylesFront['colorOuterLabelStepper']->value : '#A8A8A8';
+
+    $fontSizeLabelStepper = isset($storedStylesFront['fontSizeLabelStepper']) ? $storedStylesFront['fontSizeLabelStepper']->value.'px' : '14px';
+    $distanceBetweenLabelStepper = isset($storedStylesFront['distanceBetweenLabelStepper']) ? $storedStylesFront['distanceBetweenLabelStepper']->value.'px' : '25px';
 ?>
 
 <style type="text/css">

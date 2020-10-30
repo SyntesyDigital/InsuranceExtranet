@@ -2,15 +2,10 @@
 
 namespace Modules\Extranet\Jobs\User;
 
-use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
-
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-
-use Modules\Extranet\Repositories\PersonneRepository;
-
-use Session;
 use Lang;
+use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
+use Modules\Extranet\Repositories\PersonneRepository;
+use Session;
 
 class PasswordUpdate
 {
@@ -18,7 +13,7 @@ class PasswordUpdate
     {
         $this->attributes = array_only($attributes, [
             'password',
-            'password_confirm'
+            'password_confirm',
         ]);
     }
 
@@ -29,11 +24,11 @@ class PasswordUpdate
 
     public function handle()
     {
-        if(!$this->attributes['password'] || !$this->attributes['password_confirm']) {
+        if (!$this->attributes['password'] || !$this->attributes['password_confirm']) {
             throw new \Exception(Lang::get('extranet::form.modal-password.messages.errors.empty_field'));
         }
 
-        if($this->attributes['password'] != $this->attributes['password_confirm']) {
+        if ($this->attributes['password'] != $this->attributes['password_confirm']) {
             throw new \Exception(Lang::get('extranet::form.modal-password.messages.errors.confirm_password'));
         }
 
@@ -42,26 +37,26 @@ class PasswordUpdate
 
     public function queryWs()
     {
-        
         $user = json_decode(Session::get('user'));
 
         $repository = new PersonneRepository();
         $obj = $repository->find($user->id);
 
-        if(!$obj) {
+        if (!$obj) {
             throw new \Exception('User not exist !');
+
             return false;
         }
 
         // Update Person Obj data
         $obj->pass = $this->attributes['password'];
-        foreach($obj->listInfos as $i => $info) {
-            if($info->key == 'INFOPER.RESETMDP') {
+        foreach ($obj->listInfos as $i => $info) {
+            if ($info->key == 'INFOPER.RESETMDP') {
                 $obj->listInfos[$i]->value = 0;
             }
         }
 
-        if($repository->update($user->id, $obj)){
+        if ($repository->update($user->id, $obj)) {
             $user->must_reset_password = 0;
 
             Session::put('user', json_encode($user));
