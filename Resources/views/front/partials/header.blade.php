@@ -25,7 +25,7 @@
                                     <div class="settings-search">
                                         @if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
                                             <div class="button-header-container">
-                                                <a href="{{route('dashboard')}}" class="tooltip-link-action btn-header" title="Espace Admin">
+                                                <a href="{{route('dashboard')}}" class="tooltip-link-setting btn-header" title="Espace Admin">
                                                     <i class="fa fa-cog"></i>
                                                 </a>
                                             </div>
@@ -70,6 +70,10 @@
         $(".tooltip-link-action").tooltip({
             disabled: false,
             position: { my: "left center", at: "center bottom+20" }
+        });
+        $(".tooltip-link-setting").tooltip({
+            disabled: false,
+            position: { my: "left-50 center", at: "center bottom+20" }
         });
         $( ".menu-item" ).click(function() {
             setTimeout(function(){
