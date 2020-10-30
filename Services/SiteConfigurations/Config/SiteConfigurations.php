@@ -45,6 +45,13 @@ return [
                 'name' => 'BREADCUMB_IS_ACTIVE',
                 'label' => 'Disable / Enable link breadcrumbs',
               ],
+              [
+                'type' => 'field',
+                'input' => 'boolean',
+                'identifier' => 'SEARCH_IS_ACTIVE',
+                'name' => 'SEARCH_IS_ACTIVE',
+                'label' => 'Enable / Disable search top bar',
+              ],
             ], //end children col
           ],
         ], //en children box

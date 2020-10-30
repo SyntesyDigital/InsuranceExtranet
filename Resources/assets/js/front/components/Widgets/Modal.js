@@ -61,7 +61,7 @@ export default class Modal extends Component {
     e.preventDefault();
     this.props.onRemove();
   }
-
+  
   render() {
 
     //define buttons 
@@ -77,7 +77,6 @@ export default class Modal extends Component {
         <div className={'modal-container ' + this.props.size}>
 
           <div className="modal-header">
-
             <i className={this.props.icon}></i>
             <h2>{this.props.title}</h2>
 
@@ -90,7 +89,7 @@ export default class Modal extends Component {
 
           <div className="modal-content">
             <div className="container-modal">
-              {this.props.children}
+              {this.props.children} 
             </div>
 
             <div className="modal-footer">
