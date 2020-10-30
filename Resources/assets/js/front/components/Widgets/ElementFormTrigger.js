@@ -15,8 +15,8 @@ export default class ElementFormTrigger extends Component {
     }
 
     handleFormFinished(params) {
-      //TODO do something when form finish
-      
+        //TODO do something when form finish
+        
     }
 
     render() {

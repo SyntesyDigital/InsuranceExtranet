@@ -6,8 +6,7 @@ import SubmitTriggerRedux from './FormSubmitTriggerRedux';
 
 export default class FormSubmitTrigger extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.store = configureStore();
     }

@@ -69,9 +69,11 @@
         @if(null !== Auth::user() && !is_jailed())
             @include ('extranet::front.partials.header')
 
-            {{-- @if(get_config('ON_LOGIN_TRIGGER_FORM')) 
-                @include ('extranet::front.partials.widgets.form_submit_trigger')
-            @endif --}}
+            @if(get_config('ON_LOGIN_TRIGGER_FORM')) 
+                @include ('extranet::front.partials.widgets.form_submit_trigger', [
+                    'formId' => 141
+                ])
+            @endif
         @endif
 
         @include ('extranet::front.partials.env_bar')

@@ -39,18 +39,21 @@ class FormSubmitTriggerRedux extends Component {
     componentDidUpdate(prevProps, prevState) {
         //when procedures are loaded
         if (prevProps.form.loading && !this.props.form.loading) {
+            //check parameters with a modal
+            this.props.checkParameters(
+                this.props.parameters.formParameters,
+                this.props.form.procedures,
+                this.state.parameters
+            );
+        }
 
+        if (!prevProps.parameters.checked && this.props.parameters.checked) {
             if (this.props.form.procedures.length > 0) {
                 this.props.initProceduresIteration();
-            } else {
-                console.error("FormSubmitTriggerRedux : No procedures to process");
             }
-            //check parameters with a modal
-            // this.props.checkParameters(
-            //     this.props.parameters.formParameters,
-            //     this.props.form.procedures,
-            //     this.state.parameters
-            // );
+            else {
+                console.error("No procedures to process");
+            }
         }
     }
     
