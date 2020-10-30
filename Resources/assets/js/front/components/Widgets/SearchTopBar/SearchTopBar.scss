@@ -20,6 +20,8 @@
     .actions-header {
         display: flex;
         float: right;
+        position: relative;
+        bottom: 2px;
         span {
             &.icon {
                 width: 40px;

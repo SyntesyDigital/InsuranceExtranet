@@ -80,6 +80,38 @@ header {
                                 }
                             }
                         }
+                        .settings-search{
+                            position: absolute;
+                            top: -5px;
+                            right: 347px;
+                            display: flex;
+                           
+                            .btn-header {
+                                border-radius: 50% !important;
+                                border-color: #004161 !important;
+                                width: 43px;
+                                height: 43px;
+                                text-decoration: none;
+                                i{
+                                    position: relative;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    display: block;
+                                    margin: 0 auto;
+                                    text-align: center;
+                                    color: #004161;
+                                    font-size: 25px;
+                                }
+                            }
+                            .button-header-container{
+                                order:2;
+                            }
+                            .user-name {
+                                position: relative;
+                                bottom: -2px;
+                                margin-right: 70px;
+                            }
+                        }
                         .user-name {
                             float: right;
                             margin-right: 10px;
