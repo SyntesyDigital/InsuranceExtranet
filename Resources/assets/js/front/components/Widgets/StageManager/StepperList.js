@@ -18,9 +18,9 @@ export default class StepperList extends React.Component {
         }
     }
 
-    onSelect() {
-        console.log("onSelect")
-    }
+    // onSelect() {
+    //     console.log("onSelect")
+    // }
 
     renderImageList() {
 
@@ -31,7 +31,7 @@ export default class StepperList extends React.Component {
                 field={item}
                 index={index}
                 activeStep={this.state.activeStep}
-                onSelect={this.onSelect.bind(this)}
+                // onSelect={this.onSelect.bind(this)}
                 lastIndexOfSteps={lastIndexOfSteps}
                 showNumber={this.state.shownumber}
             />
