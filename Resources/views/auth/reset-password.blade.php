@@ -71,7 +71,6 @@
     </div>
 
     @if(Request::has('debug') || old('env') != null || Request::has('env') != null)
-
         <hr/>
 
         <div class="form-group row">

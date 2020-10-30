@@ -32,6 +32,7 @@ class SendResetPassword
 
     public function handle()
     {
+
         try {
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
