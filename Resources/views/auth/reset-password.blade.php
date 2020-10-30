@@ -12,7 +12,6 @@
         $storedStylesFront = (new \Modules\Architect\Transformers\StyleFormTransformer($style))->toArray();
         \Cache::put('frontStyles', $storedStylesFront, $seconds);
     }
-
 @endphp
 
 @if (isset($storedStylesFront['loginBackgroundImage']) && isset($storedStylesFront['loginBackgroundImage']->value))
@@ -48,12 +47,20 @@
   <form method="POST" action="{{ route('send-reset-password') }}">
     @csrf
 
-    <h2>MOT DE PASSE OUBLIÉ</h2>
+    @if(Request::has('login_attempt')) 
+        <div class="alert alert-warning">
+            Vous avez atteint la limite maximale de tentative de connexion. Merci de configurer un nouveau votre mot de passe pour vous connecter. 
+        </div>
+    @else 
+        <h2>MOT DE PASSE OUBLIÉ</h2>
+    @endif 
+
+    
     <div class="form-group row">
         <label for="email" class="col-sm-12 col-form-label text-md-right"><i class="fa fa-user"></i>Utilisateur</label>
 
         <div class="col-md-12">
-            <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="" required autofocus>
+            <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ \Request::has('user') ? \Request::get('user') : old('email') }}" placeholder="" required autofocus>
 
             @if ($errors->has('email'))
                 <div class="invalid-field">

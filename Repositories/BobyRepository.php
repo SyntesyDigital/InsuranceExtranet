@@ -14,7 +14,7 @@ class BobyRepository
         $this->client = new Client();
     }
 
-    public function getQuery($name)
+    public function getQuery($name, $token = null)
     {
         $cacheKey = md5('getQuery_'.$name);
 
@@ -23,7 +23,7 @@ class BobyRepository
         } else {
             $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
                 'headers' => [
-                    'Authorization' => 'Bearer '.Auth::user()->token,
+                    'Authorization' => 'Bearer '.($token ? $token : Auth::user()->token),
                 ],
             ]);
 
@@ -123,34 +123,34 @@ class BobyRepository
 
     /**
      * File that comes from multipart service is base64 encoded. It's necessary to decode.
-     * Data structure : 
+     * Data structure :
      *  [{
      *       name: 'file',
      *       contents: 'asdfasdfasdfasdf',  //base64 string
      *       filename: ''
-     *   }]
+     *   }].
      */
-    private function processMultipartData($data,$body)
-    {   
-        if($body == 'multipart'){
+    private function processMultipartData($data, $body)
+    {
+        if ($body == 'multipart') {
             //decode flie info
-            if(isset($data[0]['contents']))
+            if (isset($data[0]['contents'])) {
                 $data[0]['contents'] = base64_decode($data[0]['contents']);
+            }
         }
 
         return $data;
     }
 
-    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json')
+    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json', $token = null)
     {
-
         //process data depending on body
-        $data = $this->processMultipartData($data,$body);
-        
+        $data = $this->processMultipartData($data, $body);
+
         $params = [
             $body => $data,
             'headers' => [
-                'Authorization' => 'Bearer '.Auth::user()->token,
+                'Authorization' => 'Bearer '.($token ? $token : Auth::user()->token),
             ],
         ];
 

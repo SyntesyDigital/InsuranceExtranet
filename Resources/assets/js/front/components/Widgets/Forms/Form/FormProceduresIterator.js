@@ -24,9 +24,7 @@ class FormProceduresIterator extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-
       return null;
-
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -78,10 +76,8 @@ const mapDispatchToProps = dispatch => {
       getJsonResultBeforePut : (procedure,formParameters) => {
         return dispatch(getJsonResultBeforePut(procedure,formParameters));
       },
-      processProcedure : (procedures,currentProcedureIndex, values,
-          currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) => {
-        return dispatch(processProcedure(procedures,currentProcedureIndex, values,
-            currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone,version))
+      processProcedure : (procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone, version) => {
+        return dispatch(processProcedure(procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess,jsonResult,formParameters,jsonGetDone,version))
       }
     }
 }
