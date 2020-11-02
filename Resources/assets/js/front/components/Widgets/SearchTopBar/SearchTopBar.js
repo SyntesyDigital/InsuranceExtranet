@@ -9,7 +9,7 @@ export default class SearchTopBar extends Component {
         super(props)
         this.state = {
             display: false,
-            valueSearch: ''
+            valueSearch: '',
         }
     }
 
@@ -17,11 +17,10 @@ export default class SearchTopBar extends Component {
     // Handlers
     // ==============================
 
-
     handleChange(event) {
         this.setState({
-            display: true,
-            valueSearch: event.target.value
+            valueSearch: event.target.value,
+            display: true
         });
     }
 
@@ -46,6 +45,7 @@ export default class SearchTopBar extends Component {
                     onModalClose={this.handleModalClose.bind(this)}
                     deleteButton={false}
                     valueSearch={this.state.valueSearch}
+                    onChangeSearch={this.handleChange.bind(this)}
                 />
                 <label>
                     <input
@@ -59,7 +59,7 @@ export default class SearchTopBar extends Component {
                 <div className="actions-header">
                     <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation icon"><span className="number">12</span></span></a>
                     <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft icon"><span className="number">4</span></span></a>
-                    <ActionNotification/>
+                    <ActionNotification />
                 </div>
             </div>
         )

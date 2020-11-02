@@ -34,8 +34,8 @@ class ResetPasswordController extends Controller
 
             if ($result) {
                 return redirect(route('reset-password'))
-            ->with('message', 'E-mail envoyé avec succès')
-            ->withInput($request->input());
+                    ->with('message', 'E-mail envoyé avec succès')
+                    ->withInput($request->input());
             }
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
@@ -44,8 +44,8 @@ class ResetPasswordController extends Controller
         $validator->errors()->add('server', ResetPasswordController::ERROR_MESSAGE);
 
         return redirect(route('reset-password'))
-        ->withErrors($validator)
-        ->withInput($request->input());
+            ->withErrors($validator)
+            ->withInput($request->input());
     }
 
     public function changePassword(Request $request, $env = null)
@@ -55,9 +55,9 @@ class ResetPasswordController extends Controller
         }
 
         return view('extranet::auth.change-password', [
-        'env' => $env,
-        'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
-      ]);
+            'env' => $env,
+            'token' => $request->has('np') ? $request->get('np') : $request->old('token'),
+        ]);
     }
 
     public function updatePassword(ChangePasswordRequest $request)
@@ -72,11 +72,12 @@ class ResetPasswordController extends Controller
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
         }
+
         $validator = Validator::make($request->all(), []);
         $validator->errors()->add('server', ResetPasswordController::ERROR_CHANGE_MESSAGE);
 
         return redirect(route('change-password'))
-        ->withErrors($validator)
-        ->withInput($request->input());
+            ->withErrors($validator)
+            ->withInput($request->input());
     }
 }

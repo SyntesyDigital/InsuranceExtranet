@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Jobs\ResetPassword;
 
 use GuzzleHttp\Client;
+use Modules\Extranet\Entities\LoginAttempt;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 
@@ -31,6 +32,7 @@ class SendResetPassword
 
     public function handle()
     {
+
         try {
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
@@ -42,11 +44,20 @@ class SendResetPassword
                 ],
             ]);
 
+            $this->flushLoginAttempt();
+
             return true;
         } catch (\Exception $ex) {
             throw $ex;
         }
 
         return false;
+    }
+
+    private function flushLoginAttempt()
+    {
+        LoginAttempt::where('login', $this->attributes['email'])
+            ->where('env', $this->env == VeosWsUrl::PROD ? '' : $this->env)
+            ->delete();
     }
 }

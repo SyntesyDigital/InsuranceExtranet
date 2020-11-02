@@ -76,7 +76,7 @@ export default class CardComponent extends Component {
 
     getModelFieldValue(fieldname) {
         return this.state.modelValues[0] !== undefined &&
-            this.state.modelValues[0][fieldname] ? this.state.modelValues[0][fieldname] : "";
+            (this.state.modelValues[0][fieldname] ||   this.state.modelValues[0][fieldname] === 0)? this.state.modelValues[0][fieldname] : "";
     }
 
     getConditionalFormating(field, value) {
