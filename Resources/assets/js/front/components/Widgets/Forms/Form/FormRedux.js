@@ -9,6 +9,8 @@ import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
 
+import EventBus from './../../../../../services/EventBus';
+
 import LayoutParser from './../../ElementCard/LayoutParser';
 
 import {
@@ -47,6 +49,14 @@ class FormComponent extends Component {
         //if parent parameters defined update
         parametersObject = this.updateFormParentParemeters(props.parentFormParameters, parametersObject);
 
+        var hasStages = isDefined(props.hasStages) ? props.hasStages : false;
+        var initStage = isDefined(props.initStage) ? props.initStage : 1;
+        var stageParameter = isDefined(props.stageParameter) ? props.stageParameter : null;
+
+        if(hasStages){
+           parametersObject = this.updateParametersFromStage(parametersObject,initStage,stageParameter);
+        }
+
         this.state = {
             elementObject: props.elementObject,
             values: this.initValues(props.elementObject),
@@ -59,9 +69,9 @@ class FormComponent extends Component {
             sendingPreload: false,
             preloadFinish: false,
 
-            hasStages : isDefined(props.hasStages) ? props.hasStages : false,
-            stageParameter : isDefined(props.stageParameter) ? props.stageParameter : null,
-            currentStage : 1
+            hasStages : hasStages,
+            stageParameter : stageParameter,
+            currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage
         };
 
         this.props.initParametersState(parametersObject);
@@ -69,6 +79,24 @@ class FormComponent extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
 
         this.props.loadProcedures(props.elementObject.model_identifier);
+    }
+
+    /**
+     * If has stages then is necssary to update the form paramters with init value
+     */
+    updateParametersFromStage(parametersObject,initStage,stageParameter) {
+
+        if(stageParameter == null){
+            console.error("Staged form : stageParameter is not defined. Please fill 'Paramètrè de l'etape' into the Staged Form widget")
+            return parametersObject;
+        }
+
+        //if parameters is not defined by url or by other component
+        if(!isDefined(parametersObject[stageParameter])){
+            parametersObject[stageParameter] = initStage;
+        }
+        
+        return parametersObject;
     }
 
     componentDidMount() {
@@ -218,6 +246,12 @@ class FormComponent extends Component {
         //validate stage
 
         var self = this;
+
+        EventBus.publish('STAGE_UPDATE',{
+            parameter : this.state.stageParameter,
+            stage : stage
+        });
+
 
         this.setState({
             currentStage : stage

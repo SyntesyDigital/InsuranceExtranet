@@ -16,11 +16,13 @@ export default class ElementStagedForm extends Component {
         var template = props.field.settings.template ? props.field.settings.template : null;
 
         var stageParameter = props.field.settings.stageParameter ? props.field.settings.stageParameter : null
+        var initStage = props.field.settings.initStage ? props.field.settings.initStage : 1;
 
         this.state = {
           field : props.field,
           template : template,
-          stageParameter : stageParameter
+          stageParameter : stageParameter,
+          initStage : initStage
         }
     }
 
@@ -42,6 +44,7 @@ export default class ElementStagedForm extends Component {
             template={this.state.template}
             hasStages={true} 
             stageParameter={this.state.stageParameter}
+            initStage={this.state.initStage}
           />
         );
     }

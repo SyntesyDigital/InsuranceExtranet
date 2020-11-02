@@ -37,6 +37,7 @@ export default class FormComponent extends Component {
               template={this.props.template ? this.props.template : null}
               hasStages={this.props.hasStages ? this.props.hasStages : false} 
               stageParameter={this.props.stageParameter ? this.props.stageParameter : null}
+              initStage={this.props.initStage ? this.props.initStage : 1}
             />
           </Provider>
         );

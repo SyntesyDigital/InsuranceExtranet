@@ -11,6 +11,7 @@
             id="stepList" 
             class="stepList" 
             field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}" 
+            parameters="{{$parameters}}"
         >
         </div>
     </div>
