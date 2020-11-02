@@ -10,14 +10,15 @@ export default class ModalSearch extends Component {
         this.state = {
             results: [1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     // ==============================
     // Handlers
     // ==============================
 
-    handleOnChange(e) {
-        this.props.onChangeSearch(e.target.value);
+    handleOnChange(event) {
+        this.props.onChangeSearch(event);
     }
 
     handleClickNumResult() {
