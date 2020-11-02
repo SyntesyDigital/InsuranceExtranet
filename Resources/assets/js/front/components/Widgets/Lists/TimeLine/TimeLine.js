@@ -7,35 +7,30 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
 import './demo.scss';
-import {
-    parseDate,
-} from '../../functions';
-
+import Demo from './demo';
 export default class TimeLine extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            activeStep: 2
+            activeStep: 0
         }
     }
 
     renderItem(item, elementObject) {
         console.log("item", item)
-        console.log("item", elementObject)
+        console.log("elementObject ", elementObject)
         var steps = [];
 
 
-        var email = item['expediteur'];
-        var date = parseDate(item['DTCRE_MAIL'], elementObject);
-        var content = item['CORPS'];
+        var name = item.assnom_per;
+        var content = item.assnom_per;
 
         steps.push(
             <Step
-                // key={label}
                 expanded={true}
             >
-                <StepLabel>label</StepLabel>
+                <StepLabel>{name}</StepLabel>
                 <StepContent>
                     <Typography>
                         conent descripcion
@@ -54,8 +49,10 @@ export default class TimeLine extends Component {
     }
 
     render() {
+        console.log("this.props.field" , this.props.field)
         return (
             <div>
+                <Demo></Demo>
                 <ListParser
                     customClass="timeline-container"
                     field={this.props.field}
