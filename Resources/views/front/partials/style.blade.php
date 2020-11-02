@@ -452,6 +452,14 @@
 
     $fontSizeLabelStepper = isset($storedStylesFront['fontSizeLabelStepper']) ? $storedStylesFront['fontSizeLabelStepper']->value.'px' : '14px';
     $distanceBetweenLabelStepper = isset($storedStylesFront['distanceBetweenLabelStepper']) ? $storedStylesFront['distanceBetweenLabelStepper']->value.'px' : '25px';
+
+    //Contact info box
+    $backgroundColorContactInfo = isset($storedStylesFront['backgroundColorContactInfo']) ? $storedStylesFront['backgroundColorContactInfo']->value : '#fff';
+    $titleColorContactInfo = isset($storedStylesFront['titleColorContactInfo']) ? $storedStylesFront['titleColorContactInfo']->value : '#C9D200';
+    $titleFontSizeContactInfo = isset($storedStylesFront['titleFontSizeContactInfo']) ? $storedStylesFront['titleFontSizeContactInfo']->value.'px' : '18px';
+    $colorPhoneMailContactInfo = isset($storedStylesFront['colorPhoneMailContactInfo']) ? $storedStylesFront['colorPhoneMailContactInfo']->value : '#124261';
+    $fontSizePhoneMailContactInfo = isset($storedStylesFront['fontSizePhoneMailContactInfo']) ? $storedStylesFront['fontSizePhoneMailContactInfo']->value.'px' : '16px';
+
 ?>
 
 <style type="text/css">
@@ -485,6 +493,7 @@
 @include('extranet::front.partials.styles.last-news-list')
 @include('extranet::front.partials.styles.faqs')
 @include('extranet::front.partials.styles.tabs-list')
+@include('extranet::front.partials.styles.contact-info')
 
 
 @if($frontFont)

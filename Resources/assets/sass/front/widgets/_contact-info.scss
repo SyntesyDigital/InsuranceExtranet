@@ -1,0 +1,61 @@
+.contact-info {
+    overflow: hidden;
+    margin: 20px 0;
+    border-bottom-left-radius: 24px;
+    border-top-right-radius: 24px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+    .contactInfo {
+        padding: 5px 10px 10px;
+    }
+    .title {
+        margin-bottom: 0 !important;
+        h4 {
+            margin-left: 40px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-transform: unset;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 30px;
+                background: url("./../../../img/bulle-vert.png") center/contain no-repeat;
+                color: #c9d203;
+            }
+        }
+    }
+    .phone {
+        margin-left: 40px;
+        h4 {
+            margin-left: 40px;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 30px;
+                background: url("./../../../img/ico_tel.png") center/contain no-repeat;
+                color: #c9d203;
+            }
+        }
+    }
+    .email {
+        h4 {
+            margin-left: 40px;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 30px;
+                background: url("./../../../img/ico_contact.png") center/contain no-repeat;
+                color: #c9d203;
+            }
+        }
+    }
+}
