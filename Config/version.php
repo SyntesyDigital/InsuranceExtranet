@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'extranet' => 'v1.32.2',
+    'extranet' => 'v1.33.0',
     'branch' => 'dev',
 ];
