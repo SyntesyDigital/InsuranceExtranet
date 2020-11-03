@@ -452,6 +452,41 @@
 
     $fontSizeLabelStepper = isset($storedStylesFront['fontSizeLabelStepper']) ? $storedStylesFront['fontSizeLabelStepper']->value.'px' : '14px';
     $distanceBetweenLabelStepper = isset($storedStylesFront['distanceBetweenLabelStepper']) ? $storedStylesFront['distanceBetweenLabelStepper']->value.'px' : '25px';
+    $titleBackgroundColorFormStage = isset($storedStylesFront['titleBackgroundColorFormStage']) ? $storedStylesFront['titleBackgroundColorFormStage']->value : '#65c4db';
+    $titleColorFormStage = isset($storedStylesFront['titleColorFormStage']) ? $storedStylesFront['titleColorFormStage']->value : '#fff';
+    $titleLineHeightFormStage = isset($storedStylesFront['titleLineHeightFormStage']) ? $storedStylesFront['titleLineHeightFormStage']->value.'px' : '25px';
+    $titlePaddingFormStage = isset($storedStylesFront['titlePaddingFormStage']) ? $storedStylesFront['titlePaddingFormStage']->value.'px' : '15px';
+    $titleFontSizeFormStage = isset($storedStylesFront['titleFontSizeFormStage']) ? $storedStylesFront['titleFontSizeFormStage']->value.'px' : '24px';
+
+    $colorPrevBtnStepper = isset($storedStylesFront['colorPrevBtnStepper']) ? $storedStylesFront['colorPrevBtnStepper']->value : '#A8A8A8';
+    $colorHoverPrevBtnStepper = isset($storedStylesFront['colorHoverPrevBtnStepper']) ? $storedStylesFront['colorHoverPrevBtnStepper']->value : '#A8A8A8';
+    $backgroundColorPrevBtnStepper = isset($storedStylesFront['backgroundColorPrevBtnStepper']) ? $storedStylesFront['backgroundColorPrevBtnStepper']->value : 'transparent';
+    $backgroundHoverColorPrevBtnStepper = isset($storedStylesFront['backgroundHoverColorPrevBtnStepper']) ? $storedStylesFront['backgroundHoverColorPrevBtnStepper']->value : 'transparent';
+    $borderColorPrevBtnStepper = isset($storedStylesFront['borderColorPrevBtnStepper']) ? $storedStylesFront['borderColorPrevBtnStepper']->value : '#A8A8A8';
+    $borderHoverColorPrevBtnStepper = isset($storedStylesFront['borderHoverColorPrevBtnStepper']) ? $storedStylesFront['borderHoverColorPrevBtnStepper']->value : '#A8A8A8';
+    $borderRadiusPrevBtnStepper = isset($storedStylesFront['borderRadiusPrevBtnStepper']) ? $storedStylesFront['borderRadiusPrevBtnStepper']->value.'px' : '24px';
+    $fontSizePrevBtnStepper = isset($storedStylesFront['fontSizePrevBtnStepper']) ? $storedStylesFront['fontSizePrevBtnStepper']->value.'px' : '14px';
+    $iconPrevBtnStepper = isset($storedStylesFront['iconPrevBtnStepper']) ? $storedStylesFront['iconPrevBtnStepper']->value : '';
+
+    $colorNextBtnStepper = isset($storedStylesFront['colorNextBtnStepper']) ? $storedStylesFront['colorNextBtnStepper']->value : '#fff';
+    $colorHoverNextBtnStepper = isset($storedStylesFront['colorHoverNextBtnStepper']) ? $storedStylesFront['colorHoverNextBtnStepper']->value : '#fff';
+    $backgroundColorNextBtnStepper = isset($storedStylesFront['backgroundColorNextBtnStepper']) ? $storedStylesFront['backgroundColorNextBtnStepper']->value : '#004161';
+    $backgroundHoverColorNextBtnStepper = isset($storedStylesFront['backgroundHoverColorNextBtnStepper']) ? $storedStylesFront['backgroundHoverColorNextBtnStepper']->value : '#004161D9';
+    $borderColorNextBtnStepper = isset($storedStylesFront['borderColorNextBtnStepper']) ? $storedStylesFront['borderColorNextBtnStepper']->value : '#004161';
+    $borderHoverColorNextBtnStepper = isset($storedStylesFront['borderHoverColorNextBtnStepper']) ? $storedStylesFront['borderHoverColorNextBtnStepper']->value : '#004161D9';
+    $borderRadiusNextBtnStepper = isset($storedStylesFront['borderRadiusNextBtnStepper']) ? $storedStylesFront['borderRadiusNextBtnStepper']->value.'px' : '24px';
+    $fontSizeNextBtnStepper = isset($storedStylesFront['fontSizeNextBtnStepper']) ? $storedStylesFront['fontSizeNextBtnStepper']->value.'px' : '14px';
+    $iconPrevNextStepper = isset($storedStylesFront['iconPrevNextStepper']) ? $storedStylesFront['iconPrevNextStepper']->value : '';
+
+    $colorSubmitBtnStepper = isset($storedStylesFront['colorSubmitBtnStepper']) ? $storedStylesFront['colorSubmitBtnStepper']->value : '#fff';
+    $colorHoverSubmitBtnStepper = isset($storedStylesFront['colorHoverSubmitBtnStepper']) ? $storedStylesFront['colorHoverSubmitBtnStepper']->value : '#fff';
+    $backgroundColorSubmitBtnStepper = isset($storedStylesFront['backgroundColorSubmitBtnStepper']) ? $storedStylesFront['backgroundColorSubmitBtnStepper']->value : '#65C4DB';
+    $backgroundHoverColorSubmitBtnStepper = isset($storedStylesFront['backgroundHoverColorSubmitBtnStepper']) ? $storedStylesFront['backgroundHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
+    $borderColorSubmitBtnStepper = isset($storedStylesFront['borderColorSubmitBtnStepper']) ? $storedStylesFront['borderColorSubmitBtnStepper']->value : '#65C4DB';
+    $borderHoverColorSubmitBtnStepper = isset($storedStylesFront['borderHoverColorSubmitBtnStepper']) ? $storedStylesFront['borderHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
+    $borderRadiusSubmitBtnStepper = isset($storedStylesFront['borderRadiusSubmitBtnStepper']) ? $storedStylesFront['borderRadiusSubmitBtnStepper']->value.'px' : '24px';
+    $fontSizeSubmitBtnStepper = isset($storedStylesFront['fontSizeSubmitBtnStepper']) ? $storedStylesFront['fontSizeSubmitBtnStepper']->value.'px' : '14px';
+    $iconSubmitStepper = isset($storedStylesFront['iconSubmitStepper']) ? $storedStylesFront['iconSubmitStepper']->value : '';
 
     //Contact info box
     $backgroundColorContactInfo = isset($storedStylesFront['backgroundColorContactInfo']) ? $storedStylesFront['backgroundColorContactInfo']->value : '#fff';
@@ -557,6 +592,11 @@
             danger: '{{$iconErrorMessageBox}}',
             warning: '{{$iconWarningMessageBox}}',
             info: '{{$iconWarningMessageBox}}'
+        },
+        formStage: {
+            submit: '{{$iconSubmitStepper}}',
+            next: '{{$iconPrevNextStepper}}',
+            prev: '{{$iconPrevBtnStepper}}',
         }
     }
 

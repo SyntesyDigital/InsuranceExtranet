@@ -22,6 +22,7 @@ require('./components/Widgets/ElementFormV2');
 require('./components/Widgets/ElementFormButton');
 require('./components/Widgets/ElementFormTrigger');
 require('./components/Widgets/ElementFormPreload');
+require('./components/Widgets/ElementStagedForm');
 require('./components/Widgets/TotalBox');
 require('./components/Widgets/FormTemp/FormComponentTemp');
 require('./components/Widgets/ElementCard/ElementCard');
@@ -50,6 +51,7 @@ require('./components/Widgets/StageManager/StepperList');
 require('./components/Widgets/StageManager/Step');
 require('./components/Widgets/Stepper');
 require('./components/Widgets/ContactInfo');
+
 
 
 //Lists

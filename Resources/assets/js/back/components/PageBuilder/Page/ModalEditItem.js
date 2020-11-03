@@ -291,7 +291,7 @@ class ModalEditItem extends Component {
 
   renderField() {
 
-    //console.log("ModalEditItem : renderField => ", this.state.field, FIELDS);
+    console.log("ModalEditItem : renderField => ", this.state.field, ELEMENT_TEMPLATE_FIELDS);
 
     switch (this.state.field.type) {
       case ELEMENT_TEMPLATE_FIELDS.TEXT.type:
@@ -326,6 +326,18 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         ); 
+
+      case ELEMENT_TEMPLATE_FIELDS.LINK.type:
+        return (
+          <LinkField
+            field={this.state.field}
+            hideTab={true}
+            onFieldChange={this.onFieldChange}
+            onContentSelect={this.props.onContentSelect}
+          />
+        );
+
+      /*
 
       case ELEMENT_TEMPLATE_FIELDS.FILE.type:
         return (
@@ -378,15 +390,7 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
-      case ELEMENT_TEMPLATE_FIELDS.LINK.type:
-        return (
-          <LinkField
-            field={this.state.field}
-            hideTab={true}
-            onFieldChange={this.onFieldChange}
-            onContentSelect={this.props.onContentSelect}
-          />
-        );
+      
 
       case ELEMENT_TEMPLATE_FIELDS.VIDEO.type:
         return (
@@ -404,6 +408,7 @@ class ModalEditItem extends Component {
             onFieldChange={this.onFieldChange}
           />
         );
+        */
       
       
       case "widget":
@@ -592,6 +597,41 @@ class ModalEditItem extends Component {
           source="settings"
           onFieldChange={this.handleFieldSettingsChange.bind(this)}
           label={'Cacher les bords'}
+        />
+
+        <SelectorSettingsField
+          field={this.state.field}
+          name="buttonType"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={'Type de bouton'}
+          options={[
+            {
+              value: "btn-prev",
+              name: 'Sélectionner',
+            },
+            {
+              value: "btn-prev",
+              name: "Précédent",
+            },
+            {
+              value: "btn-next",
+              name: "Suivant",
+            },
+            {
+              value: "btn-submit",
+              name: "Terminer",
+            }
+          ]}
+        />
+
+        <InputSettingsField
+          field={this.state.field}
+          name="stageOperation"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Étape"
+          inputLabel="Valeur ou opération"
         />
 
       </div>
