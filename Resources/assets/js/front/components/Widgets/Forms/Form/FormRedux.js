@@ -399,6 +399,7 @@ class FormComponent extends Component {
                         key={key}
                         text={node.field.value.fr}
                         textAlign={textAlign}
+                        type={'form-label'}
                     />
                 );
 
