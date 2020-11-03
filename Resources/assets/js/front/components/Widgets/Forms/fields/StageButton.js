@@ -113,14 +113,14 @@ export default class StageButton extends Component {
 
     render() {
         //TODO diferent styles depending on state.type
-        console.log(ICONS)
         return (
             <div>
                 <a href="" className={"btn " + this.state.type} onClick={this.handleClick.bind(this)}>
+                    {this.state.type !== 'btn-prev' ? this.state.label : null}
                     {ICONS.formStage[this.state.type.replace('btn-', '')] !== 'Sélectionner...' ?
-                        <i className={ICONS.formStage[this.state.type.replace('btn-', '')]}></i>
+                       <i className={ICONS.formStage[this.state.type.replace('btn-', '')]}></i>
                         : null}
-                    {this.state.label}
+                    {this.state.type === 'btn-prev' ?  this.state.label : null}
                 </a>
             </div>
         );

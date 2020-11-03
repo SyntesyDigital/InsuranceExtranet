@@ -452,6 +452,10 @@
 
     $fontSizeLabelStepper = isset($storedStylesFront['fontSizeLabelStepper']) ? $storedStylesFront['fontSizeLabelStepper']->value.'px' : '14px';
     $distanceBetweenLabelStepper = isset($storedStylesFront['distanceBetweenLabelStepper']) ? $storedStylesFront['distanceBetweenLabelStepper']->value.'px' : '25px';
+    $titleBackgroundColorFormStage = isset($storedStylesFront['titleBackgroundColorFormStage']) ? $storedStylesFront['titleBackgroundColorFormStage']->value : '#65c4db';
+    $titleColorFormStage = isset($storedStylesFront['titleColorFormStage']) ? $storedStylesFront['titleColorFormStage']->value : '#fff';
+    $titleLineHeightFormStage = isset($storedStylesFront['titleLineHeightFormStage']) ? $storedStylesFront['titleLineHeightFormStage']->value.'px' : '25px';
+    $titlePaddingFormStage = isset($storedStylesFront['titlePaddingFormStage']) ? $storedStylesFront['titlePaddingFormStage']->value.'px' : '15px';
 
     $colorPrevBtnStepper = isset($storedStylesFront['colorPrevBtnStepper']) ? $storedStylesFront['colorPrevBtnStepper']->value : '#A8A8A8';
     $colorHoverPrevBtnStepper = isset($storedStylesFront['colorHoverPrevBtnStepper']) ? $storedStylesFront['colorHoverPrevBtnStepper']->value : '#A8A8A8';

@@ -73,4 +73,12 @@
         background-color: {{$backgroundHoverColorSubmitBtnStepper}};
         border-color: {{$borderHoverColorSubmitBtnStepper}}
     }
+    /* title */
+    body #element-staged-form .form-label h3{
+        color: {{$titleColorFormStage}};
+        background-color: {{$titleBackgroundColorFormStage}};
+        padding-top: {{$titlePaddingFormStage}};
+        padding-bottom: {{$titlePaddingFormStage}};
+        line-height: {{$titleLineHeightFormStage}};
+    }
 </style>
