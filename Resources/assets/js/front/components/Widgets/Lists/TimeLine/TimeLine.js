@@ -8,6 +8,15 @@ import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
 import './demo.scss';
 import Demo from './demo';
+import {
+    parseNumber,
+    parseDate,
+    getConditionalFormating,
+    hasConditionalFormatting,
+    getConditionalIcon,
+    hasConditionalIcon
+} from '../../functions';
+
 export default class TimeLine extends Component {
 
     constructor(props) {
@@ -17,27 +26,96 @@ export default class TimeLine extends Component {
         }
     }
 
+    hasConditionalFormatting(conditionalFormatting) {
+        if (conditionalFormatting.color !== undefined) {
+            return true;
+        }
+        return false;
+    }
+
+    renderField(item, identifier, field) {
+        console.log("renderfield :: ", item, identifier, field);
+        var value = item[identifier];
+        var hasIcon = hasConditionalIcon(field, value);
+
+        if (field.type == "date") {
+            value = parseDate(value, field);
+        }
+        else if (field.type == "number") {
+            value = parseNumber(value, field, item, this.props.parameters);
+        }
+        else if (field.type == "text") {
+            switch (field.settings.format) {
+                case 'password':
+                    value = '******';
+                    break;
+            }
+        }
+
+        var style = getConditionalFormating(field, value);
+        var hasColor = hasConditionalFormatting(style);
+        var icon = getConditionalIcon(field, value);
+        var hasIcon = hasConditionalIcon(icon);
+
+
+        if (field.type == "file" || field.type == "file_ws_fusion") {
+            return <div dangerouslySetInnerHTML={{ __html: value }} />
+        }
+        // has route
+        else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
+
+            return <div className={(hasIcon ? 'has-icon' : '')}>
+                {hasIcon ? <i className={icon.icon}></i> : null}
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: item[identifier + "_url"]
+                    }}
+                />
+            </div>
+        }
+        // has default
+        else {
+            return <div className={(hasIcon ? 'has-icon' : '')}>
+                {hasIcon ? <i className={icon.icon}></i> : null}
+                <div
+                    className={hasColor ? 'has-color' : ''}
+                    style={style}
+                    dangerouslySetInnerHTML={{
+                        __html: value
+                    }}
+                />
+            </div>
+        }
+    }
+
+
     renderItem(item, elementObject) {
-        console.log("item", item)
-        console.log("elementObject ", elementObject)
+
+        var file = null;
         var steps = [];
 
-
-        var name = item.assnom_per;
-        var content = item.assnom_per;
-
-        steps.push(
-            <Step
-                expanded={true}
-            >
-                <StepLabel>{name}</StepLabel>
-                <StepContent>
-                    <Typography>
-                        conent descripcion
-                    </Typography>
-                </StepContent>
-            </Step>
-        );
+        for (var key in elementObject.fields) {
+            var identifier = elementObject.fields[key].identifier;
+            console.log("identifier :: " , identifier);
+            if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
+                file = this.renderField(item, identifier, elementObject.fields[key]);
+                isFile = true;
+            }
+            else {
+                steps.push(
+                    <Step
+                        expanded={true}
+                        key={key}
+                    >
+                        <StepLabel>{this.renderField(item, identifier, elementObject.fields[key])}</StepLabel>
+                        <StepContent>
+                            <Typography>{this.renderField(item, identifier, elementObject.fields[key])}</Typography>
+                        </StepContent>
+                    </Step>
+                );
+            }
+        }
+        console.log("steps", steps)
 
         return (
             <Stepper
@@ -45,11 +123,23 @@ export default class TimeLine extends Component {
                 orientation="vertical">
                 {steps}
             </Stepper>
+            // <div>
+            //     <div className={"file-infos-container " + (file == null ? 'no-document' : '')}>
+            //         {file != null &&
+            //             <div className={"file-icon "}>
+            //                 {file}
+            //             </div>
+            //         }
+            //         <div className="file-infos">
+            //             {infos}
+            //         </div>
+            //     </div>
+            // </div>
         );
     }
 
     render() {
-        console.log("this.props.field" , this.props.field)
+        console.log("this.props.field", this.props.field)
         return (
             <div>
                 <Demo></Demo>
@@ -64,7 +154,6 @@ export default class TimeLine extends Component {
                     parameters={this.props.parameters}
                     renderItem={this.renderItem.bind(this)}
                     identifier={'timeline-field'}
-                    onReverse={true}
                 />
             </div>
         );
