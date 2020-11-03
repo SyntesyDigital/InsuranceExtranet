@@ -459,6 +459,10 @@
     $titleFontSizeContactInfo = isset($storedStylesFront['titleFontSizeContactInfo']) ? $storedStylesFront['titleFontSizeContactInfo']->value.'px' : '18px';
     $colorPhoneMailContactInfo = isset($storedStylesFront['colorPhoneMailContactInfo']) ? $storedStylesFront['colorPhoneMailContactInfo']->value : '#124261';
     $fontSizePhoneMailContactInfo = isset($storedStylesFront['fontSizePhoneMailContactInfo']) ? $storedStylesFront['fontSizePhoneMailContactInfo']->value.'px' : '16px';
+    $borderRadiusTopRightContactInfo = isset($storedStylesFront['borderRadiusTopRightContactInfo']) ? $storedStylesFront['borderRadiusTopRightContactInfo']->value.'px' : '24px';
+    $borderRadiusTopLeftContactInfo = isset($storedStylesFront['borderRadiusTopLeftContactInfo']) ? $storedStylesFront['borderRadiusTopLeftContactInfo']->value.'px' : '0px';
+    $borderRadiusBottomLeftContactInfo = isset($storedStylesFront['borderRadiusBottomLeftContactInfo']) ? $storedStylesFront['borderRadiusBottomLeftContactInfo']->value.'px' : '24px';
+    $borderRadiusBottomRightContactInfo = isset($storedStylesFront['borderRadiusBottomRightContactInfo']) ? $storedStylesFront['borderRadiusBottomRightContactInfo']->value.'px' : '0px';
 
 ?>
 

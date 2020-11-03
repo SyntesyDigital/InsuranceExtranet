@@ -19,14 +19,14 @@ export default class ContactInfo extends Component {
         return (
             <React.Fragment>
                 <div class="col-xs-12 title">
-                   <h4>{this.props.title? this.props.title : null}</h4>
+                    <h4>{this.props.title ? this.props.title : null}</h4>
                 </div>
                 <div class="row">
                     <div class="col-xs-3 phone">
-                        <h4>{this.props.phone ? this.props.phone : null}</h4>
+                        <a href={'tel:' + this.props.phone}><h4>{this.props.phone}</h4></a>
                     </div>
                     <div class="col-xs-3 email">
-                        <h4>{this.props.email ? this.props.email : null}</h4>
+                        <a href={'mailto:' + this.props.email}><h4>{this.props.email}</h4></a>
                     </div>
                 </div>
             </React.Fragment >
