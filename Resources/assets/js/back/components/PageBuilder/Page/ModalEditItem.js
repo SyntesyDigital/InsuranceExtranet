@@ -607,8 +607,8 @@ class ModalEditItem extends Component {
           label={'Type de bouton'}
           options={[
             {
-              value: "",
-              name: 'Défaut',
+              value: "btn-prev",
+              name: 'Sélectionner',
             },
             {
               value: "btn-prev",
