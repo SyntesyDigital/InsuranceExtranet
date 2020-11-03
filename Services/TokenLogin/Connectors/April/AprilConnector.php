@@ -20,6 +20,7 @@ class AprilConnector implements TokenLoginConnectorInterface
     {
         $this->token = $token;
         $this->caller = $caller;
+        $this->env = request()->get('env');
     }
 
     /**
@@ -37,7 +38,7 @@ class AprilConnector implements TokenLoginConnectorInterface
 
         // Init user session if VEOS token exist
         return $veosToken
-            ? dispatch_now(new SessionCreate($veosToken))
+            ? dispatch_now(new SessionCreate($veosToken, $this->env))
             : null;
     }
 

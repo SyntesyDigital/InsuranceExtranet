@@ -23,6 +23,7 @@ class LoginToken
         $this->iss = $iss ?: env('VEOS_ISS');
         $this->key = $key ?: env('VEOS_KEY');
         $this->client = new Client();
+        $this->env = request()->get('env');
 
         $this->testMode = substr(strtolower($this->login), -4) == '-dev' ? true : false;
         $this->recMode = substr(strtolower($this->login), -4) == '-rec' ? true : false;
@@ -82,6 +83,6 @@ class LoginToken
             return VeosWsUrl::test();
         }
 
-        return VeosWsUrl::prod();
+        return VeosWsUrl::get($this->env);
     }
 }
