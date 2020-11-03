@@ -9,6 +9,7 @@ import {
 } from './../constants';
 import { value } from 'jsonpath';
 
+import { isDefined } from './parameters';
 
 /**
 *   Check if field is visible depending on visibility conditionals.
@@ -18,17 +19,37 @@ import { value } from 'jsonpath';
 type_pol = [true,false,]
 
 */
-export function isVisible(field,formParameters,values) {
+export function isVisible(field,formParameters,values,stageParameter) {
 
   ////console.log("isVisible :: ",field,formParameters,values);
   if(values === undefined)
     return false;
 
-  var visible = checkConditionalVisiblity(field,formParameters,values);
+  if(stageParameter != null){
+    return checkStageVisibility(field,formParameters,stageParameter);
+  }
 
-  return visible;
-
+  return checkConditionalVisiblity(field,formParameters,values);
   
+}
+
+function checkStageVisibility(field,formParameters,stageParameter) {
+    console.log("checkStageVisibility :: ",field,formParameters,stageParameter);
+
+    if(isDefined(field.settings.stage)){
+        var rowStage = field.settings.stage;
+        if(isDefined(formParameters['_'+stageParameter])){
+          //row is visible if stage is the same of form paramters
+          var currentStage = formParameters['_'+stageParameter];
+          return currentStage == rowStage;
+        }
+        else {
+          console.error("checkStageVisibility : formParameters[stageParameter] not defined.");
+          return true;
+        }
+    }
+    //if stage not defined, is visible by default
+    return true;
 }
 
 function checkConditionalVisiblity(field,formParameters,values) {

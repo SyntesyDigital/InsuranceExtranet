@@ -89,12 +89,19 @@ export default class StageButton extends Component {
     switch(this.state.type){
 
       case 'btn-prev':
-      case 'btn-next':
         //process operation
         var value = this.processOperation();
 
         //send event to change stage
         this.props.onStageChange(value);
+        break;
+
+      case 'btn-next':
+        //process operation
+        var value = this.processOperation();
+
+        //send event to change stage with validate
+        this.props.onStageChange(value,true);
         break;
 
       case 'btn-submit':

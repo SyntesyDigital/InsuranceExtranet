@@ -324,6 +324,15 @@ class ModalEditClass extends Component {
           fields={this.props.fields}
         />
         
+        <InputSettingsField
+          field={data}
+          name="stage"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Étape"
+          inputLabel={'Sélectionnez la étape. ( visibilité automatique )'}
+        />
+
       </div>
     );
   }

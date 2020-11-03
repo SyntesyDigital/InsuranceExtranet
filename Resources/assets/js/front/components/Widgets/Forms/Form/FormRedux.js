@@ -19,7 +19,8 @@ import {
     parameteres2Array,
     isVisible,
     getUrlParameters,
-    isDefined
+    isDefined,
+    getFieldsByStage
 } from '../functions';
 
 import {
@@ -71,7 +72,8 @@ class FormComponent extends Component {
 
             hasStages : hasStages,
             stageParameter : stageParameter,
-            currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage
+            currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage,
+            fieldsByStage : {}  //object with all fields sorted by stage config
         };
 
         this.props.initParametersState(parametersObject);
@@ -112,9 +114,13 @@ class FormComponent extends Component {
     loadTemplate(template) {
         api.elementTemplates.get(template)
             .then(response => {
+
+                var layout = JSON.parse(response.data.elementTemplate.layout);
+
                 this.setState({
-                    layout: JSON.parse(response.data.elementTemplate.layout),
-                    templateLoaded: true
+                    layout: layout,
+                    templateLoaded: true,
+                    fieldsByStage : getFieldsByStage(layout)
                 });
             });
     }
@@ -236,14 +242,25 @@ class FormComponent extends Component {
         });
     }
 
-    handleStageChange(stage) {
+    handleStageChange(stage,validate) {
+
+        var validate = isDefined(validate) ? validate : false;
 
         if(stage == null){
             console.error("Stage Button Click error : stage not defined.");
             return;
         }
         
-        //validate stage
+        if(validate){
+            //validate stage
+            const hasErrors = this.validateFields();
+
+            if (hasErrors) {
+                toastr.error('Vous devez remplir tous les champs obligatoires.');
+                //console.log("handleSubmit :: Form has errors");
+                return;
+            }
+        }
 
         var self = this;
 
@@ -437,7 +454,8 @@ class FormComponent extends Component {
         var visibility = isVisible(
             field,
             this.props.parameters.formParameters,
-            this.state.values
+            this.state.values,
+            this.state.stageParameter
         );
 
         //console.log("checkVisibility :: (field,parameters,values,return)",field,this.props.parameters.formParameters,this.state.values,visibility);
@@ -563,12 +581,24 @@ class FormComponent extends Component {
             return {};
         }
 
-        var fields = [];
+        var fields = this.state.elementObject.fields;
+        
+        if(this.state.hasStages ){
+            if(isDefined(this.state.fieldsByStage[this.state.currentStage])){
+                fields = this.state.fieldsByStage[this.state.currentStage];
+            }
+            else {
+                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,this.state.currentStage)
+            }
+        }
+
+        console.log("validateFields : grupo de fields a validar : ",fields);
+
         var errors = {};
         var hasErrors = false;
 
-        for (var key in this.state.elementObject.fields) {
-            var field = this.state.elementObject.fields[key];
+        for (var key in fields) {
+            var field = fields[key];
 
             var valid = validateField(field, this.state.values);
             var visible = isVisible(field, this.props.parameters.formParameters, this.state.values);
