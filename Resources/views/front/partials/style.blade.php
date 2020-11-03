@@ -456,6 +456,7 @@
     $titleColorFormStage = isset($storedStylesFront['titleColorFormStage']) ? $storedStylesFront['titleColorFormStage']->value : '#fff';
     $titleLineHeightFormStage = isset($storedStylesFront['titleLineHeightFormStage']) ? $storedStylesFront['titleLineHeightFormStage']->value.'px' : '25px';
     $titlePaddingFormStage = isset($storedStylesFront['titlePaddingFormStage']) ? $storedStylesFront['titlePaddingFormStage']->value.'px' : '15px';
+    $titleFontSizeFormStage = isset($storedStylesFront['titleFontSizeFormStage']) ? $storedStylesFront['titleFontSizeFormStage']->value.'px' : '24px';
 
     $colorPrevBtnStepper = isset($storedStylesFront['colorPrevBtnStepper']) ? $storedStylesFront['colorPrevBtnStepper']->value : '#A8A8A8';
     $colorHoverPrevBtnStepper = isset($storedStylesFront['colorHoverPrevBtnStepper']) ? $storedStylesFront['colorHoverPrevBtnStepper']->value : '#A8A8A8';
