@@ -71,7 +71,7 @@
 
             @if(get_config('ON_LOGIN_TRIGGER_FORM')) 
                 @include ('extranet::front.partials.widgets.form_submit_trigger', [
-                    'formId' => 141
+                    'formId' => get_config('ON_LOGIN_TRIGGER_FORM')
                 ])
             @endif
         @endif

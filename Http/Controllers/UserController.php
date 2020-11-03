@@ -8,18 +8,30 @@ use Datatables;
 use Illuminate\Http\Request;
 use Lang;
 use Modules\Extranet\Entities\User;
+use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
+use Modules\Extranet\Jobs\User\PasswordUpdate;
+use Modules\Extranet\Jobs\User\Session\SaveTriggeredForm;
 use Modules\Extranet\Jobs\User\SessionUpdate;
 use Modules\Extranet\Repositories\UserRepository;
-
-use Modules\Extranet\Http\Requests\User\SavePasswordRequest;
-use Modules\Extranet\Jobs\User\PasswordUpdate;
 
 class UserController extends Controller
 {
     public function __construct(UserRepository $users)
     {
         $this->users = $users;
+    }
+
+    public function setTriggeredForms(Request $request)
+    {
+        //try {
+        $this->dispatchNow(SaveTriggeredForm::fromRequest($request));
+        // } catch (\Exception $ex) {
+        // }
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 
     public function setUserSession(UpdateSessionRequest $request)

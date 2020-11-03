@@ -2,14 +2,12 @@
 
 namespace Modules\Extranet\Jobs\User;
 
+use Auth;
 use Config;
 use Modules\Extranet\Http\Requests\User\UpdateSessionRequest;
 use Modules\Extranet\Repositories\BobyRepository;
 use Modules\Extranet\Repositories\UserRepository;
 use Session;
-use Modules\Extranet\Extensions\VeosWsUrl;
-use Modules\Extranet\Jobs\User\GetAllowedPages;
-use Auth;
 
 class SessionUpdate
 {
@@ -36,7 +34,6 @@ class SessionUpdate
         }
 
         $userData->session_id = $this->attributes['session_id'];
-        
 
         //update role for session role
         $userData->role = $this->processMainRole($sessionInfo);
@@ -48,13 +45,13 @@ class SessionUpdate
         $userData->permissions = $service->getPermissionsFromRoleId($userData->role);
 
         $userRepository = new UserRepository();
-        
+
         $veosRoleAndPermissions = $userRepository->getRoleAndPermissions(
             Auth::user()->token,
             Auth::user()->env,
             $this->attributes['session_id']
         );
-        
+
         $userData->veos_role = $veosRoleAndPermissions['role'];
         $userData->veos_roles = $veosRoleAndPermissions['roles'];
         $userData->veos_permissions = $veosRoleAndPermissions['permissions'];
@@ -77,7 +74,7 @@ class SessionUpdate
     }
 
     /**
-     * This method dones't work because allowed pages can be null if not defined. 
+     * This method dones't work because allowed pages can be null if not defined.
      * And home can be accessible a part from being or not into allowed pages.
      */
     private function getRedirectPage($role, $allowedPages)
