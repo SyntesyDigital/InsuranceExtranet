@@ -88,15 +88,40 @@ export default class TimeLine extends Component {
         }
     }
 
+    renderFields(){
+        for (var key in elementObject.fields) {
+            var identifier = elementObject.fields[key].identifier;
+            console.log("identifier :: ", identifier);
+            if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
+                file = this.renderField(item, identifier, elementObject.fields[key]);
+                isFile = true;
+            }
+            else {
+                steps.push(
+                    <Step
+                        expanded={true}
+                        key={key}
+                    >
+                        <StepLabel>{this.renderField(item, identifier, elementObject.fields[key])}</StepLabel>
+                        <StepContent>
+                            <Typography>{this.renderField(item, identifier, elementObject.fields[key])}</Typography>
+                        </StepContent>
+                    </Step>
+                );
+            }
+        }
+    }
+
 
     renderItem(item, elementObject) {
 
         var file = null;
         var steps = [];
 
+
         for (var key in elementObject.fields) {
             var identifier = elementObject.fields[key].identifier;
-            console.log("identifier :: " , identifier);
+            console.log("identifier :: ", identifier);
             if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
                 file = this.renderField(item, identifier, elementObject.fields[key]);
                 isFile = true;
@@ -123,18 +148,6 @@ export default class TimeLine extends Component {
                 orientation="vertical">
                 {steps}
             </Stepper>
-            // <div>
-            //     <div className={"file-infos-container " + (file == null ? 'no-document' : '')}>
-            //         {file != null &&
-            //             <div className={"file-icon "}>
-            //                 {file}
-            //             </div>
-            //         }
-            //         <div className="file-infos">
-            //             {infos}
-            //         </div>
-            //     </div>
-            // </div>
         );
     }
 
