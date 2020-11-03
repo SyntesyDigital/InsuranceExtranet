@@ -50,6 +50,7 @@ require('./components/Widgets/ActionNotification/ActionNotification');
 require('./components/Widgets/StageManager/StepperList');
 require('./components/Widgets/StageManager/Step');
 require('./components/Widgets/Stepper');
+require('./components/Widgets/ContactInfo');
 
 
 

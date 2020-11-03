@@ -19,7 +19,7 @@ class SignInWhenToken
         $token = $request->get('token');
         $provider = $request->get('provider') ?: 'veos';
 
-        if ($request->get('jeton')) {
+        if ($request->get('jeton') || $request->get('j')) {
             $provider = 'april';
             $token = $request->get('j') ?: $request->get('jeton');
         }
