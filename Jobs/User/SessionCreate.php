@@ -103,6 +103,7 @@ class SessionCreate
             'veos_role' => $veosRoleAndPermissions['role'],
             'veos_roles' => $veosRoleAndPermissions['roles'],
             'veos_permissions' => $veosRoleAndPermissions['permissions'],
+            'triggered_forms' => [],
         ];
 
         // Merge constructor passed parameters to session

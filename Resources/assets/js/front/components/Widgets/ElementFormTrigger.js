@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 import FormSubmitTrigger from './Forms/Form/FormSubmitTrigger/FormSubmitTrigger';
 
 import {
@@ -14,18 +13,19 @@ export default class ElementFormTrigger extends Component {
         super(props);
     }
 
-    handleFormFinished(params) {
-        //TODO do something when form finish
-        
+    handleFormFinished() {
+        axios.post(ASSETS+'user/session/triggered-form',{
+            'id' : this.props.elementObject.id
+        });
     }
 
     render() {
         return (
-          <FormSubmitTrigger
-            elementObject={this.props.elementObject}
-            parameters={this.props.parameters}
-            onFormFinished={this.handleFormFinished.bind(this)}
-          />
+            <FormSubmitTrigger
+                elementObject={this.props.elementObject}
+                parameters={this.props.parameters}
+                onFormFinished={this.handleFormFinished.bind(this)}
+            />
         );
     }
 }

@@ -62,7 +62,6 @@ class FormSubmitTriggerRedux extends Component {
     *  The url comes from the field, and is necessary to add all route parameters, + modal parameters + response parameters
     */
     handleFinish() {
-        alert('ok?');
         this.props.onFormFinished(this.props.parameters.formParameters);
     }
 
