@@ -25,6 +25,8 @@ export default class SearchTopBar extends Component {
         let query = event.target.value;
         let self = this;
 
+        clearTimeout(this.state.timer);
+
         const timer = () => {
             return setTimeout(function (){
                 axios.get('/search?q=' + query)
@@ -34,10 +36,6 @@ export default class SearchTopBar extends Component {
                         });
                     });
             }, 500);
-        }
-
-        if(query.length >= 3) {
-            clearTimeout(this.state.timer);    
         }
 
         this.setState({
