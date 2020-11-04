@@ -11,7 +11,8 @@ export default class SearchTopBar extends Component {
         this.state = {
             display: false,
             valueSearch: '',
-            results: []
+            results: [],
+            timer: null,
         };
     }
 
@@ -21,20 +22,29 @@ export default class SearchTopBar extends Component {
     // ==============================
 
     handleChange(event) {
-        let valueSearch = event.target.value;
-        this.setState({
-            valueSearch: valueSearch,
-            display: true
-        });
+        let query = event.target.value;
+        let self = this;
 
-        if(valueSearch.length >= 1) {
-            axios.get('/search?q=' + valueSearch)
-                .then(response => {
-                    this.setState({
-                        results: response.data.data
+        const timer = () => {
+            return setTimeout(function (){
+                axios.get('/search?q=' + query)
+                    .then(response => {
+                        self.setState({
+                            results: response.data.data
+                        });
                     });
-                });
+            }, 500);
         }
+
+        if(query.length >= 3) {
+            clearTimeout(this.state.timer);    
+        }
+
+        this.setState({
+            valueSearch: query,
+            display: true,
+            timer: query.length >= 3 ? timer() : null
+        });
     }
 
     handleModalClose() {

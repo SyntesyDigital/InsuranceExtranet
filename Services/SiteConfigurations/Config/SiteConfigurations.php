@@ -62,6 +62,29 @@ return [
       // -----------------------------------------------------------------//
       //      LEFT COL
       // -----------------------------------------------------------------//
+      // GENERAL
+      [
+        'type' => 'box',
+        'title' => 'Générale',
+        'identifier' => 'box_general',
+        'children' => [
+          [
+            'type' => 'col',
+            'class' => 'col-md-12',
+            'children' => [
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'SEARCH_MAX_RESULTS',
+                'name' => 'SEARCH_MAX_RESULTS',
+                'label' => 'Rercherche : Nombre de résultat maximum par section',
+              ],
+            ], //end children col
+          ],
+        ], //en children box
+      ], //end GENERAL
+
+      // WS
       [
         'type' => 'box',
         'title' => 'App WS',

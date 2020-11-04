@@ -28,21 +28,17 @@ export default class ModalSearch extends Component {
     }
 
     parseResults(results) {
-
-        let arr = [];
+        let arr = {};
 
         results.map(row => {
             let key = row.category;
-            
-            if(typeof arr[key] === undefined) {
-                arr[key] = [row];
-            } else {
-                arr[key].push(row);
-            }
-        });
 
-        console.log('RESULTS ===>', results);
-        console.log('ARR ===>', arr);
+            if(typeof arr[key] === 'undefined') {
+                arr[key] = [];
+            } 
+
+            arr[key].push(row);
+        });
 
         return arr;
     }
@@ -75,6 +71,7 @@ export default class ModalSearch extends Component {
                 <div className="col-xs-12 results">
                     <ModalResults 
                         results={this.parseResults(this.props.results)}
+                        valueSearch={this.props.valueSearch}
                     />
                 </div>
             </Modal>
