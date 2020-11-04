@@ -231,6 +231,7 @@ Route::group([
     'namespace' => 'Modules\Extranet\Http\Controllers',
 ], function () {
     Route::post('/user/session/renew', 'UserController@setUserSession')->name('session.update');
+    Route::post('/user/session/triggered-form', 'UserController@setTriggeredForms')->name('session.triggered-form');
     Route::post('/modal/update-password', 'UserController@updatePassword')->name('modal.update-password');
 
     Route::get(LaravelLocalization::transRoute('routes.category.index'), 'CategoryController@index')->name('blog.category.index');

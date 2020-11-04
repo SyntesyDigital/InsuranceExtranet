@@ -8,7 +8,6 @@ use Modules\Extranet\Entities\Session as UserSession;
 use Modules\Extranet\Entities\User;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Modules\Extranet\Repositories\UserRepository;
-use Modules\Extranet\Jobs\User\GetAllowedPages;
 
 class SessionCreate
 {
@@ -77,7 +76,7 @@ class SessionCreate
             $veosRoleAndPermissions['role'],
             $veosRoleAndPermissions['permissions']
         ))->handle();
-        
+
         $service = resolve('Services/RolesPermissions');
         $idPer = isset($user->{'USEREXT.id_per'}) ? $user->{'USEREXT.id_per'} : null;
 
@@ -104,6 +103,7 @@ class SessionCreate
             'veos_role' => $veosRoleAndPermissions['role'],
             'veos_roles' => $veosRoleAndPermissions['roles'],
             'veos_permissions' => $veosRoleAndPermissions['permissions'],
+            'triggered_forms' => [],
         ];
 
         // Merge constructor passed parameters to session
@@ -144,15 +144,13 @@ class SessionCreate
      */
     private function getSessionApiToken($idPer)
     {
-        
         $user = User::where('id_per', $idPer)->first();
 
-        if(isset($idPer) && isset($user)){
-            
+        if (isset($idPer) && isset($user)) {
             $userSession = $user->session()->first();
-            if(isset($userSession) && isset($userSession->api_token)){
+            if (isset($userSession) && isset($userSession->api_token)) {
                 return $userSession->api_token;
-            }   
+            }
         }
         //else return a new token
         return bin2hex(random_bytes(64));
@@ -181,7 +179,7 @@ class SessionCreate
         }
 
         $userSession = UserSession::where('user_id', $user->id)->first();
-        if(!$userSession) {
+        if (!$userSession) {
             //create session
 
             $userSession = UserSession::create([
@@ -194,8 +192,7 @@ class SessionCreate
                 'language' => 'fr',
                 'payload' => json_encode($userData),
             ]);
-        }
-        else {
+        } else {
             //update session
             $userSession->update([
                 'id' => $userSession->id,
@@ -209,7 +206,7 @@ class SessionCreate
                 'payload' => json_encode($userData),
             ]);
         }
-        
+
         return $userSession;
     }
 

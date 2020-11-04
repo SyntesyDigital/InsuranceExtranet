@@ -53,6 +53,7 @@
     "graphql": "^14.5.8",
     "immutability-helper": "^2.9.1",
     "install": "^0.12.2",
+    "js-cookie": "^2.2.1",
     "jsonpath": "^1.0.2",
     "jsx-to-string": "^1.4.0",
     "lang.js": "^1.1.14",
