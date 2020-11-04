@@ -34,7 +34,7 @@ export default class TimeLine extends Component {
     }
 
     renderField(item, identifier, field) {
-        console.log("renderfield :: ", item, identifier, field);
+
         var value = item[identifier];
         var hasIcon = hasConditionalIcon(field, value);
 
@@ -88,66 +88,39 @@ export default class TimeLine extends Component {
         }
     }
 
-    renderFields(){
-        for (var key in elementObject.fields) {
-            var identifier = elementObject.fields[key].identifier;
-            console.log("identifier :: ", identifier);
-            if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
-                file = this.renderField(item, identifier, elementObject.fields[key]);
-                isFile = true;
-            }
-            else {
-                steps.push(
-                    <Step
-                        expanded={true}
-                        key={key}
-                    >
-                        <StepLabel>{this.renderField(item, identifier, elementObject.fields[key])}</StepLabel>
-                        <StepContent>
-                            <Typography>{this.renderField(item, identifier, elementObject.fields[key])}</Typography>
-                        </StepContent>
-                    </Step>
-                );
-            }
-        }
-    }
-
 
     renderItem(item, elementObject) {
 
         var file = null;
-        var steps = [];
-
+        var infos = [];
 
         for (var key in elementObject.fields) {
             var identifier = elementObject.fields[key].identifier;
-            console.log("identifier :: ", identifier);
+
             if (elementObject.fields[key].type == 'file' || elementObject.fields[key].type == "file_ws_fusion") {
                 file = this.renderField(item, identifier, elementObject.fields[key]);
                 isFile = true;
             }
             else {
-                steps.push(
-                    <Step
-                        expanded={true}
-                        key={key}
-                    >
-                        <StepLabel>{this.renderField(item, identifier, elementObject.fields[key])}</StepLabel>
-                        <StepContent>
-                            <Typography>{this.renderField(item, identifier, elementObject.fields[key])}</Typography>
-                        </StepContent>
-                    </Step>
+                infos.push(
+                    this.renderField(item, identifier, elementObject.fields[key])
                 );
             }
         }
-        console.log("steps", steps)
+        console.log("infos", infos)
 
         return (
-            <Stepper
-                activeStep={this.state.activeStep}
-                orientation="vertical">
-                {steps}
-            </Stepper>
+            <Step
+                expanded={true}
+                key={key}
+            >
+                <StepLabel>{'text'}</StepLabel>
+                <StepContent>
+                    <Typography>
+                        {infos}
+                    </Typography>
+                </StepContent>
+            </Step>
         );
     }
 
@@ -156,18 +129,22 @@ export default class TimeLine extends Component {
         return (
             <div>
                 <Demo></Demo>
-                <ListParser
-                    customClass="timeline-container"
-                    field={this.props.field}
-                    elementObject={this.props.elementObject}
-                    model={this.props.model}
-                    pagination={this.props.pagination}
-                    itemsPerPage={this.props.itemsPerPage}
-                    columns={this.props.columns}
-                    parameters={this.props.parameters}
-                    renderItem={this.renderItem.bind(this)}
-                    identifier={'timeline-field'}
-                />
+                <Stepper
+                    activeStep={this.state.activeStep}
+                    orientation="vertical">
+                    <ListParser
+                        customClass="timeline-container"
+                        field={this.props.field}
+                        elementObject={this.props.elementObject}
+                        model={this.props.model}
+                        pagination={this.props.pagination}
+                        itemsPerPage={this.props.itemsPerPage}
+                        columns={this.props.columns}
+                        parameters={this.props.parameters}
+                        renderItem={this.renderItem.bind(this)}
+                        identifier={'timeline-field'}
+                    />
+                </Stepper>
             </div>
         );
     }
