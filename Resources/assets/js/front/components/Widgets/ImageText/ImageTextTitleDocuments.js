@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { ButtonSecondary } from "architect-components-library";
-import iconSvg from './assets/img/bulle-bleue.svg';
 
 export default class ImageTextTitleDocuments extends Component {
 
@@ -10,29 +8,34 @@ export default class ImageTextTitleDocuments extends Component {
         moment.locale(LOCALE);
     }
 
-    processText(fields, index) {
+    processTitle(fields, index) {
         return fields[index].value != null && fields[index].value[LOCALE] !== undefined ?
             fields[index].value[LOCALE] : '';
     }
-    processDesc(fields, index) {
+    processDescription(fields, index) {
         return fields[index].value != null && fields[index].value[LOCALE] != null ?
             fields[index].value[LOCALE] : "";
     }
-    processTitleLink(fields, index) {
+    processTitleDoc(fields, index) {
         return fields[index].value != null && fields[index].value != null ? fields[index].value[LOCALE]
-            : '';          
+            : '';
     }
-    processTitleLink2(fields, index) {
+    processLinkDoc(fields, index) {
+        return fields[index].value != null && fields[index].value.content != null ? fields[index].value.content.url
+            : fields[index].value != null && fields[index].value.url != null ? fields[index].value.url[LOCALE]
+                : '';
+    }
+    processTitleButton(fields, index) {
         return fields[index].value != null && fields[index].value.title != null ? fields[index].value.title[LOCALE]
-            : '';          
+            : '';
     }
     processLink(fields, index) {
         return fields[index].value != null && fields[index].value.content != null ? fields[index].value.content.url
             : fields[index].value != null && fields[index].value.url != null ? fields[index].value.url[LOCALE]
                 : '';
     }
-    processLink2(fields, index) {
-    
+    processLinkButton(fields, index) {
+
         return fields[index].value != null && fields[index].value.content != null ? fields[index].value.content.url
             : fields[index].value != null && fields[index].value.url != null ? fields[index].value.url[LOCALE]
                 : '';
@@ -55,28 +58,31 @@ export default class ImageTextTitleDocuments extends Component {
 
     processFile(fields, index) {
         return fields[index].value != null ? fields[index].value.urls.files
-        : '';          
+            : '';
     }
 
     render() {
-        
+
         const fields = this.props.field.fields;
-        console.log(fields)
         const image = this.processImage(fields, 0);
-        const title = this.processText(fields, 1);
-        const titleLink = this.processTitleLink(fields, 2);
-        const link = this.processLink(fields, 2);
-        const titleLink2 = this.processTitleLink2(fields, 3);
-        const link2 = this.processLink2(fields, 3);
-        const desc = this.processDesc(fields, 4).replace(/(<([^>]+)>)/ig, '');
-        const fileLink = this.processFile(fields, 5);
-        
+        const title = this.processTitle(fields, 1);
+        const titleDoc = this.processTitleDoc(fields, 2);
+        const linkDoc = this.processLinkDoc(fields, 3);
+        const titleButton = this.processTitleButton(fields, 4);
+        const linkButton = this.processLinkButton(fields, 4);
+        const description = this.processDescription(fields, 5).replace(/(<([^>]+)>)/ig, '');
+        const linkFile = this.processFile(fields, 6);
+
+        const hasUrlDoc = fields[3].value != null && fields[3].value.content != null ? true
+            : fields[3].value != null && fields[3].value.url != null ? true
+                : false;
+
         return (
             <div className="container-image-text-title-documents">
                 <div className="container-image">
                     {image ? <img src={'/' + image} width="100%" /> : null}
-                    <a href={ASSETS + fileLink} className="btn btn-primary">
-                        <h5>{titleLink}</h5>
+                    <a href={hasUrlDoc ? linkDoc : (ASSETS + linkFile)} className="btn btn-primary">
+                        <h5>{titleDoc}</h5>
                     </a>
                 </div>
                 <div className="container-title">
@@ -85,10 +91,10 @@ export default class ImageTextTitleDocuments extends Component {
                     </h4>
                 </div>
                 <div className="container-description">
-                    {desc}
+                    {description}
                 </div>
                 <div className="buttons-group text-center">
-                    <a href={link2} className="btn btn-default"><h5>{titleLink2}</h5></a>
+                    <a href={linkButton} className="btn btn-default"><h5>{titleButton}</h5></a>
                 </div>
             </div>
         );
