@@ -16,11 +16,12 @@ export default class Label extends Component {
     };
 
     const divStyle = {};
+    const type= this.props.type ? this.props.type : '' ;
 
     return (
 
       <div style={divStyle}>
-        <div className={"row "+this.props.textAlign}>
+        <div className={"row "+this.props.textAlign+" "+type}>
           <h3 style={textStyle} className={this.props.border ? 'non-bordered' : null}>
             {this.props.text}
           </h3>

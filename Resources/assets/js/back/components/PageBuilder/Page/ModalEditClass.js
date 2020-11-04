@@ -168,6 +168,10 @@ class ModalEditClass extends Component {
   getBoxClassOptions(){
     return [
       {
+        value: "",
+        name: 'Sélectionnez',
+      },
+      {
         value: "box-class-1",
         name: 'box-class-1',
       },
@@ -320,6 +324,15 @@ class ModalEditClass extends Component {
           fields={this.props.fields}
         />
         
+        <InputSettingsField
+          field={data}
+          name="stage"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label="Étape"
+          inputLabel={'Sélectionnez la étape. ( visibilité automatique )'}
+        />
+
       </div>
     );
   }

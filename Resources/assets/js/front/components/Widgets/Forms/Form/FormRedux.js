@@ -7,6 +7,9 @@ import ImageField from './../../ElementCard/fields/ImageField';
 import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
+import StageButton from './../fields/StageButton';
+
+import EventBus from './../../../../../services/EventBus';
 
 import LayoutParser from './../../ElementCard/LayoutParser';
 
@@ -16,6 +19,8 @@ import {
     parameteres2Array,
     isVisible,
     getUrlParameters,
+    isDefined,
+    getFieldsByStage
 } from '../functions';
 
 import {
@@ -24,7 +29,8 @@ import {
     loadProcedures,
     initProceduresIteration,
     updateParametersFromParent,
-    startValidation
+    startValidation,
+    updateStageParameter
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
@@ -44,6 +50,14 @@ class FormComponent extends Component {
         //if parent parameters defined update
         parametersObject = this.updateFormParentParemeters(props.parentFormParameters, parametersObject);
 
+        var hasStages = isDefined(props.hasStages) ? props.hasStages : false;
+        var initStage = isDefined(props.initStage) ? props.initStage : 1;
+        var stageParameter = isDefined(props.stageParameter) ? props.stageParameter : null;
+
+        if(hasStages){
+           parametersObject = this.updateParametersFromStage(parametersObject,initStage,stageParameter);
+        }
+
         this.state = {
             elementObject: props.elementObject,
             values: this.initValues(props.elementObject),
@@ -54,7 +68,12 @@ class FormComponent extends Component {
             layout: null,
             templateLoaded: props.template ? false : true,
             sendingPreload: false,
-            preloadFinish: false
+            preloadFinish: false,
+
+            hasStages : hasStages,
+            stageParameter : stageParameter,
+            currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage,
+            fieldsByStage : {}  //object with all fields sorted by stage config
         };
 
         this.props.initParametersState(parametersObject);
@@ -62,6 +81,24 @@ class FormComponent extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
 
         this.props.loadProcedures(props.elementObject.model_identifier);
+    }
+
+    /**
+     * If has stages then is necssary to update the form paramters with init value
+     */
+    updateParametersFromStage(parametersObject,initStage,stageParameter) {
+
+        if(stageParameter == null){
+            console.error("Staged form : stageParameter is not defined. Please fill 'Paramètrè de l'etape' into the Staged Form widget")
+            return parametersObject;
+        }
+
+        //if parameters is not defined by url or by other component
+        if(!isDefined(parametersObject[stageParameter])){
+            parametersObject[stageParameter] = initStage;
+        }
+        
+        return parametersObject;
     }
 
     componentDidMount() {
@@ -77,9 +114,13 @@ class FormComponent extends Component {
     loadTemplate(template) {
         api.elementTemplates.get(template)
             .then(response => {
+
+                var layout = JSON.parse(response.data.elementTemplate.layout);
+
                 this.setState({
-                    layout: JSON.parse(response.data.elementTemplate.layout),
-                    templateLoaded: true
+                    layout: layout,
+                    templateLoaded: true,
+                    fieldsByStage : getFieldsByStage(layout)
                 });
             });
     }
@@ -201,6 +242,47 @@ class FormComponent extends Component {
         });
     }
 
+    handleStageChange(stage,validate) {
+
+        var validate = isDefined(validate) ? validate : false;
+
+        if(stage == null){
+            console.error("Stage Button Click error : stage not defined.");
+            return;
+        }
+        
+        if(validate){
+            //validate stage
+            const hasErrors = this.validateFields();
+
+            if (hasErrors) {
+                toastr.error('Vous devez remplir tous les champs obligatoires.');
+                //console.log("handleSubmit :: Form has errors");
+                return;
+            }
+        }
+
+        var self = this;
+
+        EventBus.publish('STAGE_UPDATE',{
+            parameter : this.state.stageParameter,
+            stage : stage
+        });
+
+
+        this.setState({
+            currentStage : stage
+        },function(){
+            //update form parameters
+            self.props.updateStageParameter(
+                self.state.stageParameter,
+                stage,
+                self.props.parameters.formParameters
+            );
+        });
+
+    }
+
 
     hasTemplate() {
         if (this.state.templateLoaded && this.state.layout != null) {
@@ -317,6 +399,7 @@ class FormComponent extends Component {
                         key={key}
                         text={node.field.value.fr}
                         textAlign={textAlign}
+                        type={'form-label'}
                     />
                 );
 
@@ -347,6 +430,18 @@ class FormComponent extends Component {
                         field={node.field}
                     />
                 );
+
+            case 'link':
+                return (
+                    <StageButton
+                        key={key}
+                        field={node.field}
+                        onStageChange={this.handleStageChange.bind(this)}
+                        onSubmit={this.handleSubmit.bind(this, this.props.id)}
+                        values={this.state.values}
+                        formParameters={this.props.parameters.formParameters}
+                    />
+                );
         }
     }
 
@@ -360,7 +455,8 @@ class FormComponent extends Component {
         var visibility = isVisible(
             field,
             this.props.parameters.formParameters,
-            this.state.values
+            this.state.values,
+            this.state.stageParameter
         );
 
         //console.log("checkVisibility :: (field,parameters,values,return)",field,this.props.parameters.formParameters,this.state.values,visibility);
@@ -486,12 +582,24 @@ class FormComponent extends Component {
             return {};
         }
 
-        var fields = [];
+        var fields = this.state.elementObject.fields;
+        
+        if(this.state.hasStages ){
+            if(isDefined(this.state.fieldsByStage[this.state.currentStage])){
+                fields = this.state.fieldsByStage[this.state.currentStage];
+            }
+            else {
+                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,this.state.currentStage)
+            }
+        }
+
+        console.log("validateFields : grupo de fields a validar : ",fields);
+
         var errors = {};
         var hasErrors = false;
 
-        for (var key in this.state.elementObject.fields) {
-            var field = this.state.elementObject.fields[key];
+        for (var key in fields) {
+            var field = fields[key];
 
             var valid = validateField(field, this.state.values);
             var visible = isVisible(field, this.props.parameters.formParameters, this.state.values);
@@ -570,6 +678,32 @@ class FormComponent extends Component {
         return this.props.preload.done && this.state.templateLoaded
     }
 
+    renderSubmitButton() {
+
+        //if has stages submit button is added directy to layout, then listen to bnt-submit click
+        if(this.state.hasStages){
+            return (
+                <div style={{height:30}}></div>
+            );
+        }
+
+        return (
+            <div className={"element-form-row " + (this.props.isFormPreload ? 'preload-form' : '')}>
+                <div className="col-md-12 buttons">
+                    <button
+                        className={"btn " + (!this.props.isFormPreload ? "btn-primary" : "btn-secondary")}
+                        type="submit"
+                        disabled={this.props.form.processing}
+                    >
+                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
+
+                        {(!this.props.isFormPreload ? "Valider" : "Précharger")}
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     render() {
 
         const loaded = this.isLoaded();
@@ -610,24 +744,7 @@ class FormComponent extends Component {
 
                         {this.renderItems()}
 
-                        <div className={"element-form-row " + (this.props.isFormPreload ? 'preload-form' : '')}>
-
-                            <div className="col-md-12 buttons">
-                                <button
-                                    className={"btn " + (!this.props.isFormPreload ? "btn-primary" : "btn-secondary")}
-                                    type="submit"
-                                    disabled={this.props.form.processing}
-                                >
-                                    <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
-
-                                    {(!this.props.isFormPreload ? "Valider" : "Précharger")}
-                                </button>
-                                {/*
-                        <a className="btn btn-back left"><i className="fa fa-angle-left"></i> Retour</a>
-                        */}
-                            </div>
-                        </div>
-
+                        {this.renderSubmitButton()}
                     </form>
                 }
             </div>
@@ -663,7 +780,10 @@ const mapDispatchToProps = dispatch => {
         },
         updateParametersFromParent: (parentParameters, formParameters) => {
             return dispatch(updateParametersFromParent(parentParameters, formParameters))
-        }
+        },
+        updateStageParameter : (identifier,stage,formParameters) => {
+            return dispatch(updateStageParameter(identifier,stage,formParameters))
+        },
     }
 }
 

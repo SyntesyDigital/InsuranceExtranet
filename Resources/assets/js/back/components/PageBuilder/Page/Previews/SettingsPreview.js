@@ -18,7 +18,7 @@ class SettingsPreview extends Component {
 				for(var key in field.settings){
 					if(field.settings[key] != null && field.settings[key] != false){
 						configured = true;
-						if(key == "conditionalVisibility" || key == "hiddenFilter" ){
+						if(key == "conditionalVisibility" || key == "hiddenFilter" || key == "stage" ){
 							visible = true;
 						}
 					}

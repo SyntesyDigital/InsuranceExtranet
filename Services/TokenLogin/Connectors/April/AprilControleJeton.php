@@ -32,8 +32,8 @@ class AprilControleJeton
     public function handle()
     {
         try {
-            // Exec query
-            $response = $this->client->post(env('APRIL_WS_SSO', 'https://sso.rec.intrapril.fr/v4/ControleJeton.asmx'), [
+            //env('APRIL_WS_SSO', 'https://sso.rec.intrapril.fr/v4/ControleJeton.asmx')
+            $response = $this->client->post(get_config('APRIL_WS_SSO'), [
                 'body' => $this->getSoapRequest(),
                 'headers' => [
                     'Content-Type' => 'application/soap+xml;charset=UTF-8',

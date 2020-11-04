@@ -246,7 +246,46 @@ return [
             ], //end children col
           ],
         ], //en children box
-      ], //end box password
+      ],
+
+        // SSO
+        [
+            'type' => 'box',
+            'title' => 'SSO',
+            'identifier' => 'box_4',
+            'children' => [
+                [
+                    'type' => 'col',
+                    'class' => 'col-sm-12 col-md-6',
+                    'children' => [
+                        [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'APRIL_WS_SSO',
+                            'name' => 'APRIL_WS_SSO',
+                            'label' => 'WS april SSO (jeton)',
+                        ],
+
+                        [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'VEOS_ISS',
+                            'name' => 'VEOS_ISS',
+                            'label' => 'Veos clé ISS',
+                        ],
+
+                        [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'VEOS_KEY',
+                            'name' => 'VEOS_KEY',
+                            'label' => 'VEOS clée privé',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        // END SSO
     ],
   ],
 
