@@ -48,6 +48,8 @@ class AprilControleJeton
             abort(505, $e->getResponse()->getBody()->getContents());
         }
 
+        dd($response->getBody()->getContents());
+
         // Response Adapter
         return new AprilResponseAdapter($this->parseSoapResponse($response->getBody()->getContents()));
     }
