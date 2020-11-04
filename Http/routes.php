@@ -250,6 +250,8 @@ Route::group([
     Route::get('js/lang-{locale}.js', 'LocalizationController@index')->name('messages');
     Route::get('js/localization-{locale}.js', 'LocalizationController@localization')->name('localization.js');
 
+    Route::get('/search', 'SearchController@search')->name('search');
+
     Route::get('/{slug}', 'ContentController@show')
       ->where('slug', '([A-Za-z0-9\-\/]+)')
       ->name('content.show');

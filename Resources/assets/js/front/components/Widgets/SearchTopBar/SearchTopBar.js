@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ModalSearch from './components/ModalSearch';
-import './SearchTopBar.scss';
 import ActionNotification from '../ActionNotification/ActionNotification';
+import './SearchTopBar.scss';
 
 export default class SearchTopBar extends Component {
+
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             display: false,
             valueSearch: '',
-        }
+            results: []
+        };
     }
+
 
     // ==============================
     // Handlers
     // ==============================
 
     handleChange(event) {
+        let valueSearch = event.target.value;
         this.setState({
-            valueSearch: event.target.value,
+            valueSearch: valueSearch,
             display: true
         });
+
+        if(valueSearch.length >= 1) {
+            axios.get('/search?q=' + valueSearch)
+                .then(response => {
+                    this.setState({
+                        results: response.data.data
+                    });
+                });
+        }
     }
 
     handleModalClose() {
@@ -29,6 +42,7 @@ export default class SearchTopBar extends Component {
             display: false,
         });
     }
+    
 
     // ==============================
     // Renderers
@@ -45,6 +59,7 @@ export default class SearchTopBar extends Component {
                     onModalClose={this.handleModalClose.bind(this)}
                     deleteButton={false}
                     valueSearch={this.state.valueSearch}
+                    results={this.state.results}
                     onChangeSearch={this.handleChange.bind(this)}
                 />
                 <label>
