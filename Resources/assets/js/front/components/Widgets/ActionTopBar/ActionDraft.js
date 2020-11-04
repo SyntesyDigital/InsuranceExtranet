@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ModalSidebar from './../ModalSidebar/ModalSidebar';
-import './ActionNotification.scss';
+import './ActionTopBar.scss';
 
 
-export default class ActionNotification extends Component {
+export default class ActionDraft extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -34,16 +34,26 @@ export default class ActionNotification extends Component {
     // ==============================
 
     render() {
+        const title = SITE_CONFIG_GENERAL.TITLE_DRAFT_BTN !== undefined
+            && SITE_CONFIG_GENERAL.TITLE_DRAFT_BTN.value !== null ?
+            SITE_CONFIG_GENERAL.TITLE_DRAFT_BTN.value
+            : '';
+
+        const wsTotal = SITE_CONFIG_GENERAL.WS_TOTAL_DRAFT_BTN !== undefined
+            && SITE_CONFIG_GENERAL.WS_TOTAL_DRAFT_BTN.value !== null ?
+            SITE_CONFIG_GENERAL.WS_TOTAL_DRAFT_BTN.value
+            : '';
+
         return (
             <div>
                 <ModalSidebar />
                 <a
                     onClick={this.handleModalSidebar.bind(this)}
                     className="tooltip-link-action"
-                    title={'Notification'}
+                    title={title}
                 >
-                    <span className="notification icon">
-                        <span className="number">6</span>
+                    <span className="draft icon">
+                        <span className="number">{wsTotal}</span>
                     </span>
                 </a>
             </div>

@@ -43,14 +43,14 @@ return [
                 'input' => 'boolean',
                 'identifier' => 'BREADCUMB_IS_ACTIVE',
                 'name' => 'BREADCUMB_IS_ACTIVE',
-                'label' => 'Disable / Enable link breadcrumbs',
+                'label' => 'Disable link breadcrumbs',
               ],
               [
                 'type' => 'field',
                 'input' => 'boolean',
                 'identifier' => 'SEARCH_IS_ACTIVE',
                 'name' => 'SEARCH_IS_ACTIVE',
-                'label' => 'Enable / Disable search top bar',
+                'label' => 'Enable search top bar',
               ],
             ], //end children col
           ],
@@ -187,7 +187,7 @@ return [
       [
         'type' => 'box',
         'title' => 'Sécurité des mot de passe',
-        'identifier' => 'box_4',
+        'identifier' => 'box_5',
         'children' => [
           [
             'type' => 'col',
@@ -252,7 +252,7 @@ return [
         [
             'type' => 'box',
             'title' => 'SSO',
-            'identifier' => 'box_4',
+            'identifier' => 'box_6',
             'children' => [
                 [
                     'type' => 'col',
@@ -281,6 +281,145 @@ return [
                             'name' => 'VEOS_KEY',
                             'label' => 'VEOS clée privé',
                         ],
+                    ],
+                ],
+            ],
+        ],
+        // END SSO
+
+         // Modal action sidebar
+         [
+            'type' => 'box',
+            'title' => "Modale coin de l'écran",
+            'identifier' => 'box_7',
+            'children' => [
+                [
+                    'type' => 'col',
+                    'class' => 'col-sm-4 col-md-4',
+                    'children' => [
+                        [
+                            'type' => 'field',
+                            'input' => 'boolean',
+                            'identifier' => 'LOCALITATION_BTN',
+                            'name' => 'LOCALITATION_BTN',
+                            'label' => 'Enable Localitation button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'TITLE_LOCALITATION_BTN',
+                            'name' => 'TITLE_LOCALITATION_BTN',
+                            'label' => 'Title localitation button tooltip',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'WS_TOTAL_LOCALITATION_BTN',
+                            'name' => 'WS_TOTAL_LOCALITATION_BTN',
+                            'label' => 'WS Total localitation button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'select',
+                            'identifier' => 'MODEL_EXECUTE_LOCALITATION',
+                            'name' => 'MODEL_EXECUTE_LOCALITATION',
+                            'label' => 'Modele à éxécuter',
+                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
+                                return [
+                                    'name' => $element->name,
+                                    'value' => $element->id,
+                                ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
+                          ],
+                    ],
+                ],
+                [
+                    'type' => 'col',
+                    'class' => 'col-sm-4 col-md-4',
+                    'children' => [
+                        [
+                            'type' => 'field',
+                            'input' => 'boolean',
+                            'identifier' => 'DRAFT_BTN',
+                            'name' => 'DRAFT_BTN',
+                            'label' => 'Enable draft button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'TITLE_DRAFT_BTN',
+                            'name' => 'TITLE_DRAFT_BTN',
+                            'label' => 'Title draft button tooltip',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'WS_TOTAL_DRAFT_BTN',
+                            'name' => 'WS_TOTAL_DRAFT_BTN',
+                            'label' => 'WS Total draft button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'select',
+                            'identifier' => 'MODEL_EXECUTE_DRAFT',
+                            'name' => 'MODEL_EXECUTE_DRAFT',
+                            'label' => 'Modele à éxécuter',
+                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
+                                return [
+                                    'name' => $element->name,
+                                    'value' => $element->id,
+                                ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
+                          ],
+                    ],
+                ],
+                [
+                    'type' => 'col',
+                    'class' => 'col-sm-4 col-md-4',
+                    'children' => [
+                        [
+                            'type' => 'field',
+                            'input' => 'boolean',
+                            'identifier' => 'NOTIFICATION_BTN',
+                            'name' => 'NOTIFICATION_BTN',
+                            'label' => 'Enable notification button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'TITLE_NOTIFICATION_BTN',
+                            'name' => 'TITLE_NOTIFICATION_BTN',
+                            'label' => 'Title notification button tooltip',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'text',
+                            'identifier' => 'WS_TOTAL_NOTIFICATION_BTN',
+                            'name' => 'WS_TOTAL_NOTIFICATION_BTN',
+                            'label' => 'WS Total notification button',
+                          ],
+                          [
+                            'type' => 'field',
+                            'input' => 'select',
+                            'identifier' => 'MODEL_EXECUTE_NOTIFICATION',
+                            'name' => 'MODEL_EXECUTE_NOTIFICATION',
+                            'label' => 'Modele à éxécuter',
+                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
+                                return [
+                                    'name' => $element->name,
+                                    'value' => $element->id,
+                                ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
+                          ],
                     ],
                 ],
             ],

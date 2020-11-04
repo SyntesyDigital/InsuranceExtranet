@@ -124,7 +124,7 @@ Modal.propTypes = {
   id: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   icon: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   display: PropTypes.bool.isRequired,
   zIndex: PropTypes.number.isRequired,
   

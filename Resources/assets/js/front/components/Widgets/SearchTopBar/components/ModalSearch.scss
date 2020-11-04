@@ -58,7 +58,7 @@
                     }
                 }
                 label {
-                    position: absolute;
+                    // position: absolute; -> fix mozilla viewer
                     top: -46px;
                     width: 75%;
                     &:before {

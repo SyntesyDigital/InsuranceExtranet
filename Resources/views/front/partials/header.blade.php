@@ -21,7 +21,11 @@
                         <div class="row">
                             @if (isset($config['SEARCH_IS_ACTIVE']) && $config['SEARCH_IS_ACTIVE']->value === true)
                                 <div class="col-xs-12">
-                                    <div id="searchTopBar" class="searchTopBar"></div>
+                                    <div 
+                                        id="searchTopBar" 
+                                        class="searchTopBar" 
+                                    >
+                                    </div>
                                     <div class="settings-search">
                                         @if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
                                             <div class="button-header-container">
