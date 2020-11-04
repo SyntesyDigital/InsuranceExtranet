@@ -55,6 +55,21 @@
                         span {
                             color: #00416199;
                         }
+                        ul {
+                            margin: 0;
+                            padding: 0;
+                            list-style: none;
+
+                            li {
+                                margin: 0;
+                                padding: 0;
+
+                                .highlight {
+                                    color: #FFA500;
+                                }
+                            }
+                        }
+
                     }
                 }
                 label {
