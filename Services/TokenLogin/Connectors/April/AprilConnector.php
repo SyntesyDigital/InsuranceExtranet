@@ -30,17 +30,6 @@ class AprilConnector implements TokenLoginConnectorInterface
      */
     public function handle()
     {
-        // Query APRIL WS to retrieve user data from token
-        $response = dispatch_now(new AprilControleJeton($this->token, $this->caller));
-
-        // Open VEOS session and return token
-        $veosToken = dispatch_now(new LoginToken($response->getLogin()));
-
-        // Init user session if VEOS token exist
-        $session = $veosToken
-            ? dispatch_now(new SessionCreate($veosToken, $this->env))
-            : null;
-
         echo '<pre>';
         echo 'ISS : ';
         print_r(get_config('VEOS_ISS'));
@@ -55,6 +44,11 @@ class AprilConnector implements TokenLoginConnectorInterface
 
         echo PHP_EOL;
 
+        exit();
+
+        // Query APRIL WS to retrieve user data from token
+        $response = dispatch_now(new AprilControleJeton($this->token, $this->caller));
+
         echo '<pre>';
         echo 'APRIL JETON RESULT : ';
         print_r($response);
@@ -62,12 +56,20 @@ class AprilConnector implements TokenLoginConnectorInterface
 
         echo PHP_EOL;
 
+        // Open VEOS session and return token
+        $veosToken = dispatch_now(new LoginToken($response->getLogin()));
+
         echo '<pre>';
         echo 'VEOS TOKEN RESULT : ';
         print_r($veosToken);
         echo '</pre>';
 
         echo PHP_EOL;
+
+        // Init user session if VEOS token exist
+        $session = $veosToken
+            ? dispatch_now(new SessionCreate($veosToken, $this->env))
+            : null;
 
         echo '<pre>';
         echo 'SESSION : ';
