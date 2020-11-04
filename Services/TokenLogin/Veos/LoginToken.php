@@ -53,6 +53,12 @@ class LoginToken
      */
     public function handle()
     {
+        echo 'ISS : ';
+        print_r($this->iss);
+        echo PHP_EOL;
+        echo 'KEY : ';
+        print_r($this->key);
+        exit();
         $postQuery = $this->client->post($this->getWsUrl().'login/token', [
             'json' => [
                 'token' => JWT::encode([
