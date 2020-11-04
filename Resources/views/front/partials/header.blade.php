@@ -1,5 +1,8 @@
 @php
     $config = get_config_object($group = 'general');
+    $draftBtn =  isset($config['DRAFT_BTN']) && $config['DRAFT_BTN']->value === true ? true : false;
+    $locationBtn = isset($config['LOCALITATION_BTN']) && $config['LOCALITATION_BTN']->value === true ? true : false;
+    $notifyBtn = isset($config['NOTIFICATION_BTN']) && $config['NOTIFICATION_BTN']->value === true;
 @endphp
 
 <!-- HEADER -->
@@ -26,7 +29,7 @@
                                         class="searchTopBar" 
                                     >
                                     </div>
-                                    <div class="settings-search">
+                                    <div class="settings-search {{$draftBtn || $locationBtn || $notifyBtn === true ? '' : 'right'}}">
                                         @if(has_roles([ROLE_SUPERADMIN,ROLE_SYSTEM,ROLE_ADMIN]))
                                             <div class="button-header-container">
                                                 <a href="{{route('dashboard')}}" class="tooltip-link-setting btn-header" title="Espace Admin">

@@ -85,7 +85,9 @@ header {
                             top: -5px;
                             right: 255px;
                             display: flex;
-                           
+                            &.right{
+                                right: 50px;
+                            }
                             .btn-header {
                                 border-radius: 50% !important;
                                 border-color: #004161 !important;
