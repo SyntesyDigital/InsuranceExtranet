@@ -20,8 +20,8 @@ class LoginToken
     public function __construct($login, $iss = null, $key = null)
     {
         $this->login = $login;
-        $this->iss = $iss ?: get_config('VEOS_ISS');
-        $this->key = $key ?: get_config('VEOS_KEY');
+        $this->iss = $iss ? get_config('VEOS_ISS') : get_config('VEOS_ISS');
+        $this->key = $key ? get_config('VEOS_KEY') : get_config('VEOS_KEY');
         $this->client = new Client();
         $this->env = request()->get('env');
 
