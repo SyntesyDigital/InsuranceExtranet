@@ -37,9 +37,48 @@ class AprilConnector implements TokenLoginConnectorInterface
         $veosToken = dispatch_now(new LoginToken($response->getLogin()));
 
         // Init user session if VEOS token exist
-        return $veosToken
+        $session = $veosToken
             ? dispatch_now(new SessionCreate($veosToken, $this->env))
             : null;
+
+        echo '<pre>';
+        echo 'ISS : ';
+        print_r(get_config('VEOS_ISS'));
+        echo '</pre>';
+
+        echo PHP_EOL;
+
+        echo '<pre>';
+        echo 'KEY : ';
+        print_r(get_config('VEOS_KEY'));
+        echo '</pre>';
+
+        echo PHP_EOL;
+
+        echo '<pre>';
+        echo 'APRIL JETON RESULT : ';
+        print_r($response);
+        echo '</pre>';
+
+        echo PHP_EOL;
+
+        echo '<pre>';
+        echo 'VEOS TOKEN RESULT : ';
+        print_r($veosToken);
+        echo '</pre>';
+
+        echo PHP_EOL;
+
+        echo '<pre>';
+        echo 'SESSION : ';
+        print_r($session);
+        echo '</pre>';
+
+        echo PHP_EOL;
+
+        exit();
+
+        return $session;
     }
 
     /**
