@@ -29,7 +29,7 @@ export default class ModalResults extends Component {
         return false;
     }
 
-    renderRowResults(results) {
+    renderResultsRows(results) {
         const max = SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS !== undefined 
             ? SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS.value
             : 5;
@@ -56,7 +56,7 @@ export default class ModalResults extends Component {
             <div className="row-result" key={label}>
                 <h4>{label}</h4>
                 <ul>
-                    {this.renderRowResults(results[label])}
+                    {this.renderResultsRows(results[label])}
                 </ul>
             </div>
         )));
