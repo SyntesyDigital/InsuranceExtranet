@@ -1,0 +1,96 @@
+body {
+    #timeline {
+        .timeline-field {
+            &:nth-child(1) {
+                .MuiStepLabel-labelContainer {
+                    border-left: unset;
+                    border-left-color: unset;
+                    .MuiStepLabel-label {
+                        &:before {
+                            background-color: white;
+                            border: 2px solid #e7eaef;
+                            border-radius: 50%;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+        .MuiCollapse-wrapperInner{
+            width: 150px;
+            .has-color{
+                text-align: center;
+            }
+        }
+        .MuiStepContent-root {
+            border-left-width: 5px;
+            border-left-color: #e7eaef;
+        }
+        .MuiStepLabel-iconContainer {
+            padding-right: 20px;
+        }
+        .MuiStepConnector-lineVertical {
+            border-left-style: solid;
+            border-left-width: 5px;
+            border-left-color: #e7eaef;
+        }
+        .MuiSvgIcon-root {
+            font-size: 35px;
+        }
+        .MuiStepContent-root {
+            margin-top: 0;
+            padding-left: 35px;
+            margin-left: 15px;
+        }
+        .MuiStepConnector-vertical {
+            padding: 0;
+            margin-left: 15px;
+        }
+        .MuiStepIcon-text {
+            display: none;
+        }
+        .MuiStepIcon-root {
+            color: #e7eaef;
+            &.MuiStepIcon-active {
+                border: 2px solid #e7eaef;
+                border-radius: 50%;
+                color: #fff;
+            }
+        }
+        .MuiStepLabel-labelContainer {
+            margin-left: 15px;
+            border-left: 5px solid;
+            border-left-color: #e7eaef;
+        }
+        .MuiStepLabel-label {
+            color: transparent;
+            &:before {
+                content: "";
+                display: inline-block;
+                width: 35px;
+                height: 35px;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                background-color: #e7eaef;
+                position: absolute;
+                top: 0px;
+                z-index: 9;
+                left: 0;
+                top: 20px;
+            }
+            .MuiStepLabel-active {
+                font-size: 12px;
+            }
+        }
+        .MuiTypography-root {
+            font-size: 14px;
+            &>div{
+                margin-bottom: 5px;
+            }
+        }
+        .date{
+            color: #ccc;
+        }
+    }
+}
