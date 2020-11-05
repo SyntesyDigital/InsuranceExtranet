@@ -6,8 +6,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
-import './demo.scss';
-import Demo from './demo';
+import './TimeLine.scss';
 import {
     parseNumber,
     parseDate,
@@ -38,6 +37,7 @@ export default class TimeLine extends Component {
         var value = item[identifier];
         var hasIcon = hasConditionalIcon(field, value);
 
+        // values
         if (field.type == "date") {
             value = parseDate(value, field);
         }
@@ -51,15 +51,20 @@ export default class TimeLine extends Component {
                     break;
             }
         }
+        //
 
         var style = getConditionalFormating(field, value);
         var hasColor = hasConditionalFormatting(style);
         var icon = getConditionalIcon(field, value);
         var hasIcon = hasConditionalIcon(icon);
 
-
+        // has file
         if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div dangerouslySetInnerHTML={{ __html: value }} />
+        }
+        // has date
+        else if (field.type == "date") {
+            return <div className="date" dangerouslySetInnerHTML={{ __html: value }} />
         }
         // has route
         else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
@@ -75,10 +80,10 @@ export default class TimeLine extends Component {
         }
         // has default
         else {
-            return <div className={(hasIcon ? 'has-icon' : '')}>
+            return <div className={'text-default ' + (hasIcon ? 'has-icon' : '')}>
                 {hasIcon ? <i className={icon.icon}></i> : null}
                 <div
-                    className={hasColor ? 'has-color' : ''}
+                    className={(hasColor ? 'has-color' : '')}
                     style={style}
                     dangerouslySetInnerHTML={{
                         __html: value
@@ -107,14 +112,13 @@ export default class TimeLine extends Component {
                 );
             }
         }
-        console.log("infos", infos)
 
         return (
             <Step
                 expanded={true}
                 key={key}
             >
-                <StepLabel>{'text'}</StepLabel>
+                <StepLabel>{"**Label hide by scss**"}</StepLabel>
                 <StepContent>
                     <Typography>
                         {infos}
@@ -125,10 +129,8 @@ export default class TimeLine extends Component {
     }
 
     render() {
-        console.log("this.props.field", this.props.field)
         return (
             <div>
-                <Demo></Demo>
                 <Stepper
                     activeStep={this.state.activeStep}
                     orientation="vertical">

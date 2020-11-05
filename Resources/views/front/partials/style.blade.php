@@ -454,6 +454,7 @@
     $colorTextTimeline = isset($storedStylesFront['colorTextTimeline']) ? $storedStylesFront['colorTextTimeline']->value : '#004161';
     $fontSizeDateTimeline = isset($storedStylesFront['fontSizeDateTimeline']) ? $storedStylesFront['fontSizeDateTimeline']->value.'px' : '14px';
     $fontSizeTextTimeline = isset($storedStylesFront['fontSizeTextTimeline']) ? $storedStylesFront['fontSizeTextTimeline']->value.'px' : '16px';
+    $borderColorTimeline = isset($storedStylesFront['borderColorTimeline']) ? $storedStylesFront['borderColorTimeline']->value : 'e7eaef';
 
 ?>
 

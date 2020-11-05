@@ -1,30 +1,25 @@
 <style type="text/css">
-
-    body .total-box-container .title{
-        color: {{$titleColor}}; 
-        font-size: {{$fontSizeLabel}}
+    body .timeline-body #timeline .MuiStepLabel-label:before{
+        background-color: {{$backgroundColorOuterTimeline}};
+        border: 2px solid {{$borderColorOuterTimeline}};
     }
-    body .total-box-container{
-        border-radius: {{$borderRadiusBox}};
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
-        background-color:{{$elementsBackgroundColor}}
+    body .timeline-body #timeline .timeline-field:nth-child(1) .MuiStepLabel-labelContainer .MuiStepLabel-label:before{
+        background-color: {{$backgroundColorActiveTimeline}};
+        border: 2px solid {{$borderColorActiveTimeline}};
     }
-    body .total-box-container .container-parameters{
-        color: {{$elementNumberColor}};
-        border-top-left-radius: {{$borderRadiusBox}};
-        border-bottom-left-radius: {{$borderRadiusBox}};
+    body .timeline-body #timeline .date{
+        color: {{$colorDateTimeline}};
+        font-size: {{$fontSizeDateTimeline}};
     }
-    body .total-box-container .container-icon{
-        background-color: {{$backgroundColorIcon}};
-        border-top-right-radius: {{$borderRadiusBox}};
-        border-bottom-right-radius: {{$borderRadiusBox}};
+    body .timeline-body #timeline .MuiTypography-root div.text-default {
+        color: {{$colorTextTimeline}};
+        font-size: {{$fontSizeTextTimeline}};
     }
-    body .total-box-container .container-icon i{
-        color: {{$iconColor}};
-        font-size: {{$fontSizeIcon}};
+    body .timeline-body #timeline .MuiStepContent-root{
+        border-left-color: {{$borderColorTimeline}};
     }
-    body .total-box-container .totalBox{
-        font-size: {{$fontSizeNumbers}};
+    body .timeline-body #timeline .MuiStepLabel-labelContainer{
+        border-left-color: {{$borderColorTimeline}};
     }
 </style>
 
