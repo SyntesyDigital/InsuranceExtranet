@@ -26,9 +26,11 @@ class UpdateSiteConfiguration
     {
         $this->saveFields();
 
-        $seconds = 24 * 3600;
-        $storedSiteConfigurations = (new SiteConfigurationsFormTransformer($this->siteConfiguration))->toArray();
-        Cache::put($this->siteConfiguration->identifier.'SiteConfigurations', $storedSiteConfigurations, $seconds);
+        Cache::put(
+            $this->siteConfiguration->identifier.'SiteConfigurations',
+            (new SiteConfigurationsFormTransformer($this->siteConfiguration))->toArray(),
+            24 * 3600
+        );
 
         return $this->siteConfiguration;
     }
@@ -39,12 +41,21 @@ class UpdateSiteConfiguration
 
         foreach ($this->attributes['fields'] as $key => $field) {
             $info = [];
+
             $identifier = $key;
-            $info['type'] = isset($field['type']) ? $field['type'] : null;
+
+            $info['type'] = isset($field['type'])
+                ? $field['type']
+                : null;
+
             if ($info['type'] == 'image') {
-                $info['value'] = isset($field['value']) && isset($field['value']['id']) ? $field['value']['id'] : null;
+                $info['value'] = isset($field['value']) && isset($field['value']['id'])
+                    ? $field['value']['id']
+                    : null;
             } else {
-                $info['value'] = isset($field['value']) ? $field['value'] : null;
+                $info['value'] = isset($field['value'])
+                    ? $field['value']
+                    : null;
             }
 
             $this->siteConfiguration->fields()->create([

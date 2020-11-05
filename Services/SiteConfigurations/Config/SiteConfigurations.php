@@ -135,6 +135,13 @@ return [
                 'name' => 'GA_ID',
                 'label' => 'Google Analytics id',
               ],
+              [
+                'type' => 'field',
+                'input' => 'textarea',
+                'identifier' => 'GA_SCRIPT',
+                'name' => 'GA_SCRIPT',
+                'label' => 'Google Analytics Script',
+              ],
             ],
           ], //end children col
         ],
