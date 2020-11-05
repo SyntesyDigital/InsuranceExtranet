@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ModalSearch from './components/ModalSearch';
-import ActionNotification from '../ActionNotification/ActionNotification';
 import './SearchTopBar.scss';
+import ActionNotification from '../ActionTopBar/ActionNotification';
+import ActionDraft from '../ActionTopBar/ActionDraft';
+import ActionLocation from '../ActionTopBar/ActionLocation';
 
 export default class SearchTopBar extends Component {
 
@@ -57,6 +59,22 @@ export default class SearchTopBar extends Component {
     // ==============================
 
     render() {
+        const hasBtnLocation = SITE_CONFIG_GENERAL.LOCALITATION_BTN !== undefined
+            && SITE_CONFIG_GENERAL.LOCALITATION_BTN !== null
+            && SITE_CONFIG_GENERAL.LOCALITATION_BTN.value === true ?
+            true
+            : false;
+        const hasBtnDraft = SITE_CONFIG_GENERAL.DRAFT_BTN !== undefined
+            && SITE_CONFIG_GENERAL.DRAFT_BTN !== null
+            && SITE_CONFIG_GENERAL.DRAFT_BTN.value === true ?
+            true
+            : false;
+        const hasBtnNotify = SITE_CONFIG_GENERAL.NOTIFICATION_BTN !== undefined
+            && SITE_CONFIG_GENERAL.NOTIFICATION_BTN !== null
+            && SITE_CONFIG_GENERAL.NOTIFICATION_BTN.value === true ?
+            true
+            : false;
+
         return (
             <div className="search-top-bar">
                 <ModalSearch
@@ -77,12 +95,13 @@ export default class SearchTopBar extends Component {
                         value={this.state.valueSearch}
                         onChange={this.handleChange.bind(this)}
                         placeholder="Recherche"
+                        className="input-search"
                     />
                 </label>
                 <div className="actions-header">
-                    <a href="#" className="tooltip-link-action" title={'localisation'}><span className="localisation icon"><span className="number">12</span></span></a>
-                    <a href="#" className="tooltip-link-action" title={'draft'}><span className="draft icon"><span className="number">4</span></span></a>
-                    <ActionNotification />
+                    {hasBtnLocation ? <ActionLocation/> : null}
+                    {hasBtnDraft ? <ActionDraft/> : null}
+                    {hasBtnNotify ? <ActionNotification /> : null}
                 </div>
             </div>
         )

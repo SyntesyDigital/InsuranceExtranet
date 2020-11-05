@@ -66,6 +66,7 @@ export default class ModalSearch extends Component {
                         value={this.props.valueSearch}
                         onChange={this.handleOnChange.bind(this)}
                         placeholder="Recherche"
+                        className="input-search"
                     />
                 </label>
                 <div className="col-xs-12 results">
@@ -82,11 +83,11 @@ export default class ModalSearch extends Component {
 ModalSearch.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
     size: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     valueSearch: PropTypes.string.isRequired,
