@@ -39,17 +39,17 @@ class SearchQuery
 
         // Inject URL into result
         return collect($results)->filter(function ($result) use ($contents, &$counts) {
-            $limit = get_config('SEARCH_MAX_RESULTS') ? get_config('SEARCH_MAX_RESULTS') : 5;
+            // $limit = get_config('SEARCH_MAX_RESULTS') ? get_config('SEARCH_MAX_RESULTS') : 5;
 
-            if (!isset($counts[$result->category])) {
-                $counts[$result->category] = 0;
-            }
+            // if (!isset($counts[$result->category])) {
+            //     $counts[$result->category] = 0;
+            // }
 
-            if ($counts[$result->category] >= $limit) {
-                return false;
-            }
+            // if ($counts[$result->category] >= $limit) {
+            //     return false;
+            // }
 
-            ++$counts[$result->category];
+            // ++$counts[$result->category];
 
             $url = isset($contents[$result->slug])
                 ? $contents[$result->slug]['url']
