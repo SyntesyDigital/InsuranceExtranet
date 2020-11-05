@@ -30,11 +30,19 @@ export default class ModalResults extends Component {
     }
 
     renderRowResults(results) {
-        return (results.map((obj,k) => this.highlight(obj.lib) !== false ? (
-            <li key={k}>
-                <a href={obj.url}><span>{this.highlight(obj.lib)}</span></a>
-            </li>
-        ) : null));
+        const max = SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS !== undefined 
+            ? SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS.value
+            : 5;
+        let count = 0;
+
+        return (results.map((obj,k) => {
+            if(this.highlight(obj.lib) !== false && count < max) {
+                ++count;
+                return (<li key={k}>
+                    <a href={obj.url}><span>{this.highlight(obj.lib)}</span></a>
+                </li>);
+            }
+        }));
     }
     
     renderResults() {

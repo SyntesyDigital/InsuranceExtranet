@@ -27,7 +27,7 @@ export default class SearchTopBar extends Component {
         let query = event.target.value;
         let self = this;
 
-        if(query.length == 3) {
+        if(query.length == 2) {
             axios.get('/search?q=' + query)
                 .then(response => {
                     self.setState({
