@@ -27,23 +27,34 @@ export default class SearchTopBar extends Component {
         let query = event.target.value;
         let self = this;
 
-        clearTimeout(this.state.timer);
-
-        const timer = () => {
-            return setTimeout(function (){
-                axios.get('/search?q=' + query)
-                    .then(response => {
-                        self.setState({
-                            results: response.data.data
-                        });
+        if(query.length == 3) {
+            axios.get('/search?q=' + query)
+                .then(response => {
+                    self.setState({
+                        results: response.data.data
                     });
-            }, 500);
+                });
         }
+
+        //
+        // Start query only when user finish to write.
+        //
+        //clearTimeout(this.state.timer);
+        // const timer = () => {
+        //     return setTimeout(function (){
+        //         axios.get('/search?q=' + query)
+        //             .then(response => {
+        //                 self.setState({
+        //                     results: response.data.data
+        //                 });
+        //             });
+        //     }, 500);
+        // }
 
         this.setState({
             valueSearch: query,
             display: true,
-            timer: query.length >= 3 ? timer() : null
+            //timer: query.length == 3 ? timer() : null
         });
     }
 
