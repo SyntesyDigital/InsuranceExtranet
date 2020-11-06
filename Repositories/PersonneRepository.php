@@ -3,6 +3,7 @@
 namespace Modules\Extranet\Repositories;
 
 use Auth;
+use Exception;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Session;
@@ -147,12 +148,15 @@ class PersonneRepository
     *
     *   @return Personne Object
     */
-    public function update($id, $data, $token = null)
+    public function update($id, $data, $token = null, $env = null)
     {
-        $response = $this->client->put(VeosWsUrl::get().'personne/'.$id, [
+        $url = $env ? VeosWsUrl::getEnvironmentUrl($env) : VeosWsUrl::get();
+        $token = $token ? $token : Auth::user()->token;
+
+        $response = $this->client->put($url.'personne/'.$id, [
             'json' => $data,
             'headers' => [
-                'Authorization' => 'Bearer '.$token ? $token : Auth::user()->token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -205,18 +209,96 @@ class PersonneRepository
     public function resetPasswordByUID($uid, $password, $language)
     {
         $data = [
-        'uid' => $uid,
-        'passwd' => $password,
-        'language' => $language,
-      ];
+            'uid' => $uid,
+            'passwd' => $password,
+            'language' => $language,
+        ];
 
         $response = $this->client->post(VeosWsUrl::get().'login/reset', [
-          'json' => $data,
-          'headers' => [
-              'Authorization' => 'Bearer '.Auth::user()->token,
-          ],
-      ]);
+            'json' => $data,
+            'headers' => [
+                'Authorization' => 'Bearer '.Auth::user()->token,
+            ],
+        ]);
 
         return $response->getStatusCode() == 200 ? true : false;
+    }
+
+    public function getByUid($uid, $env = 'prod')
+    {
+        // try {
+        // 1. Get Token
+        $response = $this->client->post(VeosWsUrl::getEnvironmentUrl($env).'login', [
+                'json' => [
+                    'uid' => 'WS',
+                    'passwd' => 'WS1234',
+                ],
+            ]);
+
+        $payload = json_decode($response->getBody()->getContents());
+
+        if (!$payload->token) {
+            return null;
+        }
+
+        $security = [
+            'headers' => [
+                'Authorization' => 'Bearer '.$payload->token,
+            ],
+        ];
+
+        // 2. Get ID PER of account
+        $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'boBy/v2/WS2_SEL_IDPERLOGIN?login='.$uid, $security);
+
+        $payload = json_decode($response->getBody()->getContents());
+
+        $id = isset($payload->data[0]) ? $payload->data[0]->ID_PER : null;
+
+        if (!$id) {
+            return null;
+        }
+
+        // 3. Get account object
+        $response = $this->client->get(VeosWsUrl::getEnvironmentUrl($env).'personne/'.$id, $security);
+
+        return json_decode($response->getBody()->getContents());
+        // } catch (Exception $ex) {
+        // }
+
+        return null;
+    }
+
+    public function flushLoginAttempt($uid, $env = 'prod')
+    {
+        $user = $this->getByUid($uid, $env);
+
+        // Increase user attempts
+        $user->listInfos = collect($user->listInfos)->map(function ($item, $key) {
+            if ($item->key == 'INFOPER.TENTATIVE') {
+                $item->value = 0;
+            }
+
+            if ($item->key == 'INFOPER.ACTIFEXTRANET') {
+                $item->value = 1;
+            }
+            return $item;
+        })->toArray();
+
+        // Get Token
+        $response = $this->client->post(VeosWsUrl::getEnvironmentUrl($env).'login', [
+            'json' => [
+                'uid' => 'WS',
+                'passwd' => 'WS1234',
+            ],
+        ]);
+
+        $payload = json_decode($response->getBody()->getContents());
+
+        if (!$payload->token) {
+            return null;
+        }
+
+        // Update user account
+        $this->update($user->id, $user, $payload->token, $env);        
     }
 }
