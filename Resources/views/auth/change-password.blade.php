@@ -3,6 +3,7 @@
 @section('form')
   <form method="POST" action="{{ route('update-password') }}">
     <input type="hidden" name="token" value="{{$token}}" />
+    <input type="hidden" name="uid" value="{{ request('uid') }}" />
     @csrf
 
     <h2>RÉINITIALISER MOT DE PASSE</h2>

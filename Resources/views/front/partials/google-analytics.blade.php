@@ -7,4 +7,8 @@
     gtag('js', new Date());
     gtag('config', '{{get_config('GA_ID')}}');
   </script>
+  @elseif(get_config('GA_SCRIPT')) 
+    {!! get_config('GA_SCRIPT') !!}
 @endif
+
+

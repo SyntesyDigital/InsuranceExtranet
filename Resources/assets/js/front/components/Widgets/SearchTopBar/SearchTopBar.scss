@@ -17,6 +17,7 @@
         border: none;
         box-shadow: none;
         width: 100%;
+        outline: none;
     }
     .actions-header {
         display: flex;
@@ -28,7 +29,7 @@
                 width: 40px;
                 height: 40px;
                 display: block;
-                margin-left: 70px;
+                margin-left: 40px;
                 span{
                     &.number{
                         background: #F49E00;

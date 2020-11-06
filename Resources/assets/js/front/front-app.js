@@ -46,7 +46,9 @@ require('./components/Widgets/Faqs/FaqsContainer');
 require('./components/Widgets/Tabs/TabsList');
 require('./components/Widgets/Tabs/TabsContainer');
 require('./components/Widgets/SearchTopBar/SearchTopBar');
-require('./components/Widgets/ActionNotification/ActionNotification');
+require('./components/Widgets/ActionTopBar/ActionNotification');
+require('./components/Widgets/ActionTopBar/ActionDraft');
+require('./components/Widgets/ActionTopBar/ActionLocation');
 require('./components/Widgets/StageManager/StepperList');
 require('./components/Widgets/StageManager/Step');
 require('./components/Widgets/Stepper');
@@ -60,3 +62,5 @@ require('./components/Widgets/Lists/TableDocument/TableDocument');
 require('./components/Widgets/Lists/TableList/TableList');
 require('./components/Widgets/Lists/Chat/Chat');
 require('./components/Widgets/TypologyLast');
+require('./components/Widgets/Lists/TimeLine/TimeLine');
+

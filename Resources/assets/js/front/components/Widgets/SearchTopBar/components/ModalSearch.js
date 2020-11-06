@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../Modal';
+import ModalResults from './ModalResults';
 import './ModalSearch.scss';
 
 export default class ModalSearch extends Component {
@@ -8,10 +9,11 @@ export default class ModalSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            results: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
+            results: this.props.results
+        };
         this.handleOnChange = this.handleOnChange.bind(this);
     }
+
 
     // ==============================
     // Handlers
@@ -25,21 +27,25 @@ export default class ModalSearch extends Component {
         console.log("handleClickNumResult :: ");
     }
 
+    parseResults(results) {
+        let arr = {};
+
+        results.map(row => {
+            let key = row.category;
+
+            if(typeof arr[key] === 'undefined') {
+                arr[key] = [];
+            } 
+
+            arr[key].push(row);
+        });
+
+        return arr;
+    }
+
     // ==============================
     // Renderers
     // ==============================
-
-    renderRowResults() {
-        return (this.state.results.map((item, i) => (
-            <div className="row-result">
-                <h4>{'Numero de contract'}</h4>
-                <a href="#" onClick={this.handleClickNumResult.bind(this)}><span>122131254</span></a>
-                <a href="#" onClick={this.handleClickNumResult.bind(this)}><span>122131254</span></a>
-            </div>
-        ))
-        );
-    }
-
     render() {
         return (
             <Modal
@@ -60,12 +66,14 @@ export default class ModalSearch extends Component {
                         value={this.props.valueSearch}
                         onChange={this.handleOnChange.bind(this)}
                         placeholder="Recherche"
+                        className="input-search"
                     />
                 </label>
                 <div className="col-xs-12 results">
-                    <div className="container-results">
-                        {this.renderRowResults()}
-                    </div>
+                    <ModalResults 
+                        results={this.parseResults(this.props.results)}
+                        valueSearch={this.props.valueSearch}
+                    />
                 </div>
             </Modal>
         );
@@ -75,14 +83,15 @@ export default class ModalSearch extends Component {
 ModalSearch.propTypes = {
     id: PropTypes.string.isRequired,
     icon: PropTypes.string,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     display: PropTypes.bool.isRequired,
     zIndex: PropTypes.number.isRequired,
     size: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     valueSearch: PropTypes.string.isRequired,
-    onChangeSearch: PropTypes.func
+    onChangeSearch: PropTypes.func,
+    results: PropTypes.array
 };
 
