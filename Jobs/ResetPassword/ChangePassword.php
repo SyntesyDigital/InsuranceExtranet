@@ -4,6 +4,7 @@ namespace Modules\Extranet\Jobs\ResetPassword;
 
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Modules\Extranet\Repositories\PersonneRepository;
 use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
 
 class ChangePassword
@@ -14,13 +15,16 @@ class ChangePassword
     {
         $this->attributes = array_only($attributes, [
             'password',
+            'uid',
             'token',
             'env',
         ]);
 
         $this->env = isset($this->attributes['env'])
-          ? $this->attributes['env']
-          : VeosWsUrl::PROD;
+            ? $this->attributes['env']
+            : VeosWsUrl::PROD;
+
+        $this->repository = new PersonneRepository();
     }
 
     public static function fromRequest(ChangePasswordRequest $request)
@@ -31,24 +35,29 @@ class ChangePassword
     public function handle()
     {
         try {
+            
             $client = new Client();
 
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
 
-            $json = [
-                'passwd' => $this->attributes['password'],
-                'token' => $this->attributes['token'],
-            ];
-
-            $result = $client->post($WsUrl.'login/reset/apply', [
-                'json' => $json,
+            $client->post($WsUrl.'login/reset/apply', [
+                'json' => [
+                    'passwd' => $this->attributes['password'],
+                    'token' => $this->attributes['token'],
+                ],
             ]);
 
+            if(get_config('LOGIN_LIMIT_ATTEMPTS')) {
+                $this->repository->flushLoginAttempt(trim($this->attributes['uid']), $this->env);
+            }
+            
             return true;
+
         } catch (\Exception $ex) {
             throw $ex;
         }
 
         return false;
     }
+
 }
