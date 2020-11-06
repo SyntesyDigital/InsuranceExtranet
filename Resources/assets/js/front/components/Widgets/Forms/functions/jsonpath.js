@@ -77,3 +77,40 @@ export function createJsonKey(paramArray,index,jsonResult) {
   
     return json;
   }
+
+
+  /**
+   * Look for the array and empty if exists
+   * @param {*} json 
+   * @param {*} jsonpath 
+   */
+  export function cleanArrayFromJsonpath(json,jsonpath) {
+    
+    //console.log("cleanResultJSONFromProcedure :: cleanArrayFromJsonpath :: json,jsonpath",JSON.parse(JSON.stringify(json)),jsonpath);
+    jp.value(json,jsonpath,[]);
+    //console.log("cleanResultJSONFromProcedure :: cleanArrayFromJsonpath ::  jsonResult",JSON.parse(JSON.stringify(json)));
+
+    return json;
+  }
+
+
+/**
+ * Depending on procedure type, the jsonresult preloaded, need to cleaned. 
+ * In this case, if procedure is repeatable, then the list need to be empty, 
+ * if not the array items are duplicated.
+ * 
+ * @param {*} procedure 
+ * @param {*} jsonResult 
+ */
+export function cleanResultJSONFromProcedure(procedure,jsonResult) {
+
+    if(procedure.PRELOAD == "Y" && procedure.REP == "Y"){
+      //if is preloaded and is repetable ( an array with subjson ) empty 
+      jsonResult = cleanArrayFromJsonpath(jsonResult,procedure.JSONP);
+
+      //console.log("cleanResultJSONFromProcedure :: jsonResult",jsonResult);
+    }
+  
+    return jsonResult;
+  }
+  

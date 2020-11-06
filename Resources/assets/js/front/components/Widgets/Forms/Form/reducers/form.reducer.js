@@ -98,7 +98,7 @@ function formReducer(state = initialState, action) {
               stepsToProcess : false,
               complete : false,
               error : false,
-              jsonGetDone : false
+              jsonGetDone : false 
             }
         case UPDATE_JSON_RESULT_GET_ERROR :
         case SUBMIT_PROCEDURE_ERROR :
@@ -159,7 +159,7 @@ function formReducer(state = initialState, action) {
                 processing : true,
                 complete : false,
                 error : false,
-                jsonGetDone : false
+                //jsonGetDone : false     //not necessary, it cause problems with PUT repeatable procedure ( explained in doc )
             }
         case SKIP_PROCEDURE :
             return {
