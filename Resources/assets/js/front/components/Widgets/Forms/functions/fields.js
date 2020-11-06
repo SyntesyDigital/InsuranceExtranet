@@ -22,7 +22,7 @@ import {
 
 import {
   checkIfExistJsonPath,
-  addKeyToJson
+  addKeyToJson,
 } from './jsonpath.js';
 
 let jp = require('jsonpath');
@@ -666,7 +666,7 @@ export function processListProcedureV2 (currentIndex,procedure,values,jsonResult
 
   //console.log("processListProcedure :: ",currentIndex, values, jsonResult);
 
-  console.log("processListProcedureV2 :: Start : (procedure)",procedure);
+  console.log("processListProcedureV2 :: Start : (procedure,jsonResult)",procedure,JSON.parse(JSON.stringify(jsonResult)));
 
   //it's necessary to identify if procedure it's at root example $.documents, 
   //or into main json example $.listInfo
@@ -676,7 +676,7 @@ export function processListProcedureV2 (currentIndex,procedure,values,jsonResult
 
   jsonResult = initJSONResult(jsonResult,procedure,isRootArray);
 
-  console.log("processListProcedureV2 :: Step 0 : (jsonResult)",jsonResult);
+  console.log("processListProcedureV2 :: Step 0 : (jsonResult)",JSON.parse(JSON.stringify(jsonResult)));
 
   //json to be filled with this item info
   var objectJson = null;
@@ -692,10 +692,12 @@ export function processListProcedureV2 (currentIndex,procedure,values,jsonResult
     objectJson = JSON.parse(procedure.JSON);
   }
 
-  console.log("processListProcedureV2 :: Step 1 : (objectJson)",JSON.parse(JSON.stringify(objectJson)));
+  var subJsonRoot = getJsonRootFromObjectJson(objectJson);
+
+  console.log("processListProcedureV2 :: Step 1 : (objectJson,subJsonRoot)",JSON.parse(JSON.stringify(objectJson)),subJsonRoot);
 
   objectJson = updateJSONWithFields(
-    "$.",
+    subJsonRoot,
     procedure.OBJECTS,
     objectJson,
     values,
@@ -712,8 +714,7 @@ export function processListProcedureV2 (currentIndex,procedure,values,jsonResult
   else {
     //process path
     updateJSONFromArray(
-      procedure.JSONP,
-      procedure.OBJECTS,
+      procedure,
       jsonResult,
       objectJson
     );
@@ -724,7 +725,21 @@ export function processListProcedureV2 (currentIndex,procedure,values,jsonResult
   return jsonResult;
 }
 
-function updateJSONFromArray(jsonpath,fields,fulljson,json) {
+function getJsonRootFromObjectJson(objectJson) {
+
+  if(objectJson instanceof Array){
+    return "$";
+  }
+  else {
+    return "$."
+  }
+
+}
+
+function updateJSONFromArray(procedure,fulljson,json) {
+
+  var jsonpath = procedure.JSONP;
+  var fields = procedure.OBJECTS;
 
   var paths = null;
   try {
@@ -761,13 +776,16 @@ function updateJSONFromPath(path,index,variable,json) {
 
   //console.log("updateJSONFromPath :: (path,index,variable)",path,path.length,index,variable);
 
+  //have we arreived to the last position of the path ? ( path is an array ["$","key1","key2"])
   if(index == path.length - 1){
-      
-      //if array is defined
+      //yes we are in the last position 
+
+      //if array is not defined we define
       if(!Array.isArray(variable)){
           variable = [];
       }
 
+      //add the json to this point of the json
       variable.push(json);
   }
   else {

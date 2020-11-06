@@ -390,7 +390,7 @@ class ModalProcedures extends Component {
                                         label={'Sub JSON'}
                                         name={'sub_json'}
                                         checked={this.state.subJsonEnabled}
-                                        onChange={() => this.setState({
+                                        onChange={(name,value) => this.setState({
                                             subJsonEnabled : value
                                         })}
                                     />

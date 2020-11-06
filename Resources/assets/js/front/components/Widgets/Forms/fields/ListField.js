@@ -14,10 +14,26 @@ class ListField extends Component
     ////console.log("ListField => ",this.props.field);
 
     this.state = {
-      value : [],
+      //value : [],
       display : false,
-      initItem : null
+      initItem : null,
+      firstLoaded : true  //we use a flag to now first time is loaded, to check if necessary a preload
     };
+  }
+
+  componentDidMount() {
+    console.log("ListField :: componentDidMount :: ",this.props);
+  }
+
+  componentDidUpdate(prevProps,prevState) {
+    //if the component is preloaded update values
+    /*
+    console.log("ListField :: componentDidUpdate :: (prevProps,this.props)",prevProps,this.props);
+
+    if(this.state.firstLoaded){
+      //if it's first loaded, check if necessary to upadate state.
+    }
+    */
   }
 
 
@@ -84,7 +100,8 @@ class ListField extends Component
   handleRemoveItem(index,e) {
       e.preventDefault();
 
-      const {value} = this.state;
+      //const {value} = this.state;
+      const {value} = this.props;
 
       var _this = this;
 
@@ -104,9 +121,18 @@ class ListField extends Component
         callback: function (result) {
             if (result) {
                 value.splice(index,1);
+                /*
                 _this.setState({
                   value : value
                 });
+                */
+               
+                //update new value
+               _this.props.onFieldChange({
+                  name : _this.props.field.identifier,
+                  value : value
+                });
+
             }
         }
     });
@@ -114,11 +140,12 @@ class ListField extends Component
 
   renderTable() {
 
-    const {value} = this.state;
+    //const {value} = this.state;
+    const {value} = this.props;
     const {fields} = this.props.field.settings;
     const {field} = this.props;
 
-    if(this.state.value.length == 0)
+    if(value.length == 0)
       return null;
 
     console.log("renderTable => (field,value,fields)",field,value,fields);
@@ -126,7 +153,7 @@ class ListField extends Component
     return value.map((item,key) => 
       <div className="typology-field field-list-item" key={key}>
           <div className="field-type">
-              <i class="fa fa-file"></i> &nbsp;
+              <i className="fa fa-file"></i> &nbsp;
           </div>
           <div className="field-labels">
               <div className="row">
@@ -155,7 +182,9 @@ class ListField extends Component
   }
 
   handleModalSubmit(item) {
-    const {value,initItem} = this.state;
+    const {value} = this.props;
+    //const {value,initItem} = this.state;
+    const {initItem} = this.state;
 
     //if we are editing
     if(initItem == null){
@@ -163,7 +192,7 @@ class ListField extends Component
     }
 
     this.setState({
-      value,
+      //value,
       initItem : null
     });
 
@@ -208,7 +237,7 @@ class ListField extends Component
 
 
         <div className="fields-list-container">
-            <div class="list-items">
+            <div className="list-items">
               {this.renderTable()}
             </div>
             <div id={field.identifier} style={divStyle} className="more-btn">
@@ -218,28 +247,6 @@ class ListField extends Component
             </div>
         </div>
 
-
-
-        {/*
-
-        <div className="row element-form-row">
-          <div className="col-sm-4">
-            <label>{field.name}</label>
-          </div>
-          <div className="col-sm-6">
-            <a href="" className="btn btn-default" onClick={this.openModal.bind(this)}>
-              <i className="fas fa-plus"></i> Ajouter
-            </a>
-          </div>
-        </div>
-        {this.state.value.length > 0 &&
-          <div className="row element-form-row">
-            <div className="col-sm-6 col-sm-offset-4">
-              {this.renderTable()}
-            </div>
-          </div>
-        }
-        */}
       </div>
     );
   }

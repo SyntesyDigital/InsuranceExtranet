@@ -20,7 +20,8 @@ import {
   processResponseParameters,
   processListProcedure,
   processStandardProcedureV2,
-  processListProcedureV2
+  processListProcedureV2,
+  cleanResultJSONFromProcedure
 } from "../../functions";
 
 export function initState(payload) {
@@ -96,9 +97,12 @@ export function getJsonResultBeforePut(procedure,formParameters) {
         if(response.status == 200){
             ////console.log("response => ",response);
 
+            //clean json result if it's repeteable and is preloaded
+            var jsonResult = cleanResultJSONFromProcedure(procedure,response.data.result);
+
             return dispatch({
               type : UPDATE_JSON_RESULT_FROM_GET,
-              payload : response.data.result
+              payload : jsonResult
             });
         }
         else {
@@ -123,6 +127,8 @@ export function processProcedure(procedures,currentProcedureIndex, values, curre
 
     //const {procedures,currentProcedureIndex, values, currentListIndex, stepsToProcess} = this.state;
     //let {jsonResult} = this.state;
+
+    console.log("processListProcedureV2 :: processProcedure :: INIT : (currentProcedureIndex, currentListIndex, stepsToProcess,jsonResult,jsonGetDone)",currentProcedureIndex,currentListIndex,stepsToProcess,JSON.parse(JSON.stringify(jsonResult)),jsonGetDone);
 
     return (dispatch) => {
 
@@ -233,7 +239,7 @@ export function processProcedure(procedures,currentProcedureIndex, values, curre
             console.error("processProcedure :: version not defined (version)",version);
           }
 
-          console.log("processProcedure :: isList :: jsonResult processed => ",currentProcedureIndex, JSON.stringify(jsonResult));
+          console.log("processProcedure :: isList :: jsonResult processed => ",currentProcedureIndex, JSON.parse(JSON.stringify(jsonResult)));
 
           //go to next value of this procedure of submit as standard procedure
           /*
