@@ -3,7 +3,6 @@
 namespace Modules\Extranet\Jobs\ResetPassword;
 
 use GuzzleHttp\Client;
-use Modules\Extranet\Entities\LoginAttempt;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Modules\Extranet\Http\Requests\ResetPassword\SendEmailRequest;
 

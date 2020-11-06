@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use Config;
 use Exception;
 use GuzzleHttp\Client;
-use Modules\Extranet\Entities\LoginAttempt;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Modules\Extranet\Repositories\PersonneRepository;
 use Request;
