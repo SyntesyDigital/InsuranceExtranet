@@ -14,6 +14,7 @@ export default class ElementFormTrigger extends Component {
     }
 
     handleFormFinished() {
+        //console.log("ElementFormTrigger :: handleFormFinished ");
         axios.post(ASSETS+'user/session/triggered-form',{
             'id' : this.props.elementObject.id
         });

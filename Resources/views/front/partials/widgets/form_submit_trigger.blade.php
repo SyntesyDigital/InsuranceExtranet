@@ -14,7 +14,7 @@
 @if($user && $canBeTriggered)
 <div 
     id="element-form-trigger" 
-    class="element-form-trigger"
+    class=""
     elementObject="{{base64_encode(json_encode($element))}}"
     parameters="{{$parameters}}"
 ></div>

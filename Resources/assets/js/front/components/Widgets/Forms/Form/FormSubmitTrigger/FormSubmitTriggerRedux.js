@@ -47,7 +47,8 @@ class FormSubmitTriggerRedux extends Component {
             );
         }
 
-        if (!prevProps.parameters.checked && this.props.parameters.checked) {
+        
+        if (!prevProps.parameters.iterated && this.props.parameters.iterated) {
             if (this.props.form.procedures.length > 0) {
                 this.props.initProceduresIteration();
             }
