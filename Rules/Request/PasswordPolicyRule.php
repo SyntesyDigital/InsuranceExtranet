@@ -63,6 +63,13 @@ class PasswordPolicyRule implements Rule
                 return $carry;
             }, []);
 
+            //clean labels to avoid null result
+            for($i=sizeof($labels)-1;$i>=0;$i--){
+                if(!isset($labels[$i])){
+                    unset($labels[$i]);
+                }
+            }
+
             $this->error = sprintf(
                 'doit contenir au moins %s de ces règles : %s',
                 get_config('PASSWORD_MIN_RULES_TO_SATISFY'),

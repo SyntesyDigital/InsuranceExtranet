@@ -39,7 +39,7 @@ class ChangePassword
             $client = new Client();
 
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
-
+            
             $client->post($WsUrl.'login/reset/apply', [
                 'json' => [
                     'passwd' => $this->attributes['password'],

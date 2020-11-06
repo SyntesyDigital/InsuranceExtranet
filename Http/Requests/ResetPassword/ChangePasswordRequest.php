@@ -27,11 +27,13 @@ class ChangePasswordRequest extends FormRequest
         if (get_config('PASSWORD_RULES_ENABLED')) {
             return [
                 'password' => ['required', 'confirmed', new PasswordPolicyRule()],
+                'env' => ''
             ];
         }
 
         return [
             'password' => ['required', 'confirmed'],
+            'env' => ''
         ];
     }
 }
