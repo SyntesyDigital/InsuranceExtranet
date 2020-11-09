@@ -19,6 +19,12 @@
         width: 100%;
         outline: none;
     }
+    .help-message {
+        position: absolute;
+        top: 28px;
+        left: 50px;
+        font-size: 12px;
+    }
     .actions-header {
         display: flex;
         float: right;

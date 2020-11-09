@@ -45,13 +45,6 @@ return [
                 'name' => 'BREADCUMB_IS_ACTIVE',
                 'label' => 'Disable link breadcrumbs',
               ],
-              [
-                'type' => 'field',
-                'input' => 'boolean',
-                'identifier' => 'SEARCH_IS_ACTIVE',
-                'name' => 'SEARCH_IS_ACTIVE',
-                'label' => 'Enable search top bar',
-              ],
             ], //end children col
           ],
         ], //en children box
@@ -72,13 +65,7 @@ return [
             'type' => 'col',
             'class' => 'col-md-12',
             'children' => [
-              [
-                'type' => 'field',
-                'input' => 'text',
-                'identifier' => 'SEARCH_MAX_RESULTS',
-                'name' => 'SEARCH_MAX_RESULTS',
-                'label' => 'Rercherche : Nombre de résultat maximum par section',
-              ],
+              
             ], //end children col
           ],
         ], //en children box
@@ -454,7 +441,67 @@ return [
                 ],
             ],
         ],
-        // END SSO
+        // END modal
+
+
+        // Search bar
+        [
+          'type' => 'box',
+          'title' => 'Formulaire de recherche',
+          'identifier' => 'box_6',
+          'children' => [
+              [
+                  'type' => 'col',
+                  'class' => 'col-sm-12 col-md-6',
+                  'children' => [
+                      [
+                        'type' => 'field',
+                        'input' => 'boolean',
+                        'identifier' => 'SEARCH_IS_ACTIVE',
+                        'name' => 'SEARCH_IS_ACTIVE',
+                        'label' => 'Enable search top bar',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'number',
+                        'identifier' => 'SEARCH_MIN_CHARACTERS',
+                        'name' => 'SEARCH_MIN_CHARACTERS',
+                        'label' => 'Limite de caractères',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'text',
+                        'identifier' => 'SEARCH_MAX_RESULTS',
+                        'name' => 'SEARCH_MAX_RESULTS',
+                        'label' => 'Rercherche : Nombre de résultat maximum par section',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'text',
+                        'identifier' => 'SEARCH_MESSAGE',
+                        'name' => 'SEARCH_MESSAGE',
+                        'label' => 'Message limite de caractères',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'text',
+                        'identifier' => 'SEARCHING_MESSAGE',
+                        'name' => 'SEARCHING_MESSAGE',
+                        'label' => 'Message "en course de recherche"',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'text',
+                        'identifier' => 'NO_RESULTS_MESSAGE',
+                        'name' => 'NO_RESULTS_MESSAGE',
+                        'label' => 'Aucune donnée trouvée',
+                      ]
+                  ],
+              ],
+          ],
+      ],
+      // END Search Bar
+
     ],
   ],
 

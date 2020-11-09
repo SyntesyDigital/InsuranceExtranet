@@ -8,9 +8,6 @@ export default class ModalSearch extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            results: this.props.results
-        };
         this.handleOnChange = this.handleOnChange.bind(this);
     }
 
@@ -61,6 +58,7 @@ export default class ModalSearch extends Component {
             >
                 <label>
                     <input
+                        ref={(input) => { this.searchInput = input; }} 
                         type="text"
                         name="search"
                         value={this.props.valueSearch}
@@ -70,9 +68,11 @@ export default class ModalSearch extends Component {
                     />
                 </label>
                 <div className="col-xs-12 results">
+
                     <ModalResults 
                         results={this.parseResults(this.props.results)}
                         valueSearch={this.props.valueSearch}
+                        loading={this.props.loading}
                     />
                 </div>
             </Modal>
