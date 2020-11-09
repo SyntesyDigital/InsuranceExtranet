@@ -19,7 +19,6 @@
   
   @slot('options')
     itemsPerPage="{{$field['settings']['itemsPerPage']}}"
-    columns="{{$field['settings']['bootstrapColumns']}}"
   @endslot
 @endcomponent
 

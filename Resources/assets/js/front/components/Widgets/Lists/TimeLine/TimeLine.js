@@ -141,7 +141,7 @@ export default class TimeLine extends Component {
                         model={this.props.model}
                         pagination={this.props.pagination}
                         itemsPerPage={this.props.itemsPerPage}
-                        columns={this.props.columns}
+                        //columns={this.props.columns}
                         parameters={this.props.parameters}
                         renderItem={this.renderItem.bind(this)}
                         identifier={'timeline-field'}
@@ -159,14 +159,14 @@ if (document.getElementById('timeline')) {
         var model = element.getAttribute('model');
         var itemsPerPage = element.getAttribute('itemsPerPage');
         var parameters = element.getAttribute('parameters');
-        var columns = element.getAttribute('columns');
+        //var columns = element.getAttribute('columns');
 
         ReactDOM.render(<TimeLine
             field={field}
             elementObject={elementObject}
             model={model}
             itemsPerPage={itemsPerPage}
-            columns={columns}
+            //columns={columns}
             parameters={parameters}
         />, element);
     });
