@@ -182,12 +182,15 @@ class ListField extends Component
   }
 
   handleModalSubmit(item) {
-    const {value} = this.props;
+    let {value} = this.props;
     //const {value,initItem} = this.state;
     const {initItem} = this.state;
 
     //if we are editing
     if(initItem == null){
+      if(!value){
+        value = [];
+      }
       value.push(item);
     }
 
