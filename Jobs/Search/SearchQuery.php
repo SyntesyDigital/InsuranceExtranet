@@ -18,7 +18,9 @@ class SearchQuery
     public function handle()
     {
         // Retrieve results from boby WS
-        $response = (new BobyRepository())->getQuery('WS2_MOD_RECHERCHE?'.get_session_parameter().'&rec='.$this->query);
+        $perPage ='&perPage='.get_config('SEARCH_QUERY_PER_PAGE');
+
+        $response = (new BobyRepository())->getQuery('WS2_MOD_RECHERCHE?'.get_session_parameter().$perPage.'&rec='.$this->query);
 
         $results = isset($response->data)
             ? $response->data
