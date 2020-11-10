@@ -21,6 +21,7 @@ type Service {
     body: String
     example: String
     has_session_id: Boolean
+    ws: String
 }
 
 type ServiceBodyResponse {
@@ -46,6 +47,7 @@ input CreateServiceInput {
     body: String
     example: String
     has_session_id: Boolean
+    ws: String
 }
 
 input UpdateServiceInput {
@@ -63,6 +65,7 @@ input UpdateServiceInput {
     body: String
     example: String
     has_session_id: Boolean
+    ws: String
 }
 
 input ServiceBodyInput {

@@ -9,6 +9,7 @@
   const RICHTEXT = 'richtext';
   const PARAMETERS = {!! json_encode(Config('models.parameters'), JSON_PRETTY_PRINT) !!};
   const SESSION = {!! Auth::user() !== null  ? json_encode(Auth::user(), JSON_PRETTY_PRINT) : 'null' !!};
+  const SITE_CONFIG_GENERAL = {!! json_encode(get_config_object(), JSON_PRETTY_PRINT) !!};
   const EXPORT_MODELS = {!! json_encode([
       'Element' => \Modules\Extranet\Entities\Element::class,
       'ElementModel' => \Modules\Extranet\Services\ElementModelLibrary\Entities\ElementModel::class

@@ -29,7 +29,8 @@ export function preloadForm(procedure,formParameters) {
       is_array : false,
       is_old_url: procedure.SERVICE.IS_OLD_URL !== undefined 
             ? procedure.SERVICE.IS_OLD_URL 
-            : null
+            : null,
+      domain : procedure.SERVICE.WS
     };
 
     self = this;

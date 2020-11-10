@@ -56,6 +56,7 @@ return [
       //      LEFT COL
       // -----------------------------------------------------------------//
       // GENERAL
+      /*
       [
         'type' => 'box',
         'title' => 'Générale',
@@ -70,7 +71,7 @@ return [
           ],
         ], //en children box
       ], //end GENERAL
-
+      */
       // WS
       [
         'type' => 'box',
@@ -102,6 +103,14 @@ return [
                 'name' => 'WS_URL_REC',
                 'label' => 'WS Rec (WS_URL_REC)',
               ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'WS_GOUV',
+                'name' => 'WS_GOUV',
+                'label' => 'data.gouv.fr ( défaut : https://entreprise.data.gouv.fr/api/sirene/v3/ )',
+              ],
+
             ], //end children col
           ],
         ], //en children box
@@ -517,6 +526,7 @@ return [
     'APP_NAME' => 'App Name',
     'GA_ID' => '',
     'PASSWORD_LIMIT' => '6',
-    'SEARCH_QUERY_PER_PAGE' => '1000'
+    'SEARCH_QUERY_PER_PAGE' => '1000',
+    'WS_GOUV' => 'https://entreprise.data.gouv.fr/api/sirene/v3/'
   ],
 ];

@@ -27,6 +27,7 @@ class PostServiceRequest extends FormRequest
           'method' => 'required',
           'url' => 'required',
           //'data' => 'required'
+          'domain'
         ];
     }
 }

@@ -26,7 +26,8 @@ export default class ServiceForm extends Component {
                 json : '{}',
                 response_json : '{}',
                 is_old_url_ws: false,
-                example: null
+                example: null,
+                ws : ''
             },
 
             errors: {},
@@ -63,6 +64,17 @@ export default class ServiceForm extends Component {
                     name: 'Multipart',
                     value: 'multipart'
                 },
+            ],
+
+            webServices : [
+                {
+                    name: 'VEOS',
+                    value: ''
+                },
+                {
+                    name: 'data.gouv.fr',
+                    value: 'WS_GOUV'
+                }
             ],
 
             json : {},
@@ -108,16 +120,34 @@ export default class ServiceForm extends Component {
             : this.create();
     }
 
-    getBody() {
-        console.log("getBody :: (this.state.service.id, userSession.session.session_id)",this.state.service.id, userSession.session.session_id);
-        api.services.getBody(this.state.service.id, userSession.session.session_id)
-            .then(payload => {
-                toastr.success('Action terminée avec succès.');
-                this.handleGetBody(payload.data.serviceBody);
-            })
-            .catch(error => {
-                toastr.error('Une erreur est survenue lors de l\'appel au service.');
-            });
+    handleSendTest(e) {
+        e.preventDefault();
+
+        var _this = this;
+
+        const {service} = this.state;
+        service.response_json = '{}';
+
+        console.log("handleSendTest :: click!");
+
+        this.setState({
+            service : service
+        },function(){
+
+            console.log("handleSendTest :: setState done!");
+
+            //console.log("getBody :: (this.state.service.id, userSession.session.session_id)",this.state.service.id, userSession.session.session_id);
+            api.services.getBody(_this.state.service.id, userSession.session.session_id)
+                .then(payload => {
+                    toastr.success('Action terminée avec succès');
+                    _this.handleGetBody(payload.data.serviceBody);
+                })
+                .catch(error => {
+                    toastr.error('Une erreur est survenue lors de l\'appel au service.');
+                });
+        })
+
+        
     }
 
     // ==============================
@@ -305,26 +335,41 @@ export default class ServiceForm extends Component {
                             blocked={false}
                         />
 
-                        <div className="form-group">
-                            <SelectField
-                                label={'Méthode HTTP'}
-                                value={this.state.service.http_method ? this.state.service.http_method : ''}
-                                name={'http_method'}
-                                arrayOfOptions={this.state.methodes}
-                                onChange={this.handleFieldChange.bind(this)}
-                                error={this.state.errors.http_method ? true : false}
-                            />
-                        </div>
+                        <InputField
+                            label={'Commentaire'}
+                            value={this.state.service.comment ? this.state.service.comment : ''}
+                            name={'comment'}
+                            onChange={this.handleFieldChange.bind(this)}
+                            error={this.state.errors.comment ? true : false}
+                        />
 
-                        <div className="form-group">
-                            <SelectField
-                                label={'Body'}
-                                value={this.state.service.body ? this.state.service.body : ''}
-                                name={'body'}
-                                arrayOfOptions={this.state.bodyTypes}
-                                onChange={this.handleFieldChange.bind(this)}
-                                error={this.state.errors.http_method ? true : false}
-                            />
+                        <hr/>
+
+                        <div className="row">
+                            <div className="col-xs-6">
+                                <div className="form-group">
+                                    <SelectField
+                                        label={'Méthode HTTP'}
+                                        value={this.state.service.http_method ? this.state.service.http_method : ''}
+                                        name={'http_method'}
+                                        arrayOfOptions={this.state.methodes}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                        error={this.state.errors.http_method ? true : false}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="form-group">
+                                    <SelectField
+                                        label={'Body'}
+                                        value={this.state.service.body ? this.state.service.body : ''}
+                                        name={'body'}
+                                        arrayOfOptions={this.state.bodyTypes}
+                                        onChange={this.handleFieldChange.bind(this)}
+                                        error={this.state.errors.http_method ? true : false}
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         {/*
@@ -338,40 +383,53 @@ export default class ServiceForm extends Component {
                         */}
 
                         {this.state.service.http_method != "NONE" && 
-                            <InputField
-                                label={'Url'}
-                                value={this.state.service.url ? this.state.service.url : ''}
-                                name={'url'}
-                                onChange={this.handleFieldChange.bind(this)}
-                                error={this.state.errors.url ? true : false}
-                            />
+                            
+                            <div className="row">
+                                <div className="col-xs-4">
+                                    <div className="form-group">
+                                        <SelectField
+                                            label={'Endpoint'}
+                                            value={this.state.service.ws ? this.state.service.ws : ''}
+                                            name={'ws'}
+                                            arrayOfOptions={this.state.webServices}
+                                            onChange={this.handleFieldChange.bind(this)}
+                                            error={this.state.errors.ws ? true : false}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-xs-8">
+                                    <div className="form-group">
+                                        <InputField
+                                            label={'Url'}
+                                            value={this.state.service.url ? this.state.service.url : ''}
+                                            name={'url'}
+                                            onChange={this.handleFieldChange.bind(this)}
+                                            error={this.state.errors.url ? true : false}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         }
 
-                        <ToggleField
-                            label={'Identifiant de session'}
-                            checked={this.state.service.has_session_id ? this.state.service.has_session_id : false}
-                            name={'has_session_id'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.has_session_id ? true : false}
-                        />
+                        {this.state.service.ws == '' && 
+                            <>
+                                <ToggleField
+                                    label={'Ancienne URL WS'}
+                                    checked={this.state.service.is_old_url_ws ? this.state.service.is_old_url_ws : false}
+                                    name={'is_old_url_ws'}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                    error={this.state.errors.is_old_url_ws ? true : false}
+                                />
 
-                        <ToggleField
-                            label={'Ancienne URL WS'}
-                            checked={this.state.service.is_old_url_ws ? this.state.service.is_old_url_ws : false}
-                            name={'is_old_url_ws'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.is_old_url_ws ? true : false}
-                        />
-
-                        
-
-                        <InputField
-                            label={'Commentaire'}
-                            value={this.state.service.comment ? this.state.service.comment : ''}
-                            name={'comment'}
-                            onChange={this.handleFieldChange.bind(this)}
-                            error={this.state.errors.comment ? true : false}
-                        />
+                                <ToggleField
+                                    label={'Identifiant de session'}
+                                    checked={this.state.service.has_session_id ? this.state.service.has_session_id : false}
+                                    name={'has_session_id'}
+                                    onChange={this.handleFieldChange.bind(this)}
+                                    error={this.state.errors.has_session_id ? true : false}
+                                />
+                            </>
+                        }
 
                         <hr/>
 
@@ -389,7 +447,7 @@ export default class ServiceForm extends Component {
                         <hr/>
 
                         <InputField
-                            label={'Exemple'}
+                            label={'URL Exemple'}
                             value={this.state.service.example ? this.state.service.example : ''}
                             name={'example'}
                             onChange={this.handleFieldChange.bind(this)}
@@ -403,7 +461,7 @@ export default class ServiceForm extends Component {
                             <ButtonSecondary
                                 label='Envoyer'
                                 icon='fa fa-paper-plane'
-                                onClick={() => this.getBody()}
+                                onClick={this.handleSendTest.bind(this)}
                             />
                         </div>
 
