@@ -466,14 +466,21 @@ return [
                         'input' => 'number',
                         'identifier' => 'SEARCH_MIN_CHARACTERS',
                         'name' => 'SEARCH_MIN_CHARACTERS',
-                        'label' => 'Limite de caractères',
+                        'label' => 'Limite de caractères ( 3 )',
+                      ],
+                      [
+                        'type' => 'field',
+                        'input' => 'number',
+                        'identifier' => 'SEARCH_QUERY_PER_PAGE',
+                        'name' => 'SEARCH_QUERY_PER_PAGE',
+                        'label' => 'Résultats de recherche par page ( 1000 )',
                       ],
                       [
                         'type' => 'field',
                         'input' => 'text',
                         'identifier' => 'SEARCH_MAX_RESULTS',
                         'name' => 'SEARCH_MAX_RESULTS',
-                        'label' => 'Rercherche : Nombre de résultat maximum par section',
+                        'label' => 'Rercherche : Nombre de résultat maximum par section ( 5 )',
                       ],
                       [
                         'type' => 'field',
@@ -487,14 +494,14 @@ return [
                         'input' => 'text',
                         'identifier' => 'SEARCHING_MESSAGE',
                         'name' => 'SEARCHING_MESSAGE',
-                        'label' => 'Message "en course de recherche"',
+                        'label' => 'Message "en cours de recherche"',
                       ],
                       [
                         'type' => 'field',
                         'input' => 'text',
                         'identifier' => 'NO_RESULTS_MESSAGE',
                         'name' => 'NO_RESULTS_MESSAGE',
-                        'label' => 'Aucune donnée trouvée',
+                        'label' => 'Message "Aucune donnée trouvée"',
                       ]
                   ],
               ],
@@ -510,5 +517,6 @@ return [
     'APP_NAME' => 'App Name',
     'GA_ID' => '',
     'PASSWORD_LIMIT' => '6',
+    'SEARCH_QUERY_PER_PAGE' => '1000'
   ],
 ];
