@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../Modal';
 import ModalResults from './ModalResults';
+import MaskSvgSearch from './../assets/img/MaskSvgSearch';;
 import './ModalSearch.scss';
 
 export default class ModalSearch extends Component {
@@ -30,9 +31,9 @@ export default class ModalSearch extends Component {
         results.map(row => {
             let key = row.category;
 
-            if(typeof arr[key] === 'undefined') {
+            if (typeof arr[key] === 'undefined') {
                 arr[key] = [];
-            } 
+            }
 
             arr[key].push(row);
         });
@@ -57,8 +58,9 @@ export default class ModalSearch extends Component {
                 submitButton={false}
             >
                 <label>
+                    <MaskSvgSearch/>
                     <input
-                        ref={(input) => { this.searchInput = input; }} 
+                        ref={(input) => { this.searchInput = input; }}
                         type="text"
                         name="search"
                         value={this.props.valueSearch}
@@ -68,8 +70,7 @@ export default class ModalSearch extends Component {
                     />
                 </label>
                 <div className="col-xs-12 results">
-
-                    <ModalResults 
+                    <ModalResults
                         results={this.parseResults(this.props.results)}
                         valueSearch={this.props.valueSearch}
                         loading={this.props.loading}
