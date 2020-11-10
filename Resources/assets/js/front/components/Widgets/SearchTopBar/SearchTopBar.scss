@@ -54,18 +54,6 @@
                     }
                 }
             }
-            &.localisation {
-                background-image: url("./../../../../../img/ico_localisation.svg");
-            }
-            &.draft {
-                background-image: url("./../../../../../img/ico_draft.svg");
-            }
-            &.notification {
-                background-image: url("./../../../../../img/ico_notification.svg");
-                &:hover {
-                    background-image: url("./../../../../../img/ico_creer_notification_hover.svg");
-                }
-            }
         }
     }
 }

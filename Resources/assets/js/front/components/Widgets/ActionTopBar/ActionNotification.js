@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ModalSidebar from './../ModalSidebar/ModalSidebar';
+import MaskSvgNotificationHover from './assets/img/MaskSvgNotificationHover';
+import MaskSvgNotification from './assets/img/MaskSvgNotification';
 import './ActionTopBar.scss';
 
 
@@ -8,6 +10,7 @@ export default class ActionNotification extends Component {
         super(props)
         this.state = {
             display: true,
+            isHover: false
         }
         this.handleModalSidebar = this.handleModalSidebar.bind(this);
     }
@@ -27,6 +30,16 @@ export default class ActionNotification extends Component {
             ease: Power2.easeInOut,
             onComplete: function () { }
         });
+    }
+
+    // ==============================
+    // Setters
+    // ==============================
+
+    setIsHover(event) {
+        this.setState({
+            isHover: event,
+        })
     }
 
     // ==============================
@@ -51,8 +64,11 @@ export default class ActionNotification extends Component {
                     onClick={this.handleModalSidebar.bind(this)}
                     className="tooltip-link-action"
                     title={title}
+                    onMouseEnter={this.setIsHover.bind(this, true)}
+                    onMouseLeave={this.setIsHover.bind(this, false)}
                 >
                     <span className="notification icon">
+                        {this.state.isHover ? <MaskSvgNotificationHover /> : <MaskSvgNotification />}
                         <span className="number">{wsTotal}</span>
                     </span>
                 </a>
