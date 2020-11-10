@@ -17,7 +17,8 @@ class ProcessService
           'data',
           'is_array',
           'is_old_url',
-          'body'
+          'body',
+          'domain'
       ]);
     }
 
@@ -36,7 +37,8 @@ class ProcessService
             $this->attributes['data'],
             isset($this->attributes['is_array']) ? $this->attributes['is_array'] : false,
             isset($this->attributes['is_old_url']) ? $this->attributes['is_old_url'] : null,
-            isset($this->attributes['body']) ? $this->attributes['body'] : 'json'
+            isset($this->attributes['body']) ? $this->attributes['body'] : 'json',
+            isset($this->attributes['domain']) ? $this->attributes['domain'] : '',
         );
 
         return $response;

@@ -97,13 +97,13 @@ class BobyRepository
         return $beans;
     }
 
-    public function processService($method, $url, $data, $isArray, $isOldUrl = null, $body = 'json')
+    public function processService($method, $url, $data, $isArray, $isOldUrl = null, $body = 'json', $domain = '')
     {
         if ($isArray) {
             //is array ( example documents ) process every item
             foreach ($url as $currentUrl) {
                 foreach ($data as $item) {
-                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl, $body);
+                    $result = $this->processMethod($method, $currentUrl, $item, $isOldUrl, $body, null,$domain);
                 }
             }
 
@@ -112,12 +112,12 @@ class BobyRepository
         } elseif (is_array($url)) {
             //process every post of array
             foreach ($url as $currentUrl) {
-                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl, $body);
+                $result = $this->processMethod($method, $currentUrl, $data, $isOldUrl, $body, null, $domain);
             }
 
             return $result;
         } else {
-            return $this->processMethod($method, $url, $data, $isOldUrl, $body);
+            return $this->processMethod($method, $url, $data, $isOldUrl, $body, null, $domain);
         }
     }
 
@@ -142,7 +142,7 @@ class BobyRepository
         return $data;
     }
 
-    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json', $token = null)
+    public function processMethod($method, $url, $data, $isOldUrl = null, $body = 'json', $token = null, $domain = '')
     {
         //process data depending on body
         $data = $this->processMultipartData($data, $body);
@@ -155,7 +155,9 @@ class BobyRepository
         ];
 
         $wsUrl = VeosWsUrl::get();
-
+        if($domain != '' && has_config($domain)){
+            $wsUrl = get_config($domain);
+        }
         if ($isOldUrl) {
             $wsUrl = str_replace('/rsExtranet2/', '/', $wsUrl);
         }

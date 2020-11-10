@@ -39,7 +39,8 @@ class Service extends Model
         'is_old_url_ws',
         'body',
         'example',
-        'has_session_id'
+        'has_session_id',
+        'ws'
     ];
 
     public function procedures(): HasMany
@@ -63,7 +64,8 @@ class Service extends Model
             'JSON' => $this->json,
             'BODY' => $this->body,
             'EXAMPLE' => $this->example,
-            'HAS_SESSION_ID' => $this->has_session_id
+            'HAS_SESSION_ID' => $this->has_session_id,
+            'WS' => $this->ws,
         ];
     }
 }

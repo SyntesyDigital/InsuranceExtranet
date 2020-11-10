@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 import { mutation, query } from '../client.js';
 
 //------------------------------------------------------------//
@@ -65,6 +65,7 @@ export const GQL_GET_ALL_SERVICE = gql`
             body
             example
             has_session_id
+            ws
         }
     }
 `;
@@ -91,6 +92,7 @@ export const GQL_GET_SERVICE = gql`
         body
         example
         has_session_id
+        ws
     }
   }
 `;
@@ -120,6 +122,7 @@ export const GQL_CREATE_SERVICE = gql`
         $body: String
         $example: String
         $has_session_id: Boolean
+        $ws: String
     ) {
         createService(
         input: {
@@ -136,6 +139,7 @@ export const GQL_CREATE_SERVICE = gql`
             body: $body
             example: $example
             has_session_id: $has_session_id
+            ws: $ws
         }
     ) {
         id
@@ -151,6 +155,7 @@ export const GQL_CREATE_SERVICE = gql`
         body
         example
         has_session_id
+        ws
     }
   } 
 `;
@@ -182,6 +187,7 @@ export const GQL_UPDATE_SERVICE = gql`
         $body: String
         $example: String
         $has_session_id: Boolean
+        $ws: String
     ) {
         updateService(
             input: {
@@ -199,6 +205,7 @@ export const GQL_UPDATE_SERVICE = gql`
                 body: $body
                 example: $example
                 has_session_id: $has_session_id
+                ws: $ws
             }
         ) {
             id
@@ -215,6 +222,7 @@ export const GQL_UPDATE_SERVICE = gql`
             body
             example
             has_session_id
+            ws
         }
   } 
 `;
@@ -245,6 +253,7 @@ export const GQL_DELETE_SERVICE = gql`
             body
             example
             has_session_id
+            ws
         }
   } 
 `;

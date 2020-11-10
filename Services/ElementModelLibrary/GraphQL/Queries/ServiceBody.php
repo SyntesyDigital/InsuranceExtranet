@@ -32,7 +32,7 @@ class ServiceBody
         $boby = new BobyRepository();
 
         $url = $service->example;
-        
+
         if($service->has_session_id){
             $url = strpos($url, '?') === false
                 ? $url.'?SES='.$sessionId
@@ -42,7 +42,11 @@ class ServiceBody
         $response = $boby->processMethod(
             strtoupper($service->http_method),
             $url,
-            []
+            [],
+            null,
+            'json',
+            null,
+            $service->ws
         );
 
         return [

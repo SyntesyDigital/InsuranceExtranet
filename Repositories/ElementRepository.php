@@ -499,7 +499,11 @@ class ElementRepository extends BaseRepository
         $result = $this->boby->processMethod(
             $procedure->SERVICE->METHODE,
             $urlProcessed['url'],
-            $urlProcessed['parameters']
+            $urlProcessed['parameters'],
+            null,
+            'json',
+            null,
+            $procedure->SERVICE->WS
         );
 
         
