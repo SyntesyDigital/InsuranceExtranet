@@ -115,7 +115,7 @@ export default class ModalResults extends Component {
                 {this.props.loading &&
                     <Spinner
                         size={50}
-                        color={'red'}
+                        color={'#FFA500'}
                         loading={this.props.loading}
                     />
                 }
