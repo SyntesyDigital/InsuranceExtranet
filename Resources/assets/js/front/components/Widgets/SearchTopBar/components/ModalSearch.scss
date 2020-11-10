@@ -39,6 +39,15 @@
             z-index: 9999;
             .container-modal {
                 background: white;
+                .mask-svg-search{
+                    svg{
+                        position: absolute;
+                        left: 10px;
+                        top: 0;
+                        bottom: 0;
+                        width: 30px;
+                    }
+                }
                 .results {
                     padding: 15px 30px;
                     border-bottom-left-radius: 24px;
@@ -48,6 +57,9 @@
                         overflow: scroll;
                         overflow-y: auto;
                         overflow-x: hidden;
+                        .spinner-loading{
+                            top: 30%;
+                        }
                     }
                     .row-result {
                         h4 {
@@ -74,18 +86,8 @@
                     }
                 }
                 label {
-                    // position: absolute; -> fix mozilla viewer
                     top: -46px;
                     width: 75%;
-                    &:before {
-                        content: "";
-                        position: absolute;
-                        left: 10px;
-                        top: 0;
-                        bottom: 0;
-                        width: 30px;
-                        background: url("./../../../../../../img/ico_search.svg") center/contain no-repeat;
-                    }
                     input {
                         padding: 10px 50px;
                         border: none;

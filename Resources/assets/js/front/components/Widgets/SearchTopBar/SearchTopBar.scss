@@ -3,14 +3,14 @@
         position: relative;
         width: 50%;
     }
-    label:before {
-        content: "";
-        position: absolute;
-        left: 10px;
-        top: 0;
-        bottom: 0;
-        width: 30px;
-        background: url("./../../../../../img/ico_search.svg") center / contain no-repeat;
+    .mask-svg-search {
+        svg {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+        }
     }
     input {
         padding: 10px 50px;
@@ -36,9 +36,9 @@
                 height: 40px;
                 display: block;
                 margin-left: 40px;
-                span{
-                    &.number{
-                        background: #F49E00;
+                span {
+                    &.number {
+                        background: #f49e00;
                         position: absolute;
                         right: -20px;
                         top: -5px;
@@ -52,18 +52,6 @@
                         color: white;
                         line-height: 21px;
                     }
-                }
-            }
-            &.localisation {
-                background-image: url("./../../../../../img/ico_localisation.svg");
-            }
-            &.draft {
-                background-image: url("./../../../../../img/ico_draft.svg");
-            }
-            &.notification {
-                background-image: url("./../../../../../img/ico_notification.svg");
-                &:hover {
-                    background-image: url("./../../../../../img/ico_creer_notification_hover.svg");
                 }
             }
         }

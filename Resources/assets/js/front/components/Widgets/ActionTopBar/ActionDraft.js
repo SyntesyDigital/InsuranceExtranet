@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ModalSidebar from './../ModalSidebar/ModalSidebar';
+import MaskSvgDraft from './assets/img/MaskSvgDraft';
 import './ActionTopBar.scss';
-
 
 export default class ActionDraft extends Component {
     constructor(props) {
@@ -53,6 +53,7 @@ export default class ActionDraft extends Component {
                     title={title}
                 >
                     <span className="draft icon">
+                        <MaskSvgDraft />
                         <span className="number">{wsTotal}</span>
                     </span>
                 </a>

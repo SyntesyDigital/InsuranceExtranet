@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ModalSidebar from './../ModalSidebar/ModalSidebar';
+import MaskSvgLocation from './assets/img/MaskSvgLocation';
 import './ActionTopBar.scss';
 
 
-export default class ActionNotification extends Component {
+export default class ActionLocation extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -51,8 +52,10 @@ export default class ActionNotification extends Component {
                 <a
                     onClick={this.handleModalSidebar.bind(this)}
                     className="tooltip-link-action"
-                    title={title}>
+                    title={title}
+                >
                     <span className="localisation icon">
+                        <MaskSvgLocation />
                         <span className="number">{wsTotal}</span>
                     </span>
                 </a>

@@ -66,7 +66,6 @@ return [
             'type' => 'col',
             'class' => 'col-md-12',
             'children' => [
-              
             ], //end children col
           ],
         ], //en children box
@@ -452,12 +451,11 @@ return [
         ],
         // END modal
 
-
         // Search bar
         [
           'type' => 'box',
           'title' => 'Formulaire de recherche',
-          'identifier' => 'box_6',
+          'identifier' => 'box_6_8',
           'children' => [
               [
                   'type' => 'col',
@@ -511,13 +509,12 @@ return [
                         'identifier' => 'NO_RESULTS_MESSAGE',
                         'name' => 'NO_RESULTS_MESSAGE',
                         'label' => 'Message "Aucune donnée trouvée"',
-                      ]
+                      ],
                   ],
               ],
           ],
       ],
       // END Search Bar
-
     ],
   ],
 

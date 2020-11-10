@@ -5,6 +5,7 @@ import './SearchTopBar.scss';
 import ActionNotification from '../ActionTopBar/ActionNotification';
 import ActionDraft from '../ActionTopBar/ActionDraft';
 import ActionLocation from '../ActionTopBar/ActionLocation';
+import MaskSvgSearch from './assets/img/MaskSvgSearch';
 
 export default class SearchTopBar extends Component {
 
@@ -12,7 +13,7 @@ export default class SearchTopBar extends Component {
         super(props);
 
         const minCharacters = SITE_CONFIG_GENERAL.SEARCH_MIN_CHARACTERS && SITE_CONFIG_GENERAL.SEARCH_MIN_CHARACTERS.value
-            ? parseInt(SITE_CONFIG_GENERAL.SEARCH_MIN_CHARACTERS.value) 
+            ? parseInt(SITE_CONFIG_GENERAL.SEARCH_MIN_CHARACTERS.value)
             : 3;
         const minMessage = SITE_CONFIG_GENERAL.SEARCH_MESSAGE && SITE_CONFIG_GENERAL.SEARCH_MESSAGE.value
             ? SITE_CONFIG_GENERAL.SEARCH_MESSAGE.value
@@ -23,16 +24,16 @@ export default class SearchTopBar extends Component {
             valueSearch: '',
             results: [],
             timer: null,
-            minCharacters : minCharacters,
-            minMessage : minMessage,
-            loading : false,
-            loaded : false
+            minCharacters: minCharacters,
+            minMessage: minMessage,
+            loading: false,
+            loaded: false
         };
     }
 
-    componentDidUpdate(prevProps,pevState) {
+    componentDidUpdate(prevProps, pevState) {
 
-        
+
     }
 
     // ==============================
@@ -49,13 +50,13 @@ export default class SearchTopBar extends Component {
     }
 
     hasFristCharactersChanged(newQuery) {
-        const {valueSearch} = this.state;
+        const { valueSearch } = this.state;
 
 
     }
 
     handleChange(event) {
-        
+
         const query = event.target.value;
 
         this.query(query);
@@ -67,22 +68,22 @@ export default class SearchTopBar extends Component {
      */
     needReload(newQuery) {
 
-        const {minCharacters,valueSearch,loaded} = this.state;
-        
+        const { minCharacters, valueSearch, loaded } = this.state;
+
         //if newQuery is less than X characters 
-        if(newQuery.length < minCharacters){
+        if (newQuery.length < minCharacters) {
             //console.log("needReload :: new Query less than X characters  ",newQuery, false)
             return false;
         }
-        
+
         //if the first X characters has changed
-        if(newQuery.substring(0,minCharacters) != valueSearch.substring(0,minCharacters)){
+        if (newQuery.substring(0, minCharacters) != valueSearch.substring(0, minCharacters)) {
             //console.log("needReload :: the first X characters has changed ",newQuery,valueSearch, true)
             return true;
         }
 
         //if query length is the same of minCharacters then reload
-        if(!loaded && newQuery.length == minCharacters){
+        if (!loaded && newQuery.length == minCharacters) {
             //console.log("needReload ::  query length is the same of minCharacters then reload ",newQuery, true)
             return true;
         }
@@ -93,9 +94,9 @@ export default class SearchTopBar extends Component {
     }
 
     query(query) {
-        
+
         let self = this;
-        const {minCharacters,display,loaded,results} = this.state;
+        const { minCharacters, display, loaded, results } = this.state;
         let loading = this.state.loading;
 
         //we are in the middle of the loading don't do nothing
@@ -105,35 +106,35 @@ export default class SearchTopBar extends Component {
             return null;
         */
 
-        if(this.needReload(query)) {
+        if (this.needReload(query)) {
 
             loading = true;
-            axios.get('/search?q=' + query.substring(0,minCharacters))
+            axios.get('/search?q=' + query.substring(0, minCharacters))
                 .then(response => {
                     self.setState({
                         results: response.data.data,
-                        loading : false,
-                        loaded : true
+                        loading: false,
+                        loaded: true
                     });
                 });
         }
 
         var newDisplay = false;
-        
-        if(query.length >= minCharacters ) {
-            newDisplay = true; 
+
+        if (query.length >= minCharacters) {
+            newDisplay = true;
         }
-        else if(query.length < minCharacters) {
+        else if (query.length < minCharacters) {
             newDisplay = false;
-            this.searchInput.focus(); 
+            this.searchInput.focus();
         }
 
         this.setState({
             valueSearch: query,
             display: newDisplay,
-            loading : loading,
+            loading: loading,
             //if modal is hidden also put loaded to false, to reload, else left the state that it was before
-            loaded : !newDisplay ? false : loaded,
+            loaded: !newDisplay ? false : loaded,
             //the same with results, if hidden, remove results
             results: !newDisplay ? [] : results
         });
@@ -141,16 +142,16 @@ export default class SearchTopBar extends Component {
 
     handleModalClose() {
 
-        this.searchInput.focus(); 
+        this.searchInput.focus();
 
         this.setState({
             display: false,
-            loaded:false,
-            loading:false,
-            results:[]
+            loaded: false,
+            loading: false,
+            results: []
         });
     }
-    
+
 
     // ==============================
     // Renderers
@@ -158,7 +159,7 @@ export default class SearchTopBar extends Component {
 
     render() {
 
-        const {valueSearch,minCharacters,loading} = this.state;
+        const { valueSearch, minCharacters, loading } = this.state;
 
         const hasBtnLocation = SITE_CONFIG_GENERAL.LOCALITATION_BTN !== undefined
             && SITE_CONFIG_GENERAL.LOCALITATION_BTN !== null
@@ -191,8 +192,9 @@ export default class SearchTopBar extends Component {
                     loading={this.state.loading}
                 />
                 <label onClick={this.handleSearchClick.bind(this)}>
+                    <MaskSvgSearch />
                     <input
-                        ref={(input) => { this.searchInput = input; }} 
+                        ref={(input) => { this.searchInput = input; }}
                         type="text"
                         name="search"
                         value={this.state.valueSearch}
@@ -201,15 +203,15 @@ export default class SearchTopBar extends Component {
                         className="input-search"
                     />
                 </label>
-                {valueSearch.length > 0 && valueSearch.length < minCharacters && 
+                {valueSearch.length > 0 && valueSearch.length < minCharacters &&
                     <div className="help-message">
                         {this.state.minMessage}
                     </div>
                 }
 
                 <div className="actions-header">
-                    {hasBtnLocation ? <ActionLocation/> : null}
-                    {hasBtnDraft ? <ActionDraft/> : null}
+                    {hasBtnLocation ? <ActionLocation /> : null}
+                    {hasBtnDraft ? <ActionDraft /> : null}
                     {hasBtnNotify ? <ActionNotification /> : null}
                 </div>
             </div>

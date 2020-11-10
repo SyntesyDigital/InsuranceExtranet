@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../../Modal';
+import Spinner from './../../../Common/Spinner';
 import './ModalSearch.scss';
-
 
 export default class ModalResults extends Component {
 
     constructor(props) {
         super(props);
 
-        const max = SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS !== undefined 
+        const max = SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS !== undefined
             ? SITE_CONFIG_GENERAL.SEARCH_MAX_RESULTS.value
             : 5;
 
@@ -21,9 +20,9 @@ export default class ModalResults extends Component {
             : "Aucune donnée trouvée"
 
         this.state = {
-            searchingMessage : searchingMessage,
-            noResultsMessage : noResultsMessage,
-            max : max
+            searchingMessage: searchingMessage,
+            noResultsMessage: noResultsMessage,
+            max: max
         };
 
     }
@@ -47,11 +46,11 @@ export default class ModalResults extends Component {
         return false;
     }
 
-    renderResultsRows(results,total) {
-        
+    renderResultsRows(results, total) {
+
         var count = 0;
-        var rows = results.map((obj,k) => {
-            if(this.highlight(obj.lib) !== false && count < this.state.max) {
+        var rows = results.map((obj, k) => {
+            if (this.highlight(obj.lib) !== false && count < this.state.max) {
                 ++count;
                 return (<li key={k}>
                     <a href={obj.url}><span>{this.highlight(obj.lib)}</span></a>
@@ -61,43 +60,43 @@ export default class ModalResults extends Component {
 
         //console.log("renderResultsRows :: rows.length < results.length",rows,rows.length,results,results.length);
 
-        if(count < total){
-            rows.push(<li key={rows.length+1}>
+        if (count < total) {
+            rows.push(<li key={rows.length + 1}>
                 ...
             </li>);
         }
-        
+
         return rows;
     }
 
     getKeyResultsTotal(results) {
         let count = 0;
 
-        results.map((obj,k) => {
-            if(this.highlight(obj.lib) !== false) {
+        results.map((obj, k) => {
+            if (this.highlight(obj.lib) !== false) {
                 count++;
             }
         });
 
         return count;
     }
-    
+
     renderResults() {
         let results = this.props.results;
 
-        if(Object.keys(results).length == 0) {
+        if (Object.keys(results).length == 0) {
             return null;
         }
 
         return (Object.keys(results).map((label) => {
 
             var total = this.getKeyResultsTotal(results[label]);
-            
+
             return (
                 <div className="row-result" key={label}>
                     <h4>{label} ({total})</h4>
                     <ul>
-                        {this.renderResultsRows(results[label],total)}
+                        {this.renderResultsRows(results[label], total)}
                     </ul>
                 </div>
             )
@@ -110,15 +109,21 @@ export default class ModalResults extends Component {
 
         return (
             <div className="container-results">
-
                 {this.props.loading &&
                     <span>{this.state.searchingMessage}</span>
                 }
-                {!this.props.loading && !hasData && 
+                {this.props.loading &&
+                    <Spinner
+                        size={50}
+                        color={'#FFA500'}
+                        loading={this.props.loading}
+                    />
+                }
+                {!this.props.loading && !hasData &&
                     <span>{this.state.noResultsMessage}</span>
                 }
 
-                {!this.props.loading && hasData && 
+                {!this.props.loading && hasData &&
                     this.renderResults()
                 }
             </div>
