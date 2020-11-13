@@ -94,6 +94,8 @@ export default class SearchTopBar extends Component {
     }
 
     query(query) {
+        
+        query = query.toUpperCase();
 
         let self = this;
         const { minCharacters, display, loaded, results } = this.state;

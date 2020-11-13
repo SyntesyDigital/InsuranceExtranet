@@ -25,12 +25,19 @@ export function isVisible(field,formParameters,values,stageParameter) {
   if(values === undefined)
     return false;
 
+  var visible = true;
+
   if(stageParameter != null){
-    return checkStageVisibility(field,formParameters,stageParameter);
+    //if there is tage check if it's visible in the stage
+    visible = checkStageVisibility(field,formParameters,stageParameter);
   }
 
-  return checkConditionalVisiblity(field,formParameters,values);
-  
+  //if is visible in the stage and visibile on its condition.
+  visible = checkConditionalVisiblity(field,formParameters,values) && visible;
+  // If not visible in stage visible is false.
+
+  return visible;
+
 }
 
 function checkStageVisibility(field,formParameters,stageParameter) {
