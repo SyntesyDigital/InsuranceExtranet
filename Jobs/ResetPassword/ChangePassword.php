@@ -4,8 +4,8 @@ namespace Modules\Extranet\Jobs\ResetPassword;
 
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
-use Modules\Extranet\Repositories\PersonneRepository;
 use Modules\Extranet\Http\Requests\ResetPassword\ChangePasswordRequest;
+use Modules\Extranet\Repositories\PersonneRepository;
 
 class ChangePassword
 {
@@ -35,11 +35,10 @@ class ChangePassword
     public function handle()
     {
         try {
-            
             $client = new Client();
 
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
-            
+
             $client->post($WsUrl.'login/reset/apply', [
                 'json' => [
                     'passwd' => $this->attributes['password'],
@@ -47,17 +46,15 @@ class ChangePassword
                 ],
             ]);
 
-            if(get_config('LOGIN_LIMIT_ATTEMPTS')) {
+            if (get_config('LOGIN_LIMIT_ATTEMPTS')) {
                 $this->repository->flushLoginAttempt(trim($this->attributes['uid']), $this->env);
             }
-            
-            return true;
 
+            return true;
         } catch (\Exception $ex) {
             throw $ex;
         }
 
         return false;
     }
-
 }

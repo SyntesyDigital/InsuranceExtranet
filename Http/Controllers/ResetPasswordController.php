@@ -67,7 +67,7 @@ class ResetPasswordController extends Controller
             $result = dispatch_now(ChangePassword::fromRequest($request));
 
             if ($result) {
-                return redirect(route('login'))->with('message', 'Mot de passe changé avec succès');
+                return redirect(route('login'))->with('message', 'Nous avons bien pris en compte votre nouveau mot de passe.');
             }
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
