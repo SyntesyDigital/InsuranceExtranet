@@ -112,6 +112,7 @@ class FormComponent extends Component {
     // ----------------------------------------------- //
 
     loadTemplate(template) {
+
         api.elementTemplates.get(template)
             .then(response => {
 
@@ -120,7 +121,7 @@ class FormComponent extends Component {
                 this.setState({
                     layout: layout,
                     templateLoaded: true,
-                    fieldsByStage : getFieldsByStage(layout)
+                    fieldsByStage : this.state.hasStages ? getFieldsByStage(layout) : {}
                 });
             });
     }

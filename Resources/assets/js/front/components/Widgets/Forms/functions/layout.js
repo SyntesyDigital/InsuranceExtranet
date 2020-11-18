@@ -7,10 +7,9 @@ import {isDefined} from './parameters';
  * @param {*} layout 
  */
 export function getFieldsByStage(layout){
-      
+    
     var result = parseNode(layout,{},null);
-
-    //console.log("getFieldsByStage :: ",layout,result);
+    
     return result;
 }
 

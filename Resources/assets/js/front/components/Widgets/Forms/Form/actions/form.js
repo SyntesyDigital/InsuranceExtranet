@@ -546,7 +546,7 @@ export function cleanNullValues(jsonArray) {
  * @param {*} json 
  */
 export function cleanJSON(json) {
-  console.log("clean json ",json);
+  //console.log("clean json ",json);
 
   //if not array and not object, is a value, return value
   if((!(json instanceof Array) && !(typeof json === 'object')) || json === null){
