@@ -126,6 +126,28 @@ return [
           'hidden',
         ],
       ],
+      'selectSearch' => [
+        'mapping' => 'selectSearch',
+        'identifier' => 'selectSearch',
+        'label' => 'Boby List',
+        'icon' => 'fas fa-sort',
+        'formats' => [
+        ],
+        'rules' => [
+          'required',
+          'searchable',
+          'sortable',
+          'sortableByDefault',
+        ],
+        'settings' => [
+          'ws',
+          'conditionalVisibility',
+          'defaultValue',
+          'conditionalFormatting',
+          'description',
+          'hidden',
+        ],
+      ],
       'radio' => [
         'mapping' => 'radio',
         'identifier' => 'radio',
@@ -366,7 +388,7 @@ return [
           'description',
           'textAlign',
           'isFile',
-          'isFileWSFusion'
+          'isFileWSFusion',
         ],
       ],
     ],  // --- end fields ---

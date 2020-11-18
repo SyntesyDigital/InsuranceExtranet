@@ -112,6 +112,19 @@ body .element-form .container-radio-field .MuiFormControlLabel-root{
   border-radius: {{$borderRadiusInput}};
 }
 
+/* select-search-field */
+body .element-form .select-search-field button{
+    background-color: {{$btn2BackgroundColor}};
+    color: {{$btn2Color}};
+    border-color: {{$btn2BorderColor}};
+    border-radius: {{$btn2BorderRadius}};
+}
+body .element-form .select-search-field button:hover{
+    background-color: {{$btn2BackgroundHoverColor}};
+    color: {{$btn2HoverColor}};
+    border-color: {{$btn2BorderHoverColor}};
+}
+
 /* checkfield */
 body .element-form .check-field label {
   border: {{$borderPxInputForm}} solid;
