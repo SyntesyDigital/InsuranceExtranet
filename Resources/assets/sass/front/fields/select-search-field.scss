@@ -1,0 +1,32 @@
+.select-search-field {
+    padding-left: 0;
+    & > div {
+        width: calc(100% - 220px);
+    }
+    button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 220px;
+        border-radius: 20px;
+        text-transform: capitalize;
+    }
+    .fa-search {
+        font-size: 20px;
+        position: relative;
+        top: -2px;
+        right: 2px;
+    }
+    @include mq($until: 780px) {
+        width: 100%;
+        padding-right: 0;
+        & > div {
+            width: 100%;
+        }
+        button {
+            position: unset;
+            width: 100%;
+            margin-top: 5px;
+        }
+    }
+}

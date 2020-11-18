@@ -15,6 +15,7 @@ import RadioField from './../fields/RadioField';
 import ImmatField from './../fields/ImmatField';
 import RadioMultiOptionField from './../fields/RadioMultiOptionField';
 import HtmlField from './../fields/HtmlField';
+import SelectSearchField from './../fields/SelectSearchField';
 
 import {
   HIDDEN_FIELD,
@@ -43,7 +44,8 @@ const fieldComponents = {
     radio : RadioField,
     multi : RadioMultiOptionField,
     immat : ImmatField,
-    html : HtmlField
+    html : HtmlField,
+    selectSearch : SelectSearchField
 };
 
 export function getFieldComponent(type) {

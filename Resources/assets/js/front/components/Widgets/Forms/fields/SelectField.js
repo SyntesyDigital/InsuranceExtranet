@@ -306,10 +306,10 @@ class SelectField extends Component {
 
   getBorderColor() {
     if(this.props.error) {
-      return '1px solid ' + STYLES.elementForm.errorColor;
+      return STYLES.elementForm.borderPxInputForm + ' solid ' + STYLES.elementForm.errorColor;
     }
     else if(this.state.addClassBordered || this.props.value != ""){
-      return '1px solid ' + STYLES.elementForm.borderColorInput;
+      return STYLES.elementForm.borderPxInputForm + ' solid ' + STYLES.elementForm.borderColorInput;
     }
     else {
       return null;
