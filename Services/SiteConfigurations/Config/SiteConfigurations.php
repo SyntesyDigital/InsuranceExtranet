@@ -109,7 +109,6 @@ return [
                 'name' => 'WS_GOUV',
                 'label' => 'data.gouv.fr ( défaut : https://entreprise.data.gouv.fr/api/sirene/v3/ )',
               ],
-
             ], //end children col
           ],
         ], //en children box
@@ -451,6 +450,37 @@ return [
         ],
         // END modal
 
+        // Modal action sidebar
+        [
+            'type' => 'box',
+            'title' => 'Icons',
+            'identifier' => 'box_7b',
+            'children' => [
+                [
+                    'type' => 'col',
+                    'class' => 'col-sm-4 col-md-4',
+                    'children' => [
+                        [
+                            'type' => 'field',
+                            'input' => 'boolean',
+                            'identifier' => 'FONTAWESOME_IS_ACTIVE',
+                            'name' => 'FONTAWESOME_LIB_IS_ACTIVE',
+                            'label' => 'Enable FontAwesome Icons',
+                            'value' => true,
+                          ],
+                        [
+                            'type' => 'field',
+                            'input' => 'boolean',
+                            'identifier' => 'CREATIC_LIB_IS_ACTIVE',
+                            'name' => 'CREATIC_LIB_IS_ACTIVE',
+                            'label' => 'Enable Creatic Icons',
+                          ],
+                    ],
+                ],
+            ],
+        ],
+        // END modal
+
         // Search bar
         [
           'type' => 'box',
@@ -524,6 +554,6 @@ return [
     'GA_ID' => '',
     'PASSWORD_LIMIT' => '6',
     'SEARCH_QUERY_PER_PAGE' => '1000',
-    'WS_GOUV' => 'https://entreprise.data.gouv.fr/api/sirene/v3/'
+    'WS_GOUV' => 'https://entreprise.data.gouv.fr/api/sirene/v3/',
   ],
 ];

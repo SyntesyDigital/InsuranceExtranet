@@ -34,6 +34,10 @@
                                             <div class="button-header-container">
                                                 <a href="{{route('dashboard')}}" class="tooltip-link-setting btn-header" title="Espace Admin">
                                                     <i class="fa fa-cog"></i>
+                                                    {{-- <%= compilation.assets['spritemap.svg'].source() %> --}}
+                                                    <svg class="icon icon--web">
+                                                        <use xlink:href="#_sprite_icon--web"></use>
+                                                    </svg>
                                                 </a>
                                             </div>
                                         @endif

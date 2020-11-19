@@ -52,10 +52,12 @@
         @stack('styles')
 
         @include ('extranet::front.partials.google-analytics')
+
+        
     </head>
 
     <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
-
+  
         @stack('modal')
 
         @if(false || (isset(Auth::user()->must_reset_password) && Auth::user()->must_reset_password))
@@ -131,7 +133,7 @@
             "extendedTimeOut": 0
           };
         </script>
-
+        
         @stack('javascripts')
     </body>
 </html>
