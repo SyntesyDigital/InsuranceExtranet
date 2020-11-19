@@ -362,7 +362,6 @@ export default class TableComponent extends Component {
         var value = row.original[identifier];
 
         if (field.type == "date") {
-            //console.log("renderCell => ",field,row);
             value = parseDate(value, field);
         }
         if (field.type == "number") {

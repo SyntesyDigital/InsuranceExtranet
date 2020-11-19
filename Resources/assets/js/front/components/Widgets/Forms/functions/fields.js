@@ -1,4 +1,5 @@
-import moment from 'moment';
+import moment from 'moment-timezone/builds/moment-timezone-with-data';
+moment.tz.setDefault('Europe/Berlin');
 
 import TextField from './../fields/TextField';
 import RichtextField from './../fields/RichtextField';
