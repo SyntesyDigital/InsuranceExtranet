@@ -4,6 +4,8 @@ namespace Modules\Extranet\Services\SiteConfigurations\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Schema;
+
 class SiteConfigurationsProvider extends ServiceProvider
 {
     /**
@@ -22,10 +24,12 @@ class SiteConfigurationsProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/SiteConfigurations.php',
-            'siteConfigurations'
-        );
+        if(Schema::hasTable('site_configurations')){
+            $this->mergeConfigFrom(
+                __DIR__.'/../Config/SiteConfigurations.php',
+                'siteConfigurations'
+            );
+        }
 
         foreach (glob(__DIR__.'/../Helpers/*.php') as $filename) {
             require_once $filename;
