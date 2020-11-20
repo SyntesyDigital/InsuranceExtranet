@@ -14,9 +14,11 @@ export default class MenuSidebar extends Component {
             asideOpen: false,
             children: [],
             itemCurrent: null,
+            itemCurrentIcon: null,
             form: null,
             active: false
         }
+        console.log(this.state.itemCurrent);
     }
 
     handleLogOut(event) {
@@ -25,11 +27,15 @@ export default class MenuSidebar extends Component {
     }
 
     handleSubmenuOpen(item) {
-
+        console.log("item ::" , item)
         this.setState({
             children: item.children,
             itemCurrent: item.name,
+            itemCurrentIcon: item.icon,
+
         });
+
+        console.log("this.state.itemCurrentIcon" , this.state.itemCurrentIcon);
 
         TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
             // display: "block",
@@ -63,6 +69,7 @@ export default class MenuSidebar extends Component {
         var children = [];
         var active = false;
         var itemCurrent = null;
+        var itemCurrentIcon = null;
 
         this.state.menu.map(function (item, i) {
             if (item) {
@@ -71,7 +78,8 @@ export default class MenuSidebar extends Component {
                         if (child.active == true) {
                             children = item.children;
                             active = true;
-                            itemCurrent = item.name
+                            itemCurrent = item.name;
+                            itemCurrentIcon = item.icon
                         }
                     }
                 });
@@ -81,7 +89,8 @@ export default class MenuSidebar extends Component {
         this.setState({
             children: children,
             active: active,
-            itemCurrent: itemCurrent
+            itemCurrent: itemCurrent,
+            itemCurrentIcon: itemCurrentIcon
         });
 
         if (active) {
@@ -140,7 +149,7 @@ export default class MenuSidebar extends Component {
             true
             : false;
 
-        return (
+            return (
             <div>
                 <div className="menu-container">
                     <div id="sidebar-button" className="menu btn-ham open">
@@ -158,6 +167,7 @@ export default class MenuSidebar extends Component {
                             <SubMenuSidebar
                                 children={this.state.children ? this.state.children : []}
                                 itemCurrent={this.state.itemCurrent}
+                                itemCurrentIcon={this.state.itemCurrentIcon}
                             />
                         </div>
                         <ul className="container-menu">
