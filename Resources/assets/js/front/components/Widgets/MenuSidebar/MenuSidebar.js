@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SubMenuSidebar from './SubMenuSidebar';
 import arrowRight from './assets/img/menu_right.svg';
-import UserSessionService from '../../../../services/UserSessionService';
+// import UserSessionService from '../../../../services/UserSessionService';
 
 export default class MenuSidebar extends Component {
 
@@ -18,7 +18,6 @@ export default class MenuSidebar extends Component {
             form: null,
             active: false
         }
-        console.log(this.state.itemCurrent);
     }
 
     handleLogOut(event) {
@@ -27,15 +26,12 @@ export default class MenuSidebar extends Component {
     }
 
     handleSubmenuOpen(item) {
-        console.log("item ::" , item)
         this.setState({
             children: item.children,
             itemCurrent: item.name,
             itemCurrentIcon: item.icon,
 
         });
-
-        console.log("this.state.itemCurrentIcon" , this.state.itemCurrentIcon);
 
         TweenMax.fromTo(".sub-menu-sidebar-container", 0.5, {
             // display: "block",
