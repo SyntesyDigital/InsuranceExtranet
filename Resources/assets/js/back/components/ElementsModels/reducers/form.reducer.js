@@ -204,6 +204,7 @@ function formReducer(state = initialState, action) {
             var newForm = action.payload;
             newForm.procedures = proceduresCopy;
             newForm.validation = newForm.validation_ws !== undefined &&  newForm.validation_ws != null && newForm.validation_ws != '' ? true : false;
+            newForm.isForm = newForm.type == 'form-v2';
 
             return {
                 ...state,
