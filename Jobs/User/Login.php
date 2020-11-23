@@ -8,7 +8,6 @@ use Exception;
 use GuzzleHttp\Client;
 use Modules\Extranet\Extensions\VeosWsUrl;
 use Modules\Extranet\Repositories\PersonneRepository;
-use Request;
 
 class Login
 {
@@ -81,7 +80,7 @@ class Login
                     return false;
                 }
 
-                if(get_config('LOGIN_LIMIT_ATTEMPTS')) {
+                if (get_config('LOGIN_LIMIT_ATTEMPTS')) {
                     $this->repository->flushLoginAttempt($this->uid, $this->env);
                 }
 
@@ -150,5 +149,4 @@ class Login
             throw new Exception('Error limit login attempts', self::ERROR_LIMIT_LOGIN_ATTEMPTS);
         }
     }
-
 }
