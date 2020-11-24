@@ -54,7 +54,7 @@ header {
                         // overflow: hidden;
                         margin-left: 275px;
                         transition: 0.5s;
-                        &.collapsed{
+                        &.collapsed {
                             margin-left: 100px;
                         }
                         .button-header-container {
@@ -80,12 +80,12 @@ header {
                                 }
                             }
                         }
-                        .settings-search{
+                        .settings-search {
                             position: absolute;
                             top: -5px;
                             right: 255px;
                             display: flex;
-                            &.right{
+                            &.right {
                                 right: 50px;
                             }
                             .btn-header {
@@ -94,7 +94,7 @@ header {
                                 width: 43px;
                                 height: 43px;
                                 text-decoration: none;
-                                i{
+                                i {
                                     position: relative;
                                     top: 50%;
                                     transform: translateY(-50%);
@@ -106,8 +106,8 @@ header {
                                     opacity: 0.8;
                                 }
                             }
-                            .button-header-container{
-                                order:2;
+                            .button-header-container {
+                                order: 2;
                             }
                             .user-name {
                                 position: relative;
@@ -498,8 +498,8 @@ footer {
         padding-left: 0;
         @include font(12, 16, 400);
         color: $primary-color;
-        .not-links{
-            a{
+        .not-links {
+            a {
                 pointer-events: none;
             }
         }
@@ -891,3 +891,14 @@ body {
         opacity: 0;
     }
 }
+
+#svg-icons {
+    display: none;
+}
+
+.loading-bubbles:before {
+    font-icon: url('../../img/creatic-lib/ico_loading-bubbles.svg') !important;
+    transition: 0.5s color !important;
+  }
+
+  

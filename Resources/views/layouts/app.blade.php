@@ -40,6 +40,8 @@
         <script src="{{ asset('/plugins/datepicker/bootstrap-datetimepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/datepicker/moment-with-locales.min.js') }}"></script>
 
+       
+
         <!-- Select2 -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -49,6 +51,7 @@
         <!-- Dialog -->
         <script src="/js/libs/dialog.js"></script>
 
+        
     </head>
 
     <body>
@@ -140,6 +143,7 @@
             </div>
 
         </div>
+
 
 		@stack('javascripts-libs')
 

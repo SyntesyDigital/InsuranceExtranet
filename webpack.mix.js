@@ -81,20 +81,32 @@ mix.webpackConfig({
     //         template: path.resolve(__dirname, 'Resources/views/front/layouts/app')
     //     })
     // ]
-    loaders: [{
-        test: /path-to-icons\/.*\.svg$/, // your icons directory
-        loader: 'svg-sprite-loader',
-        options: {
-            extract: true,
-            spriteFilename: './path-to-dist/icons.svg', // this is the destination of your sprite sheet,
-            runtimeCompat: true
-        }
-    }],
+    // loaders: [{
+    //     test: /path-to-icons\/.*\.svg$/, // your icons directory
+    //     loader: 'svg-sprite-loader',
+    //     options: {
+    //         extract: true,
+    //         spriteFilename: './path-to-dist/icons.svg', // this is the destination of your sprite sheet,
+    //         runtimeCompat: true
+    //     }
+    // }],
 
     plugins: [
-        new SpriteLoaderPlugin({
-            plainSprite: true
-        })
+        // new SpriteLoaderPlugin({
+        //     plainSprite: true
+        // })
+        // new IconfontPlugin({
+        //     src: './app/webpack/images/icons',
+        //     family: 'icons',
+        //     dest: {
+        //         font: './tmp/webpack/generated/fonts/icon_font/[family].[type]',
+        //         css: './tmp/webpack/generated/_icon_font_[family].scss'
+        //     },
+        //     watch: {
+        //         pattern: 'app/webpack/images/icons/*',
+        //         cwd: undefined
+        //     },
+        // })
     ]
 });
 

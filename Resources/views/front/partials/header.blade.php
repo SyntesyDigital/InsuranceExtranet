@@ -21,6 +21,9 @@
 						</button>
 					</div>
 					<div class="user-info">
+                    <svg class="icon creatic-actu_arrow_right">
+                                                    <use xlink:href="#creatic-actu_arrow_right"></use>
+                                                </svg>
                         <div class="row">
                             @if (isset($config['SEARCH_IS_ACTIVE']) && $config['SEARCH_IS_ACTIVE']->value === true)
                                 <div class="col-xs-12">
@@ -34,10 +37,6 @@
                                             <div class="button-header-container">
                                                 <a href="{{route('dashboard')}}" class="tooltip-link-setting btn-header" title="Espace Admin">
                                                     <i class="fa fa-cog"></i>
-                                                    {{-- <%= compilation.assets['spritemap.svg'].source() %> --}}
-                                                    <svg class="icon icon--web">
-                                                        <use xlink:href="#_sprite_icon--web"></use>
-                                                    </svg>
                                                 </a>
                                             </div>
                                         @endif
@@ -69,12 +68,24 @@
 	<!-- END CORPO I IDIOMES -->
 	<!-- MENU I SEARCH -->
 
+    <div id="svg-icons"></div>
+
 </header><!-- end HEADER -->
+
 
 @push('javascripts')
 <script>
 
     $(document).ready(function() {
+
+        //
+        fetch(`http://127.0.0.1:8000/Resources/assets/creatic-lib/img/icons.svg`).then(res => {
+            return res.text();
+        }).then(data => {
+                document.getElementById('svg-icons').innerHTML = data;
+            });
+        //
+
         $(".tooltip-link").tooltip({
             disabled: true
         });
