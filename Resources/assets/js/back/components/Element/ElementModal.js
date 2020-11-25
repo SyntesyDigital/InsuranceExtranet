@@ -493,6 +493,16 @@ class ElementModal extends Component {
                                         />
                                     }
 
+                                    {field != null && field.settings != null && field.settings.autosuggest !== undefined &&
+                                        <BooleanSettingsField
+                                            field={field}
+                                            name="autosuggest"
+                                            source="settings"
+                                            label="Disable autosuggest"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
                                     <BooleanSettingsField
                                         field={field}
                                         name="isFile"

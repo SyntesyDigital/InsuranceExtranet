@@ -36,7 +36,7 @@ export const SETTINGS_AVOID = {
   'description' : [TABLE_V1,TABLE_V2],
   'hidden' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'isFile' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
-  'isFileWSFusion' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2]
+  'isFileWSFusion' : [FORM_V1,FILE_V1,FORM_V2,FILE_V2],
 };
 
 /*

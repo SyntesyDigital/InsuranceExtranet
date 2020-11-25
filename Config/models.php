@@ -124,6 +124,7 @@ return [
           'conditionalFormatting',
           'description',
           'hidden',
+          'autosuggest',
         ],
       ],
       'selectSearch' => [
