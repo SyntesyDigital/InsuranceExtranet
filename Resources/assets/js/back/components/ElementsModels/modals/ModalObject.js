@@ -200,7 +200,7 @@ class ModalObject extends Component {
                             />
                             }
 
-                            {this.isForm() && (currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' ) && 
+                            {this.isForm() && (currentObject.format == 'select' || currentObject.format == 'radio' || currentObject.format == 'multi' || currentObject.format == 'selectSearch' ) && 
                                 <InputField
                                     label={'Boby'}
                                     name={'boby'}

@@ -147,6 +147,7 @@ return [
           'conditionalFormatting',
           'description',
           'hidden',
+          'addElement'
         ],
       ],
       'radio' => [
