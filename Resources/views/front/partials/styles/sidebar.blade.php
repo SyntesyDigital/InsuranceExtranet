@@ -44,12 +44,12 @@
         font-size: {{$sidebarIconFontSize}};
     }
     body .sidebar .menu-sidebar-container .menu-item svg.icon ~ .sidebar-text, body .sidebar .menu-sidebar-container .menu-child svg.icon ~ .sidebar-text{
-        position: relative;
-        top: -20px;
+        display: inline-block;
+        height: 50px;
     }
-    body .sidebar .menu-sidebar-container .menu-item svg.icon ~ .arrowright, body .sidebar .menu-sidebar-container .menu-child svg.icon ~ .arrowright{
+    /* body .sidebar .menu-sidebar-container .menu-item svg.icon ~ .arrowright, body .sidebar .menu-sidebar-container .menu-child svg.icon ~ .arrowright{
         top: 35%;
-    }
+    } */
     body .sidebar li a svg{
         width: {{$sidebarIconFontSize}};
         height: -webkit-fill-available;

@@ -346,6 +346,9 @@ footer {
     .menu-item {
         height: 50px;
         line-height: 45px;
+        .icon{
+            top: -3px;
+        }
         // .tooltiptext {
         //     visibility: hidden;
         //     background-color: black;
@@ -376,7 +379,7 @@ footer {
             }
             .arrowright {
                 position: absolute;
-                top: 50%;
+                top: 46%;
                 transform: translateY(-50%);
                 right: 7px;
                 width: 32px;
