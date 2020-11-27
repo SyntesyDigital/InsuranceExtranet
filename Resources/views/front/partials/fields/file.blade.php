@@ -5,15 +5,19 @@
   $url = isset($fieldValue) && isset($fieldValue['urls']['files']) ? asset($fieldValue['urls']['files']) : null;
   $label = (isset($labelFieldName) && $labelFieldName ? $field['name'] : 'Télécharger le document' );
 
+  $visible = check_visible($field['settings'],$parameters);
+
 @endphp
 
-@if(isset($url))
-  <a
-    id="{{$settings['htmlId'] or ''}}"
-    class="{{$settings['htmlClass'] or ''}} {{$class or ''}}"
-    target="_blank"
-    href="{{$url}}"
-  >
-    <i class="fa fa-download"></i> {{$label}}
-  </a>
+@if ($visible)
+  @if(isset($url))
+    <a
+      id="{{$settings['htmlId'] or ''}}"
+      class="{{$settings['htmlClass'] or ''}} {{$class or ''}}"
+      target="_blank"
+      href="{{$url}}"
+    >
+      <i class="fa fa-download"></i> {{$label}}
+    </a>
+  @endif
 @endif
