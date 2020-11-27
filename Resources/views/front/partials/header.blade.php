@@ -21,9 +21,7 @@
 						</button>
 					</div>
 					<div class="user-info">
-                    <svg class="icon creatic-actu_arrow_right">
-                                                    <use xlink:href="#creatic-actu_arrow_right"></use>
-                                                </svg>
+                  
                         <div class="row">
                             @if (isset($config['SEARCH_IS_ACTIVE']) && $config['SEARCH_IS_ACTIVE']->value === true)
                                 <div class="col-xs-12">
@@ -68,7 +66,8 @@
 	<!-- END CORPO I IDIOMES -->
 	<!-- MENU I SEARCH -->
 
-    <div id="svg-icons"></div>
+    <!-- Include file defs svg creatic custom library -->
+    @include('extranet::front.partials.svg_defs')
 
 </header><!-- end HEADER -->
 
@@ -77,15 +76,7 @@
 <script>
 
     $(document).ready(function() {
-
-        //
-        fetch(`http://127.0.0.1:8000/Resources/assets/creatic-lib/img/icons.svg`).then(res => {
-            return res.text();
-        }).then(data => {
-                document.getElementById('svg-icons').innerHTML = data;
-            });
-        //
-
+        
         $(".tooltip-link").tooltip({
             disabled: true
         });

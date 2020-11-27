@@ -35,9 +35,9 @@ class FormButtonRedux extends Component {
             elementObject: props.elementObject,
             parameters: parametersObject,
 
-            fileEnabled : false,
-            filename : '',
-            content : ''
+            fileEnabled: false,
+            filename: '',
+            content: ''
         };
 
         this.props.initParametersState(parametersObject);
@@ -83,18 +83,18 @@ class FormButtonRedux extends Component {
     }
 
     getFilenameExtension(filename) {
-        if(filename === undefined || filename == null || filename === '')
+        if (filename === undefined || filename == null || filename === '')
             return '';
-        
+
         var filenameArray = filename.split('.');
-        return filenameArray[filenameArray.length-1];
+        return filenameArray[filenameArray.length - 1];
     }
 
     processFusionForm(parameters) {
 
-        if(parameters['_fusionContent'] === undefined || parameters['_fusionContent'] == null 
-            || parameters['_fusionContent'] === ''){
-            
+        if (parameters['_fusionContent'] === undefined || parameters['_fusionContent'] == null
+            || parameters['_fusionContent'] === '') {
+
             toastr.error('Aucune donnée trouvée');
             return;
         }
@@ -152,7 +152,7 @@ class FormButtonRedux extends Component {
                 window.location.href = parameters[key];
                 return;
             }
-            else if(key == "_fusionContent") {
+            else if (key == "_fusionContent") {
                 this.processFusionForm(parameters);
                 return;
             }
@@ -181,19 +181,19 @@ class FormButtonRedux extends Component {
     renderHiddenForm() {
 
         //only dislay if file is enabled
-        if(!this.state.fileEnabled)
+        if (!this.state.fileEnabled)
             return null;
 
         return (
             <form
                 id="file-redirect-form"
-                action={ASSETS+'document/download-ws-fusion/'}
+                action={ASSETS + 'document/download-ws-fusion/'}
                 className="hidden"
                 method='POST'
             >
-                <input type="hidden" name="_method" value="POST"/>
-                <input type="hidden" name="filename" value={this.state.filename}/>
-                <input type="hidden" name="content" value={this.state.content}/>
+                <input type="hidden" name="_method" value="POST" />
+                <input type="hidden" name="filename" value={this.state.filename} />
+                <input type="hidden" name="content" value={this.state.content} />
                 <input type="hidden" name="_token" value={$('meta[name="csrf-token"]').attr('content')} />
             </form>
         );
@@ -207,6 +207,18 @@ class FormButtonRedux extends Component {
         const icon = this.props.field.fields[2].value[LOCALE];
         const buttonClass = this.props.field.settings['buttonClass'];
 
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
+            
         return (
             <div>
                 {this.renderHiddenForm()}
@@ -229,7 +241,16 @@ class FormButtonRedux extends Component {
                     }>
                         <div className="wrap-box-button">
                             <div className="image-container">
-                                <div className="wrap-icon"><i className={icon}></i></div>
+                                <div className="wrap-icon">
+                                    {icon != '' && hasFontAwesome &&
+                                        <i className={icon}></i>
+                                    }
+                                    {icon != '' && hasCreaticLib &&
+                                        <svg className={'icon ' + icon}>
+                                            <use xlinkHref={'#' + icon}></use>
+                                        </svg>
+                                    }
+                                </div>
                             </div>
                             <div className="label-container">
                                 <div>

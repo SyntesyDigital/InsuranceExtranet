@@ -464,8 +464,8 @@ return [
                             'type' => 'field',
                             'input' => 'boolean',
                             'identifier' => 'FONTAWESOME_IS_ACTIVE',
-                            'name' => 'FONTAWESOME_LIB_IS_ACTIVE',
-                            'label' => 'Enable FontAwesome Icons',
+                            'name' => 'FONTAWESOME_IS_ACTIVE',
+                            'label' => 'Disable FontAwesome Icons',
                             'value' => true,
                           ],
                         [

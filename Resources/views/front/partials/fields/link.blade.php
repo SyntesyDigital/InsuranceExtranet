@@ -16,6 +16,9 @@
     $link .= "?".$parameters;
   }
 
+  $fontAwesome = get_config('FONTAWESOME_IS_ACTIVE');
+  $creatic = get_config('CREATIC_LIB_IS_ACTIVE');
+
 @endphp
 
 @if(!isset($div))
@@ -25,7 +28,13 @@
   @if(isset($link) && $link != "")
   <a target="{{$target}}" href="{{$link}}" id="{{$field['settings']['htmlId'] or ''}}" class="{{$field['settings']['htmlClass'] or ''}}">
     @if(isset($icon) && $icon && $icon != '')
-      <i class="{{$icon}}"></i>
+        @if(isset($fontAwesome) && $fontAwesome == true)
+            <i class="{{$icon}}"></i>
+            @elseif(isset($creatic) && $creatic == true)
+                <svg class="icon {{$icon}}">
+                    <use xlink:href="#{{$icon}}"></use>
+                </svg> 
+        @endif
     @endif
     {{$field['value']['title'][App::getLocale()] or ''}}
   </a>

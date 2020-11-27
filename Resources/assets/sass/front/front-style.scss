@@ -10,7 +10,6 @@ $bootstrap-sass-asset-helper: true;
 //@import "~font-awesome/scss/font-awesome";
 
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
-@import "./creatic/styles.css";
 
 @import 'helpers/init';
 @import '../helpers/common';
@@ -20,6 +19,10 @@ $bootstrap-sass-asset-helper: true;
 @import "../../js/front/libs/jquery-ui-1.12.1/jquery-ui.min.css";
 @import "../../js/front/libs/slick/slick.css";
 @import "../../js/front/libs/slick/slick-theme.css";
+
+
+//creatic icons
+@import "./creatic/icons.scss";
 
 //layout
 @import 'buttons';

@@ -21,34 +21,54 @@ const HtmlTooltip = withStyles((theme) => ({
 export default class TableAction extends React.Component {
 
     renderIcon() {
-        const hasModalLink = this.props.modalLink !== undefined 
+        const hasModalLink = this.props.modalLink !== undefined
             ? this.props.modalLink : false;
 
-        const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined 
-            ? this.props.icon.icon : null ;
+        const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined
+            ? this.props.icon.icon : null;
+
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
 
         return (
-            <a 
-                href={!hasModalLink ? this.props.url : ''} 
-                className={hasModalLink ? 'modal-link' : ''} 
+            <a
+                href={!hasModalLink ? this.props.url : ''}
+                className={hasModalLink ? 'modal-link' : ''}
                 data-modal={hasModalLink ? this.props.url : ''}
             >
-                {icon != null && 
-                    <span style={{fontSize : 18, marginRight : 15}}>
-                        <i className={icon}></i>&nbsp;
+                {icon != null &&
+                    <span style={{ fontSize: 18, marginRight: 15 }}>
+                        {hasFontAwesome &&
+                            <i className={icon}></i>
+                        }
+                        {hasCreaticLib &&
+                            <svg className={'icon ' + icon}>
+                                <use xlinkHref={'#' + icon}></use>
+                            </svg>
+                        }
+                        &nbsp;
                     </span>
-                } 
+                }
             </a>
         );
     }
 
     render() {
 
-        const hasModalLink = this.props.modalLink !== undefined 
+        const hasModalLink = this.props.modalLink !== undefined
             ? this.props.modalLink : false;
 
         //if no link defined no action
-        if(this.props.url == ''){
+        if (this.props.url == '') {
             return null;
         }
 
@@ -61,7 +81,7 @@ export default class TableAction extends React.Component {
                 }
                 placement="bottom"
             >
-               {this.renderIcon()}
+                {this.renderIcon()}
             </HtmlTooltip>
         )
     }

@@ -98,6 +98,18 @@ export default class MenuSidebar extends Component {
 
     renderMenuItem() {
 
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
+
         const items = this.state.menu;
 
         return items.map((item, i) => {
@@ -111,6 +123,8 @@ export default class MenuSidebar extends Component {
                 var active = item.active !== undefined ? item.active : null;
                 var children = item.children !== undefined && item.children.length > 0 ? item.children : null;
 
+
+
                 return (
                     <li key={i} className={'menu-item ' + (active ? 'active' : '')}>
                         <a
@@ -120,7 +134,14 @@ export default class MenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}
                         >
-                            <i className={icon}></i>
+                            {icon != '' && hasFontAwesome &&
+                                <i className={icon}></i>
+                            }
+                            {icon != '' && hasCreaticLib &&
+                                <svg className={'icon ' + icon}>
+                                    <use xlinkHref={'#' + icon}></use>
+                                </svg>
+                            }
                             <span className="sidebar-text">{name}</span>
                             {children &&
                                 <span className="arrowright"><img src={arrowRight} /></span>

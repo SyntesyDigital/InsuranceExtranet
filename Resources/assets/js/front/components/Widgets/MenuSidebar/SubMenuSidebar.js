@@ -23,6 +23,18 @@ export default class SubMenuSidebar extends Component {
 
     renderMenuItem() {
 
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
+
         const items = this.props.children;
 
         return (items.map((item, i) => {
@@ -43,8 +55,19 @@ export default class SubMenuSidebar extends Component {
                             id={id}
                             className={className + ' tooltip-link'}
                             title={name}>
-                            <i className={icon}></i>
+
+                            {icon != '' && hasFontAwesome &&
+                                <i className={icon}></i>
+                            }
+
+                            {icon != '' && hasCreaticLib &&
+                                <svg className={'icon ' + icon}>
+                                    <use xlinkHref={'#' + icon}></use>
+                                </svg>
+                            }
+
                             <span className="sidebar-text">{name}</span>
+                            
                             {children &&
                                 <span className="arrowright"><i className={'fas fa-angle-right'}></i></span>
                             }

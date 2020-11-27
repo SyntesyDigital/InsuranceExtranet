@@ -40,11 +40,10 @@ export default class ActionButton extends Component {
 
     query() {
 
-        if(this.state.model == null){
+        if (this.state.model == null) {
             //console.error("ActionButton :: model not defined");
             return;
         }
-
 
         var self = this;
         const { elementObject } = this.state;
@@ -56,11 +55,11 @@ export default class ActionButton extends Component {
                     && response.data.modelValues !== undefined) {
                     console.log("ModelValues  :: componentDidMount => ", response.data);
                     self.setState({
-                        val1: response.data.modelValues !== undefined 
-                        && response.data.modelValues.length > 0
-                        && response.data.modelValues[0].val1 !== undefined 
-                        ? response.data.modelValues[0].val1 
-                        : 0,
+                        val1: response.data.modelValues !== undefined
+                            && response.data.modelValues.length > 0
+                            && response.data.modelValues[0].val1 !== undefined
+                            ? response.data.modelValues[0].val1
+                            : 0,
                     });
                 }
 
@@ -73,11 +72,30 @@ export default class ActionButton extends Component {
     }
 
     render() {
-        console.log("this.props , ", this.props)
+
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
+
         return (
             <div className="action-button-container ">
                 <div className="col-md-2 col-sm-2 col-xs-2 container-icon" >
-                    {this.props.icon ? <i className={this.props.icon}></i> : null}
+                    {this.props.icon != '' && hasFontAwesome &&
+                        <i className={this.props.icon}></i>
+                    }
+                    {this.props.icon != '' && hasCreaticLib &&
+                        <svg className={'icon ' + this.props.icon}>
+                            <use xlinkHref={'#' + this.props.icon}></use>
+                        </svg>
+                    }
                 </div>
                 <div className="col-md-7 col-sm-7 col-xs-7 container-title">
                     {this.props.title ? <p>{this.props.title}</p> : null}
@@ -92,7 +110,7 @@ export default class ActionButton extends Component {
                         />
                     </span>
                 </div>
-            </div>
+            </div >
         );
     }
 }

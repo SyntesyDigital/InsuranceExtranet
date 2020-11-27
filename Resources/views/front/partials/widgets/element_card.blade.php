@@ -30,6 +30,9 @@
     $icon = $field['fields'][2]['value'];
 
 
+    $fontAwesome = get_config('FONTAWESOME_IS_ACTIVE');
+    $creatic = get_config('CREATIC_LIB_IS_ACTIVE');
+
 @endphp
 
 @if ( isset($field['settings']['backgroundTransparent']) && $field['settings']['backgroundTransparent'])
@@ -63,7 +66,13 @@
                 style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
             >
                 @if(isset($icon))
-                    <i class="{{$icon}}"></i>
+                    @if(isset($fontAwesome) && $fontAwesome == true)
+                        <i class="{{$icon}}"></i>
+                        @elseif(isset($creatic) && $creatic == true)
+                        <svg class="icon {{$icon}}">
+                            <use xlink:href="#{{$icon}}"></use>
+                        </svg>
+                    @endif
                 @endif
                 {{$title}}
             </div>

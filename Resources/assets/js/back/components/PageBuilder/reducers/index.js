@@ -8,10 +8,12 @@ import modalSettingsReducer from './modalSettings.reducer';
 import modalEditReducer from './modalEdit.reducer';
 import modalEditListReducer from './modalEditList.reducer';
 import modalLayoutReducer from './modalLayout.reducer';
+import creaticIconsReducer from './creaticIcons.reducer';
 
 export default combineReducers({
     app: appReducer,
     fontawesome : fontawesomeReducer,
+    creatic : creaticIconsReducer,
     images : imagesReducer,
     contents : contentsReducer,
     modalItem : modalItemReducer,

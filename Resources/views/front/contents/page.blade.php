@@ -31,7 +31,11 @@
     </div>
     @endif
 
+
+    <!-- Include file defs svg creatic custom library -->
+    @include('extranet::front.partials.svg_defs')
     <!-- ARTICLE -->
+    
     <article class="page-builder">
         <!--h2>{{$content->title}}</h2-->
 

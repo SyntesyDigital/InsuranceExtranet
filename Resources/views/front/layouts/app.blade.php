@@ -48,10 +48,6 @@
         <!-- Select 2 -->
         <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
-
-        <link rel="stylesheet" href="https://i.icomoon.io/public/temp/5eda090dc7/UntitledProject/style-svg.css">
-<script defer src="https://i.icomoon.io/public/temp/5eda090dc7/UntitledProject/svgxuse.js"></script>
-
         @stack('styles')
 
         @include ('extranet::front.partials.google-analytics')

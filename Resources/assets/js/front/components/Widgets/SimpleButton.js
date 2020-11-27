@@ -26,34 +26,34 @@ export default class SimpleButton extends Component {
 
     processLink(fields, index) {
 
-        var content = fields[index].value != null && fields[index].value.content != null && fields[index].value.content !== undefined ? 
+        var content = fields[index].value != null && fields[index].value.content != null && fields[index].value.content !== undefined ?
             fields[index].value.content : null;
-        var link = fields[index].value != null && fields[index].value.url != null && fields[index].value.url !== undefined 
-            ?  fields[index].value.url : null;
-        
-        if(content != null){
+        var link = fields[index].value != null && fields[index].value.url != null && fields[index].value.url !== undefined
+            ? fields[index].value.url : null;
+
+        if (content != null) {
             var contentParameters = getParametersFromContentField(content);
             var formParameters = getParametersFromURL(this.props.parameters);
-            var urlParameters = getUrlParameters(formParameters,true,contentParameters);
-            
+            var urlParameters = getUrlParameters(formParameters, true, contentParameters);
+
             return {
-                url : content.url+'?'+urlParameters,
-                target : '',
-                allowed : allowedLink(content)
+                url: content.url + '?' + urlParameters,
+                target: '',
+                allowed: allowedLink(content)
             }
 
         }
-        else if(link != null){
+        else if (link != null) {
             return {
-                url : link[LOCALE],
-                target : '_blank',
-                allowed : true
+                url: link[LOCALE],
+                target: '_blank',
+                allowed: true
             };
         }
         return {
-            url : '',
-            target : '',
-            allowed : false
+            url: '',
+            target: '',
+            allowed: false
         };
     }
 
@@ -61,22 +61,40 @@ export default class SimpleButton extends Component {
         const fields = this.props.field.fields;
         const title = this.processText(fields, 0);
         const link = this.processLink(fields, 0);
-        const icon = this.processIcon(fields,1);
+        const icon = this.processIcon(fields, 1);
 
-        if(!link.allowed)
+        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
+            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
+            ? true
+            : false;
+
+        if (!link.allowed)
             return null;
 
         return (
             <div className="simple-button-container">
-                <a  
-                    href={link.url} 
+                <a
+                    href={link.url}
                     target={link.target}
                     className={'simple-btn ' + (this.props.field.settings.btnClass ? this.props.field.settings.btnClass : '')}>
-                        
-                        {icon != '' && 
-                            <i className={icon}></i>
-                        } 
-                        &nbsp; {title}
+
+                    {icon != '' && hasFontAwesome &&
+                        <i className={icon}></i>
+                    }
+
+                    {icon != '' && hasCreaticLib &&
+                        <svg className={'icon ' + icon}>
+                            <use xlinkHref={'#' + icon}></use>
+                        </svg>
+                    }
+                    &nbsp; {title}
                 </a>
             </div>
         );

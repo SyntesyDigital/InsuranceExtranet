@@ -20,6 +20,9 @@
 .element-table-container .element-table-container-head i{
   color:{{$elementHeadIconColor}};
 }
+.element-table-container .title h4{
+    margin: 0;
+}
 
 .element-table-container .element-collapsable.element-table-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
@@ -43,6 +46,13 @@
 }
 .element-table-container .elementTable a{
   color:{{$elementLinkColor}};
+}
+.element-table-container .elementTable .table-actions-col i{
+    font-size: {{$fontSizeIconTable}}
+}
+.element-table-container .elementTable .table-actions-col svg.icon{
+    width: {{$fontSizeIconTable}};
+    height: {{$fontSizeIconTable}};
 }
 .element-table-container .elementTable a:hover{
   color:{{$elementLinkHoverColor}};

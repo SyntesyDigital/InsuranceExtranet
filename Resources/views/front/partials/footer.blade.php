@@ -19,7 +19,7 @@
 					)
 				@endif
 				&nbsp;&nbsp;&nbsp;
-				@include ('extranet::front.layouts.version')
+                @include ('extranet::front.layouts.version')
 		</div>
 			<!-- end Col 2 -->
 		</footer><!-- END FOOTER -->

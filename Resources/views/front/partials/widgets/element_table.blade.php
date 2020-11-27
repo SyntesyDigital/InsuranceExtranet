@@ -11,9 +11,11 @@
   }
 
   $model = isset($elementObject) ? $elementObject->getModel($models) : null;
-
   $icon = $field['fields'][3]['value'];
-  
+
+  $fontAwesome = get_config('FONTAWESOME_IS_ACTIVE');
+  $creatic = get_config('CREATIC_LIB_IS_ACTIVE');
+
 @endphp
 
 @if($visible)
@@ -22,7 +24,13 @@
   <div class="title">
     <h4>
       @if(isset($icon))
-        <i class="{{$icon}}"></i>
+        @if(isset($fontAwesome) && $fontAwesome == true)
+            <i class="{{$icon}}"></i>
+            @elseif(isset($creatic) && $creatic == true)
+                <svg class="icon {{$icon}}">
+                    <use xlink:href="#{{$icon}}"></use>
+                </svg> 
+        @endif
       @endif
       {{$field['fields'][0]['value'][App::getLocale()] or ''}}
     </h4>

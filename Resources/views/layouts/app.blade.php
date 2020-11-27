@@ -13,6 +13,7 @@
         <link rel="stylesheet" media="all" href="{{ asset('css/backend-style.css')}}" />
         <link rel="stylesheet" media="all" href="{{ asset('css/font-awesome/css/font-awesome.min.css')}}" />
         <link rel="stylesheet" media="all" href="{{ asset('plugins/toastr/toastr.min.css')}}" />
+        <link rel="stylesheet" href="https://i.icomoon.io/public/temp/5eda090dc7/UntitledProject/style-svg.css">
 
         @stack('stylesheets')
 
@@ -51,11 +52,12 @@
         <!-- Dialog -->
         <script src="/js/libs/dialog.js"></script>
 
-        
     </head>
 
     <body>
-    	@yield('modal')
+        @yield('modal')
+        @include('extranet::front.partials.svg_defs')
+
 		<section id="wrapper">
 	        {{-- <aside class="sidebar">
 	        	<nav>

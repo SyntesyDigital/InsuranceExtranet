@@ -53,64 +53,6 @@ mix.webpackConfig({
 });
 
 // ---------------------------------------- //
-//      CREATIC LIBRARY
-// ---------------------------------------- //
-mix.webpackConfig({
-    // plugins: [
-
-    //     new SVGSpritemapPlugin('Resources/assets/img/creatic-lib/**/*.svg', {
-    //         output: {
-    //             svg: {
-    //                 // Disable `width` and `height` attributes on the root SVG element
-    //                 // as these will skew the sprites when using the <view> via fragment identifiers
-    //                 sizes: false
-    //             }
-    //         },
-    //         sprite: {
-    //             generate: {
-    //                 // Generate <use> tags within the spritemap as the <view> tag will use this
-    //                 use: true,
-    //                 // Generate <symbol> tags within the SVG to use in HTML via <use> tag
-    //                 symbol: true
-    //             },
-    //         },
-    //     }),
-
-    //     new HtmlWebpackPlugin({
-    //         title: 'Example: inline-html',
-    //         template: path.resolve(__dirname, 'Resources/views/front/layouts/app')
-    //     })
-    // ]
-    // loaders: [{
-    //     test: /path-to-icons\/.*\.svg$/, // your icons directory
-    //     loader: 'svg-sprite-loader',
-    //     options: {
-    //         extract: true,
-    //         spriteFilename: './path-to-dist/icons.svg', // this is the destination of your sprite sheet,
-    //         runtimeCompat: true
-    //     }
-    // }],
-
-    plugins: [
-        // new SpriteLoaderPlugin({
-        //     plainSprite: true
-        // })
-        // new IconfontPlugin({
-        //     src: './app/webpack/images/icons',
-        //     family: 'icons',
-        //     dest: {
-        //         font: './tmp/webpack/generated/fonts/icon_font/[family].[type]',
-        //         css: './tmp/webpack/generated/_icon_font_[family].scss'
-        //     },
-        //     watch: {
-        //         pattern: 'app/webpack/images/icons/*',
-        //         cwd: undefined
-        //     },
-        // })
-    ]
-});
-
-// ---------------------------------------- //
 //      COMPILE ASSETS
 // ---------------------------------------- //
 mix
