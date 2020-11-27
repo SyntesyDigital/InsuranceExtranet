@@ -86,14 +86,14 @@ body .element-form label button, body #element-card button.MuiButton-root{
     min-width: unset;
 }
 /* textarea */
-body .element-form input.form-control, body .element-form textarea.form-control{
+body .element-form input.form-control, body .element-form textarea.form-control, body .element-form select.form-control{
   border-radius: {{$borderRadiusInput}};
 }
-body .element-form input.form-control.bordered, body .element-form textarea.form-control.bordered{
-  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
+body .element-form input.form-control.bordered, body .element-form textarea.form-control.bordered, body .element-form select.form-control.bordered{
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}} !important;
 }
-body .element-form input.form-control:focus, body .element-form textarea.form-control:focus{
-  border: {{$borderPxInputForm}} solid {{$borderColorInput}};
+body .element-form input.form-control:focus, body .element-form textarea.form-control:focus, body .element-form select.form-control:focus{
+  border: {{$borderPxInputForm}} solid {{$borderColorInput}} !important;
   -webkit-box-shadow: none;
   box-shadow: none;
 }

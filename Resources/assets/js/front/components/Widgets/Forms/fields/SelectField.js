@@ -35,7 +35,6 @@ class SelectField extends Component {
             display: true,
             preloadData: [],
             selectedOption: null,
-
             boby: boby,
             bobyParameters: bobyParameters,
             parameters: this.props.parameters,
@@ -293,6 +292,7 @@ class SelectField extends Component {
 
     getOption(value) {
         //console.log("SelectField :: getOption (value)",value);
+        console.log(this.state.data)
         if (value === undefined || value == null)
             return null;
 
@@ -316,13 +316,44 @@ class SelectField extends Component {
         }
     }
 
+    handleChangeSimpleSelect(event) {
+        this.props.onFieldChange({
+            name: this.props.field.identifier,
+            value: event.target.value
+        });
+    }
+
 
     render() {
+
         const { field } = this.props;
+        const customStyles = {
+            control: (base) => ({
+                ...base,
+                height: 34,
+                minHeight: 34,
+                boxShadow: '1 !important',
+                border: this.getBorderColor()
+            }),
+            menu: provided => ({ ...provided, zIndex: 99999 })
+        };
+
+        const selectStyle = {
+            backgroundImage: 'linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc)',
+            backgroundPosition: 'calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em',
+            backgroundSize: '5px 5px, 5px 5px, 1px 1.5em',
+            backgroundRepeat: 'no-repeat',
+            borderBottom: '1px solid #ccc',
+        };
+
+        let textFieldClass = ["text-field"];
+        if (this.state.addClassBordered || this.props.value != "") {
+            textFieldClass.push('bordered');
+        }
+
         let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
         defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
         defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
-        //const errors = this.props.error ? ' has-error' : '';
         const display = this.state.display;
 
         let isRequired = field.rules.required !== undefined ?
@@ -334,8 +365,8 @@ class SelectField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
-        let isSearchable = field.settings.autosuggest !== undefined && field.settings.autosuggest != null ?
-            false : true;
+        let isAutoSuggest = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
+            true : false;
 
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
@@ -351,20 +382,16 @@ class SelectField extends Component {
             }));
 
         var optionIndex = this.getOption(this.props.value);
-        //console.log("SelectField :: getOption (optionIndex)",optionIndex);
 
-        const customStyles = {
-            control: (base) => ({
-                ...base,
-                height: 34,
-                minHeight: 34,
-                boxShadow: '1 !important',
-                border: this.getBorderColor()
-            }),
-            menu: provided => ({ ...provided, zIndex: 99999 })
-        };
-
-        //console.log("SelectField :: value : (options,optionsIndex,this.props.value)",options,optionIndex,this.props.value);
+        //option simple select
+        let optionsSimpleSelect = this.state.data.map((data, index) =>
+            <option
+                key={index}
+                value={data.value}
+            >
+                {data.name}
+            </option>
+        );
 
         return (
 
@@ -382,29 +409,43 @@ class SelectField extends Component {
                     }
                 </label>
 
-                <Select
-                    onBlur={this.handleBlur.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
-                    value={options[optionIndex]}
-                    name={field.identifier}
-                    defaultValue={optionIndex != null ? options[optionIndex] : ''}
-                    options={options}
-                    onChange={this.handleOnChange.bind(this)}
-                    styles={customStyles}
-                    placeholder={defaultValue}
-                    menuContainerStyle={{ 'zIndex': 999 }}
-                    isSearchable={isSearchable}
-                    theme={(theme) => ({
-                        ...theme,
-                        borderRadius: STYLES.elementForm.borderRadiusInput,
-                        height: '34px',
-                        colors: {
-                            ...theme.colors,
-                            primary25: STYLES.elementForm.hoverColorInput,
-                            primary: STYLES.elementForm.borderColorInput,
-                        },
-                    })}
-                />
+                {isAutoSuggest ?
+                    <React.Fragment>
+                        <select
+                            className={"form-control simple-select "+ (textFieldClass.join(' '))}
+                            name={field.identifier}
+                            onChange={this.handleChangeSimpleSelect.bind(this)}
+                            value={optionsSimpleSelect[optionIndex]}
+                            placeholder={defaultValue}
+                            style={selectStyle}
+                        >
+                            {optionsSimpleSelect}
+                        </select>
+                    </React.Fragment>
+                    :
+                    <Select
+                        onBlur={this.handleBlur.bind(this)}
+                        onFocus={this.handleFocus.bind(this)}
+                        value={options[optionIndex]}
+                        name={field.identifier}
+                        defaultValue={optionIndex != null ? options[optionIndex] : ''}
+                        options={options}
+                        onChange={this.handleOnChange.bind(this)}
+                        styles={customStyles}
+                        placeholder={defaultValue}
+                        menuContainerStyle={{ 'zIndex': 999 }}
+                        theme={(theme) => ({
+                            ...theme,
+                            borderRadius: STYLES.elementForm.borderRadiusInput,
+                            height: '34px',
+                            colors: {
+                                ...theme.colors,
+                                primary25: STYLES.elementForm.hoverColorInput,
+                                primary: STYLES.elementForm.borderColorInput,
+                            },
+                        })}
+                    />
+                }
             </div>
         );
     }
