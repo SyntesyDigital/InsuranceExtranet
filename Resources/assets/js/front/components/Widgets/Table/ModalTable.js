@@ -21,7 +21,8 @@ class ModalTable extends Component {
       model : null,
       element : null,
       parameters : '',
-      isOn : false
+      isOn : false,
+      formId : "modal-form"+moment().unix()
     };
 
     this.isOn = false;
@@ -199,6 +200,7 @@ class ModalTable extends Component {
                 this.props.redirectUrl : ''}
               onFormFinished={this.handleFormFinished.bind(this)}
               version={"1"}
+              id={this.state.formId}
             />
           </div>
         </div>
@@ -215,6 +217,7 @@ class ModalTable extends Component {
                 this.props.redirectUrl : ''}
               onFormFinished={this.handleFormFinished.bind(this)}
               version={"2"}
+              id={this.state.formId}
             />
           </div>
         </div>

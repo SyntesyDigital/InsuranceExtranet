@@ -271,6 +271,13 @@ class ElementModal extends Component {
                                         label="Lien avec modal"
                                     />
 
+                                    <ModalSettingsField
+                                        field={field}
+                                        name="addElement"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Formulaire à ajouter"
+                                    />
 
                                     <BooleanSettingsField
                                         field={field}

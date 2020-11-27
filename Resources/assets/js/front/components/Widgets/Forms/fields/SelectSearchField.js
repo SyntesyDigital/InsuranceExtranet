@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Select, { components } from "react-select";
 import LabelTooltip from '../../../Common/LabelTooltip';
+import moment from 'moment';
+import ModalTable from './../../Table/ModalTable';
+
 import {
     HIDDEN_FIELD
 } from './../constants';
@@ -10,7 +13,8 @@ import {
     getUrlParameters,
     joinUrls,
     updateParametersWithValues,
-    hasEmptyParameters
+    hasEmptyParameters,
+    isDefined,
 } from './../functions/';
 
 class SelectSearchField extends Component {
@@ -22,19 +26,10 @@ class SelectSearchField extends Component {
         }
         this.handleOnChange = this.handleOnChange.bind(this);
 
-        // uncomment frnk 
-        // const {boby,bobyParameters} = processBoby(
-        //     this.props.field.boby,
-        //     this.props.parameters
-        //   );
-        // End uncomment frnk 
-
-        // remove frnk testing variables
-        const { boby, bobyParameters } = processBoby(
-            'WS_EXT2_SEL_PER_CATEG?type=_type',
-            ''
-        );
-        // remove End frnk testing variables
+        const {boby,bobyParameters} = processBoby(
+            this.props.field.boby,
+            this.props.parameters
+          );
 
         this.state = {
             loading: true,
@@ -42,12 +37,15 @@ class SelectSearchField extends Component {
             display: true,
             preloadData: [],
             selectedOption: null,
-            // uncomment frnk 
             boby: boby,
             bobyParameters: bobyParameters,
-            // End uncomment frnk 
             parameters: this.props.parameters,
-            waitingForParameters: false  //true when parameters need are not yet set
+            waitingForParameters: false,  //true when parameters need are not yet set
+
+            displayModal : false,
+            modalUrl : this.getModalUrlFromSettings(this.props.field),
+            redirectUrl : null,
+            id :  props.field.id+moment().unix()
         };
 
         if (this.hasBobyParameters()) {
@@ -324,7 +322,47 @@ class SelectSearchField extends Component {
         }
     }
 
+    handleModalClose(){
+        this.setState({
+          displayModal : false
+        });
+    }
+
+    handleFormFinished() {
+
+        this.setState({
+            displayModal : false
+        });
+
+        //reload select
+        if (!this.hasBobyParameters()) {
+            this.loadData();
+        }
+    }
+
+    openModal() {
+        this.setState({
+            displayModal : true
+        });
+    }
+
+    /**
+     *  modal Url format is [element_id]?[param_key]=[param_value]&[param_key_2]=[param_value_2]
+     *  Example : 75?id_pol=11061240;
+     */
+    getModalUrlFromSettings(field) {
+        if(isDefined(field.settings) && isDefined(field.settings.addElement) && isDefined(field.settings.addElement.id)) {
+            return field.settings.addElement.id+'?';    // TODO add parameters
+        }
+        else {
+            console.error("SelectSearchField : element is not defined. Please add Form to field configuration",this.props.field.identifier);
+        }
+
+        return null;
+    }
+
     render() {
+
         const { field } = this.props;
         let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
         defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
@@ -381,9 +419,26 @@ class SelectSearchField extends Component {
             );
         };
 
+        //if url not defined button is not enabled
+        const linkDisabled = this.state.modalUrl == null || this.state.displayModal;
+
         //console.log("SelectField :: value : (options,optionsIndex,this.props.value)",options,optionIndex,this.props.value);
         return (
             <div className={"form-group bmd-form-group"} style={{ display: display && !isHidden ? 'block' : 'none' }}>
+
+                <ModalTable
+                    field={this.props.field}
+                    display={this.state.displayModal}
+                    id={"modal-table-component-"+this.state.id}
+                    zIndex={1000}
+                    onModalClose={this.handleModalClose.bind(this)}
+                    modalUrl={this.state.modalUrl}
+                    redirectUrl={this.state.redirectUrl}
+                    //onOpenModal={this.handleOpenModal.bind(this)}
+                    onFormFinished={this.handleFormFinished.bind(this)}
+                />
+
+
                 <label className="bmd-label-floating">
                     {field.name}
                     {isRequired &&
@@ -423,11 +478,14 @@ class SelectSearchField extends Component {
                             IndicatorSeparator: () => null
                         }}
                     />
-                    <button className="btn btn-primary">
+                    <a className="btn" onClick={this.openModal.bind(this)} style={{
+                            opacity:linkDisabled ? 0.5 : 1,
+                            pointerEvents : linkDisabled ? 'none' : 'auto'
+                        }}>
                         {STYLES.elementForm.textBtnAddValueForm ?
                             STYLES.elementForm.textBtnAddValueForm :
                             Lang.get('fields.new_suscriptor')}
-                    </button>
+                    </a>
                 </div>
             </div>
         );

@@ -490,6 +490,8 @@ class FormComponent extends Component {
     handleSubmit(formId, e) {
         if (e !== undefined) {
             e.preventDefault();
+            //add stop propagation to avoid parent submit in nested forms ( example select search )
+            e.stopPropagation();
         }
 
         console.log("handleSubmit :: formId", formId);
