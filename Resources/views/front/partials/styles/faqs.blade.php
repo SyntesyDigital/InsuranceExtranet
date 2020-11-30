@@ -8,6 +8,7 @@
     body .faqs-list-widget .MuiAccordionSummary-root,
     body .faqs-widget .MuiAccordionSummary-root {
         background-color: {{$backgroundColorTitleFaqs}};
+        color: {{$colorTitleFaqs}};
     }
     body .faqs-list-widget  .MuiAccordionSummary-content p,
     body .faqs-widget  .MuiAccordionSummary-content p{
@@ -18,6 +19,8 @@
     body .faqs-list-widget .MuiCollapse-container, 
     body .faqs-widget .MuiCollapse-container{
         background-color: {{$backgroundColorDescFaqs}};
+        color: {{$colorDescFaqs}};
+
     }
     /* container */
     body .faqs-list-widget .MuiButtonBase-root:first-child, 

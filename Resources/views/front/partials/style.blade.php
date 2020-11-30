@@ -435,6 +435,7 @@
     $fontSizeTitleFaqs = isset($storedStylesFront['fontSizeTitleFaqs']) ? $storedStylesFront['fontSizeTitleFaqs']->value.'px' : '14px';
     $colorTitleFaqs = isset($storedStylesFront['colorTitleFaqs']) ? $storedStylesFront['colorTitleFaqs']->value : $secondaryColor;
     $backgroundColorTitleFaqs = isset($storedStylesFront['backgroundColorTitleFaqs']) ? $storedStylesFront['backgroundColorTitleFaqs']->value : '#fff';
+    $colorDescFaqs = isset($storedStylesFront['colorDescFaqs']) ? $storedStylesFront['colorDescFaqs']->value : $secondaryColor;
     $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
     $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
 
