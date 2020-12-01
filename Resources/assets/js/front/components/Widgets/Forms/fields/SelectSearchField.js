@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Select, { components } from "react-select";
+import Select, { components, createFilter } from "react-select";
 import LabelTooltip from '../../../Common/LabelTooltip';
 import moment from 'moment';
 import ModalTable from './../../Table/ModalTable';
@@ -462,6 +462,7 @@ class SelectSearchField extends Component {
                         onChange={this.handleOnChange.bind(this)}
                         styles={customStyles}
                         placeholder={defaultValue}
+                        filterOption={createFilter({ ignoreAccents: false })}
                         menuContainerStyle={{ 'zIndex': 999 }}
                         theme={(theme) => ({
                             ...theme,

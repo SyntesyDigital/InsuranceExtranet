@@ -418,6 +418,7 @@ class SelectField extends Component {
                             value={optionsSimpleSelect[optionIndex]}
                             placeholder={defaultValue}
                             style={selectStyle}
+                            value={this.props.value}
                         >
                             {optionsSimpleSelect}
                         </select>
