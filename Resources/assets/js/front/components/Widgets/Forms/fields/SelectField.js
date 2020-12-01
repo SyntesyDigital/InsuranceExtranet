@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 import LabelTooltip from '../../../Common/LabelTooltip';
 import {
     HIDDEN_FIELD
@@ -412,7 +412,7 @@ class SelectField extends Component {
                 {isAutoSuggest ?
                     <React.Fragment>
                         <select
-                            className={"form-control simple-select "+ (textFieldClass.join(' '))}
+                            className={"form-control simple-select " + (textFieldClass.join(' '))}
                             name={field.identifier}
                             onChange={this.handleChangeSimpleSelect.bind(this)}
                             value={optionsSimpleSelect[optionIndex]}
@@ -434,6 +434,7 @@ class SelectField extends Component {
                         styles={customStyles}
                         placeholder={defaultValue}
                         menuContainerStyle={{ 'zIndex': 999 }}
+                        filterOption={createFilter({ ignoreAccents: false })}
                         theme={(theme) => ({
                             ...theme,
                             borderRadius: STYLES.elementForm.borderRadiusInput,
