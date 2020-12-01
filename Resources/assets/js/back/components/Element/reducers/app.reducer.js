@@ -188,6 +188,11 @@ function updateParamertsFromModel(filters,variables,parameters, parametersList) 
 
 function addDefinitionToFields(fields,fieldsList) {
 
+  var resultFields = [];
+  
+  //to check fields are added only once
+  var fieldsByKey = {};
+
   //process fields list with id
   var fieldsListByKey = {};
   for(var i=0;i<fieldsList.length;i++) {
@@ -195,18 +200,36 @@ function addDefinitionToFields(fields,fieldsList) {
   }
 
   for(var j=0;j<fields.length;j++){
-    fields[j].modelDefinition = fieldsListByKey[fields[j].identifier];
+    //if field not exist yet 
+    if(fieldsByKey[fields[j].identifier] === undefined){
+      fields[j].modelDefinition = fieldsListByKey[fields[j].identifier];  
+
+      //add field to final array
+      resultFields.push(fields[j]);
+
+      //add flag to fieldsList to know field is added
+      fieldsByKey[fields[j].identifier] = true;
+    }
   }
 
   //add Definition to custom fields
   for(var j=0;j<fields.length;j++){
     //if exist in custom fields
     if(MODELS_CUSTOM_FIELDS[fields[j].type] !== undefined){
-      fields[j].modelDefinition = MODELS_CUSTOM_FIELDS[fields[j].type];
+
+      if(fieldsByKey[fields[j].identifier] === undefined){
+        fields[j].modelDefinition = MODELS_CUSTOM_FIELDS[fields[j].type];
+        //add field to final array
+        resultFields.push(fields[j]);
+
+        //add flag to fieldsList to know field is added
+        fieldsByKey[fields[j].identifier] = true;
+      }
     }
   }
 
-  return fields;
+  //return only fields not duplicated
+  return resultFields;
 }
 
 

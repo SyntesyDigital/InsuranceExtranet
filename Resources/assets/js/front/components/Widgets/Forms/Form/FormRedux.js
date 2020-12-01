@@ -760,7 +760,6 @@ const mapStateToProps = state => {
         form: state.form,
         parameters: state.parameters,
         preload: state.preload,
-
     }
 }
 

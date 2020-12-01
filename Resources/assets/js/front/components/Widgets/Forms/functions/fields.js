@@ -305,7 +305,7 @@ export function processObject(object,jsonResult,jsonRoot,arrayPosition,values, f
 
 export function validateField(field,values,isModal) {
 
-  let isRequired = field.rules.required !== undefined ?
+  let isRequired = field.rules !== undefined && field.rules.required !== undefined ?
     field.rules.required : false;
 
   //when is modal take it from main field
