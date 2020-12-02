@@ -202,7 +202,18 @@ function addDefinitionToFields(fields,fieldsList) {
   for(var j=0;j<fields.length;j++){
     //if field not exist yet 
     if(fieldsByKey[fields[j].identifier] === undefined){
+
       fields[j].modelDefinition = fieldsListByKey[fields[j].identifier];  
+      
+      //update boby from model
+      if(fieldsListByKey[fields[j].identifier] !== undefined && fieldsListByKey[fields[j].identifier].boby){
+        //if exist add value from boby
+        fields[j].boby = fieldsListByKey[fields[j].identifier].boby;
+      }
+      else {
+        //if not put ''
+        fields[j].boby = "";
+      }
 
       //add field to final array
       resultFields.push(fields[j]);
