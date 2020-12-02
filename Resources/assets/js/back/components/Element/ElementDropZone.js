@@ -116,6 +116,7 @@ class ElementDropZone extends Component {
 					onOpenSettings={this.handleOpenSettings}
 					errors={item.errors}
 					modelDefinition={item.modelDefinition}
+					boby={item.boby ? item.body : ''}
 				/>
 			))
 		);

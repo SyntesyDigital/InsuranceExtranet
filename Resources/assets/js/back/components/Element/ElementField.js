@@ -255,7 +255,14 @@ class ElementField extends Component {
 			}
 	}
 
-  render() {
+	isTypeSelectAndNotBody(){
+		if(this.props.type == "select"){
+			return this.props.boby == '';
+		}
+		return false;
+	}
+
+  	render() {
 
 		//console.log("is editable => ",this.props.editable);
 
@@ -266,6 +273,7 @@ class ElementField extends Component {
 
 		//if model definition not defined, this field is not in model
 		errors = this.props.modelDefinition === undefined ? true : errors;
+		errors = this.isTypeSelectAndNotBody() ? true : errors;
 
 		const modelUndefined = this.props.modelDefinition === undefined ? true : false ;
 
@@ -277,95 +285,91 @@ class ElementField extends Component {
 		){
 			isEntryTitle = true;
 		}
+		//const valid = this.isValid();
 
+		const {
+			isDragging,
+			connectDragSource,
+			connectDropTarget,
+		} = this.props
 
+		const opacity = isDragging ? 0 : 1;
 
+		var label = MODELS_FIELDS[this.props.type] !== undefined ? MODELS_FIELDS[this.props.type].label : '';
+		label = MODELS_CUSTOM_FIELDS[this.props.type] !== undefined ? MODELS_CUSTOM_FIELDS[this.props.type].label : label;
 
-	//const valid = this.isValid();
+		return connectDragSource(
+				connectDropTarget(
 
-	const {
-		isDragging,
-		connectDragSource,
-		connectDropTarget,
-	} = this.props
+		<div className="typology-field" style={{ ...style, opacity }}>
+			<div className={"field-type "}>
+			<i className={"fa "+this.props.icon}></i> &nbsp;
+						{label}
+						&nbsp;
+						{configuration.required ? ' *' : ''}
 
-	const opacity = isDragging ? 0 : 1;
+						<div className="type-info">
 
-	var label = MODELS_FIELDS[this.props.type] !== undefined ? MODELS_FIELDS[this.props.type].label : '';
-	label = MODELS_CUSTOM_FIELDS[this.props.type] !== undefined ? MODELS_CUSTOM_FIELDS[this.props.type].label : label;
+							{errors &&
+								<span class="text-danger">
+									<i class="fas fa-exclamation-triangle"></i>
+								</span>
+							}
 
-    return connectDragSource(
-			connectDropTarget(
+							{configuration.visible &&
+								<span className="text-success">
+									<i className="fas fa-eye"></i>
+								</span>
+							}
 
-      <div className="typology-field" style={{ ...style, opacity }}>
-        <div className={"field-type "}>
-          <i className={"fa "+this.props.icon}></i> &nbsp;
-					{label}
-					&nbsp;
-					{configuration.required ? ' *' : ''}
+							{configuration.hasRoute &&
+								<span className="text-success">
+									<i class="fas fa-link"></i>
+								</span>
+							}
 
-					<div className="type-info">
+							{configuration.configured &&
+								<span className="text-success">
+									<i className="fas fa-cog"></i>
+								</span>
+							}
 
-						{errors &&
-							<span class="text-danger">
-								<i class="fas fa-exclamation-triangle"></i>
-							</span>
-						}
+						</div>
 
-						{configuration.visible &&
-							<span className="text-success">
-								<i className="fas fa-eye"></i>
-							</span>
-						}
-
-						{configuration.hasRoute &&
-							<span className="text-success">
-								<i class="fas fa-link"></i>
-							</span>
-						}
-
-						{configuration.configured &&
-							<span className="text-success">
-								<i className="fas fa-cog"></i>
-							</span>
-						}
-
-					</div>
-
-        </div>
-
-        <div className="field-inputs">
-          <div className="row">
-            <div className="field-name col-xs-6">
-              <input type="text" className="form-control" name="name" placeholder="Nom" value={this.state.name} onChange={this.handleChange}/>
-            </div>
-			<div className="field-name col-xs-6">
-				<input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.state.identifier} onChange={this.handleChange}/>
 			</div>
 
-          </div>
-        </div>
+			<div className="field-inputs">
+			<div className="row">
+				<div className="field-name col-xs-6">
+				<input type="text" className="form-control" name="name" placeholder="Nom" value={this.state.name} onChange={this.handleChange}/>
+				</div>
+				<div className="field-name col-xs-6">
+					<input disabled type="text" className="form-control" name="identifier" placeholder="Idenfiticador" value={this.state.identifier} onChange={this.handleChange}/>
+				</div>
 
-        <div className="field-actions text-right" style={{
-					paddingRight : '15px'
-				}}>
+			</div>
+			</div>
 
-					{!modelUndefined && 
-						<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
-					}
+			<div className="field-actions text-right" style={{
+						paddingRight : '15px'
+					}}>
 
-					<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
+						{!modelUndefined && 
+							<a href="" onClick={this.onOpenSettings}> <i className="fas fa-pencil-alt"></i> {Lang.get('header.configuration')}</a>
+						}
 
-					{/*
-					{!configuration.required &&
 						<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
-					}
-					*/}
 
-        </div>
-      </div>),
-    );
-  }
+						{/*
+						{!configuration.required &&
+							<a href="" className="remove-field-btn" onClick={this.onRemoveField}> &nbsp;&nbsp; <i className="fa fa-trash"></i> {Lang.get('fields.delete')} </a>
+						}
+						*/}
+
+			</div>
+		</div>),
+		);
+  	}
 
 }
 
