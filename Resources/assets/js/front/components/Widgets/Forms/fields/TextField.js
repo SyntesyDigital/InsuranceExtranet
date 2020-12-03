@@ -23,6 +23,17 @@ class TextField extends Component {
         return this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '' ? true : false;
     }
 
+    fieldHasPlaceholderSettings() {
+        return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+    }
+    
+    getPlaceholder() {
+        if (this.fieldHasPlaceholderSettings()) {
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+        }
+        return '';
+    }
+
     isReadOnly() {
         const field = this.props.field;
         const operation = field.settings.operation;
@@ -126,6 +137,7 @@ class TextField extends Component {
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
+        var placeholder = this.getPlaceholder();
 
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
@@ -165,7 +177,7 @@ class TextField extends Component {
                     onFocus={this.handleFocus.bind(this)}
                     maxLength={maxCharacters}
                     minLength={minCharacters}
-                    placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
+                    placeholder={placeholder != '' ? placeholder : maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
                     readOnly={this.isReadOnly()}
                 />
             </div>
@@ -174,7 +186,7 @@ class TextField extends Component {
     }
 
 }
-
+//placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
 export default TextField;
 
 TextField.propTypes = {

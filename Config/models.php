@@ -33,6 +33,7 @@ return [
           'operation',
           'description',
           'hidden',
+          'placeholder'
         ],
       ],
       'number' => [
@@ -253,6 +254,7 @@ return [
           'defaultValue',
           'textAlign',
           'description',
+          'placeholder'
         ],
       ],
       'html' => [
