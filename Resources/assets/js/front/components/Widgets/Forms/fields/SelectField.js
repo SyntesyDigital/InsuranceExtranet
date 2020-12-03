@@ -435,7 +435,9 @@ class SelectField extends Component {
                         styles={customStyles}
                         placeholder={defaultValue}
                         menuContainerStyle={{ 'zIndex': 999 }}
-                        filterOption={createFilter({ ignoreAccents: false })}
+                        filterOption={createFilter({
+                             ignoreAccents: false 
+                        })}
                         theme={(theme) => ({
                             ...theme,
                             borderRadius: STYLES.elementForm.borderRadiusInput,
