@@ -61,6 +61,17 @@ class RichtextField extends Component
     return '';
   }
 
+  fieldHasPlaceholderSettings() {
+    return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+  }
+
+  getPlaceholder() {
+      if (this.fieldHasPlaceholderSettings()) {
+          return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+      }
+      return '';
+  }
+
   render() {
 
     const {field} = this.props;
@@ -80,6 +91,8 @@ class RichtextField extends Component
 
     var maxCharacters = this.getNumberFromRules('maxCharacters');
     var minCharacters = this.getNumberFromRules('minCharacters');
+
+    var placeholder = this.getPlaceholder();
 
     return (
 
@@ -113,6 +126,7 @@ class RichtextField extends Component
           rows={4}
           maxLength={maxCharacters}
           minLength={minCharacters}
+          placeholder={placeholder != '' ? placeholder : ""}
 
         ></textarea>
       </div>
