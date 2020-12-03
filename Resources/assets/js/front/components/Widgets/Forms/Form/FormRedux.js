@@ -586,13 +586,14 @@ class FormComponent extends Component {
         }
 
         var fields = this.state.elementObject.fields;
+        var currentStage = this.state.hasStages ? this.state.currentStage : null;
         
         if(this.state.hasStages ){
-            if(isDefined(this.state.fieldsByStage[this.state.currentStage])){
-                fields = this.state.fieldsByStage[this.state.currentStage];
+            if(isDefined(this.state.fieldsByStage[currentStage])){
+                fields = this.state.fieldsByStage[currentStage];
             }
             else {
-                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,this.state.currentStage)
+                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,currentStage)
             }
         }
 
@@ -605,7 +606,14 @@ class FormComponent extends Component {
             var field = fields[key];
 
             var valid = validateField(field, this.state.values);
-            var visible = isVisible(field, this.props.parameters.formParameters, this.state.values);
+            var visible = isVisible(
+                field, 
+                this.props.parameters.formParameters, 
+                this.state.values
+                //this.state.stageParameter
+            );
+
+            //console.log("validateFields :: field, valid, visible ",this.state.stageParameter,field.identifier, valid, visible);
 
             //if the field is not visible, is always valid
             if (!visible) {

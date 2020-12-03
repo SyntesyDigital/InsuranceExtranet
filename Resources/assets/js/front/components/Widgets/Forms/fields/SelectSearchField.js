@@ -462,7 +462,9 @@ class SelectSearchField extends Component {
                         onChange={this.handleOnChange.bind(this)}
                         styles={customStyles}
                         placeholder={defaultValue}
-                        filterOption={createFilter({ ignoreAccents: false })}
+                        filterOption={createFilter({ 
+                            ignoreAccents: false 
+                        })}
                         menuContainerStyle={{ 'zIndex': 999 }}
                         theme={(theme) => ({
                             ...theme,
