@@ -526,6 +526,16 @@ class ElementModal extends Component {
                                         label="Action de type fichier Fusion"
                                     />
 
+                                    {field != null && field.settings != null && field.settings.placeholder !== undefined && 
+                                        <InputSettingsField
+                                            field={field}
+                                            name="placeholder"
+                                            source="settings"
+                                            label="Placeholder"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
                                 </div>
                             </div>
                         </div>
