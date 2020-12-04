@@ -6,6 +6,9 @@
         background: #fff;
         .MuiAccordionSummary-content {
             order: 2;
+            i, svg{
+                margin-right: 8px;
+            }
         }
         .MuiAccordionSummary-expandIcon {
             order: 1;
