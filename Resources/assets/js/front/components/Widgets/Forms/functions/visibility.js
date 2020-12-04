@@ -41,7 +41,7 @@ export function isVisible(field,formParameters,values,stageParameter) {
 }
 
 function checkStageVisibility(field,formParameters,stageParameter) {
-    console.log("checkStageVisibility :: ",field,formParameters,stageParameter);
+    //console.log("checkStageVisibility :: ",field,formParameters,stageParameter);
 
     if(isDefined(field.settings.stage)){
         var rowStage = field.settings.stage;
@@ -51,7 +51,7 @@ function checkStageVisibility(field,formParameters,stageParameter) {
           return currentStage == rowStage;
         }
         else {
-          console.error("checkStageVisibility : formParameters[stageParameter] not defined.");
+          //console.error("checkStageVisibility : formParameters[stageParameter] not defined.");
           return true;
         }
     }

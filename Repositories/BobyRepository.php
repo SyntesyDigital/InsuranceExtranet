@@ -6,6 +6,7 @@ use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Modules\Extranet\Extensions\VeosWsUrl;
+use Carbon\Carbon;
 
 class BobyRepository
 {
@@ -231,4 +232,5 @@ class BobyRepository
 
         return false;
     }
+
 }

@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../../back/api';
-
 import ImageField from './../../ElementCard/fields/ImageField';
 import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
-
 import EventBus from './../../../../../services/EventBus';
-
 import LayoutParser from './../../ElementCard/LayoutParser';
 
 import {
@@ -30,7 +27,8 @@ import {
     initProceduresIteration,
     updateParametersFromParent,
     startValidation,
-    updateStageParameter
+    updateStageParameter,
+    autosave
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
@@ -234,8 +232,23 @@ class FormComponent extends Component {
 
         var self = this;
 
+        if(this.state.timer !== undefined) {
+            clearTimeout(this.state.timer);
+        }
+        
         this.setState({
-            values: values
+            values: values,
+            timer: setTimeout(() => { // Autosave
+                this.props.autosave(this.props.form.autosaveId === false ? 'create' : 'update', {
+                    codec: 'form',
+                    payload: {
+                        key: this.props.form.autosaveId,
+                        url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
+                        stage: this.state.currentStage,
+                        values: values
+                    }
+                });
+            }, 1000)
         }, function () {
             self.validateFieldChange(
                 self.getElementObjectField(field.name)
@@ -785,6 +798,9 @@ const mapDispatchToProps = dispatch => {
         },
         updateStageParameter : (identifier,stage,formParameters) => {
             return dispatch(updateStageParameter(identifier,stage,formParameters))
+        },
+        autosave: (action, payload) => {
+            return dispatch(autosave(action, payload));
         },
     }
 }
