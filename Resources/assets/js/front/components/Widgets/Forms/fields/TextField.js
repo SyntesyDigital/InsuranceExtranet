@@ -186,7 +186,7 @@ class TextField extends Component {
     }
 
 }
-//placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
+
 export default TextField;
 
 TextField.propTypes = {
