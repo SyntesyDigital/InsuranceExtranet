@@ -438,6 +438,8 @@
     $colorDescFaqs = isset($storedStylesFront['colorDescFaqs']) ? $storedStylesFront['colorDescFaqs']->value : $secondaryColor;
     $backgroundColorDescFaqs = isset($storedStylesFront['backgroundColorDescFaqs']) ? $storedStylesFront['backgroundColorDescFaqs']->value : '#fff';
     $borderRadiusContainerFaqs = isset($storedStylesFront['borderRadiusContainerFaqs']) ? $storedStylesFront['borderRadiusContainerFaqs']->value.'px' : '20px';
+    $colorIconFaqs = isset($storedStylesFront['colorIconFaqs']) ? $storedStylesFront['colorIconFaqs']->value : $secondaryColor;
+    $fontSizeIconFaqs = isset($storedStylesFront['fontSizeIconFaqs']) ? $storedStylesFront['fontSizeIconFaqs']->value.'px' : '14px';
 
     //FORM PER ÉTAPES -> STEPPER
     $stepperCompletedBackgroundColor = isset($storedStylesFront['stepperCompletedBackgroundColor']) ? $storedStylesFront['stepperCompletedBackgroundColor']->value : '#C9D200';
