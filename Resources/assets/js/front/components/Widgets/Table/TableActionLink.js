@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class TableActionLink extends React.Component {
 
@@ -12,18 +13,6 @@ export default class TableActionLink extends React.Component {
 
         const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined
             ? this.props.icon.icon : null;
-            
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
 
         return (
             <a
@@ -33,14 +22,9 @@ export default class TableActionLink extends React.Component {
             >
                 {icon != null &&
                     <span style={{ fontSize: 16, marginRight: 10 }}>
-                        {hasFontAwesome &&
-                            <i className={icon}></i>
-                        }
-                        {hasCreaticLib &&
-                            <svg className={'icon ' + icon}>
-                                <use xlinkHref={'#' + icon}></use>
-                            </svg>
-                        }
+                        <CustomIcon
+                            icon={icon}
+                        />
                         &nbsp;
                     </span>
                 }

@@ -2,7 +2,6 @@
     $link = "";
     $target = "";
     $title = $field['fields'][0]['value'][App::getLocale()];
-    $icon = $field['fields'][1]['value'][App::getLocale()];
     $allowed = true;
 
     if(isset($field['fields'][2]['value']['content'])){
@@ -27,9 +26,6 @@
     $model = isset($elementObject) ? $elementObject->getModel($models) : null;
     $visible = check_visible($field['settings'],$parameters);
 
-    $fontAwesome = get_config('FONTAWESOME_IS_ACTIVE');
-    $creatic = get_config('CREATIC_LIB_IS_ACTIVE');
-
 @endphp
 
 
@@ -47,15 +43,13 @@
                 <div class="title">{{ \Illuminate\Support\Str::limit($title, 45, $end = '...') }}</div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-4 container-icon">
-                @if (isset($icon))
-                    @if (isset($fontAwesome) && $fontAwesome == true)
-                        <i class="{{ $icon }}"></i>
-                    @elseif(isset($creatic) && $creatic == true)
-                        <svg class="icon {{ $icon }}">
-                            <use xlink:href="#{{ $icon }}"></use>
-                        </svg>
-                    @endif
-                @endif
+                @include('extranet::front.partials.fields.icon',
+                    [
+                        "field" => $field['fields'][1],
+                        "settings" => $field['settings'],
+                        "div" => false,
+                    ]
+                )
             </div>
             <div class="total-box-container-body"></div>
         </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import arrowLeft from './assets/img/menu_left.svg';
 import { isMobile } from 'react-device-detect';
-
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class SubMenuSidebar extends Component {
 
@@ -22,18 +22,6 @@ export default class SubMenuSidebar extends Component {
     }
 
     renderMenuItem() {
-
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
 
         const items = this.props.children;
 
@@ -56,18 +44,14 @@ export default class SubMenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}>
 
-                            {icon != '' && hasFontAwesome &&
-                                <i className={icon}></i>
-                            }
-
-                            {icon != '' && hasCreaticLib &&
-                                <svg className={'icon ' + icon}>
-                                    <use xlinkHref={'#' + icon}></use>
-                                </svg>
+                            {icon != '' &&
+                                <CustomIcon
+                                    icon={icon}
+                                />
                             }
 
                             <span className="sidebar-text">{name}</span>
-                            
+
                             {children &&
                                 <span className="arrowright"><i className={'fas fa-angle-right'}></i></span>
                             }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import CustomIcon from './../../../Common/CustomIcon';
 
 export default class IconField extends Component {
 
@@ -38,29 +38,13 @@ export default class IconField extends Component {
             height: 'calc(2* ' + font + ')',
         };
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-
         return (
             <div className="container-icon" style={divStyle}>
                 <span style={spanStyle} className={circle ? 'border-radius' : null}>
-                    {icon != '' && hasFontAwesome &&
-                        <i className={icon} style={iconStyle}></i>
-                    }
-                    {icon != '' && hasCreaticLib &&
-                        <svg className={'icon ' + icon}>
-                            <use xlinkHref={'#' + icon}></use>
-                        </svg>
+                    {icon != '' &&
+                        <CustomIcon
+                            icon={icon}
+                        />
                     }
                 </span>
             </div>

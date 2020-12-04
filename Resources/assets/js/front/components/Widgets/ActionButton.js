@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import NumberFormat from 'react-number-format';
 import "react-table/react-table.css";
-
+import CustomIcon from './../Common/CustomIcon';
 
 export default class ActionButton extends Component {
 
@@ -73,28 +73,13 @@ export default class ActionButton extends Component {
 
     render() {
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-
         return (
             <div className="action-button-container ">
                 <div className="col-md-2 col-sm-2 col-xs-2 container-icon" >
-                    {this.props.icon != '' && hasFontAwesome &&
-                        <i className={this.props.icon}></i>
-                    }
-                    {this.props.icon != '' && hasCreaticLib &&
-                        <svg className={'icon ' + this.props.icon}>
-                            <use xlinkHref={'#' + this.props.icon}></use>
-                        </svg>
+                    {this.props.icon != '' &&
+                        <CustomIcon
+                            icon={this.props.icon}
+                        />
                     }
                 </div>
                 <div className="col-md-7 col-sm-7 col-xs-7 container-title">

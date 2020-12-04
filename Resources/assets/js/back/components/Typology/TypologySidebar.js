@@ -23,14 +23,12 @@ class TypologySidebar extends Component {
 
         const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
             && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
+            ? !SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value
+            : true;
 
         const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
             && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
+            ? SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value
             : false;
 
         if (hasFontAwesome) {

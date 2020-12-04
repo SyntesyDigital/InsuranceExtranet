@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import axios from 'axios';
-import moment from 'moment';
-
+import CustomIcon from './../../../../Common/CustomIcon';
 import {
     parameteres2Array,
     getUrlParameters,
@@ -202,23 +199,10 @@ class FormButtonRedux extends Component {
     render() {
 
         const loaded = this.props.parameters.formParametersLoaded;
-
         const title = this.props.field.fields[0].value[LOCALE];
         const icon = this.props.field.fields[2].value[LOCALE];
         const buttonClass = this.props.field.settings['buttonClass'];
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-            
         return (
             <div>
                 {this.renderHiddenForm()}
@@ -242,13 +226,10 @@ class FormButtonRedux extends Component {
                         <div className="wrap-box-button">
                             <div className="image-container">
                                 <div className="wrap-icon">
-                                    {icon != '' && hasFontAwesome &&
-                                        <i className={icon}></i>
-                                    }
-                                    {icon != '' && hasCreaticLib &&
-                                        <svg className={'icon ' + icon}>
-                                            <use xlinkHref={'#' + icon}></use>
-                                        </svg>
+                                    {icon != '' &&
+                                        <CustomIcon
+                                            icon={icon}
+                                        />
                                     }
                                 </div>
                             </div>

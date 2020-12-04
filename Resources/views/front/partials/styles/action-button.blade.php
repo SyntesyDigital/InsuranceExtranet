@@ -14,10 +14,13 @@
     }
     body .action-button-container .container-icon i{
         color: {{$iconColorActionButton}};
+        font-size: {{$fontSizeIconActionButton}};
     }
     body .action-button-container .container-icon svg.icon{
         width: {{$fontSizeIconActionButton}};
         height: {{$fontSizeIconActionButton}};
+        min-width: {{$fontSizeIconActionButton}};
+        min-height: {{$fontSizeIconActionButton}};
     }
     body .action-button-container:hover .container-icon i{
         color: {{$iconHoverColorActionButton}};

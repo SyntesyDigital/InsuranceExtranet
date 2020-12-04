@@ -49,7 +49,15 @@
       <div class="wrap-box-button">
         <div class="image-container" id="identifier-{{$identifier}}">
             @if(isset($icon))
-                <div class="wrap-icon"><i class="{{$icon}}"></i></div>
+                <div class="wrap-icon">
+                    @include('extranet::front.partials.fields.icon',
+                        [
+                            "field" => $field['fields'][2],
+                            "settings" => $field['settings'],
+                            "div" => false,
+                        ]
+                    )
+                </div>
             @else
                 <div class="wrap-image">
                     @include('extranet::front.partials.fields.image', [

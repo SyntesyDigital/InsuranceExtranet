@@ -4,8 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import TableActionLink from './TableActionLink';
-import LabelTooltip from '../../Common/LabelTooltip';
+import CustomIcon from './../../Common/CustomIcon';
 
 const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
@@ -27,18 +26,6 @@ export default class TableAction extends React.Component {
         const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined
             ? this.props.icon.icon : null;
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-
         return (
             <a
                 href={!hasModalLink ? this.props.url : ''}
@@ -47,14 +34,9 @@ export default class TableAction extends React.Component {
             >
                 {icon != null &&
                     <span style={{ fontSize: 18, marginRight: 15 }}>
-                        {hasFontAwesome &&
-                            <i className={icon}></i>
-                        }
-                        {hasCreaticLib &&
-                            <svg className={'icon ' + icon}>
-                                <use xlinkHref={'#' + icon}></use>
-                            </svg>
-                        }
+                        <CustomIcon
+                            icon={icon}
+                        />
                         &nbsp;
                     </span>
                 }

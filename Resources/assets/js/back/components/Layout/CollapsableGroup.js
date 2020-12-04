@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CustomIcon from './CustomIcon';
 
 export default class CollapsableGroup extends Component {
 
@@ -67,18 +68,6 @@ export default class CollapsableGroup extends Component {
         let first = false;
         let last = false;
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-            
         if (sortable !== undefined && sortable) {
             first = index !== undefined && index == 0 ? true : false;
             last = index !== undefined && length !== undefined && index == length - 1 ? true : false;
@@ -109,13 +98,10 @@ export default class CollapsableGroup extends Component {
                     </div>
                     <button style={{ display: (hideTab ? 'none' : 'block') }} id={"heading" + identifier} className="btn btn-link" data-toggle="collapse" data-target={"#collapse" + identifier} aria-expanded="true" aria-controls={"collapse" + identifier}>
                         <span className="field-name">
-                            {icon != '' && hasFontAwesome &&
-                                <i className={icon}></i>
-                            }
-                            {icon != '' && hasCreaticLib &&
-                                <svg className={'icon ' + icon}>
-                                    <use xlinkHref={'#' + icon}></use>
-                                </svg>
+                            {icon != '' &&
+                                <CustomIcon
+                                    icon={icon}
+                                />
                             }
                             {' '}{title}
                         </span>

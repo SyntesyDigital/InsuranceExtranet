@@ -12,28 +12,19 @@
 
     $model = isset($elementObject) ? $elementObject->getModel($models) : null;
 
-    $icon = isset($field['fields'][2]['value']) 
-        ? $field['fields'][2]['value'] 
-        : null;
-
-    $fontAwesome = get_config('FONTAWESOME_IS_ACTIVE');
-    $creatic = get_config('CREATIC_LIB_IS_ACTIVE');
-    
 @endphp
 
 @if($visible)
   <div id="{{$field['settings']['htmlId'] or ''}}" class="element-table-container {{$field['settings']['htmlClass'] or ''}}">
 
     <div class="{{$field['settings']['collapsable']? 'element-collapsable':'' }} element-table-container-head {{$field['settings']['collapsed']?'collapsed':''}}" @if($field['settings']['collapsable']) data-toggle="collapse" data-target="#collapsetable-{{$identifier}}" aria-expanded="true" aria-controls="collapsetable-{{$identifier}}"@endif>
-        @if(isset($icon))
-            @if(isset($fontAwesome) && $fontAwesome == true)
-                <i class="{{$icon}}"></i>
-                @elseif(isset($creatic) && $creatic == true)
-                    <svg class="icon {{$icon}}">
-                        <use xlink:href="#{{$icon}}"></use>
-                    </svg> 
-            @endif
-        @endif
+        @include('extranet::front.partials.fields.icon',
+            [
+                "field" => $field['fields'][2],
+                "settings" => $field['settings'],
+                "div" => false,
+            ]
+        )
         {{$field['fields'][0]['value'][App::getLocale()] or ''}}
     </div>
 

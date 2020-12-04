@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import CustomIcon from './../Common/CustomIcon';
 import {
     getParametersFromContentField,
     getUrlParameters,
@@ -63,18 +63,6 @@ export default class SimpleButton extends Component {
         const link = this.processLink(fields, 0);
         const icon = this.processIcon(fields, 1);
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-
         if (!link.allowed)
             return null;
 
@@ -84,15 +72,10 @@ export default class SimpleButton extends Component {
                     href={link.url}
                     target={link.target}
                     className={'simple-btn ' + (this.props.field.settings.btnClass ? this.props.field.settings.btnClass : '')}>
-
-                    {icon != '' && hasFontAwesome &&
-                        <i className={icon}></i>
-                    }
-
-                    {icon != '' && hasCreaticLib &&
-                        <svg className={'icon ' + icon}>
-                            <use xlinkHref={'#' + icon}></use>
-                        </svg>
+                    {icon != '' &&
+                        <CustomIcon
+                            icon={icon}
+                        />
                     }
                     &nbsp; {title}
                 </a>

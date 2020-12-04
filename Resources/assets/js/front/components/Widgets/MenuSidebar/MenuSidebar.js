@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SubMenuSidebar from './SubMenuSidebar';
 import arrowRight from './assets/img/menu_right.svg';
-import UserSessionService from '../../../../services/UserSessionService';
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class MenuSidebar extends Component {
 
@@ -98,18 +98,6 @@ export default class MenuSidebar extends Component {
 
     renderMenuItem() {
 
-        const hasFontAwesome = SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.FONTAWESOME_IS_ACTIVE.value == true
-            ? true
-            : false;
-
-        const hasCreaticLib = SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== undefined
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE !== null
-            && SITE_CONFIG_GENERAL.CREATIC_LIB_IS_ACTIVE.value == true
-            ? true
-            : false;
-
         const items = this.state.menu;
 
         return items.map((item, i) => {
@@ -134,13 +122,10 @@ export default class MenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}
                         >
-                            {icon != '' && hasFontAwesome &&
-                                <i className={icon}></i>
-                            }
-                            {icon != '' && hasCreaticLib &&
-                                <svg className={'icon ' + icon}>
-                                    <use xlinkHref={'#' + icon}></use>
-                                </svg>
+                            {icon != '' &&
+                                <CustomIcon
+                                    icon={icon}
+                                />
                             }
                             <span className="sidebar-text">{name}</span>
                             {children &&

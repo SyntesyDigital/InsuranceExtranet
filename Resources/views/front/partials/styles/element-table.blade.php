@@ -20,9 +20,9 @@
 .element-table-container .element-table-container-head i{
   color:{{$elementHeadIconColor}};
 }
-.element-table-container .title h4{
+/* .element-table-container .title h4{
     margin: 0;
-}
+} */
 
 .element-table-container .element-collapsable.element-table-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
