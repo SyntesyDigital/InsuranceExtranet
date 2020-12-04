@@ -292,7 +292,7 @@ class SelectField extends Component {
 
     getOption(value) {
         //console.log("SelectField :: getOption (value)",value);
-        console.log(this.state.data)
+        //console.log(this.state.data)
         if (value === undefined || value == null)
             return null;
 

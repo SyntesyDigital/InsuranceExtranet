@@ -143,9 +143,9 @@ class ModalTable extends Component {
     )
   }
 
-  handleFormFinished() {
+  handleFormFinished(formParameters) {
     //this.props.onModalClose();
-    this.props.onFormFinished();
+    this.props.onFormFinished(formParameters);
   }
 
   renderElement() {

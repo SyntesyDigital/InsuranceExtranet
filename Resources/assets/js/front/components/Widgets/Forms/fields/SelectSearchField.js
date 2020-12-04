@@ -326,13 +326,25 @@ class SelectSearchField extends Component {
         this.setState({
           displayModal : false
         });
+
+        
     }
 
-    handleFormFinished() {
+    handleFormFinished(formParameters) {
+
+        console.log("handleFormFinished :: formParameters",formParameters);
 
         this.setState({
             displayModal : false
         });
+        
+        //if modal has a value defined, then select is automatically updated with result
+        if(formParameters["_value"]){
+            this.props.onFieldChange({
+                name: this.props.field.identifier,
+                value: formParameters["_value"]
+            });
+        }
 
         //reload select
         if (!this.hasBobyParameters()) {
