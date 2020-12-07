@@ -261,17 +261,20 @@ export default class CarField extends Component {
         const errors = this.props.error ? 'is-invalid' : '';
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
-
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+        field.settings.hidelabel : false;
 
         return (
             <div className={"row container-car-field "+errors}>
                 <div className="row">
-                    <label className="bmd-label-floating">
-                        {field.name} 
-                        {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                        }
-                    </label>
+                    {!isHideLabel &&
+                        <label className="bmd-label-floating">
+                            {field.name} 
+                            {isRequired &&
+                            <span className="required">&nbsp; *</span>
+                            }
+                        </label>
+                    }
                 </div>
                 <div className="col-md-4 container-fix">
                     <div className="container-img">

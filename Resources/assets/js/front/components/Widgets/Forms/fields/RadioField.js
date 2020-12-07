@@ -258,6 +258,9 @@ class RadioField extends Component
     let hasDescription = this.props.field.settings.description !== undefined ?
       this.props.field.settings.description : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -273,6 +276,7 @@ class RadioField extends Component
       <div className={"form-group bmd-form-group" + (errors)} style={{display : display ? 'block' : 'none'}}>
         <ThemeProvider theme={theme}>
           <FormControl component="fieldset" className={'container-radio-field'}>
+            {!isHideLabel && 
               <label className="bmd-label-floating">
                 {field.name} 
                 {isRequired &&
@@ -285,6 +289,7 @@ class RadioField extends Component
                     />
                 }
               </label>
+            }
               <div>
                 {defaultValue}
               </div>

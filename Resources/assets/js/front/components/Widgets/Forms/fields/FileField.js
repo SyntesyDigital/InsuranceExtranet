@@ -118,6 +118,9 @@ class FileField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -132,12 +135,14 @@ class FileField extends Component
     return (
 
       <div className={"form-group bmd-form-group file-field " + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-        </label>
+        {!isHideLabel &&
+          <label className="bmd-label-floating">
+              {field.name} 
+              {isRequired &&
+                <span className="required">&nbsp; *</span>
+              }
+          </label>
+        }
         <div>
           {(this.props.value == null || this.props.value == '') &&
 
