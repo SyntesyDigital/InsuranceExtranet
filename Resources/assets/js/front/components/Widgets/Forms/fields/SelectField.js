@@ -368,6 +368,9 @@ class SelectField extends Component {
         let isAutoSuggest = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
             true : false;
 
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+        field.settings.hidelabel : false;
+
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
             field.required !== undefined) {
@@ -396,19 +399,20 @@ class SelectField extends Component {
         return (
 
             <div className={"form-group bmd-form-group"} style={{ display: display && !isHidden ? 'block' : 'none' }}>
-                <label className="bmd-label-floating">
-                    {field.name}
-                    {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                    }
-                    {hasDescription &&
-                        <LabelTooltip
-                            description={this.props.field.settings.description ?
-                                this.props.field.settings.description : ''}
-                        />
-                    }
-                </label>
-
+                {!isHideLabel && 
+                    <label className="bmd-label-floating">
+                        {field.name}
+                        {isRequired &&
+                            <span className="required">&nbsp; *</span>
+                        }
+                        {hasDescription &&
+                            <LabelTooltip
+                                description={this.props.field.settings.description ?
+                                    this.props.field.settings.description : ''}
+                            />
+                        }
+                    </label>
+                }
                 {isAutoSuggest ?
                     <React.Fragment>
                         <select

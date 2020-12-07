@@ -94,22 +94,26 @@ class RichtextField extends Component
 
     var placeholder = this.getPlaceholder();
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-            {hasDescription && 
-                <LabelTooltip 
-                    description={this.props.field.settings.description ? 
-                        this.props.field.settings.description : ''}
-                />
-            }
-        </label>
-
+        {!isHideLabel &&
+          <label className="bmd-label-floating">
+              {field.name} 
+              {isRequired &&
+                <span className="required">&nbsp; *</span>
+              }
+              {hasDescription && 
+                  <LabelTooltip 
+                      description={this.props.field.settings.description ? 
+                          this.props.field.settings.description : ''}
+                  />
+              }
+          </label>
+        }
         &nbsp;
             {maxCharacters != "" && 
               ('( Max: '+maxCharacters+' caractères )')

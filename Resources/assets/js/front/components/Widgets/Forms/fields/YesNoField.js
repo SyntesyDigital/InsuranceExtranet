@@ -125,6 +125,9 @@ class YesNoField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     //console.log("errors => ",errors);
 
     //required can be set also directly with modals
@@ -139,10 +142,13 @@ class YesNoField extends Component
       <ThemeProvider theme={theme}>
             <div className={"col-md-12 container-radio-field yes-no-field" + (errors)}>
                 <div className="container-text">
-                    {field.name}
+                  {!isHideLabel &&
+                    <span>{field.name}
                     {isRequired &&
                       <span className="required">&nbsp; *</span>
                     }
+                    </span>
+                  }
                 </div>
                 <div className="container-fields-yes-no">
                     <FormControl component="fieldset">

@@ -257,6 +257,9 @@ class NumberField extends Component
     let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
       field.settings.hidden : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     const currency =  this.fieldHasCurrencySettings();
 
     /*
@@ -279,18 +282,20 @@ class NumberField extends Component
     return (
 
       <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-        <label className={'bmd-label-floating '}>
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-            {hasDescription && 
-                <LabelTooltip 
-                    description={this.props.field.settings.description ? 
-                        this.props.field.settings.description : ''}
-                />
-            }
-        </label>
+        {!isHideLabel && 
+          <label className={'bmd-label-floating '}>
+              {field.name} 
+              {isRequired &&
+                <span className="required">&nbsp; *</span>
+              }
+              {hasDescription && 
+                  <LabelTooltip 
+                      description={this.props.field.settings.description ? 
+                          this.props.field.settings.description : ''}
+                  />
+              }
+          </label>
+        }
           {!currency &&
             <input type="number" name={field.identifier}
               className={"form-control " + (textFieldClass.join(' '))}

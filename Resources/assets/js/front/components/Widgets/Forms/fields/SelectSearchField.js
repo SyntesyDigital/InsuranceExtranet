@@ -379,6 +379,9 @@ class SelectSearchField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+        field.settings.hidelabel : false;
+
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
             field.required !== undefined) {
@@ -438,19 +441,20 @@ class SelectSearchField extends Component {
                     onFormFinished={this.handleFormFinished.bind(this)}
                 />
 
-
-                <label className="bmd-label-floating">
-                    {field.name}
-                    {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                    }
-                    {hasDescription &&
-                        <LabelTooltip
-                            description={this.props.field.settings.description ?
-                                this.props.field.settings.description : ''}
-                        />
-                    }
-                </label>
+                {!isHideLabel && 
+                    <label className="bmd-label-floating">
+                        {field.name}
+                        {isRequired &&
+                            <span className="required">&nbsp; *</span>
+                        }
+                        {hasDescription &&
+                            <LabelTooltip
+                                description={this.props.field.settings.description ?
+                                    this.props.field.settings.description : ''}
+                            />
+                        }
+                    </label>
+                }
                 <div className="col-xs-12 select-search-field buttons">
                     <Select
                         onBlur={this.handleBlur.bind(this)}

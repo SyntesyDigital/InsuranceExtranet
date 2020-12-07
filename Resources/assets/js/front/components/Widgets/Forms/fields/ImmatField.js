@@ -168,6 +168,9 @@ class ImmatField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -182,12 +185,14 @@ class ImmatField extends Component
     return (
 
       <div className={"form-group immat-field bmd-form-group" + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-        </label>
+        {!isHideLabel &&
+          <label className="bmd-label-floating">
+              {field.name} 
+              {isRequired &&
+                <span className="required">&nbsp; *</span>
+              }
+          </label>
+        }
         <input
             type="text"
             className={"form-control " + (textFieldClass.join(' '))}

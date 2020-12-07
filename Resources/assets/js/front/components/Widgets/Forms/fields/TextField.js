@@ -135,6 +135,9 @@ class TextField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+            field.settings.hidelabel : false;
+
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
         var placeholder = this.getPlaceholder();
@@ -154,19 +157,22 @@ class TextField extends Component {
         return (
 
             <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-                <label className={'bmd-label-floating'}>
-                    {field.name}
-                    {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                    }
-                    {hasDescription &&
-                        <LabelTooltip
-                            description={field.settings.description ?
-                                field.settings.description : ''}
-                        />
-                    }
-                </label>
-
+                <div className="row">
+                {!isHideLabel && 
+                    <label className={'bmd-label-floating'}>
+                        {field.name}
+                        {isRequired &&
+                            <span className="required">&nbsp; *</span>
+                        }
+                        {hasDescription &&
+                            <LabelTooltip
+                                description={field.settings.description ?
+                                    field.settings.description : ''}
+                            />
+                        }
+                    </label>
+                }
+            <div className="col-8" ></div>
                 <input
                     type={field.settings.format == "password" ? "password" : "text"}
                     className={"form-control " + (textFieldClass.join(' '))}
@@ -180,13 +186,13 @@ class TextField extends Component {
                     placeholder={placeholder != '' ? placeholder : maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
                     readOnly={this.isReadOnly()}
                 />
-            </div>
+                </div>
+                </div>
 
         );
     }
 
 }
-//placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
 export default TextField;
 
 TextField.propTypes = {

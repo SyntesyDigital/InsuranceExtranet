@@ -219,12 +219,16 @@ class ListField extends Component
 
     //console.log("List Field => ",field);
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     return (
       <div className="list-field">
-
-        <Label 
-          text={field.name}
-        />
+          {!isHideLabel &&
+            <Label 
+              text={field.name}
+            />
+          }
 
         <ModalListField
           id={field.id}

@@ -536,6 +536,14 @@ class ElementModal extends Component {
                                         />
                                     }
 
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="hidelabel"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="hideLabel"
+                                    />
+
                                 </div>
                             </div>
                         </div>

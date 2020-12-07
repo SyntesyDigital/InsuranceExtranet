@@ -67,6 +67,9 @@ class HtmlField extends Component
       field.rules.required : false;
     const errors = this.props.error ? ' has-error' : '';
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
     let textFieldClass = ["text-field"];
     if (this.state.addClassBordered || this.props.value != "") {
         textFieldClass.push('bordered');
@@ -89,14 +92,15 @@ class HtmlField extends Component
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
-            }
-            
-        </label>
-
+        {!isHideLabel &&
+          <label className="bmd-label-floating">
+              {field.name} 
+              {isRequired &&
+                <span className="required">&nbsp; *</span>
+              }
+              
+          </label>
+        }
         <ReactQuill
              id={field.identifier}
              className={"" + errors}

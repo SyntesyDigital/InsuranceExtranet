@@ -33,7 +33,8 @@ return [
           'operation',
           'description',
           'hidden',
-          'placeholder'
+          'placeholder',
+          'hidelabel'
         ],
       ],
       'number' => [
@@ -69,6 +70,7 @@ return [
           'currency',
           'description',
           'hidden',
+          'hidelabel'
         ],
       ],
       'date' => [
@@ -103,6 +105,7 @@ return [
           'description',
           'hidden',
           //'defaultValue'
+          'hidelabel'
         ],
       ],
       'select' => [
@@ -126,6 +129,7 @@ return [
           'description',
           'hidden',
           'autosuggest',
+          'hidelabel'
         ],
       ],
       'selectSearch' => [
@@ -148,7 +152,8 @@ return [
           'conditionalFormatting',
           'description',
           'hidden',
-          'addElement'
+          'addElement',
+          'hidelabel'
         ],
       ],
       'radio' => [
@@ -170,6 +175,7 @@ return [
           'defaultValue',
           'conditionalFormatting',
           'description',
+          'hidelabel'
         ],
       ],
       'multi' => [
@@ -191,6 +197,7 @@ return [
           'defaultValue',
           'conditionalFormatting',
           'description',
+          'hidelabel'
         ],
       ],
       'file' => [
@@ -212,6 +219,7 @@ return [
           'columnWidth',
           'description',
           'iframe',
+          'hidelabel'
         ],
       ],
       'file_ws_fusion' => [
@@ -254,7 +262,8 @@ return [
           'defaultValue',
           'textAlign',
           'description',
-          'placeholder'
+          'placeholder',
+          'hidelabel'
         ],
       ],
       'html' => [
@@ -275,6 +284,7 @@ return [
           'defaultValue',
           'textAlign',
           'description',
+          'hidelabel'
         ],
       ],
       'list' => [
@@ -290,6 +300,7 @@ return [
         'settings' => [
           'conditionalVisibility',
           'description',
+          'hidelabel'
         ],
         'fields' => [
         ],
@@ -312,6 +323,7 @@ return [
           'defaultValue',
           'bordered',
           'description',
+          'hidelabel'
         ],
       ],
       'yesno' => [
@@ -331,6 +343,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'description',
+          'hidelabel'
         ],
       ],
       'label' => [
@@ -356,6 +369,7 @@ return [
         ],
         'settings' => [
           'description',
+          'hidelabel'
         ],
       ],
       'immat' => [
@@ -372,6 +386,7 @@ return [
           'conditionalVisibility',
           'defaultValue',
           'description',
+          'hidelabel'
         ],
       ],
       'action' => [
