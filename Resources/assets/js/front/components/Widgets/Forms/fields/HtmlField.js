@@ -70,6 +70,18 @@ class HtmlField extends Component
     let isHideLabel = field.settings.hidelabel !== undefined ?
     field.settings.hidelabel : false;
 
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+    var colClassLabel = isLabelInline ? 
+        'field-container-col col-xs-5' :
+        'field-container-col col-xs-12';
+
+    var colClassInput = isLabelInline ? 
+        'field-container-col col-xs-7' :
+        'field-container-col col-xs-12';
+
+
     let textFieldClass = ["text-field"];
     if (this.state.addClassBordered || this.props.value != "") {
         textFieldClass.push('bordered');
@@ -92,25 +104,31 @@ class HtmlField extends Component
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
-        {!isHideLabel &&
-          <label className="bmd-label-floating">
-              {field.name} 
-              {isRequired &&
-                <span className="required">&nbsp; *</span>
-              }
-              
-          </label>
-        }
-        <ReactQuill
-             id={field.identifier}
-             className={"" + errors}
-             formats={formats}
-             height={200}
-             parent={this}
-             value={this.props.value}
-             onChange={this.handleOnChange.bind(this)}
-             modules={modules}
-           />
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel &&
+              <label className="bmd-label-floating">
+                  {field.name} 
+                  {isRequired &&
+                    <span className="required">&nbsp; *</span>
+                  }
+                  
+              </label>
+            }
+          </div>
+          <div className={colClassInput}>
+            <ReactQuill
+                id={field.identifier}
+                className={"" + errors}
+                formats={formats}
+                height={200}
+                parent={this}
+                value={this.props.value}
+                onChange={this.handleOnChange.bind(this)}
+                modules={modules}
+              />
+          </div>
+        </div>
       </div>
     );
   }

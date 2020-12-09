@@ -121,6 +121,17 @@ class FileField extends Component
     let isHideLabel = field.settings.hidelabel !== undefined ?
     field.settings.hidelabel : false;
 
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+    var colClassLabel = isLabelInline ? 
+        'field-container-col col-xs-5' :
+        'field-container-col col-xs-12';
+
+    var colClassInput = isLabelInline ? 
+        'field-container-col col-xs-7' :
+        'field-container-col col-xs-12';
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -135,42 +146,48 @@ class FileField extends Component
     return (
 
       <div className={"form-group bmd-form-group file-field " + (errors)}>
-        {!isHideLabel &&
-          <label className="bmd-label-floating">
-              {field.name} 
-              {isRequired &&
-                <span className="required">&nbsp; *</span>
-              }
-          </label>
-        }
-        <div>
-          {(this.props.value == null || this.props.value == '') &&
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel &&
+              <label className="bmd-label-floating">
+                  {field.name} 
+                  {isRequired &&
+                    <span className="required">&nbsp; *</span>
+                  }
+              </label>
+            }
+        </div>
+        <div className={colClassInput}>
+          <div>
+            {(this.props.value == null || this.props.value == '') &&
 
-            <FilePicker
-              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
-              onChange={this.handleOnChange.bind(this)}
-              onError={this.handleError.bind(this)}
-            >
-              <button className="btn btn-default" href="#" type="button">
-                <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
-              </button>
-            </FilePicker>
-          }
+              <FilePicker
+                extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
+                onChange={this.handleOnChange.bind(this)}
+                onError={this.handleError.bind(this)}
+              >
+                <button className="btn btn-default" href="#" type="button">
+                  <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
+                </button>
+              </FilePicker>
+            }
 
-          {this.props.value != null && this.props.value != '' &&
-            <div className="row uploaded-file">
-              <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
-                {this.props.values['_docName']}
+            {this.props.value != null && this.props.value != '' &&
+              <div className="row uploaded-file">
+                <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
+                  {this.props.values['_docName']}
+                </div>
+                <div className="col-xs-2">
+                  <a href="" className="btn btn-link btn-danger"
+                    onClick={this.removeFile.bind(this)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </a>
+                </div>
               </div>
-              <div className="col-xs-2">
-                <a href="" className="btn btn-link btn-danger"
-                  onClick={this.removeFile.bind(this)}
-                >
-                  <i className="fas fa-trash-alt"></i>
-                </a>
-              </div>
-            </div>
-          }
+            }
+          </div>
+        </div>
         </div>
       </div>
     );

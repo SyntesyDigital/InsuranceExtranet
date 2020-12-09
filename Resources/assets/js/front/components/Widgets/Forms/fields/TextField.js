@@ -137,6 +137,17 @@ class TextField extends Component {
 
         let isHideLabel = field.settings.hidelabel !== undefined ?
             field.settings.hidelabel : false;
+        
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
 
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
@@ -157,37 +168,40 @@ class TextField extends Component {
         return (
 
             <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-                <div className="row">
-                {!isHideLabel && 
-                    <label className={'bmd-label-floating'}>
-                        {field.name}
-                        {isRequired &&
-                            <span className="required">&nbsp; *</span>
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
+                        {!isHideLabel &&
+                            <label className={'bmd-label-floating'}>
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={field.settings.description ?
+                                            field.settings.description : ''}
+                                    />
+                                }
+                            </label>
                         }
-                        {hasDescription &&
-                            <LabelTooltip
-                                description={field.settings.description ?
-                                    field.settings.description : ''}
-                            />
-                        }
-                    </label>
-                }
-            <div className="col-8" ></div>
-                <input
-                    type={field.settings.format == "password" ? "password" : "text"}
-                    className={"form-control " + (textFieldClass.join(' '))}
-                    name={field.identifier}
-                    value={this.props.value}
-                    onChange={this.handleOnChange.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
-                    maxLength={maxCharacters}
-                    minLength={minCharacters}
-                    placeholder={placeholder != '' ? placeholder : maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
-                    readOnly={this.isReadOnly()}
-                />
+                    </div>
+                    <div className={colClassInput}>
+                        <input
+                            type={field.settings.format == "password" ? "password" : "text"}
+                            className={"form-control " + (textFieldClass.join(' '))}
+                            name={field.identifier}
+                            value={this.props.value}
+                            onChange={this.handleOnChange.bind(this)}
+                            onBlur={this.handleBlur.bind(this)}
+                            onFocus={this.handleFocus.bind(this)}
+                            maxLength={maxCharacters}
+                            minLength={minCharacters}
+                            placeholder={placeholder != '' ? placeholder : maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
+                            readOnly={this.isReadOnly()}
+                        />
+                    </div>
                 </div>
-                </div>
+            </div>
 
         );
     }

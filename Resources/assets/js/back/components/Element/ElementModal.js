@@ -541,7 +541,15 @@ class ElementModal extends Component {
                                         name="hidelabel"
                                         source="settings"
                                         onFieldChange={this.handleFieldSettingsChange}
-                                        label="hideLabel"
+                                        label="Hide Label"
+                                    />
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="labelInline"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Position Libellé-Valeur 'inline'"
                                     />
 
                                 </div>

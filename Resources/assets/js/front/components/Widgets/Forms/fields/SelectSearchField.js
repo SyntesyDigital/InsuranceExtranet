@@ -394,6 +394,17 @@ class SelectSearchField extends Component {
         let isHideLabel = field.settings.hidelabel !== undefined ?
         field.settings.hidelabel : false;
 
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
+
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
             field.required !== undefined) {
@@ -452,59 +463,65 @@ class SelectSearchField extends Component {
                     //onOpenModal={this.handleOpenModal.bind(this)}
                     onFormFinished={this.handleFormFinished.bind(this)}
                 />
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
 
-                {!isHideLabel && 
-                    <label className="bmd-label-floating">
-                        {field.name}
-                        {isRequired &&
-                            <span className="required">&nbsp; *</span>
+                        {!isHideLabel && 
+                            <label className="bmd-label-floating">
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={this.props.field.settings.description ?
+                                            this.props.field.settings.description : ''}
+                                    />
+                                }
+                            </label>
                         }
-                        {hasDescription &&
-                            <LabelTooltip
-                                description={this.props.field.settings.description ?
-                                    this.props.field.settings.description : ''}
+                    </div>
+                    <div className={colClassInput}>
+                        <div className="col-xs-12 select-search-field buttons">
+                            <Select
+                                onBlur={this.handleBlur.bind(this)}
+                                onFocus={this.handleFocus.bind(this)}
+                                value={options[optionIndex]}
+                                name={field.identifier}
+                                defaultValue={optionIndex != null ? options[optionIndex] : ''}
+                                options={options}
+                                onChange={this.handleOnChange.bind(this)}
+                                styles={customStyles}
+                                placeholder={defaultValue}
+                                filterOption={createFilter({ 
+                                    ignoreAccents: false 
+                                })}
+                                menuContainerStyle={{ 'zIndex': 999 }}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: STYLES.elementForm.borderRadiusInput,
+                                    height: '34px',
+                                    colors: {
+                                        ...theme.colors,
+                                        primary25: STYLES.elementForm.hoverColorInput,
+                                        primary: STYLES.elementForm.borderColorInput,
+                                    },
+                                })}
+                                components={{
+                                    DropdownIndicator,
+                                    IndicatorSeparator: () => null
+                                }}
                             />
-                        }
-                    </label>
-                }
-                <div className="col-xs-12 select-search-field buttons">
-                    <Select
-                        onBlur={this.handleBlur.bind(this)}
-                        onFocus={this.handleFocus.bind(this)}
-                        value={options[optionIndex]}
-                        name={field.identifier}
-                        defaultValue={optionIndex != null ? options[optionIndex] : ''}
-                        options={options}
-                        onChange={this.handleOnChange.bind(this)}
-                        styles={customStyles}
-                        placeholder={defaultValue}
-                        filterOption={createFilter({ 
-                            ignoreAccents: false 
-                        })}
-                        menuContainerStyle={{ 'zIndex': 999 }}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: STYLES.elementForm.borderRadiusInput,
-                            height: '34px',
-                            colors: {
-                                ...theme.colors,
-                                primary25: STYLES.elementForm.hoverColorInput,
-                                primary: STYLES.elementForm.borderColorInput,
-                            },
-                        })}
-                        components={{
-                            DropdownIndicator,
-                            IndicatorSeparator: () => null
-                        }}
-                    />
-                    <a className="btn" onClick={this.openModal.bind(this)} style={{
-                            opacity:linkDisabled ? 0.5 : 1,
-                            pointerEvents : linkDisabled ? 'none' : 'auto'
-                        }}>
-                        {STYLES.elementForm.textBtnAddValueForm ?
-                            STYLES.elementForm.textBtnAddValueForm :
-                            Lang.get('fields.new_suscriptor')}
-                    </a>
+                            <a className="btn" onClick={this.openModal.bind(this)} style={{
+                                    opacity:linkDisabled ? 0.5 : 1,
+                                    pointerEvents : linkDisabled ? 'none' : 'auto'
+                                }}>
+                                {STYLES.elementForm.textBtnAddValueForm ?
+                                    STYLES.elementForm.textBtnAddValueForm :
+                                    Lang.get('fields.new_suscriptor')}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

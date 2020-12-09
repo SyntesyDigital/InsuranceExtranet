@@ -371,6 +371,17 @@ class SelectField extends Component {
         let isHideLabel = field.settings.hidelabel !== undefined ?
         field.settings.hidelabel : false;
 
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
+
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
             field.required !== undefined) {
@@ -399,61 +410,67 @@ class SelectField extends Component {
         return (
 
             <div className={"form-group bmd-form-group"} style={{ display: display && !isHidden ? 'block' : 'none' }}>
-                {!isHideLabel && 
-                    <label className="bmd-label-floating">
-                        {field.name}
-                        {isRequired &&
-                            <span className="required">&nbsp; *</span>
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
+                        {!isHideLabel && 
+                            <label className="bmd-label-floating">
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={this.props.field.settings.description ?
+                                            this.props.field.settings.description : ''}
+                                    />
+                                }
+                            </label>
                         }
-                        {hasDescription &&
-                            <LabelTooltip
-                                description={this.props.field.settings.description ?
-                                    this.props.field.settings.description : ''}
+                    </div>
+                    <div className={colClassInput}>
+                        {isAutoSuggest ?
+                            <React.Fragment>
+                                <select
+                                    className={"form-control simple-select " + (textFieldClass.join(' '))}
+                                    name={field.identifier}
+                                    onChange={this.handleChangeSimpleSelect.bind(this)}
+                                    value={optionsSimpleSelect[optionIndex]}
+                                    placeholder={defaultValue}
+                                    style={selectStyle}
+                                    value={this.props.value}
+                                >
+                                    {optionsSimpleSelect}
+                                </select>
+                            </React.Fragment>
+                            :
+                            <Select
+                                onBlur={this.handleBlur.bind(this)}
+                                onFocus={this.handleFocus.bind(this)}
+                                value={options[optionIndex]}
+                                name={field.identifier}
+                                defaultValue={optionIndex != null ? options[optionIndex] : ''}
+                                options={options}
+                                onChange={this.handleOnChange.bind(this)}
+                                styles={customStyles}
+                                placeholder={defaultValue}
+                                menuContainerStyle={{ 'zIndex': 999 }}
+                                filterOption={createFilter({
+                                    ignoreAccents: false 
+                                })}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: STYLES.elementForm.borderRadiusInput,
+                                    height: '34px',
+                                    colors: {
+                                        ...theme.colors,
+                                        primary25: STYLES.elementForm.hoverColorInput,
+                                        primary: STYLES.elementForm.borderColorInput,
+                                    },
+                                })}
                             />
                         }
-                    </label>
-                }
-                {isAutoSuggest ?
-                    <React.Fragment>
-                        <select
-                            className={"form-control simple-select " + (textFieldClass.join(' '))}
-                            name={field.identifier}
-                            onChange={this.handleChangeSimpleSelect.bind(this)}
-                            value={optionsSimpleSelect[optionIndex]}
-                            placeholder={defaultValue}
-                            style={selectStyle}
-                            value={this.props.value}
-                        >
-                            {optionsSimpleSelect}
-                        </select>
-                    </React.Fragment>
-                    :
-                    <Select
-                        onBlur={this.handleBlur.bind(this)}
-                        onFocus={this.handleFocus.bind(this)}
-                        value={options[optionIndex]}
-                        name={field.identifier}
-                        defaultValue={optionIndex != null ? options[optionIndex] : ''}
-                        options={options}
-                        onChange={this.handleOnChange.bind(this)}
-                        styles={customStyles}
-                        placeholder={defaultValue}
-                        menuContainerStyle={{ 'zIndex': 999 }}
-                        filterOption={createFilter({
-                             ignoreAccents: false 
-                        })}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: STYLES.elementForm.borderRadiusInput,
-                            height: '34px',
-                            colors: {
-                                ...theme.colors,
-                                primary25: STYLES.elementForm.hoverColorInput,
-                                primary: STYLES.elementForm.borderColorInput,
-                            },
-                        })}
-                    />
-                }
+                    </div>
+                </div>
             </div>
         );
     }

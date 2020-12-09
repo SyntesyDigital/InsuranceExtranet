@@ -181,6 +181,17 @@ class DateField extends Component {
         let isHideLabel = field.settings.hidelabel !== undefined ?
         field.settings.hidelabel : false;
 
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
+
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
 
@@ -200,36 +211,42 @@ class DateField extends Component {
         return (
 
             <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-                {!isHideLabel && 
-                    <label className="bmd-label-floating">
-                        {field.name}
-                        {isRequired &&
-                            <span className="required">&nbsp; *</span>
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
+                        {!isHideLabel && 
+                            <label className="bmd-label-floating">
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription && 
+                                    <LabelTooltip 
+                                        description={this.props.field.settings.description ? 
+                                            this.props.field.settings.description : ''}
+                                    />
+                                }
+                            </label>
                         }
-                        {hasDescription && 
-                            <LabelTooltip 
-                                description={this.props.field.settings.description ? 
-                                    this.props.field.settings.description : ''}
-                            />
-                        }
-                    </label>
-                }
-                <DatePicker
-                    className={"form-control " + (textFieldClass.join(' '))}
-                    selected={this.state.value}
-                    onChange={this.handleOnChange}
-                    dateFormat={this.getDateFormat()}
-                    timeIntervals={15}
-                    locale="fr"
-                    showTimeSelect={this.isTime()}
-                    showTimeSelectOnly={this.isTime()}
-                    //showMonthYearPicker={this.isMonthYear()}
-                    timeCaption="Heure"
-                    timeFormat="HH:mm"
-                    maxDate={maxDate}
-                    minDate={minDate}
-                    disabled={this.isReadOnly()}
-                />
+                    </div>
+                    <div className={colClassInput}>
+                        <DatePicker
+                            className={"form-control " + (textFieldClass.join(' '))}
+                            selected={this.state.value}
+                            onChange={this.handleOnChange}
+                            dateFormat={this.getDateFormat()}
+                            timeIntervals={15}
+                            locale="fr"
+                            showTimeSelect={this.isTime()}
+                            showTimeSelectOnly={this.isTime()}
+                            //showMonthYearPicker={this.isMonthYear()}
+                            timeCaption="Heure"
+                            timeFormat="HH:mm"
+                            maxDate={maxDate}
+                            minDate={minDate}
+                            disabled={this.isReadOnly()}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }
