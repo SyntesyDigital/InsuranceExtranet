@@ -16,7 +16,7 @@
         color: {{$iconColorActionButton}};
         font-size: {{$fontSizeIconActionButton}};
     }
-    body .action-button-container .container-icon svg.icon{
+    body .action-button-container.action-btn-1 .container-icon svg.icon{
         width: {{$fontSizeIconActionButton}};
         height: {{$fontSizeIconActionButton}};
         min-width: {{$fontSizeIconActionButton}};
@@ -53,6 +53,13 @@
     }
     body .action-button-container.action-btn-2 .container-icon i{
         color: {{$iconColorActionButton2}};
+        font-size: {{$fontSizeIconActionButton2}};
+    }
+    body .action-button-container.action-btn-2 .container-icon svg.icon{
+        width: {{$fontSizeIconActionButton2}};
+        height: {{$fontSizeIconActionButton2}};
+        min-width: {{$fontSizeIconActionButton2}};
+        min-height: {{$fontSizeIconActionButton2}};
     }
     body .action-button-container.action-btn-2:hover .container-icon i{
         color: {{$iconHoverColorActionButton2}};
@@ -85,6 +92,13 @@
     }
     body .action-button-container.action-btn-3 .container-icon i{
         color: {{$iconColorActionButton3}};
+        font-size: {{$fontSizeIconActionButton3}};
+    }
+    body .action-button-container.action-btn-3 .container-icon svg.icon{
+        width: {{$fontSizeIconActionButton3}};
+        height: {{$fontSizeIconActionButton3}};
+        min-width: {{$fontSizeIconActionButton3}};
+        min-height: {{$fontSizeIconActionButton3}};
     }
     body .action-button-container.action-btn-3:hover .container-icon i{
         color: {{$iconHoverColorActionButton3}};

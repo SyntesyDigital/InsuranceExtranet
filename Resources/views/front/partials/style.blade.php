@@ -339,6 +339,7 @@
     $boxShadowOpacityActionButton2 = isset($storedStylesFront['boxShadowOpacityActionButton2']) ? $storedStylesFront['boxShadowOpacityActionButton2']->value : '15';
     $numberColorActionButton2 = isset($storedStylesFront['numberColorActionButton2']) ? $storedStylesFront['numberColorActionButton2']->value : '#fff';
     $numberHoverColorActionButton2 = isset($storedStylesFront['numberHoverColorActionButton2']) ? $storedStylesFront['numberHoverColorActionButton2']->value : $secondaryColor;
+    $fontSizeIconActionButton2 = isset($storedStylesFront['fontSizeIconActionButton2']) ? $storedStylesFront['fontSizeIconActionButton2']->value.'px' : '14px';
 
     //CLASS 03
     $backgroundColorActionButton3 = isset($storedStylesFront['backgroundColorActionButton3']) ? $storedStylesFront['backgroundColorActionButton3']->value : $primaryColor;
@@ -355,6 +356,9 @@
     $boxShadowOpacityActionButton3 = isset($storedStylesFront['boxShadowOpacityActionButton3']) ? $storedStylesFront['boxShadowOpacityActionButton3']->value : '15';
     $numberColorActionButton3 = isset($storedStylesFront['numberColorActionButton3']) ? $storedStylesFront['numberColorActionButton3']->value : $primaryColor;
     $numberHoverColorActionButton3 = isset($storedStylesFront['numberHoverColorActionButton3']) ? $storedStylesFront['numberHoverColorActionButton3']->value : $secondaryColor;
+    $fontSizeIconActionButton3 = isset($storedStylesFront['fontSizeIconActionButton3']) ? $storedStylesFront['fontSizeIconActionButton3']->value.'px' : '14px';
+
+    
     //ACTION LIST
 
     $labelActionListFontSize = isset($storedStylesFront['labelActionListFontSize']) ? $storedStylesFront['labelActionListFontSize']->value.'px' : '14px';
