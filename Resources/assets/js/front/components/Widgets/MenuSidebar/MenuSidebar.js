@@ -122,7 +122,7 @@ export default class MenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}
                         >
-                            {icon != '' &&
+                            {icon &&
                                 <CustomIcon
                                     icon={icon}
                                 />

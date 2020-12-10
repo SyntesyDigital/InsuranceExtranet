@@ -44,7 +44,7 @@ export default class SubMenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}>
 
-                            {icon != '' &&
+                            {icon &&
                                 <CustomIcon
                                     icon={icon}
                                 />
