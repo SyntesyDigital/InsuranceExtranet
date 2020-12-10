@@ -379,7 +379,7 @@ footer {
             }
             .arrowright {
                 position: absolute;
-                top: 46%;
+                top: 47%;
                 transform: translateY(-50%);
                 right: 7px;
                 width: 32px;
@@ -478,6 +478,9 @@ footer {
                     svg {
                         margin-right: 10px;
                         font-size: 16px;
+                    }
+                    svg {
+                        top: -3px;
                     }
                 }
                 .sidebar-text {

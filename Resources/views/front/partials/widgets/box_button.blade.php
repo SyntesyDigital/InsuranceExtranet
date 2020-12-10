@@ -10,7 +10,7 @@
     $link = "";
     $target = "";
     $title = $field['fields'][1]['value'][App::getLocale()];
-    $icon = $field['fields'][2]['value'][App::getLocale()];
+    $icon = $field['fields'][2];
     $allowed = true;
 
     if(isset($field['fields'][0]['value']['content'])){
@@ -52,7 +52,7 @@
                 <div class="wrap-icon">
                     @include('extranet::front.partials.fields.icon',
                         [
-                            "field" => $field['fields'][2],
+                            "field" => $icon,
                             "settings" => $field['settings'],
                             "div" => false,
                         ]
