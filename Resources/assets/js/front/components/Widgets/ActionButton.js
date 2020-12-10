@@ -11,11 +11,13 @@ export default class ActionButton extends Component {
 
         const elementObject = props.elementObject ? JSON.parse(atob(props.elementObject)) : null;
         const model = props.model ? JSON.parse(atob(props.model)) : null;
+        const field = props.field ? JSON.parse(atob(props.field)) : null;
 
         this.state = {
             elementObject: elementObject,
             model: model,
             val1: null,
+            field: field
         };
     }
 
@@ -40,7 +42,7 @@ export default class ActionButton extends Component {
 
     query() {
 
-        if(this.state.model == null){
+        if (this.state.model == null) {
             //console.error("ActionButton :: model not defined");
             return;
         }
@@ -56,11 +58,11 @@ export default class ActionButton extends Component {
                     && response.data.modelValues !== undefined) {
                     console.log("ModelValues  :: componentDidMount => ", response.data);
                     self.setState({
-                        val1: response.data.modelValues !== undefined 
-                        && response.data.modelValues.length > 0
-                        && response.data.modelValues[0].val1 !== undefined 
-                        ? response.data.modelValues[0].val1 
-                        : 0,
+                        val1: response.data.modelValues !== undefined
+                            && response.data.modelValues.length > 0
+                            && response.data.modelValues[0].val1 !== undefined
+                            ? response.data.modelValues[0].val1
+                            : 0,
                     });
                 }
 
@@ -73,9 +75,13 @@ export default class ActionButton extends Component {
     }
 
     render() {
-        console.log("this.props , ", this.props)
+        console.log("this.props.field", this.props.field);
         return (
-            <div className="action-button-container ">
+            <div
+                className={'action-button-container ' + (this.state.field.settings.actionBtnClass ?
+                    this.state.field.settings.actionBtnClass
+                    : 'action-btn-1')}
+            >
                 <div className="col-md-2 col-sm-2 col-xs-2 container-icon" >
                     {this.props.icon ? <i className={this.props.icon}></i> : null}
                 </div>
@@ -104,12 +110,15 @@ if (document.getElementById('actionButton')) {
         var parameters = element.getAttribute('parameters');
         var icon = element.getAttribute('icon');
         var title = element.getAttribute('title');
+        var field = element.getAttribute('field');
+
         ReactDOM.render(<ActionButton
             elementObject={elementObject}
             model={model}
             parameters={parameters}
             title={title}
             icon={icon}
+            field={field}
         />, element);
     });
 }

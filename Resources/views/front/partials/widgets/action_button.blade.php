@@ -28,8 +28,7 @@
         }
 
         $allowed = allowed_link(['request_url' => substr($link, 1)]); //remove first /
-
-    @endphp
+@endphp
   
     @if($allowed)
         @if(isset($link) && $link != "")
@@ -44,7 +43,8 @@
                     parameters="{{$parameters}}"
                     icon="{{$field['fields'][2]['value']}}"
                     title="{{$field['fields'][1]['value'][App::getLocale()]}}"
-                 >
+                    field="{{ isset($field) ? base64_encode(json_encode($field)) : null }}"
+                    >
                 </div>
             </div>
             @if(isset($link) && $link != "")
