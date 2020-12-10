@@ -9,6 +9,7 @@ import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
 import EventBus from './../../../../../services/EventBus';
 import LayoutParser from './../../ElementCard/LayoutParser';
+import Autosave from './Autosave';
 
 import {
     getFieldComponent,
@@ -27,8 +28,7 @@ import {
     initProceduresIteration,
     updateParametersFromParent,
     startValidation,
-    updateStageParameter,
-    autosave
+    updateStageParameter
 } from './actions'
 
 import FormParametersIterator from './FormParametersIterator';
@@ -71,14 +71,15 @@ class FormComponent extends Component {
             hasStages : hasStages,
             stageParameter : stageParameter,
             currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage,
-            fieldsByStage : {}  //object with all fields sorted by stage config
+            fieldsByStage : {},  //object with all fields sorted by stage config
+            autosave: null // Autosave key for detect if we must do an update or a create query
         };
 
         this.props.initParametersState(parametersObject);
 
         this.handleOnChange = this.handleOnChange.bind(this);
 
-        this.props.loadProcedures(props.elementObject.model_identifier);
+        this.props.loadProcedures(props.elementObject.model_identifier);        
     }
 
     /**
@@ -100,9 +101,29 @@ class FormComponent extends Component {
     }
 
     componentDidMount() {
+        
         if (this.state.template) {
             this.loadTemplate(this.state.template);
         }
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const key = urlParams.get('key');
+
+        if(key) {
+            Autosave.get({
+                codec: 'form',
+                payload: {
+                    key: key
+                }
+            }).then(response => {
+                this.setState({
+                    autosave: key,
+                    values: response.values
+                });
+            });
+        }
+
     }
 
     // ----------------------------------------------- //
@@ -110,7 +131,6 @@ class FormComponent extends Component {
     // ----------------------------------------------- //
 
     loadTemplate(template) {
-
         api.elementTemplates.get(template)
             .then(response => {
 
@@ -182,7 +202,6 @@ class FormComponent extends Component {
                 this.handleSubmit(this.props.id);
             });
         }
-
     }
 
     initValues(elementObject) {
@@ -239,14 +258,20 @@ class FormComponent extends Component {
         this.setState({
             values: values,
             timer: setTimeout(() => { // Autosave
-                this.props.autosave(this.props.form.autosaveId === false ? 'create' : 'update', {
+                Autosave.save({
                     codec: 'form',
                     payload: {
-                        key: this.props.form.autosaveId,
+                        key: this.state.autosave,
                         url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
-                        stage: this.state.currentStage,
+                        stage: this.state.hasStages ? 
+                            this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
+                            : '',
                         values: values
                     }
+                }).then(key => {
+                    this.setState({
+                        autosave: key
+                    });
                 });
             }, 1000)
         }, function () {
@@ -798,10 +823,7 @@ const mapDispatchToProps = dispatch => {
         },
         updateStageParameter : (identifier,stage,formParameters) => {
             return dispatch(updateStageParameter(identifier,stage,formParameters))
-        },
-        autosave: (action, payload) => {
-            return dispatch(autosave(action, payload));
-        },
+        }
     }
 }
 

@@ -65,7 +65,7 @@ class FormCodec implements CodecInterface
      * @param  mixed $payload
      * @return void
      */
-    public static function decode($payload)
+    public static function decode($payload, $key = null)
     {
         $values = null;
         $chunk = false;
@@ -81,10 +81,10 @@ class FormCodec implements CodecInterface
         }
 
         return [
-            'key' => $payload['CLE_PARAM'],
-            'url' => $payload['VALEUR03'],
-            'status' => $payload['VALEUR04'],
-            'stage' => $payload['VALEUR05'],
+            'key' => $key,
+            'url' => $payload->col2,
+            'status' => $payload->col3,
+            'stage' => $payload->col4,
             'values' => json_decode($values)
         ];
     }

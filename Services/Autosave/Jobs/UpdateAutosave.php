@@ -3,11 +3,11 @@
 namespace Modules\Extranet\Services\Autosave\Jobs;
 
 use Modules\Extranet\Services\Autosave\Codecs\FormCodec;
-use Modules\Extranet\Services\Autosave\Traits\AutosaveQuery;
+use Modules\Extranet\Services\Autosave\Traits\AutosaveVeosQuery;
 
 class UpdateAutosave
 {
-    use AutosaveQuery;
+    use AutosaveVeosQuery;
 
     public function __construct($attributes)
     {

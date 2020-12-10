@@ -14,9 +14,7 @@ import {
   VALIDATION_SKIP,
   VALIDATION_DONE,
   VALIDATION_START,
-  VALIDATION_ERROR,
-  AUTOSAVE_CREATE,
-  AUTOSAVE_UPDATE
+  VALIDATION_ERROR
 } from '../constants';
 
 const initialState =  {
@@ -35,10 +33,7 @@ const initialState =  {
   error : false,
 
   //by default it's false, when it's done change to true
-  jsonGetDone : false,
-
-  // Autosave ID 
-  autosaveId: false
+  jsonGetDone : false
 }
 
 function formReducer(state = initialState, action) {
@@ -178,17 +173,6 @@ function formReducer(state = initialState, action) {
                 error : false,
                 jsonGetDone : false
             }
-
-        case AUTOSAVE_CREATE: 
-            return {
-                ...state,
-                autosaveId: action.payload
-            };
-
-        case AUTOSAVE_UPDATE: 
-            return {
-                ...state,
-            };
 
         default:
             return state;

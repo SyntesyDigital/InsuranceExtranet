@@ -3,27 +3,34 @@
 namespace Modules\Extranet\Services\Autosave\Jobs;
 
 use Modules\Extranet\Services\Autosave\Codecs\FormCodec;
-use Modules\Extranet\Services\Autosave\Traits\AutosaveQuery;
+use Modules\Extranet\Services\Autosave\Traits\AutosaveVeosQuery;
 
 class ReadAutosave
 {
-    use AutosaveQuery;
+    use AutosaveVeosQuery;
 
     public function __construct($attributes)
     {
         $this->attributes = array_only($attributes, [
             'codec',
-            'id'
+            'payload'
         ]);
     }
 
     public function handle()
     {
-        $response = $this->save('create', $this->attributes['id']);
+        $response = $this->read($this->attributes['payload']['key'], 'BASKET');
+        $beans = isset($response->responses) && isset($response->responses[0]) && $response->responses[0]->beans 
+            ? $response->responses[0]->beans[0] 
+            : null;
+
+        if(!$beans) {
+            return null;
+        } 
 
         switch($this->attributes['codec']) {
             case 'form':
-                    return FormCodec::decode($response);
+                    return FormCodec::decode($beans, $this->attributes['payload']['key']);
                 break;
         }
 

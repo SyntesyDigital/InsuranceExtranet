@@ -20,7 +20,7 @@ class ValidateElementRouteParameters
         $this->element->load('fields');
 
         foreach($this->element->fields as $field) {
-            if(!(new ValidateElementFieldPageRouteParameters($field))->run())
+            if(!(new ValidateElementFieldPageRouteParameters($field))->run()) {
                 return false;
             }
         }   

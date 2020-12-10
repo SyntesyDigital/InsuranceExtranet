@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Modules\Extranet\Extensions\VeosWsUrl;
 
-trait AutosaveQuery
+trait AutosaveVeosQuery
 {
            
     /**
@@ -52,6 +52,50 @@ trait AutosaveQuery
 
         } catch (ServerException $ex) {            
             //abort(500, $ex->getResponse()->getBody());
+        }
+
+        return false;
+    }
+
+        
+    /**
+     * delete
+     *
+     * @param  mixed $key
+     * @return void
+     */
+    public function delete($key) 
+    {
+        // Build WS URL
+        $this->url = str_replace('/rsExtranet2/', '/', VeosWsUrl::get());
+        $this->url .= 'rsUpdateBoByTrs/json';
+
+        // Init guzzle client
+        $this->client = new Client();
+
+        // Build request
+        $request = new stdClass();
+        $request->params = [];
+        $request->name = 'DEL_APP_PARAM';
+
+        // Build payload with credentials
+        $payload = new stdClass();
+        $payload->uid = 'WS';
+        $payload->passwd = 'WS1234';
+        $payload->requests = [];
+
+        // Inject request into payload
+        $payload->requests[] = $request;
+
+        // Query the WS
+        try {
+            $this->client->post($this->url, [
+                'json' => $payload
+            ]);
+
+            return true;
+        } catch (ServerException $ex) {            
+            abort(500, $ex->getResponse()->getBody());
         }
 
         return false;
