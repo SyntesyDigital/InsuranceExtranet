@@ -48,14 +48,15 @@
         <!-- Select 2 -->
         <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
-
         @stack('styles')
 
         @include ('extranet::front.partials.google-analytics')
+
+        
     </head>
 
     <body class="{{$mainClass or ''}} template-{{ collect(\Request::segments())->implode('-') }} {{is_test_environment() ? 'is-test' : ''}}">
-
+  
         @stack('modal')
 
         @if(false || (isset(Auth::user()->must_reset_password) && Auth::user()->must_reset_password))
@@ -131,7 +132,7 @@
             "extendedTimeOut": 0
           };
         </script>
-
+        
         @stack('javascripts')
     </body>
 </html>

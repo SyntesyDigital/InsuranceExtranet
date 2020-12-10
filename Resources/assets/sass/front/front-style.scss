@@ -20,6 +20,10 @@ $bootstrap-sass-asset-helper: true;
 @import "../../js/front/libs/slick/slick.css";
 @import "../../js/front/libs/slick/slick-theme.css";
 
+
+//creatic icons
+@import "./creatic/icons.scss";
+
 //layout
 @import 'buttons';
 @import 'layout';

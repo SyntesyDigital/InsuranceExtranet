@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import arrowLeft from './assets/img/menu_left.svg';
 import { isMobile } from 'react-device-detect';
-
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class SubMenuSidebar extends Component {
 
@@ -43,8 +43,15 @@ export default class SubMenuSidebar extends Component {
                             id={id}
                             className={className + ' tooltip-link'}
                             title={name}>
-                            <i className={icon}></i>
+
+                            {icon &&
+                                <CustomIcon
+                                    icon={icon}
+                                />
+                            }
+
                             <span className="sidebar-text">{name}</span>
+
                             {children &&
                                 <span className="arrowright"><i className={'fas fa-angle-right'}></i></span>
                             }

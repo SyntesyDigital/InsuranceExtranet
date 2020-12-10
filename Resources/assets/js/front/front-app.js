@@ -12,6 +12,7 @@ require('./bootstrap');
 require('./libs/jquery-ui-1.12.1/jquery-ui.min.js');
 require('./libs/slick/slick.js');
 require('./libs/tweenMax/tweenmax.js');
+require('./../libs/svgxuse');
 
 //widgets
 require('./components/Fields/MapField');
@@ -63,4 +64,3 @@ require('./components/Widgets/Lists/TableList/TableList');
 require('./components/Widgets/Lists/Chat/Chat');
 require('./components/Widgets/TypologyLast');
 require('./components/Widgets/Lists/TimeLine/TimeLine');
-

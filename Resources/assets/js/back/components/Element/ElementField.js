@@ -271,12 +271,13 @@ class ElementField extends Component {
 			&& this.props.errors.length > 0 ?
 			true : false;
 
+		let modelUndefined = this.props.modelDefinition === undefined ? true : false ;
+		//if filed is type action, model is always undefined and no necessary to validate
+		modelUndefined = this.props.type == "action" ? false : modelUndefined;
+
 		//if model definition not defined, this field is not in model
-		errors = this.props.modelDefinition === undefined ? true : errors;
+		errors = modelUndefined ? true : errors;
 		errors = this.isTypeSelectAndNotBody() ? true : errors;
-
-		const modelUndefined = this.props.modelDefinition === undefined ? true : false ;
-
 
 		var isEntryTitle = false;
 		if(this.props.settings != null &&

@@ -52,6 +52,7 @@
     $sidebarHeightUser = isset($storedStylesFront['frontSidebarHeightUser']) ? $storedStylesFront['frontSidebarHeightUser']->value : '50';
     $sidebarFontSizeItems = isset($storedStylesFront['frontSidebarFontSizeItems']) ? $storedStylesFront['frontSidebarFontSizeItems']->value.'px' : '16px';
     $sidebarWidth = isset($storedStylesFront['frontSidebarWidth']) ? $storedStylesFront['frontSidebarWidth']->value.'px' : '250px';
+    $sidebarIconFontSize = isset($storedStylesFront['frontSidebarIconFontSize']) ? $storedStylesFront['frontSidebarIconFontSize']->value.'px' : '14px';
 
   //FOOTER
     $footerBackgroundColor = isset($storedStylesFront['frontFooterBackgroundColor']) ? $storedStylesFront['frontFooterBackgroundColor']->value : $bodyBackgroundColor;
@@ -320,6 +321,7 @@
     $boxShadowOpacityActionButton = isset($storedStylesFront['boxShadowOpacityActionButton']) ? $storedStylesFront['boxShadowOpacityActionButton']->value : '15';
     $numberColorActionButton = isset($storedStylesFront['numberColorActionButton']) ? $storedStylesFront['numberColorActionButton']->value : $primaryColor;
     $numberHoverColorActionButton = isset($storedStylesFront['numberHoverColorActionButton']) ? $storedStylesFront['numberHoverColorActionButton']->value : $secondaryColor;
+    $fontSizeIconActionButton = isset($storedStylesFront['fontSizeIconActionButton']) ? $storedStylesFront['fontSizeIconActionButton']->value.'px' : '14px';
 
     //ACTION LIST
 
@@ -358,6 +360,7 @@
     $borderRadiusRowTable = isset($storedStylesFront['borderRadiusRowTable']) ? $storedStylesFront['borderRadiusRowTable']->value.'px' : '0';
     $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
     $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
+    $fontSizeIconTable = isset($storedStylesFront['fontSizeIconTable']) ? $storedStylesFront['fontSizeIconTable']->value.'px' : '14px';
 
     //ELEMENT FILE
     $backgroundColorTooltipDescFile = isset($storedStylesFront['backgroundColorTooltipDescFile']) ? $storedStylesFront['backgroundColorTooltipDescFile']->value : $primaryColor;

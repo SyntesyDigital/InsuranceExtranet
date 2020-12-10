@@ -23,6 +23,9 @@
         color: {{$iconColor}};
         font-size: {{$fontSizeIcon}};
     }
+    body .total-box-container .container-icon svg{
+        font-size: {{$fontSizeIcon}};
+    }
     body .total-box-container .totalBox{
         font-size: {{$fontSizeNumbers}};
     }

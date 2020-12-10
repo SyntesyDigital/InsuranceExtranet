@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SubMenuSidebar from './SubMenuSidebar';
 import arrowRight from './assets/img/menu_right.svg';
-// import UserSessionService from '../../../../services/UserSessionService';
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class MenuSidebar extends Component {
 
@@ -116,6 +116,8 @@ export default class MenuSidebar extends Component {
                 var active = item.active !== undefined ? item.active : null;
                 var children = item.children !== undefined && item.children.length > 0 ? item.children : null;
 
+
+
                 return (
                     <li key={i} className={'menu-item ' + (active ? 'active' : '')}>
                         <a
@@ -125,7 +127,11 @@ export default class MenuSidebar extends Component {
                             className={className + ' tooltip-link'}
                             title={name}
                         >
-                            <i className={icon}></i>
+                            {icon &&
+                                <CustomIcon
+                                    icon={icon}
+                                />
+                            }
                             <span className="sidebar-text">{name}</span>
                             {children &&
                                 <span className="arrowright"><img src={arrowRight} /></span>

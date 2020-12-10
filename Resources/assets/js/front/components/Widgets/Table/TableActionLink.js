@@ -2,12 +2,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import CustomIcon from './../../Common/CustomIcon';
 
 export default class TableActionLink extends React.Component {
 
     render() {
 
-        const hasModalLink = this.props.modalLink !== undefined 
+        const hasModalLink = this.props.modalLink !== undefined
             ? this.props.modalLink : false;
 
         //if no link defined no action
@@ -19,16 +20,19 @@ export default class TableActionLink extends React.Component {
             ? this.props.icon.icon : null ;
 
         return (
-            <a 
-                href={!hasModalLink ? this.props.url : ''} 
-                className={hasModalLink ? 'simple-btn modal-link' : 'simple-btn'} 
+            <a
+                href={!hasModalLink ? this.props.url : ''}
+                className={hasModalLink ? 'simple-btn modal-link' : 'simple-btn'}
                 data-modal={hasModalLink ? this.props.url : ''}
             >
-                {icon != null && 
-                    <span style={{fontSize : 16, marginRight : 10}}>
-                        <i className={icon}></i>&nbsp;
+                {icon != null &&
+                    <span style={{ fontSize: 16, marginRight: 10 }}>
+                        <CustomIcon
+                            icon={icon}
+                        />
+                        &nbsp;
                     </span>
-                } 
+                }
                 {this.props.name}
             </a>
         )

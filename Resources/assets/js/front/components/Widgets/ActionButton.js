@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import NumberFormat from 'react-number-format';
 import "react-table/react-table.css";
-
+import CustomIcon from './../Common/CustomIcon';
 
 export default class ActionButton extends Component {
 
@@ -40,11 +40,10 @@ export default class ActionButton extends Component {
 
     query() {
 
-        if(this.state.model == null){
+        if (this.state.model == null) {
             //console.error("ActionButton :: model not defined");
             return;
         }
-
 
         var self = this;
         const { elementObject } = this.state;
@@ -56,11 +55,11 @@ export default class ActionButton extends Component {
                     && response.data.modelValues !== undefined) {
                     console.log("ModelValues  :: componentDidMount => ", response.data);
                     self.setState({
-                        val1: response.data.modelValues !== undefined 
-                        && response.data.modelValues.length > 0
-                        && response.data.modelValues[0].val1 !== undefined 
-                        ? response.data.modelValues[0].val1 
-                        : 0,
+                        val1: response.data.modelValues !== undefined
+                            && response.data.modelValues.length > 0
+                            && response.data.modelValues[0].val1 !== undefined
+                            ? response.data.modelValues[0].val1
+                            : 0,
                     });
                 }
 
@@ -73,11 +72,15 @@ export default class ActionButton extends Component {
     }
 
     render() {
-        console.log("this.props , ", this.props)
+
         return (
             <div className="action-button-container ">
                 <div className="col-md-2 col-sm-2 col-xs-2 container-icon" >
-                    {this.props.icon ? <i className={this.props.icon}></i> : null}
+                    {this.props.icon != '' &&
+                        <CustomIcon
+                            icon={this.props.icon}
+                        />
+                    }
                 </div>
                 <div className="col-md-7 col-sm-7 col-xs-7 container-title">
                     {this.props.title ? <p>{this.props.title}</p> : null}
@@ -92,7 +95,7 @@ export default class ActionButton extends Component {
                         />
                     </span>
                 </div>
-            </div>
+            </div >
         );
     }
 }

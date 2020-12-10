@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import CustomIcon from './../../../Common/CustomIcon';
 
 export default class IconField extends Component {
 
@@ -40,7 +40,13 @@ export default class IconField extends Component {
 
         return (
             <div className="container-icon" style={divStyle}>
-                <span style={spanStyle} className={circle ? 'border-radius' : null}><i className={icon} style={iconStyle}></i></span>
+                <span style={spanStyle} className={circle ? 'border-radius' : null}>
+                    {icon != '' &&
+                        <CustomIcon
+                            icon={icon}
+                        />
+                    }
+                </span>
             </div>
         );
     }
