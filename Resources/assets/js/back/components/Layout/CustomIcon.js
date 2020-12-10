@@ -32,8 +32,8 @@ export default class CustomIcon extends Component {
 
     isCreaticIcon() {
         let word = "creatic";
+
         if (this.props.icon.indexOf(word)) {
-            console.log("La palabra está dentro ");
             return true;
         }
         else {
@@ -58,6 +58,9 @@ export default class CustomIcon extends Component {
 
     render() {
 
+        if(this.props.icon == null || this.props.icon === undefined){
+            return null;
+        }
 
         return (
             <React.Fragment>

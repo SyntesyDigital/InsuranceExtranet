@@ -52,6 +52,11 @@ export default class CustomIcon extends Component {
     }
 
     render() {
+
+        if(this.props.icon == null || this.props.icon === undefined){
+            return null;
+        }
+        
         return (
             <React.Fragment>
                 { this.isCreaticEnable() && this.isCreaticIcon() ?
