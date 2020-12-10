@@ -72,7 +72,8 @@ return [
           'description',
           'hidden',
           'hidelabel',
-          'labelInline'
+          'labelInline',
+          'placeholder'
         ],
       ],
       'date' => [
@@ -108,7 +109,8 @@ return [
           'hidden',
           //'defaultValue'
           'hidelabel',
-          'labelInline'
+          'labelInline',
+          'placeholder'
         ],
       ],
       'select' => [

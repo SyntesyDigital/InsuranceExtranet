@@ -226,22 +226,29 @@ class NumberField extends Component
     return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
   }
 
+  fieldHasPlaceholderSettings() {
+    return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+  }
+
   getPlaceholder() {
-    var max = this.getNumberFromRules('maxNumber');
-    var min = this.getNumberFromRules('minNumber');
+    if (this.fieldHasPlaceholderSettings()) {
+      return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+    } else {
+      var max = this.getNumberFromRules('maxNumber');
+      var min = this.getNumberFromRules('minNumber');
 
-    if(max == '' && min == '')
-      return '';
+      if(max == '' && min == '')
+        return '';
 
-    var result = '';
+      var result = '';
 
-    result += (min != '' ) ? 'minimum '+min+' ' : '';
-    result += (min != '' && max != '') ? ', ' : '';
-    result += (max != '' ) ? 'maximum '+max+' ' : '';
-    
+      result += (min != '' ) ? 'minimum '+min+' ' : '';
+      result += (min != '' && max != '') ? ', ' : '';
+      result += (max != '' ) ? 'maximum '+max+' ' : '';
+      
 
-    return result;
-
+      return result;
+   }
   }
 
   render() {
@@ -250,6 +257,8 @@ class NumberField extends Component
     const errors = this.props.error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
+
+    var placeholder = this.getPlaceholder();
 
     let hasDescription = this.props.field.settings.description !== undefined ?
         this.props.field.settings.description : false;

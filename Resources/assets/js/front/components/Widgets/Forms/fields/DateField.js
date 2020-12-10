@@ -159,6 +159,17 @@ class DateField extends Component {
         return field.settings.readonly || (operation !== undefined && operation !== null && operation !== '') ?
             true : false;
     }
+    
+    fieldHasPlaceholderSettings() {
+        return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+    }
+    
+    getPlaceholder() {
+        if (this.fieldHasPlaceholderSettings()) {
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+        }
+        return '';
+    }
 
     // ==============================
     // Renderers
@@ -194,6 +205,8 @@ class DateField extends Component {
 
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
+
+        var placeholder = this.getPlaceholder();
 
         //console.log("DateField : Max Date, Min Date => ", maxDate, minDate);
 
@@ -238,6 +251,7 @@ class DateField extends Component {
                             locale="fr"
                             showTimeSelect={this.isTime()}
                             showTimeSelectOnly={this.isTime()}
+                            placeholderText={placeholder}
                             //showMonthYearPicker={this.isMonthYear()}
                             timeCaption="Heure"
                             timeFormat="HH:mm"
