@@ -4,7 +4,7 @@ import Select, { components, createFilter } from "react-select";
 import LabelTooltip from '../../../Common/LabelTooltip';
 import moment from 'moment';
 import ModalTable from './../../Table/ModalTable';
-
+import iconSearch from './../../../../../../img/ico_search.png';
 import {
     HIDDEN_FIELD
 } from './../constants';
@@ -420,7 +420,8 @@ class SelectSearchField extends Component {
 
 
         const CaretDownIcon = () => {
-            return <i class="fas fa-search"></i>;
+            return  <img id="ico-search" src={iconSearch} width={'20px'} height={'20px'}/>; 
+
         };
 
         const DropdownIndicator = props => {
