@@ -112,6 +112,7 @@ class FormComponent extends Component {
     // ----------------------------------------------- //
 
     loadTemplate(template) {
+
         api.elementTemplates.get(template)
             .then(response => {
 
@@ -120,7 +121,7 @@ class FormComponent extends Component {
                 this.setState({
                     layout: layout,
                     templateLoaded: true,
-                    fieldsByStage : getFieldsByStage(layout)
+                    fieldsByStage : this.state.hasStages ? getFieldsByStage(layout) : {}
                 });
             });
     }
@@ -489,6 +490,8 @@ class FormComponent extends Component {
     handleSubmit(formId, e) {
         if (e !== undefined) {
             e.preventDefault();
+            //add stop propagation to avoid parent submit in nested forms ( example select search )
+            e.stopPropagation();
         }
 
         console.log("handleSubmit :: formId", formId);
@@ -583,13 +586,14 @@ class FormComponent extends Component {
         }
 
         var fields = this.state.elementObject.fields;
+        var currentStage = this.state.hasStages ? this.state.currentStage : null;
         
         if(this.state.hasStages ){
-            if(isDefined(this.state.fieldsByStage[this.state.currentStage])){
-                fields = this.state.fieldsByStage[this.state.currentStage];
+            if(isDefined(this.state.fieldsByStage[currentStage])){
+                fields = this.state.fieldsByStage[currentStage];
             }
             else {
-                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,this.state.currentStage)
+                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,currentStage)
             }
         }
 
@@ -602,7 +606,14 @@ class FormComponent extends Component {
             var field = fields[key];
 
             var valid = validateField(field, this.state.values);
-            var visible = isVisible(field, this.props.parameters.formParameters, this.state.values);
+            var visible = isVisible(
+                field, 
+                this.props.parameters.formParameters, 
+                this.state.values
+                //this.state.stageParameter
+            );
+
+            //console.log("validateFields :: field, valid, visible ",this.state.stageParameter,field.identifier, valid, visible);
 
             //if the field is not visible, is always valid
             if (!visible) {
@@ -757,7 +768,6 @@ const mapStateToProps = state => {
         form: state.form,
         parameters: state.parameters,
         preload: state.preload,
-
     }
 }
 

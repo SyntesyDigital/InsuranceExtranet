@@ -32,9 +32,13 @@ export function isVisible(field,formParameters,values,stageParameter) {
     visible = checkStageVisibility(field,formParameters,stageParameter);
   }
 
+  //console.log("validateFields :: checkStageVisibility (field,formParameters,stageParameter, visible )",field.identifier,visible);
+
   //if is visible in the stage and visibile on its condition.
   visible = checkConditionalVisiblity(field,formParameters,values) && visible;
   // If not visible in stage visible is false.
+
+  //console.log("validateFields :: checkConditionalVisiblity (identifier,values, visible )",field,values,visible);
 
   return visible;
 
@@ -104,8 +108,11 @@ function checkConditionAccepted(condition,formParameters,values) {
   if(condition.name === undefined || condition.name == "" )
     return false;
 
+  /*
+  //commented to allow empty values
   if(condition.values === undefined || condition.values == "" )
     return false;
+  */
 
   
   //first get the value from parameters or variables
@@ -171,6 +178,7 @@ function checkValue(condition,formValue) {
     return false;
 
   var values = condition.values.split(",");
+  
   var operator = condition.operator;
   
   for(var key in values){
@@ -194,6 +202,10 @@ function isString(string){
 
 function checkRoleCondition(condition) {
 
+  //role condition can't have an empty value
+  if(condition.values === undefined || condition.values == "" )
+    return false;
+
   var role = userSession.getAPIRole();
   if(role == null || role == '')
       return false;
@@ -216,6 +228,10 @@ function checkRoleCondition(condition) {
 }
 
 function checkPermissionCondition(condition) {
+
+  //permission condition can't have an empty value
+  if(condition.values === undefined || condition.values == "" )
+    return false;
 
   var permissions = userSession.getAPIPermissions();
   if(permissions == null || permissions === undefined)

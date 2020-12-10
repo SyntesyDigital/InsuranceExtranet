@@ -1,15 +1,21 @@
 .select-search-field {
+    border-radius: 3px;
+    height: 50px;
+    padding-right: 30px;
+    position: relative;
     padding-left: 0;
     & > div {
         width: calc(100% - 220px);
     }
-    button {
+    a {
         position: absolute;
         top: 0;
         right: 0;
         width: 220px;
         border-radius: 20px;
         text-transform: capitalize;
+        display: inline-block;
+        margin-top: 0px !important;
     }
     .fa-search {
         font-size: 20px;
@@ -23,10 +29,10 @@
         & > div {
             width: 100%;
         }
-        button {
+        a {
             position: unset;
             width: 100%;
-            margin-top: 5px;
+            margin-top: 5px !important;
         }
     }
 }

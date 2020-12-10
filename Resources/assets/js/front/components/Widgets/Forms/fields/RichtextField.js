@@ -61,6 +61,17 @@ class RichtextField extends Component
     return '';
   }
 
+  fieldHasPlaceholderSettings() {
+    return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+  }
+
+  getPlaceholder() {
+      if (this.fieldHasPlaceholderSettings()) {
+          return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+      }
+      return '';
+  }
+
   render() {
 
     const {field} = this.props;
@@ -81,40 +92,63 @@ class RichtextField extends Component
     var maxCharacters = this.getNumberFromRules('maxCharacters');
     var minCharacters = this.getNumberFromRules('minCharacters');
 
+    var placeholder = this.getPlaceholder();
+
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+    var colClassLabel = isLabelInline ? 
+        'field-container-col col-xs-5' :
+        'field-container-col col-xs-12';
+
+    var colClassInput = isLabelInline ? 
+        'field-container-col col-xs-7' :
+        'field-container-col col-xs-12';
+
     return (
 
       <div className={"form-group bmd-form-group" + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel &&
+              <label className="bmd-label-floating">
+                  {field.name} 
+                  {isRequired &&
+                    <span className="required">&nbsp; *</span>
+                  }
+                  {hasDescription && 
+                      <LabelTooltip 
+                          description={this.props.field.settings.description ? 
+                              this.props.field.settings.description : ''}
+                      />
+                  }
+              </label>
             }
-            {hasDescription && 
-                <LabelTooltip 
-                    description={this.props.field.settings.description ? 
-                        this.props.field.settings.description : ''}
-                />
-            }
-        </label>
+            &nbsp;
+                {maxCharacters != "" && 
+                  ('( Max: '+maxCharacters+' caractères )')
+                }
+          </div>
+          <div className={colClassInput}>
+            <textarea
+              id={field.identifier}
+              name={field.identifier}
+              className={"form-control " + (textFieldClass.join(' '))}
+              value={this.props.value}
+              onChange={this.handleOnChange}
+              onBlur={this.handleBlur.bind(this)}
+              onFocus={this.handleFocus.bind(this)}
+              rows={4}
+              maxLength={maxCharacters}
+              minLength={minCharacters}
+              placeholder={placeholder != '' ? placeholder : ""}
 
-        &nbsp;
-            {maxCharacters != "" && 
-              ('( Max: '+maxCharacters+' caractères )')
-            }
-        
-        <textarea
-          id={field.identifier}
-          name={field.identifier}
-          className={"form-control " + (textFieldClass.join(' '))}
-          value={this.props.value}
-          onChange={this.handleOnChange}
-          onBlur={this.handleBlur.bind(this)}
-          onFocus={this.handleFocus.bind(this)}
-          rows={4}
-          maxLength={maxCharacters}
-          minLength={minCharacters}
-
-        ></textarea>
+            ></textarea>
+            </div>
+          </div>
       </div>
     );
   }

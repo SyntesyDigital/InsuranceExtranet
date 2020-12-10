@@ -271,6 +271,13 @@ class ElementModal extends Component {
                                         label="Lien avec modal"
                                     />
 
+                                    <ModalSettingsField
+                                        field={field}
+                                        name="addElement"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Formulaire à ajouter"
+                                    />
 
                                     <BooleanSettingsField
                                         field={field}
@@ -493,6 +500,16 @@ class ElementModal extends Component {
                                         />
                                     }
 
+                                    {field != null && field.settings != null && field.settings.autosuggest !== undefined &&
+                                        <BooleanSettingsField
+                                            field={field}
+                                            name="autosuggest"
+                                            source="settings"
+                                            label="Disable autosuggest"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
                                     <BooleanSettingsField
                                         field={field}
                                         name="isFile"
@@ -507,6 +524,32 @@ class ElementModal extends Component {
                                         source="settings"
                                         onFieldChange={this.handleFieldSettingsChange}
                                         label="Action de type fichier Fusion"
+                                    />
+
+                                    {field != null && field.settings != null && field.settings.placeholder !== undefined && 
+                                        <InputSettingsField
+                                            field={field}
+                                            name="placeholder"
+                                            source="settings"
+                                            label="Placeholder"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="hidelabel"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Hide Label"
+                                    />
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="labelInline"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Position Libellé-Valeur 'inline'"
                                     />
 
                                 </div>

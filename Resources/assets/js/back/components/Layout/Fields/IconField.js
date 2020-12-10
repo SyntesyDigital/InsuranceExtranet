@@ -74,14 +74,14 @@ export default class IconField extends Component {
 
 
     //procesamos el field si viene o no con idioma
-    getFieldValue(field) {
+    getFieldValue(value) {
 
-        if (field.value) {
-            if (field.value[DEFAULT_LOCALE]) {
-                return field.value[DEFAULT_LOCALE];
+        if (value) {
+            if (value[DEFAULT_LOCALE]) {
+                return value[DEFAULT_LOCALE];
             }
             else {
-                return field.value;
+                return value;
             }
         }
         return '';
@@ -104,7 +104,7 @@ export default class IconField extends Component {
 
     render() {
 
-        var fieldValue = this.getFieldValue(this.props.field);
+        var fieldValue = this.getFieldValue(this.props.value);
         fieldValue = this.getFontAwesomeIcon(fieldValue);
 
         var value = this.getOption(fieldValue);

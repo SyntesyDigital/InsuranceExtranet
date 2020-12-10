@@ -4,20 +4,32 @@
     body .faqs-widget .MuiButtonBase-root .MuiIconButton-label{
        color: {{$elementHeadIconColor}};
     }
+    body .faqs-list-widget  .MuiAccordionSummary-content i{
+        color: {{$colorIconFaqs}};
+        font-size: {{$fontSizeIconFaqs}};
+    }
+
+    body .faqs-list-widget  .MuiAccordionSummary-content svg{
+        font-size: {{$fontSizeIconFaqs}};
+    }
+
     /* title */
     body .faqs-list-widget .MuiAccordionSummary-root,
     body .faqs-widget .MuiAccordionSummary-root {
-        background-color: {{$backgroundColorTitleFaqs}};
+        background-color: {{$backgroundColorTitleFaqs}} !important;
+        color: {{$colorTitleFaqs}} !important;
     }
     body .faqs-list-widget  .MuiAccordionSummary-content p,
     body .faqs-widget  .MuiAccordionSummary-content p{
-        font-size: {{$fontSizeTitleFaqs}};
-        color: {{$primaryColor}};
+        font-size: {{$fontSizeTitleFaqs}} !important;
+        color: {{$colorTitleFaqs}} !important;
     }
     /* desc */
     body .faqs-list-widget .MuiCollapse-container, 
     body .faqs-widget .MuiCollapse-container{
         background-color: {{$backgroundColorDescFaqs}};
+        color: {{$colorDescFaqs}};
+
     }
     /* container */
     body .faqs-list-widget .MuiButtonBase-root:first-child, 

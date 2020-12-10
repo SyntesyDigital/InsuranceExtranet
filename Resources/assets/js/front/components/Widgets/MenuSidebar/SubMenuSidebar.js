@@ -68,7 +68,7 @@ export default class SubMenuSidebar extends Component {
                 <ul className="menu-children">
                     <li className="menu-child parent">
                         <a href="#" onClick={this.handleSubmenuClose.bind(this)}>
-                            <i className="fas fa-minus"></i>
+                            <i className={this.props.itemCurrentIcon}></i>
                             <span className="sidebar-text">{this.props.itemCurrent}</span>
                             <span className="arrowLeft"><img src={arrowLeft} /></span>
                         </a>
@@ -82,6 +82,7 @@ export default class SubMenuSidebar extends Component {
 
 SubMenuSidebar.propTypes = {
     children: PropTypes.array,
-    itemCurrent: PropTypes.string
+    itemCurrent: PropTypes.string,
+    itemCurrentIcon: PropTypes.string
 };
 

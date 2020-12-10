@@ -11,8 +11,13 @@ export default class TableActionLink extends React.Component {
         const hasModalLink = this.props.modalLink !== undefined
             ? this.props.modalLink : false;
 
-        const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined
-            ? this.props.icon.icon : null;
+        //if no link defined no action
+        if(this.props.url == ''){
+            return null;
+        }
+
+        const icon = this.props.icon !== undefined && this.props.icon.icon !== undefined 
+            ? this.props.icon.icon : null ;
 
         return (
             <a

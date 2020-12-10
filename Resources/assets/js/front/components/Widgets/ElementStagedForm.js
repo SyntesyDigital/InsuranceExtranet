@@ -65,7 +65,7 @@ if (document.getElementById('element-staged-form')) {
            finalRedirectUrl = field.fields[0].value.content.url;
 
            //get parameters form url
-          finalRedirectParameters = getParametersFromContentField(field.fields[1].value.content)
+          finalRedirectParameters = getParametersFromContentField(field.fields[0].value.content)
        }
 
        ReactDOM.render(<ElementStagedForm
