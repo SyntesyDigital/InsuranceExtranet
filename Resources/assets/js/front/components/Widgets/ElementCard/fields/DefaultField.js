@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import LabelTooltip from '../../../Common/LabelTooltip';
+import CustomIcon from './../../../Common/CustomIcon';
 
 export default class DefaultField extends Component {
 
@@ -10,8 +11,9 @@ export default class DefaultField extends Component {
     }
 
     render() {
+
         const { label, value, valueColor, valueBackgroundColor, stripped, labelAlign, valueAlign, inline } = this.props;
-        
+
         const divStyle = {
             overflow: 'hidden',
         }
@@ -39,7 +41,6 @@ export default class DefaultField extends Component {
         let hasDescription = this.props.settings.description !== undefined ?
             this.props.settings.description : false;
 
-
         return (
             <div style={divStyle} className={(stripped ? 'stripped' : null)}>
                 <Row>
@@ -48,15 +49,19 @@ export default class DefaultField extends Component {
                             dangerouslySetInnerHTML={{ __html: label }}
                         >
                         </label>
-                        {hasDescription && 
-                            <LabelTooltip 
-                                description={this.props.settings.description ? 
+                        {hasDescription &&
+                            <LabelTooltip
+                                description={this.props.settings.description ?
                                     this.props.settings.description : ''}
                             />
                         }
                     </Col>
                     <Col md={!inline ? 12 : 6} style={divValue}>
-                        {this.props.icon ? <i className={this.props.icon}></i> : null}
+                        {this.props.icon != '' &&
+                            <CustomIcon
+                                icon={this.props.icon}
+                            />
+                        }
                         <span
                             style={spanStyles}
                             ref={(node) => {

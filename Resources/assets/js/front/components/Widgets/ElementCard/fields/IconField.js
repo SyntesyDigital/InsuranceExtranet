@@ -17,21 +17,8 @@ export default class IconField extends Component {
             margin: '30px'
         };
 
-        const iconStyle = {
-            color: color,
-            fontSize: font,
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)'
-        };
-
         const spanStyle = {
             display: 'inline-block',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
             border: '1px solid',
             borderColor: color,
             width: 'calc(2* ' + font + ')',
@@ -39,8 +26,8 @@ export default class IconField extends Component {
         };
 
         return (
-            <div className="container-icon" style={divStyle}>
-                <span style={spanStyle} className={circle ? 'border-radius' : null}>
+            <div className="container-icon icon-field" style={divStyle}>
+                <span style={spanStyle} className={circle ? 'border-radius' : ''}>
                     {icon != '' &&
                         <CustomIcon
                             icon={icon}
