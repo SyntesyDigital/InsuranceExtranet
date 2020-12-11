@@ -1,124 +1,123 @@
-.element-file-container{
-  margin:20px 0;
-  @include round($elements-radius);
-  overflow: hidden;
-
-  .element-file-container-head{
-    background-color: $sidebar-background-color;
-    @include font(16,21,400);
-    text-transform: uppercase;
-    padding:10px 15px;
-    min-height: 41px;
-  }
-
-  .element-file-container-body{
-    background-color: $elements-background-color;
-    border: 1px solid $element-file-border;
-    padding:10px 15px;
+.element-file-container {
+    margin: 20px 0;
     @include round($elements-radius);
-
-    &.collapse{
-      @include round(0);
-    }
-  }
-  .non-bordered{
-    border-bottom: none;
-  }
-
-  /* Non collapsable */
-  &.static {
-    .element-file-container-body{
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  }
-}
-
-.file-component {
-  .element-file-input-container{
-    padding:7px 0px;
-    margin:5px 0;
     overflow: hidden;
-    border-bottom: 1px solid $sidebar-background-color;
-    .element-file-title{
-      @include font(14,19,600);
-      padding:0;
-      text-align: right;
-      padding-right: 30px;
+    .element-file-container-head {
+        background-color: $sidebar-background-color;
+        @include font(16, 21, 400);
+        text-transform: uppercase;
+        padding: 10px 15px;
+        min-height: 41px;
     }
-    .element-file-content{
-
-      &.has-color {
-        .value-container {
-          padding: 3px 10px;
-          border-radius: 3px;
+    .element-file-container-body {
+        background-color: $elements-background-color;
+        border: 1px solid $element-file-border;
+        padding: 10px 15px;
+        @include round($elements-radius);
+        .container-icon {
+            &.icon-field {
+                svg {
+                    &.icon {
+                        position: relative;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+                i {
+                    position: relative;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
         }
-      }
-
-      .value-container {
-        display:inline-block;
-      }
-
-      .value-content {
-        @include font(14,19,400);
-        padding:0;
-      }
+        &.collapse {
+            @include round(0);
+        }
     }
-  }
+    .non-bordered {
+        border-bottom: none;
+    }
+    /* Non collapsable */
+    &.static {
+        .element-file-container-body {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}
+.file-component {
+    .element-file-input-container {
+        padding: 7px 0px;
+        margin: 5px 0;
+        overflow: hidden;
+        border-bottom: 1px solid $sidebar-background-color;
+        .element-file-title {
+            @include font(14, 19, 600);
+            padding: 0;
+            text-align: right;
+            padding-right: 30px;
+        }
+        .element-file-content {
+            &.has-color {
+                .value-container {
+                    padding: 3px 10px;
+                    border-radius: 3px;
+                }
+            }
+            .value-container {
+                display: inline-block;
+            }
+            .value-content {
+                @include font(14, 19, 400);
+                padding: 0;
+            }
+        }
+    }
 }
 
 .element-form-container .element-collapsable.element-form-container-head {
-  padding-left: 40px;
+    padding-left: 40px;
 }
-
-.element-collapsable{
-  cursor: pointer;
-  
-
-  &.collapsed{
-    &:before{
-      content: "\f105";
-      font-family: FontAwesome;
-      margin-right: 0px;
-      position: absolute;
-      top: 10px;
-      left: 15px;
-      font-size: 30px;
-      color: $primary-color;
+.element-collapsable {
+    cursor: pointer;
+    &.collapsed {
+        &:before {
+            content: "\f105";
+            font-family: FontAwesome;
+            margin-right: 0px;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 30px;
+            color: $primary-color;
+        }
     }
-  }
-  &:before{
-    content: "\f107";
-    font-family: FontAwesome;
-    margin-right: 0px;
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    font-size: 30px;
-    color: $primary-color;
-  }
+    &:before {
+        content: "\f107";
+        font-family: FontAwesome;
+        margin-right: 0px;
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        font-size: 30px;
+        color: $primary-color;
+    }
 }
-
-
-
-.more-btn{
-  text-align: right;
-  padding:15px;
-  padding-bottom:10px;
-  padding-right:0;
-  background-color: #fff;
-
-  a {
-    @include round($button-radius);
-    padding:7px 20px;
-    text-decoration: none;
-    color:$primary-color;
-    border: 1px solid $primary-color;
-    &:hover{
-      color:$secondary-color;
-      border: 1px solid $secondary-color;
-
+.more-btn {
+    text-align: right;
+    padding: 15px;
+    padding-bottom: 10px;
+    padding-right: 0;
+    background-color: #fff;
+    a {
+        @include round($button-radius);
+        padding: 7px 20px;
+        text-decoration: none;
+        color: $primary-color;
+        border: 1px solid $primary-color;
+        &:hover {
+            color: $secondary-color;
+            border: 1px solid $secondary-color;
+        }
     }
-  }
-
 }
