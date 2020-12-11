@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\TokenLogin\Middleware;
 
 use Closure;
 use Modules\Extranet\Services\TokenLogin\Connectors\TokenLoginConnectorHandler;
+use Session;
 
 class SignInWhenToken
 {
@@ -40,7 +41,7 @@ class SignInWhenToken
                 }
             }
         }
-
+        
         return $next($request);
     }
 }
