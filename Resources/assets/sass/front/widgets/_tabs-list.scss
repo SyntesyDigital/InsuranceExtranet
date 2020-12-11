@@ -36,6 +36,12 @@
     + {
         div {
             border-top-left-radius: 0 !important;
+            .element-file-container{
+                margin: 0;
+            }
+            .element-file-container-head{
+                display: none;
+            }
         }
     }
 }
