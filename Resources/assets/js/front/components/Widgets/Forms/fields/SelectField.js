@@ -219,7 +219,7 @@ class SelectField extends Component {
 
                         //add first item with empty result, necessary to remove value
                         response.data.data.unshift({
-                            name: "Sélectionnez",
+                            name: self.getPlaceholder(),
                             value: "",
                             value_preload: null
                         });
@@ -323,9 +323,20 @@ class SelectField extends Component {
         });
     }
 
+    fieldHasPlaceholderSettings() {
+        return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+    }
+    
+    getPlaceholder() {
+        if (this.fieldHasPlaceholderSettings()) {
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+        }
+        return 'Sélectionnez';
+    }
+
 
     render() {
-
+        var placeholder = this.getPlaceholder();
         const { field } = this.props;
         const customStyles = {
             control: (base) => ({
@@ -351,7 +362,7 @@ class SelectField extends Component {
             textFieldClass.push('bordered');
         }
 
-        let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
+        let defaultValue = this.state.loading ? 'Chargement...' : placeholder;
         defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
         defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
         const display = this.state.display;

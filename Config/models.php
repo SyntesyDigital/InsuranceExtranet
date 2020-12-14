@@ -135,7 +135,8 @@ return [
           'hidden',
           'autosuggest',
           'hidelabel',
-          'labelInline'
+          'labelInline',
+          'placeholder'
         ],
       ],
       'selectSearch' => [
@@ -160,7 +161,8 @@ return [
           'hidden',
           'addElement',
           'hidelabel',
-          'labelInline'
+          'labelInline',
+          'placeholder'
         ],
       ],
       'radio' => [
