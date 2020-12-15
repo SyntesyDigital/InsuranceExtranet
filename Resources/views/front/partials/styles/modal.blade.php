@@ -27,6 +27,8 @@
     }
     body .custom-modal.modal-table .container-custom-form{
         padding: {{$paddingContainerFormModal}};
+        margin-left: {{$marginContainerFormModal}};
+
     }
     @media (min-width: 992px){
         body .custom-modal.modal-table .container-custom-form{
