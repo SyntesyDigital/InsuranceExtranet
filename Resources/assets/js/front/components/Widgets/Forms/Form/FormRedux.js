@@ -706,9 +706,7 @@ class FormComponent extends Component {
                         type="submit"
                         disabled={this.props.form.processing}
                     >
-                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
-
-                        {(!this.props.isFormPreload ? "Valider" : "Précharger")}
+                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}>{" "}</i>{(!this.props.isFormPreload ? " Valider" : " Précharger")}
                     </button>
                 </div>
             </div>
