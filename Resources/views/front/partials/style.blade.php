@@ -77,10 +77,10 @@
     $frontBodyH4FontSize = isset($storedStylesFront['frontBodyH4FontSize']) ? $storedStylesFront['frontBodyH4FontSize']->value.'px' : '18px';
     $frontBodyH5FontSize = isset($storedStylesFront['frontBodyH5FontSize']) ? $storedStylesFront['frontBodyH5FontSize']->value.'px' : '14px';
 
-    $frontBodyH1FontWeight = isset($storedStylesFront['frontBodyH1FontWeight']) ? $storedStylesFront['frontBodyH1FontWeight']->value : '500';
+    $frontBodyH1FontWeight = isset($storedStylesFront['frontBodyH1FontWeight']) ? $storedStylesFront['frontBodyH1FontWeight']->value : '400';
     $frontBodyH2FontWeight = isset($storedStylesFront['frontBodyH2FontWeight']) ? $storedStylesFront['frontBodyH2FontWeight']->value : '500';
     $frontBodyH3FontWeight = isset($storedStylesFront['frontBodyH3FontWeight']) ? $storedStylesFront['frontBodyH3FontWeight']->value : '500';
-    $frontBodyH4FontWeight = isset($storedStylesFront['frontBodyH4FontWeight']) ? $storedStylesFront['frontBodyH4FontWeight']->value : '500';
+    $frontBodyH4FontWeight = isset($storedStylesFront['frontBodyH4FontWeight']) ? $storedStylesFront['frontBodyH4FontWeight']->value : '400';
     $frontBodyH5FontWeight = isset($storedStylesFront['frontBodyH5FontWeight']) ? $storedStylesFront['frontBodyH5FontWeight']->value : '500';
 
   //ELEMENTS
@@ -267,6 +267,7 @@
     $descFontSizeImgTxtLink = isset($storedStylesFront['descFontSizeImgTxtLink']) ? $storedStylesFront['descFontSizeImgTxtLink']->value.'px' : '14px';
     $descColorImgTxtLink = isset($storedStylesFront['descColorImgTxtLink']) ? $storedStylesFront['descColorImgTxtLink']->value : $secondaryColor;
     $borderRadiusImgTxtLink = isset($storedStylesFront['borderRadiusImgTxtLink']) ? $storedStylesFront['borderRadiusImgTxtLink']->value.'px' : '20px';
+    $colorDateLastNews = isset($storedStylesFront['colorDateLastNews']) ? $storedStylesFront['colorDateLastNews']->value : $secondaryColor;
 
     //IMAGE TEXT TITLE DOCUMENTS
     $titleColorImgTxtTitleDocuments = isset($storedStylesFront['titleColorImgTxtTitleDocuments']) ? $storedStylesFront['titleColorImgTxtTitleDocuments']->value : $primaryColor;
@@ -555,26 +556,26 @@
     $borderColorTimeline = isset($storedStylesFront['borderColorTimeline']) ? $storedStylesFront['borderColorTimeline']->value : 'e7eaef';
 
     // Modal settings
-    $backgroundColorHeaderModal = isset($storedStylesFront['backgroundColorHeaderModal']) ? $storedStylesFront['backgroundColorHeaderModal']->value : '#3a6780';
-    $colorHeaderModal = isset($storedStylesFront['colorHeaderModal']) ? $storedStylesFront['colorHeaderModal']->value : '#fff';
-    $borderColorHeaderModal = isset($storedStylesFront['borderColorHeaderModal']) ? $storedStylesFront['borderColorHeaderModal']->value : '#3a6780';
+    $backgroundColorHeaderModal = isset($storedStylesFront['backgroundColorHeaderModal']) ? $storedStylesFront['backgroundColorHeaderModal']->value : '#fff';
+    $colorHeaderModal = isset($storedStylesFront['colorHeaderModal']) ? $storedStylesFront['colorHeaderModal']->value : '#ccc';
+    $borderColorHeaderModal = isset($storedStylesFront['borderColorHeaderModal']) ? $storedStylesFront['borderColorHeaderModal']->value : '#ccc';
     $backgroundColorContentModal = isset($storedStylesFront['backgroundColorContentModal']) ? $storedStylesFront['backgroundColorContentModal']->value : '#fff';
-    $backgroundColorbackgroundModal = isset($storedStylesFront['backgroundColorbackgroundModal']) ? $storedStylesFront['backgroundColorbackgroundModal']->value : '#3a6780';
-    $borderRadiusHeaderModal = isset($storedStylesFront['borderRadiusHeaderModal']) ? $storedStylesFront['borderRadiusHeaderModal']->value.'px' : '0px';
+    $backgroundColorbackgroundModal = isset($storedStylesFront['backgroundColorbackgroundModal']) ? $storedStylesFront['backgroundColorbackgroundModal']->value : '#000';
+    $borderRadiusHeaderModal = isset($storedStylesFront['borderRadiusHeaderModal']) ? $storedStylesFront['borderRadiusHeaderModal']->value.'px' : '12px';
     $fontSizeHeaderModal = isset($storedStylesFront['fontSizeHeaderModal']) ? $storedStylesFront['fontSizeHeaderModal']->value.'px' : '20px';
-    $borderRadiusContentModal = isset($storedStylesFront['borderRadiusContentModal']) ? $storedStylesFront['borderRadiusContentModal']->value.'px' : '0px';
-    $opacityModal = isset($storedStylesFront['opacityModal']) ? $storedStylesFront['opacityModal']->value : '100';
-    $backgroundColorButtonModal = isset($storedStylesFront['backgroundColorButtonModal']) ? $storedStylesFront['backgroundColorButtonModal']->value : '#004161';
-    $borderColorButtonModal = isset($storedStylesFront['borderColorButtonModal']) ? $storedStylesFront['borderColorButtonModal']->value : '#004161';
+    $borderRadiusContentModal = isset($storedStylesFront['borderRadiusContentModal']) ? $storedStylesFront['borderRadiusContentModal']->value.'px' : '12px';
+    $opacityModal = isset($storedStylesFront['opacityModal']) ? $storedStylesFront['opacityModal']->value : '50';
+    $backgroundColorButtonModal = isset($storedStylesFront['backgroundColorButtonModal']) ? $storedStylesFront['backgroundColorButtonModal']->value : $primaryColor;
+    $borderColorButtonModal = isset($storedStylesFront['borderColorButtonModal']) ? $storedStylesFront['borderColorButtonModal']->value : $primaryColor;
     $colorButtonModal = isset($storedStylesFront['colorButtonModal']) ? $storedStylesFront['colorButtonModal']->value : '#fff';
-    $boxShadowContentModal = isset($storedStylesFront['boxShadowContentModal']) ? $storedStylesFront['boxShadowContentModal']->value : '0';
+    $boxShadowContentModal = isset($storedStylesFront['boxShadowContentModal']) ? $storedStylesFront['boxShadowContentModal']->value : '50';
     $paddingHeaderModal = isset($storedStylesFront['paddingHeaderModal']) ? $storedStylesFront['paddingHeaderModal']->value.'px' : '15px';
-    $backgroundColorFooterButtonModal = isset($storedStylesFront['backgroundColorFooterButtonModal']) ? $storedStylesFront['backgroundColorFooterButtonModal']->value : '#c9d203';
+    $backgroundColorFooterButtonModal = isset($storedStylesFront['backgroundColorFooterButtonModal']) ? $storedStylesFront['backgroundColorFooterButtonModal']->value : '#fff';
     $paddingContentFormWrapperModal = isset($storedStylesFront['paddingContentFormWrapperModal']) ? $storedStylesFront['paddingContentFormWrapperModal']->value.'px' : '30px';
     $marginContentFormWrapperModal = isset($storedStylesFront['marginContentFormWrapperModal']) ? $storedStylesFront['marginContentFormWrapperModal']->value.'px' : '0px';
     $paddingContainerFormModal = isset($storedStylesFront['paddingContainerFormModal']) ? $storedStylesFront['paddingContainerFormModal']->value.'px' : '15px';
-    $marginContainerFormModal = isset($storedStylesFront['marginContainerFormModal']) ? $storedStylesFront['marginContainerFormModal']->value.'px' : '8.33333333%';
-    $minHeightButtonModal = isset($storedStylesFront['minHeightButtonModal']) ? $storedStylesFront['minHeightButtonModal']->value.'px' : '96px';
+    $minHeightButtonModal = isset($storedStylesFront['minHeightButtonModal']) ? $storedStylesFront['minHeightButtonModal']->value.'px' : '76px';
+    $colorCloseButtonModal = isset($storedStylesFront['colorCloseButtonModal']) ? $storedStylesFront['colorCloseButtonModal']->value.'px' : '#b4b4b4';
 
 ?>
 
@@ -612,6 +613,7 @@
 @include('extranet::front.partials.styles.contact-info')
 @include('extranet::front.partials.styles.timeline')
 @include('extranet::front.partials.styles.modal')
+@include('extranet::front.partials.styles.typology-last')
 
 
 @if($frontFont)

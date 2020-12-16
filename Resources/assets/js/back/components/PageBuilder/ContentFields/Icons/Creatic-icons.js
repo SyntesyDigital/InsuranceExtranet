@@ -62,4 +62,7 @@ export const creaticIcons = {
     'creatic-supprimer': 'supprimer',
     'creatic-surface': 'surface',
     'creatic-valide': 'valide',
+    'creatic-ico_sinistre_green': 'ico_sinistre_green',
+    'creatic-ico_devis_green': 'ico_devis_green',
+    'creatic-ico_contrat_green': 'ico_contrat_green',
 }

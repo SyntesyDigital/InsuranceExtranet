@@ -68,7 +68,9 @@ export default class SubMenuSidebar extends Component {
                 <ul className="menu-children">
                     <li className="menu-child parent">
                         <a href="#" onClick={this.handleSubmenuClose.bind(this)}>
-                            <i className={this.props.itemCurrentIcon}></i>
+                            <CustomIcon
+                                icon={this.props.itemCurrentIcon}
+                            />
                             <span className="sidebar-text">{this.props.itemCurrent}</span>
                             <span className="arrowLeft"><img src={arrowLeft} /></span>
                         </a>

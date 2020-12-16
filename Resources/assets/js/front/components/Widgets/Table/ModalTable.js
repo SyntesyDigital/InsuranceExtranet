@@ -206,7 +206,7 @@ class ModalTable extends Component {
         else if (element.type == "form-v2") {
             return (
                 <div className="row">
-                    <div className="col-xs-12 col-md-10 col-md-offset-1 container-custom-form">
+                    <div className="col-xs-12 col-md-10 container-custom-form">
                         <FormComponent
                             elementObject={this.state.element}
                             parameters={this.state.parameters}
