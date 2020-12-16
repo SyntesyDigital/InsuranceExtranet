@@ -51,7 +51,6 @@ header {
                         margin-left: 230px;
                     }
                     .user-info {
-                        // overflow: hidden;
                         margin-left: 275px;
                         transition: 0.5s;
                         &.collapsed {
@@ -216,7 +215,6 @@ footer {
                 padding-left: 0;
                 &.menu-child {
                     a {
-                        // top: 12px;
                         .sidebar-text {
                             display: none;
                         }
@@ -236,7 +234,6 @@ footer {
                 &.user-item {
                     padding-left: 12px;
                     a {
-                        // right: 23px;
                         width: unset;
                         height: unset;
                         right: unset;
@@ -347,7 +344,9 @@ footer {
         height: 50px;
         line-height: 45px;
         .icon{
-            top: -3px;
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
         }
         // .tooltiptext {
         //     visibility: hidden;
@@ -360,8 +359,6 @@ footer {
         //     left: 80px;
         // }
         a {
-            //display: table-cell;
-            //vertical-align: middle;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -372,7 +369,7 @@ footer {
                 height: 50px;
                 white-space: no-wrap;
                 text-overflow: ellipsis;
-                width: calc(100% - 53px);
+                width: calc(100% - 30px);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -454,7 +451,6 @@ footer {
                     border-left: 4px solid $secondary-color;
                 }
                 a {
-                    // display: inline-block;
                     width: 100%;
                     cursor: pointer;
                     text-decoration: none;
@@ -477,21 +473,24 @@ footer {
                     i,
                     svg {
                         margin-right: 10px;
-                        font-size: 16px;
                     }
                     svg {
-                        top: -3px;
+                        position: absolute;
+                        top: 45%;
+                        transform: translateY(-50%);
                     }
                 }
                 .sidebar-text {
                     height: 50px;
                     white-space: no-wrap;
                     text-overflow: ellipsis;
-                    width: calc(100% - 53px);
+                    width: calc(100% - 30px);
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     font-size: 16px;
+
+                    margin-left: 10px;
                 }
             }
         }
@@ -578,7 +577,6 @@ body {
                         }
                     }
                     .right-part-header {
-                        // overflow: hidden;
                         .menu {
                             display: none;
                         }
@@ -743,6 +741,7 @@ body {
                         svg {
                             &.icon {
                                 margin-left: 8px;
+                                position: sticky;
                             }
                         }
                         span {
@@ -803,8 +802,6 @@ body {
         height: 80px;
         padding-bottom: 30px;
         a {
-            // position: relative;
-            // top: 10px;
             img {
                 width: 90%;
             }
