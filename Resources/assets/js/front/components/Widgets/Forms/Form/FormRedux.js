@@ -84,7 +84,7 @@ class FormComponent extends Component {
         this.props.loadProcedures(props.elementObject.model_identifier);
 
         //validator to check if layout is valid
-        this.layoutValidator = null;
+        this.layoutValidator = new LayoutValidator();
     }
 
     /**
@@ -121,8 +121,6 @@ class FormComponent extends Component {
             .then(response => {
 
                 var layout = JSON.parse(response.data.elementTemplate.layout);
-
-                this.layoutValidator = new LayoutValidator(layout);
 
                 this.setState({
                     layout: layout,

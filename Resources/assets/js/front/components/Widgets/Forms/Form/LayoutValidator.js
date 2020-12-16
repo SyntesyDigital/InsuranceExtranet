@@ -7,8 +7,8 @@ import {
 
 export default class LayoutValidator {
 
-    constructor(layout) {
-        this.layout = layout;
+    constructor() {
+        
     }
 
     checkVisibility(field,values,formParameters,stageParameter) {
