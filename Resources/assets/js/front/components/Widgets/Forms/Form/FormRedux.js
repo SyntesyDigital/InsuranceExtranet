@@ -8,6 +8,7 @@ import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
+import LayoutValidator from './LayoutValidator';
 
 import EventBus from './../../../../../services/EventBus';
 
@@ -81,6 +82,9 @@ class FormComponent extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
 
         this.props.loadProcedures(props.elementObject.model_identifier);
+
+        //validator to check if layout is valid
+        this.layoutValidator = new LayoutValidator();
     }
 
     /**
@@ -577,6 +581,10 @@ class FormComponent extends Component {
         });
     }
 
+    clearAllToasts() {
+        $('#toast-container .toast').remove();
+    }
+
     /**
     *   When submit is preseed
     */
@@ -585,54 +593,36 @@ class FormComponent extends Component {
             return {};
         }
 
+        var errors = {};
         var fields = this.state.elementObject.fields;
         var currentStage = this.state.hasStages ? this.state.currentStage : null;
+
+        this.clearAllToasts();
         
-        if(this.state.hasStages ){
-            if(isDefined(this.state.fieldsByStage[currentStage])){
-                fields = this.state.fieldsByStage[currentStage];
-            }
-            else {
-                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,currentStage)
-            }
-        }
-
-        console.log("validateFields : grupo de fields a validar : ",fields);
-
-        var errors = {};
-        var hasErrors = false;
-
-        for (var key in fields) {
-            var field = fields[key];
-
-            var valid = validateField(field, this.state.values);
-            var visible = isVisible(
-                field, 
-                this.props.parameters.formParameters, 
-                this.state.values
-                //this.state.stageParameter
+        
+        //if has template process the validation depending on the visible layout
+        if(this.hasTemplate()){
+            errors = this.layoutValidator.validateLayout(
+                this.state.layout,
+                this.state.values,
+                this.props.parameters.formParameters,
+                this.state.stageParameter   //if stage is null, the is not considered for visibility
             );
-
-            //console.log("validateFields :: field, valid, visible ",this.state.stageParameter,field.identifier, valid, visible);
-
-            //if the field is not visible, is always valid
-            if (!visible) {
-                valid = true;
-            }
-
-            //console.log("validateField :: (field,this.state.values, valid, visible )",field,this.state.values,valid, visible);
-
-            if (!valid)
-                errors[field.identifier] = !valid;
-
-            if (!hasErrors && !valid) {
-                hasErrors = true;
-            }
+        }
+        else {
+            errors = this.layoutValidator.validateFields(
+                    fields,
+                    this.state.values,
+                    this.props.parameters.formParameters
+                );
         }
 
         this.setState({
             errors: errors
         });
+
+        //if errors has variables, return true
+        var hasErrors = Object.keys(errors).length > 0;
 
         return hasErrors;
     }
