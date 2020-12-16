@@ -42,7 +42,7 @@
 @section('content')
   <article class="page-builder">
     <div class="rightbar-page">
-      <div class="col-md-9 tipology-container">
+      <div class="col-md-9 tipology-container actualites">
         <h4>{{$typologyName}}</h4>
         <h1>{{$title}}</h1>
         <h5 class="mt-2 mb-3">{{null !== $date ? $dateProcessed : "" }}</h5>
