@@ -13,7 +13,7 @@ class RichTextPreview extends Component {
     const field = this.props.field;
     var value = null;
 
-    if(field.value !== undefined &&
+    if(field.value !== undefined && field.value !== null &&
       field.value[DEFAULT_LOCALE] !== undefined ){
 
       value = field.value[DEFAULT_LOCALE];
