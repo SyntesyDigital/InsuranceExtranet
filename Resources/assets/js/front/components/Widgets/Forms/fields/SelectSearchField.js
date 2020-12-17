@@ -379,7 +379,7 @@ class SelectSearchField extends Component {
     
     getPlaceholder() {
         if (this.fieldHasPlaceholderSettings()) {
-            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : 'Sélectionnez';
         }
         return 'Sélectionnez';
     }
