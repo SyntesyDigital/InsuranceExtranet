@@ -12,7 +12,7 @@
     .element-file-container-body {
         background-color: $elements-background-color;
         border: 1px solid $element-file-border;
-        padding: 10px 15px;
+        padding: 10px 35px 30px;
         @include round($elements-radius);
         .container-icon {
             &.icon-field {

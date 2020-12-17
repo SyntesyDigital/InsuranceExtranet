@@ -36,11 +36,36 @@
     + {
         div {
             border-top-left-radius: 0 !important;
+            border: none !important; 
             .element-file-container{
                 margin: 0;
             }
             .element-file-container-head{
                 display: none;
+            }
+            .col-xs-12{
+                padding: 0;
+            }
+            // tablas
+            .element-table-container {
+                margin: 0;
+                .title{
+                    display: none;
+                }
+                .react-table-container{
+                    border: none;
+                    .ReactTable{
+                        .rt-thead{
+                            &.-filters{
+                                padding-bottom: 10px;
+                                padding-top: 17px;
+                                .rt-th{
+                                    border-right: none;
+                                }
+                            }
+                        }
+                    } 
+                }
             }
         }
     }
