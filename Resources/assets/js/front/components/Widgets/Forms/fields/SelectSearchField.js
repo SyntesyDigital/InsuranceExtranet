@@ -299,11 +299,11 @@ class SelectSearchField extends Component {
 
     getOption(value) {
         //console.log("SelectField :: getOption (value)",value);
-        if (value === undefined || value == null)
+        if (value === undefined || value == null || value == '')
             return null;
 
         for (var index in this.state.data) {
-            if (this.state.data[index]['value'] === value) {
+            if (this.state.data[index]['value'] == value) {
                 return index;
             }
         }
@@ -340,6 +340,7 @@ class SelectSearchField extends Component {
         
         //if modal has a value defined, then select is automatically updated with result
         if(formParameters["_value"]){
+
             this.props.onFieldChange({
                 name: this.props.field.identifier,
                 value: formParameters["_value"]
@@ -426,7 +427,7 @@ class SelectSearchField extends Component {
         const options = this.state.data.map(
             item => ({
                 label: item.name,
-                value: item.value,
+                value: item.value,   //convert all values to 
             }));
 
         var optionIndex = this.getOption(this.props.value);
@@ -457,8 +458,10 @@ class SelectSearchField extends Component {
             );
         };
 
+        console.log("optionIndex : ",optionIndex);
+
         //if url not defined button is not enabled
-        const linkDisabled = this.state.modalUrl == null || this.state.displayModal;
+        const linkDisabled = this.state.modalUrl == null || this.state.displayModal || optionIndex != null;
 
         //console.log("SelectField :: value : (options,optionsIndex,this.props.value)",options,optionIndex,this.props.value);
         return (
@@ -525,7 +528,7 @@ class SelectSearchField extends Component {
                                 }}
                             />
                             <a className="btn" onClick={this.openModal.bind(this)} style={{
-                                    opacity:linkDisabled ? 0.5 : 1,
+                                    opacity:linkDisabled ? 0.3 : 1,
                                     pointerEvents : linkDisabled ? 'none' : 'auto'
                                 }}>
                                 {STYLES.elementForm.textBtnAddValueForm ?

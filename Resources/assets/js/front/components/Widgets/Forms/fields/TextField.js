@@ -111,7 +111,7 @@ class TextField extends Component {
 
     validateEmailFormat(value) {
         var emailRegex = (/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i).test(value);
-        console.log('emailRegex ',emailRegex);
+        //console.log('emailRegex ',emailRegex);
         return emailRegex;
     }
 
@@ -119,7 +119,7 @@ class TextField extends Component {
 
         if (this.getFieldFormat() == 'email') {
             if (this.validateEmailFormat(event.target.value) == true) {
-                console.log("Formato correcto");
+                //console.log("Formato correcto");
                 this.setState({
                     error : false
                   });
@@ -128,7 +128,7 @@ class TextField extends Component {
                     value: event.target.value
                 });
             } else {
-                console.log("Formato incorrecto");
+                //console.log("Formato incorrecto");
                 this.props.onFieldChange({
                     name: event.target.name,
                     value: event.target.value
@@ -158,7 +158,7 @@ class TextField extends Component {
         const { field } = this.props;
         const {error} = this.state;
         const errors = this.props.error || error ? ' has-error' : '';
-        console.log('errors: ',errors, field.identifier)
+        //console.log('errors: ',errors, field.identifier)
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
 
