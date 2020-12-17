@@ -9,6 +9,7 @@ return [
         'icon' => 'fa fa-font',
         'formats' => [
           'password',
+          'email'
         ],
         'rules' => [
           'required',

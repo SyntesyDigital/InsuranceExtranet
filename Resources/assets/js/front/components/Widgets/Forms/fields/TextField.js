@@ -26,7 +26,6 @@ class TextField extends Component {
     fieldHasPlaceholderSettings() {
         return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
     }
-    
     getPlaceholder() {
         if (this.fieldHasPlaceholderSettings()) {
             return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
@@ -63,6 +62,9 @@ class TextField extends Component {
     getMaxValue() {
         var max = parseInt(this.getNumberFromRules('maxNumber'));
         return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
+    }
+    getFieldFormat() {
+        return this.props.field.settings.format !== undefined && this.props.field.settings.format !== null ? this.props.field.settings.format : '';
     }
 
     // ==============================
@@ -107,13 +109,43 @@ class TextField extends Component {
         });
     }
 
+    validateEmailFormat(value) {
+        var emailRegex = (/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i).test(value);
+        console.log('emailRegex ',emailRegex);
+        return emailRegex;
+    }
+
     handleOnChange(event) {
 
-        this.props.onFieldChange({
-            name: event.target.name,
-            value: event.target.value
-        });
-
+        if (this.getFieldFormat() == 'email') {
+            if (this.validateEmailFormat(event.target.value) == true) {
+                console.log("Formato correcto");
+                this.setState({
+                    error : false
+                  });
+                  this.props.onFieldChange({
+                    name: event.target.name,
+                    value: event.target.value
+                });
+            } else {
+                console.log("Formato incorrecto");
+                this.props.onFieldChange({
+                    name: event.target.name,
+                    value: event.target.value
+                });
+                this.setState({
+                    error : true
+                  });
+            }
+        } else {
+            this.props.onFieldChange({
+                name: event.target.name,
+                value: event.target.value
+            });
+            this.setState({
+                error : false
+              });
+        }
     }
 
 
@@ -124,8 +156,9 @@ class TextField extends Component {
     render() {
 
         const { field } = this.props;
-        const errors = this.props.error ? ' has-error' : '';
-
+        const {error} = this.state;
+        const errors = this.props.error || error ? ' has-error' : '';
+        console.log('errors: ',errors, field.identifier)
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
 
