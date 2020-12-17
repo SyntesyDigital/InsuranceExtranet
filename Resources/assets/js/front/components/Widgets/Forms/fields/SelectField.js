@@ -329,7 +329,7 @@ class SelectField extends Component {
     
     getPlaceholder() {
         if (this.fieldHasPlaceholderSettings()) {
-            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : 'Sélectionnez';
         }
         return 'Sélectionnez';
     }
@@ -376,7 +376,7 @@ class SelectField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
-        let isAutoSuggest = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
+        let isAutoSuggestDisabled = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
             true : false;
 
         let isHideLabel = field.settings.hidelabel !== undefined ?
@@ -439,13 +439,12 @@ class SelectField extends Component {
                         }
                     </div>
                     <div className={colClassInput}>
-                        {isAutoSuggest ?
+                        {isAutoSuggestDisabled ?
                             <React.Fragment>
                                 <select
                                     className={"form-control simple-select " + (textFieldClass.join(' '))}
                                     name={field.identifier}
                                     onChange={this.handleChangeSimpleSelect.bind(this)}
-                                    value={optionsSimpleSelect[optionIndex]}
                                     placeholder={defaultValue}
                                     style={selectStyle}
                                     value={this.props.value}
