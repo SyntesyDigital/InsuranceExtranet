@@ -196,50 +196,89 @@ class FormButtonRedux extends Component {
         );
     }
 
+    renderBoxButton() {
+
+        return (
+            <div className={
+                "box-button-root box-button-container " +
+                (!this.props.parameters.formParametersLoaded ? 'disabled' : '') +
+                (this.props.field.settings['buttonClass'] ? ' ' + this.props.field.settings['buttonClass'] : '')
+            }>
+                <div className="wrap-box-button">
+                    <div className="image-container">
+                        <div className="wrap-icon">
+                            {this.props.field.fields[2].value != '' &&
+                                <CustomIcon
+                                    icon={this.props.field.fields[2].value}
+                                />
+                            }
+                        </div>
+                    </div>
+                    <div className="label-container">
+                        <div>
+                            <p>{this.props.field.fields[0].value[LOCALE]}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+
+    renderTypeButton(type, loaded) {
+
+        switch (type) {
+
+            case "box_button":
+                return (
+                    this.renderBoxButton()
+                );
+
+            case "simple_button":
+                return (
+                    <div className="simple-button-container">
+                        <a
+                            className={
+                                'simple-btn ' +
+                                (this.props.field.settings.btnClass ? this.props.field.settings.btnClass
+                                    : '') +
+                                (!loaded ? ' disabled ' : '') +
+                                (this.props.field.settings['buttonClass'] ? ' ' + this.props.field.settings['buttonClass'] : '')
+                            }
+                        >
+                            {this.props.field.fields[2].value != '' &&
+                                <CustomIcon
+                                    icon={this.props.field.fields[2].value}
+                                />
+                            }
+                            &nbsp;{this.props.field.fields[0].value[LOCALE]}
+                        </a>
+                    </div>
+                );
+
+            default:
+                return (
+                    this.renderBoxButton()
+                );
+        }
+    }
+
+
     render() {
-
-        const loaded = this.props.parameters.formParametersLoaded;
-        const title = this.props.field.fields[0].value[LOCALE];
-        const icon = this.props.field.fields[2].value[LOCALE];
-        const buttonClass = this.props.field.settings['buttonClass'];
-
         return (
             <div>
                 {this.renderHiddenForm()}
                 <div
-                    className={"form-button box-button-container-a " + (!loaded ? 'loading' : '')}
+                    className={"form-button box-button-container-a " + (!this.props.parameters.formParametersLoaded ? 'loading' : '')}
                     onClick={this.handleSubmit.bind(this)}
                 >
-
                     <FormParametersIterator />
                     <FormProceduresIterator
                         values={this.state.values}
                         onFinish={this.handleFinish.bind(this)}
                         version={'2'}
                     />
-
-                    <div className={
-                        "box-button-root box-button-container " +
-                        (!loaded ? 'disabled' : '') +
-                        (buttonClass ? ' ' + buttonClass : '')
-                    }>
-                        <div className="wrap-box-button">
-                            <div className="image-container">
-                                <div className="wrap-icon">
-                                    {icon != '' &&
-                                        <CustomIcon
-                                            icon={icon}
-                                        />
-                                    }
-                                </div>
-                            </div>
-                            <div className="label-container">
-                                <div>
-                                    <p>{title}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {this.renderTypeButton(this.props.field.settings['renderButton'], this.props.parameters.formParametersLoaded)}
                 </div>
             </div>
         );
