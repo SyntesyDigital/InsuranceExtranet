@@ -36,6 +36,7 @@ export default class FormComponent extends Component {
               hasStages={this.props.hasStages ? this.props.hasStages : false} 
               stageParameter={this.props.stageParameter ? this.props.stageParameter : null}
               initStage={this.props.initStage ? this.props.initStage : 1}
+              autosaveEnabled={this.props.autosave ? this.props.autosave : false}
             />
           </Provider>
         );

@@ -226,22 +226,29 @@ class NumberField extends Component
     return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
   }
 
+  fieldHasPlaceholderSettings() {
+    return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+  }
+
   getPlaceholder() {
-    var max = this.getNumberFromRules('maxNumber');
-    var min = this.getNumberFromRules('minNumber');
+    if (this.fieldHasPlaceholderSettings()) {
+      return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+    } else {
+      var max = this.getNumberFromRules('maxNumber');
+      var min = this.getNumberFromRules('minNumber');
 
-    if(max == '' && min == '')
-      return '';
+      if(max == '' && min == '')
+        return '';
 
-    var result = '';
+      var result = '';
 
-    result += (min != '' ) ? 'minimum '+min+' ' : '';
-    result += (min != '' && max != '') ? ', ' : '';
-    result += (max != '' ) ? 'maximum '+max+' ' : '';
-    
+      result += (min != '' ) ? 'minimum '+min+' ' : '';
+      result += (min != '' && max != '') ? ', ' : '';
+      result += (max != '' ) ? 'maximum '+max+' ' : '';
+      
 
-    return result;
-
+      return result;
+   }
   }
 
   render() {
@@ -251,11 +258,27 @@ class NumberField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    var placeholder = this.getPlaceholder();
+
     let hasDescription = this.props.field.settings.description !== undefined ?
         this.props.field.settings.description : false;
 
     let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
       field.settings.hidden : false;
+
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+    var colClassLabel = isLabelInline ? 
+        'field-container-col col-xs-5' :
+        'field-container-col col-xs-12';
+
+    var colClassInput = isLabelInline ? 
+        'field-container-col col-xs-7' :
+        'field-container-col col-xs-12';
 
     const currency =  this.fieldHasCurrencySettings();
 
@@ -279,51 +302,58 @@ class NumberField extends Component
     return (
 
       <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-        <label className={'bmd-label-floating '}>
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel && 
+              <label className={'bmd-label-floating '}>
+                  {field.name} 
+                  {isRequired &&
+                    <span className="required">&nbsp; *</span>
+                  }
+                  {hasDescription && 
+                      <LabelTooltip 
+                          description={this.props.field.settings.description ? 
+                              this.props.field.settings.description : ''}
+                      />
+                  }
+              </label>
             }
-            {hasDescription && 
-                <LabelTooltip 
-                    description={this.props.field.settings.description ? 
-                        this.props.field.settings.description : ''}
-                />
-            }
-        </label>
-          {!currency &&
-            <input type="number" name={field.identifier}
-              className={"form-control " + (textFieldClass.join(' '))}
-              value={this.props.value}
-              max={this.getNumberFromRules('maxNumber')}
-              min={this.getNumberFromRules('minNumber')}
-              onChange={this.handleOnChange.bind(this)}
-              onBlur={this.handleBlur.bind(this)}
-              onFocus={this.handleFocus.bind(this)}
-              placeholder={this.getPlaceholder()}
-              readOnly={this.isReadOnly()}
-            />
-          }        
-          {currency &&
-            <NumberFormat 
-                value={this.props.value} 
-                name={field.identifier}
+          </div>
+          <div className={colClassInput}>
+            {!currency &&
+              <input type="number" name={field.identifier}
                 className={"form-control " + (textFieldClass.join(' '))}
+                value={this.props.value}
                 max={this.getNumberFromRules('maxNumber')}
                 min={this.getNumberFromRules('minNumber')}
-                onValueChange={this.handleNumberFormatChange.bind(this)}
+                onChange={this.handleOnChange.bind(this)}
                 onBlur={this.handleBlur.bind(this)}
+                onFocus={this.handleFocus.bind(this)}
                 placeholder={this.getPlaceholder()}
                 readOnly={this.isReadOnly()}
-                decimalScale={currency.decimals}
-                decimalSeparator={currency.decimals_separator}
-                thousandSeparator={currency.thousands_separator} 
-                prefix={currency.symbole_position == 'L'?currency.symbole:''} 
-                suffix={currency.symbole_position == 'R'?currency.symbole:''} 
               />
+            }        
+            {currency &&
+              <NumberFormat 
+                  value={this.props.value} 
+                  name={field.identifier}
+                  className={"form-control " + (textFieldClass.join(' '))}
+                  max={this.getNumberFromRules('maxNumber')}
+                  min={this.getNumberFromRules('minNumber')}
+                  onValueChange={this.handleNumberFormatChange.bind(this)}
+                  onBlur={this.handleBlur.bind(this)}
+                  placeholder={this.getPlaceholder()}
+                  readOnly={this.isReadOnly()}
+                  decimalScale={currency.decimals}
+                  decimalSeparator={currency.decimals_separator}
+                  thousandSeparator={currency.thousands_separator} 
+                  prefix={currency.symbole_position == 'L'?currency.symbole:''} 
+                  suffix={currency.symbole_position == 'R'?currency.symbole:''} 
+                />
 
-          }
-       
+            }
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,40 +1,45 @@
-.tipology-container{
-    p{
+.actualites {
+    .quill-desc {
+        line-height: 24px;
+    }
+}
+.tipology-container {
+    p {
         margin-bottom: 25px;
     }
-    img{
+    img {
         border-radius: 24px;
     }
 }
 .sidebar-last-posts {
-  z-index: 400;
-  position: fixed;
-  width: 25%;
-  top: 0px;
-  right: 0px;
-  padding: 20px;
-  margin-top: 92px;
-  background: #fbfbfb;
-  height: calc(100vh - 75px);
-  overflow: scroll;
-  ul{
-    list-style: none;
-    padding-left: 0;
-  }
-  .news{
-    display: flex;
-    height: 96px;
-    margin: 15px 0px 15px;
-    background-color: #fff;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    .image {
-        img {
-          border-radius: 8px;
+    z-index: 9;
+    position: fixed;
+    width: 25%;
+    top: 0px;
+    right: 0px;
+    padding: 20px;
+    margin-top: 92px;
+    background: #fbfbfb;
+    height: calc(100vh - 75px);
+    overflow: scroll;
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .news {
+        display: flex;
+        height: 96px;
+        margin: 15px 0px 15px;
+        background-color: #fff;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        .image {
+            img {
+                border-radius: 8px;
+            }
         }
-      }
-  }
+    }
 }
-.no-padding-left{
+.no-padding-left {
     padding-left: 0;
 }

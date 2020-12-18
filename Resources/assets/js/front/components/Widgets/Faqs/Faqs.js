@@ -37,9 +37,9 @@ export default class Faqs extends Component {
         const icon = this.processIcon(fields, 1);
 
         const HtmlAccordionSummary = withStyles((theme) => ({
-            expandIcon: {
-                transform: (icon ? 'none !important' : 'unset' ),
-            },
+            // expandIcon: {
+            //     // transform: (icon ? 'none !important' : 'unset'),
+            // },
         }))(AccordionSummary);
 
 
@@ -47,12 +47,12 @@ export default class Faqs extends Component {
             <div>
                 <Accordion>
                     <HtmlAccordionSummary
-                        expandIcon={icon ? <i className={icon}></i> : <ExpandMoreIcon />}
+                        expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
                         <Typography>
-                            {title != null && title.length > 150 ? title.substring(0, 150) + ('...') : title}
+                            {icon ? <i className={icon}></i> : null}{title != null && title.length > 150 ? title.substring(0, 150) + ('...') : title}
                         </Typography>
                     </HtmlAccordionSummary>
                     <AccordionDetails>

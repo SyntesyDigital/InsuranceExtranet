@@ -4,16 +4,25 @@
     body .faqs-widget .MuiButtonBase-root .MuiIconButton-label{
        color: {{$elementHeadIconColor}};
     }
+    body .faqs-list-widget  .MuiAccordionSummary-content i{
+        color: {{$colorIconFaqs}};
+        font-size: {{$fontSizeIconFaqs}};
+    }
+
+    body .faqs-list-widget  .MuiAccordionSummary-content svg{
+        font-size: {{$fontSizeIconFaqs}};
+    }
+
     /* title */
     body .faqs-list-widget .MuiAccordionSummary-root,
     body .faqs-widget .MuiAccordionSummary-root {
-        background-color: {{$backgroundColorTitleFaqs}};
-        color: {{$colorTitleFaqs}};
+        background-color: {{$backgroundColorTitleFaqs}} !important;
+        color: {{$colorTitleFaqs}} !important;
     }
     body .faqs-list-widget  .MuiAccordionSummary-content p,
     body .faqs-widget  .MuiAccordionSummary-content p{
-        font-size: {{$fontSizeTitleFaqs}};
-        color: {{$primaryColor}};
+        font-size: {{$fontSizeTitleFaqs}} !important;
+        color: {{$colorTitleFaqs}} !important;
     }
     /* desc */
     body .faqs-list-widget .MuiCollapse-container, 

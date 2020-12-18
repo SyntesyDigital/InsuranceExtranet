@@ -21,6 +21,7 @@
 						</button>
 					</div>
 					<div class="user-info">
+                  
                         <div class="row">
                             @if (isset($config['SEARCH_IS_ACTIVE']) && $config['SEARCH_IS_ACTIVE']->value === true)
                                 <div class="col-xs-12">
@@ -65,12 +66,17 @@
 	<!-- END CORPO I IDIOMES -->
 	<!-- MENU I SEARCH -->
 
+    <!-- Include file defs svg creatic custom library -->
+    @include('extranet::front.partials.svg_defs')
+
 </header><!-- end HEADER -->
+
 
 @push('javascripts')
 <script>
 
     $(document).ready(function() {
+        
         $(".tooltip-link").tooltip({
             disabled: true
         });

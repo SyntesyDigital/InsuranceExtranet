@@ -24,6 +24,8 @@
         font-size: {{$linkFontSizeImgTxtLink}};
         color: {{$linkColorImgTxtLink}}
     }
+
+
 </style>
 
 

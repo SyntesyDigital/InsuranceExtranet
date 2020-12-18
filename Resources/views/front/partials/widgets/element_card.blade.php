@@ -27,8 +27,6 @@
     $collapsable = isset($field['settings']['collapsable']) && $field['settings']['collapsable']? true : false;
     $title = isset($field['fields'][0]['value'][App::getLocale()]) ? $field['fields'][0]['value'][App::getLocale()] : null;
     $url = get_field_url($field['fields'][1],$parameters);
-    $icon = $field['fields'][2]['value'];
-
 
 @endphp
 
@@ -62,12 +60,15 @@
                 @endif
                 style="display: {{$collapsable || isset($title) ? 'block' : 'none' }}"
             >
-                @if(isset($icon))
-                    <i class="{{$icon}}"></i>
-                @endif
-                {{$title}}
+            @include('extranet::front.partials.fields.icon',
+                [
+                "field" => $field['fields'][2],
+                "settings" => $field['settings'],
+                "div" => false,
+                ]
+            )
+            {{$title}}
             </div>
-
             <div 
                 id="collapsefile-{{$htmlId}}" 
                 class="{{$field['settings']['collapsable']? 'collapse':'' }} {{$field['settings']['collapsed']?'':'in'}} element-file-container-body"

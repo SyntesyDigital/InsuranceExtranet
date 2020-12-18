@@ -1,9 +1,9 @@
 const mix = require('laravel-mix');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
-
 require('laravel-mix-merge-manifest');
 mix.setPublicPath('../../public').mergeManifest();
+
 
 
 // ---------------------------------------- //
@@ -32,8 +32,8 @@ mix.webpackConfig({
                 to: '../public/modules/extranet/img/',
                 toType: 'dir'
             }
-        ])
-    ]
+        ]),
+    ],
 });
 // ---------------------------------------- //
 

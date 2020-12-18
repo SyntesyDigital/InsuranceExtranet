@@ -219,7 +219,7 @@ class SelectField extends Component {
 
                         //add first item with empty result, necessary to remove value
                         response.data.data.unshift({
-                            name: "Sélectionnez",
+                            name: self.getPlaceholder(),
                             value: "",
                             value_preload: null
                         });
@@ -292,7 +292,7 @@ class SelectField extends Component {
 
     getOption(value) {
         //console.log("SelectField :: getOption (value)",value);
-        console.log(this.state.data)
+        //console.log(this.state.data)
         if (value === undefined || value == null)
             return null;
 
@@ -323,9 +323,20 @@ class SelectField extends Component {
         });
     }
 
+    fieldHasPlaceholderSettings() {
+        return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+    }
+    
+    getPlaceholder() {
+        if (this.fieldHasPlaceholderSettings()) {
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : 'Sélectionnez';
+        }
+        return 'Sélectionnez';
+    }
+
 
     render() {
-
+        var placeholder = this.getPlaceholder();
         const { field } = this.props;
         const customStyles = {
             control: (base) => ({
@@ -351,7 +362,7 @@ class SelectField extends Component {
             textFieldClass.push('bordered');
         }
 
-        let defaultValue = this.state.loading ? 'Chargement...' : 'Sélectionnez';
+        let defaultValue = this.state.loading ? 'Chargement...' : placeholder;
         defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
         defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
         const display = this.state.display;
@@ -365,8 +376,22 @@ class SelectField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
-        let isAutoSuggest = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
+        let isAutoSuggestDisabled = field.settings.autosuggest !== undefined && field.settings.autosuggest != null && field.settings.autosuggest ?
             true : false;
+
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+        field.settings.hidelabel : false;
+
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
 
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
@@ -396,58 +421,66 @@ class SelectField extends Component {
         return (
 
             <div className={"form-group bmd-form-group"} style={{ display: display && !isHidden ? 'block' : 'none' }}>
-                <label className="bmd-label-floating">
-                    {field.name}
-                    {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                    }
-                    {hasDescription &&
-                        <LabelTooltip
-                            description={this.props.field.settings.description ?
-                                this.props.field.settings.description : ''}
-                        />
-                    }
-                </label>
-
-                {isAutoSuggest ?
-                    <React.Fragment>
-                        <select
-                            className={"form-control simple-select " + (textFieldClass.join(' '))}
-                            name={field.identifier}
-                            onChange={this.handleChangeSimpleSelect.bind(this)}
-                            value={optionsSimpleSelect[optionIndex]}
-                            placeholder={defaultValue}
-                            style={selectStyle}
-                            value={this.props.value}
-                        >
-                            {optionsSimpleSelect}
-                        </select>
-                    </React.Fragment>
-                    :
-                    <Select
-                        onBlur={this.handleBlur.bind(this)}
-                        onFocus={this.handleFocus.bind(this)}
-                        value={options[optionIndex]}
-                        name={field.identifier}
-                        defaultValue={optionIndex != null ? options[optionIndex] : ''}
-                        options={options}
-                        onChange={this.handleOnChange.bind(this)}
-                        styles={customStyles}
-                        placeholder={defaultValue}
-                        menuContainerStyle={{ 'zIndex': 999 }}
-                        filterOption={createFilter({ ignoreAccents: false })}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: STYLES.elementForm.borderRadiusInput,
-                            height: '34px',
-                            colors: {
-                                ...theme.colors,
-                                primary25: STYLES.elementForm.hoverColorInput,
-                                primary: STYLES.elementForm.borderColorInput,
-                            },
-                        })}
-                    />
-                }
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
+                        {!isHideLabel && 
+                            <label className="bmd-label-floating">
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={this.props.field.settings.description ?
+                                            this.props.field.settings.description : ''}
+                                    />
+                                }
+                            </label>
+                        }
+                    </div>
+                    <div className={colClassInput}>
+                        {isAutoSuggestDisabled ?
+                            <React.Fragment>
+                                <select
+                                    className={"form-control simple-select " + (textFieldClass.join(' '))}
+                                    name={field.identifier}
+                                    onChange={this.handleChangeSimpleSelect.bind(this)}
+                                    placeholder={defaultValue}
+                                    style={selectStyle}
+                                    value={this.props.value}
+                                >
+                                    {optionsSimpleSelect}
+                                </select>
+                            </React.Fragment>
+                            :
+                            <Select
+                                onBlur={this.handleBlur.bind(this)}
+                                onFocus={this.handleFocus.bind(this)}
+                                value={options[optionIndex]}
+                                name={field.identifier}
+                                defaultValue={optionIndex != null ? options[optionIndex] : ''}
+                                options={options}
+                                onChange={this.handleOnChange.bind(this)}
+                                styles={customStyles}
+                                placeholder={defaultValue}
+                                menuContainerStyle={{ 'zIndex': 999 }}
+                                filterOption={createFilter({
+                                    ignoreAccents: false 
+                                })}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: STYLES.elementForm.borderRadiusInput,
+                                    height: '34px',
+                                    colors: {
+                                        ...theme.colors,
+                                        primary25: STYLES.elementForm.hoverColorInput,
+                                        primary: STYLES.elementForm.borderColorInput,
+                                    },
+                                })}
+                            />
+                        }
+                    </div>
+                </div>
             </div>
         );
     }

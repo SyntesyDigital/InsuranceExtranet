@@ -13,6 +13,7 @@
         <link rel="stylesheet" media="all" href="{{ asset('css/backend-style.css')}}" />
         <link rel="stylesheet" media="all" href="{{ asset('css/font-awesome/css/font-awesome.min.css')}}" />
         <link rel="stylesheet" media="all" href="{{ asset('plugins/toastr/toastr.min.css')}}" />
+        <link rel="stylesheet" href="https://i.icomoon.io/public/temp/5eda090dc7/UntitledProject/style-svg.css">
 
         @stack('stylesheets')
 
@@ -40,6 +41,8 @@
         <script src="{{ asset('/plugins/datepicker/bootstrap-datetimepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/datepicker/moment-with-locales.min.js') }}"></script>
 
+       
+
         <!-- Select2 -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -52,7 +55,9 @@
     </head>
 
     <body>
-    	@yield('modal')
+        @yield('modal')
+        @include('extranet::front.partials.svg_defs')
+
 		<section id="wrapper">
 	        {{-- <aside class="sidebar">
 	        	<nav>
@@ -140,6 +145,7 @@
             </div>
 
         </div>
+
 
 		@stack('javascripts-libs')
 

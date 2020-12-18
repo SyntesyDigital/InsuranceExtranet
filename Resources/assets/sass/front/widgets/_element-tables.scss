@@ -302,7 +302,7 @@
     padding-bottom: 6px;
 
     .rt-th.-cursor-pointer {
-      height: 44px;
+      height: 26px;
     }
 
     .rt-resizable-header-content{
@@ -431,3 +431,10 @@ body {
     }
   }
 }   
+
+.timeline-container {
+    .element-table-container-head{
+        padding: 20px 35px 30px;
+
+    }
+}

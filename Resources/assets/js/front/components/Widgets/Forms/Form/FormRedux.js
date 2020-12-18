@@ -7,6 +7,8 @@ import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
+import LayoutValidator from './LayoutValidator';
+
 import EventBus from './../../../../../services/EventBus';
 import LayoutParser from './../../ElementCard/LayoutParser';
 import Autosave from './Autosave';
@@ -72,14 +74,29 @@ class FormComponent extends Component {
             stageParameter : stageParameter,
             currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage,
             fieldsByStage : {},  //object with all fields sorted by stage config
-            autosave: null // Autosave key for detect if we must do an update or a create query
+
+            autosave: null, // Autosave key for detect if we must do an update or a create query
+            autosaveLoaded : false
         };
 
         this.props.initParametersState(parametersObject);
 
         this.handleOnChange = this.handleOnChange.bind(this);
 
-        this.props.loadProcedures(props.elementObject.model_identifier);        
+        this.props.loadProcedures(props.elementObject.model_identifier);
+
+        //validator to check if layout is valid
+        this.layoutValidator = new LayoutValidator();
+    }
+
+    /**
+     * Check if autosave is loaded or not
+     */
+    isAutosaveLoaded() {
+        if(!this.props.autosaveEnabled)
+            return true;
+
+        return this.state.autosaveLoaded;
     }
 
     /**
@@ -105,6 +122,16 @@ class FormComponent extends Component {
         if (this.state.template) {
             this.loadTemplate(this.state.template);
         }
+    }
+
+    // ----------------------------------------------- //
+    //          AUTOSAVE
+    // ----------------------------------------------- //
+
+    loadAutosave() {
+
+        if(!this.props.autosaveEnabled)
+            return null;
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -114,16 +141,74 @@ class FormComponent extends Component {
             Autosave.get({
                 codec: 'form',
                 payload: {
-                    key: key
+                    key: key,
                 }
             }).then(response => {
+
+                var currentStage = Autosave.processCurrentStage(response.stage);
+                var self = this;
+
                 this.setState({
                     autosave: key,
-                    values: response.values
+                    values: response.values,
+                    autosaveLoaded : true
+                },function() {
+                    //update current stage and dispatch events
+                    self.handleStageChange(currentStage,true);
                 });
             });
         }
+    }
 
+    deleteAutosave() {
+        if(!this.props.autosaveEnabled || !this.state.autosave)
+            return null;
+
+        Autosave.delete({
+            codec: 'form',
+            payload: {
+                key: this.state.autosave,
+            }
+        }).then(response => {
+            /*
+            this.setState({
+                autosave: key,
+                values: response.values
+            });
+            */
+        });
+        
+    }
+
+    /**
+     * Update autosave with current values, and has option to callback if defined
+     * @param {*} values 
+     * @param {*} callback 
+     */
+    updateAutosave(values,callback) {
+        
+        if(!this.props.autosaveEnabled)
+            return null;
+
+        Autosave.save({
+            codec: 'form',
+            payload: {
+                key: this.state.autosave,
+                url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
+                stage: this.state.hasStages ? 
+                    this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
+                    : '',
+                values: values
+            }
+        }).then(key => {
+            this.setState({
+                autosave: key
+            },function(){
+                if(callback !== undefined){
+                    callback();
+                }
+            });
+        });
     }
 
     // ----------------------------------------------- //
@@ -135,11 +220,15 @@ class FormComponent extends Component {
             .then(response => {
 
                 var layout = JSON.parse(response.data.elementTemplate.layout);
+                var self = this;
 
                 this.setState({
                     layout: layout,
                     templateLoaded: true,
                     fieldsByStage : this.state.hasStages ? getFieldsByStage(layout) : {}
+                },function(){
+                    //after load template check if necesstary to autosave
+                    self.loadAutosave();
                 });
             });
     }
@@ -258,21 +347,7 @@ class FormComponent extends Component {
         this.setState({
             values: values,
             timer: setTimeout(() => { // Autosave
-                Autosave.save({
-                    codec: 'form',
-                    payload: {
-                        key: this.state.autosave,
-                        url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
-                        stage: this.state.hasStages ? 
-                            this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
-                            : '',
-                        values: values
-                    }
-                }).then(key => {
-                    this.setState({
-                        autosave: key
-                    });
-                });
+                this.updateAutosave(values);
             }, 1000)
         }, function () {
             self.validateFieldChange(
@@ -281,9 +356,12 @@ class FormComponent extends Component {
         });
     }
 
+    
+
     handleStageChange(stage,validate) {
 
         var validate = isDefined(validate) ? validate : false;
+        console.log("handleStageChange :: stage, state", stage, this.state);
 
         if(stage == null){
             console.error("Stage Button Click error : stage not defined.");
@@ -312,12 +390,15 @@ class FormComponent extends Component {
         this.setState({
             currentStage : stage
         },function(){
+
             //update form parameters
             self.props.updateStageParameter(
                 self.state.stageParameter,
                 stage,
                 self.props.parameters.formParameters
             );
+
+            self.updateAutosave(self.state.values);
         });
 
     }
@@ -574,6 +655,9 @@ class FormComponent extends Component {
             });
         }
 
+        //delete autosave when form is processed
+        this.deleteAutosave();
+
         if (this.props.finalRedirectUrl != "") {
             window.location.href = this.props.finalRedirectUrl + "?" +
                 getUrlParameters(
@@ -615,6 +699,10 @@ class FormComponent extends Component {
         });
     }
 
+    clearAllToasts() {
+        $('#toast-container .toast').remove();
+    }
+
     /**
     *   When submit is preseed
     */
@@ -623,46 +711,36 @@ class FormComponent extends Component {
             return {};
         }
 
-        var fields = this.state.elementObject.fields;
-        
-        if(this.state.hasStages ){
-            if(isDefined(this.state.fieldsByStage[this.state.currentStage])){
-                fields = this.state.fieldsByStage[this.state.currentStage];
-            }
-            else {
-                console.error("validateFields : fieldsByStage current stage is not defined.  (fieldsByStage, currentStage)",this.state.fieldsByStage,this.state.currentStage)
-            }
-        }
-
-        console.log("validateFields : grupo de fields a validar : ",fields);
-
         var errors = {};
-        var hasErrors = false;
+        var fields = this.state.elementObject.fields;
+        var currentStage = this.state.hasStages ? this.state.currentStage : null;
 
-        for (var key in fields) {
-            var field = fields[key];
-
-            var valid = validateField(field, this.state.values);
-            var visible = isVisible(field, this.props.parameters.formParameters, this.state.values);
-
-            //if the field is not visible, is always valid
-            if (!visible) {
-                valid = true;
-            }
-
-            //console.log("validateField :: (field,this.state.values, valid, visible )",field,this.state.values,valid, visible);
-
-            if (!valid)
-                errors[field.identifier] = !valid;
-
-            if (!hasErrors && !valid) {
-                hasErrors = true;
-            }
+        this.clearAllToasts();
+        
+        
+        //if has template process the validation depending on the visible layout
+        if(this.hasTemplate()){
+            errors = this.layoutValidator.validateLayout(
+                this.state.layout,
+                this.state.values,
+                this.props.parameters.formParameters,
+                this.state.stageParameter   //if stage is null, the is not considered for visibility
+            );
+        }
+        else {
+            errors = this.layoutValidator.validateFields(
+                    fields,
+                    this.state.values,
+                    this.props.parameters.formParameters
+                );
         }
 
         this.setState({
             errors: errors
         });
+
+        //if errors has variables, return true
+        var hasErrors = Object.keys(errors).length > 0;
 
         return hasErrors;
     }
@@ -716,7 +794,7 @@ class FormComponent extends Component {
      * To know if form is already loaded o no
      */
     isLoaded() {
-        return this.props.preload.done && this.state.templateLoaded
+        return this.props.preload.done && this.state.templateLoaded && this.isAutosaveLoaded()
     }
 
     renderSubmitButton() {
@@ -736,9 +814,7 @@ class FormComponent extends Component {
                         type="submit"
                         disabled={this.props.form.processing}
                     >
-                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}></i>
-
-                        {(!this.props.isFormPreload ? "Valider" : "Précharger")}
+                        <i className={(!this.props.isFormPreload ? "fa fa-paper-plane" : "fas fa-redo-alt")}>{" "}</i>{(!this.props.isFormPreload ? " Valider" : " Précharger")}
                     </button>
                 </div>
             </div>

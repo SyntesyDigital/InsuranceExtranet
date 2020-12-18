@@ -33,6 +33,16 @@ class Autosave {
             });
     }
 
+    
+    processCurrentStage(stage) {
+        if(stage === undefined || stage == null || stage == ""){
+            return 1;
+        }
+
+        var stageArray = stage.split(" ");
+
+        return parseInt(stageArray[0]);
+    }
 }
 
 export default Autosave = new Autosave(); 

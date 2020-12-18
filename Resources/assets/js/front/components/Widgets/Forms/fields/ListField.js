@@ -219,37 +219,57 @@ class ListField extends Component
 
     //console.log("List Field => ",field);
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+    var colClassLabel = isLabelInline ? 
+        'field-container-col col-xs-5' :
+        'field-container-col col-xs-12';
+
+    var colClassInput = isLabelInline ? 
+        'field-container-col col-xs-7' :
+        'field-container-col col-xs-12';
+
     return (
       <div className="list-field">
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel &&
+              <Label 
+                text={field.name}
+              />
+            }
+          </div>
+          <div className={colClassInput}>
+        
+            <ModalListField
+              id={field.id}
+              name={field.name}
+              display={this.state.display}
+              initValue={this.state.initItem}
+              onModalClose={this.handleModalClose.bind(this)}
+              zIndex={1000}
+              fields={this.props.field.settings.fields}
+              onAjouter={this.handleModalSubmit.bind(this)}
+              parameters={this.props.parameters}
+            />
 
-        <Label 
-          text={field.name}
-        />
 
-        <ModalListField
-          id={field.id}
-          name={field.name}
-          display={this.state.display}
-          initValue={this.state.initItem}
-          onModalClose={this.handleModalClose.bind(this)}
-          zIndex={1000}
-          fields={this.props.field.settings.fields}
-          onAjouter={this.handleModalSubmit.bind(this)}
-          parameters={this.props.parameters}
-        />
-
-
-        <div className="fields-list-container">
-            <div className="list-items">
-              {this.renderTable()}
+            <div className="fields-list-container">
+                <div className="list-items">
+                  {this.renderTable()}
+                </div>
+                <div id={field.identifier} style={divStyle} className="more-btn">
+                    <a href="#" className="btn"  onClick={this.openModal.bind(this)} style={{ borderRadius: '20px' }}>
+                        <span className="field-name"><i className="fas fa-plus-circle"></i> Ajouter</span>
+                    </a>
+                </div>
             </div>
-            <div id={field.identifier} style={divStyle} className="more-btn">
-                <a href="#" className="btn"  onClick={this.openModal.bind(this)} style={{ borderRadius: '20px' }}>
-                    <span className="field-name"><i className="fas fa-plus-circle"></i> Ajouter</span>
-                </a>
-            </div>
+          </div>
         </div>
-
       </div>
     );
   }

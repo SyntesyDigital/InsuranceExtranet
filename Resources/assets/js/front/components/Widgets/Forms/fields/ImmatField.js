@@ -168,6 +168,20 @@ class ImmatField extends Component
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 
+    let isHideLabel = field.settings.hidelabel !== undefined ?
+    field.settings.hidelabel : false;
+
+    let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
+
     //required can be set also directly with modals
     if(this.props.isModal !== undefined && this.props.isModal &&
       field.required !== undefined){
@@ -182,22 +196,30 @@ class ImmatField extends Component
     return (
 
       <div className={"form-group immat-field bmd-form-group" + (errors)}>
-        <label className="bmd-label-floating">
-            {field.name} 
-            {isRequired &&
-              <span className="required">&nbsp; *</span>
+        <div className={'row field-container'}>
+          <div className={colClassLabel}>
+            {!isHideLabel &&
+              <label className="bmd-label-floating">
+                  {field.name} 
+                  {isRequired &&
+                    <span className="required">&nbsp; *</span>
+                  }
+              </label>
             }
-        </label>
-        <input
-            type="text"
-            className={"form-control " + (textFieldClass.join(' '))}
-            name={field.identifier}
-            placeholder="FNI 9999 AAA 999, SIV AA-999-AA ou AA 999 A"
-            //value={this.props.value}
-            onChange={this.handleOnChange.bind(this)}
-            onBlur={this.handleBlur.bind(this)}
-            onFocus={this.handleFocus.bind(this)}
-        />
+          </div>
+          <div className={colClassInput}>
+            <input
+                type="text"
+                className={"form-control " + (textFieldClass.join(' '))}
+                name={field.identifier}
+                placeholder="FNI 9999 AAA 999, SIV AA-999-AA ou AA 999 A"
+                //value={this.props.value}
+                onChange={this.handleOnChange.bind(this)}
+                onBlur={this.handleBlur.bind(this)}
+                onFocus={this.handleFocus.bind(this)}
+            />
+          </div>
+        </div>
       </div>
       
     );

@@ -23,6 +23,16 @@ class TextField extends Component {
         return this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '' ? true : false;
     }
 
+    fieldHasPlaceholderSettings() {
+        return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
+    }
+    getPlaceholder() {
+        if (this.fieldHasPlaceholderSettings()) {
+            return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
+        }
+        return '';
+    }
+
     isReadOnly() {
         const field = this.props.field;
         const operation = field.settings.operation;
@@ -52,6 +62,9 @@ class TextField extends Component {
     getMaxValue() {
         var max = parseInt(this.getNumberFromRules('maxNumber'));
         return max === 0 || (max && max !== "") ? max : Number.MAX_VALUE;
+    }
+    getFieldFormat() {
+        return this.props.field.settings.format !== undefined && this.props.field.settings.format !== null ? this.props.field.settings.format : '';
     }
 
     // ==============================
@@ -96,13 +109,43 @@ class TextField extends Component {
         });
     }
 
+    validateEmailFormat(value) {
+        var emailRegex = (/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i).test(value);
+        //console.log('emailRegex ',emailRegex);
+        return emailRegex;
+    }
+
     handleOnChange(event) {
 
-        this.props.onFieldChange({
-            name: event.target.name,
-            value: event.target.value
-        });
-
+        if (this.getFieldFormat() == 'email') {
+            if (this.validateEmailFormat(event.target.value) == true) {
+                //console.log("Formato correcto");
+                this.setState({
+                    error : false
+                  });
+                  this.props.onFieldChange({
+                    name: event.target.name,
+                    value: event.target.value
+                });
+            } else {
+                //console.log("Formato incorrecto");
+                this.props.onFieldChange({
+                    name: event.target.name,
+                    value: event.target.value
+                });
+                this.setState({
+                    error : true
+                  });
+            }
+        } else {
+            this.props.onFieldChange({
+                name: event.target.name,
+                value: event.target.value
+            });
+            this.setState({
+                error : false
+              });
+        }
     }
 
 
@@ -113,8 +156,9 @@ class TextField extends Component {
     render() {
 
         const { field } = this.props;
-        const errors = this.props.error ? ' has-error' : '';
-
+        const {error} = this.state;
+        const errors = this.props.error || error ? ' has-error' : '';
+        //console.log('errors: ',errors, field.identifier)
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
 
@@ -124,8 +168,23 @@ class TextField extends Component {
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+            field.settings.hidelabel : false;
+        
+        let isLabelInline = field.settings.labelInline !== undefined ?
+            field.settings.labelInline : false;
+
+        var colClassLabel = isLabelInline ? 
+            'field-container-col col-xs-5' :
+            'field-container-col col-xs-12';
+
+        var colClassInput = isLabelInline ? 
+            'field-container-col col-xs-7' :
+            'field-container-col col-xs-12';
+
         var maxCharacters = this.getNumberFromRules('maxCharacters');
         var minCharacters = this.getNumberFromRules('minCharacters');
+        var placeholder = this.getPlaceholder();
 
         //required can be set also directly with modals
         if (this.props.isModal !== undefined && this.props.isModal &&
@@ -142,32 +201,39 @@ class TextField extends Component {
         return (
 
             <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
-                <label className={'bmd-label-floating'}>
-                    {field.name}
-                    {isRequired &&
-                        <span className="required">&nbsp; *</span>
-                    }
-                    {hasDescription &&
-                        <LabelTooltip
-                            description={field.settings.description ?
-                                field.settings.description : ''}
+                <div className={'row field-container'}>
+                    <div className={colClassLabel}>
+                        {!isHideLabel &&
+                            <label className={'bmd-label-floating'}>
+                                {field.name}
+                                {isRequired &&
+                                    <span className="required">&nbsp; *</span>
+                                }
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={field.settings.description ?
+                                            field.settings.description : ''}
+                                    />
+                                }
+                            </label>
+                        }
+                    </div>
+                    <div className={colClassInput}>
+                        <input
+                            type={field.settings.format == "password" ? "password" : "text"}
+                            className={"form-control " + (textFieldClass.join(' '))}
+                            name={field.identifier}
+                            value={this.props.value}
+                            onChange={this.handleOnChange.bind(this)}
+                            onBlur={this.handleBlur.bind(this)}
+                            onFocus={this.handleFocus.bind(this)}
+                            maxLength={maxCharacters}
+                            minLength={minCharacters}
+                            placeholder={placeholder != '' ? placeholder : maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
+                            readOnly={this.isReadOnly()}
                         />
-                    }
-                </label>
-
-                <input
-                    type={field.settings.format == "password" ? "password" : "text"}
-                    className={"form-control " + (textFieldClass.join(' '))}
-                    name={field.identifier}
-                    value={this.props.value}
-                    onChange={this.handleOnChange.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
-                    maxLength={maxCharacters}
-                    minLength={minCharacters}
-                    placeholder={maxCharacters != "" ? 'Max: ' + maxCharacters + ' caractères' : ""}
-                    readOnly={this.isReadOnly()}
-                />
+                    </div>
+                </div>
             </div>
 
         );

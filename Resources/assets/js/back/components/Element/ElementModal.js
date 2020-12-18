@@ -526,6 +526,32 @@ class ElementModal extends Component {
                                         label="Action de type fichier Fusion"
                                     />
 
+                                    {field != null && field.settings != null && field.settings.placeholder !== undefined && 
+                                        <InputSettingsField
+                                            field={field}
+                                            name="placeholder"
+                                            source="settings"
+                                            label="Placeholder"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                        />
+                                    }
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="hidelabel"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Hide Label"
+                                    />
+
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="labelInline"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Position Libellé-Valeur 'inline'"
+                                    />
+
                                 </div>
                             </div>
                         </div>
