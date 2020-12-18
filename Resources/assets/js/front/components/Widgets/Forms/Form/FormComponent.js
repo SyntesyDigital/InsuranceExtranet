@@ -29,15 +29,14 @@ export default class FormComponent extends Component {
               onFormFinished={this.props.onFormFinished}
               version={this.props.version}
               isFormPreload={this.props.isFormPreload}
-              parentFormParameters={this.props.parentFormParameters ? 
-                this.props.parentFormParameters : null}
-              preloadUpdate={this.props.preloadUpdate ? 
-                this.props.preloadUpdate : false}
+              parentFormParameters={this.props.parentFormParameters ? this.props.parentFormParameters : null}
+              preloadUpdate={this.props.preloadUpdate ? this.props.preloadUpdate : false}
               onPreloadUpdated={this.props.onPreloadUpdated}
               template={this.props.template ? this.props.template : null}
               hasStages={this.props.hasStages ? this.props.hasStages : false} 
               stageParameter={this.props.stageParameter ? this.props.stageParameter : null}
               initStage={this.props.initStage ? this.props.initStage : 1}
+              autosaveEnabled={this.props.autosave ? this.props.autosave : false}
             />
           </Provider>
         );

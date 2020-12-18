@@ -20,7 +20,7 @@ class ValidateElementModalParameters
         $this->element->load('fields');
 
         foreach($this->element->fields as $field) {
-            if(!(new ValidateElementFieldModalParameters($field))->run())
+            if(!(new ValidateElementFieldModalParameters($field))->run()) {
                 return false;
             }
         }   

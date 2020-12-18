@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Modules\Extranet\Services\Currency\Providers\CurrencyProvider;
 use Modules\Extranet\Services\ElementModelLibrary\Providers\ElementModelLibraryProvider;
+use Modules\Extranet\Services\Autosave\Providers\AutosaveProvider;
 use Modules\Extranet\Services\ElementTemplate\Providers\ElementTemplateProvider;
 use Modules\Extranet\Services\RolesPermissions\Providers\RolesPermissionsProvider;
 use Modules\Extranet\Services\SiteConfigurations\Providers\SiteConfigurationsProvider;
@@ -38,6 +39,7 @@ class ExtranetServiceProvider extends ServiceProvider
         $this->app->register(TokenLoginProvider::class);
         $this->app->register(CurrencyProvider::class);
         $this->app->register(SiteConfigurationsProvider::class);
+        $this->app->register(AutosaveProvider::class);
 
         if (config('app.env') == 'production') {
             \URL::forceScheme('https');

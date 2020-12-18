@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 import api from './../../../../../back/api';
-
 import ImageField from './../../ElementCard/fields/ImageField';
 import IconField from './../../ElementCard/fields/IconField';
 import Label from './../../ElementCard/fields/Label';
@@ -11,8 +10,8 @@ import StageButton from './../fields/StageButton';
 import LayoutValidator from './LayoutValidator';
 
 import EventBus from './../../../../../services/EventBus';
-
 import LayoutParser from './../../ElementCard/LayoutParser';
+import Autosave from './Autosave';
 
 import {
     getFieldComponent,
@@ -74,7 +73,10 @@ class FormComponent extends Component {
             hasStages : hasStages,
             stageParameter : stageParameter,
             currentStage : isDefined(stageParameter) && isDefined(parametersObject[stageParameter]) ? parametersObject[stageParameter] :  initStage,
-            fieldsByStage : {}  //object with all fields sorted by stage config
+            fieldsByStage : {},  //object with all fields sorted by stage config
+
+            autosave: null, // Autosave key for detect if we must do an update or a create query
+            autosaveLoaded : this.getKeyParameterValue() == null ? true : false //if key is not defined autosave is done by default
         };
 
         this.props.initParametersState(parametersObject);
@@ -85,6 +87,16 @@ class FormComponent extends Component {
 
         //validator to check if layout is valid
         this.layoutValidator = new LayoutValidator();
+    }
+
+    /**
+     * Check if autosave is loaded or not
+     */
+    isAutosaveLoaded() {
+        if(!this.props.autosaveEnabled)
+            return true;
+
+        return this.state.autosaveLoaded;
     }
 
     /**
@@ -106,9 +118,106 @@ class FormComponent extends Component {
     }
 
     componentDidMount() {
+        
         if (this.state.template) {
             this.loadTemplate(this.state.template);
         }
+    }
+
+    // ----------------------------------------------- //
+    //          AUTOSAVE
+    // ----------------------------------------------- //
+
+    getKeyParameterValue() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const key = urlParams.get('key');
+
+        if(key) {
+            return key;
+        }
+        return null;
+    }
+
+    loadAutosave() {
+
+        if(!this.props.autosaveEnabled)
+            return null;
+
+        const key = this.getKeyParameterValue();
+
+        if(key) {
+            Autosave.get({
+                codec: 'form',
+                payload: {
+                    key: key,
+                }
+            }).then(response => {
+
+                var currentStage = Autosave.processCurrentStage(response.stage);
+                var self = this;
+
+                this.setState({
+                    autosave: key,
+                    values: response.values,
+                    autosaveLoaded : true
+                },function() {
+                    //update current stage and dispatch events
+                    self.handleStageChange(currentStage,true);
+                });
+            });
+        }
+    }
+
+    deleteAutosave() {
+        if(!this.props.autosaveEnabled || !this.state.autosave)
+            return null;
+
+        Autosave.delete({
+            codec: 'form',
+            payload: {
+                key: this.state.autosave,
+            }
+        }).then(response => {
+            /*
+            this.setState({
+                autosave: key,
+                values: response.values
+            });
+            */
+        });
+        
+    }
+
+    /**
+     * Update autosave with current values, and has option to callback if defined
+     * @param {*} values 
+     * @param {*} callback 
+     */
+    updateAutosave(values,callback) {
+        
+        if(!this.props.autosaveEnabled)
+            return null;
+
+        Autosave.save({
+            codec: 'form',
+            payload: {
+                key: this.state.autosave,
+                url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
+                stage: this.state.hasStages ? 
+                    this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
+                    : '',
+                values: values
+            }
+        }).then(key => {
+            this.setState({
+                autosave: key
+            },function(){
+                if(callback !== undefined){
+                    callback();
+                }
+            });
+        });
     }
 
     // ----------------------------------------------- //
@@ -116,16 +225,19 @@ class FormComponent extends Component {
     // ----------------------------------------------- //
 
     loadTemplate(template) {
-
         api.elementTemplates.get(template)
             .then(response => {
 
                 var layout = JSON.parse(response.data.elementTemplate.layout);
+                var self = this;
 
                 this.setState({
                     layout: layout,
                     templateLoaded: true,
                     fieldsByStage : this.state.hasStages ? getFieldsByStage(layout) : {}
+                },function(){
+                    //after load template check if necesstary to autosave
+                    self.loadAutosave();
                 });
             });
     }
@@ -188,7 +300,6 @@ class FormComponent extends Component {
                 this.handleSubmit(this.props.id);
             });
         }
-
     }
 
     initValues(elementObject) {
@@ -238,8 +349,15 @@ class FormComponent extends Component {
 
         var self = this;
 
+        if(this.state.timer !== undefined) {
+            clearTimeout(this.state.timer);
+        }
+        
         this.setState({
-            values: values
+            values: values,
+            timer: setTimeout(() => { // Autosave
+                this.updateAutosave(values);
+            }, 1000)
         }, function () {
             self.validateFieldChange(
                 self.getElementObjectField(field.name)
@@ -247,9 +365,12 @@ class FormComponent extends Component {
         });
     }
 
+    
+
     handleStageChange(stage,validate) {
 
         var validate = isDefined(validate) ? validate : false;
+        console.log("handleStageChange :: stage, state", stage, this.state);
 
         if(stage == null){
             console.error("Stage Button Click error : stage not defined.");
@@ -278,12 +399,15 @@ class FormComponent extends Component {
         this.setState({
             currentStage : stage
         },function(){
+
             //update form parameters
             self.props.updateStageParameter(
                 self.state.stageParameter,
                 stage,
                 self.props.parameters.formParameters
             );
+
+            self.updateAutosave(self.state.values);
         });
 
     }
@@ -540,6 +664,9 @@ class FormComponent extends Component {
             });
         }
 
+        //delete autosave when form is processed
+        this.deleteAutosave();
+
         if (this.props.finalRedirectUrl != "") {
             window.location.href = this.props.finalRedirectUrl + "?" +
                 getUrlParameters(
@@ -676,7 +803,7 @@ class FormComponent extends Component {
      * To know if form is already loaded o no
      */
     isLoaded() {
-        return this.props.preload.done && this.state.templateLoaded
+        return this.props.preload.done && this.state.templateLoaded && this.isAutosaveLoaded()
     }
 
     renderSubmitButton() {
@@ -781,7 +908,7 @@ const mapDispatchToProps = dispatch => {
         },
         updateStageParameter : (identifier,stage,formParameters) => {
             return dispatch(updateStageParameter(identifier,stage,formParameters))
-        },
+        }
     }
 }
 

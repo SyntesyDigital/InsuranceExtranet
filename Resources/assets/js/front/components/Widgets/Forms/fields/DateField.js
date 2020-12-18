@@ -11,8 +11,12 @@ class DateField extends Component {
 
         this.handleOnChange = this.handleOnChange.bind(this);
 
+        //console.log("DateField :: ",props.value,moment(props.value,'DD/MM/YYYY'),this.getDateFormat());
+
         this.state = {
-            value: props.value != '' ? moment(props.value) : null,
+            value: props.value != '' && props.value !== undefined && props.value != null ? 
+                moment(props.value,this.getDateFormat()) : 
+                null,
             addClassBordered: false,
         }
     }
@@ -23,7 +27,6 @@ class DateField extends Component {
 
         //if value is different
         if (prevProps.value != this.props.value) {
-
             var date = this.props.value != '' && this.props.value != null ?
                 moment(this.props.value, this.getDateFormat()) : null;
             this.setState({
@@ -220,6 +223,8 @@ class DateField extends Component {
         if (this.state.addClassBordered || this.props.value != "") {
             textFieldClass.push('bordered');
         }
+
+        console.log("DateField :: ",this.state.value);
 
         return (
 

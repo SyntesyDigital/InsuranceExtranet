@@ -173,6 +173,7 @@ function formReducer(state = initialState, action) {
                 error : false,
                 jsonGetDone : false
             }
+
         default:
             return state;
     }
