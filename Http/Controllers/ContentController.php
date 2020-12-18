@@ -44,6 +44,13 @@ class ContentController extends Controller
         if (!$this->isPageAllowed('/'.$homeSlug)) {
             abort(404, 'Page not allowed');
         }
+        
+        if (Auth::user()->role == ROLE_ANONYMOUS) {
+            $settings = $content->getSettings();
+            if (!isset($settings['accessByLink']) || $settings['accessByLink'] !== true) {
+                return redirect('/login');
+            }
+        }
 
         if ($content == null) {
             abort(404);
@@ -67,11 +74,11 @@ class ContentController extends Controller
         }
 
         return view('extranet::front.contents.page', [
-        'content' => $content,
-        'page' => $pageBuilderAdapter->get(),
-        'models' => $this->elements->getModelsByIdentifier(),
-        'contentSettings' => $content->getSettings(),
-      ]);
+            'content' => $content,
+            'page' => $pageBuilderAdapter->get(),
+            'models' => $this->elements->getModelsByIdentifier(),
+            'contentSettings' => $content->getSettings(),
+        ]);
     }
 
     public function search(Request $request)
