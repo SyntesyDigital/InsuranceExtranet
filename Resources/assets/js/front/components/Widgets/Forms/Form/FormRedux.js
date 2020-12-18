@@ -76,7 +76,7 @@ class FormComponent extends Component {
             fieldsByStage : {},  //object with all fields sorted by stage config
 
             autosave: null, // Autosave key for detect if we must do an update or a create query
-            autosaveLoaded : false
+            autosaveLoaded : this.getKeyParameterValue() == null ? true : false //if key is not defined autosave is done by default
         };
 
         this.props.initParametersState(parametersObject);
@@ -128,14 +128,23 @@ class FormComponent extends Component {
     //          AUTOSAVE
     // ----------------------------------------------- //
 
+    getKeyParameterValue() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const key = urlParams.get('key');
+
+        if(key) {
+            return key;
+        }
+        return null;
+    }
+
     loadAutosave() {
 
         if(!this.props.autosaveEnabled)
             return null;
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const key = urlParams.get('key');
+        const key = this.getKeyParameterValue();
 
         if(key) {
             Autosave.get({
