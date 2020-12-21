@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import './ModalSidebar.scss';
 import ListParser from '../Lists/ListParser';
+import TableActions from '../Table/TableActions';
 
 
 import {
@@ -11,16 +12,15 @@ import {
     getConditionalFormating,
     hasConditionalFormatting,
     getConditionalIcon,
-    hasConditionalIcon
+    hasConditionalIcon,
+    cleanIdentifier
 } from '../functions';
 
 export default class ModalSidebar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            results: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        this.state = {};
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -111,9 +111,51 @@ export default class ModalSidebar extends Component {
         }
     }
 
+    getActions(elementObject) {
+
+        var actionsCount = 0;
+
+        var actions = {
+            list: [],
+            grouped: []
+        };
+
+        for (var index in elementObject.fields) {
+
+            //if object field is an action continue to next field
+            var field = elementObject.fields[index];
+            if (field.type != "action")
+                continue;
+
+
+            actionsCount++;
+
+            var action = {
+                icon: getConditionalIcon(field, ''),
+                name: field.name,
+                modalLink: false,
+                field: field,
+                identifier: cleanIdentifier(field.identifier)
+            };
+
+            if (isGrouped(field)) {
+                actions.grouped.push(action);
+            }
+            else {
+                actions.list.push(action);
+            }
+        }
+
+        if(actionsCount > 0 )
+            return actions;
+        else 
+            return null;
+    }
+
     renderItem(item, elementObject) {
     
         var infos = [];
+        var actions = this.getActions(elementObject);
 
         for (var key in elementObject.fields) {
             // console.log("TypologyPaginated => ",items[key]);
@@ -133,6 +175,13 @@ export default class ModalSidebar extends Component {
                 <a href="#" className="date-link" onClick={this.handleClickDate.bind(this)}><span className="date">22 avril 2020</span></a>
                 <a href="#" className="trash-link" onClick={this.handleRemoveItem.bind(this)}><span className="trash"></span></a>
                 */}
+                {actions != null && 
+                    <TableActions
+                        actions={actions}
+                        row={row}
+                        textAlign={alignment}
+                    />
+                }
             </div>
         );
     }
