@@ -53,7 +53,7 @@ $bootstrap-sass-asset-helper: true;
 @import 'fields/immat';
 @import 'fields/select2-field';
 @import 'fields/select-search-field';
-
+@import 'fields/number-field';
 
 //widgets
 @import 'widgets/paginator';
@@ -96,6 +96,8 @@ $bootstrap-sass-asset-helper: true;
 @import 'yes-no-field';
 @import 'modal-add-document';
 @import 'iframe-file';
+
+
 
 // Contents
 @import 'contents/actualites';

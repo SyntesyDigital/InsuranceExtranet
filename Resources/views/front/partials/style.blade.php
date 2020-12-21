@@ -226,6 +226,10 @@
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
     $textBtnAddFileForm = isset($storedStylesFront['textBtnAddFileForm']) ? $storedStylesFront['textBtnAddFileForm']->value : 'télécharger le fichier';
     $textBtnAddValueForm = isset($storedStylesFront['textBtnAddValueForm']) ? $storedStylesFront['textBtnAddValueForm']->value : 'Nouveau souscripteur';
+    
+    $iconCurrencyForm = isset($storedStylesFront['iconCurrencyForm']) ? $storedStylesFront['iconCurrencyForm']->value : '';
+    $iconDateForm = isset($storedStylesFront['iconDateForm']) ? $storedStylesFront['iconDateForm']->value : '';
+    $iconSurfaceForm = isset($storedStylesFront['iconSurfaceForm']) ? $storedStylesFront['iconSurfaceForm']->value : '';
 
     $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
@@ -653,7 +657,11 @@
             colorTooltipDescForm: '{{$colorTooltipDescForm}}',
             fontSizeTooltipDescForm: '{{$fontSizeTooltipDescForm}}',
             borderPxInputForm: '{{$borderPxInputForm}}',
-            textBtnAddValueForm: '{{$textBtnAddValueForm}}'
+            textBtnAddValueForm: '{{$textBtnAddValueForm}}',
+            iconCurrencyForm: '{{$iconCurrencyForm}}',
+            iconDateForm: '{{$iconDateForm}}',
+            iconSurfaceForm: '{{$iconSurfaceForm}}',
+
         },
         elementFile: {
             backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',

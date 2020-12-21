@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import LabelTooltip from '../../../Common/LabelTooltip';
 import { getParametersFromURL } from './../functions';
+import CustomIcon from './../../../Common/CustomIcon';
 
 class DateField extends Component {
     constructor(props) {
@@ -14,8 +15,8 @@ class DateField extends Component {
         //console.log("DateField :: ",props.value,moment(props.value,'DD/MM/YYYY'),this.getDateFormat());
 
         this.state = {
-            value: props.value != '' && props.value !== undefined && props.value != null ? 
-                moment(props.value,this.getDateFormat()) : 
+            value: props.value != '' && props.value !== undefined && props.value != null ?
+                moment(props.value, this.getDateFormat()) :
                 null,
             addClassBordered: false,
         }
@@ -162,11 +163,11 @@ class DateField extends Component {
         return field.settings.readonly || (operation !== undefined && operation !== null && operation !== '') ?
             true : false;
     }
-    
+
     fieldHasPlaceholderSettings() {
         return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
     }
-    
+
     getPlaceholder() {
         if (this.fieldHasPlaceholderSettings()) {
             return this.props.field.settings.placeholder !== '' ? this.props.field.settings.placeholder : '';
@@ -188,23 +189,23 @@ class DateField extends Component {
 
         let hasDescription = this.props.field.settings.description !== undefined ?
             this.props.field.settings.description : false;
-        
+
         let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
             field.settings.hidden : false;
 
         let isHideLabel = field.settings.hidelabel !== undefined ?
-        field.settings.hidelabel : false;
+            field.settings.hidelabel : false;
 
         let isLabelInline = field.settings.labelInline !== undefined ?
             field.settings.labelInline : false;
 
-        var colClassLabel = isLabelInline ? 
-            'field-container-col col-xs-5' :
-            'field-container-col col-xs-12';
+        var colClassLabel = isLabelInline ?
+            'field-container-col date-field col-xs-5' :
+            'field-container-col date-field col-xs-12';
 
-        var colClassInput = isLabelInline ? 
-            'field-container-col col-xs-7' :
-            'field-container-col col-xs-12';
+        var colClassInput = isLabelInline ?
+            'field-container-col date-field col-xs-7' :
+            'field-container-col date-field col-xs-12';
 
         const maxDate = this.getMaxDate();
         const minDate = this.getMinDate();
@@ -224,22 +225,21 @@ class DateField extends Component {
             textFieldClass.push('bordered');
         }
 
-        console.log("DateField :: ",this.state.value);
 
         return (
 
             <div className={"form-group bmd-form-group " + (errors) + " " + (isHidden ? ' hidden' : '')}>
                 <div className={'row field-container'}>
                     <div className={colClassLabel}>
-                        {!isHideLabel && 
+                        {!isHideLabel &&
                             <label className="bmd-label-floating">
                                 {field.name}
                                 {isRequired &&
                                     <span className="required">&nbsp; *</span>
                                 }
-                                {hasDescription && 
-                                    <LabelTooltip 
-                                        description={this.props.field.settings.description ? 
+                                {hasDescription &&
+                                    <LabelTooltip
+                                        description={this.props.field.settings.description ?
                                             this.props.field.settings.description : ''}
                                     />
                                 }
@@ -264,6 +264,16 @@ class DateField extends Component {
                             minDate={minDate}
                             disabled={this.isReadOnly()}
                         />
+                        {STYLES.elementForm.iconDateForm !== '' &&
+                            <React.Fragment>
+                                <div className={'container-custom-icon'}>
+                                    <span class="indicatorSeparator"></span>
+                                    <CustomIcon
+                                        icon={STYLES.elementForm.iconDateForm}
+                                    />
+                                </div>
+                            </React.Fragment>
+                        }
                     </div>
                 </div>
             </div>

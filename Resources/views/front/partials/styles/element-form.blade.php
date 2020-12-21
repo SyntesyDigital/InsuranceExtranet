@@ -162,6 +162,28 @@
         border-top-right-radius: {{$buttonRadius}};
     }
     @endif
+
+    @if(isset($storedStylesFront['iconDateForm']) && $storedStylesFront['iconDateForm']->value !== '')
+        body .page-builder .element-form-container .react-datepicker-wrapper .react-datepicker__input-container:after{
+            content: ''
+        }
+    @endif
+
+    @if(isset($storedStylesFront['iconSurfaceForm']) && $storedStylesFront['iconSurfaceForm']->value !== '')
+    
+        
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
+    @endif
     
     </style>
     

@@ -9,7 +9,7 @@ return [
         'icon' => 'fa fa-font',
         'formats' => [
           'password',
-          'email'
+          'email',
         ],
         'rules' => [
           'required',
@@ -36,7 +36,7 @@ return [
           'hidden',
           'placeholder',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'number' => [
@@ -48,6 +48,7 @@ return [
           'price',
           'price_with_decimals',  //1000.00 €
           'price_with_decimals_2',  //1 000,00 €
+          'surface',  //m2
         ],
         'rules' => [
           'required',
@@ -74,7 +75,7 @@ return [
           'hidden',
           'hidelabel',
           'labelInline',
-          'placeholder'
+          'placeholder',
         ],
       ],
       'date' => [
@@ -111,7 +112,7 @@ return [
           //'defaultValue'
           'hidelabel',
           'labelInline',
-          'placeholder'
+          'placeholder',
         ],
       ],
       'select' => [
@@ -137,7 +138,7 @@ return [
           'autosuggest',
           'hidelabel',
           'labelInline',
-          'placeholder'
+          'placeholder',
         ],
       ],
       'selectSearch' => [
@@ -163,7 +164,7 @@ return [
           'addElement',
           'hidelabel',
           'labelInline',
-          'placeholder'
+          'placeholder',
         ],
       ],
       'radio' => [
@@ -186,7 +187,7 @@ return [
           'conditionalFormatting',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'multi' => [
@@ -209,7 +210,7 @@ return [
           'conditionalFormatting',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'file' => [
@@ -232,7 +233,7 @@ return [
           'description',
           'iframe',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'file_ws_fusion' => [
@@ -277,7 +278,7 @@ return [
           'description',
           'placeholder',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'html' => [
@@ -299,7 +300,7 @@ return [
           'textAlign',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'list' => [
@@ -316,7 +317,7 @@ return [
           'conditionalVisibility',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
         'fields' => [
         ],
@@ -339,7 +340,7 @@ return [
           'defaultValue',
           'bordered',
           'description',
-          'hidelabel'
+          'hidelabel',
         ],
       ],
       'yesno' => [
@@ -360,7 +361,7 @@ return [
           'defaultValue',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'label' => [
@@ -386,7 +387,7 @@ return [
         ],
         'settings' => [
           'description',
-          'hidelabel'
+          'hidelabel',
         ],
       ],
       'immat' => [
@@ -404,7 +405,7 @@ return [
           'defaultValue',
           'description',
           'hidelabel',
-          'labelInline'
+          'labelInline',
         ],
       ],
       'action' => [
