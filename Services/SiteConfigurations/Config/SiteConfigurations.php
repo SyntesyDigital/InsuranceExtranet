@@ -380,10 +380,19 @@ return [
                           ],
                           [
                             'type' => 'field',
-                            'input' => 'text',
+                            'input' => 'select',
                             'identifier' => 'WS_TOTAL_DRAFT_BTN',
                             'name' => 'WS_TOTAL_DRAFT_BTN',
                             'label' => 'WS Total draft button',
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['file-v2','file'])->get()->map(function ($element) {
+                              return [
+                                  'name' => $element->name,
+                                  'value' => $element->id,
+                              ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
                           ],
                           [
                             'type' => 'field',

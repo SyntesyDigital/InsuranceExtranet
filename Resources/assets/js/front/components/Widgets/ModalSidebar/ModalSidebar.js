@@ -13,7 +13,8 @@ import {
     hasConditionalFormatting,
     getConditionalIcon,
     hasConditionalIcon,
-    cleanIdentifier
+    cleanIdentifier,
+    isGrouped
 } from '../functions';
 
 export default class ModalSidebar extends Component {
@@ -26,7 +27,7 @@ export default class ModalSidebar extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         if(this.props.display != prevProps.display) {
-            TweenMax.to(".modal-sidebar", 0.5, {
+            TweenMax.to("#"+this.props.id, 0.5, {
                 right: this.props.display ? "0px" : "-312px",
                 visibility: "visible"
             }, {
@@ -62,7 +63,7 @@ export default class ModalSidebar extends Component {
 
         var value = item[identifier];
         var hasIcon = hasConditionalIcon(field, value);
-
+        
         if (field.type == "date") {
             value = parseDate(value, field);
         }
@@ -159,6 +160,10 @@ export default class ModalSidebar extends Component {
 
         for (var key in elementObject.fields) {
             // console.log("TypologyPaginated => ",items[key]);
+
+            if (elementObject.fields[key].type == "action")
+                continue;
+
             var identifier = elementObject.fields[key].identifier
             infos.push(
                 <div className="field-container" key={key}>
@@ -166,6 +171,8 @@ export default class ModalSidebar extends Component {
                 </div>
             );
         }
+
+        console.log("renderItem : (item,actions)",item,actions);
 
         return (
             <div className="row-item">
@@ -178,8 +185,8 @@ export default class ModalSidebar extends Component {
                 {actions != null && 
                     <TableActions
                         actions={actions}
-                        row={row}
-                        textAlign={alignment}
+                        row={{original : item}}
+                        textAlign={''}
                     />
                 }
             </div>
@@ -188,8 +195,10 @@ export default class ModalSidebar extends Component {
 
     render() {
         return (
-            <div className="modal-sidebar">
+            <div className="modal-sidebar" id={this.props.id}>
                 <div className="wrapper-items">
+
+                    <h3>{this.props.title}</h3>
 
                     { this.props.display && 
                         <ListParser

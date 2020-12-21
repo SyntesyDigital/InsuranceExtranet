@@ -9,4 +9,5 @@
     const SESSION_ID = '{{isset(Auth::user()->session_id) ? Auth::user()->session_id : null}}';
     const SESSION = {!! Auth::user() !== null ? json_encode(Auth::user(), JSON_PRETTY_PRINT) : null !!};
   @endif
+  const ENV = "{{env('APP_ENV')}}";
 </script>
