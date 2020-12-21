@@ -1,0 +1,155 @@
+import React, { Component } from 'react';
+import ModalSidebar from './../ModalSidebar/ModalSidebar';
+import MaskSvgDraft from './assets/img/MaskSvgDraft';
+import './ActionTopBar.scss';
+
+export default class ActionTopBarButton extends Component {
+    constructor(props) {
+        super(props)
+
+        
+        this.state = {
+            display: true,
+            isHover: false,
+            title : props.title,
+            totalElement : props.totalElement,
+            tableElement : props.tableElement,
+            wsTotal : 0,
+            loadingElement : true,
+            elementModel : null,
+            elementObject : null
+        }
+        this.handleModalSidebar = this.handleModalSidebar.bind(this);
+    }
+
+    componentDidMount() {
+        this.query();
+        this.loadElement();
+
+        var self = this;
+        $(document).on('click',function(){
+            self.setState({
+                display : false
+            });
+        });
+    }
+
+    query() {
+
+        var self = this;
+        const { totalElement } = this.state;
+
+        //temporal fix to avoid local bug WS don't load
+        if(ENV == 'local')
+            return;
+
+        
+        axios.get('/architect/extranet/' + totalElement + '/model_values/data/1')
+            .then(function (response) {
+                if (response.status == 200
+                    && response.data.modelValues !== undefined) {
+                    console.log("ActionNotification  :: componentDidMount => ", response.data);
+
+                    self.setState({
+                        wsTotal: response.data.modelValues !== undefined ? parseInt(response.data.modelValues[0].val1) : 0,
+                    });
+                } 
+
+            }).catch(function (error) {
+                console.log(error);
+                self.setState({
+                    loading: false
+                });
+            });
+    }
+
+    loadElement() {
+
+        var self = this;
+        axios.get(ASSETS+'/architect/extranet/element-modal/'+this.state.tableElement)
+            .then(function(response) {
+                if(response.status == 200
+                    && response.data !== undefined)
+                {
+                console.log("ModalTable :: data => ",response.data);
+
+                self.setState({
+                    elementModel : response.data.model,
+                    elementObject : response.data.element,
+                    loadingElement : false
+                });
+
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    // ==============================
+    // Handlers
+    // ==============================
+
+    handleModalSidebar() {
+        this.setState({
+            display: !this.state.display
+        });
+        TweenMax.to("#"+this.props.id, 0.5, {
+            right: this.state.display ? "0px" : "-312px",
+            visibility: "visible"
+        }, {
+            ease: Power2.easeInOut,
+            onComplete: function () { }
+        });
+    }
+
+    handleModalSidebar() {
+        this.setState({
+            display: !this.state.display
+        });
+        
+    }
+
+    // ==============================
+    // Setters
+    // ==============================
+
+    setIsHover(event) {
+        this.setState({
+            isHover: event,
+        })
+    }
+
+    // ==============================
+    // Renderers
+    // ==============================
+
+    render() {
+        
+
+        return (
+            <div>
+                {!this.state.loadingElement && 
+                    <ModalSidebar 
+                        id={this.props.id}
+                        title={this.state.title}
+                        display={this.state.display}
+                        elementObject={this.state.elementObject}
+                        elementModel={this.state.elementModel}
+                    />
+                }
+                <a
+                    onClick={this.handleModalSidebar.bind(this)}
+                    className="tooltip-link-action"
+                    title={this.state.title}
+                >
+                    <span className="draft icon">
+                        {this.props.icon}
+                        {this.state.wsTotal > 0 &&
+                            <span className="number">{this.state.wsTotal}</span>
+                        }
+                    </span>
+                </a>
+            </div>
+        )
+    }
+}

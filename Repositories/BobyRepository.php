@@ -51,11 +51,20 @@ class BobyRepository
         if (Cache::has($cacheKey) && false) {
             $beans = Cache::get($cacheKey);
         } else {
-            $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
-                'headers' => [
-                    'Authorization' => 'Bearer '.Auth::user()->token,
-                ],
-            ]);
+            //try {
+
+                //dd(VeosWsUrl::get().'boBy/v2/'.$name);
+
+                $response = $this->client->get(VeosWsUrl::get().'boBy/v2/'.$name, [
+                    'headers' => [
+                        'Authorization' => 'Bearer '.Auth::user()->token,
+                    ],
+                ]);
+            //} catch (\Exception $e) {
+            //    dd($e);
+            //}
+
+            //dd($response);
 
             $result = json_decode($response->getBody());
             $beans['modelValues'] = $result->data;
