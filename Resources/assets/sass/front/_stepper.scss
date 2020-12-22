@@ -2,7 +2,8 @@
 $active-color: #e6e6e6;
 $unactive-color: #e6e6e6;
 .step-list{
-    margin-bottom: 50px;
+    margin-bottom: 10px;
+    
 }
 .stepper {
   &-container {
@@ -11,7 +12,7 @@ $unactive-color: #e6e6e6;
     background-color: transparent;
     justify-content: center;
     align-items: center;
-    padding: 35px;
+    padding: 19px;
   }
   &-item {
     position: relative;
@@ -40,11 +41,11 @@ $unactive-color: #e6e6e6;
       width: max-content;
       max-width: 225px;
       min-width: 225px;
-      transform: translate(-40%, 5px);
+      transform: translate(-45%, 5px);
       text-align: center;
       color: #adadad;
       font-size: 14px;
-      font-weight: 900;
+      font-weight: 400;
       margin-top: 25px;
     }
     .stepper-title-active {
@@ -53,20 +54,20 @@ $unactive-color: #e6e6e6;
   }
 }
 .stepper-item-outer:nth-of-type(odd) {
-  width: 35px;
-  height: 35px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   .stepper-item-inner {
-    width: 35px;
-    height: 35px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 1px;
     color: white;
-    font-weight: 600;
-    font-size: 17px;
+    font-weight: 400;
+    font-size: 14px;
   }
   .stepper-item-inner.stepper-item-inner-active {
     width: 18px;

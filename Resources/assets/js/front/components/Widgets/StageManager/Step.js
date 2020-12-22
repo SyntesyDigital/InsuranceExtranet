@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import moment from 'moment';
+import iconCheck from './../../../../../img/valide.svg';
 
 export default class Step extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ export default class Step extends React.Component {
     }
 
     render() {
-        
+
         const { index, activeStep, lastIndexOfSteps, showNumber } = this.props;
         const fields = this.props.field.fields;
         const title = this.processText(fields, 0);
@@ -29,7 +30,7 @@ export default class Step extends React.Component {
                         className={`stepper-item-outer ${activeStep === (index + 1)
                             ? 'stepper-item-outer-active'
                             : ''}`}
-                        // onClick={onSelect.bind(null, index + 1)}
+                    // onClick={onSelect.bind(null, index + 1)}
                     >
                         <div className={`stepper-item-inner ${(activeStep === (index + 1)) ?
                             'stepper-item-inner-active'
@@ -38,7 +39,11 @@ export default class Step extends React.Component {
                                 : 'stepper-item-inner-future'
                             }`}
                         >
-                            {(index + 1) < activeStep ? <i className="fas fa-check"></i> : showNumber && index + 1}
+                            {(index + 1) < activeStep ?
+                                <svg className={'icon ' + 'creatic-valide_white'}>
+                                    <use xlinkHref={'#' + 'creatic-valide_white'}></use>
+                                </svg>
+                                : showNumber && index + 1}
                         </div>
                     </div>
                     <span className={`stepper-title ${activeStep === (index + 1)
