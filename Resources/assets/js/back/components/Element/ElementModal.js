@@ -19,6 +19,7 @@ import ConditionalValueIconSettingsField from './Settings/ConditionalValueIcon/C
 
 import MaxDateSettingsField from './Settings/MaxDate/MaxDateSettingsField';
 import CurrencySettingsField from './Settings/Currency/CurrencySettingsField';
+import UrlSettingsField from './Settings/UrlSettings/UrlSettingsField';
 
 import {
     closeModalSettings,
@@ -551,6 +552,18 @@ class ElementModal extends Component {
                                         onFieldChange={this.handleFieldSettingsChange}
                                         label="Position Libellé-Valeur 'inline'"
                                     />
+
+                                    {field != null && field.settings != null && field.settings.isUrl !== undefined &&
+                                        <UrlSettingsField
+                                            field={field}
+                                            name="isUrl"
+                                            source="settings"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                            label="Action de type URL"
+                                            fields={this.props.app.fields}
+                                        />
+                                    }
+                                    
 
                                 </div>
                             </div>

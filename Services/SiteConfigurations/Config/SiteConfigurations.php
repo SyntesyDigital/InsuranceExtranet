@@ -400,7 +400,7 @@ return [
                             'identifier' => 'MODEL_EXECUTE_DRAFT',
                             'name' => 'MODEL_EXECUTE_DRAFT',
                             'label' => 'Modele à éxécuter',
-                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table-v2')->get()->map(function ($element) {
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['table-v2','table'])->get()->map(function ($element) {
                                 return [
                                     'name' => $element->name,
                                     'value' => $element->id,

@@ -27,11 +27,18 @@ export default class ActionTopBarButton extends Component {
         this.loadElement();
 
         var self = this;
-        $(document).on('click',function(){
-            self.setState({
-                display : false
-            });
+        
+        $(document).on('click',function(e){
+            var container = $("#"+self.props.id);
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                self.setState({
+                    display : false
+                });
+            }
         });
+        
     }
 
     query() {
@@ -39,10 +46,11 @@ export default class ActionTopBarButton extends Component {
         var self = this;
         const { totalElement } = this.state;
 
+        /*
         //temporal fix to avoid local bug WS don't load
         if(ENV == 'local')
             return;
-
+        */
         
         axios.get('/architect/extranet/' + totalElement + '/model_values/data/1')
             .then(function (response) {

@@ -426,6 +426,7 @@ return [
           'textAlign',
           'isFile',
           'isFileWSFusion',
+          'isUrl'
         ],
       ],
     ],  // --- end fields ---
