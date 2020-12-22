@@ -172,7 +172,7 @@ export default class ModalSidebar extends Component {
             );
         }
 
-        console.log("renderItem : (item,actions)",item,actions);
+        //console.log("renderItem : (item,actions)",item,actions);
 
         return (
             <div className="row-item">
