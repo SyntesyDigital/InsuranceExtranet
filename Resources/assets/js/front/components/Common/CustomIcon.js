@@ -45,7 +45,7 @@ export default class CustomIcon extends Component {
 
     renderCreaticLib() {
         return (
-            <svg className={'icon ' + this.props.icon}>
+            <svg className={'icon ' + this.props.icon} height='100%'>
                 <use xlinkHref={'#' + this.props.icon}></use>
             </svg>
         )

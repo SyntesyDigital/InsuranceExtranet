@@ -6,15 +6,17 @@
         font-size: {{$btn1FontSize}};
         border-radius: {{$btn1BorderRadius}};
         color: {{$btn1Color}};
+        padding: 12px {{$btn1IconFontSize*2}}px;
     }
     body .simple-button-container a.btn-1 i{
-        font-size: {{$btn1IconFontSize}};
+        font-size: {{$btn1IconFontSize}}px;
         margin-right: 5px;
     }
     body .simple-button-container a.btn-1 svg{
-        width: {{$btn1IconFontSize}};
-        height: {{$btn1IconFontSize}};
+        width: {{$btn1IconFontSize}}px;
+        height: {{$btn1IconFontSize}}px;
         margin-right: 5px;
+        left: {{$btn1IconFontSize}}px;
     }
     body .simple-button-container a.btn-1:hover{
         background-color: {{$btn1BackgroundHoverColor}};
@@ -28,17 +30,18 @@
         font-size: {{$btn2FontSize}};
         border-radius: {{$btn2BorderRadius}};
         color: {{$btn2Color}};
+        padding: 12px {{$btn2IconFontSize*2}}px;
     }
     body .simple-button-container a.btn-2 i{
-        font-size: {{$btn2IconFontSize}};
+        font-size: {{$btn2IconFontSize}}px;
         margin-right: 5px;
 
     }
     body .simple-button-container a.btn-2 svg{
-        width: {{$btn2IconFontSize}};
-        height: {{$btn2IconFontSize}};
+        width: {{$btn2IconFontSize}}px;
+        height: {{$btn2IconFontSize}}px;
         margin-right: 5px;
-
+        left: {{$btn2IconFontSize}}px;
     }
     body .simple-button-container a.btn-2:hover{
         background-color: {{$btn2BackgroundHoverColor}};
@@ -52,6 +55,7 @@
         font-size: {{$btn3FontSize}};
         border-radius: {{$btn3BorderRadius}};
         color: {{$btn3Color}};
+        padding: 12px {{$btn3IconFontSize*2}}px;
     }
     body .simple-button-container a.btn-3:hover{
         background-color: {{$btn3BackgroundHoverColor}};
@@ -59,14 +63,15 @@
         border: 1px solid {{$btn3BorderHoverColor}};
     }
     body .simple-button-container a.btn-3 i{
-        font-size: {{$btn3IconFontSize}};
+        font-size: {{$btn3IconFontSize}}px;
         margin-right: 5px;
 
     }
     body .simple-button-container a.btn-3 svg{
-        width: {{$btn3IconFontSize}};
-        height: {{$btn3IconFontSize}};
+        width: {{$btn3IconFontSize}}px;
+        height: {{$btn3IconFontSize}}px;
         margin-right: 5px;
+        left: {{$btn3IconFontSize}}px;
 
     }
 </style>
