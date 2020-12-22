@@ -1,14 +1,23 @@
-
-.simple-button-container{
+.simple-button-container {
     text-align: center;
+    .btn-2,
+    .btn-3,
+    .btn-1 {
+        svg{
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
     .simple-btn {
-        padding: 12px 30px;
+        // padding: 12px 30px;
+        padding: 12px 40px;
         font-size: 14px;
         line-height: 20px;
         font-weight: 400;
         text-decoration: none !important;
         transition: 0.5s;
-        width:100%;
-      }
+        // width:100%;
+    }
 }
-
