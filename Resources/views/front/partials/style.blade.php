@@ -531,7 +531,7 @@
     $backgroundHoverColorSubmitBtnStepper = isset($storedStylesFront['backgroundHoverColorSubmitBtnStepper']) ? $storedStylesFront['backgroundHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
     $borderColorSubmitBtnStepper = isset($storedStylesFront['borderColorSubmitBtnStepper']) ? $storedStylesFront['borderColorSubmitBtnStepper']->value : '#65C4DB';
     $borderHoverColorSubmitBtnStepper = isset($storedStylesFront['borderHoverColorSubmitBtnStepper']) ? $storedStylesFront['borderHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
-    $borderRadiusSubmitBtnStepper = isset($storedStylesFront['borderRadiusSubmitBtnStepper']) ? $storedStylesFront['borderRadiusSubmitBtnStepper']->value.'px' : '24px';
+    $borderRadiusSubmitBtnStepper = isset($storedStylesFront['borderRadiusSubmitBtnStepper']) ? $storedStylesFront['borderRadiusSubmitBtnStepper']->value.'px' : '30px';
     $fontSizeSubmitBtnStepper = isset($storedStylesFront['fontSizeSubmitBtnStepper']) ? $storedStylesFront['fontSizeSubmitBtnStepper']->value.'px' : '14px';
     $iconSubmitStepper = isset($storedStylesFront['iconSubmitStepper']) ? $storedStylesFront['iconSubmitStepper']->value : '';
 

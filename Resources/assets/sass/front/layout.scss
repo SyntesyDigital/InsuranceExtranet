@@ -343,7 +343,7 @@ footer {
     .menu-item {
         height: 50px;
         line-height: 45px;
-        .icon{
+        .icon {
             position: absolute;
             top: 45%;
             transform: translateY(-50%);
@@ -899,5 +899,54 @@ body {
 .modalSelectParameters {
     .bootbox-input-select {
         opacity: 0;
+    }
+}
+
+// class icon-box general
+.icon-box {
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    margin-top: 57px;
+    margin-bottom: 80px;
+    p {
+        font-weight: 500;
+        font-size: 16px;
+    }
+    p {
+        &:nth-child(1) {
+            margin-top: 25px;
+        }
+    }
+    p {
+        &:last-child {
+            margin-bottom: 25px;
+        }
+    }
+    .container-icon {
+        min-height: 114px;
+        span {
+            display: block !important;
+            border: unset !important;
+            width: unset !important;
+            height: unset !important;
+            svg {
+                width: 114px;
+                height: 114px;
+            }
+        }
+    }
+    .btn {
+        margin-bottom: 24px;
+        font-weight: 500;
+        font-size: 16px;
+        white-space: normal;
+        line-height: 22px;
+
+        i {
+            display: none;
+        }
     }
 }
