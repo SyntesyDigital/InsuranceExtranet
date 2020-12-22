@@ -248,6 +248,37 @@ class NumberField extends Component {
         }
     }
 
+
+    renderIconFormat() {
+
+        var icon = null;
+
+        const { field } = this.props;
+
+        if (field.settings !== undefined && field.settings.format !== undefined) {
+
+            switch (field.settings.format) {
+                case 'price':
+                    icon = STYLES.elementForm.iconCurrencyForm;
+                    break;
+                case 'price_with_decimals':
+                    icon = STYLES.elementForm.iconCurrencyForm;
+                    break;
+                case 'price_with_decimals_2':
+                    icon = STYLES.elementForm.iconCurrencyForm;
+                    break;
+                case 'surface':
+                    icon = STYLES.elementForm.iconSurfaceForm;
+                    break;
+                default:
+                    icon = '';
+                    break;
+            }
+
+            return icon;
+        }
+    }
+
     render() {
 
         const { field } = this.props;
@@ -279,28 +310,6 @@ class NumberField extends Component {
 
         const currency = this.fieldHasCurrencySettings();
 
-
-
-        let icon = null;
-
-        if (field.settings !== undefined && field.settings.format !== undefined) {
-            console.log("egjdgsfksd")
-            switch (field.settings.format) {
-                
-                case 'price':
-                    console.log(field.settings.format);
-                    icon = STYLES.elementForm.iconCurrencyForm;
-                case 'price_with_decimals':
-                    icon = STYLES.elementForm.iconCurrencyForm;
-                case 'price_with_decimals_2':
-                    icon = STYLES.elementForm.iconCurrencyForm;
-                case 'surface':
-                    icon = STYLES.elementForm.iconSurfaceForm;
-            }
-        }
-
-
-        console.log("icon" , icon)
         /*
         if(field.identifier == 'primeNet'){
           console.log("primeNet :: currency : ",currency,this.props.value);
@@ -317,6 +326,8 @@ class NumberField extends Component {
         if (this.state.addClassBordered || this.props.value != "") {
             textFieldClass.push('bordered');
         }
+
+        console.log("currency", currency);
 
         return (
 
@@ -354,12 +365,12 @@ class NumberField extends Component {
                                     placeholder={this.getPlaceholder()}
                                     readOnly={this.isReadOnly()}
                                 />
-                                {STYLES.elementForm.iconSurfaceForm !== '' &&
+                                {field.settings !== undefined && field.settings.format !== undefined && field.settings.format !== null &&
                                     <React.Fragment>
                                         <div className={'container-custom-icon'}>
                                             <span class="indicatorSeparator"></span>
                                             <CustomIcon
-                                                icon={icon}
+                                                icon={this.renderIconFormat()}
                                             />
                                         </div>
                                     </React.Fragment>
@@ -389,7 +400,7 @@ class NumberField extends Component {
                                         <div className={'container-custom-icon'}>
                                             <span class="indicatorSeparator"></span>
                                             <CustomIcon
-                                                icon={icon}
+                                                icon={this.renderIconFormat()}
                                             />
                                         </div>
                                     </React.Fragment>

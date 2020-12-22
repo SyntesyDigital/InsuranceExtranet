@@ -230,6 +230,7 @@
     $iconCurrencyForm = isset($storedStylesFront['iconCurrencyForm']) ? $storedStylesFront['iconCurrencyForm']->value : '';
     $iconDateForm = isset($storedStylesFront['iconDateForm']) ? $storedStylesFront['iconDateForm']->value : '';
     $iconSurfaceForm = isset($storedStylesFront['iconSurfaceForm']) ? $storedStylesFront['iconSurfaceForm']->value : '';
+    $iconFontSizeForm = isset($storedStylesFront['iconFontSizeForm']) ? $storedStylesFront['iconFontSizeForm']->value : '20px';
 
     $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
