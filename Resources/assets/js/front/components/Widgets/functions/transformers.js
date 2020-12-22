@@ -1,4 +1,5 @@
-import moment from 'moment';
+import moment from 'moment-timezone/builds/moment-timezone-with-data';
+moment.tz.setDefault('Europe/Berlin');
 
 import {
   CONDITION_FIELD_TYPE_PARAMETER,
@@ -130,7 +131,9 @@ export function parseCurrency(value,currencyInfo,hideCurrency) {
  */
 export function parseDate(value,field) {
   if(value !== undefined && value != "" && null !== value){
+
     
+
     if(field.settings !== undefined && field.settings.format !== undefined && field.settings.format != null){
       switch(field.settings.format) {
         case 'day_month_year':
