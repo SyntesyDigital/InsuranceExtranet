@@ -560,7 +560,7 @@ class ElementModal extends Component {
                                             source="settings"
                                             onFieldChange={this.handleFieldSettingsChange}
                                             label="Action de type URL"
-                                            fields={this.props.app.fields}
+                                            fields={this.props.app.fieldsList}
                                         />
                                     }
                                     

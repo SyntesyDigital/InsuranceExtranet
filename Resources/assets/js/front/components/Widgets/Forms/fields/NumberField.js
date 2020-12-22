@@ -7,6 +7,11 @@ import {
   CONDITION_FIELD_TYPE_CONFIGURABLE
 } from './../../../../../back/components/Element/constants';
 
+import {
+  validateNumber,
+  isDefined,
+} from './../functions';
+
 class NumberField extends Component
 {
   constructor(props)
@@ -14,6 +19,7 @@ class NumberField extends Component
     super(props);
     this.state = {
       addClassBordered: false,
+      error : false
     }
     this.handleOnChange = this.handleOnChange.bind(this);
 
@@ -136,38 +142,27 @@ class NumberField extends Component
       }
   }  
 
+  
+
   handleOnChange(event)
   {
+    var value = '';
 
-    var value = parseFloat(event.target.value);
-    var max = this.getMaxValue();
-    var min = this.getMinValue();
+    if(isDefined(event.target.value)){
+      value = parseFloat(event.target.value);
+    }
+    
+    var valid = validateNumber(this.props.field,value);
+    console.log("validateNumber :: (field,valid,value) : ",this.props.field,valid,value);
 
-    if(isNaN(value)){
+    this.setState({
+      error : !valid
+    },function(){
       this.props.onFieldChange({
         name : this.props.field.identifier,
-        value : ''
+        value : value,
       });
-      return;
-    }
-
-    if(min !== '' && value < min){
-      return;
-    }
-    if(max !== '' && value > max){
-      return;
-    }
-
-    /*
-    if(this.props.field.identifier == 'primeNet'){
-      console.log("primeNet :: handleOnChange : ",value);
-    }
-    */
-
-    this.props.onFieldChange({
-      name : this.props.field.identifier,
-      value : value
-    });
+    })
 
   }
 
@@ -177,32 +172,12 @@ class NumberField extends Component
     var max = this.getMaxValue();
     var min = this.getMinValue();
 
-    //console.log("Number Field :: handleOnChange (value,max,min,name)",value,max,min,event.target.name);
-
-    if(isNaN(value)){
-      this.props.onFieldChange({
-        name : this.props.field.identifier,
-        value : ''
-      });
-      return;
-    }
-
-    if(min !== '' && value < min){
-      return;
-    }
-    if(max !== '' && value > max){
-      return;
-    }
-
-    /*
-    if(this.props.field.identifier == 'primeNet'){
-      console.log("primeNet :: handleNumberFormatChange : ",value);
-    }
-    */
+    var valid = validateNumber(this.props.field,value);
 
     this.props.onFieldChange({
       name : this.props.field.identifier,
-      value : value
+      value : value,
+      error : !valid
     });
   }
 
@@ -254,7 +229,9 @@ class NumberField extends Component
   render() {
 
     const {field} = this.props;
-    const errors = this.props.error ? ' has-error' : '';
+    const {error} = this.state;
+
+    const errors = this.props.error || error ? ' has-error' : '';
     let isRequired = field.rules.required !== undefined ?
       field.rules.required : false;
 

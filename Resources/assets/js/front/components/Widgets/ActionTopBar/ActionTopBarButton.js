@@ -3,6 +3,20 @@ import ModalSidebar from './../ModalSidebar/ModalSidebar';
 import MaskSvgDraft from './assets/img/MaskSvgDraft';
 import './ActionTopBar.scss';
 
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+
+const HtmlTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: STYLES.elementForm.backgroundColorTooltipDescForm,
+        color: STYLES.elementForm.colorTooltipDescForm,
+        maxWidth: 220,
+        fontSize: STYLES.elementForm.fontSizeTooltipDescForm,
+        borderRadius: 0,
+        padding: '5px',
+    },
+}))(Tooltip);
+
 export default class ActionTopBarButton extends Component {
     constructor(props) {
         super(props)
@@ -56,7 +70,7 @@ export default class ActionTopBarButton extends Component {
             .then(function (response) {
                 if (response.status == 200
                     && response.data.modelValues !== undefined) {
-                    console.log("ActionNotification  :: componentDidMount => ", response.data);
+                    //console.log("ActionNotification  :: componentDidMount => ", response.data);
 
                     self.setState({
                         wsTotal: response.data.modelValues !== undefined ? parseInt(response.data.modelValues[0].val1) : 0,
@@ -79,7 +93,7 @@ export default class ActionTopBarButton extends Component {
                 if(response.status == 200
                     && response.data !== undefined)
                 {
-                console.log("ModalTable :: data => ",response.data);
+                //console.log("ModalTable :: data => ",response.data);
 
                 self.setState({
                     elementModel : response.data.model,
@@ -145,18 +159,26 @@ export default class ActionTopBarButton extends Component {
                         elementModel={this.state.elementModel}
                     />
                 }
-                <a
-                    onClick={this.handleModalSidebar.bind(this)}
-                    className="tooltip-link-action"
-                    title={this.state.title}
+                <HtmlTooltip
+                    title={
+                        <span className={'content-desc'}>
+                            {this.state.title ? this.state.title : ''}
+                        </span>
+                    }
+                    placement="bottom"
                 >
-                    <span className="draft icon">
-                        {this.props.icon}
-                        {this.state.wsTotal > 0 &&
-                            <span className="number">{this.state.wsTotal}</span>
-                        }
-                    </span>
-                </a>
+                    <a
+                        onClick={this.handleModalSidebar.bind(this)}
+                        className="tooltip-link-action"
+                    >
+                        <span className="draft icon">
+                            {this.props.icon}
+                            {this.state.wsTotal > 0 &&
+                                <span className="number">{this.state.wsTotal}</span>
+                            }
+                        </span>
+                    </a>
+                </HtmlTooltip>
             </div>
         )
     }

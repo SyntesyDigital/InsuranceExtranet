@@ -92,6 +92,11 @@
     body .element-form input.form-control.bordered, body .element-form textarea.form-control.bordered, body .element-form select.form-control.bordered{
       border: {{$borderPxInputForm}} solid {{$borderColorInput}} !important;
     }
+
+    body .element-form .has-error input.form-control.bordered, body .element-form .has-error textarea.form-control.bordered, body .element-form .has-error select.form-control.bordered{
+      border: {{$borderPxInputForm}} solid #a94442 !important;
+    }
+
     body .element-form input.form-control:focus, body .element-form textarea.form-control:focus, body .element-form select.form-control:focus{
       border: {{$borderPxInputForm}} solid {{$borderColorInput}} !important;
       -webkit-box-shadow: none;

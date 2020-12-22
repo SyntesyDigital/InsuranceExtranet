@@ -304,32 +304,6 @@ export function processObject(object,jsonResult,jsonRoot,arrayPosition,values, f
   return jsonResult;
 }
 
-export function validateField(field,values,isModal) {
-
-  let isRequired = field.rules !== undefined && field.rules.required !== undefined ?
-    field.rules.required : false;
-
-  //when is modal take it from main field
-  if(isModal !== undefined && isModal == true && field.required !== undefined){
-    isRequired = field.required;
-  }
-
-  if(isRequired){
-
-    //if is hidden, means during the form creation is defined as not needed
-    if(values[field.identifier] !== undefined && values[field.identifier] == HIDDEN_FIELD){
-      //is valid
-      return true;
-    }
-
-    if(values[field.identifier] === undefined || values[field.identifier] === ''){
-      return false;
-    }
-  }
-
-  return true;
-}
-
 /**
 *   Process the response of the POST to see if necessary to
 *   to add a form parameter.
