@@ -82,7 +82,7 @@
         line-height: {{$titleLineHeightFormStage}};
         font-size: {{$titleFontSizeFormStage}};
     }
-    body #element-staged-form h3{
+    body .element-staged-form h3{
         color: {{$titleColorFormStage}};
         background-color: {{$titleBackgroundColorFormStage}};
         padding-top: {{$titlePaddingFormStage}};
