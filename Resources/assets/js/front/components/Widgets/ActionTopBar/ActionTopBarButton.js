@@ -5,6 +5,7 @@ import './ActionTopBar.scss';
 
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import ModalTable from './../Table/ModalTable';
 
 const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
@@ -31,7 +32,11 @@ export default class ActionTopBarButton extends Component {
             wsTotal : 0,
             loadingElement : true,
             elementModel : null,
-            elementObject : null
+            elementObject : null,
+
+            displayModal : false,
+            modalUrl : null,
+            redirectUrl : null,
         }
         this.handleModalSidebar = this.handleModalSidebar.bind(this);
     }
@@ -131,6 +136,34 @@ export default class ActionTopBarButton extends Component {
         
     }
 
+    /**
+    * Open modal with url [element_id]?[params]
+    */
+    handleOpenModal(elementUrl,redirectUrl){
+        console.log("ActionTopBarButton :: handleOpenModal : (elementUrl,redirectUrl)",elementUrl,redirectUrl);
+
+        this.setState({
+            displayModal : true,
+            modalUrl : elementUrl,
+            redirectUrl : redirectUrl
+        });
+    }
+
+    handleModalClose(){
+        this.setState({
+          displayModal : false
+        });
+      }
+
+    handleFormFinished() {
+
+        this.setState({
+            displayModal : false
+        });
+
+        //this.tableRef.current.refreshTable();
+    }
+
     // ==============================
     // Setters
     // ==============================
@@ -157,8 +190,26 @@ export default class ActionTopBarButton extends Component {
                         display={this.state.display}
                         elementObject={this.state.elementObject}
                         elementModel={this.state.elementModel}
+                        onOpenModal={this.handleOpenModal.bind(this)}
                     />
                 }
+
+                {!this.state.loadingElement && 
+                    <ModalTable
+                        field={this.props.field}
+                        display={this.state.displayModal}
+                        id={"modal-table-component-"+this.props.id}
+                        zIndex={1000}
+                        onModalClose={this.handleModalClose.bind(this)}
+                        modalUrl={this.state.modalUrl}
+                        redirectUrl={this.state.redirectUrl}
+                        onOpenModal={this.handleOpenModal.bind(this)}
+                        onFormFinished={this.handleFormFinished.bind(this)}
+                        size={'small'}
+                    />
+                }
+
+
                 <HtmlTooltip
                     title={
                         <span className={'content-desc'}>

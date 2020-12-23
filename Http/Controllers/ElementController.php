@@ -533,7 +533,7 @@ class ElementController extends Controller
 
     public function getElementForModal(Element $element, Request $request)
     {
-        $element->load('fields', 'attrs');
+        $element->load('fields', 'attrs','templates');
         $models = $this->elements->getModelsByType($element->type);
         $model = $this->getModelById($models, $element->model_identifier);
 
@@ -541,7 +541,7 @@ class ElementController extends Controller
           'element' => $element,
           'model' => $model,
         ];
-
+        
         return response()->json($data);
     }
 
