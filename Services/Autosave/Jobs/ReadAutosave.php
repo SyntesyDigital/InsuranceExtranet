@@ -22,10 +22,10 @@ class ReadAutosave
         $response = $this->read($this->attributes['payload']['key'], 'BASKET');
         $beans = isset($response->responses) && isset($response->responses[0]) && $response->responses[0]->beans 
             ? $response->responses[0]->beans[0] 
-            : null;
+            : [];
 
         if(!$beans) {
-            return null;
+            return [];
         } 
 
         switch($this->attributes['codec']) {
@@ -34,6 +34,6 @@ class ReadAutosave
                 break;
         }
 
-        return null;
+        return [];
     }
 }

@@ -41,7 +41,7 @@ class AutosaveController extends Controller
         $response = dispatch_now(new UpdateAutosave($request->all()));
 
         return $this->responseJson([
-            'success' => $response ? true : false,
+            'success' => isset($response) ? true : false,
             'data' => $response
         ]);
     }
@@ -58,7 +58,7 @@ class AutosaveController extends Controller
         $response = dispatch_now(new ReadAutosave($request->all()));
 
         return $this->responseJson([
-            'success' => $response ? true : false,
+            'success' => isset($response) ? true : false,
             'data' => $response
         ]);
     }
@@ -75,7 +75,7 @@ class AutosaveController extends Controller
         $response = dispatch_now(new DeleteAutosave($request->all()));
 
         return $this->responseJson([
-            'success' => $response ? true : false,
+            'success' => isset($response) ? true : false,
             'data' => $response
         ]);
     }
