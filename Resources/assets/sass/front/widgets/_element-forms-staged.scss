@@ -112,6 +112,9 @@ body {
         .box-class-1 {
             border-radius: 0 !important;
             padding: 0 !important;
+            .container{
+                width: 100% !important;
+            }
         }
     }
 }
