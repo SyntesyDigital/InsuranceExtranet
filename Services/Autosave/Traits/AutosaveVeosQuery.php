@@ -143,9 +143,11 @@ trait AutosaveVeosQuery
 
         // Query the WS
         // try {
-            $this->client->post($this->url, [
+            $result = $this->client->post($this->url, [
                 'json' => $payload
             ]);
+
+            //dd($this->url,$payload,$result);
 
             return $params['CLE_PARAM'];
         // } catch (ServerException $ex) {            
