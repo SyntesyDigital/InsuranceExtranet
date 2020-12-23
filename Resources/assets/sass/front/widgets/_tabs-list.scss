@@ -43,12 +43,25 @@
             .element-file-container-head{
                 display: none !important;
             }
+            .element-table-container-head{
+                display: none !important;
+            }
             .col-xs-12{
                 padding: 0;
             }
             // tablas
             .element-table-container {
                 margin: 0;
+                & + div{
+                    p{
+                        padding-left: 35px;
+                    }
+                }
+                #table-list{
+                     .file-infos{
+                         padding-left: 0;
+                     }   
+                }
                 .title{
                     display: none;
                 }
