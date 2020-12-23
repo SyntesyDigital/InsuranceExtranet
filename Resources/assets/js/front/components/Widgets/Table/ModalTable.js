@@ -66,6 +66,24 @@ class ModalTable extends Component {
         }
     }
 
+    /**
+     * Check between all templates and check if exist one template with MODAL on it.
+     */
+    getFirstModalTemplate(element) {
+        if(element.templates === undefined)
+            return null;
+        if(!element.templates.length)
+            return null;
+        
+        for(var key in element.templates) {
+            var template = element.templates[key];
+            if(template.name.indexOf('MODAL') != -1){
+                return template.id;
+            }
+        }
+        return null;
+    }
+
     loadElement(modalUrl) {
 
         console.log("loadElement :: ", modalUrl.split('?'));
@@ -87,13 +105,14 @@ class ModalTable extends Component {
             .then(function (response) {
                 if (response.status == 200
                     && response.data !== undefined) {
-                    console.log("ModalTable :: data => ", response.data);
+                    //console.log("ModalTable :: data => ", response.data);
 
                     self.setState({
                         model: response.data.model,
                         element: response.data.element,
                         parameters: parameters,
-                        loading: false
+                        loading: false,
+                        template : self.getFirstModalTemplate(response.data.element)
                     });
 
                     self.modalOpen();
@@ -173,6 +192,7 @@ class ModalTable extends Component {
                     element={this.state.element}
                     model={this.state.model}
                     parameters={this.state.parameters}
+                    template={this.state.template}
                 />
             );
             /*
@@ -189,7 +209,7 @@ class ModalTable extends Component {
         else if (element.type == "form") {
             return (
                 <div className="row">
-                    <div className="col-xs-12 col-md-10 col-md-offset-1">
+                    <div className="col-xs-12 col-md-12">
                         <FormComponent
                             elementObject={this.state.element}
                             parameters={this.state.parameters}
@@ -198,6 +218,7 @@ class ModalTable extends Component {
                             onFormFinished={this.handleFormFinished.bind(this)}
                             version={"1"}
                             id={this.state.formId}
+                            template={this.state.template}
                         />
                     </div>
                 </div>
@@ -206,7 +227,7 @@ class ModalTable extends Component {
         else if (element.type == "form-v2") {
             return (
                 <div className="row">
-                    <div className="col-xs-12 col-md-10 container-custom-form">
+                    <div className="col-xs-12 col-md-12 container-custom-form">
                         <FormComponent
                             elementObject={this.state.element}
                             parameters={this.state.parameters}
@@ -215,6 +236,7 @@ class ModalTable extends Component {
                             onFormFinished={this.handleFormFinished.bind(this)}
                             version={"2"}
                             id={this.state.formId}
+                            template={this.state.template}
                         />
                     </div>
                 </div>
@@ -226,7 +248,8 @@ class ModalTable extends Component {
 
     render() {
 
-        const size = this.state.element != null && this.state.element.type.indexOf('form') != -1 ? 'medium' : 'large';
+        let size = this.state.element != null && this.state.element.type.indexOf('form') != -1 ? 'medium' : 'large';
+        size = this.props.size !== undefined ? this.props.size : size;
 
         return (
             <div

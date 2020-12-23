@@ -14,7 +14,9 @@ import {
     getConditionalIcon,
     hasConditionalIcon,
     cleanIdentifier,
-    isGrouped
+    isGrouped,
+    hasModal,
+    hasRoute,
 } from '../functions';
 
 export default class ModalSidebar extends Component {
@@ -22,6 +24,27 @@ export default class ModalSidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    componentDidMount() {
+
+        var self = this;
+
+        $(document).on('click', '#' + this.props.id + ' .modal-link', function (e) {
+
+            e.preventDefault();
+
+            var link = $(e.target).closest('.modal-link');
+            var url = link.data('modal');
+
+            console.log("TableComponent :: on click! (url) ", url);
+
+            //url has format [element_id]?[params]:[redirect_url]
+            var urlArray = url.split(":");
+            var elementUrl = urlArray[0];
+            var redirectUrl = urlArray[1];
+            self.props.onOpenModal(elementUrl, redirectUrl);
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -59,6 +82,83 @@ export default class ModalSidebar extends Component {
     // Renderers
     // ==============================
 
+    renderLink(hasIcon,textAlign,value,url,icon,style) {
+
+        if(hasIcon){
+            return <div className={('has-icon')}>
+                    <div
+                        className={textAlign}
+                    >
+                        <a href={url}>
+                            {hasIcon ? <i className={icon.icon}></i> : null}
+                            &nbsp; {value}
+                        </a>
+                    </div>
+                </div>
+        }
+        else {
+            return <div className={''}>
+                    <a href={url}
+                        className={(textAlign)}
+                        style={style}
+                        dangerouslySetInnerHTML={{ __html: value }}
+                    />
+                </div>
+        }
+    }
+
+    renderModalLink(hasIcon,textAlign,value,url,icon,style) {
+
+        if(hasIcon){
+            return <div className={('has-icon')}>
+                    <div
+                        className={textAlign}
+                    >
+                        <a href={url} className="modal-link" data-modal={url}>
+                            <i className={icon.icon}></i>
+                            &nbsp; {value}
+                        </a>
+                    </div>
+                </div>
+        }
+        else {
+            return <div
+                className={textAlign}
+                dangerouslySetInnerHTML={{
+                    __html: '<a href="" class="modal-link" data-modal="' + (url) + '">' +
+                        value +
+                        '</a>'
+                }}
+            />
+        }
+    }
+
+    renderDefaultValue(hasIcon,hasColor,textAlign,value,icon,style) {
+
+        if(hasIcon){
+            //consider with icone not possible to have html link
+            return <div className={('has-icon')}>
+                <div
+                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                    style={style}
+                >
+                    <i className={icon.icon}></i> &nbsp;
+                    {value}
+                </div>
+            </div>
+        }
+        else {
+            //if no icon, it's possible that value come with html. 
+            return <div className={''}>
+                <div
+                    className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                    style={style}
+                    dangerouslySetInnerHTML={{ __html: value }}
+                />
+            </div>
+        }
+    }
+
     renderField(item, identifier, field) {
 
         var value = item[identifier];
@@ -82,33 +182,40 @@ export default class ModalSidebar extends Component {
         var hasColor = hasConditionalFormatting(style);
         var icon = getConditionalIcon(field, value);
         var hasIcon = hasConditionalIcon(icon);
+        var textAlign = "";
 
 
         if (field.type == "file" || field.type == "file_ws_fusion") {
             return <div dangerouslySetInnerHTML={{ __html: value }} />
         }
         // has route
-        else if (field.settings.hasRoute !== undefined && field.settings.hasRoute != null) {
+        // has route
+        else if (hasRoute(field)) {
 
-            return  <div className={(hasIcon ? 'has-icon' : '')}>
-                        <a href={item[identifier + "_url"]}>
-                            {hasIcon ? <i className={icon.icon}></i> : null} &nbsp;
-                            {item[identifier]}
-                        </a>
-                    </div>
+            return this.renderLink(
+                    hasIcon,
+                    textAlign,
+                    item[identifier],
+                    item[identifier + "_url"],
+                    icon,
+                    style
+                );
         }
-        // has default
+        // has modal
+        else if (hasModal(field)) {
+
+            return this.renderModalLink(
+                hasIcon,
+                textAlign,
+                item[identifier],
+                item[identifier + "_url"],
+                icon,
+                style
+            );
+        }
+        // default
         else {
-            return  <div className={(hasIcon ? 'has-icon' : '')}>
-                        {hasIcon ? <i className={icon.icon}></i> : null}
-                        <div
-                            className={hasColor ? 'has-color' : ''}
-                            style={style}
-                            dangerouslySetInnerHTML={{
-                                __html: value
-                            }}
-                        />
-                    </div>
+            return this.renderDefaultValue(hasIcon,hasColor,textAlign,value,icon,style);
         }
     }
 
@@ -134,7 +241,7 @@ export default class ModalSidebar extends Component {
             var action = {
                 icon: getConditionalIcon(field, ''),
                 name: field.name,
-                modalLink: false,
+                modalLink: hasModal(field),
                 field: field,
                 identifier: cleanIdentifier(field.identifier)
             };
