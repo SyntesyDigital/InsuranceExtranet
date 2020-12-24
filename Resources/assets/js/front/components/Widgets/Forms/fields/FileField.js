@@ -9,12 +9,18 @@ class FileField extends Component
     super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
 
+    const maxSize = SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE !== undefined
+            && SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE.value !== null ?
+            SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE.value
+            : '10';
+
     this.state = {
       loading : false,
       file : null,
       base64 : null,
       type : null,
-      name : ''
+      name : '',
+      maxSize : maxSize
     }
 
   }
@@ -144,6 +150,7 @@ class FileField extends Component
             <FilePicker
               extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
               onChange={this.handleOnChange.bind(this)}
+              maxSize={this.state.maxSize}
               onError={this.handleError.bind(this)}
             >
               <button className="btn btn-default" href="#" type="button">
