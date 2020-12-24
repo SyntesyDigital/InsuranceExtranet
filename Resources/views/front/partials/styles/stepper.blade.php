@@ -89,5 +89,7 @@
         padding-bottom: {{$titlePaddingFormStage}};
         line-height: {{$titleLineHeightFormStage}};
         font-size: {{$titleFontSizeFormStage}};
+        margin-bottom: 0;
+        text-align: center;
     }
 </style>

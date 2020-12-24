@@ -1,7 +1,7 @@
 body {
     #element-staged-form {
         background-color: transparent;
-        h3{
+        h3 {
             background: #65c4db;
             text-align: center;
             margin-bottom: 0;
@@ -71,7 +71,7 @@ body {
         .container-fields-default {
             padding-right: 0;
             padding-left: 0;
-            .check-field{
+            .check-field {
                 margin-left: 38px;
             }
             .form-group {
@@ -95,15 +95,25 @@ body {
             }
         }
         .container-radio-field {
-            .MuiFormGroup-root{
-                .MuiFormControlLabel-root{
-                    padding: 2px 15px 2px 15px !important
+            .MuiFormGroup-root {
+                .MuiFormControlLabel-root {
+                    padding: 2px 15px 2px 15px !important;
                 }
-            } 
+            }
         }
         .display_label {
             &.row {
                 border-top: 1px solid #e6e6e6;
+            }
+        }
+    }
+
+    .element-staged-form {
+        .box-class-1 {
+            border-radius: 0 !important;
+            padding: 0 !important;
+            .container{
+                width: 100% !important;
             }
         }
     }
