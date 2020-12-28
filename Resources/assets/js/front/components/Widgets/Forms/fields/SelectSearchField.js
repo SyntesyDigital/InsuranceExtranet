@@ -511,6 +511,7 @@ class SelectSearchField extends Component {
                                 filterOption={createFilter({ 
                                     ignoreAccents: false 
                                 })}
+                                width='200px'
                                 menuContainerStyle={{ 'zIndex': 999 }}
                                 theme={(theme) => ({
                                     ...theme,
