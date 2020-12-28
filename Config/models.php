@@ -218,6 +218,8 @@ return [
         'label' => 'File',
         'icon' => 'fas fa-paperclip',
         'formats' => [
+          'button',
+          'dropzone'
         ],
         'rules' => [
           'required',
@@ -226,6 +228,7 @@ return [
           'sortableByDefault',
         ],
         'settings' => [
+          'format',
           'conditionalVisibility',
           'preview',
           'columnWidth',
@@ -426,6 +429,7 @@ return [
           'textAlign',
           'isFile',
           'isFileWSFusion',
+          'isUrl'
         ],
       ],
     ],  // --- end fields ---

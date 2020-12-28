@@ -156,9 +156,13 @@ class FormComponent extends Component {
                 var currentStage = Autosave.processCurrentStage(response.stage);
                 var self = this;
 
+                if(response.values == null){
+                    console.error("Autosave.get error : values is null");
+                }
+
                 this.setState({
                     autosave: key,
-                    values: response.values,
+                    values: response.values != null ? response.values : this.state.values,
                     autosaveLoaded : true
                 },function() {
                     //update current stage and dispatch events

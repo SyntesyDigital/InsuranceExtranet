@@ -21,7 +21,8 @@ class FormCodec implements CodecInterface
             "CLE_PARAM" => strval($payload['key']),
             "NOM_PARAM" => 'BASKET',
             "VALEUR01" => strval(Auth::user()->id), // IDPER
-            "VALEUR02" => date('Y-d-d H:i:s'), // Date
+            //"VALEUR02" => date('Y-m-d H:i:s'), // Date
+            "VALEUR02" => time()."",
             "VALEUR03" => $payload['url'], // URL
             "VALEUR04" => isset($payload['status']) ? $payload['status'] : 'IN_PROGRESS', // Status
             "VALEUR05" => strval($payload['stage']), // Stage

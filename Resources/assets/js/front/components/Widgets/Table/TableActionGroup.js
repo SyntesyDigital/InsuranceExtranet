@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableActionLink from './TableActionLink';
-
+import CustomIcon from './../../Common/CustomIcon';
 import {
     getFieldUrl
 } from './../functions';
@@ -11,13 +11,13 @@ import {
 export default class TableActionGroup extends React.Component {
 
     renderActionList() {
-        return this.props.actions.map((item,index) => 
+        return this.props.actions.map((item, index) =>
             <li key={index}>
                 <TableActionLink
                     icon={item.icon}
                     name={item.name}
                     modalLink={item.modalLink}
-                    url={getFieldUrl(item.field,this.props.row)}
+                    url={getFieldUrl(item.field, this.props.row)}
                 />
             </li>
         );
@@ -26,20 +26,23 @@ export default class TableActionGroup extends React.Component {
     render() {
 
         //if no grouped actiosn don't show list
-        if(this.props.actions === undefined || this.props.actions.length == 0)
+        if (this.props.actions === undefined || this.props.actions.length == 0)
             return null;
 
         return (
             <div className="action-list-container">
-                <a href="#" 
-                    style={{fontSize : 18, marginRight : 15}} 
-                    className="dropdown-toggle btn-action" 
-                    data-toggle="dropdown" 
+                <a href="#"
+                    style={{ fontSize: 18, marginRight: 15 }}
+                    className="dropdown-toggle btn-action"
+                    data-toggle="dropdown"
                     aria-expanded="false">
-                        <i className="fas fa-ellipsis-h"></i>
+                    <CustomIcon
+                        icon={STYLES.elementForm.iconViewMoreTable ? STYLES.elementForm.iconViewMoreTable : 'fas fa-ellipsis-h'}
+                    />
+                    &nbsp;
                 </a>
                 <ul className="dropdown-menu default-padding dropdown-menu-right">
-                    {this.renderActionList()} 
+                    {this.renderActionList()}
                 </ul>
             </div>
         )

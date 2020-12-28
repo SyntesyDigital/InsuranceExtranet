@@ -300,7 +300,7 @@ class ContentController extends Controller
 
         $f = finfo_open();
         $mimeType = finfo_buffer($f, $file, FILEINFO_MIME_TYPE);
-        $extension = $this->mime2ext($mime_type);
+        $extension = $this->mime2ext($mimeType);
 
         return response($file, 200)
           ->header('Content-Type', $mimeType)
@@ -326,7 +326,7 @@ class ContentController extends Controller
 
         $f = finfo_open();
         $mimeType = finfo_buffer($f, $file, FILEINFO_MIME_TYPE);
-        $extension = $this->mime2ext($mime_type);
+        $extension = $this->mime2ext($mimeType);
 
         return response($file, 200)
           ->header('Content-Type', $mimeType)

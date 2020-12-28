@@ -28,6 +28,8 @@ export default class CardComponent extends Component {
 
         var field = props.field ? props.field : null;
         var template = field && field.settings.template ? field.settings.template : null;
+        //if exists template as a prop overwrite
+        template = props.template ? props.template : template;
 
         this.state = {
             field: field,

@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
-import { FilePicker } from 'react-file-picker';
 import Dropzone from 'react-dropzone';
 
 class DropZoneField extends Component
@@ -136,8 +134,8 @@ class DropZoneField extends Component
               <div {...getRootProps()} className={"box box-state-01 "+ (errors)}>
                 <input {...getInputProps()} />
                 {this.props.label}
-                <span className="icon-wrapper"><i class="far fa-file"></i></span>
-                <p className="text-file"><i class="fas fa-paperclip"></i>{" "}Déposer le document</p>
+                <span className="icon-wrapper"><i className="far fa-file"></i></span>
+                <p className="text-file"><i className="fas fa-paperclip"></i>{" "}Déposer le document</p>
               </div>
             </section>
           )}
@@ -146,11 +144,11 @@ class DropZoneField extends Component
     }
     else {
       return (
-        <div class="box box-state-02">
+        <div className="box box-state-02">
             {this.props.label}
-            <span className="icon-wrapper"><i class="far fa-file"></i></span>
+            <span className="icon-wrapper"><i className="far fa-file"></i></span>
             <p className="text-file" style={{overflowWrap: 'break-word'}}>
-              <i class="fas fa-paperclip"></i>{" "}
+              <i className="fas fa-paperclip"></i>{" "}
               {this.props.values['docName']}
               <a href="" className="remove-btn"
                   onClick={this.removeFile.bind(this)}
@@ -158,7 +156,7 @@ class DropZoneField extends Component
                 <i className="fas fa-trash-alt"></i>
               </a>
             </p>
-            <button disabled={this.props.processing} type="submit" class="btn btn-rounded">Envoyer{" "}<i class="far fa-paper-plane"></i></button>
+            <button disabled={this.props.processing} type="submit" className="btn btn-rounded">Envoyer{" "}<i className="far fa-paper-plane"></i></button>
         </div>
       )
     }
@@ -166,53 +164,11 @@ class DropZoneField extends Component
     return (
       <div className={"box "+stateClass+" "+ (errors)}>
         {this.props.label}
-        <span className="icon-wrapper"><i class="far fa-file"></i></span>
-        <p className="text-file" style={{overflowWrap: 'break-word'}}><i class="fas fa-paperclip"></i>{" "}Déposer le document</p>
+        <span className="icon-wrapper"><i className="far fa-file"></i></span>
+        <p className="text-file" style={{overflowWrap: 'break-word'}}><i className="fas fa-paperclip"></i>{" "}Déposer le document</p>
       </div>
     );
 
-        /*
-        <div>
-          {(this.props.value == null || this.props.value == '') &&
-
-            <FilePicker
-              extensions={['jpg', 'jpeg', 'png','doc','pdf','docx']}
-              onChange={this.handleOnChange.bind(this)}
-              onError={this.handleError.bind(this)}
-            >
-              <button className="btn btn-default" href="#" type="button">
-                <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
-              </button>
-            </FilePicker>
-          }
-
-          {this.props.value != null && this.props.value != '' &&
-            
-            <div class="box box-state-02">
-                {this.props.label}
-                <span className="icon-wrapper"><i class="far fa-file"></i></span>
-                <p className="text-file"><i class="fas fa-paperclip"></i>{" "}nom_document.pdf</p>
-                <button type="submit" class="btn btn-rounded">Envoyer{" "}<i class="far fa-paper-plane"></i></button>
-            </div>
-
-            <div className="row uploaded-file">
-              <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
-                {this.props.values['docName']}
-              </div>
-              <div className="col-xs-2">
-                <a href="" className="btn btn-link btn-danger"
-                  onClick={this.removeFile.bind(this)}
-                >
-                  <i className="fas fa-trash-alt"></i>
-                </a>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-
-    );
-    */
   }
 
 }

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import moment from 'moment';
+import moment from 'moment-timezone/builds/moment-timezone-with-data';
+moment.tz.setDefault('Europe/Berlin');
+
 import ListParser from '../ListParser';
 
 import FormDropZone from './../../Forms/Form/FormDropZone/FormDropZone';

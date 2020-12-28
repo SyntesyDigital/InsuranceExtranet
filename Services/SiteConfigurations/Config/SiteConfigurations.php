@@ -45,6 +45,13 @@ return [
                 'name' => 'BREADCUMB_IS_ACTIVE',
                 'label' => 'Disable link breadcrumbs',
               ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'UPLOAD_MAX_SIZE',
+                'name' => 'UPLOAD_MAX_SIZE',
+                'label' => 'File Upload Limit ( default 10 MB )',
+              ]
             ], //end children col
           ],
         ], //en children box
@@ -348,11 +355,11 @@ return [
                             'identifier' => 'MODEL_EXECUTE_LOCALITATION',
                             'name' => 'MODEL_EXECUTE_LOCALITATION',
                             'label' => 'Modele à éxécuter',
-                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
-                                return [
-                                    'name' => $element->name,
-                                    'value' => $element->id,
-                                ];
+                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table-v2')->get()->map(function ($element) {
+                              return [
+                                  'name' => $element->name,
+                                  'value' => $element->id,
+                              ];
                             })->prepend([
                                 'name' => '---',
                                 'value' => null,
@@ -380,10 +387,19 @@ return [
                           ],
                           [
                             'type' => 'field',
-                            'input' => 'text',
+                            'input' => 'select',
                             'identifier' => 'WS_TOTAL_DRAFT_BTN',
                             'name' => 'WS_TOTAL_DRAFT_BTN',
                             'label' => 'WS Total draft button',
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['file-v2','file'])->get()->map(function ($element) {
+                              return [
+                                  'name' => $element->name,
+                                  'value' => $element->id,
+                              ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
                           ],
                           [
                             'type' => 'field',
@@ -391,7 +407,7 @@ return [
                             'identifier' => 'MODEL_EXECUTE_DRAFT',
                             'name' => 'MODEL_EXECUTE_DRAFT',
                             'label' => 'Modele à éxécuter',
-                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['table-v2','table'])->get()->map(function ($element) {
                                 return [
                                     'name' => $element->name,
                                     'value' => $element->id,
@@ -423,10 +439,19 @@ return [
                           ],
                           [
                             'type' => 'field',
-                            'input' => 'text',
+                            'input' => 'select',
                             'identifier' => 'WS_TOTAL_NOTIFICATION_BTN',
                             'name' => 'WS_TOTAL_NOTIFICATION_BTN',
                             'label' => 'WS Total notification button',
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['file-v2','file'])->get()->map(function ($element) {
+                              return [
+                                  'name' => $element->name,
+                                  'value' => $element->id,
+                              ];
+                            })->prepend([
+                                'name' => '---',
+                                'value' => null,
+                            ]),
                           ],
                           [
                             'type' => 'field',
@@ -434,7 +459,7 @@ return [
                             'identifier' => 'MODEL_EXECUTE_NOTIFICATION',
                             'name' => 'MODEL_EXECUTE_NOTIFICATION',
                             'label' => 'Modele à éxécuter',
-                            'options' => \Modules\Extranet\Entities\Element::where('type', 'table')->get()->map(function ($element) {
+                            'options' => \Modules\Extranet\Entities\Element::whereIn('type', ['table-v2','table'])->get()->map(function ($element) {
                                 return [
                                     'name' => $element->name,
                                     'value' => $element->id,

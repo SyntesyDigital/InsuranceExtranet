@@ -166,6 +166,26 @@ class ModelValuesFormatTransformer extends Resource
         return $url;
     }
 
+    private function processUrlParams($url,$parameters,$modelValue) 
+    {
+        //if stored url has parameters delete them
+        $url = explode('?',$url);
+        $url = $url[0];
+
+        if(!isset($parameters) || $parameters == "")
+            return $url;
+
+        //dd($url,$parameters,$modelValue);
+
+        $url .= '?'.$parameters;
+
+        foreach($modelValue as $key => $value) {
+            $url = str_replace('_'.$key,$value,$url);
+        }
+
+        return $url;
+    }
+
     private function getActionValue($elementField,$modelValue,$originalValue)
     {
         //if identifier is in array, then is dinamica action
@@ -182,6 +202,17 @@ class ModelValuesFormatTransformer extends Resource
         }
         elseif(isset($elementField->settings['isFileWSFusion']) && $elementField->settings['isFileWSFusion']) {
             $originalValue = route('document.show-ws-fusion', $originalValue);
+        }
+        elseif(isset($elementField->settings['isUrl']) && $elementField->settings['isUrl']) {
+            if(isset($modelValue->{$elementField->settings['isUrl']['url']})){
+                $originalValue = $modelValue->{$elementField->settings['isUrl']['url']};
+                $originalValue = $this->processUrlParams(
+                    $originalValue,
+                    $elementField->settings['isUrl']['parameters'],
+                    $modelValue
+                );
+                $originalValue = 'action;'.$originalValue;
+            }
         }
 
         return $originalValue;

@@ -141,6 +141,7 @@
     $btn1HoverBorderColor = isset($storedStylesFront['btn1HoverBorderColor']) ? $storedStylesFront['btn1HoverBorderColor']->value : $primaryColor;
     $btn1FontSize = isset($storedStylesFront['btn1FontSize']) ? $storedStylesFront['btn1FontSize']->value.'px' : '14px';
     $btn1BorderRadius = isset($storedStylesFront['btn1BorderRadius']) ? $storedStylesFront['btn1BorderRadius']->value.'px' : '24px';
+    $btn1IconFontSize = isset($storedStylesFront['btn1IconFontSize']) ? $storedStylesFront['btn1IconFontSize']->value : '16';
 
     // btn-2
     $btn2Color = isset($storedStylesFront['btn2Color']) ? $storedStylesFront['btn2Color']->value : $secondaryColor;
@@ -151,6 +152,7 @@
     $btn2BorderHoverColor = isset($storedStylesFront['btn2BorderHoverColor']) ? $storedStylesFront['btn2BorderHoverColor']->value : $primaryColor;
     $btn2FontSize = isset($storedStylesFront['btn2FontSize']) ? $storedStylesFront['btn2FontSize']->value.'px' : '14px';
     $btn2BorderRadius = isset($storedStylesFront['btn2BorderRadius']) ? $storedStylesFront['btn2BorderRadius']->value.'px' : '24px';
+    $btn2IconFontSize = isset($storedStylesFront['btn2IconFontSize']) ? $storedStylesFront['btn2IconFontSize']->value : '16';
 
     // btn-3
     $btn3Color = isset($storedStylesFront['btn3Color']) ? $storedStylesFront['btn3Color']->value : $secondaryColor;
@@ -161,6 +163,7 @@
     $btn3BorderHoverColor = isset($storedStylesFront['btn3BorderHoverColor']) ? $storedStylesFront['btn3BorderHoverColor']->value : $primaryColor;
     $btn3FontSize = isset($storedStylesFront['btn3FontSize']) ? $storedStylesFront['btn3FontSize']->value.'px' : '14px';
     $btn3BorderRadius = isset($storedStylesFront['btn3BorderRadius']) ? $storedStylesFront['btn3BorderRadius']->value.'px' : '24px';
+    $btn3IconFontSize = isset($storedStylesFront['btn3IconFontSize']) ? $storedStylesFront['btn3IconFontSize']->value : '16';
 
     //BOX TOTAL
     $elementNumberColor = isset($storedStylesFront['elementNumberColor']) ? $storedStylesFront['elementNumberColor']->value : '#2A3649';
@@ -382,6 +385,7 @@
     $fontColorActiveTab = isset($storedStylesFront['fontColorActiveTab']) ? $storedStylesFront['fontColorActiveTab']->value : $secondaryColor;
     $backgroundColorActiveTab = isset($storedStylesFront['backgroundColorActiveTab']) ? $storedStylesFront['backgroundColorActiveTab']->value : '#fff';
     $fontSizeTab = isset($storedStylesFront['fontSizeTab']) ? $storedStylesFront['fontSizeTab']->value.'px' : '14px';
+    $widthTab = isset($storedStylesFront['widthTab']) ? $storedStylesFront['widthTab']->value.'px' : '160px';
 
     //ELEMENT TABLE
     $headerColorTable = isset($storedStylesFront['headerColorTable']) ? $storedStylesFront['headerColorTable']->value : '#868d97';
@@ -398,6 +402,7 @@
     $alignFilterTable = isset($storedStylesFront['alignFilterTable']) ? $storedStylesFront['alignFilterTable']->value : '3';
     $lowerUpperCaseHeaderTable = isset($storedStylesFront['lowerUpperCaseHeaderTable']) ? $storedStylesFront['lowerUpperCaseHeaderTable']->value : 'capitalize';
     $fontSizeIconTable = isset($storedStylesFront['fontSizeIconTable']) ? $storedStylesFront['fontSizeIconTable']->value.'px' : '14px';
+    $iconViewMoreTable = isset($storedStylesFront['iconViewMoreTable']) ? $storedStylesFront['iconViewMoreTable']->value : 'fas fa-ellipsis-h';
 
     //ELEMENT FILE
     $backgroundColorTooltipDescFile = isset($storedStylesFront['backgroundColorTooltipDescFile']) ? $storedStylesFront['backgroundColorTooltipDescFile']->value : $primaryColor;
@@ -528,7 +533,7 @@
     $backgroundHoverColorSubmitBtnStepper = isset($storedStylesFront['backgroundHoverColorSubmitBtnStepper']) ? $storedStylesFront['backgroundHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
     $borderColorSubmitBtnStepper = isset($storedStylesFront['borderColorSubmitBtnStepper']) ? $storedStylesFront['borderColorSubmitBtnStepper']->value : '#65C4DB';
     $borderHoverColorSubmitBtnStepper = isset($storedStylesFront['borderHoverColorSubmitBtnStepper']) ? $storedStylesFront['borderHoverColorSubmitBtnStepper']->value : '#65C4DBD9';
-    $borderRadiusSubmitBtnStepper = isset($storedStylesFront['borderRadiusSubmitBtnStepper']) ? $storedStylesFront['borderRadiusSubmitBtnStepper']->value.'px' : '24px';
+    $borderRadiusSubmitBtnStepper = isset($storedStylesFront['borderRadiusSubmitBtnStepper']) ? $storedStylesFront['borderRadiusSubmitBtnStepper']->value.'px' : '30px';
     $fontSizeSubmitBtnStepper = isset($storedStylesFront['fontSizeSubmitBtnStepper']) ? $storedStylesFront['fontSizeSubmitBtnStepper']->value.'px' : '14px';
     $iconSubmitStepper = isset($storedStylesFront['iconSubmitStepper']) ? $storedStylesFront['iconSubmitStepper']->value : '';
 
@@ -653,7 +658,9 @@
             colorTooltipDescForm: '{{$colorTooltipDescForm}}',
             fontSizeTooltipDescForm: '{{$fontSizeTooltipDescForm}}',
             borderPxInputForm: '{{$borderPxInputForm}}',
-            textBtnAddValueForm: '{{$textBtnAddValueForm}}'
+            textBtnAddValueForm: '{{$textBtnAddValueForm}}',
+            iconViewMoreTable: '{{$iconViewMoreTable}}'
+
         },
         elementFile: {
             backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',

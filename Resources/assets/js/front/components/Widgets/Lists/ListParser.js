@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spinner from './../../Common/Spinner';
 
 String.prototype.replaceHtmlEntites = function() {
   var s = this;
@@ -278,7 +279,11 @@ export default class ListParser extends Component {
           }
 
           {!initiliased &&
-              <p className="message">Chargement...</p>
+            <Spinner
+              size={30}
+              color={'#FFA500'}
+              loading={this.props.loading}
+            />
           }
 
           {initiliased && data != null && data.length == 0 &&

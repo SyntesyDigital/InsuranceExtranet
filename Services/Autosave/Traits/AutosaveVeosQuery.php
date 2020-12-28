@@ -25,6 +25,8 @@ trait AutosaveVeosQuery
         // Init guzzle client
         $this->client = new Client();
 
+        
+
         // Build request
         $request = new stdClass();
         $request->name = 'SEL_APP_PARAM';
@@ -32,6 +34,8 @@ trait AutosaveVeosQuery
             'CLE_PARAM' => $id,
             'NOM_PARAM' => $name,
         ]));
+
+        
         
         // Build payload with credentials
         $payload = new stdClass();
@@ -42,11 +46,14 @@ trait AutosaveVeosQuery
         $payload->requests[] = $request;
 
         try {
+
             $response = $this->client->post($this->url, [
                 'json' => $payload
             ]);
 
             $result = json_decode($response->getBody());
+
+            //dd($this->url,$payload,$result);
 
             return $result;
 
@@ -139,9 +146,11 @@ trait AutosaveVeosQuery
 
         // Query the WS
         // try {
-            $this->client->post($this->url, [
+            $result = $this->client->post($this->url, [
                 'json' => $payload
             ]);
+
+            //dd($this->url,$payload,$result);
 
             return $params['CLE_PARAM'];
         // } catch (ServerException $ex) {            
