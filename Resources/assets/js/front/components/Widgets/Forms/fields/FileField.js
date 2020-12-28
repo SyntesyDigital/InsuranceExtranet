@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 import { FilePicker } from 'react-file-picker';
+import Dropzone from 'react-dropzone';
+
+import {
+  isDefined
+} from "./../functions";
 
 class FileField extends Component
 {
@@ -9,12 +13,23 @@ class FileField extends Component
     super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
 
+    const maxSize = SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE !== undefined
+            && SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE.value !== null ?
+            parseInt(SITE_CONFIG_GENERAL.UPLOAD_MAX_SIZE.value)
+            : 10;
+
+      const format = isDefined(props.field.settings) && 
+        isDefined(props.field.settings.format) ? 
+        props.field.settings.format : 'button';
+
     this.state = {
       loading : false,
       file : null,
       base64 : null,
       type : null,
-      name : ''
+      name : '',
+      maxSize : maxSize,
+      format : format
     }
 
   }
@@ -26,7 +41,15 @@ class FileField extends Component
   handleOnChange(FileObject)
   {
 
-    //console.log("FileObject => ",FileObject)
+    console.log("FileObject :: ",FileObject);
+
+    //only dropzone return array as FileObject
+    if(this.state.format == "dropzone"){
+      if(FileObject.length == 0)
+        return;
+        
+      var FileObject = FileObject[0];
+    }
 
     var self = this;
 
@@ -111,7 +134,90 @@ class FileField extends Component
 
   }
 
+  renderFilePicker() {
+
+    const errors = this.props.error ? ' has-error' : '';
+
+    return (
+        <>
+          {(this.props.value == null || this.props.value == '') &&
+
+              <FilePicker
+                extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
+                maxSize={this.state.maxSize}
+                onChange={this.handleOnChange.bind(this)}
+                onError={this.handleError.bind(this)}
+              >
+                <button className="btn btn-default" href="#" type="button">
+                  <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
+                </button>
+              </FilePicker>
+            }
+
+            {this.props.value != null && this.props.value != '' &&
+              <div className="row uploaded-file">
+                <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
+                  {this.props.values['_docName']}
+                </div>
+                <div className="col-xs-2">
+                  <a href="" className="btn btn-link btn-danger"
+                    onClick={this.removeFile.bind(this)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            }
+          </>
+      )
+  }
+
+  renderDropZone() {
+
+      const errors = this.props.error ? ' has-error' : '';
+
+      if(this.props.value == null || this.props.value == ''){
+        return (
+          <Dropzone 
+              onDrop={this.handleOnChange.bind(this)}
+              //maxSize={this.state.maxSize*1024}
+            >
+            {({getRootProps, getInputProps}) => (
+              <section >
+                <div {...getRootProps()} className={"box box-state-01 "+ (errors)}>
+                  <input {...getInputProps()} />
+                  {this.props.label}
+                  <span className="icon-wrapper"><i className="far fa-file"></i></span>
+                  <p className="text-file"><i className="fas fa-paperclip"></i>{" "}Déposer le document</p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        )
+      }
+      else {
+        return (
+          <div className="box box-state-02">
+              {this.props.label}
+              <span className="icon-wrapper"><i className="far fa-file"></i></span>
+              <p className="text-file" style={{overflowWrap: 'break-word'}}>
+                <i className="fas fa-paperclip"></i>{" "}
+                {this.props.values['_docName']}
+                <a href="" className="remove-btn"
+                    onClick={this.removeFile.bind(this)}
+                  >
+                  <i className="fas fa-trash-alt"></i>
+                </a>
+              </p>
+          </div>
+        )
+      }
+
+  }
+
   render() {
+
+    const format = this.state.format;
 
     const {field} = this.props;
     const errors = this.props.error ? ' has-error' : '';
@@ -159,33 +265,13 @@ class FileField extends Component
         </div>
         <div className={colClassInput}>
           <div>
-            {(this.props.value == null || this.props.value == '') &&
-
-              <FilePicker
-                extensions={['jpg', 'jpeg', 'png','doc','pdf','docx','csv','xlsx','xls']}
-                onChange={this.handleOnChange.bind(this)}
-                onError={this.handleError.bind(this)}
-              >
-                <button className="btn btn-default" href="#" type="button">
-                  <i className="fas fa-paperclip"></i> {STYLES.elementForm.textBtnAddFileForm}
-                </button>
-              </FilePicker>
+            {format == "button" && 
+              this.renderFilePicker()
+            }
+            {format == "dropzone" && 
+              this.renderDropZone()
             }
 
-            {this.props.value != null && this.props.value != '' &&
-              <div className="row uploaded-file">
-                <div className="col-xs-10" style={{overflowWrap: 'break-word'}}>
-                  {this.props.values['_docName']}
-                </div>
-                <div className="col-xs-2">
-                  <a href="" className="btn btn-link btn-danger"
-                    onClick={this.removeFile.bind(this)}
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                  </a>
-                </div>
-              </div>
-            }
           </div>
         </div>
         </div>

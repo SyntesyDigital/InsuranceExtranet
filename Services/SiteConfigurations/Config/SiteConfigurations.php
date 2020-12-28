@@ -45,6 +45,13 @@ return [
                 'name' => 'BREADCUMB_IS_ACTIVE',
                 'label' => 'Disable link breadcrumbs',
               ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'UPLOAD_MAX_SIZE',
+                'name' => 'UPLOAD_MAX_SIZE',
+                'label' => 'File Upload Limit ( default 10 MB )',
+              ]
             ], //end children col
           ],
         ], //en children box
