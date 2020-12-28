@@ -41,7 +41,6 @@ body {
             border-radius: 0;
             padding: 0;
             border-bottom: 1px solid #e6e6e6;
-            
         }
         .modal-buttons {
             top: 50%;
@@ -64,13 +63,13 @@ body {
         .yes-no-field {
             margin: unset;
             padding: 0px 24px 24px 24px;
-            &:first-of-type{
+            &:first-of-type {
                 padding-top: 24px;
             }
-            .container-text{
+            .container-text {
                 width: unset;
             }
-            &:last-child{
+            &:last-child {
                 padding-bottom: 24px;
             }
         }
@@ -91,10 +90,9 @@ body {
         .container-fields-default {
             padding-right: 0;
             padding-left: 0;
-            
+
             .row {
                 .container-fields-default {
-                    
                     .form-group {
                         label {
                             margin-bottom: 0;
@@ -132,7 +130,7 @@ body {
             }
         }
         .container-radio-field {
-            &.yes-no-field{
+            &.yes-no-field {
                 &:last-of-type {
                     background-color: green !important;
                 }
@@ -164,6 +162,10 @@ body {
             padding: 0 !important;
             .container {
                 width: 100% !important;
+            }
+            .css-bgvzuu-indicatorSeparator {
+                margin-bottom: 4px;
+                margin-top: unset;
             }
         }
     }

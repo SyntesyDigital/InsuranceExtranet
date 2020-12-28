@@ -167,6 +167,14 @@
         border-top-right-radius: {{$buttonRadius}};
     }
     @endif
+
+    @if(isset($storedStylesFront['iconDateForm']) && $storedStylesFront['iconDateForm']->value !== '')
+        body .page-builder .element-form-container .react-datepicker-wrapper .react-datepicker__input-container:after{
+            content: ''
+        }
+    @endif
+
+ 
     
     </style>
     
