@@ -64,7 +64,7 @@ trait AutosaveVeosQuery
      * @param  mixed $key
      * @return void
      */
-    public function delete($key) 
+    public function delete($key, $name = "BASKET") 
     {
         // Build WS URL
         $this->url = str_replace('/rsExtranet2/', '/', VeosWsUrl::get());
@@ -75,7 +75,10 @@ trait AutosaveVeosQuery
 
         // Build request
         $request = new stdClass();
-        $request->params = [];
+        $request->params = json_decode(json_encode([
+            'CLE_PARAM' => $key,
+            'NOM_PARAM' => $name,
+        ]));
         $request->name = 'DEL_APP_PARAM';
 
         // Build payload with credentials

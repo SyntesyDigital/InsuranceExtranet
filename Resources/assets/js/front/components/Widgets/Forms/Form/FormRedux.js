@@ -8,7 +8,6 @@ import Label from './../../ElementCard/fields/Label';
 import RichText from './../../ElementCard/fields/RichTextField';
 import StageButton from './../fields/StageButton';
 import LayoutValidator from './LayoutValidator';
-
 import EventBus from './../../../../../services/EventBus';
 import LayoutParser from './../../ElementCard/LayoutParser';
 import Autosave from './Autosave';
@@ -174,10 +173,7 @@ class FormComponent extends Component {
             return null;
 
         Autosave.delete({
-            codec: 'form',
-            payload: {
-                key: this.state.autosave,
-            }
+            key: this.state.autosave
         }).then(response => {
             /*
             this.setState({
