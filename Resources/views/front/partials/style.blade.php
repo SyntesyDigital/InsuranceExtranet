@@ -619,6 +619,7 @@
 @include('extranet::front.partials.styles.timeline')
 @include('extranet::front.partials.styles.modal')
 @include('extranet::front.partials.styles.typology-last')
+@include('extranet::front.partials.styles.number-field')
 
 
 @if($frontFont)

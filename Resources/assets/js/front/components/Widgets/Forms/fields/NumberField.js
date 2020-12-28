@@ -254,7 +254,7 @@ class NumberField extends Component {
         var icon = null;
 
         const { field } = this.props;
-
+console.log("STYLES.elementForm.iconSurfaceForm" , STYLES.elementForm.iconSurfaceForm);
         if (field.settings !== undefined && field.settings.format !== undefined) {
 
             switch (field.settings.format) {

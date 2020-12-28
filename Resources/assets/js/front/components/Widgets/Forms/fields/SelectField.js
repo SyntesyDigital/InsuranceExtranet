@@ -346,7 +346,11 @@ class SelectField extends Component {
                 boxShadow: '1 !important',
                 border: this.getBorderColor()
             }),
-            menu: provided => ({ ...provided, zIndex: 99999 })
+            menu: provided => ({ ...provided, zIndex: 99999 }),
+            dropdownIndicator: base => ({
+                ...base,
+                color: STYLES.elementForm.borderColorInput // Custom colour
+              })
         };
 
         const selectStyle = {

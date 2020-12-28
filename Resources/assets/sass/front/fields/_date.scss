@@ -36,17 +36,23 @@
         -ms-flex-negative: 0;
         flex-shrink: 0;
         box-sizing: border-box;
-        i,
-        svg {
+        i{
             position: absolute;
             pointer-events: none;
             top: 45%;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             margin: 0 auto;
             display: block;
             margin: 0 auto;
             transform: translate(50%, -50%);
+        }
+        svg{
+            pointer-events: none;
+            display: block;
+            margin: auto;
+            width: 18px;
+            height: 18px;
         }
     }
 }
@@ -87,17 +93,23 @@
         -ms-flex-negative: 0;
         flex-shrink: 0;
         box-sizing: border-box;
-        i,
-        svg {
+        i{
             position: absolute;
             pointer-events: none;
             top: 45%;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             margin: 0 auto;
             display: block;
             margin: 0 auto;
             transform: translate(50%, -50%);
+        }
+        svg{
+            pointer-events: none;
+            display: block;
+            margin: auto;
+            width: 18px;
+            height: 18px;
         }
     }
     .react-datepicker__input-container {
