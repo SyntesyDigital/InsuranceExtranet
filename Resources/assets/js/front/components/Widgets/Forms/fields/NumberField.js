@@ -7,21 +7,6 @@ import {
     CONDITION_FIELD_TYPE_CONFIGURABLE
 } from './../../../../../back/components/Element/constants';
 
-<<<<<<< HEAD
-import {
-  validateNumber,
-  isDefined,
-} from './../functions';
-
-class NumberField extends Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.state = {
-      addClassBordered: false,
-      error : false
-=======
 class NumberField extends Component {
     constructor(props) {
         super(props);
@@ -40,7 +25,6 @@ class NumberField extends Component {
         } 
         */
 
->>>>>>> feature/icons_input
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -175,64 +159,6 @@ class NumberField extends Component {
         if(this.props.field.identifier == 'primeNet'){
           console.log("primeNet :: handleOnChange : ",value);
         }
-<<<<<<< HEAD
-      }
-
-  }
-
-  isReadOnly(){
-    return this.props.field.settings.readonly || (this.props.field.settings.operation !== undefined && this.props.field.settings.operation !== null && this.props.field.settings.operation !== '')?'readonly':null;
-  }
-  // ==============================
-  // Handlers
-  // ==============================
-
-  handleBlur(e){
-    this.setState({ 
-      addClassBordered: false 
-    });
-  }
-
-  handleFocus(e){
-    this.setState({ 
-      addClassBordered: true
-    });
-  }
-
-  handleFocus(e){
-      if (e.target.value != '') {
-          this.setState({ 
-              addClassBordered: false
-          });
-      }else{
-          this.setState({ 
-              addClassBordered: true
-          });
-      }
-  }  
-
-  
-
-  handleOnChange(event)
-  {
-    var value = '';
-
-    if(isDefined(event.target.value)){
-      value = parseFloat(event.target.value);
-    }
-    
-    var valid = validateNumber(this.props.field,value);
-    console.log("validateNumber :: (field,valid,value) : ",this.props.field,valid,value);
-
-    this.setState({
-      error : !valid
-    },function(){
-      this.props.onFieldChange({
-        name : this.props.field.identifier,
-        value : value,
-      });
-    })
-=======
         */
 
         this.props.onFieldChange({
@@ -243,7 +169,6 @@ class NumberField extends Component {
     }
 
     handleNumberFormatChange(value) {
->>>>>>> feature/icons_input
 
         var value = value.floatValue;
         var max = this.getMaxValue();
@@ -259,22 +184,6 @@ class NumberField extends Component {
             return;
         }
 
-<<<<<<< HEAD
-    var valid = validateNumber(this.props.field,value);
-
-    this.props.onFieldChange({
-      name : this.props.field.identifier,
-      value : value,
-      error : !valid
-    });
-  }
-
-  getNumberFromRules(key) {
-    const {rules} = this.props.field;
-    
-    if(rules[key] !== undefined && rules[key] != null && rules[key] != '' ){
-      return rules[key];
-=======
         if (min !== '' && value < min) {
             return;
         }
@@ -316,7 +225,6 @@ class NumberField extends Component {
 
     fieldHasPlaceholderSettings() {
         return this.props.field.settings.placeholder !== undefined && this.props.field.settings.placeholder !== null ? true : false;
->>>>>>> feature/icons_input
     }
 
     getPlaceholder() {
@@ -373,19 +281,10 @@ console.log("STYLES.elementForm.iconSurfaceForm" , STYLES.elementForm.iconSurfac
 
     render() {
 
-<<<<<<< HEAD
-    const {field} = this.props;
-    const {error} = this.state;
-
-    const errors = this.props.error || error ? ' has-error' : '';
-    let isRequired = field.rules.required !== undefined ?
-      field.rules.required : false;
-=======
         const { field } = this.props;
         const errors = this.props.error ? ' has-error' : '';
         let isRequired = field.rules.required !== undefined ?
             field.rules.required : false;
->>>>>>> feature/icons_input
 
         var placeholder = this.getPlaceholder();
 
