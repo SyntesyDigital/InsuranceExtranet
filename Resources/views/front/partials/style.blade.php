@@ -665,7 +665,7 @@
             fontSizeTooltipDescForm: '{{$fontSizeTooltipDescForm}}',
             borderPxInputForm: '{{$borderPxInputForm}}',
             textBtnAddValueForm: '{{$textBtnAddValueForm}}',
-            iconViewMoreTable: '{{$iconViewMoreTable}}'
+            iconViewMoreTable: '{{$iconViewMoreTable}}',
             iconCurrencyForm: '{{$iconCurrencyForm}}',
             iconDateForm: '{{$iconDateForm}}',
             iconSurfaceForm: '{{$iconSurfaceForm}}',
