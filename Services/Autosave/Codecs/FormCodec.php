@@ -6,15 +6,15 @@ use Auth;
 use Modules\Extranet\Services\Autosave\Codecs\CodecInterface;
 
 class FormCodec implements CodecInterface
-{    
+{
     /**
      * encode
      *
      * @param  mixed $payload
      * @return void
      */
-    public static function encode($payload) 
-    {        
+    public static function encode($payload)
+    {
         $chunks = str_split(json_encode($payload['values']), 4000);
 
         $params = [
@@ -22,7 +22,7 @@ class FormCodec implements CodecInterface
             "NOM_PARAM" => 'BASKET',
             "VALEUR01" => strval(Auth::user()->id), // IDPER
             //"VALEUR02" => date('Y-m-d H:i:s'), // Date
-            "VALEUR02" => time()."",
+            "VALEUR02" => time() * 1000,
             "VALEUR03" => $payload['url'], // URL
             "VALEUR04" => isset($payload['status']) ? $payload['status'] : 'IN_PROGRESS', // Status
             "VALEUR05" => strval($payload['stage']), // Stage
@@ -45,13 +45,13 @@ class FormCodec implements CodecInterface
 
         $write = false;
         $index = 0;
-        foreach($params as $k => $v) {
-            if($v == 'DATA') {
+        foreach ($params as $k => $v) {
+            if ($v == 'DATA') {
                 $write = true;
                 continue;
             }
 
-            if($write) {
+            if ($write) {
                 $params[$k] = isset($chunks[$index]) ? $chunks[$index] : null;
                 ++$index;
             }
@@ -71,11 +71,11 @@ class FormCodec implements CodecInterface
         $values = null;
         $chunk = false;
 
-        foreach($payload as $k => $v) {
-            if($v == 'DATA') {
+        foreach ($payload as $k => $v) {
+            if ($v == 'DATA') {
                 $chunk = true;
             } else {
-                if($chunk) {
+                if ($chunk) {
                     $values .= $v;
                 }
             }
