@@ -103,14 +103,14 @@ class SessionCreate
             'veos_role' => $veosRoleAndPermissions['role'],
             'veos_roles' => $veosRoleAndPermissions['roles'],
             'veos_permissions' => $veosRoleAndPermissions['permissions'],
-            'triggered_forms' => [],
+            'triggered_forms' => []
         ];
 
         // Merge constructor passed parameters to session
         if ($this->params) {
             $sessionData = array_merge($sessionData, $this->params);
         }
-
+        
         \Session::put('user', json_encode($sessionData));
 
         return $this->createUserSession($sessionData);

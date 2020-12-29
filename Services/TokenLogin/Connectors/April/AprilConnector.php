@@ -21,6 +21,7 @@ class AprilConnector implements TokenLoginConnectorInterface
         $this->token = $token;
         $this->caller = $caller;
         $this->env = request()->get('env');
+        $this->jailed = request()->get('jailed');
     }
 
     /**
@@ -32,13 +33,21 @@ class AprilConnector implements TokenLoginConnectorInterface
     {
         // Query APRIL WS to retrieve user data from token
         $response = dispatch_now(new AprilControleJeton($this->token, $this->caller));
-
+        
         // Open VEOS session and return token
         $veosToken = dispatch_now(new LoginToken($response->getLogin()));
 
+        $params = [];
+        $request = request();
+
+        if ($request->get('jailed')) {
+            $params['jailed'] = 1;
+            $params['display_mode'] = 'jailed';
+        }
+
         // Init user session if VEOS token exist
         $session = $veosToken
-            ? dispatch_now(new SessionCreate($veosToken, $this->env))
+            ? dispatch_now(new SessionCreate($veosToken, $this->env, false, $params))
             : null;
 
         return $session;

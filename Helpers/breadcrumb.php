@@ -85,7 +85,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+            $html .= sprintf(
+                isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
                 isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
@@ -136,7 +137,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+            $html .= sprintf(
+                isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
                 isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
@@ -171,7 +173,8 @@ if (!function_exists('breadcrumb')) {
                 $arrow = ' > ';
             }
 
-            $html .= sprintf(isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
+            $html .= sprintf(
+                isBreadcrumbActive() ? '<span class="not-links"><a href="%s">%s</a></span>'.$arrow : '<a href="%s">%s</a>'.$arrow,
                 isBreadcrumbActive() ? '#' : $v['url'],
                 $v['label']
             );
@@ -183,6 +186,16 @@ if (!function_exists('breadcrumb')) {
 
     function breadcrumb($content, $parameters)
     {
+        if (Auth::user()) {
+            $jailed = isset(Auth::user()->jailed)
+                ? Auth::user()->jailed
+                : false;
+
+            if ($jailed) {
+                return null;
+            }
+        }
+
         if ($content->is_page) {
             return page_breadcrumb($content, $parameters);
         } else {
