@@ -6,6 +6,64 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
+
+export default class YesNoFieldSwitch extends Component {
+
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.props.onChange({
+            name: event.target.name,
+            value: event.target.checked
+        });
+    }
+
+    render() {
+        const styles = {
+            display: 'inline-block'
+        }
+        return (
+            <FormGroup className={"yesNoFieldSwitch" + (this.props.errors)}>
+                <Typography component="div">
+                    {!this.props.isHideLabel &&
+                        <label
+                            class="bmd-label-floating label-question"
+                            style={{ minWidth: '260px' }}
+                        >
+                            {this.props.label}
+                            {this.props.isRequired &&
+                                <span className="required">&nbsp; *</span>
+                            }
+                        </label>
+                    }
+                    <label
+                        className="bmd-label-floating"
+                        htmlFor={this.props.identifier}
+                    >
+                        {this.props.label1}
+                    </label>
+                    <Grid item style={styles}>
+                        <SwitchYesNo
+                            checked={this.props.checked}
+                            onChange={this.handleChange.bind(this)}
+                            name={this.props.name}
+                        />
+                    </Grid>
+                    <label
+                        className="bmd-label-floating"
+                        htmlFor={this.props.identifier}
+                    >
+                        {this.props.label2}
+                    </label>
+                </Typography>
+            </FormGroup>
+        );
+    }
+}
+
 const SwitchYesNo = withStyles((theme) => ({
     root: {
         width: 42,
@@ -60,48 +118,14 @@ const SwitchYesNo = withStyles((theme) => ({
     );
 });
 
-export default class YesNoFieldSwitch extends Component {
-
-    constructor(props) {
-
-        super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-
-    }
-
-    handleChange(event) {
-        this.props.onChange({
-            name: event.target.name,
-            value: event.target.checked
-        });
-    }
-
-    render() {
-        const styles = {
-            display: 'inline-block'
-        }
-        return (
-            <FormGroup className="yesNoFieldSwitch">
-                <Typography component="div">
-                    {this.props.label ? <label class="bmd-label-floating label-question" style={{minWidth: '260px'}}>{this.props.label}</label> : null}
-                    <label className="bmd-label-floating" htmlFor={this.props.identifier}>{this.props.label1}</label>
-                    <Grid item style={styles}>
-                        <SwitchYesNo id={this.props.identifier} checked={this.props.checked} onChange={this.handleChange.bind(this)} name={this.props.name} />
-                    </Grid>
-                    <label className="bmd-label-floating" htmlFor={this.props.identifier}>{this.props.label2}</label>
-                </Typography>
-            </FormGroup>
-        );
-    }
-}
-
 YesNoFieldSwitch.propTypes = {
-    identifier: PropTypes.string.isRequired,
     label: PropTypes.string,
     label1: PropTypes.string,
     label2: PropTypes.string,
     onChange: PropTypes.func,
-    name: PropTypes.string.isRequired,
-    checked: PropTypes.bool
+    name: PropTypes.string,
+    checked: PropTypes.bool,
+    errors: PropTypes.string,
+    isHideLabel: PropTypes.bool,
+    isRequired: PropTypes.bool,
 };
