@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { connect } from 'react-redux';
-
 import BooleanSettingsField from './Settings/BooleanSettingsField';
 import InputSettingsField from './Settings/InputSettingsField';
-import CheckboxesSettingsField from './Settings/CheckboxesSettingsField';
 import SelectorSettingsField from './Settings/SelectorSettingsField';
-import RadioSettingsField from './Settings/RadioSettingsField';
 import LinkSettingsField from './Settings/LinkSettingsField';
 import ModalSettingsField from './Settings/HasModal/ModalSettingsField';
 import FieldsSettings from './Settings/FieldsSettings';
-
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 import DefaultSettingsField from './Settings/DefaultValue/DefaultSettingsField';
 import BooleanValuesSettingsField from './Settings/BooleanValues/BooleanValuesSettingsField';
 import ConditionalFormattingSettingsField from './Settings/ConditionalFormatting/ConditionalFormattingSettingsField';
 import ConditionalValueIconSettingsField from './Settings/ConditionalValueIcon/ConditionalValueIconSettingsField';
-
 import MaxDateSettingsField from './Settings/MaxDate/MaxDateSettingsField';
 import CurrencySettingsField from './Settings/Currency/CurrencySettingsField';
 import UrlSettingsField from './Settings/UrlSettings/UrlSettingsField';
-
 import {
     closeModalSettings,
     onModalSettingsClosed,
     changeFieldSettings
 } from './actions/';
-
 import {
     updateSettingsFromConfig
 } from './functions';
@@ -38,7 +30,6 @@ class ElementModal extends Component {
 
         this.handleFieldSettingsChange = this.handleFieldSettingsChange.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
-
 
         this.state = {
             id: 'modal-element-settings',
@@ -88,7 +79,6 @@ class ElementModal extends Component {
             isOpen: true,
             field : this.updateField()  //process field from last updates
         });
-
     }
 
     closeModal() {
@@ -138,11 +128,22 @@ class ElementModal extends Component {
         ];
     }
 
+    getStyleYesNoOptions(){
+        return [
+            {
+                value: "radio",
+                name: "radio",
+            },
+            {
+                value: "toggle",
+                name: "toggle",
+            }
+        ];
+    }
+
     render() {
 
         const field = this.state.field;
-
-        console.log("field :: ElementModal", field);
 
         return (
             <div className="custom-modal" id={this.state.id}>
@@ -316,6 +317,15 @@ class ElementModal extends Component {
                                         onFieldChange={this.handleFieldSettingsChange}
                                     />
 
+                                    <SelectorSettingsField
+                                        field={field}
+                                        name="yesNoStyle"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Type de bouton"
+                                        options={this.getStyleYesNoOptions()}
+                                    />
+
                                     {field != null && field.settings != null && field.settings.booleanValues !== undefined &&
                                         <BooleanValuesSettingsField
                                             field={field}
@@ -381,7 +391,7 @@ class ElementModal extends Component {
                                             label="Description"
                                             inputLabel="Indiquer la description"
                                         />
-                                    }       
+                                    }   
 
                                     {field != null && field.settings != null && field.settings.currency !== undefined &&
                                         <CurrencySettingsField

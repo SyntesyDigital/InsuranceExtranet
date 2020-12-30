@@ -220,7 +220,7 @@ return [
         'icon' => 'fas fa-paperclip',
         'formats' => [
           'button',
-          'dropzone'
+          'dropzone',
         ],
         'rules' => [
           'required',
@@ -365,6 +365,7 @@ return [
           'description',
           'hidelabel',
           'labelInline',
+          'yesNoStyle',
         ],
       ],
       'label' => [
@@ -430,7 +431,7 @@ return [
           'textAlign',
           'isFile',
           'isFileWSFusion',
-          'isUrl'
+          'isUrl',
         ],
       ],
     ],  // --- end fields ---
