@@ -169,6 +169,12 @@ body .reduced div{
     padding: 0;
     margin: 0;
 }
+body .reduced.no-padding .element-file-container-body {
+    padding: 0 !important; 
+}
+body .reduced .element-file-container-body .container-fields-default .stripped:first-child .col-md-6 span{
+    padding-left: 0 !important;
+}
 body .reduced .element-file-container .element-file-container-body{
     box-shadow: none;
 }
@@ -190,7 +196,10 @@ body .reduced .element-file-container .element-file-container-body{
 body .reduced .element-file-container .element-file-container-body span{
     padding-top: {{$paddingBottomTopReducedValues}} !important;
     padding-bottom: {{$paddingBottomTopReducedValues}} !important;
-    border-radius: 20px;
+    border-radius: 20px !important;
+}
+body .reduced .element-file-container .element-file-container-body span i{ 
+    padding-left: 9px;
 }
 body .reduced .element-file-container .element-file-container-body .container-fields-default div{
     margin: {{$marginBetweenReduced}} 0px;
