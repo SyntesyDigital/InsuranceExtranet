@@ -169,6 +169,9 @@ body .reduced div{
     padding: 0;
     margin: 0;
 }
+body .reduced .element-file-container .element-file-container-body{
+    box-shadow: none;
+}
 body .reduced .element-file-container h1, 
 body .reduced .element-file-container h2, 
 body .reduced .element-file-container h3, 
@@ -187,6 +190,7 @@ body .reduced .element-file-container .element-file-container-body{
 body .reduced .element-file-container .element-file-container-body span{
     padding-top: {{$paddingBottomTopReducedValues}} !important;
     padding-bottom: {{$paddingBottomTopReducedValues}} !important;
+    border-radius: 20px;
 }
 body .reduced .element-file-container .element-file-container-body .container-fields-default div{
     margin: {{$marginBetweenReduced}} 0px;
