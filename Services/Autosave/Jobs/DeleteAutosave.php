@@ -18,6 +18,8 @@ class DeleteAutosave
 
     public function handle()
     {
-        return $this->delete($this->attributes['key']);
+        return $this->attributes['key']
+            ? $this->delete($this->attributes['key'])
+            : false;
     }
 }
