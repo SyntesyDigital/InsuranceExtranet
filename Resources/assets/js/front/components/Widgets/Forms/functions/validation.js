@@ -43,6 +43,10 @@ export function validateNumber(field,value) {
     valid = false;
   }
 
+  if(valid && field.settings.integer && value !==  parseInt(value, 10)){
+    valid = false;
+  }
+
   return valid;
 }
 

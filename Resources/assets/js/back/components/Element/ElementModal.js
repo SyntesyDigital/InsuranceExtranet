@@ -563,6 +563,14 @@ class ElementModal extends Component {
                                         label="Position Libellé-Valeur 'inline'"
                                     />
 
+                                    <BooleanSettingsField
+                                        field={field}
+                                        name="integer"
+                                        source="settings"
+                                        onFieldChange={this.handleFieldSettingsChange}
+                                        label="Entier"
+                                    />
+
                                     {field != null && field.settings != null && field.settings.isUrl !== undefined &&
                                         <UrlSettingsField
                                             field={field}
@@ -573,6 +581,9 @@ class ElementModal extends Component {
                                             fields={this.props.app.fieldsList}
                                         />
                                     }
+
+                                       
+                                       
                                     
 
                                 </div>
