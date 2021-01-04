@@ -394,6 +394,20 @@ return [
           'hidelabel',
         ],
       ],
+      'range' => [
+        'mapping' => 'range',
+        'identifier' => 'range',
+        'label' => 'Range',
+        'icon' => 'fas fa-exchange-alt',
+        'formats' => [],
+        'rules' => [
+          'required',
+        ],
+        'settings' => [
+          'description',
+          'hidelabel',
+        ],
+      ],
       'immat' => [
         'mapping' => 'immat',
         'identifier' => 'immat',

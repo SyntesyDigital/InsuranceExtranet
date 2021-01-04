@@ -14,23 +14,24 @@ export default class RangeField extends Component {
     }
 
     handleChange(value) {
-        this.props.onChange(this.props.name, value);
+        console.log("handleChange :: ", value)
+        // this.props.onChange(this.props.name, value);
         this.setState({
             range: value
         })
-        if(this.state.range <= (this.props.minValue + 20 )) { 
+        if (this.state.range <= (this.props.minValue + 20)) {
             this.setState({
                 active: 'hidden-label-right'
             });
-        }else if ((this.state.range >= (this.props.maxValue - 20 ))){
+        } else if ((this.state.range >= (this.props.maxValue - 20))) {
             this.setState({
                 active: 'hidden-label-left'
             });
-        }else {
+        } else {
             this.setState({
                 active: ''
             })
-       }
+        };
     }
 
     render() {
@@ -39,11 +40,29 @@ export default class RangeField extends Component {
             1000: this.props.maxValue + '€'
         }
 
+        const { field } = this.props;
+
+        const errors = this.props.error ? 'is-invalid' : '';
+
+        let isRequired = field.rules.required !== undefined ?
+            field.rules.required : false;
+
+        let isHidden = field.settings.hidden !== undefined && field.settings.hidden != null ?
+            field.settings.hidden : false;
+
+        let isHideLabel = field.settings.hidelabel !== undefined ?
+            field.settings.hidelabel : false;
+
         return (
-            <div className="range-field">
+            <div className={"range-field"}>
                 <div className={`row container-range ${this.state.active}`}>
                     <div className="col-md-2 container-label">
-                        <p>{this.props.label}</p>
+                        <p>
+                            {this.props.label}
+                            {isRequired &&
+                                <span className="required">&nbsp; *</span>
+                            }
+                        </p>
                     </div>
                     <div className="col-md-8">
                         <Slider
@@ -61,9 +80,15 @@ export default class RangeField extends Component {
     }
 }
 
+RangeField.defaultProps = {
+    minValue: 10,
+    maxValue: 500,
+    value: 50
+};
+
 RangeField.propTypes = {
     label: PropTypes.string,
-    maxValue: PropTypes.string,
-    minValue: PropTypes.string,
+    maxValue: PropTypes.number,
+    minValue: PropTypes.number,
     onChange: PropTypes.func
 };
