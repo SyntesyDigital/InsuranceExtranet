@@ -284,6 +284,9 @@ class NumberField extends Component {
             'field-container-col col-xs-7' :
             'field-container-col col-xs-12';
 
+        var formatClass = field.settings.format ? field.settings.format
+            : '';
+
         const currency = this.fieldHasCurrencySettings();
 
         /*
@@ -323,13 +326,13 @@ class NumberField extends Component {
                             </label>
                         }
                     </div>
-                    <div className={colClassInput}>
+                    <div className={colClassInput + ' ' + formatClass}>
                         {!currency &&
                             <React.Fragment>
                                 <input
                                     type="number"
                                     name={field.identifier}
-                                    className={"form-control " + (textFieldClass.join(' '))}
+                                    className={"form-control numberfield " + (textFieldClass.join(' '))}
                                     value={this.props.value}
                                     max={this.getNumberFromRules('maxNumber')}
                                     min={this.getNumberFromRules('minNumber')}
@@ -341,7 +344,7 @@ class NumberField extends Component {
                                 />
                                 {field.settings !== undefined && field.settings.format !== undefined && field.settings.format !== null &&
                                     <React.Fragment>
-                                        <div className={'container-custom-icon'}>
+                                        <div className={'container-custom-icon numberfield'}>
                                             <span class="indicatorSeparator"></span>
                                             <CustomIcon
                                                 icon={this.renderIconFormat()}
@@ -356,7 +359,7 @@ class NumberField extends Component {
                                 <NumberFormat
                                     value={this.props.value}
                                     name={field.identifier}
-                                    className={"form-control " + (textFieldClass.join(' '))}
+                                    className={"form-control numberfield " + (textFieldClass.join(' '))}
                                     max={this.getNumberFromRules('maxNumber')}
                                     min={this.getNumberFromRules('minNumber')}
                                     onValueChange={this.handleNumberFormatChange.bind(this)}
@@ -371,7 +374,7 @@ class NumberField extends Component {
                                 />
                                 {STYLES.elementForm.iconSurfaceForm !== '' &&
                                     <React.Fragment>
-                                        <div className={'container-custom-icon'}>
+                                        <div className={'container-custom-icon numberfield'}>
                                             <span class="indicatorSeparator"></span>
                                             <CustomIcon
                                                 icon={this.renderIconFormat()}
