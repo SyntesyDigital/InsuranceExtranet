@@ -587,6 +587,12 @@
     $minHeightButtonModal = isset($storedStylesFront['minHeightButtonModal']) ? $storedStylesFront['minHeightButtonModal']->value.'px' : '76px';
     $colorCloseButtonModal = isset($storedStylesFront['colorCloseButtonModal']) ? $storedStylesFront['colorCloseButtonModal']->value.'px' : '#b4b4b4';
 
+
+    // Breadcrumbs
+    $colorBreadcrumb = isset($storedStylesFront['colorBreadcrumb']) ? $storedStylesFront['colorBreadcrumb']->value : $primaryColor;
+    $fontSizeBreadcrumb = isset($storedStylesFront['fontSizeBreadcrumb']) ? $storedStylesFront['fontSizeBreadcrumb']->value.'px' : '12px';
+    $borderColorBreadcrumb = isset($storedStylesFront['borderColorBreadcrumb']) ? $storedStylesFront['borderColorBreadcrumb']->value : 'rgba(42, 54, 73, 0.22)';
+    $colorHoverBreadcrumb = isset($storedStylesFront['colorHoverBreadcrumb']) ? $storedStylesFront['colorHoverBreadcrumb']->value : $secondaryColor;
 ?>
 
 <style type="text/css">
@@ -625,6 +631,7 @@
 @include('extranet::front.partials.styles.modal')
 @include('extranet::front.partials.styles.typology-last')
 @include('extranet::front.partials.styles.number-field')
+@include('extranet::front.partials.styles.breadcrumbs')
 
 
 @if($frontFont)
