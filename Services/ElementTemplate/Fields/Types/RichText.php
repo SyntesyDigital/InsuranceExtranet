@@ -21,7 +21,7 @@ class Richtext extends Field implements FieldInterface
         'htmlId',
         'htmlClass',
         'textAlign',
-        'conditionalVisibility'
+        'conditionalVisibility',
+        'description',
     ];
 }
-?>

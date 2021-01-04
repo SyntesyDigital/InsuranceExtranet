@@ -599,6 +599,15 @@ class ModalEditItem extends Component {
           label={'Cacher les bords'}
         />
 
+        <InputSettingsField
+             field={this.state.field}
+            name="description"
+            source="settings"
+            onFieldChange={this.handleFieldSettingsChange.bind(this)}
+            label="Description"
+            inputLabel="Indiquer la description"
+        />
+
         <SelectorSettingsField
           field={this.state.field}
           name="buttonType"

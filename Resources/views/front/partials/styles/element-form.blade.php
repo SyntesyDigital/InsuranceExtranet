@@ -79,6 +79,16 @@
         width: 20px;
         height: 20px;
     }
+
+    body .element-form .left-text-container{
+      overflow:hidden;
+    }
+    body .element-form .label-container{
+      width: 30px;
+      float: right;
+    }
+
+
     body .element-form label button, body #element-card button.MuiButton-root{
         margin-left: 10px;
         border-radius: 10px;
