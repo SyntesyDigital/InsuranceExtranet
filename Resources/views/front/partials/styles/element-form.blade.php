@@ -88,6 +88,9 @@
       float: right;
     }
 
+    body .element-form .label-container label{
+      padding:2px;
+    }
 
     body .element-form label button, body #element-card button.MuiButton-root{
         margin-left: 10px;
