@@ -23,6 +23,10 @@ import {
 } from './../constants';
 
 import {
+  isDefined
+} from './parameters';
+
+import {
   checkIfExistJsonPath,
   addKeyToJson,
 } from './jsonpath.js';
@@ -772,4 +776,15 @@ function updateJSONFromPath(path,index,variable,json) {
               path,index,variable[path[index]],json
           );
   }
+}
+
+export function getFieldFormat(field) {
+  if(!isDefined(field))
+    return '';
+  if(!isDefined(field.settings))
+    return '';
+  if(!isDefined(field.settings.format))
+    return '';
+
+  return field.settings.format;
 }

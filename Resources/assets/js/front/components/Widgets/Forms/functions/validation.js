@@ -2,6 +2,10 @@ import {
   HIDDEN_FIELD,
 } from './../constants';
 
+import {
+  getFieldFormat
+} from './fields';
+
 export function getMinValue(field){
   var min = parseInt(getNumberFromRules(field,'minNumber'));
   return min === 0 || (min && min !== "")? min : -Number.MAX_VALUE;
@@ -46,6 +50,27 @@ export function validateNumber(field,value) {
   return valid;
 }
 
+export function validateEmailFormat(value) {
+  var emailRegex = (/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i).test(value);
+  //console.log('emailRegex ',emailRegex);
+  return emailRegex;
+}
+
+export function validateText(field,value) {
+
+  if(value === undefined || value == null || value === ''){
+    //is valid, depend to check if is required or not
+    return true;
+  }
+
+  var valid = true;
+  if(valid && getFieldFormat(field) == "email" && !validateEmailFormat(value)){
+    valid = false;
+  }
+
+  return valid;
+}
+
 export function validateField(field,values,isModal) {
 
   let isRequired = field.rules !== undefined && field.rules.required !== undefined ?
@@ -65,6 +90,8 @@ export function validateField(field,values,isModal) {
   switch(field.type){
     case 'number' : 
       valid = validateNumber(field,value);
+    case 'text' :
+      valid = validateText(field,value);
   }
 
   if(isRequired){

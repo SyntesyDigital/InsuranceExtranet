@@ -44,6 +44,39 @@ export function isVisible(field,formParameters,values,stageParameter) {
 
 }
 
+/**
+ * Function to check if container has a visible field. If not, not necessry to display the row, only for rows.
+ * Can be necessary to have empty cols for structure
+ * @param {*} field 
+ */
+export function hasVisibleChildren(field,formParameters,values,stageParameter) {
+
+    console.log("checkVisibility :: hasVisibleChildren start : field, ",field);
+    if(field.type == "row" || field.type == "col"){
+      if(field.children != null){
+
+        //if is visible check for its children, if it's not visible not necessary to check
+        for(var key in field.children){
+            var child = field.children[key];
+            if(hasVisibleChildren(child,formParameters,values,stageParameter)){
+              //if any of the children is visible, then 
+              return true;
+            }
+        }
+
+        return false;
+      }
+      else {
+        //is row or call but has no visible children, then doesn't matter if its visible or not
+        return false;
+      }
+    }
+    else {
+        //is element
+        return isVisible(field.field,formParameters,values,stageParameter)
+    }
+}
+
 function checkStageVisibility(field,formParameters,stageParameter) {
     //console.log("checkStageVisibility :: ",field,formParameters,stageParameter);
 

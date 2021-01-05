@@ -123,11 +123,12 @@ export default class YesNoFieldRadio extends Component {
                             <div className={colClassLabel}>
                                 <div className="container-text">
                                     {!isHideLabel &&
-                                        <span>{name}
+                                        <label className="bmd-label-floating">
+                                            {name}
                                             {isRequired &&
                                                 <span className="required">&nbsp; *</span>
                                             }
-                                        </span>
+                                        </label>
                                     }
                                 </div>
                             </div>

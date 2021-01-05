@@ -151,7 +151,7 @@ class NumberField extends Component {
         }
 
         var valid = validateNumber(this.props.field, value);
-        console.log("validateNumber :: (field,valid,value) : ", this.props.field, valid, value);
+        //console.log("validateNumber :: (field,valid,value) : ", this.props.field, valid, value);
 
         this.setState({
             error: !valid

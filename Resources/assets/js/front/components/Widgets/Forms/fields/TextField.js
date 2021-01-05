@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import LabelTooltip from '../../../Common/LabelTooltip';
 
+import {
+    validateText,
+    isDefined,
+} from './../functions';
+
+
 class TextField extends Component {
     constructor(props) {
         super(props);
@@ -109,29 +115,26 @@ class TextField extends Component {
         });
     }
 
-    validateEmailFormat(value) {
-        var emailRegex = (/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i).test(value);
-        //console.log('emailRegex ',emailRegex);
-        return emailRegex;
-    }
 
     handleOnChange(event) {
 
+        const value = event.target.value;
+
         if (this.getFieldFormat() == 'email') {
-            if (this.validateEmailFormat(event.target.value) == true) {
+            if (validateText(this.props.field, value)) {
                 //console.log("Formato correcto");
                 this.setState({
                     error : false
                   });
                   this.props.onFieldChange({
                     name: event.target.name,
-                    value: event.target.value
+                    value: value
                 });
             } else {
                 //console.log("Formato incorrecto");
                 this.props.onFieldChange({
                     name: event.target.name,
-                    value: event.target.value
+                    value: value
                 });
                 this.setState({
                     error : true
@@ -140,7 +143,7 @@ class TextField extends Component {
         } else {
             this.props.onFieldChange({
                 name: event.target.name,
-                value: event.target.value
+                value: value
             });
             this.setState({
                 error : false
