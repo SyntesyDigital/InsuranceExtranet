@@ -147,12 +147,19 @@ body {
                 }
             }
         }
-        .display_label {
+
+        // .display_label {
+        //     &.row {
+        //         border-top: 1px solid #e6e6e6;
+        //     }
+        // }
+
+        .display_borders {
             &.row {
                 border-top: 1px solid #e6e6e6;
             }
         }
-
+        
         .left-text-container {
             padding: 0px 20px 15px;
         }
