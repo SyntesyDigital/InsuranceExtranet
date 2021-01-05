@@ -593,6 +593,22 @@
     $fontSizeBreadcrumb = isset($storedStylesFront['fontSizeBreadcrumb']) ? $storedStylesFront['fontSizeBreadcrumb']->value.'px' : '12px';
     $borderColorBreadcrumb = isset($storedStylesFront['borderColorBreadcrumb']) ? $storedStylesFront['borderColorBreadcrumb']->value : 'rgba(42, 54, 73, 0.22)';
     $colorHoverBreadcrumb = isset($storedStylesFront['colorHoverBreadcrumb']) ? $storedStylesFront['colorHoverBreadcrumb']->value : $secondaryColor;
+
+    // Dropzone
+    $colorBorderState01Dropzone = isset($storedStylesFront['colorBorderState01Dropzone']) ? $storedStylesFront['colorBorderState01Dropzone']->value : $primaryColor;
+    $backgroundColorState01Dropzone = isset($storedStylesFront['backgroundColorState01Dropzone']) ? $storedStylesFront['backgroundColorState01Dropzone']->value: '#fff';
+    $colorState01Dropzone = isset($storedStylesFront['colorState01Dropzone']) ? $storedStylesFront['colorState01Dropzone']->value : $primaryColor;
+    $colorSpanState01Dropzone = isset($storedStylesFront['colorSpanState01Dropzone']) ? $storedStylesFront['colorSpanState01Dropzone']->value : $secondaryColor;
+    $fontSizeTextState01Dropzone = isset($storedStylesFront['fontSizeTextState01Dropzone']) ? $storedStylesFront['fontSizeTextState01Dropzone']->value.'px' : '16px';
+
+    $colorBorderState02Dropzone = isset($storedStylesFront['colorBorderState02Dropzone']) ? $storedStylesFront['colorBorderState02Dropzone']->value : $secondaryColor;
+    $backgroundColorState02Dropzone = isset($storedStylesFront['backgroundColorState02Dropzone']) ? $storedStylesFront['backgroundColorState02Dropzone']->value : '#ccc';
+    $colorState02Dropzone = isset($storedStylesFront['colorState02Dropzone']) ? $storedStylesFront['colorState02Dropzone']->value : $secondaryColor;
+    $iconState02Dropzone = isset($storedStylesFront['iconState02Dropzone']) ? $storedStylesFront['iconState02Dropzone']->value : 'fas fa-trash-alt';
+    $fontSizeTextState02Dropzone = isset($storedStylesFront['fontSizeTextState02Dropzone']) ? $storedStylesFront['fontSizeTextState02Dropzone']->value.'px' : '16px';
+
+    $textDropzone = isset($storedStylesFront['textDropzone']) ? $storedStylesFront['textDropzone']->value : 'Glisser et déposer un document ou <span> parcourir </span>';
+
 ?>
 
 <style type="text/css">
@@ -632,6 +648,8 @@
 @include('extranet::front.partials.styles.typology-last')
 @include('extranet::front.partials.styles.number-field')
 @include('extranet::front.partials.styles.breadcrumbs')
+@include('extranet::front.partials.styles.dropzone')
+
 
 
 @if($frontFont)
@@ -676,7 +694,8 @@
             iconCurrencyForm: '{{$iconCurrencyForm}}',
             iconDateForm: '{{$iconDateForm}}',
             iconSurfaceForm: '{{$iconSurfaceForm}}',
-
+            iconState02Dropzone : '{{$iconState02Dropzone}}',
+            textDropzone : '{!! $textDropzone !!}',
         },
         elementFile: {
             backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',
