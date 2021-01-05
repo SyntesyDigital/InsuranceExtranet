@@ -12,12 +12,70 @@ export default class YesNoFieldSwitch extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+
+        if(!this.props.value){
+            this.props.onChange({
+                name: props.name,
+                value: this.getFieldValue(false)
+            });
+        }
+        
+    }
+
+    // ==============================
+    // Getters
+    // ==============================
+
+    getConfig() {
+        var config = {
+            checked: '1',
+            unchecked: '0'
+        };
+
+        var field = this.props.field;
+
+        if (field.settings.booleanValues !== undefined &&
+            field.settings.booleanValues != null) {
+            config = field.settings.booleanValues;
+        }
+
+        return config;
+    }
+
+    /**
+      Returns the value depending on the configuration
+    */
+    getFieldValue(checked) {
+
+        var config = this.getConfig();
+
+        //console.log("YesNoField:: getConfig() :: ",config);
+
+        if (checked)
+            return config.checked;
+        else
+            return config.unchecked;
+    }
+
+    getConfigValue(value) {
+        var config = this.getConfig();
+
+        if (value === undefined || value === "" || value === null) {
+            return null;
+        }
+
+        if (config.checked == value) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     handleChange(event) {
         this.props.onChange({
             name: event.target.name,
-            value: event.target.checked
+            value: this.getFieldValue(event.target.checked)
         });
     }
 
@@ -47,7 +105,7 @@ export default class YesNoFieldSwitch extends Component {
                     </label>
                     <Grid item style={styles}>
                         <SwitchYesNo
-                            checked={this.props.checked}
+                            checked={this.getConfigValue(this.props.value)}
                             onChange={this.handleChange.bind(this)}
                             name={this.props.name}
                         />

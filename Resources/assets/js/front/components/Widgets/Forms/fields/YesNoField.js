@@ -79,6 +79,9 @@ export default class YesNoField extends Component {
                         errors={errors}
                         isHideLabel={isHideLabel}
                         isRequired={isRequired}
+                        value={this.props.value}
+                        field={this.props.field}
+
                     />
                 );
             default:
