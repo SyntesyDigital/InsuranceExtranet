@@ -51,9 +51,21 @@ export function isVisible(field,formParameters,values,stageParameter) {
  */
 export function hasVisibleChildren(field,formParameters,values,stageParameter) {
 
-    console.log("checkVisibility :: hasVisibleChildren start : field, ",field);
+    //console.log("checkVisibility :: hasVisibleChildren iteration : field, ",field);
     if(field.type == "row" || field.type == "col"){
+
       if(field.children != null){
+
+        //check if row and col is visible
+        var visible = isVisible(field,formParameters,values,stageParameter);
+        //console.log("checkVisibility :: hasVisibleChildren row, col iteration : field, ",field,visible);
+
+        //if not is visible return with false
+        if(!visible){ 
+          return false;
+        }
+
+        //console.log("checkVisibility :: hasVisibleChildren iterate children, ",field);
 
         //if is visible check for its children, if it's not visible not necessary to check
         for(var key in field.children){
@@ -73,6 +85,7 @@ export function hasVisibleChildren(field,formParameters,values,stageParameter) {
     }
     else {
         //is element
+        //console.log("checkVisibility :: hasVisibleChildren element iteration : field, ",field,isVisible(field.field,formParameters,values,stageParameter));
         return isVisible(field.field,formParameters,values,stageParameter)
     }
 }

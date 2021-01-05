@@ -590,7 +590,7 @@ class FormComponent extends Component {
         );
 
         //if it's visible and has children, check if has visible children
-        /*
+        
         if(visibility && field.type == "row"){
 
             visibility = hasVisibleChildren(
@@ -599,10 +599,8 @@ class FormComponent extends Component {
                 this.state.values,
                 this.state.stageParameter
             )
+            //console.log("checkVisibility :: hasVisibleChildren result (field,parameters,values,return)",field,this.props.parameters.formParameters,this.state.values,visibility);
         }
-        console.log("checkVisibility :: (field,parameters,values,return)",field,this.props.parameters.formParameters,this.state.values,visibility);
-        */
-
         
 
         return visibility;
