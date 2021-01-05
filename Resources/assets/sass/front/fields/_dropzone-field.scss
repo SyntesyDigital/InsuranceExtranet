@@ -1,0 +1,73 @@
+#element-staged-form {
+    .file-field {
+        .box-state {
+            &-02 {
+                outline: none;
+                .icon-wrapper {
+                    display: none;
+                }
+                .text-file {
+                    margin: 0;
+                    padding: 12px 12px;
+                    font-size: 16px;
+                    .fa-paperclip {
+                        display: none;
+                    }
+                }
+                .remove-btn {
+                    float: right;
+                    color: #a8a8a8;
+                }
+                border-radius: 8px;
+                border: 2px dashed #e6e6e6;
+                background-color: #f7f7f7;
+            }
+            &-01 {
+                outline: none;
+                input{
+                    outline: none !important;
+                }
+                .icon-wrapper {
+                    display: none;
+                }
+                .text-file {
+                    margin: 0;
+                    padding: 12px 12px;
+                    font-size: 16px;
+                    text-align: center;
+                    span {
+                        color: #65c4db;
+                    }
+                    .fa-paperclip {
+                        display: none;
+                    }
+                }
+                border-radius: 8px;
+                border: 2px dashed #65c4db;
+                background-color: #e0f3f8;
+            }
+            // &-03 {
+            //     input {
+            //         &:focus {
+            //             outline: none;
+            //         }
+            //     }
+            //     .icon-wrapper {
+            //         display: none;
+            //     }
+            //     .text-file {
+            //         margin: 0;
+            //         padding: 12px 12px;
+            //         font-size: 16px;
+            //         text-align: center;
+            //         .fa-paperclip {
+            //             display: none;
+            //         }
+            //     }
+            //     border-radius: 8px;
+            //     border: 2px dashed #e6e6e6;
+            //     background-color: #f7f7f7;
+            // }
+        }
+    }
+}
