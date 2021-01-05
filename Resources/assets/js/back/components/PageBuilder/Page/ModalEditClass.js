@@ -317,6 +317,14 @@ class ModalEditClass extends Component {
           label={Lang.get('modals.display_label')}
         />
 
+        <BooleanSettingsField
+          field={data}
+          name="displayBorders"
+          source="settings"
+          onFieldChange={this.handleFieldSettingsChange.bind(this)}
+          label={Lang.get('modals.display_borders')}
+        />
+
         <VisibilitySettingsField
           field={data}
           name="conditionalVisibility"
