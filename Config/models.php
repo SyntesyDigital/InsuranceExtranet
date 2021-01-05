@@ -76,6 +76,7 @@ return [
           'hidelabel',
           'labelInline',
           'placeholder',
+          'integer',
         ],
       ],
       'date' => [

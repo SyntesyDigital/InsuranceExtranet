@@ -41,6 +41,7 @@ export const SETTINGS_AVOID = {
   'placeholder' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'hidelabel' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'labelInline' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'integer' : [FORM_V1,FORM_V2],
 };
 
 /*
