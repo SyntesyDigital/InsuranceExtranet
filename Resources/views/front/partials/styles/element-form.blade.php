@@ -84,8 +84,9 @@
       overflow:hidden;
     }
     body .element-form .label-container{
-      width: 30px;
-      float: right;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
     body .element-form .label-container label{
