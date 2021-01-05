@@ -49,6 +49,10 @@ export default class LayoutParser extends Component {
                 'display_label'
                 : '';
 
+            const borderTop = node.settings && node.settings.displayBorders == true ?
+                'display_borders'
+                : '';
+
 
             switch (node.type) {
                 case "row":
@@ -64,7 +68,9 @@ export default class LayoutParser extends Component {
                                 (" " + alignment) +
                                 (" " + box) +
                                 (" " + display) +
-                                (" " + label)
+                                (" " + label) + 
+                                (" " + borderTop)
+
                             }
                         >
                             {node.children != null &&
