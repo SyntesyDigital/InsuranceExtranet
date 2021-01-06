@@ -16,6 +16,6 @@
     id="element-form-trigger" 
     class=""
     elementObject="{{base64_encode(json_encode($element))}}"
-    parameters="{{$parameters}}"
+    parameters="{{$parameters or ''}}"
 ></div>
 @endif
