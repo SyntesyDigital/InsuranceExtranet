@@ -114,8 +114,15 @@ return [
                 'input' => 'text',
                 'identifier' => 'WS_GOUV',
                 'name' => 'WS_GOUV',
-                'label' => 'data.gouv.fr ( défaut : https://entreprise.data.gouv.fr/api/sirene/v3/ )',
+                'label' => 'entreprise.data.gouv.fr ( défaut : https://entreprise.data.gouv.fr/api/sirene/v3/ )',
               ],
+              [
+                'type' => 'field',
+                'input' => 'text',
+                'identifier' => 'WS_GOUV_ADDRESS',
+                'name' => 'WS_GOUV_ADDRESS',
+                'label' => 'api-adresse ( défaut : https://api-adresse.data.gouv.fr/ )',
+              ]
             ], //end children col
           ],
         ], //en children box
@@ -580,5 +587,6 @@ return [
     'PASSWORD_LIMIT' => '6',
     'SEARCH_QUERY_PER_PAGE' => '1000',
     'WS_GOUV' => 'https://entreprise.data.gouv.fr/api/sirene/v3/',
+    'WS_GOUV_ADDRESS' => 'https://api-adresse.data.gouv.fr/'
   ],
 ];

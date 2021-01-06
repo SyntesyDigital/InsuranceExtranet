@@ -645,27 +645,31 @@ class ElementRepository extends BaseRepository
     private function processItem($resultData,$index,$item,$procedure) 
     {
         $jsonObject = new JsonObject($item);
-    
+
         $resultData[$index] = (object)[];
-        
-        //prefix is always $. because process item give always the position where the item is.
-        $prefix = '$';
 
         //for all model fields process jsponath value
         foreach($procedure->OBJECTS as $object) {
 
+            //prefix is always $. or $ because process item give always the position where the item is.
+            $prefix = isset($object->OBJ_JSONP) && $object->OBJ_JSONP != "" ? '$.':'$';
+
             if(strpos($object->CHAMP, '[')  === false){
                 //if there is no [ into champ, then we can add it
+
+                //if last char is . remove it, beacause it doesn't work with $value.[] need to be $value[]
+                if(substr($object->OBJ_JSONP, -1) == "."){
+                    $object->OBJ_JSONP = substr($object->OBJ_JSONP, 0, -1);
+                }
+
                 $jsonpath = $prefix.$object->OBJ_JSONP.'["'.$object->CHAMP.'"]';    
             }
             else {
                 //if exist then that means the champ already includes de key
                 $jsonpath = $prefix.$object->OBJ_JSONP.$object->CHAMP;
             }
-
+            
             $value = $jsonObject->get($jsonpath);
-
-            //dd($item,$jsonpath,$value);
 
             if($value && sizeof($value)>0){
                 $resultData[$index]->{$object->CHAMP} = $value[0];
@@ -675,6 +679,7 @@ class ElementRepository extends BaseRepository
                 $resultData[$index]->{$object->CHAMP} = null;
             }
         }
+        
         return $resultData;
     }
 
