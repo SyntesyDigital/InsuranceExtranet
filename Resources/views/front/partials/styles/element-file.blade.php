@@ -1,17 +1,14 @@
 <style type="text/css">
 
-/*FILES*/
 .element-file-container{
   border-radius: {{$buttonRadius}};
 }
-
 .element-file-container .element-file-container-head{
   background-color: {{$elementHeadBackground}};
   color:{{$elementHeadColor}};
   font-size:{{$titlesFontSize}};
   padding-bottom:10px;
 }
-
 .element-file-container .element-collapsable.element-file-container-head{
   background-color: {{$frontElementHeadCollapsableBackground}};
   color: {{$elementHeadCollapsableColor}};
@@ -19,72 +16,91 @@
   padding-bottom:10px;
   padding-left: 50px;
 }
-
 .element-file-container .element-file-container-head i{
   color:{{$elementHeadIconColor}};
 }
-
 .element-file-container .element-file-container-body{
   background-color: {{$elementBackground}};
   border:transparent;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, {{$boxShadowOpacity/100}});
 }
-
 .element-file-container .element-file-container-body .element-file-input-container{
   border-bottom: 1px solid {{$elementFileInputBorder}};
 }
-
 .element-collapsable{
   cursor: pointer;
   text-transform: {{$elementHeadTextTransform}} !important;
 }
-
 .element-collapsable.collapsed:before{
   color:{{$elementHeadIconColor}};
 }
-
 .element-collapsable:before{
   color:{{$elementHeadIconColor}};
 }
-
 .more-btn{
   background-color:{{$elementBackground}};
 }
-
 .more-btn  a {
   border-radius: {{$buttonRadius}};
   color:{{$elementLinkColor}};
   border: 1px solid {{$elementLinkColor}};
 }
-
 .more-btn  a:hover{
   color:{{$elementLinkHoverColor}};
   border: 1px solid {{$elementLinkHoverColor}};
 }
 
+/* element file settings styles */
+body .element-file-container .elementFile label{
+    color: {{$colorLabelElementFile}};
+    font-weight: {{$fontWeightLabelElementFile}};
+    line-height: {{$lineHeightLabelElementFile}};
+    font-size : {{$fontSizeLabelElementFile}};
+}
+body .element-file-container .elementFile span{
+    color: {{$colorValueElementFile}};
+    font-weight: {{$fontWeightValueElementFile}};
+    line-height: {{$lineHeightValueElementFile}};
+    font-size : {{$fontSizeValueElementFile}};
+}
+
+/* class fixed-height */
+body .fixed-height .element-file-container  {
+    height: 125px;
+    max-height: 125px;
+    min-height: 125px;
+    
+}
+body .fixed-height .element-file-container  .elementFile label{
+    padding: 0 !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    line-height: 29px !important;
+    color: {{$colorLabelElementFile}} !important;
+}
+body .reduced.fixed-height .element-file-container .elementFile span{
+    padding: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 29px !important;
+    color: {{$colorValueElementFile}} !important;
+    float: right;
+}
+body .fixed-height .element-file-container .elementFile .row{
+    padding: 0 !important;
+}
+/* end class fixed-height */
+
+
+
 /** Box into an Element */
 
 /* box-1 */
-body .element-file-container .box-class-1 *{
-  /*color: {{$textColorBox1}};*/
-}
 body .element-file-container .box-class-1{
   background-color: {{$backgroundColorBox1}};
   border-radius: {{$borderRadiusBox1}};
   border: 1.5px solid {{$borderColorBox1}};
 } 
-body .layout .box-class-1 .container-fields-default .stripped:nth-of-type(even){
-  /*
-  background-color: {{$backgroundColorBox1}};
-  border-radius: {{$borderRadiusBox1}};
-  */
-}
-body .layout .box-class-1 .container-fields-default .stripped:nth-of-type(odd){
-  /*
-  background-color: {{$backgroundColorBox1}};
-  border-radius: {{$borderRadiusBox1}};
-  */
-}
 
 /* box-2 */
 body .element-file-container .box-class-2 *{
@@ -124,16 +140,8 @@ body .layout .box-class-3 .container-fields-default .stripped:nth-of-type(odd){
 
 
 /** Element into a Box */
-/* box-1 */
-body .box-class-1 .element-file-container {
-  /*border: 1.5px solid {{$borderColorBox1}};*/
-  /*border-radius: {{$borderRadiusBox1}};*/
-}
 
-body .box-class-1 .element-file-container *{
-  /*color: {{$textColorBox1}} !important;*/
-  /*background-color: {{$backgroundColorBox1}} !important;*/
-}
+/* box-1 */
 
 /* box-2 */
 body .box-class-2 .element-file-container .element-file-container-body {

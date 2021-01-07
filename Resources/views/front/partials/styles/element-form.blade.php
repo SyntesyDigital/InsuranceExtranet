@@ -100,6 +100,11 @@
         padding:0;
         min-width: unset;
     }
+    /* input */
+    body .element-form input.form-control{
+        height: {{$heightInputForm}};
+    }
+
     /* textarea */
     body .element-form input.form-control, body .element-form textarea.form-control, body .element-form select.form-control{
       border-radius: {{$borderRadiusInput}};
@@ -130,6 +135,7 @@
     }
     body .element-form .container-radio-field .MuiFormControlLabel-root{
       border-radius: {{$borderRadiusInput}};
+      height: {{$heightInputForm}};
     }
     
     /* select-search-field */
@@ -150,14 +156,13 @@
       border: {{$borderPxInputForm}} solid;
       border-color: #eeeeee;
       border-radius: {{$borderRadiusInput}};
+      padding: 0;
+      padding-right: 40px;
+      height: {{$heightInputForm}}
     }
     body .element-form .check-field.bordered label {
       border: {{$borderPxInputForm}} solid {{$borderColorInput}};
       border-radius: {{$borderRadiusInput}};
-    }
-    body .element-form .check-field label{
-        padding: 0;
-        padding-right: 40px;
     }
     body .element-form .check-field label .MuiIconButton-label{
       color: #eeeeee;
@@ -188,6 +193,7 @@
             content: ''
         }
     @endif
+
 
  
     

@@ -1,24 +1,38 @@
 <style type="text/css">
+
     /* state 01 */
     #element-staged-form .file-field .box-state-01{
-¡       border: 2px dashed {{$colorBorderState01Dropzone}};
+        border: 2px dashed {{$colorBorderState01Dropzone}};
         background-color: {{$backgroundColorState01Dropzone}};
+        height: {{$heightInputForm}};
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     #element-staged-form .file-field .box-state-01 .text-file{
         font-size: {{$fontSizeTextState01Dropzone}};
         color: {{$colorState01Dropzone}};
+       
     }
     #element-staged-form .file-field .box-state-01 .text-file span{
         color: {{$colorSpanState01Dropzone}};
     }
+
     /* state 02 */
     #element-staged-form .file-field .box-state-02 {
         border: 2px dashed {{$colorBorderState02Dropzone}};
         background-color: {{$backgroundColorState02Dropzone}};
+        height: {{$heightInputForm}};
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     #element-staged-form .file-field .box-state-02 .text-file{
         font-size: {{$fontSizeTextState02Dropzone}};
         color: {{$colorState02Dropzone}};
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 </style>

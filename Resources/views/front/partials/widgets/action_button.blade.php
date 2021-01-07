@@ -6,7 +6,13 @@
     
     $elementObject = null;
     if(isset($field['settings']['fileElements'])){
-        $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['fileElements'])->first()->load('fields');
+        $elementObject = \Modules\Extranet\Entities\Element::where('id',$field['settings']['fileElements'])->first();
+        if(isset($elementObject)){
+            $elementObject->load('fields');
+        }
+        else {
+            $visible = false;
+        }
     }
 
     $model = isset($elementObject) ? $elementObject->getModel($models) : null;
