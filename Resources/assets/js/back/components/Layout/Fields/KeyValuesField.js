@@ -10,7 +10,11 @@ export default class KeyValuesField extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {items : []};
+        this.state = {
+            items : props.value ? 
+                this.processItems(props.value) : 
+                []
+        };
     }
 
     /**
@@ -30,25 +34,32 @@ export default class KeyValuesField extends Component {
         return object;
     }
     
+    processItems(value) {
+        var items = value !== undefined && value != '' && 
+            value != null ? 
+
+        value : '[]';
+
+        if(items.indexOf('=') != -1){
+            //old version
+            items = this.url2object(items);
+        }
+        else if(items.indexOf('[') != -1){
+            items = JSON.parse(items);
+        }
+        else {
+            items = [];
+        }
+
+        return items;
+    }
+
     componentDidUpdate(prevProps, prevState) {
 
         //if value is different
         if(prevProps.value != this.props.value) {
     
-          var items = this.props.value !== undefined && this.props.value != '' && 
-            this.props.value != null ? 
-            this.props.value : '[]';
-
-            if(items.indexOf('=') != -1){
-                //old version
-                items = this.url2object(items);
-            }
-            else if(items.indexOf('[') != -1){
-                items = JSON.parse(items);
-            }
-            else {
-                items = [];
-            }
+          var items = this.processItems(this.props.value);
         
           this.setState({
             items : items
@@ -102,7 +113,7 @@ export default class KeyValuesField extends Component {
             <KeyValueField 
                 index={index}
                 key={index}
-                keyPrefix={'_'}
+                keyPrefix={this.props.keyPrefix}
                 keyLabel={this.props.keyLabel}
                 valueLabel={this.props.valueLabel}
                 keyValue={item.key}
