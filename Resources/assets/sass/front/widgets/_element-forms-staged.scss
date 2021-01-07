@@ -127,6 +127,9 @@ body {
             }
         }
         .container-radio-field {
+            .container-radio-field{
+                margin-bottom: -15px;
+            }
             &.yes-no-field {
                 &:last-of-type {
                     background-color: green !important;
