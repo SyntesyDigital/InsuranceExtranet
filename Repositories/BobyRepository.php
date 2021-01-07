@@ -165,7 +165,7 @@ class BobyRepository
         ];
 
         $wsUrl = VeosWsUrl::get();
-        if($domain != '' && has_config($domain)){
+        if($domain != '' && ( has_config($domain) || has_default_config($domain))){
             $wsUrl = get_config($domain);
         }
         if ($isOldUrl) {

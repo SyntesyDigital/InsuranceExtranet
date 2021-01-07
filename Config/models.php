@@ -168,6 +168,26 @@ return [
           'placeholder',
         ],
       ],
+      'search' => [
+        'mapping' => 'search',
+        'identifier' => 'search',
+        'label' => 'Search',
+        'icon' => 'fas fa-search',
+        'formats' => [
+        ],
+        'rules' => [],
+        'settings' => [
+          'conditionalVisibility',
+          'defaultValue',
+          'description',
+          'hidden',
+          'addElement',
+          'hidelabel',
+          'labelInline',
+          'placeholder',
+          'preload'
+        ],
+      ],
       'radio' => [
         'mapping' => 'radio',
         'identifier' => 'radio',

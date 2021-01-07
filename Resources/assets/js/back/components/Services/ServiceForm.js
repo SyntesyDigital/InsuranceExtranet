@@ -72,9 +72,13 @@ export default class ServiceForm extends Component {
                     value: ''
                 },
                 {
-                    name: 'data.gouv.fr',
+                    name: 'API Entreprise',
                     value: 'WS_GOUV'
-                }
+                },
+                {
+                    name: 'API Adresse',
+                    value: 'WS_GOUV_ADDRESS'
+                },
             ],
 
             json : {},

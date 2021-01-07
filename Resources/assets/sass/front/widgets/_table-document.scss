@@ -89,6 +89,10 @@
       padding-bottom: 0px;
     }
     &.auto-height{
+
+      .item-container {
+        margin-bottom:5px;
+      }
       .item-container .file-infos {
         height: auto;
         overflow: hidden;
