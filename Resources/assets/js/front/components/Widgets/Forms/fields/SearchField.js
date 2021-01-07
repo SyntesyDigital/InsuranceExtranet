@@ -325,8 +325,8 @@ class SearchField extends Component {
         const customStyles = {
             control: (base) => ({
                 ...base,
-                height: 34,
-                minHeight: 34,
+                height: STYLES.elementForm.heightInputForm,
+                minHeight: STYLES.elementForm.heightInputForm,
                 boxShadow: '1 !important',
                 border: this.getBorderColor()
             }),
