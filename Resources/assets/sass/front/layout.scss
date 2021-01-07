@@ -16,6 +16,7 @@ header {
             display: inline-block;
         }
     }
+
     &:first-child {
         .row {
             &.row-header {
@@ -118,6 +119,54 @@ header {
                             float: right;
                             margin-right: 10px;
                         }
+                    }
+                    .top-page-custom {
+                        height: 90px;
+                        margin-left: 275px;
+                    }
+                }
+                .top-bar-page-container {
+                    &.collapsed{
+                        .top-bar-custom{
+                            margin-left: 100px;
+                        }
+                    }
+                    .creatic-ico_MRI {
+                        top: 20px;
+                    }
+                    .links {
+                        width: 100px;
+                        position: absolute;
+                        right: 0;
+                        top: 20px;
+                        a {
+                            border-left: 1px solid #ccc;
+                            display: table-cell;
+                            width: 50px;
+                            text-align: center;
+                            &:last-child {
+                                border-right: 1px solid #ccc;
+                                width: 50px;
+                                text-align: center;
+                                svg {
+                                    width: 15px;
+                                    height: 15px;
+                                    top: 13px;
+                                }
+                            }
+                        }
+                    }
+                    height: 90px !important;
+                    svg {
+                        width: 40px;
+                        height: 40px;
+                    }
+                    h3 {
+                        display: inline-block;
+                        margin: 0;
+                        position: absolute;
+                        bottom: 32px;
+                        left: 60px;
                     }
                 }
             }
@@ -502,7 +551,7 @@ footer {
     border-bottom: 1px solid $separator-line-color;
     background-color: transparent;
     .container {
-        &-breadcrumb{
+        &-breadcrumb {
             padding: 0 7%;
             @include font(12, 16, 400);
             color: $primary-color;
@@ -953,6 +1002,13 @@ body {
     }
 }
 
-.border-none{
+.border-none {
     border: none !important;
+}
+
+.right-part-header.top-bar-page-container.collapsed{
+    .top-page-custom {
+        margin-left: 100px !important;
+        overflow: hidden;
+    }
 }
