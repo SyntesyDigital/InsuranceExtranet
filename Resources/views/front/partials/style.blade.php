@@ -239,6 +239,19 @@
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
     $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';
 
+    //FILE SETTINGS
+    $fontSizeLabelElementFile = isset($storedStylesFront['fontSizeLabelElementFile']) ? $storedStylesFront['fontSizeLabelElementFile']->value.'px' : '14px';
+    $fontWeightLabelElementFile = isset($storedStylesFront['fontWeightLabelElementFile']) ? $storedStylesFront['fontWeightLabelElementFile']->value : '700';
+    $colorLabelElementFile = isset($storedStylesFront['colorLabelElementFile']) ? $storedStylesFront['colorLabelElementFile']->value : $bodyTextColor;
+    $lineHeightLabelElementFile = isset($storedStylesFront['lineHeightLabelElementFile']) ? $storedStylesFront['lineHeightLabelElementFile']->value.'px' : '25px';
+
+    $fontSizeValueElementFile = isset($storedStylesFront['fontSizeValueElementFile']) ? $storedStylesFront['fontSizeValueElementFile']->value.'px' : '14px';
+    $fontWeightValueElementFile = isset($storedStylesFront['fontWeightValueElementFile']) ? $storedStylesFront['fontWeightValueElementFile']->value : '400';
+    $colorValueElementFile = isset($storedStylesFront['colorValueElementFile']) ? $storedStylesFront['colorValueElementFile']->value : $bodyTextColor;
+    $lineHeightValueElementFile = isset($storedStylesFront['lineHeightValueElementFile']) ? $storedStylesFront['lineHeightValueElementFile']->value.'px' : '25px';
+
+
+
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
     $textColorBox1 = isset($storedStylesFront['textColorBox1']) ? $storedStylesFront['textColorBox1']->value : $secondaryColor;
