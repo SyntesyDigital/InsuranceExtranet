@@ -65,6 +65,8 @@ class SelectField extends Component {
      */
     processUrlParameters() {
         var parameters = this.state.parameters;
+        parameters = parameters.replace(/\[|\]|\./g,'');
+
         var bobyParametersURL = this.hasBobyParameters() ?
             getUrlParameters(this.state.bobyParameters) : '';
 
