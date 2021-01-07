@@ -9,7 +9,7 @@
 <header>
 	<!-- CORPO i IDIOMES -->
 	<div class="row row-header">
-        <div class="right-part-header top-bar-page-container">
+        {{-- <div class="right-part-header top-bar-page-container">
             <div class="top-page-custom">
                 <svg class="icon creatic-ico_MRI">
                     <use xlink:href="#creatic-ico_MRI"></use>
@@ -28,8 +28,8 @@
                     </a>
                 </div>
             </div>
-        </div>
-		{{-- <div class="right-part-header {{isset($isLogin) ? 'login-header' : ''}}">
+        </div> --}}
+		<div class="right-part-header {{isset($isLogin) ? 'login-header' : ''}}">
 			@if(null !== Auth::user())
 				<div class="menu-container">
 					<div class="menu">
@@ -81,7 +81,7 @@
 					</div>
 				</div>
 			@endif
-		</div> --}}
+		</div>
 	</div>
 	<!-- END CORPO I IDIOMES -->
 	<!-- MENU I SEARCH -->
