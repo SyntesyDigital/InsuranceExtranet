@@ -14,6 +14,8 @@ import ConditionalValueIconSettingsField from './Settings/ConditionalValueIcon/C
 import MaxDateSettingsField from './Settings/MaxDate/MaxDateSettingsField';
 import CurrencySettingsField from './Settings/Currency/CurrencySettingsField';
 import UrlSettingsField from './Settings/UrlSettings/UrlSettingsField';
+import KeyValueSettingsField from './Settings/KeyValue/KeyValueSettingsField';
+
 import {
     closeModalSettings,
     onModalSettingsClosed,
@@ -22,6 +24,7 @@ import {
 import {
     updateSettingsFromConfig
 } from './functions';
+
 
 class ElementModal extends Component {
 
@@ -278,8 +281,18 @@ class ElementModal extends Component {
                                         name="addElement"
                                         source="settings"
                                         onFieldChange={this.handleFieldSettingsChange}
-                                        label="Formulaire à ajouter"
+                                        label="Élément à ajouter"
                                     />
+
+                                    {field != null && field.settings != null && field.settings.preload !== undefined &&
+                                        <KeyValueSettingsField
+                                            field={field}
+                                            name="preload"
+                                            source="settings"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                            label="Precharger valeurs de l'élément"
+                                        />
+                                    }
 
                                     <BooleanSettingsField
                                         field={field}

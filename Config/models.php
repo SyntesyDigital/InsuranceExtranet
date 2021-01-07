@@ -185,6 +185,7 @@ return [
           'hidelabel',
           'labelInline',
           'placeholder',
+          'preload'
         ],
       ],
       'radio' => [

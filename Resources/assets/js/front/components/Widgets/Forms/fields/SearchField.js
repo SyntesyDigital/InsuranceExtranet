@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { components } from "react-select";
-//import AsyncSelect from "react-select/lib/Async";
+import AsyncSelect from "react-select/lib/Async";
 import LabelTooltip from '../../../Common/LabelTooltip';
 import moment from 'moment';
 import ModalTable from './../../Table/ModalTable';
@@ -36,20 +36,16 @@ class SearchField extends Component {
             this.props.parameters
           );
 
+        console.log("SearchField :: elementUrl, bobyParameters",elementUrl,bobyParameters);
+
         this.state = {
             loading: true,
             data: [],
             display: true,
             selectedOption: null,
-            boby: boby,
-            bobyParameters: bobyParameters,
-            parameters: this.props.parameters,
-            waitingForParameters: false,  //true when parameters need are not yet set
+            boby: elementUrl,
+            bobyParameters: bobyParameters
         };
-
-        if (this.hasBobyParameters()) {
-            this.state.waitingForParameters = true;
-        }
     }
 
     componentDidMount() {
@@ -61,84 +57,42 @@ class SearchField extends Component {
         */
     }
 
-    /**
-     * 
-     */
-    hasBobyParameters() {
-        return this.state.bobyParameters != null;
-    }
-
-    /**
-     * Join parameters coming from URL and parameters coming from values
-     */
-    processUrlParameters() {
-        var parameters = this.state.parameters;
-        var bobyParametersURL = this.hasBobyParameters() ?
-            getUrlParameters(this.state.bobyParameters) : '';
-
-        return joinUrls([parameters, bobyParametersURL]);
-    }
-
-    /**
-     * Check for every update the algorithm if necessary perameters
-     */
-    processBobyParametersLoaded(prevProps, prevState) {
-
-        //if no boby parameters
-        if (!this.hasBobyParameters()) {
-            return null;
-        }
-
-        //update parameters and check if necessary to update
-        const { hasChanged, parameters } = updateParametersWithValues(
-            this.state.bobyParameters,
-            this.props.values
-        );
-
-        //console.log("updateParametersWithValues :: ",{hasChanged,parameters});
-
-        if (hasChanged) {
-            //check if there is parameters not defined yet
-            var empty = hasEmptyParameters(parameters);
-
-            var self = this;
-            this.setState({
-                bobyParameters: parameters,
-                waitingForParameters: empty,
-                data: [],
-                preloadData: []
-            }, function () {
-                if (!empty) {
-                    self.cleanValue();
-
-                    //if is not wainting for parameters to define
-                    self.loadData();
-                }
-            });
-        }
-
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        this.processBobyParametersLoaded(prevProps, prevState);
+        //this.processBobyParametersLoaded(prevProps, prevState);
     }
 
     loadOptions(inputValue, callback) {
+
+        
+        if(this.state.timer !== undefined) {
+            clearTimeout(this.state.timer);
+        }
+
         var self = this;
-        setTimeout(() => {
-            callback(self.query(inputValue));
-          }, 1000);
+        this.setState({
+            timer: setTimeout(() => {
+                console.log("SearchField :: loadOptions : start query ",inputValue);
+                self.query(inputValue,callback);
+            }, 1000)
+        }, function () {
+            
+        });
     }
 
 
-    query(inputValue) {
+    query(inputValue,callback) {
 
         var self = this;
-        const {
-            boby,bobyParameters
+        let {
+            boby
         } = this.state;
 
-        var params = bobyParameters.replace("_"+this.props.identifier,inputValue);
+        //get url info
+        boby = boby.replace("_"+this.props.field.identifier,inputValue);
+        boby = boby.split("?");
+        var params = isDefined(boby[1]) ? '?'+boby[1] : '' ;
+
+        console.log("SearchField : query : ",ASSETS + 'architect/extranet/' + boby[0] + '/model_values/data/' + params);
 
         axios.get(ASSETS + 'architect/extranet/' + boby + '/model_values/data/' + params)
             .then(function (response) {
@@ -147,76 +101,28 @@ class SearchField extends Component {
                     
                     console.log("SearchField : response data : ",response.data.modelValues);
 
+                    var data = response.data.modelValues;
+                    for(var key in data){
+                        data[key].value = data[key].label;
+                    }
+
+                    if(data.length > 0 ){
+                        data.unshift({
+                            label: self.getPlaceholder(),
+                            value: "",
+                        });
+                    }
+
+                    //console.log("SearchField : data : ",data);
+
+                    callback(data);
                 }
 
             }).catch(function (error) {
                 console.log(error);
-                
             });
+
     }
-
-    /*
-    loadData() {
-
-        var self = this;
-
-
-        this.setState({
-            loading: true,
-            data: [],
-            preloadData: []
-        }, function () {
-            axios.get(ASSETS + 'architect/elements/select/data/' + this.state.boby + "?" + this.processUrlParameters())
-                .then(function (response) {
-                    if (response.status == 200 && response.data.data !== undefined) {
-
-                        var display = false;
-
-                        console.log("SearchField : response data : ",response.data.data);
-
-                        if (response.data.data.length == 0) {
-                            //no data set this field as hidden, not needed
-                            self.setHidden();
-                        }
-                        else if (response.data.data.length == 1) {
-                            //only one value, selected it and hide
-                            self.setUniqueValue(response.data.data[0].value);
-                        }
-                        else {
-                            display = true;
-                        }
-
-                        //add first item with empty result, necessary to remove value
-                        response.data.data.unshift({
-                            name: self.getPlaceholder(),
-                            value: "",
-                            value_preload: null
-                        });
-
-                        self.setState({
-                            data: response.data.data,
-                            loading: false,
-                            display: display,
-                            preloadData: preloadData
-                        });
-                        
-
-                    }
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
-        });
-    }
-    
-
-    setHidden() {
-        this.props.onFieldChange({
-            name: this.props.field.identifier,
-            value: HIDDEN_FIELD
-        });
-    }
-    */
 
     cleanValue() {
         this.props.onFieldChange({
@@ -224,15 +130,6 @@ class SearchField extends Component {
             value: ''
         });
     }
-
-    /*
-    setUniqueValue(value) {
-        this.props.onFieldChange({
-            name: this.props.field.identifier,
-            value: value
-        });
-    }
-    */
 
     
     // ==============================
@@ -246,6 +143,7 @@ class SearchField extends Component {
     }
 
     handleFocus(e) {
+
         this.setState({
             addClassBordered: true
         });
@@ -253,12 +151,47 @@ class SearchField extends Component {
 
     handleOnChange(option) {
 
-        //console.log("SelectField :: handleOnChange :: option",(option));
+        console.log("SearchField :: handleOnChange :: option",(option));
 
-        this.props.onFieldChange({
-            name: this.props.field.identifier,
-            value: option.value
-        });
+        if(!this.hasPreload()){
+        
+            this.props.onFieldChange({
+                name: this.props.field.identifier,
+                value: option.value
+            });
+        }
+        else {
+            this.preloadValues(option);
+        }
+    }
+
+    hasPreload() {
+        return isDefined(this.props.field.settings.preload);
+    }
+
+    /**
+     * Process all preload settings to match from table values to form values.
+     * @param {*} option 
+     */
+    preloadValues(option){
+
+        var values = this.props.values;
+
+        values[this.props.field.identifier] = option.value;
+
+        var preloadKeys = JSON.parse(this.props.field.settings.preload);
+
+        for(var key in preloadKeys){
+            
+            if(isDefined(option[preloadKeys[key].value])){
+                values[preloadKeys[key].key] = option[preloadKeys[key].value];
+            }
+            else {
+                console.error("preload value is not defined in element, check indetifier ",reloadKeys[key].value,options);
+            }
+        }
+    
+        this.props.onMultipleFielChange(values);
     }
 
     getOption(value) {
@@ -341,9 +274,12 @@ class SearchField extends Component {
     render() {
         var placeholder = this.getPlaceholder();
         const { field } = this.props;
-        let defaultValue = this.state.loading ? 'Chargement...' : placeholder;
-        defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
-        defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
+
+        let defaultValue = placeholder;
+
+        //let defaultValue = this.state.loading ? 'Chargement...' : placeholder;
+        //defaultValue = this.state.waitingForParameters ? 'En attente de paramètres...' : defaultValue;
+        //defaultValue = this.state.parameters != null ? defaultValue : 'Paramètres insuffisants';
         //const errors = this.props.error ? ' has-error' : '';
         const display = this.state.display;
 
@@ -448,12 +384,6 @@ class SearchField extends Component {
                             onChange={this.handleOnChange.bind(this)}
                             styles={customStyles}
                             placeholder={defaultValue}
-                            /*
-                            filterOption={createFilter({ 
-                                ignoreAccents: false 
-                            })}
-                            */
-                            //width='200px'
                             menuContainerStyle={{ 'zIndex': 999 }}
                             theme={(theme) => ({
                                 ...theme,

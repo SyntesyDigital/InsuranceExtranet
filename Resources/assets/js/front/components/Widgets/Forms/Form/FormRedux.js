@@ -366,6 +366,30 @@ class FormComponent extends Component {
         });
     }
 
+    /**
+     * Function to update multiple fields same time, necessary to preload from search field.
+     * values directly update from field
+     * 
+     * @param {*} fields 
+     */
+    handleMultipleChange(values) {
+
+        var self = this;
+
+        if(this.state.timer !== undefined) {
+            clearTimeout(this.state.timer);
+        }
+        
+        this.setState({
+            values: values,
+            timer: setTimeout(() => { // Autosave
+                this.updateAutosave(values);
+            }, 1000)
+        }, function () {
+            
+        });
+
+    }
     
 
     handleStageChange(stage,validate) {
@@ -459,6 +483,7 @@ class FormComponent extends Component {
             value={this.state.values[field.identifier]}
             error={this.state.errors[field.identifier] !== undefined ? true : false}
             onFieldChange={this.handleOnChange}
+            onMultipleFielChange={this.handleMultipleChange.bind(this)}
             parameters={getUrlParameters(
                 this.props.parameters.formParameters
             )}
