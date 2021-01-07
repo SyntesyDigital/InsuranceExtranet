@@ -189,7 +189,7 @@ class ModelValuesFormatTransformer extends Resource
     private function getActionValue($elementField,$modelValue,$originalValue)
     {
         //if identifier is in array, then is dinamica action
-        $originalValue = array_key_exists($elementField->identifier, $modelValue)
+        $originalValue = is_key_in_array($elementField->identifier, $modelValue)
             ? $originalValue
             : 'action';
 

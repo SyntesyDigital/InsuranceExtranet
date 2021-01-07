@@ -64,7 +64,7 @@ trait FormFields
             $fieldClass = $entity->fieldModel;
             $relationKey = $entity->fieldKey;
 
-            if ($value && !array_key_exists($name, $entity->getFillable())) {
+            if ($value && !is_key_in_array($name, $entity->getFillable())) {
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
                         $fieldClass::create([
