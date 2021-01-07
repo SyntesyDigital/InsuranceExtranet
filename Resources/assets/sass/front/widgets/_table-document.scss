@@ -88,6 +88,14 @@
       border-bottom: none;
       padding-bottom: 0px;
     }
+    &.auto-height{
+      .item-container .file-infos {
+        height: auto;
+        overflow: hidden;
+        border-bottom: none;
+        padding-bottom: 0px;
+      }
+    }
   }
 
   

@@ -224,6 +224,7 @@
     $labelInputPadding = isset($storedStylesFront['labelInputPadding']) ? $storedStylesFront['labelInputPadding']->value.'px' : '0';
     $borderPxInputForm = isset($storedStylesFront['borderPxInputForm']) ? $storedStylesFront['borderPxInputForm']->value.'px' : '1px';
 
+    $heightInputForm = isset($storedStylesFront['heightInputForm']) ? $storedStylesFront['heightInputForm']->value.'px' : '34px';
     $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
     $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : $inputColor;
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
@@ -238,6 +239,19 @@
     $backgroundColorTooltipDescForm = isset($storedStylesFront['backgroundColorTooltipDescForm']) ? $storedStylesFront['backgroundColorTooltipDescForm']->value : $primaryColor;
     $colorTooltipDescForm = isset($storedStylesFront['colorTooltipDescForm']) ? $storedStylesFront['colorTooltipDescForm']->value : '#fff';
     $fontSizeTooltipDescForm = isset($storedStylesFront['fontSizeTooltipDescForm']) ? $storedStylesFront['fontSizeTooltipDescForm']->value.'px' : '16px';
+
+    //FILE SETTINGS
+    $fontSizeLabelElementFile = isset($storedStylesFront['fontSizeLabelElementFile']) ? $storedStylesFront['fontSizeLabelElementFile']->value.'px' : '14px';
+    $fontWeightLabelElementFile = isset($storedStylesFront['fontWeightLabelElementFile']) ? $storedStylesFront['fontWeightLabelElementFile']->value : '700';
+    $colorLabelElementFile = isset($storedStylesFront['colorLabelElementFile']) ? $storedStylesFront['colorLabelElementFile']->value : $bodyTextColor;
+    $lineHeightLabelElementFile = isset($storedStylesFront['lineHeightLabelElementFile']) ? $storedStylesFront['lineHeightLabelElementFile']->value.'px' : '25px';
+
+    $fontSizeValueElementFile = isset($storedStylesFront['fontSizeValueElementFile']) ? $storedStylesFront['fontSizeValueElementFile']->value.'px' : '14px';
+    $fontWeightValueElementFile = isset($storedStylesFront['fontWeightValueElementFile']) ? $storedStylesFront['fontWeightValueElementFile']->value : '400';
+    $colorValueElementFile = isset($storedStylesFront['colorValueElementFile']) ? $storedStylesFront['colorValueElementFile']->value : $bodyTextColor;
+    $lineHeightValueElementFile = isset($storedStylesFront['lineHeightValueElementFile']) ? $storedStylesFront['lineHeightValueElementFile']->value.'px' : '25px';
+
+
 
     //BOX-1
     $backgroundColorBox1 = isset($storedStylesFront['backgroundColorBox1']) ? $storedStylesFront['backgroundColorBox1']->value : 'transparent';
@@ -696,6 +710,7 @@
             iconSurfaceForm: '{{$iconSurfaceForm}}',
             iconState02Dropzone : '{{$iconState02Dropzone}}',
             textDropzone : '{!! $textDropzone !!}',
+            heightInputForm: '{{$heightInputForm}}',
         },
         elementFile: {
             backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',

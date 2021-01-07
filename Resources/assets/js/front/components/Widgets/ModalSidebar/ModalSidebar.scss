@@ -30,9 +30,9 @@
     }
 
     .col-1 {
+        padding: 10px 20px;
         &:not(:first-child),
         &:not(:last-child) {
-            padding: 10px 20px;
             border-top: 1px solid #e6e6e6;
             border-bottom: 1px solid #e6e6e6;
         }

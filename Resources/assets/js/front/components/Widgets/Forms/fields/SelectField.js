@@ -65,6 +65,8 @@ class SelectField extends Component {
      */
     processUrlParameters() {
         var parameters = this.state.parameters;
+        parameters = parameters.replace(/\[|\]|\./g,'');
+
         var bobyParametersURL = this.hasBobyParameters() ?
             getUrlParameters(this.state.bobyParameters) : '';
 
@@ -341,8 +343,8 @@ class SelectField extends Component {
         const customStyles = {
             control: (base) => ({
                 ...base,
-                height: 34,
-                minHeight: 34,
+                height: STYLES.elementForm.heightInputForm,
+                minHeight: STYLES.elementForm.heightInputForm,
                 boxShadow: '1 !important',
                 border: this.getBorderColor()
             }),
