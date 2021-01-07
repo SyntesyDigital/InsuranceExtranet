@@ -9,6 +9,26 @@
 <header>
 	<!-- CORPO i IDIOMES -->
 	<div class="row row-header">
+        {{-- <div class="right-part-header top-bar-page-container">
+            <div class="top-page-custom">
+                <svg class="icon creatic-ico_MRI">
+                    <use xlink:href="#creatic-ico_MRI"></use>
+                </svg>
+                <h3>Devis CNBO</h3>
+                <div class="links">
+                    <a href="#">
+                        <svg class="icon creatic-ico_enregistrer">
+                            <use xlink:href="#creatic-ico_enregistrer"></use>
+                        </svg>                    
+                    </a>
+                    <a href="#">
+                        <svg class="icon creatic-efface_saisie">
+                            <use xlink:href="#creatic-efface_saisie"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div> --}}
 		<div class="right-part-header {{isset($isLogin) ? 'login-header' : ''}}">
 			@if(null !== Auth::user())
 				<div class="menu-container">
@@ -117,6 +137,7 @@
 				if($('#sidebar').width() > 0){
 					$('#sidebar').addClass('collapsed');
                     $('.content-wrapper').addClass('collapsed');
+                    $('.top-bar-page-container').addClass('collapsed');
                     $('.user-info').addClass('collapsed');
 					$('.sidebar-text').fadeOut("fast");
 					$('.logo-container').addClass('collapsed');
@@ -126,6 +147,7 @@
 				if($('#sidebar').hasClass('collapsed')){
 					$('#sidebar').removeClass('collapsed');
                     $('.content-wrapper').removeClass('collapsed');
+                    $('.top-bar-page-container').removeClass('collapsed');
                     $('.user-info').removeClass('collapsed');
 					$('.sidebar-text').fadeIn();
 					$('.logo-container').removeClass('collapsed');
@@ -136,6 +158,7 @@
 				}else{
 					$('#sidebar').addClass('collapsed');
                     $('.content-wrapper').addClass('collapsed');
+                    $('.top-bar-page-container').addClass('collapsed');
                     $('.user-info').addClass('collapsed');
 					$('.sidebar-text').fadeOut("fast");
 					$('.logo-container').addClass('collapsed');
