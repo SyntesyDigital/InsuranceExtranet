@@ -224,6 +224,7 @@
     $labelInputPadding = isset($storedStylesFront['labelInputPadding']) ? $storedStylesFront['labelInputPadding']->value.'px' : '0';
     $borderPxInputForm = isset($storedStylesFront['borderPxInputForm']) ? $storedStylesFront['borderPxInputForm']->value.'px' : '1px';
 
+    $heightInputForm = isset($storedStylesFront['heightInputForm']) ? $storedStylesFront['heightInputForm']->value.'px' : '34px';
     $borderRadiusInput = isset($storedStylesFront['borderRadiusInput']) ? $storedStylesFront['borderRadiusInput']->value.'px' : '0';
     $borderColorInput = isset($storedStylesFront['borderColorInput']) ? $storedStylesFront['borderColorInput']->value : $inputColor;
     $hoverColorInput = isset($storedStylesFront['hoverColorInput']) ? $storedStylesFront['hoverColorInput']->value : $inputColor;
@@ -709,6 +710,7 @@
             iconSurfaceForm: '{{$iconSurfaceForm}}',
             iconState02Dropzone : '{{$iconState02Dropzone}}',
             textDropzone : '{!! $textDropzone !!}',
+            heightInputForm: '{{$heightInputForm}}',
         },
         elementFile: {
             backgroundColorTooltipDescFile: '{{$backgroundColorTooltipDescFile}}',
