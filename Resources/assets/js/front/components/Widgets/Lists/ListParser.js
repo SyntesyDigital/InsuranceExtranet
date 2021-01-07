@@ -25,6 +25,7 @@ export default class ListParser extends Component {
           && props.itemsPerPage != '' ? props.itemsPerPage : 4;
 
         const columns = props.columns  !== undefined ? props.columns : 'col-1';
+        const autoHeight = props.autoHeight  !== undefined ? props.autoHeight : false;
 
         var pageLimit = itemsPerPage;
 
@@ -33,6 +34,7 @@ export default class ListParser extends Component {
             elementObject : elementObject,
             data:[],
             columns:columns,
+            autoHeight:autoHeight,
             pagination : pagination,
             itemsPerPage : itemsPerPage,
             filters : [],
@@ -237,7 +239,7 @@ export default class ListParser extends Component {
        // console.log("TypologyPaginated => ",items[key]);
 
         result.push(
-          <div className={this.state.columns + ' ' + (this.props.identifier ? this.props.identifier : '')} key={key}>
+          <div className={this.state.columns + ' ' + (this.props.autoHeight ? 'auto-height' : '') + (this.props.identifier ? this.props.identifier : '')} key={key}>
             <div className="item-container">
                 {this.props.renderItem(data[key],this.state.elementObject,key)}
             </div>

@@ -129,6 +129,7 @@ export default class TableList extends Component {
                     columns={this.props.columns}
                     parameters={this.props.parameters}
                     renderItem={this.renderItem.bind(this)}
+                    autoHeight={this.props.autoHeight}
                 />
             </div>
 
@@ -146,6 +147,7 @@ if (document.getElementById('table-list')) {
         var itemsPerPage = element.getAttribute('itemsPerPage');
         var parameters = element.getAttribute('parameters');
         var columns = element.getAttribute('columns');
+        var autoHeight = element.getAttribute('autoHeight');
 
         ReactDOM.render(<TableList
             field={field}
@@ -153,6 +155,7 @@ if (document.getElementById('table-list')) {
             model={model}
             itemsPerPage={itemsPerPage}
             columns={columns}
+            autoHeight={autoHeight}
             parameters={parameters}
         />, element);
     });

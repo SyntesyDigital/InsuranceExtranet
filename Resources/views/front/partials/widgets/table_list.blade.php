@@ -20,6 +20,7 @@
   @slot('options')
     itemsPerPage="{{$field['settings']['itemsPerPage']}}"
     columns="{{$field['settings']['bootstrapColumns']}}"
+    autoHeight="{{isset($field['settings']['autoHeight'])?$field['settings']['autoHeight']:false}}"
   @endslot
 
 @endcomponent
