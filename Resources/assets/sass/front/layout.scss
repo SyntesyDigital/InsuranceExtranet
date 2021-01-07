@@ -121,31 +121,30 @@ header {
                         }
                     }
                     .top-page-custom {
-                        height: 90px;
                         margin-left: 275px;
                     }
                 }
                 .top-bar-page-container {
+                    padding: 15px 0px 15px 25px;
                     &.collapsed{
                         .top-bar-custom{
                             margin-left: 100px;
                         }
                     }
                     .creatic-ico_MRI {
-                        top: 20px;
+                        top: -5px;
                     }
                     .links {
                         width: 100px;
                         position: absolute;
                         right: 0;
-                        top: 20px;
+                        top: -3px;
                         a {
                             border-left: 1px solid #ccc;
                             display: table-cell;
                             width: 50px;
                             text-align: center;
                             &:last-child {
-                                border-right: 1px solid #ccc;
                                 width: 50px;
                                 text-align: center;
                                 svg {
@@ -156,7 +155,6 @@ header {
                             }
                         }
                     }
-                    height: 90px !important;
                     svg {
                         width: 40px;
                         height: 40px;
@@ -165,8 +163,8 @@ header {
                         display: inline-block;
                         margin: 0;
                         position: absolute;
-                        bottom: 32px;
                         left: 60px;
+                        top: 6px;
                     }
                 }
             }

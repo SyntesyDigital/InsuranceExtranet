@@ -8,8 +8,8 @@
 <!-- HEADER -->
 <header>
 	<!-- CORPO i IDIOMES -->
-	<div class="row row-header">
-        {{-- <div class="right-part-header top-bar-page-container">
+	{{-- <div class="row row-header">
+        <div class="right-part-header top-bar-page-container">
             <div class="top-page-custom">
                 <svg class="icon creatic-ico_MRI">
                     <use xlink:href="#creatic-ico_MRI"></use>
