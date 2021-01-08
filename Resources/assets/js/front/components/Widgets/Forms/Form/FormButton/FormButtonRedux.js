@@ -209,6 +209,8 @@ class FormButtonRedux extends Component {
 
     renderBoxButton() {
 
+        var icon = this.processIcon(this.props.field.fields, 3)
+
         return (
             <div className={
                 "box-button-root box-button-container " +
@@ -218,9 +220,9 @@ class FormButtonRedux extends Component {
                 <div className="wrap-box-button">
                     <div className="image-container">
                         <div className="wrap-icon">
-                            {this.props.field.fields[3].value != '' &&
+                            {icon &&
                                 <CustomIcon
-                                    icon={this.processIcon(this.props.field.fields, 3)}
+                                    icon={icon}
                                 />
                             }
                         </div>
@@ -236,6 +238,9 @@ class FormButtonRedux extends Component {
     }
 
     renderDocumentButton() {
+
+        var icon = this.processIcon(this.props.field.fields, 3)
+
         return (
             <div className={"document-button-container" +
                 (!this.props.parameters.formParametersLoaded ? 'disabled' : '') +
@@ -244,9 +249,9 @@ class FormButtonRedux extends Component {
                 <div className="wrap-box-button">
                     <div className="image-container">
                         <div className="wrap-icon">
-                            {this.props.field.fields[3].value != '' &&
+                            {icon &&
                                 <CustomIcon
-                                    icon={this.processIcon(this.props.field.fields, 3)}
+                                    icon={icon}
                                 />
                             }
                         </div>
@@ -266,6 +271,8 @@ class FormButtonRedux extends Component {
 
 
     renderTypeButton(type, loaded) {
+
+        var icon = this.processIcon(this.props.field.fields, 3)
 
         switch (type) {
 
@@ -292,9 +299,9 @@ class FormButtonRedux extends Component {
                                 (this.props.field.settings['buttonClass'] ? ' ' + this.props.field.settings['buttonClass'] : '')
                             }
                         >
-                            {this.props.field.fields[3].value != '' &&
+                            {icon &&
                                 <CustomIcon
-                                    icon={this.processIcon(this.props.field.fields, 3)}
+                                    icon={icon}
                                 />
                             }
                             &nbsp;{this.processText(this.props.field.fields, 0)}
