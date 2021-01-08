@@ -1,8 +1,9 @@
-
 @php
 	$storedStylesFront = \Cache::get('frontStyles');
 	$textContact = isset($storedStylesFront['footerContactText']) ? $storedStylesFront['footerContactText']->value : '';
 	$phone = isset($storedStylesFront['footerContactPhone']) ? $storedStylesFront['footerContactPhone']->value : '';
+	$footerContactRolesExcluded = isset($storedStylesFront['footerContactRolesExcluded']) && $storedStylesFront['footerContactRolesExcluded'] != ''?  explode(",",str_replace ( ' ','',$storedStylesFront['footerContactRolesExcluded']->value)) : [];
+	$hideFooterByRole = in_array(Auth::user()->veos_role,$footerContactRolesExcluded);
 @endphp
 <div id="sidebar" class="sidebar initial">
 	@if(isset(Auth::user()->id) && isset(Auth::user()->session_id))
@@ -10,7 +11,7 @@
 			["menu" => get_menu('sidebar')]
 		)
 	@endif
-    @if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true)
+    @if(isset($storedStylesFront['footerPosition']) && $storedStylesFront['footerPosition']->value == true && !$hideFooterByRole)
         <style>
             body .wrapper-menu{
                 margin-bottom: unset;
