@@ -87,6 +87,17 @@ class FormButtonRedux extends Component {
         return filenameArray[filenameArray.length - 1];
     }
 
+
+    processText(fields, key) {
+        return fields[key].value != null && fields[key].value[LOCALE] !== undefined ?
+            fields[key].value[LOCALE] : '';
+    }
+
+    processIcon(fields, key) {
+        return fields[key].value != null && fields[key].value !== undefined ?
+            fields[key].value : '';
+    }
+
     processFusionForm(parameters) {
 
         if (parameters['_fusionContent'] === undefined || parameters['_fusionContent'] == null
@@ -207,16 +218,45 @@ class FormButtonRedux extends Component {
                 <div className="wrap-box-button">
                     <div className="image-container">
                         <div className="wrap-icon">
-                            {this.props.field.fields[2].value != '' &&
+                            {this.props.field.fields[3].value != '' &&
                                 <CustomIcon
-                                    icon={this.props.field.fields[2].value}
+                                    icon={this.processIcon(this.props.field.fields, 3)}
                                 />
                             }
                         </div>
                     </div>
                     <div className="label-container">
                         <div>
-                            <p>{this.props.field.fields[0].value[LOCALE]}</p>
+                            <p>{this.processText(this.props.field.fields, 0)}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    renderDocumentButton() {
+        return (
+            <div className={"document-button-container" +
+                (!this.props.parameters.formParametersLoaded ? 'disabled' : '') +
+                (this.props.field.settings['buttonClass'] ? ' ' + this.props.field.settings['buttonClass'] : '')
+            }>
+                <div className="wrap-box-button">
+                    <div className="image-container">
+                        <div className="wrap-icon">
+                            {this.props.field.fields[3].value != '' &&
+                                <CustomIcon
+                                    icon={this.processIcon(this.props.field.fields, 3)}
+                                />
+                            }
+                        </div>
+                    </div>
+                    <div className="label-container">
+                        <div className="title-doc">
+                            <p>{this.processText(this.props.field.fields, 0)}</p>
+                        </div>
+                        <div className="subtitle-doc">
+                            <p>{this.processText(this.props.field.fields, 1)}</p>
                         </div>
                     </div>
                 </div>
@@ -234,6 +274,12 @@ class FormButtonRedux extends Component {
                     this.renderBoxButton()
                 );
 
+            case "document_button":
+                return (
+                    this.renderDocumentButton()
+                );
+
+
             case "simple_button":
                 return (
                     <div className="simple-button-container">
@@ -246,12 +292,12 @@ class FormButtonRedux extends Component {
                                 (this.props.field.settings['buttonClass'] ? ' ' + this.props.field.settings['buttonClass'] : '')
                             }
                         >
-                            {this.props.field.fields[2].value != '' &&
+                            {this.props.field.fields[3].value != '' &&
                                 <CustomIcon
-                                    icon={this.props.field.fields[2].value}
+                                    icon={this.processIcon(this.props.field.fields, 3)}
                                 />
                             }
-                            &nbsp;{this.props.field.fields[0].value[LOCALE]}
+                            &nbsp;{this.processText(this.props.field.fields, 0)}
                         </a>
                     </div>
                 );
@@ -265,6 +311,8 @@ class FormButtonRedux extends Component {
 
 
     render() {
+
+        console.log("this.props.field.fields", this.props.field.fields)
         return (
             <div>
                 {this.renderHiddenForm()}
