@@ -342,7 +342,7 @@ class FormComponent extends Component {
 
     handleOnChange(field) {
 
-        //console.log("FormComponent :: handleOnChange",field);
+        console.log("FormComponent :: handleOnChange",field);
 
         const { values } = this.state;
 
@@ -592,6 +592,7 @@ class FormComponent extends Component {
                         key={key}
                         field={node.field}
                         onStageChange={this.handleStageChange.bind(this)}
+                        onFieldChange={this.handleOnChange}
                         onSubmit={this.handleSubmit.bind(this, this.props.id)}
                         values={this.state.values}
                         formParameters={this.props.parameters.formParameters}
