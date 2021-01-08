@@ -20,7 +20,6 @@ $first = false;
 @section('content')
 @php
     $disableBreadcumb = json_decode($content->settings)->disableBreadcumb?json_decode($content->settings)->disableBreadcumb:false;
-
 @endphp
     @if (isset($content) && $content->parent_id != null && !$disableBreadcumb)
         <div class="single">
