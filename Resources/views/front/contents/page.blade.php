@@ -18,7 +18,10 @@ $first = false;
 ])
 
 @section('content')
-    @if (isset($content) && $content->parent_id != null)
+@php
+    $disableBreadcumb = isset(json_decode($content->settings)->disableBreadcumb) && json_decode($content->settings)->disableBreadcumb?json_decode($content->settings)->disableBreadcumb:false;
+@endphp
+    @if (isset($content) && $content->parent_id != null && !$disableBreadcumb)
         <div class="single">
             <div class="breadcrumb">
                 {{-- <div class="container"> --}}

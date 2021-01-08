@@ -623,6 +623,16 @@
 
     $textDropzone = isset($storedStylesFront['textDropzone']) ? $storedStylesFront['textDropzone']->value : 'Glisser et déposer un document ou <span> parcourir </span>';
 
+    // Fichier button
+    $colorTitleFichierButton = isset($storedStylesFront['colorTitleFichierButton']) ? $storedStylesFront['colorTitleFichierButton']->value : $primaryColor;
+    $colorSubTitleFichierButton = isset($storedStylesFront['colorSubTitleFichierButton']) ? $storedStylesFront['colorSubTitleFichierButton']->value : $secondaryColor;
+    $fontSizeTitleFichierButton = isset($storedStylesFront['fontSizeTitleFichierButton']) ? $storedStylesFront['fontSizeTitleFichierButton']->value.'px' : '16px';
+    $fontSizeSubTitleFichierButton = isset($storedStylesFront['fontSizeSubTitleFichierButton']) ? $storedStylesFront['fontSizeSubTitleFichierButton']->value.'px' : '16px';
+    $iconFichierButton = isset($storedStylesFront['iconFichierButton']) ? $storedStylesFront['iconFichierButton']->value : 'fas fa-download';
+    $fontSizeIconFichierButton = isset($storedStylesFront['fontSizeIconFichierButton']) ? $storedStylesFront['fontSizeIconFichierButton']->value.'px' : '16px';
+    $subtitleFichierButton = isset($storedStylesFront['subtitleFichierButton']) ? $storedStylesFront['subtitleFichierButton']->value : 'Pdf';
+    $heightBackgroundFichierButton = isset($storedStylesFront['heightBackgroundFichierButton']) ? $storedStylesFront['heightBackgroundFichierButton']->value.'px' : 'auto';
+
 ?>
 
 <style type="text/css">
@@ -663,6 +673,7 @@
 @include('extranet::front.partials.styles.number-field')
 @include('extranet::front.partials.styles.breadcrumbs')
 @include('extranet::front.partials.styles.dropzone')
+@include('extranet::front.partials.styles.file-field')
 
 
 
@@ -724,6 +735,10 @@
             backgroundColorActiveTab: '{{$backgroundColorActiveTab}}',
             backgroundColorTab: '{{$backgroundColorTab}}'
         },
+        fields:{
+            iconFichierButton: '{{$iconFichierButton}}',
+            subtitleFichierButton: '{{$subtitleFichierButton}}',
+        }
     };
 
     var ICONS = {

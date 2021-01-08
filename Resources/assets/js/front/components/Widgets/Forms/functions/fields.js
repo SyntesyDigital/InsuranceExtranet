@@ -19,6 +19,7 @@ import HtmlField from './../fields/HtmlField';
 import SelectSearchField from './../fields/SelectSearchField';
 import SearchField from './../fields/SearchField';
 
+import RangeField from './../fields/RangeField';
 
 import {
   HIDDEN_FIELD,
@@ -53,7 +54,9 @@ const fieldComponents = {
     immat : ImmatField,
     html : HtmlField,
     selectSearch : SelectSearchField,
-    search : SearchField
+    search : SearchField,
+    range : RangeField
+
 };
 
 export function getFieldComponent(type) {
