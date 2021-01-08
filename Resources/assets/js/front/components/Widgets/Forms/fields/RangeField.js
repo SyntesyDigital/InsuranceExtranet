@@ -34,11 +34,31 @@ export default class RangeField extends Component {
         };
     }
 
+    getNumberFromRules(key) {
+        const { rules } = this.props.field;
+
+        if (rules[key] !== undefined && rules[key] != null && rules[key] != '') {
+            return rules[key];
+        }
+
+        return '';
+    }
+
+    getMinValue() {
+        var min = parseInt(this.getNumberFromRules('minNumber'));
+        return min;
+    }
+
+    getMaxValue() {
+        var max = parseInt(this.getNumberFromRules('maxNumber'));
+        return max;
+    }
+
     render() {
-        
+
         const rangeLabels = {
-            0: this.props.minValue + '€',
-            1000: this.props.maxValue + '€'
+            0: this.getMinValue() + '€',
+            1000: this.getMaxValue() + '€'
         }
 
         const { field } = this.props;
@@ -90,8 +110,8 @@ export default class RangeField extends Component {
                         </div>
                         <div className={colClassInput}>
                             <Slider
-                                min={this.props.minValue}
-                                max={this.props.maxValue}
+                                min={this.getMinValue()}
+                                max={this.getMaxValue()}
                                 value={this.props.value}
                                 labels={rangeLabels}
                                 handleLabel={this.props.value + '€'}

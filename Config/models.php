@@ -402,6 +402,8 @@ return [
         'formats' => [],
         'rules' => [
           'required',
+          'maxNumber',
+          'minNumber',
         ],
         'settings' => [
           'description',
