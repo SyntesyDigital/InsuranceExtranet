@@ -24,7 +24,9 @@ class Link extends Field implements FieldInterface
       'htmlId',
       'htmlClass',
       'buttonType',
-      'stageOperation'
+      'stageOperation',
+      'fieldOperation',
+      'icon'
     ];
 
     public function validate($request)

@@ -39,6 +39,8 @@ import HiddenFilter from './Settings/HiddenFilter';
 import VisibilitySettingsField from './Settings/Visibility/VisibilitySettingsField';
 
 import ModalEditListItem from './ModalEditListItem';
+import IconSettingsField from '../Settings/IconSettingsField';
+import FieldOperationSettingsField from './Settings/FieldOperation/FieldOperationSettingsField';
 
 class ModalEditItem extends Component {
 
@@ -499,6 +501,7 @@ class ModalEditItem extends Component {
 
     //console.log("ModalEditItem :: renderSettings!", this.state.field);
     const data = this.state.field != null ? this.state.field.data : null;
+    const field = this.state.field;
 
     return (
       <div>
@@ -608,6 +611,15 @@ class ModalEditItem extends Component {
             inputLabel="Indiquer la description"
         />
 
+        <IconSettingsField
+            field={this.state.field}
+            name="icon"
+            source="settings"
+            onFieldChange={this.handleFieldSettingsChange.bind(this)}
+            label="Icone"
+            inputLabel="Indiquer l'icone"
+        />
+
         <SelectorSettingsField
           field={this.state.field}
           name="buttonType"
@@ -630,6 +642,10 @@ class ModalEditItem extends Component {
             {
               value: "btn-submit",
               name: "Terminer",
+            },
+            {
+              value: "btn-action",
+              name: "Action",
             }
           ]}
         />
@@ -642,6 +658,18 @@ class ModalEditItem extends Component {
           label="Étape"
           inputLabel="Valeur ou opération"
         />
+
+        {field != null && field.settings != null && field.settings.fieldOperation !== undefined &&
+          <FieldOperationSettingsField
+            field={field}
+            name="fieldOperation"
+            source="settings"
+            onFieldChange={this.handleFieldSettingsChange.bind(this)}
+            label="Action"
+            inputLabel="Valeur ou opération"
+            fields={this.props.fields}
+          />
+        }
 
       </div>
     );
