@@ -1,0 +1,38 @@
+body {
+	.element-form-button {
+		.document-button-container {
+			.wrap-box-button {
+				grid-template-columns: 50px auto;
+				min-width: 0;
+				display: grid;
+                align-self: stretch;
+                .label-container{
+                    background-color: transparent;
+                }
+                .image-container{
+                    background-color: transparent;
+                }
+				.wrap-icon {
+					height: 100%;
+					width: 100%;
+				}
+				svg {
+					width: 50px;
+					height: 50px;
+					padding: 5px;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+				.title-doc {
+                    margin-top: 10px;
+                    font-size: 16px
+				}
+				.subtitle-doc {
+                    color: #6a8da0;
+                    font-size: 16px
+				}
+			}
+		}
+	}
+}
