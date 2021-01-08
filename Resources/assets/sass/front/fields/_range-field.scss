@@ -1,7 +1,5 @@
 .range-field{
-    margin-top: 40px;
     .container-range{
-        margin-bottom: 35px;
         &.hidden-label-left{
             li.rangeslider__label-item:nth-child(1){
                 display: none;
@@ -40,6 +38,7 @@
             .rangeslider__handle{
                 user-select: none;
                 box-shadow: none !important;
+                outline: none;
                 &:after{
                     box-shadow: none !important;
                 }
