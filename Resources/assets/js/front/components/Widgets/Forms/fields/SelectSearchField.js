@@ -458,7 +458,7 @@ class SelectSearchField extends Component {
             );
         };
 
-        console.log("optionIndex : ",optionIndex);
+        //console.log("optionIndex : ",optionIndex);
 
         //if url not defined button is not enabled
         const linkDisabled = this.state.modalUrl == null || this.state.displayModal || optionIndex != null;

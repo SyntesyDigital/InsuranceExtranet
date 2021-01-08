@@ -342,7 +342,7 @@ class FormComponent extends Component {
 
     handleOnChange(field) {
 
-        console.log("FormComponent :: handleOnChange",field);
+        //console.log("FormComponent :: handleOnChange",field);
 
         const { values } = this.state;
 

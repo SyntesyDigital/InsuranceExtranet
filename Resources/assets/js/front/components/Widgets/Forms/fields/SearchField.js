@@ -347,7 +347,7 @@ class SearchField extends Component {
             );
         };
 
-        console.log("optionIndex : ",optionIndex);
+        //console.log("optionIndex : ",optionIndex);
 
         //console.log("SelectField :: value : (options,optionsIndex,this.props.value)",options,optionIndex,this.props.value);
         return (
