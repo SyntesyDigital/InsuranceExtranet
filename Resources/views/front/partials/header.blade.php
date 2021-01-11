@@ -4,7 +4,7 @@
     $locationBtn = isset($config['LOCALITATION_BTN']) && $config['LOCALITATION_BTN']->value === true ? true : false;
     $notifyBtn = isset($config['NOTIFICATION_BTN']) && $config['NOTIFICATION_BTN']->value === true;
 
-    $topBar = isset(json_decode($content->settings)->topBar) && json_decode($content->settings)->topBar?json_decode($content->settings)->topBar:false;
+    $topBar =isset($content) && isset(json_decode($content->settings)->topBar) && json_decode($content->settings)->topBar?json_decode($content->settings)->topBar:false;
 @endphp
 
 <!-- HEADER -->
