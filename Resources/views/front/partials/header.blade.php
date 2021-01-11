@@ -20,16 +20,16 @@
                             <use xlink:href="#{{ $icon or '' }}"></use>
                         </svg>
                     @elseif(is_font_awesome_enable())
-                        <i class="{{ $icon or '' }}"></i>
+                        <i class="{{ $icon or '' }} bar-icon-fontawesome"></i>
                     @endif
                     <h3>{{$topBar->title}}</h3>
                     <div class="links">
-                        <a href="#">
+                        <a href="#" class="no-linkable">
                             <svg class="icon creatic-ico_enregistrer">
                                 <use xlink:href="#creatic-ico_enregistrer"></use>
                             </svg>                    
                         </a>
-                        <a href="#">
+                        <a href="/">
                             <svg class="icon creatic-efface_saisie">
                                 <use xlink:href="#creatic-efface_saisie"></use>
                             </svg>

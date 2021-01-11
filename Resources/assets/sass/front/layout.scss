@@ -122,6 +122,15 @@ header {
                     }
                     .top-page-custom {
                         margin-left: 275px;
+                        .bar-icon-fontawesome{
+                            font-size: 25px;
+                            padding-top: 5px;
+                            padding-left: 5px;
+                        }
+                        .no-linkable{
+                            pointer-events : none;
+                            cursor:default;
+                        }
                     }
                 }
                 .top-bar-page-container {
