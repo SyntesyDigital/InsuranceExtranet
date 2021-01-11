@@ -74,6 +74,51 @@ class NumberField extends Component {
         return null;
     }
 
+    fieldHasNumberSettings() {
+        
+        const { field } = this.props;
+
+        var numberSettings = null;
+
+        if (field.settings !== undefined && field.settings.format !== undefined) {
+
+            switch (field.settings.format) {
+                case 'price':
+
+                    numberSettings = {
+                        decimalSeparator : ' ',
+                        thousandSeparator : ',',
+                        decimals : 0
+                    }
+                    break;
+                case 'price_with_decimals':
+                    numberSettings = {
+                        decimalSeparator : '.',
+                        thousandSeparator : ',',
+                        decimals : 2
+                    }
+                    break;
+                case 'price_with_decimals_2':
+                    numberSettings = {
+                        decimalSeparator : ',',
+                        thousandSeparator : ' ',
+                        decimals : 2
+                    }
+                    break;
+                case 'surface':
+                    numberSettings = null;
+                    break;
+                default: 
+                    numberSettings = null;
+                    break;
+            }
+
+        }
+
+        return numberSettings;
+
+    }
+
     processOperation(prevProps) {
 
         var max = this.getMaxValue();
@@ -287,7 +332,10 @@ class NumberField extends Component {
         var formatClass = field.settings.format ? field.settings.format
             : '';
 
+        
+
         const currency = this.fieldHasCurrencySettings();
+        const formatNumber = this.fieldHasNumberSettings();
 
         /*
         if(field.identifier == 'primeNet'){
@@ -327,22 +375,44 @@ class NumberField extends Component {
                         }
                     </div>
                     <div className={colClassInput + ' ' + formatClass}>
-                        {!currency &&
-                            <React.Fragment>
-                                <input
-                                    type="number"
-                                    name={field.identifier}
-                                    className={"form-control numberfield " + (textFieldClass.join(' '))}
-                                    value={this.props.value}
-                                    max={this.getNumberFromRules('maxNumber')}
-                                    min={this.getNumberFromRules('minNumber')}
-                                    onChange={this.handleOnChange.bind(this)}
-                                    onBlur={this.handleBlur.bind(this)}
-                                    onFocus={this.handleFocus.bind(this)}
-                                    placeholder={this.getPlaceholder()}
-                                    readOnly={this.isReadOnly()}
-                                />
-                                {field.settings !== undefined && field.settings.format !== undefined && field.settings.format !== null &&
+                        {!currency && field.settings !== undefined && (field.settings.format == undefined || field.settings.format == null ) &&
+                                    <React.Fragment>
+    
+                                        <input
+                                                type="number"
+                                                name={field.identifier}
+                                                className={"form-control numberfield " + (textFieldClass.join(' '))}
+                                                value={this.props.value}
+                                                max={this.getNumberFromRules('maxNumber')}
+                                                min={this.getNumberFromRules('minNumber')}
+                                                onChange={this.handleOnChange.bind(this)}
+                                                onBlur={this.handleBlur.bind(this)}
+                                                onFocus={this.handleFocus.bind(this)}
+                                                placeholder={this.getPlaceholder()}
+                                                readOnly={this.isReadOnly()}
+                                            />
+                                    </React.Fragment>
+                                }
+                        {!currency && field.settings !== undefined && field.settings.format !== undefined && field.settings.format !== null &&
+
+                                <React.Fragment>
+                                    <React.Fragment>
+                                    <NumberFormat
+                                        value={this.props.value}
+                                        name={field.identifier}
+                                        className={"form-control numberfield " + (textFieldClass.join(' '))}
+                                        max={this.getNumberFromRules('maxNumber')}
+                                        min={this.getNumberFromRules('minNumber')}
+                                        onValueChange={this.handleNumberFormatChange.bind(this)}
+                                        onBlur={this.handleBlur.bind(this)}
+                                        placeholder={this.getPlaceholder()}
+                                        readOnly={this.isReadOnly()}
+                                        decimalScale={formatNumber !== null ?formatNumber.decimals:0}
+                                        decimalSeparator={formatNumber !== null?formatNumber.decimalSeparator:false}
+                                        thousandSeparator={formatNumber !== null?formatNumber.thousandSeparator:null}
+                                    />
+                                    </React.Fragment>
+
                                     <React.Fragment>
                                         <div className={'container-custom-icon numberfield'}>
                                             <span class="indicatorSeparator"></span>
@@ -351,9 +421,9 @@ class NumberField extends Component {
                                             />
                                         </div>
                                     </React.Fragment>
-                                }
-                            </React.Fragment>
-                        }
+                                </React.Fragment>
+                            }
+                            
                         {currency &&
                             <React.Fragment>
                                 <NumberFormat
