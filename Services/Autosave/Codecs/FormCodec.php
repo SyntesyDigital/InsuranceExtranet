@@ -4,6 +4,7 @@ namespace Modules\Extranet\Services\Autosave\Codecs;
 
 use Auth;
 use Modules\Extranet\Services\Autosave\Codecs\CodecInterface;
+use Carbon\Carbon;
 
 class FormCodec implements CodecInterface
 {
@@ -22,7 +23,7 @@ class FormCodec implements CodecInterface
             "NOM_PARAM" => 'BASKET',
             "VALEUR01" => strval(Auth::user()->id), // IDPER
             //"VALEUR02" => date('Y-m-d H:i:s'), // Date
-            "VALEUR02" => time() . "",
+            "VALEUR02" => (string) Carbon::now()->timestamp,
             "VALEUR03" => $payload['url'], // URL
             "VALEUR04" => isset($payload['status']) ? $payload['status'] : 'IN_PROGRESS', // Status
             "VALEUR05" => strval($payload['stage']), // Stage
