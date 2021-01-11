@@ -164,7 +164,7 @@ class FormComponent extends Component {
                 this.setState({
                     autosave: key,
                     values: response.values != null ? response.values : this.state.values,
-                    autosaveLoaded : true
+                    autosaveLoaded: true
                 },function() {
                     //update current stage and dispatch events
                     self.handleStageChange(currentStage,true);
@@ -205,8 +205,8 @@ class FormComponent extends Component {
             payload: {
                 key: this.state.autosave,
                 url: '/' + window.location.href.replace(/^(?:\/\/|[^/]+)*\//, ''),
-                stage: this.state.hasStages ? 
-                    this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
+                stage: this.state.hasStages 
+                    ? this.state.currentStage + ' ' + Object.keys(this.state.fieldsByStage).length
                     : '',
                 values: values
             }
