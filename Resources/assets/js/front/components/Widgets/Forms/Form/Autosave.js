@@ -1,7 +1,13 @@
 class Autosave {
 
+    constructor() {
+        this.saving = false;
+    }
+
     save(query) {
-        return this.query(query.payload.key ? 'update' : 'create', query);
+        return this.saving === false 
+            ? this.query(query.payload.key ? 'update' : 'create', query)
+            : false;
     }
 
     create(query) {
@@ -21,8 +27,12 @@ class Autosave {
     }
 
     query(action, query) {
+        this.saving = true;
+
         return axios.post(ASSETS + 'autosave/' + action, query)
             .then(response => {
+                this.saving = false;
+
                 return response.data.success 
                     ? response.data.data
                     : false;
