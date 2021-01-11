@@ -9,8 +9,6 @@
     body .breadcrumb .container-breadcrumb a:hover{
         color: {{$colorHoverBreadcrumb}};
     }
-    body[class*="template-accueil-portefeuille-contrats-fiche"] .breadcrumb{
-        display: none;
-    }
+    
 </style>
 
