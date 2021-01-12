@@ -204,11 +204,11 @@
     @endif
 
 
-    body .element-form .rangeslider__handle{
+    body .rangeslider__handle{
       z-index:10;
     }
 
-    body .element-form .rangeslider__handle .rangeslider__handle-label{
+    body .rangeslider__handle .rangeslider__handle-label{
       background-color:{{$elementBackground}};
       padding:0 5px;
     }
