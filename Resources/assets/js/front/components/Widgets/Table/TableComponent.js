@@ -335,7 +335,7 @@ export default class TableComponent extends Component {
                 </div>
         }
         else {
-            return <div className={''}>
+            return <div className={(textAlign)}>
                     <a href={url}
                         className={(textAlign)}
                         style={style}
