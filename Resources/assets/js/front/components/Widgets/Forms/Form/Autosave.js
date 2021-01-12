@@ -7,7 +7,7 @@ class Autosave {
     save(query) {
         return this.saving === false 
             ? this.query(query.payload.key ? 'update' : 'create', query)
-            : false;
+            : new Promise();
     }
 
     create(query) {
