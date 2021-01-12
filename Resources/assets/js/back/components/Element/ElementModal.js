@@ -143,6 +143,13 @@ class ElementModal extends Component {
             }
         ];
     }
+    getRelatedFieldsOptionsOptions(){
+
+        return this.props.app.fieldsList.map((item, index) => {
+            return { value:  item['identifier'], name: item['name']};
+        });
+    }
+    
 
     render() {
 
@@ -349,6 +356,7 @@ class ElementModal extends Component {
                                             onFieldChange={this.handleFieldSettingsChange}
                                         />
                                     }
+                                    
 
                                     {field != null && field.settings != null && field.settings.conditionalFormatting !== undefined &&
                                         <ConditionalFormattingSettingsField
@@ -595,7 +603,17 @@ class ElementModal extends Component {
                                         />
                                     }
 
-                                       
+
+                                        <SelectorSettingsField
+                                            field={field}
+                                            name="tooltipRelatedField"
+                                            source="settings"
+                                            onFieldChange={this.handleFieldSettingsChange}
+                                            label="Informations de champ associées"
+                                            options={this.getRelatedFieldsOptionsOptions()}
+                                        />
+
+
                                        
                                     
 

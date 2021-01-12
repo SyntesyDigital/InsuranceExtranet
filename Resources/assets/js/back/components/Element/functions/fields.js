@@ -42,6 +42,7 @@ export const SETTINGS_AVOID = {
   'hidelabel' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'labelInline' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
   'integer' : [TABLE_V1,FILE_V1,TABLE_V2,FILE_V2],
+  'tooltipRelatedField' : [FILE_V1,FILE_V2,FORM_V1,FORM_V2],
 };
 
 /*

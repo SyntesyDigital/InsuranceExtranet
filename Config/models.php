@@ -37,6 +37,7 @@ return [
           'placeholder',
           'hidelabel',
           'labelInline',
+          'tooltipRelatedField',
         ],
       ],
       'number' => [
@@ -77,6 +78,7 @@ return [
           'labelInline',
           'placeholder',
           'integer',
+          'tooltipRelatedField',
         ],
       ],
       'date' => [
@@ -114,6 +116,7 @@ return [
           'hidelabel',
           'labelInline',
           'placeholder',
+          'tooltipRelatedField',
         ],
       ],
       'select' => [
@@ -185,7 +188,7 @@ return [
           'hidelabel',
           'labelInline',
           'placeholder',
-          'preload'
+          'preload',
         ],
       ],
       'radio' => [

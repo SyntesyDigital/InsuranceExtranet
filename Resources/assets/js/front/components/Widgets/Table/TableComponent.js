@@ -4,6 +4,19 @@ import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
 import ExportButton from './ExportButton';
 import TableActions from './TableActions';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@material-ui/core/styles';
+
+const HtmlTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: STYLES.elementForm.backgroundColorTooltipDescForm,
+        color: STYLES.elementForm.colorTooltipDescForm,
+        maxWidth: 220,
+        fontSize: STYLES.elementForm.fontSizeTooltipDescForm,
+        borderRadius: 0,
+        padding: '5px',
+    },
+}))(Tooltip);
 
 import {
     parseNumber,
@@ -15,6 +28,7 @@ import {
     hasConditionalIcon,
     hasRoute,
     hasModal,
+    hasTooltipInformation,
     cleanIdentifier,
     isGrouped
 } from '../functions';
@@ -357,6 +371,48 @@ export default class TableComponent extends Component {
         }
     }
 
+    renderTootltipInformation(hasIcon,hasColor, textAlign,value,tooltipInfo,icon,style) {
+
+        if(hasIcon){
+            return <HtmlTooltip
+                    title={
+                        <span className={'content-desc'}>
+                            {tooltipInfo ? tooltipInfo : ''}
+                        </span>
+                    }
+                    placement="bottom"
+                >
+                    <div className={('has-icon')}>
+                        <div
+                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                            style={style}
+                        >
+                            <i className={icon.icon}></i> &nbsp;
+                            {value}
+                        </div>
+                    </div>
+                </HtmlTooltip>
+        }
+        else {
+            return <HtmlTooltip
+                    title={
+                        <span className={'content-desc'}>
+                            {tooltipInfo ? tooltipInfo : ''}
+                        </span>
+                    }
+                    placement="bottom"
+                >
+                <div className={''}>
+                        <div
+                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                            style={style}
+                            dangerouslySetInnerHTML={{ __html: value }}
+                        />
+                    </div>
+                </HtmlTooltip>
+        }
+    }
+
     renderCell(field, identifier, row) {
 
         var value = row.original[identifier];
@@ -404,6 +460,17 @@ export default class TableComponent extends Component {
                 textAlign,
                 row.original[identifier],
                 row.original[identifier + "_url"],
+                icon,
+                style
+            );
+        }
+        else if(hasTooltipInformation(field)){
+            return this.renderTootltipInformation(
+                hasIcon,
+                hasColor,
+                textAlign,
+                row.original[identifier],
+                row.original[identifier + "_tooltipInfo"],
                 icon,
                 style
             );
@@ -578,6 +645,13 @@ export default class TableComponent extends Component {
                     data[key][newSubkey + '_url'] = valueArray[1];
                     dataValue = valueArray[0];
                 }
+
+                if (typeof dataValue === 'string' && dataValue.indexOf('|tooltipInfo|') != -1) {
+                    var valueArray = dataValue.split('|tooltipInfo|');
+                    data[key][newSubkey + '_tooltipInfo'] = valueArray[1];
+                    dataValue = valueArray[0];
+                }
+                
 
                 data[key][newSubkey] = dataValue;
             }

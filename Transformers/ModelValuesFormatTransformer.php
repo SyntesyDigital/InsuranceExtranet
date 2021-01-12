@@ -166,45 +166,44 @@ class ModelValuesFormatTransformer extends Resource
         return $url;
     }
 
-    private function processUrlParams($url,$parameters,$modelValue) 
+    private function processUrlParams($url, $parameters, $modelValue)
     {
         //if stored url has parameters delete them
-        $url = explode('?',$url);
+        $url = explode('?', $url);
         $url = $url[0];
 
-        if(!isset($parameters) || $parameters == "")
+        if (!isset($parameters) || $parameters == '') {
             return $url;
+        }
 
         //dd($url,$parameters,$modelValue);
 
         $url .= '?'.$parameters;
 
-        foreach($modelValue as $key => $value) {
-            $url = str_replace('_'.$key,$value,$url);
+        foreach ($modelValue as $key => $value) {
+            $url = str_replace('_'.$key, $value, $url);
         }
 
         return $url;
     }
 
-    private function getActionValue($elementField,$modelValue,$originalValue)
+    private function getActionValue($elementField, $modelValue, $originalValue)
     {
         //if identifier is in array, then is dinamica action
         $originalValue = is_key_in_array($elementField->identifier, $modelValue)
             ? $originalValue
             : 'action';
 
-        if(!isset($originalValue) || $originalValue === ""){
+        if (!isset($originalValue) || $originalValue === '') {
             return $originalValue;
         }
 
-        if(isset($elementField->settings['isFile']) && $elementField->settings['isFile']) {
+        if (isset($elementField->settings['isFile']) && $elementField->settings['isFile']) {
             $originalValue = route('document.show', $originalValue);
-        }
-        elseif(isset($elementField->settings['isFileWSFusion']) && $elementField->settings['isFileWSFusion']) {
+        } elseif (isset($elementField->settings['isFileWSFusion']) && $elementField->settings['isFileWSFusion']) {
             $originalValue = route('document.show-ws-fusion', $originalValue);
-        }
-        elseif(isset($elementField->settings['isUrl']) && $elementField->settings['isUrl']) {
-            if(isset($modelValue->{$elementField->settings['isUrl']['url']})){
+        } elseif (isset($elementField->settings['isUrl']) && $elementField->settings['isUrl']) {
+            if (isset($modelValue->{$elementField->settings['isUrl']['url']})) {
                 $originalValue = $modelValue->{$elementField->settings['isUrl']['url']};
                 $originalValue = $this->processUrlParams(
                     $originalValue,
@@ -234,7 +233,7 @@ class ModelValuesFormatTransformer extends Resource
                             case 'action':
 
                                 if (!$this->isCsv) {
-                                    $result[$i][$elementField->identifier] = $this->getActionValue($elementField,$modelValue,$originalValue);
+                                    $result[$i][$elementField->identifier] = $this->getActionValue($elementField, $modelValue, $originalValue);
                                 }
 
                                 break;
@@ -358,6 +357,12 @@ class ModelValuesFormatTransformer extends Resource
                             //get link with format [value];[id]?[params]:[redirect_url]
                             $result[$i][$elementField->identifier] =
                                     $result[$i][$elementField->identifier].';'.$link.':'.$redirect;
+                        } elseif (isset($elementField->settings) &&
+                                    isset($elementField->settings['tooltipRelatedField']) && $elementField->settings['tooltipRelatedField'] != null
+                            ) {
+                            $tooltipInformation = $modelValue->{$elementField->settings['tooltipRelatedField']};
+
+                            $result[$i][$elementField->identifier] = isset($tooltipInformation) ? $result[$i][$elementField->identifier].'|tooltipInfo|'.$tooltipInformation : $result[$i][$elementField->identifier];
                         }
                     }
                 }

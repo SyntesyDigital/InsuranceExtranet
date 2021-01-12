@@ -303,6 +303,10 @@ export function hasModal(field) {
   return field.settings.hasModal !== undefined && field.settings.hasModal != null;
 }
 
+export function hasTooltipInformation(field) {
+  return field.settings.tooltipRelatedField !== undefined && field.settings.tooltipRelatedField != null;
+}
+
 export function cleanIdentifier(identifier) {
   identifier = identifier.replace('.', '');
   return identifier;
