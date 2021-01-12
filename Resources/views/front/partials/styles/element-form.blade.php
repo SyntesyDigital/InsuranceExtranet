@@ -50,6 +50,15 @@
       border-bottom-right-radius: {{$buttonRadius}};
     
     }
+
+    .element-form-container .element-form{
+      background-color:{{$elementBackground}};
+      color:{{$elementColor}};
+      border-bottom-left-radius: {{$buttonRadius}};
+      border-bottom-right-radius: {{$buttonRadius}};
+    
+    }
+
     .element-form-container .element-form-container-body.collapse .element-form{
       border-top-left-radius: 0;
       border-top-right-radius: 0;
@@ -195,7 +204,14 @@
     @endif
 
 
- 
+    body .element-form .rangeslider__handle{
+      z-index:10;
+    }
+
+    body .element-form .rangeslider__handle .rangeslider__handle-label{
+      background-color:{{$elementBackground}};
+      padding:0 5px;
+    }
     
     </style>
     

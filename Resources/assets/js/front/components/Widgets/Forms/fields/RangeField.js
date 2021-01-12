@@ -18,20 +18,6 @@ export default class RangeField extends Component {
             name: this.props.field.identifier,
             value: value
         });
-
-        if (value <= (this.props.minValue + 20)) {
-            this.setState({
-                active: 'hidden-label-right'
-            });
-        } else if ((value >= (this.props.maxValue - 20))) {
-            this.setState({
-                active: 'hidden-label-left'
-            });
-        } else {
-            this.setState({
-                active: ''
-            });
-        };
     }
 
     getNumberFromRules(key) {
@@ -55,11 +41,12 @@ export default class RangeField extends Component {
     }
 
     render() {
-
-        const rangeLabels = {
-            0: this.getMinValue() + '€',
-            1000: this.getMaxValue() + '€'
-        }
+        
+        const rangeLabels = {};
+        var min = this.getMinValue();
+        rangeLabels[min] = min  + '€';
+        var max = this.getMaxValue();
+        rangeLabels[max] = max  + '€';
 
         const { field } = this.props;
 
@@ -112,9 +99,9 @@ export default class RangeField extends Component {
                             <Slider
                                 min={this.getMinValue()}
                                 max={this.getMaxValue()}
-                                value={this.props.value}
+                                value={this.props.value && this.props.value != ''?this.props.value:min}
                                 labels={rangeLabels}
-                                handleLabel={this.props.value + '€'}
+                                handleLabel={(this.props.value && this.props.value != ''?this.props.value:min) + '€'}
                                 onChange={this.handleChange.bind(this)}
                             />
                         </div>
