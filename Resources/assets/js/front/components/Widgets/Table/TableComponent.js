@@ -372,45 +372,49 @@ export default class TableComponent extends Component {
     }
 
     renderTootltipInformation(hasIcon,hasColor, textAlign,value,tooltipInfo,icon,style) {
-
-        if(hasIcon){
-            return <HtmlTooltip
-                    title={
-                        <span className={'content-desc'}>
-                            {tooltipInfo ? tooltipInfo : ''}
-                        </span>
-                    }
-                    placement="bottom"
-                >
-                    <div className={('has-icon')}>
-                        <div
-                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
-                            style={style}
-                        >
-                            <i className={icon.icon}></i> &nbsp;
-                            {value}
+        if(tooltipInfo && tooltipInfo != ''){
+            if(hasIcon){
+                return <HtmlTooltip
+                        title={
+                            <span className={'content-desc'}>
+                                {tooltipInfo ? tooltipInfo : ''}
+                            </span>
+                        }
+                        placement="bottom"
+                    >
+                        <div className={('has-icon')}>
+                            <div
+                                className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                                style={style}
+                            >
+                                <i className={icon.icon}></i> &nbsp;
+                                {value}
+                            </div>
                         </div>
-                    </div>
-                </HtmlTooltip>
+                    </HtmlTooltip>
+            }
+            else {
+                return <HtmlTooltip
+                        title={
+                            <span className={'content-desc'}>
+                                {tooltipInfo ? tooltipInfo : ''}
+                            </span>
+                        }
+                        placement="bottom"
+                    >
+                    <div className={''}>
+                            <div
+                                className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
+                                style={style}
+                                dangerouslySetInnerHTML={{ __html: value }}
+                            />
+                        </div>
+                    </HtmlTooltip>
+            }
+        }else{
+            return this.renderDefaultValue(hasIcon,hasColor,textAlign,value,icon,style);
         }
-        else {
-            return <HtmlTooltip
-                    title={
-                        <span className={'content-desc'}>
-                            {tooltipInfo ? tooltipInfo : ''}
-                        </span>
-                    }
-                    placement="bottom"
-                >
-                <div className={''}>
-                        <div
-                            className={(hasColor ? 'has-color' : '') + ' ' + textAlign}
-                            style={style}
-                            dangerouslySetInnerHTML={{ __html: value }}
-                        />
-                    </div>
-                </HtmlTooltip>
-        }
+ 
     }
 
     renderCell(field, identifier, row) {
