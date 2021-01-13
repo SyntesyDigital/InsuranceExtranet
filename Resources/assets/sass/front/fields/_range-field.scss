@@ -29,6 +29,10 @@
             .rangeslider__handle-label {
                 position: absolute;
                 top: -23px;
+                padding: 0 8px;
+                left: -50%;
+                width: 50px;
+                text-align: center;
             }
             .rangeslider__labels {
                 .rangeslider__label-item{

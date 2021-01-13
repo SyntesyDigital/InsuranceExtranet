@@ -210,7 +210,6 @@
 
     body .rangeslider__handle .rangeslider__handle-label{
       background-color:{{$elementBackground}};
-      padding:0 5px;
     }
     
     </style>
