@@ -61,7 +61,7 @@ class Login
 
     public function handle()
     {
-        $this->checkAttempts();
+        //$this->checkAttempts();
 
         try {
             $WsUrl = VeosWsUrl::getEnvironmentUrl($this->env);
@@ -81,7 +81,7 @@ class Login
                 }
 
                 if (get_config('LOGIN_LIMIT_ATTEMPTS')) {
-                    $this->repository->flushLoginAttempt($this->uid, $this->env);
+                    //$this->repository->flushLoginAttempt($this->uid, $this->env);
                 }
 
                 $session = dispatch_now(new SessionCreate($loginResult->token, $this->env, $this->test));
