@@ -3,12 +3,13 @@
 if (!function_exists('check_visible')) {
     function check_visible($settings, $parameters)
     {
-        
         if (!isset($parameters)) {
             return true;
         }
-        $conditionalVisibility = check_conditional_visibility($settings,$parameters);
-        $visibilityByWS = check_visibility_by_ws($settings,$parameters);
+
+        $conditionalVisibility = check_conditional_visibility($settings, $parameters);
+
+        $visibilityByWS = check_visibility_by_ws($settings, $parameters);
 
         //if one is visible the other is not
         $visible = $conditionalVisibility && $visibilityByWS;
@@ -16,10 +17,9 @@ if (!function_exists('check_visible')) {
         return $visible;
     }
 
-    function check_conditional_visibility($settings,$parameters) 
+    function check_conditional_visibility($settings, $parameters)
     {
-        if (!isset($settings) || !isset($settings['conditionalVisibility'])
-        || $settings['conditionalVisibility'] == '') {
+        if (!isset($settings) || !isset($settings['conditionalVisibility']) || $settings['conditionalVisibility'] == '') {
             return true;
         }
 
@@ -39,25 +39,22 @@ if (!function_exists('check_visible')) {
             $visible = !$visible;
         }
 
-        
-
         return $visible;
     }
 
-    function check_visibility_by_ws($settings,$parameters) {
-
-        if (!isset($settings) || !isset($settings['wsVisibility'])
-        || $settings['wsVisibility'] == '') {
+    function check_visibility_by_ws($settings, $parameters)
+    {
+        if (!isset($settings) || !isset($settings['wsVisibility']) || $settings['wsVisibility'] == '') {
             return true;
         }
 
         $settings = $settings['wsVisibility'];
 
-        //query the WS 
-        return get_visibility_ws($settings,$parameters);
+        //query the WS
+        return get_visibility_ws($settings, $parameters);
     }
 
-    function get_visibility_ws($wsName,$parameters) 
+    function get_visibility_ws($wsName, $parameters)
     {
         $params = '?'
             .get_session_parameter()
@@ -67,18 +64,17 @@ if (!function_exists('check_visible')) {
 
         try {
             $data = $boby->getModelValuesQuery(
-              $wsName.$params
+                $wsName.$params
             )['modelValues'];
 
             //if there is values and the value visible exist and it is Y
-            if(sizeof($data) > 0){
-                if(isset($data[0]->visible) && $data[0]->visible == "Y"){
+            if (sizeof($data) > 0) {
+                if (isset($data[0]->visible) && $data[0]->visible == "Y") {
                     return true;
                 }
             }
             
             return false;
-
         } catch (\Exception $e) {
             return false;
         }
@@ -86,8 +82,6 @@ if (!function_exists('check_visible')) {
 
     function check_condition_accepted($condition, $parameters)
     {
-
-        
         //chekc all variables exists
         if (!isset($condition['type']) || $condition['type'] == '') {
             return false;
@@ -100,20 +94,18 @@ if (!function_exists('check_visible')) {
         }
         
         //check if condition is accepted
-        if($condition['type'] == 'parameter' ) {
-            return check_parameter_condition($condition,$parameters);
-        }
-        else if($condition['type'] == 'permission' ) {
+        if ($condition['type'] == 'parameter') {
+            return check_parameter_condition($condition, $parameters);
+        } elseif ($condition['type'] == 'permission') {
             return check_permission_condition($condition);
-        }
-        else if($condition['type'] == 'role' ) {
+        } elseif ($condition['type'] == 'role') {
             return check_role_condition($condition);
         }
 
         return false;
     }
 
-    function check_parameter_condition($condition,$parameters)
+    function check_parameter_condition($condition, $parameters)
     {
         if (!isset($parameters[$condition['name']])) {
             return false;
@@ -138,15 +130,17 @@ if (!function_exists('check_visible')) {
     function check_role_condition($condition)
     {
         $role = Auth::user()->veos_role;
-        if(!isset($role))
+        
+        if (!isset($role)) {
             return false;
+        }
 
         $operator = $condition['operator'];
         $value = $condition['values'];
 
         $hasRole = strtolower($value) == strtolower($role) ? true : false;
-        
-        if ($operator == 'equal' && $hasRole) {    
+
+        if ($operator == 'equal' && $hasRole) {
             return true;
         } elseif ($operator == 'different' && !$hasRole) {
             return true;
@@ -158,15 +152,16 @@ if (!function_exists('check_visible')) {
     function check_permission_condition($condition)
     {
         $permissions = Auth::user()->veos_permissions;
-        if(!isset($permissions))
+        if (!isset($permissions)) {
             return false;
+        }
 
         $operator = $condition['operator'];
         $value = $condition['values'];
 
-        $hasPermission = check_has_permission($permissions,$value);
+        $hasPermission = check_has_permission($permissions, $value);
 
-        if ($operator == 'equal' && $hasPermission) {    
+        if ($operator == 'equal' && $hasPermission) {
             return true;
         } elseif ($operator == 'different' && !$hasPermission) {
             return true;
@@ -175,11 +170,13 @@ if (!function_exists('check_visible')) {
         return false;
     }
 
-    function check_has_permission($permissions, $value) {
-        if(!isset($permissions))
+    function check_has_permission($permissions, $value)
+    {
+        if (!isset($permissions)) {
             return false;
+        }
 
-        if(isset($permissions->{$value}) && $permissions->{$value} == "Y"){
+        if (isset($permissions->{$value}) && $permissions->{$value} == "Y") {
             return true;
         }
         return false;
