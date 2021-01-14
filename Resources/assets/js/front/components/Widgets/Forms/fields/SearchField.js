@@ -94,7 +94,7 @@ class SearchField extends Component {
 
         console.log("SearchField : query : ",ASSETS + 'architect/extranet/' + boby[0] + '/model_values/data/' + params);
 
-        axios.get(ASSETS + 'architect/extranet/' + boby + '/model_values/data/' + params)
+        axios.get(ASSETS + 'architect/extranet/' + boby[0] + '/model_values/data/' + params)
             .then(function (response) {
                 if (response.status == 200
                     && response.data.modelValues !== undefined) {
