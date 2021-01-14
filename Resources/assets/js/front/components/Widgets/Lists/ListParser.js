@@ -90,7 +90,7 @@ export default class ListParser extends Component {
         if(this.props.parameters != '')
           params += "&"+this.props.parameters;
 
-        axios.get(ASSETS+'architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
+        axios.get('/architect/extranet/'+elementObject.id+'/model_values/data/'+pageLimit+params)
           .then(function (response) {
               if(response.status == 200
                   && response.data.modelValues !== undefined)
