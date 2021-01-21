@@ -306,7 +306,6 @@ export default class ServiceForm extends Component {
                             identifier="response_json"
                             title="Response JSON (Exemple)"
                         >
-              
                             <InputFieldJsonEdit
                                 id={'response_json'}
                                 label={'Response JSON'}
